@@ -1,5 +1,5 @@
 <!doctype html>
-
+<%@page errorPage="../../paginaerror.jsp"%>
 <%@ include file= "idioma.jsp" %>
 <%@page buffer="32kb"%>
 
