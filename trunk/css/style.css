@@ -1,0 +1,300 @@
+body{
+	padding: 0 !important;
+}
+
+#content{
+	padding: 0px 20px 0 20px;
+}
+.well select, well input{
+	margin: 0;	
+}
+
+.table-fullcondensed td, .table-fullcondensed th{
+	  padding:1px 5px !important;
+}
+
+
+/* Just some testing */
+h2 small, h3 small, h4 small{
+	float: right;
+	margin-top:17px;
+}
+
+h2, h3{
+	overflow: hidden;
+}
+
+.well{
+	overflow: hidden;
+}
+
+.form-comment{
+	font-size: 12px;
+	color: gray;
+	margin-left: 14px;
+}
+
+
+
+
+/* ============= SOME CUSTOM SELECT STYLE ============= */
+.select-style {
+    padding: 0;
+    margin: 0;
+    
+    display: inline-block;
+    border: 1px solid #ccc;
+    width: 50px;
+    border-radius: 0px;
+    overflow: hidden;
+    background-color: #fff;
+
+    background: #fff url("../imagenes/arrowdown.gif") no-repeat 90% 50%;
+}
+
+.select-style select {
+	height: 28px;
+	margin: 0;
+    padding: 5px 8px;
+    line-height: normal;
+    width: 230% !important;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+/* ============= SOME CUSTOM SELECT STYLE ============= */
+
+
+
+
+
+
+/* ============= FIX FOR ALIGNMENT IN TABLES CELLS ============= */
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+/* ============= FIX FOR ALIGNMENT IN TABLES CELLS ============= */
+
+
+
+
+/* ============= HORARIO STYLE ============= */
+.horario td, .horario th{
+	text-align: center;
+	vertical-align: middle;
+	width: 12%;
+}
+
+.horario td{
+	height: 38px;
+	font-size: 13px;
+	line-height: normal;
+}
+
+.horario td small{
+	font-size: 10px;
+}
+
+.periodoDisponible, .materia-info{
+	cursor:pointer;
+}
+
+.materia-info{
+	font-weight: normal;	
+	display:block;
+}
+
+.materia-info::first-letter{
+	font-weight: bold;
+}
+
+/* ============= HORARIO STYLE ============= */
+
+
+
+
+/* ============= STYLE FOR THE TOOLTIP ============= */
+.tooltip{
+	font-weight:normal;
+}
+.ttip{
+	cursor:pointer;
+}
+/* ============= END STYLE FOR THE TOOLTIP ============= */
+
+
+
+
+
+
+
+/* ============= STYLE FOR THE PRINTER ============= */
+.impresora{
+	position: absolute;
+	top: 50px;
+	right: 33px;
+	cursor: pointer;
+}
+/* ============= END STYLE FOR THE PRINTER ============= */
+
+
+
+
+
+
+/* ============= SEARCH LIGHTBOX RESULTS ============= */
+
+.search-loading{
+	width: 186px;
+	text-align:center;
+	padding: 4px 0 4px 0;
+	position:absolute;
+	background: white;
+	display:none;
+}
+
+.search-lightbox{
+	z-index: 9999;
+	display: none;
+	position:absolute;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: black;
+	background: rgba(0,0,0,.85);
+}
+
+.search-lightbox>div{
+	width: 100%;
+	max-width: 760px;
+	margin: auto;
+	height: 100%;
+	background: white;
+
+	box-shadow: 0 0 2px 2px rgba(0,0,0,.5);
+}
+
+.lightbox-result{
+	width: 100%;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
+.lightbox-navbar{
+	height: 58px;
+	width: 100%;
+	background: #383838;
+}
+
+.lightbox-text{
+	float:left;
+	height: 100%;
+	
+}
+
+.lightbox-text span{
+	  margin-left: 3px;
+	  color: #D7D7D7;
+	  font-size: 13px;	
+}
+
+.lightbox-text>div{
+	height: 100%;
+  	width: 100%;
+	display: table;
+}
+
+.lightbox-text>div>div{
+	padding: 15px;
+  	display: table-cell !important;
+    vertical-align: middle; /* FOR VERTICAL ALIGN */
+    text-align:center; /* FOR HORIZONTAL ALIGN */
+    color: white;
+}
+
+.lightbox-close{
+	background: #383838;
+	width: 88px;
+	height: 58px;
+	position: relative;
+	cursor: pointer;
+	
+	float: right;
+	border-left: 1px solid #484848;
+}
+
+.lightbox-close:hover{
+	background: #303030; 
+}
+
+.lightbox-iconClose{
+	position: absolute;
+
+	top: 50%;
+	left: 50%;
+
+	height: 25px;
+	display: block;
+	
+	width: 25px;
+	margin: -13px 0 0 -13px;
+
+	background: url(../imagenes/icons.png);
+	background-position: -2px -3px;
+}
+
+/* ============= END SEARCH LIGHTBOX RESULTS ============= */
+
+
+
+
+/* ============= RESPONSIVE STYLE ============= */
+
+@media (max-width: 979px) {
+	.pull-right{
+		float: none;
+		display: block;
+	}
+	
+	* + .pull-right{
+		margin: 10px 0 0 0 !important;
+	}
+	
+	h2 small, h3 small{
+		float: none;
+		display: block;
+	}
+	
+	
+}
+
+@media (max-width: 767px) {
+	.btn-mobile{
+		display: block;
+		margin: 10px 0 0 0 !important;
+	}
+	
+	.btn-mobile:first-child{
+		margin-top: 0 !important;
+	}
+}
+
+/* ============= END RESPONSIVE STYLE ============= */

@@ -1,0 +1,105 @@
+<%@ include file= "../../con_elias.jsp" %>
+<%@ include file= "id.jsp" %>
+<%@ include file= "../../seguro.jsp" %>
+<%@ include file= "../../head.jsp" %>
+<%@ include file= "../../menu.jsp" %>
+
+<jsp:useBean id="Bloque" scope="page" class="aca.ciclo.CicloBloque"/>
+<jsp:useBean id="BloqueLista" scope="page" class="aca.ciclo.CicloBloqueLista"/>
+
+<script>
+	function Borrar( CicloId, BloqueId ){
+		if(confirm("<fmt:message key="js.Confirma" />")){
+	  		document.location="accionBloque.jsp?Accion=4&CicloId="+CicloId+"&BloqueId="+BloqueId;
+	  	}
+	}
+</script>
+
+<%
+	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+
+	String accion 			= (String) request.getParameter("Accion");
+	String cicloId 			= (String) request.getParameter("CicloId");
+	
+	if (cicloId!=null){ 
+		session.setAttribute("cicloId",cicloId);
+	}else{
+		cicloId = (String) session.getAttribute("cicloId");
+	}
+	
+	ArrayList<aca.ciclo.CicloBloque> lisBloque 		= BloqueLista.getListCiclo(conElias, cicloId," ORDER BY ORDEN");
+	java.util.HashMap<String, String> mapAlumnos 	= aca.kardex.KrdxAlumEvalLista.mapAlumnosEvaluadosCiclo(conElias, cicloId);
+	java.util.HashMap<String, String> mapActividades 	= aca.ciclo.CicloGrupoActividadLista.getMapActividadesCiclo(conElias, cicloId);
+	
+	// Cuenta el numero de materias para saber si se puede borrar el ciclo o no.
+	int numMaterias				= aca.ciclo.CicloGrupoCurso.numMatCiclo(conElias,cicloId);
+	int numModulos 				= aca.ciclo.Ciclo.getModulos(conElias, cicloId); 
+%>
+
+<div id="content">
+	
+	<h2>
+		<fmt:message key="aca.Evaluaciones" /> 
+		<small><%=cicloId%> | <%=aca.ciclo.Ciclo.nombreCiclo(conElias, cicloId)%></small>
+	</h2>
+	
+	<div class="well">
+		<a class="btn btn-primary" href="ciclo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<%if (Integer.parseInt(Bloque.maximoReg(conElias, cicloId)) <= numModulos){%>
+	    	<a href="accionBloque.jsp?Accion=1&CicloId=<%=cicloId%>" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
+		<%}%>      
+	</div>
+
+	<table class="table table-condensed table-bordered table-stripped">
+		<thead>
+			<tr>
+	  			<th width="3%"><fmt:message key="aca.Accion" /></th>
+	  			<th width="5%"><fmt:message key="aca.Id" /></th>
+	  			<th width="39%"><fmt:message key="aca.Nombre" /></th>  
+	  			<th width="13%"><fmt:message key="aca.Inicio" /></th>
+	  			<th width="12%"><fmt:message key="aca.Fin" /></th> 
+	  			<th width="12%"><fmt:message key="aca.Valor" /></th> 
+	  			<th width="12%"><fmt:message key="aca.Orden" /></th> 
+			</tr>
+		</thead>
+		<%
+			float total = 0;
+		%>
+		<%for (aca.ciclo.CicloBloque bloque : lisBloque){%>				
+			<tr>
+  				<td>  
+					<%if(!mapAlumnos.containsKey(bloque.getBloqueId())){ %>
+						<a class="icon-pencil" href="accionBloque.jsp?Accion=5&CicloId=<%=bloque.getCicloId()%>&BloqueId=<%=bloque.getBloqueId()%>"></a>
+					<%} %>
+					
+					<%if (  !mapAlumnos.containsKey(bloque.getBloqueId()) && 
+							!mapActividades.containsKey(bloque.getBloqueId()) &&
+							Bloque.getUltimoBloque(conElias, cicloId).equals( bloque.getBloqueId() )  &&
+							aca.ciclo.CicloBloqueActividad.existeActividades(conElias, bloque.getCicloId(), bloque.getBloqueId()) == false ){ // Verifica que no existan materias para poder borrar el ciclo. %> 	
+						<a class="icon-remove" href="javascript:Borrar('<%=bloque.getCicloId()%>','<%=bloque.getBloqueId()%>')"></a>
+					<%}%>	
+  				</td>    
+  				<td><%=bloque.getBloqueId()%></td>
+  				<td>
+  					<a href="actividad.jsp?bloqueId=<%=bloque.getBloqueId() %>">
+  						<%=bloque.getBloqueNombre()%>
+  					</a>
+  				</td>
+  				<td><%=bloque.getFInicio()%></td>
+  				<td><%=bloque.getFFinal()%></td>
+  				<td><%=bloque.getValor()%>%</td>
+  				<td><%=bloque.getOrden()%></td>
+			</tr>  
+			<%
+				total += Float.parseFloat(bloque.getValor());
+			%>
+		<%}%>
+		<tr>
+			<th colspan="5"><fmt:message key="aca.TotalPorcentaje" /></th>
+			<th><%=getformato.format( total ) %>%</th>
+			<th>&nbsp;</th>
+		</tr>
+	</table>
+</div>
+
+<%@ include file= "../../cierra_elias.jsp" %>

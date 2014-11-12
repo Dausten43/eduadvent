@@ -1,0 +1,23 @@
+.impresora, .navbar, .noPrint{
+	display:none;
+}
+
+#content{
+	padding:0;
+}
+
+select{
+	 -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    outline:none;
+    display: inline-block;
+    height: 40px;
+}
+
+
+@media print {
+    a[href]:after{
+        content:none !important;
+    }
+}
