@@ -155,7 +155,7 @@
 	    
 	    <fieldset>
 	    	<label for="Porcentaje"><fmt:message key="aca.LimitePorcentaje" /></label>
-	        <input class="input-small onlyNumbers" name="Porcentaje" type="text" id="Porcentaje" value="<%=Entidad.getLimitePorcentaje()%>" maxlength="3">
+	        <input class="input-mini onlyNumbers" name="Porcentaje" type="text" id="Porcentaje" value="<%=Entidad.getLimitePorcentaje()%>" maxlength="3">
 	    </fieldset>
 	    
 	    <fieldset>
