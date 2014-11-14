@@ -310,12 +310,12 @@
 						}
 					}
 				}
-						
+				
 				//--------COMPROBAR SI LA ESCALA ES 10----------
 				
 				if( escala == 10 ){
 					/* Convirtiendo la escala de 100 a 10 (ya que las actividades se evaluan de 0 a 100) */
-					promedioActividades = Float.parseFloat(frmDecimal.format(promedioActividades/10).replaceAll(",","."));
+					promedioActividades = new BigDecimal(promedioActividades).divide(new BigDecimal("10"), 1, RoundingMode.DOWN).floatValue();
 				}
 				
 				//--------COMPROBAR SI TIENEN PUNTO DECIMAL----------
