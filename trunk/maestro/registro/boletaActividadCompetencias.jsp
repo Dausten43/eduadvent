@@ -198,9 +198,11 @@
 	            Image jpg = null;
 	            
 	            String dirFoto = application.getRealPath("/imagenes/")+"/logo"+escuela+".jpg";
-	        	java.io.File foto = new java.io.File(dirFoto);
-	        	if (foto.exists()){
-	        		jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logo"+escuela+".jpg");	
+	            if(!aca.catalogo.CatEscuela.getLogo(conElias, escuela).equals("")){	        		
+					java.io.File foto = new java.io.File(dirFoto);
+	        		if (foto.exists()){
+	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logo"+escuela+".jpg");
+	        		}
 	        	}else{
 	        		jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");
 	        	}
