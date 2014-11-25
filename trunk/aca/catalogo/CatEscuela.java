@@ -715,10 +715,10 @@ public class CatEscuela {
 	public static String getLogo(Connection conn, String escuelaId) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
-		String logo				= "x";		
+		String logo				= "x.jpg";		
 		
 		try{
-			ps = conn.prepareStatement("SELECT LOGO FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
+			ps = conn.prepareStatement("SELECT COALESCE(LOGO,'x.jpg') AS LOGO FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
 			ps.setString(1, escuelaId);
 			rs= ps.executeQuery();		
 			if(rs.next()){
