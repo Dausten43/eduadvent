@@ -132,16 +132,13 @@
 	            String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuela);
 	            
 	            String dirFoto = application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela;
-				if(!logoEscuela.equals("x")){
-					java.io.File foto = new java.io.File(dirFoto);
-	        		if (foto.exists()){
-	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela);	        			
-	        		}else{
-	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	
-	        		}
-	        	}else{
-	        		jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	        		
-	        	}
+				java.io.File foto = new java.io.File(dirFoto);
+        		if (foto.exists()){
+        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela);	        			
+        		}else{
+        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	
+        		}
+
 	            
 	            jpg.setAlignment(Image.LEFT | Image.UNDERLYING);
 	            jpg.scaleAbsolute(50, 49);

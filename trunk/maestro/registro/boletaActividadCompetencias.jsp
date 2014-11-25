@@ -197,17 +197,13 @@
 	             */
 	            Image jpg = null;
 	            
-	            String dirFoto = application.getRealPath("/imagenes/")+"/logo"+escuela+".jpg";
-	            if(!aca.catalogo.CatEscuela.getLogo(conElias, escuela).equals("")){	        		
-					java.io.File foto = new java.io.File(dirFoto);
-	        		if (foto.exists()){
-	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logo"+escuela+".jpg");
-	        		}else{
-	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	
-	        		}
-	        	}else{
-	        		jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");
-	        	}
+	            String dirFoto = application.getRealPath("/imagenes/")+"/logos/"+ aca.catalogo.CatEscuela.getLogo(conElias, escuela);
+				java.io.File foto = new java.io.File(dirFoto);
+        		if (foto.exists()){
+        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ aca.catalogo.CatEscuela.getLogo(conElias, escuela));
+        		}else{
+        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	
+        		}
 	            
 	            jpg.setAlignment(Image.LEFT | Image.UNDERLYING);
 	            jpg.scaleAbsolute(50, 49);
