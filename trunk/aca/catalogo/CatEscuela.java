@@ -721,7 +721,8 @@ public class CatEscuela {
 			ps = conn.prepareStatement("SELECT COALESCE(LOGO,'x.jpg') AS LOGO FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
 			ps.setString(1, escuelaId);
 			rs= ps.executeQuery();		
-			if(rs.next() && !rs.getString("LOGO").equals("")){
+			
+			if(rs.next() && !rs.getString("LOGO").equals("")){	
 				logo = rs.getString("LOGO");
 			}			
 		}catch(Exception ex){
