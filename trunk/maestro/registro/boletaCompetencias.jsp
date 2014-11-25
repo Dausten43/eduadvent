@@ -28,9 +28,11 @@
 
 <%
 	String escuela		= (String)session.getAttribute("escuela");
-	String codigoAlumno = "";
-	String cicloGrupoId	= request.getParameter("cicloGrupoId");
 	String cicloId 		= (String) session.getAttribute("cicloId");
+	
+	String cicloGrupoId	= request.getParameter("cicloGrupoId");
+	
+	String codigoAlumno = "";	
 	String plan			= "";
 	String nivel		= "";
 	String grado		= "";
@@ -52,8 +54,7 @@
 	
 	CatParametro.setEscuelaId(escuela);
 	boolean firmaDirector = false;
-	boolean firmaPadre	  = false; 		
-	
+	boolean firmaPadre	  = false;
 	
 	if(CatParametro.existeReg(conElias)){
 		CatParametro.mapeaRegId(conElias, escuela);
@@ -62,7 +63,6 @@
 		firmaPadre 	  = CatParametro.getFirmaPadre().equals("S") ? true : false;
 		
 	}
-	
 	
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
 	String subnivel = aca.catalogo.CatEsquemaLista.getSubNivel(conElias, escuela, Grupo.getNivelId(), Grupo.getGrado());
@@ -99,6 +99,7 @@
 	        
 	        for(int i = 0; i < lisAlum.size(); i++){
 	        	codigoAlumno = (String) lisAlum.get(i);
+	        	
 		        alumPersonal.mapeaRegId(conElias, codigoAlumno);
 				plan 				= aca.alumno.AlumPlan.getPlanActual(conElias,codigoAlumno);
 				nivel 				= String.valueOf(aca.alumno.AlumPlan.getNivelAlumno(conElias, codigoAlumno));

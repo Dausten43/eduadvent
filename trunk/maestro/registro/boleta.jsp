@@ -27,16 +27,19 @@
 <jsp:useBean id="Grupo" scope="page" class="aca.ciclo.CicloGrupo" />
 
 <%
+System.out.println("Paso 0");
 	String escuela		= (String)session.getAttribute("escuela");
-	String codigoAlumno = "";
-	String cicloGrupoId	= request.getParameter("cicloGrupoId");
 	String cicloId 		= (String) session.getAttribute("cicloId");
+	
+	String cicloGrupoId	= request.getParameter("cicloGrupoId");
+	
+	String codigoAlumno = "";
 	String plan			= "";
 	String nivel		= "";
 	String grado		= "";
 	String grupo		= "";
 	int borde 			= 0; 
-	
+System.out.println("Paso 1");	
 	int numGrado 			= 0;	
 	boolean hayAbiertas = CicloGrupoCurso.hayAbiertas(conElias, cicloGrupoId);
 	
@@ -52,7 +55,7 @@
 		frm.setRoundingMode(java.math.RoundingMode.DOWN);	
 	}
 	
-	
+System.out.println("Paso 2");	
 	CatParametro.setEscuelaId(escuela);
 	boolean firmaDirector = false;
 	boolean firmaPadre	  = false; 		
@@ -65,13 +68,13 @@
 		firmaPadre 	  = CatParametro.getFirmaPadre().equals("S") ? true : false;
 		
 	}
-	
+System.out.println("Paso 3");	
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
 	String subnivel = aca.catalogo.CatEsquemaLista.getSubNivel(conElias, escuela, Grupo.getNivelId(), Grupo.getGrado());
 	if(!subnivel.equals("")){
 		subnivel = "Ciclo: ["+subnivel+"] - ";
 	}
-	
+System.out.println("Paso 4");	
 	if(hayAbiertas){
 %>
 <head>
@@ -100,6 +103,7 @@
 	        
 	        for(int i = 0; i < lisAlum.size(); i++){
 	        	codigoAlumno = (String) lisAlum.get(i);
+    	System.out.println("Paso 5"+codigoAlumno);
 		        alumPersonal.mapeaRegId(conElias, codigoAlumno);
 				plan 				= aca.alumno.AlumPlan.getPlanActual(conElias,codigoAlumno);
 				nivel 				= String.valueOf(aca.alumno.AlumPlan.getNivelAlumno(conElias, codigoAlumno));
@@ -109,7 +113,7 @@
 				ArrayList lisCurso 		= new ArrayList();
 				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, TIPOCURSO_ID, ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE");
 				ArrayList lisAlumnoCurso = alumnoCursoLista.getListAll(conElias, escuela," AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
-				
+	System.out.println("Paso 6"+codigoAlumno+":"+lisCurso.size());			
 				float wrapwidth[] = {100f};
 				PdfPTable wrapTable = new PdfPTable(wrapwidth);
 				wrapTable.getDefaultCell().setBorder(0);
@@ -122,23 +126,29 @@
 				topTable.setWidthPercentage(80f);
 				topTable.setHorizontalAlignment(Element.ALIGN_CENTER);
 				topTable.setSpacingAfter(5f);
-	            
-	            
+				
 	            PdfPCell cell = null;
 	            
 	            /* 
 	             * Agregar el logo de cada boleta
 	             */
 	            Image jpg = null;
+	            String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuela);
 	            
-	            String dirFoto = application.getRealPath("/imagenes/")+"/logos/"+ aca.catalogo.CatEscuela.getLogo(conElias, escuela);
-				if(!aca.catalogo.CatEscuela.getLogo(conElias, escuela).equals("")){	        		
+	            String dirFoto = application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela;
+	            System.out.println("Path:"+dirFoto);
+				if(!logoEscuela.equals("x")){
+					System.out.println("tIENE FOTO");
 					java.io.File foto = new java.io.File(dirFoto);
 	        		if (foto.exists()){
-	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ aca.catalogo.CatEscuela.getLogo(conElias, escuela));
+	        			System.out.println("Existe foto");
+	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela);	        			
+	        		}else{
+	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	
 	        		}
 	        	}else{
-	        		jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");
+	        		System.out.println("No Existe foto");
+	        		jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	        		
 	        	}
 	            
 	            jpg.setAlignment(Image.LEFT | Image.UNDERLYING);
@@ -151,7 +161,7 @@
             	cell.setRowspan(3);
 				topTable.addCell(cell);
 				
-				
+System.out.println("Paso 7"+codigoAlumno);				
 				/* 
 	             * Informacion del encabezado de cada boleta
 	             */
@@ -236,7 +246,7 @@
 	            tabla.setWidths(colsWidth);
 	            tabla.setSpacingAfter((float)0);
 	            tabla.setSpacingBefore((float)0);
-	            
+System.out.println("Paso 8"+codigoAlumno);	            
 	            
 	            PdfPCell celda = null;
 	            
