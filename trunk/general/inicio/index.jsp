@@ -98,6 +98,7 @@
 	if(session.getAttribute("admin").equals("B01P0002")){
 	%>
 	<div class="alert">		
+	HOLAAA :D
 			<h5><fmt:message key="aca.InformacionSesion"/></h5>
 			<p><strong>codigoId:</strong> <%=session.getAttribute("codigoId") %> | <%=aca.vista.Usuarios.getNombreUsuario(conElias,(String)session.getAttribute("codigoId")) %></p>
 			<p><strong>admin:</strong> <%=session.getAttribute("admin") %> | <%=aca.empleado.EmpPersonal.getNombre(conElias,(String)session.getAttribute("admin"),"NOMBRE") %></p>
