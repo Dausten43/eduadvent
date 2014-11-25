@@ -202,6 +202,8 @@
 					java.io.File foto = new java.io.File(dirFoto);
 	        		if (foto.exists()){
 	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logo"+escuela+".jpg");
+	        		}else{
+	        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	
 	        		}
 	        	}else{
 	        		jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");
