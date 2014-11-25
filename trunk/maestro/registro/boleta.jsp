@@ -102,10 +102,10 @@
 	        for(int i = 0; i < lisAlum.size(); i++){
 	        	codigoAlumno = (String) lisAlum.get(i);
 		        alumPersonal.mapeaRegId(conElias, codigoAlumno);
-				plan 				= aca.alumno.AlumPlan.getPlanActual(conElias,codigoAlumno);
-				nivel 				= String.valueOf(aca.alumno.AlumPlan.getNivelAlumno(conElias, codigoAlumno));
-				grado 				= alumPersonal.getGrado();
-				grupo 				= alumPersonal.getGrupo();
+				plan 				= Grupo.getPlanId();
+				nivel 				= Grupo.getNivelId();
+				grado 				= Grupo.getGrado();
+				grupo 				= Grupo.getGrupo();
 				
 				ArrayList lisCurso 		= new ArrayList();
 				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, TIPOCURSO_ID, ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE");
@@ -254,6 +254,7 @@
 	    					cursoEncontrado=true;
 	    				}
 	    			}
+	    			
 	    			if(cursoEncontrado){
 
 		    			cantidadMaterias++;
