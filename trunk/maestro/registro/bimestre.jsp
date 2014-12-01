@@ -115,7 +115,7 @@
 
 			for (int i = 0; i < lisAlum.size(); i++) {
 				String codigoAlumno 	= (String) lisAlum.get(i);
-				String strNota 			= "";
+				String strNota 			= "-";
 
 				// Calcula el promedio del alumno
 				double promAlum = 0;
@@ -134,8 +134,9 @@
 						// Verifica si el alumno tiene dada de alta la materia
 						if (treeAlumCurso.containsKey(cicloGrupoId + grupoCurso.getCursoId() + codigoAlumno)) {
 							
-							String nota1 = "-";
-							String nota2 = "-";
+							strNota = "-";
+							String nota1 		= "-";
+							String nota2 		= "-";
 							
 							/* ==== OBTENER NOTA1 ==== */
 							if (treeNota.containsKey(cicloGrupoId + grupoCurso.getCursoId() + bloque + codigoAlumno)) {
@@ -159,19 +160,23 @@
 							}
 							
 							float nota = 0;
-							if(!nota1.equals("-")){
-								if(!bloque2.equals("*")  && !nota2.equals("-")){
+							
+							if(!bloque2.equals("*")){// Tiene doble filtro
+								if(!nota1.equals("-") || !nota2.equals("-")){
+									if(nota1.equals("-"))nota1="0";
+									if(nota2.equals("-"))nota2="0";
 									nota = new BigDecimal(nota1).add(new BigDecimal(nota2)).divide(new BigDecimal("2"), 1, RoundingMode.DOWN).floatValue();
-								}else{
-									nota = new BigDecimal(nota1).floatValue();
+									strNota = nota+"";
 								}
-								
-								strNota = nota+"";
-							}else{
-								strNota = "-";
+							}else{// El filtro normal (uno)
+								if(!nota1.equals("-")){
+									nota = new BigDecimal(nota1).floatValue();
+									strNota = nota+"";
+								}
 							}
 							
-							if (nota > 0) {
+							
+							if (nota>0) {
 								promedio[j] = promedio[j] + nota;
 								numAlum[j] = numAlum[j] + 1;
 							}
