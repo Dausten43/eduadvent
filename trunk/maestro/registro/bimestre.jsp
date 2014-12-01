@@ -159,13 +159,17 @@
 							}
 							
 							float nota = 0;
-							if(!bloque2.equals("*")){
-								nota = new BigDecimal(nota1).add(new BigDecimal(nota2)).divide(new BigDecimal("2"), 1, RoundingMode.DOWN).floatValue();
+							if(!nota1.equals("-")){
+								if(!bloque2.equals("*")  && !nota2.equals("-")){
+									nota = new BigDecimal(nota1).add(new BigDecimal(nota2)).divide(new BigDecimal("2"), 1, RoundingMode.DOWN).floatValue();
+								}else{
+									nota = new BigDecimal(nota1).floatValue();
+								}
+								
+								strNota = nota+"";
 							}else{
-								nota = new BigDecimal(nota1).floatValue();
+								strNota = "-";
 							}
-							
-							strNota = nota+"";
 							
 							if (nota > 0) {
 								promedio[j] = promedio[j] + nota;
