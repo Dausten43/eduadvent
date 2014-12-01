@@ -51,6 +51,26 @@
 	String year  			= aca.util.NumberToLetter.convertirLetras( Integer.parseInt(Fecha.getYear(aca.util.Fecha.getHoy())) );
 	
 	
+	/* CALIFICACIONES */
+	String calificaciones 	= 	"<table>"+
+									"<tr>"+
+										"<th>#</th>"+
+										"<th>Materia</th>"+
+										"<th>Nota</th>"+
+									"</tr>";
+	int count = 0;							
+	for(aoidoiaias){
+		count++;
+		calificaciones += 	"<tr>"+
+								"<td>"+count+"</td>"+
+								"<td>Materia</td>"+
+								"<td>Nota</td>"+
+							"</tr>";
+	}
+	calificaciones += "</table>";
+	/* END CALIFICACIONES */
+	
+	
 	String constanciaHTML = AlumConstancia.getConstancia();
 	
 	constanciaHTML = constanciaHTML.replaceAll("#Escuela", aca.catalogo.CatEscuela.getNombre(conElias, escuelaId).trim());
@@ -69,6 +89,7 @@
 	constanciaHTML = constanciaHTML.replaceAll("#Mes", mes.trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Year", year.trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Foto", "<img src='imagen.jsp?mat="+codigoId.trim()+"'/>");
+	constanciaHTML = constanciaHTML.replaceAll("#Calificaciones", calificaciones);
 	
 	
 	
