@@ -518,10 +518,12 @@ public class EmpPersonal {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
+			/*
 			String comando =  "INSERT INTO EMP_PERSONAL(CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO,F_NACIMIENTO,GENERO,EMAIL,COLONIA," +
 					" DIRECCION, TELEFONO, OCUPACION, ESTADO)" +
 					" VALUES('"+codigoId+"', '"+escuelaId+"', UPPER('"+nombre+"'), UPPER('"+apaterno+"'), UPPER('"+amaterno+"'), TO_DATE('"+fNacimiento+"', 'DD/MM/YYYY')," +
 					" '"+genero+"', '"+email+"', '"+colonia+"', '"+direccion+"', '"+telefono+"', '"+ocupacion+"', '"+ocupacion+"'  ";
+			*/		
 			ps = conn.prepareStatement("INSERT INTO EMP_PERSONAL" +
 					" (CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO,F_NACIMIENTO, GENERO, EMAIL, COLONIA," +
 					" DIRECCION, TELEFONO, OCUPACION, ESTADO)" +
