@@ -82,13 +82,14 @@
 	
 	for(aca.ciclo.CicloBloque bloque : lisBloque){
 		
-		ArrayList<aca.ciclo.CicloBloqueActividad> actividades = cicloBloqueActividadL.getListBloque(conElias, cicloId, bloque.getBloqueId(), " ORDER BY ETIQUETA_ID ");
+		ArrayList<aca.ciclo.CicloBloqueActividad> actividades = cicloBloqueActividadL.getListBloque(conElias, cicloId, bloque.getBloqueId(), " ORDER BY ETIQUETA_ID, ACTIVIDAD_ID ");
 		/* ***** ACTIVIDADES DE CADA EVALUACION (BLOQUE) ***** */
 		String strActividades 	= "";
 		for(aca.ciclo.CicloBloqueActividad actividad : actividades){
 			totalActividades++;	
 			strActividades += actividad.getActividadId()+"&&"+actividad.getActividadNombre()+"@";
 		}
+		System.out.println(strActividades);
 		
 		if(!strActividades.equals("")){
 			strActividades = strActividades.substring(0, strActividades.length()-1);
