@@ -741,7 +741,7 @@ public class CatEscuela {
 		String logo				= "x";		
 		
 		try{
-			ps = conn.prepareStatement("SELECT FIRMA FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
+			ps = conn.prepareStatement("SELECT COALESCE(FIRMA,'firma.png') AS FIRMA FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
 			ps.setString(1, escuelaId);
 			rs= ps.executeQuery();		
 			if(rs.next()){
