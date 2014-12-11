@@ -7,14 +7,37 @@
 <jsp:useBean id="AlumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="escuela" scope="page" class="aca.catalogo.CatEscuela" />
 <jsp:useBean id="Fecha" scope="page" class="aca.util.Fecha" />
+<jsp:useBean id="alumPlanLista" scope="page" class="aca.alumno.AlumPlanLista"/>
+<jsp:useBean id="CursoLista" scope="page" class="aca.plan.PlanCursoLista"/>
+<jsp:useBean id="AlumnoCursoLista" scope="page" class="aca.vista.AlumnoCursoLista"/>
+<jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista"/>
 
 <%
 	String escuelaId 			= (String) session.getAttribute("escuela");
 	String constanciaId         = request.getParameter("constanciaId");
 	String codigoId      		= request.getParameter("codigoId");
 	
+	String planId				= request.getParameter("plan")==null?aca.alumno.AlumPlan.getPlanActual(conElias, codigoId):request.getParameter("plan");
+	
+	
 	AlumPersonal.mapeaRegId(conElias, codigoId);
 	escuela.mapeaRegId(conElias, escuelaId);
+	
+	/* Planes de estudio del alumno */
+	ArrayList<aca.alumno.AlumPlan> lisPlan			= alumPlanLista.getArrayList(conElias, codigoId, "ORDER BY F_INICIO");
+	
+	/* Array de Bloques de la materia */
+	ArrayList<aca.ciclo.CicloBloque> lisBloque		= new ArrayList<aca.ciclo.CicloBloque>();
+	
+	/* Materias o cursos del plan de estudio del alumno */
+	ArrayList<aca.plan.PlanCurso> lisCurso 			= CursoLista.getListCurso(conElias, planId," AND (CURSO_ID IN (SELECT CURSO_ID FROM KRDX_CURSO_IMP WHERE CODIGO_ID = '"+codigoId+"') OR CURSO_ID IN (SELECT CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"')) ORDER BY GRADO, TIPOCURSO_ID, ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE");
+	
+	/* Notas de alumno en las materias */
+	ArrayList<aca.vista.AlumnoCurso> lisAlumnoCurso = AlumnoCursoLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
+	
+	//TreeMap de los promedios del alumno en la materia
+	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm 	= AlumPromLista.getTreeAlumno(conElias, codigoId,"");	
+	
 	
 	if(constanciaId == null){
 		response.sendRedirect("documento.jsp");
@@ -50,21 +73,65 @@
 	String mes  			= Fecha.getMesNombre( aca.util.Fecha.getHoy() );
 	String year  			= aca.util.NumberToLetter.convertirLetras( Integer.parseInt(Fecha.getYear(aca.util.Fecha.getHoy())) );
 	
+	int block 					= 0;
+	int gradoTemp				= 0;
+	
 	
 	/* CALIFICACIONES */
-	String calificaciones 	= 	"<table>"+
+	String calificaciones 	= 	"<table width='50%'>"+
 									"<tr>"+
-										"<th>#</th>"+
-										"<th>Materia</th>"+
-										"<th>Nota</th>"+
-									"</tr>";
-	int count = 0;							
-	for(aoidoiaias){
+										"<th width='1%' align='left'>#</th>"+
+										"<th width='5%' align='left'>Clave</th>"+
+										"<th width='10%' align='left'>Materia</th>"+
+										"<th width='1%' align='left' colspan='2'>Calificacion</th>"+
+										"<th width='5%'>Ciclo Escolar</th>"+
+									"</tr>"
+									
+									;
+	int count = 0;			
+	
+	float [] sumaPorBimestre 	= {0,0,0,0,0,0,0,0,0,0};
+	int [] materiasSinNota 		= {0,0,0,0,0,0,0,0,0,0};
+	int cantidadMaterias	 	= 0;
+	
+	System.out.println(lisBloque.size()+" "+"Subjects: "+lisCurso.size());
+	
+	for(aca.plan.PlanCurso curso : lisCurso){
+		
+		for(aca.vista.AlumnoCurso alumnoCurso : lisAlumnoCurso){
+		
+		if(curso.getGrado() != null && curso.getGrado() != ""){
+			block = Integer.parseInt(curso.getGrado());			
+		}
+		
+ 
+		
+		
+		
+	
+		}
+		
+		
+		
+		for(int l = 0; l < lisBloque.size(); l++){ 
+			if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){ 
+				int cantidadMateriasTmp = cantidadMaterias;
+				cantidadMateriasTmp = cantidadMateriasTmp-materiasSinNota[l];
+
+				sumaPorBimestre[l] = sumaPorBimestre[l]/(cantidadMateriasTmp);
+			}
+
+		}
+		
+		
 		count++;
 		calificaciones += 	"<tr>"+
 								"<td>"+count+"</td>"+
-								"<td>Materia</td>"+
-								"<td>Nota</td>"+
+								"<td>"+curso.getCursoId()+"</td>"+
+								"<td>"+curso.getCursoNombre()+"</td>"+
+								
+								"<td align='left'>"+block+"</td>"+
+							    "<td> siete </td>"+
 							"</tr>";
 	}
 	calificaciones += "</table>";
