@@ -102,16 +102,20 @@
 			document.add(jpg);
 			
 			boolean tieneFirma = false;
+			String nombreFirma = aca.catalogo.CatEscuela.getFirma(conElias, escuelaId);
+			//System.out.println("Datos:"+escuelaId+":"+nombreFirma);
 			String dirFirmas =application.getRealPath("/imagenes/firmas/");
-			java.io.File firma = new java.io.File(dirFirmas+"/"+aca.catalogo.CatEscuela.getFirma(conElias, escuelaId));
+			java.io.File firma = new java.io.File(dirFirmas+"/"+nombreFirma);
+			//System.out.println("Antes de firma"+dirFirmas+"/"+nombreFirma);
 			if(firma.exists()){
 				tieneFirma = true;
-				jpg = Image.getInstance(dirFirmas+"/"+aca.catalogo.CatEscuela.getFirma(conElias, escuelaId));
+				jpg = Image.getInstance(dirFirmas+"/"+nombreFirma);
 			}else{
 				tieneFirma = false;
 				jpg = Image.getInstance(dirFirmas+"/firma.png");
 			}
-			jpg.scaleAbsolute(50f, 30f);
+			//System.out.println("Despues de firma");
+			jpg.scaleAbsolute(50f, 30f);			
 			jpg.setAbsolutePosition(485, 625+extra);
 			document.add(jpg);
 			
