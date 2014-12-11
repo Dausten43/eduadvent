@@ -738,7 +738,7 @@ public class CatEscuela {
 	public static String getFirma(Connection conn, String escuelaId) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
-		String logo				= "x";		
+		String logo				= "firma.png";		
 		
 		try{
 			ps = conn.prepareStatement("SELECT COALESCE(FIRMA,'firma.png') AS FIRMA FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
