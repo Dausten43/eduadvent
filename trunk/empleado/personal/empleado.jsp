@@ -175,6 +175,8 @@
 		
 		
 	}else if(accion.equals("4")){// Borrar
+		
+		String nombre 	= aca.vista.Usuarios.getNombreUsuario(conElias, strCodigo);
 	
 		if (Personal.existeReg(conElias) == true){
 			if(!cicloGrupoCurso.existeMaestro(conElias, strCodigo)){ //Si el maestro no tiene materias asignadas puede borrar
@@ -183,7 +185,8 @@
 					usuario.setCodigoId(strCodigo);
 					usuario.setCodigoId(strCodigo);
 					usuarioMenu.setCodigoId(strCodigo);
-					if(usuario.deleteReg(conElias) && usuarioMenu.deleteAllReg(conElias) && usuario.deleteReg(conElias)){
+					if(	usuario.deleteReg(conElias, strCodigo, nombre, (String) session.getAttribute("user"), aca.vista.Usuarios.getNombreUsuario(conElias, (String)session.getAttribute("user")), aca.util.Fecha.getDateTime(), request.getRemoteAddr()) && 
+						usuarioMenu.deleteAllReg(conElias)){
 						sResultado = "Eliminado";
 						conElias.commit();
 					}else{
@@ -279,8 +282,7 @@
 	
 	session.setAttribute("emp",Personal.getCodigoId());
 	pageContext.setAttribute("resultado", sResultado);
-		
-		
+	
 %>
 
 <div id="content">

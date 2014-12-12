@@ -107,6 +107,7 @@
 			<p><strong>Escuela Id:</strong> <%=session.getAttribute("escuela") %></p>
 			<p><strong>Ejercicio Id:</strong> <%=session.getAttribute("EjercicioId") %></p>
 			<p><strong>Ciclo Id:</strong> <%=session.getAttribute("cicloId") %></p>
+			<p><strong>user:</strong> <%=session.getAttribute("user") %> | <%=aca.vista.Usuarios.getNombreUsuario(conElias, (String)session.getAttribute("user"))%> </p>
 	</div>	
 	<%
 	}

@@ -246,19 +246,34 @@
 
 		case 4: { // Borrar
 			if (Personal.existeReg(conElias) == true){
+				
+				conElias.setAutoCommit(false);
+				boolean error = false;
+				String nombre 	= aca.vista.Usuarios.getNombreUsuario(conElias, Personal.getCodigoId());
+				
 				if (Personal.deleteReg(conElias)){
-					Clave.setCodigoId(Personal.getCodigoId());
-					Clave.deleteReg(conElias);
-					usuario.setCodigoId(Personal.getCodigoId());
-					usuario.deleteReg(conElias);
-					AlumPadres.borraPadre(conElias, Personal.getCodigoId());
-					//sResultado = "Borrado: "+Personal.getCodigoId();
-					conElias.commit();
-					//response.sendRedirect("accion_p.jsp?Accion=5&CodigoEmpleado="+Personal.getCodigoId());
+					if(usuario.deleteReg(conElias, Personal.getCodigoId(), nombre, (String) session.getAttribute("user"), aca.vista.Usuarios.getNombreUsuario(conElias, (String)session.getAttribute("user")), aca.util.Fecha.getDateTime(), request.getRemoteAddr())){
+						if(AlumPadres.borraPadre(conElias, Personal.getCodigoId())){
+							//all good
+						}else{
+							error = true;
+						}
+					}else{
+						error = true;
+					}
+				}else{
+					error = true;
+				}
+				
+				if(error == false){
 					sResultado = "Eliminado";
+					conElias.commit();
 				}else{
 					sResultado = "NoBorro";
-				}	
+					conElias.rollback();
+				}
+				
+				conElias.setAutoCommit(true);
 			}else{
 				sResultado = "NoExiste";
 			}
