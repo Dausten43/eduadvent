@@ -291,14 +291,27 @@ public class Usuario {
 		return ok;
 	}
 	
-	public boolean deleteReg(Connection conn ) throws SQLException{
+	public boolean deleteReg(Connection conn, String codigoId, String nombre, String usuarioEliminador, String nombreEliminador, String fecha, String ip) throws SQLException{
 		boolean ok = false;
-		PreparedStatement ps = null;
+		PreparedStatement ps 	= null;
+		PreparedStatement ps2 	= null;
+		
 		try{
 			ps = conn.prepareStatement("DELETE FROM USUARIO WHERE CODIGO_ID = ?");
 			ps.setString(1,codigoId);			
 			if ( ps.executeUpdate()!= -1){
-				ok = true;
+				
+				//---- GUARDAR LOG --->
+				ps2 = conn.prepareStatement("INSERT INTO LOG_DELETE_USUARIO"
+											+ " (CODIGO_ID, NOMBRE, USUARIO_ELIMINADOR, NOMBRE_ELIMINADOR, FECHA, IP) "
+											+ " VALUES('"+codigoId+"', '"+nombre+"', '"+usuarioEliminador+"', '"+nombreEliminador+"', '"+fecha+"', '"+ip+"')");
+				if(ps2.executeUpdate()== 1){
+					ok = true;
+				}else{
+					ok = false;
+				}
+				//---- END GUARDAR LOG --->
+				
 			}else{
 				ok = false;
 			}
@@ -307,6 +320,7 @@ public class Usuario {
 			System.out.println("Error - aca.usuario.Usuario|deleteReg|:"+ex);
 		}finally{
 			if (ps!=null) ps.close();
+			if (ps2!=null) ps2.close();
 		}
 		return ok;
 	}
