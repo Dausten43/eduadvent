@@ -44,8 +44,11 @@
 <body>
 <div id="content">
 <h2><fmt:message key="boton.Materias" /> </h2>
+<div>
+<a></a>
+</div>
 
-<form name="frmMateria" action="materia.jsp" method="post">
+<form name="frmMateria" action="grado.jsp" method="post">
 	<div class="well">		
 	<select name="PlanId" id="PlanId" onchange='javascript:cambiaPlan()'>
 	<option value = "Selecciona" selected> <fmt:message key="boton.SeleccionarPlan" /> </option>
@@ -62,13 +65,7 @@
 	}	
 %>
 	</select>
-  	<% if(!strPlanId.equals("Selecciona")){%>
-    	<a class="btn btn-primary" href="accion.jsp?Accion=1&CursoId=&PlanId=<%=strPlanId %>"> <i class="icon-plus  icon-white"></i> <fmt:message key="boton.Anadir" /></a>
-    	
-    	<%if( ((String) session.getAttribute("admin")).equals("B01P0002") ){ %>	
-    		<a class="btn btn-primary" href="copiar.jsp?Accion=1&PlanId=<%=strPlanId %>"> <i class="icon-plus  icon-white"></i> <fmt:message key="boton.Copiar" /></a>
-    	<%} %>
- 	<%}%> 		   	
+  	   	
 	</div>  
 </form>
 
@@ -94,23 +91,14 @@
 <%	} %>
   <tr> 
     <td align="center">
-      <a class="icon-pencil" href="accion.jsp?Accion=5&CursoId=<%=grados.getCursoId().replaceAll("&", "}") %>&PlanId=<%=strPlanId %>">
+      <a class="icon-pencil" href="accion.jsp?Accion=5&PlanId=<%=grados.getPlanId()%>&Grado=<%=grados.getGrado()%>">
       </a>
-      <a class="icon-remove" href="javascript:Borrar('<%=grados.getCursoId().replaceAll("&", "}") %>')">
+      <a class="icon-remove" href="javascript:Borrar('<%=grados.getPlanId()%>')">
       </a> 
     </td>
-    <td align="left"><%=curso.getCursoId() %></td>
-    <td align="left"><%=curso.getCursoNombre() %></td>
-    <td align="center"><%=curso.getHoras()%></td>
-    <td align="center"><%=curso.getCreditos() %></td>
-    <td align="center"><%=CatTipocurso.getNombre(conElias, curso.getTipocursoId())%></td>
-    <td align="center"><%=curso.getNotaAc() %></td>
-	<td align="center"><%=curso.getFalta() %></td>
-	<td align="center"><%=curso.getConducta() %></td>
-	<td align="center"><%=curso.getOrden() %></td>
-	<td align="center"><%=curso.getPunto().equals("S")?"SI":"NO"%></td>
-	<td align="center"><%=curso.getEstado().equals("A")?"Activo":"Inactivo"%></td>
-	<td align="center"><%=curso.getTipoEvaluacion().equals("C")?"Calculado":"Pase"%></td>
+    <td align="left"><%=grados.getPlanId() %></td>
+    <td align="left"><%=grados.getGrado() %></td>
+    <td align="center"><%=grados.getNombre()%></td>
   </tr>
 <%	} %>  
 </table>
