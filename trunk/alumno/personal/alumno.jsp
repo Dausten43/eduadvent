@@ -19,7 +19,6 @@
 <jsp:useBean id="alumCiclo" scope="page" class="aca.alumno.AlumCiclo"/>
 <jsp:useBean id="alumPadres" scope="page" class="aca.alumno.AlumPadres"/>
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario"/>
-<jsp:useBean id="usuarioInformacion" scope="page" class="aca.usuario.Usuario"/>
 <jsp:useBean id="usuarioMenu" scope="page" class="aca.usuario.UsuarioMenu"/>
 <jsp:useBean id="ClasFinLista" scope="page" class="aca.catalogo.CatClasFinLista"/>
 
@@ -140,6 +139,7 @@
 	boolean existePlan		= false;
 	boolean existeAlumno	= false;
 	boolean inscrito		= aca.vista.AlumInscrito.estaInscrito(conElias, codigoAlumno);
+	
 	
 	Personal.setCodigoId(codigoAlumno);
 	
@@ -299,11 +299,17 @@
 					alumPadres.setCodigoId(codigoAlumno);
 					AlumPlan.setCodigoId(codigoAlumno);
 					usuario.setCodigoId(codigoAlumno);
-					usuarioInformacion.setCodigoId(codigoAlumno);
 					usuarioMenu.setCodigoId(codigoAlumno);
-					if(alumCiclo.deleteAllReg(conElias) && alumPadres.deleteReg(conElias) && 
-					   AlumPlan.deleteAllReg(conElias) && usuario.deleteReg(conElias) &&
-					   usuarioInformacion.deleteReg(conElias) && usuarioMenu.deleteAllReg(conElias)){
+					
+					String nombre 	= aca.vista.Usuarios.getNombreUsuario(conElias, codigoAlumno);
+					
+					if(
+						alumCiclo.deleteAllReg(conElias) && 
+						alumPadres.deleteReg(conElias) && 
+					   	AlumPlan.deleteAllReg(conElias) && 
+					   	usuario.deleteReg(conElias, codigoAlumno, nombre, (String) session.getAttribute("user"), aca.vista.Usuarios.getNombreUsuario(conElias, (String)session.getAttribute("user")), aca.util.Fecha.getDateTime(), request.getRemoteAddr()) && 
+					   	usuarioMenu.deleteAllReg(conElias)
+					){
 						if (Personal.deleteReg(conElias)){
 							existeAlumno = false;
 							acceso = true;
