@@ -13,7 +13,7 @@ public class PlanGradoLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT PLAN_ID, GRADO, NOMBRE FROM PLAN_CURSO  "+orden;			
+			comando = "SELECT PLAN_ID, GRADO, NOMBRE FROM PLAN_GRADO  "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				
@@ -39,7 +39,7 @@ public class PlanGradoLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT PLAN_ID, GRADO, NOMBRE FROM PLAN_CURSO WHERE PLAN_ID = '"+plan+"' "+orden;			
+			comando = "SELECT PLAN_ID, GRADO, NOMBRE FROM PLAN_GRADO WHERE PLAN_ID = '"+plan+"' "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				
