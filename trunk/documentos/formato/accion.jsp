@@ -110,6 +110,8 @@
   		#Year
   		&nbsp;
   		#Foto
+  		&nbsp;
+  		#Calificaciones
   		
   	</div>	
 	

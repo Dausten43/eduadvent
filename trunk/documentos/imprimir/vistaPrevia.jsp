@@ -130,8 +130,8 @@
 								"<td>"+curso.getCursoId()+"</td>"+
 								"<td>"+curso.getCursoNombre()+"</td>"+
 								
-								"<td align='left'>"+block+"</td>"+
-							    "<td> siete </td>"+
+								"<td align='center' colspan='2'>"+curso.getNotaAc()+"</td>"+
+							    "<td align='center'>"+block+"</td>"+
 							"</tr>";
 	}
 	calificaciones += "</table>";
