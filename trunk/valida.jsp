@@ -67,8 +67,6 @@
 						
 			// Si es usuario				
 			if(!strCodigoId.equals("x") && strEstadoEscuela.equals("A")){
-
-		
 				
 				// Guarda en sesion el codigo si es administrador(usado para mirar portal de otros usuarios)
 				if (aca.usuario.Usuario.esAdministrador(conn, strCodigoId)){
