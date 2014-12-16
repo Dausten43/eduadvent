@@ -15,6 +15,7 @@ public class Ciclo {
     private String escala;
     private String modulos;
     private String editarActividad;
+    private String cicloEscolar;
 
     public Ciclo() {
         cicloId 		= "";
@@ -26,6 +27,7 @@ public class Ciclo {
         escala			= "10";
         modulos			= "0";
         editarActividad = "SI";
+        cicloEscolar	= "0000";
     }
     
     
@@ -120,6 +122,14 @@ public class Ciclo {
 	 */
 	public void setEditarActividad(String editarActividad) {
 		this.editarActividad = editarActividad;
+	}	
+
+	public String getCicloEscolar() {
+		return cicloEscolar;
+	}
+	
+	public void setCicloEscolar(String cicloEscolar) {
+		this.cicloEscolar = cicloEscolar;
 	}
 
 
@@ -629,6 +639,29 @@ public class Ciclo {
 			if (ps!=null) ps.close();
 		}
 		return nombre;
+	}
+	
+	public static String getCicloEscolar( Connection conn, String cicloId) throws SQLException, Exception {
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String cicloEscolar		= "0000";
+		
+		try{
+			ps = conn.prepareStatement("SELECT CICLO_ESCOLAR FROM CICLO WHERE CICLO_ID = ?");
+			ps.setString(1, cicloId);
+			rs = ps.executeQuery();
+			if (rs.next()){
+				cicloEscolar = rs.getString("CICLO_ESCOLAR");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.Ciclo|getCicloEscolar|:"+ex);
+		}finally{
+		
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return cicloEscolar;
 	}
 	
 	public static String getEditarActividad( Connection conn, String cicloId) throws SQLException, Exception {
