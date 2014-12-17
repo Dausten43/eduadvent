@@ -27,7 +27,7 @@
 	
 	String cicloEscolar = " ";
 	if(cicloId!=null){
-		cicloEscolar 		= "20"+cicloId.substring(3,5)+" - "+"20"+cicloId.substring(5,7);	
+		cicloEscolar 	= "20"+aca.ciclo.Ciclo.getCicloEscolar(conElias, cicloId).substring(0, 2)+"-20"+aca.ciclo.Ciclo.getCicloEscolar(conElias, cicloId).substring(2,4 );
 	}
 	
 
