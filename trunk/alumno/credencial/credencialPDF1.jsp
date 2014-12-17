@@ -29,7 +29,7 @@
 	int cantidad			= Integer.parseInt(request.getParameter("cantidad"));
 	int extra				= 0;
 	
-	String cicloEscolar 	= "20"+cicloId.substring(3,5)+" - "+"20"+cicloId.substring(5,7);
+	String cicloEscolar 	= "20"+aca.ciclo.Ciclo.getCicloEscolar(conElias, cicloId).substring(0, 2)+"-20"+aca.ciclo.Ciclo.getCicloEscolar(conElias, cicloId).substring(2,4 );
 	
 	Document document = new Document(PageSize.LETTER); //Crea un objeto para el documento PDF
 	document.setMargins(5,5,5,5);
