@@ -16,7 +16,7 @@ public class CicloLista {
                 " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA," +
                 " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL," +
                 " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL," +
-                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD" +
+                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
                 " FROM CICLO" +
                 " WHERE CICLO_ID LIKE '"+escuelaId+"%' "+orden;
 			
@@ -50,7 +50,7 @@ public class CicloLista {
                 "TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA, " +
                 "TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL, " +
                 "TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL, " +
-                "NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD " +
+                "NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR " +
                 "FROM CICLO" +
                 " WHERE CICLO_ID LIKE '"+escuelaId+"%' AND ESTADO = 'A'"+orden;
 			
@@ -84,7 +84,7 @@ public class CicloLista {
                 " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA," +
                 " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL," +
                 " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL," +
-                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD " +
+                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR " +
                 " FROM CICLO" +
                 " WHERE CICLO_ID LIKE '"+escuelaId+"%' " +
                 " AND ESTADO = 'A'" +orden;
@@ -118,7 +118,7 @@ public class CicloLista {
                 "TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA, " +
                 "TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL, " +
                 "TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL, " +
-                "NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD " +
+                "NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR " +
                 "FROM CICLO" +
                 " WHERE CICLO_ID LIKE '"+escuelaId+"%' AND ESTADO = 'A' AND TO_DATE('"+fecha+"' , 'DD/MM/YYYY') BETWEEN F_INICIAL AND F_FINAL "+orden;
 			
@@ -148,7 +148,7 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD" +
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
 					" FROM CICLO" +
 					" WHERE CICLO_ID IN (SELECT CICLO_ID" +
 										" FROM CICLO_GRUPO" +
@@ -178,7 +178,7 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD" +
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
 					" FROM CICLO" +
 					" WHERE CICLO_ID IN (SELECT CICLO_ID" +
 										" FROM CICLO_GRUPO" +
@@ -211,7 +211,7 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD"+
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR"+
 					 " FROM CICLO"+ 
 					 " WHERE CICLO_ID IN (SELECT CICLO_ID"+
 										" FROM CICLO_GRUPO"+ 
@@ -245,7 +245,7 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD FROM CICLO"+ 
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR FROM CICLO"+ 
 					 " WHERE CICLO_ID IN " +
 					 "		(SELECT B.CICLO_ID FROM ALUM_CICLO B WHERE B.CODIGO_ID = '"+codigoId+"' AND B.ESTADO = 'I') "+orden;			
 			
@@ -274,7 +274,7 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD FROM CICLO"+ 
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR FROM CICLO"+ 
 					 " WHERE CICLO_ID NOT IN " +
 					 "		(SELECT B.CICLO_ID FROM ALUM_CICLO B WHERE B.CODIGO_ID = '"+codigoId+"' AND B.ESTADO = 'I') " +
 					 " AND NOW() BETWEEN F_INICIAL AND F_FINAL " +
@@ -309,7 +309,7 @@ public class CicloLista {
 					" TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA," +
 					" TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL," +
 					" TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL," +
-					" NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD" +
+					" NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
 					" FROM CICLO " +
 					" WHERE SUBSTR(CICLO_ID,1,3) = '"+escuelaId+"' AND ESTADO = 'A' "+orden;
 			

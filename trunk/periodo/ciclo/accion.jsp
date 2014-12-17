@@ -66,6 +66,7 @@
 		Ciclo.setEscala(request.getParameter("Escala"));
 		Ciclo.setEditarActividad(request.getParameter("Editar"));
 		Ciclo.setModulos(request.getParameter("Modulos"));
+		Ciclo.setCicloEscolar(request.getParameter("cicloEscolar"));
 
 		if (Ciclo.existeReg(conElias) == false){
 			if (Ciclo.insertReg(conElias)){
@@ -93,7 +94,7 @@
 		Ciclo.setEscala(request.getParameter("Escala"));
 		Ciclo.setEditarActividad(request.getParameter("Editar"));
 		Ciclo.setModulos(request.getParameter("Modulos"));
-
+		Ciclo.setCicloEscolar(request.getParameter("cicloEscolar"));
 		if (Ciclo.existeReg(conElias) == true){
 			if (Ciclo.updateReg(conElias)){
 				sResultado = "Modificado";
@@ -251,6 +252,11 @@
 		<fieldset>
 			<label for="Modulos"><fmt:message key="aca.NumEvaluaciones" /></label>
 			<input name="Modulos" type="text" id="Modulos" size="2" maxlength="2" value="<%=Ciclo.getModulos()%>" class="onlyNumbers input-mini">
+		</fieldset>
+		
+		<fieldset>
+			<label for="cicloEscolar"><fmt:message key="aca.CicloEscuela" /></label>
+			<input name="cicloEscolar" type="text" id="cicloEscolar" size="4" maxlength="4" value="<%=Ciclo.getCicloEscolar()%>" class="onlyNumbers input-mini">
 		</fieldset>
 	</form>
 	                  

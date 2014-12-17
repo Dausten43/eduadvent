@@ -140,13 +140,13 @@ public class Ciclo {
         try {
             ps = conn.prepareStatement(
                     " INSERT INTO CICLO(CICLO_ID, " +
-                    " CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD)" +
+                    " CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR)" +
                     " VALUES(?, ?, TO_DATE(?,'DD/MM/YYYY')," +
                     " TO_DATE(?,'DD/MM/YYYY')," +
                     " TO_DATE(?,'DD/MM/YYYY')," +
                     " TO_NUMBER(?,'999'), ?," +
                     " TO_NUMBER(?,'999')," +
-                    " TO_NUMBER(?,'99'), ?)");
+                    " TO_NUMBER(?,'99'), ?, ?)");
             ps.setString(1, cicloId);
             ps.setString(2, cicloNombre);
             ps.setString(3, fCreada);
@@ -157,6 +157,7 @@ public class Ciclo {
             ps.setString(8, escala);
             ps.setString(9, modulos);
             ps.setString(10, editarActividad);
+            ps.setString(11, cicloEscolar);
 
             if (ps.executeUpdate() == 1) {
                 ok = true;
@@ -191,7 +192,8 @@ public class Ciclo {
                     " ESTADO = ?, " +
                     " ESCALA = TO_NUMBER(?,'999')," +
                     " MODULOS = TO_NUMBER(?,'99')," +
-                    " EDITAR_ACTIVIDAD = ? " +
+                    " EDITAR_ACTIVIDAD = ?, " +
+                    " CICLO_ESCOLAR = ? " +
                     " WHERE CICLO_ID = ?");
             
             ps.setString(1, cicloNombre);
@@ -203,7 +205,8 @@ public class Ciclo {
             ps.setString(7, escala);
             ps.setString(8, modulos);
             ps.setString(9, editarActividad);
-            ps.setString(10, cicloId);
+            ps.setString(10, cicloEscolar);
+            ps.setString(11, cicloId);
 
             if (ps.executeUpdate() == 1) {
                 ok = true;
@@ -265,6 +268,7 @@ public class Ciclo {
         escala			= rs.getString("ESCALA");
         modulos			= rs.getString("MODULOS");
         editarActividad = rs.getString("EDITAR_ACTIVIDAD");
+        cicloEscolar	= rs.getString("CICLO_ESCOLAR");
     }
 
     public void mapeaRegId(Connection con, String cicloId) throws SQLException {
@@ -277,7 +281,7 @@ public class Ciclo {
 	                " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA," +
 	                " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL," +
 	                " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL," +
-	                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD" +
+	                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
 	                " FROM CICLO WHERE CICLO_ID = ?");
 	        ps.setString(1, cicloId);
 	        rs = ps.executeQuery();

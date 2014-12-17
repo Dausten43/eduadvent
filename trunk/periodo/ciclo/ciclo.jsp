@@ -41,6 +41,7 @@
 				<th><fmt:message key="aca.Estado" /></th>
 				<th><fmt:message key="aca.Escala" /></th>
 				<th><fmt:message key="aca.NumEval" /></th>
+				<th><fmt:message key="aca.CicloEscuela" /></th>
 			</tr>
 		</thead>
 		<%int cont = 0; %>
@@ -72,6 +73,7 @@
 				</td>
 				<td><%=ciclo.getEscala()%></td>
 				<td><%=ciclo.getModulos()%></td>
+				<td><%=ciclo.getCicloEscolar()%></td>
 	  		</tr>  
 		<%}%>  
 	</table>

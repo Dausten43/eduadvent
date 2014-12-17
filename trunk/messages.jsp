@@ -235,6 +235,7 @@ aca.Ensenanza 		= Enseñanza
 	aca.LaEscalaDeEvaluacion	= La escala de evaluación para el ciclo escolar 
 	aca.Es				= es
 	aca.EvaluaConEnteros	= Evalúa con enteros
+	aca.CicloEscuela		= Ciclo Escolar
 	aca.EvaluaConDecimales	= Evalúa con decimales
 	aca.Mensajes			= Mensajes
 	aca.Mensaje			= Mensaje
