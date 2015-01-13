@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * @author EryTorres
@@ -303,24 +304,22 @@ public class FinCalculo {
     
     public boolean updateFolio(Connection conn ) throws SQLException{
     	
+    	Statement st 			= conn.createStatement();
     	PreparedStatement ps 	= null;
         ResultSet rs 			= null;
         boolean ok 				= false;
         try{
         	String folio 			= "1";
-        	ps = conn.prepareStatement("SELECT COALESCE(MAX(FOLIO),1) AS MAXFOLIO FROM FIN_CALCULO WHERE CICLO_ID = ?");
-            ps.setString(1, cicloId);
-            rs = ps.executeQuery();
+        	rs = st.executeQuery("SELECT COALESCE(MAX(FOLIO),1) AS MAXFOLIO FROM FIN_CALCULO WHERE CICLO_ID = '"+cicloId+"'");
             if (rs.next()){
             	folio = rs.getString("MAXFOLIO");
             }
         	
             ps = conn.prepareStatement(
-                    "UPDATE FIN_CALCULO " + 
-                    " SET FOLIO = TO_NUMBER(?,'99999')" +                    
+                    "UPDATE FIN_CALCULO SET FOLIO = TO_NUMBER(?,'99999')" +                    
                     " WHERE CICLO_ID = ?" +                    
                     " AND PERIODO_ID = TO_NUMBER(?,'99')" +
-                    " CODIGO_ID = ?");
+                    " AND CODIGO_ID = ?");
             
             ps.setString(1, folio);                       
             ps.setString(2, cicloId);
