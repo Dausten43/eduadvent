@@ -20,6 +20,14 @@
 	}
 </script>
 
+<style>
+
+	.table td, .table th{
+		font-size: 10px;
+	} 
+
+</style>
+
 <%
 	//Define los colores a usar en cada columna
 	String[] colores = { "#FF8080", "#93C9FF", "#04C68B",
