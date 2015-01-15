@@ -34,7 +34,7 @@
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String cicloId		= (String) session.getAttribute("cicloId");
 	
-	String periodoId	= request.getParameter("PeriodoId")==null?"1":request.getParameter("PeriodoId");	
+	String periodoId	= request.getParameter("Periodo")==null?"1":request.getParameter("Periodo");	
 	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String cicloElegido	= request.getParameter("Ciclo")==null?"0":request.getParameter("Ciclo");
 	
