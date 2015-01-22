@@ -114,9 +114,9 @@ public class CicloGrupoEvalLista {
 					" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' " +
 					" AND CURSO_ID = (" +
 					" SELECT CURSO_ID FROM PLAN_CURSO " +
-					" WHERE GRADO = (SELECT GRADO FROM PLAN_CURSO WHERE CURSO_ID = '"+cursoId+"')" +
+					" WHERE CURSO_ID = '"+cursoId+"' " +
 					" AND PLAN_ID = '"+planId+"'" +
-					" AND CONDUCTA = 'P' ) ";
+					" AND CONDUCTA = 'S' ) ";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
