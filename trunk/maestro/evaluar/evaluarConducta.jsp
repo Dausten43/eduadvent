@@ -179,8 +179,9 @@
 				cont++;
 									
 				boolean evaluarConducta = false;
-									
+				
 				if(mapConducta.size()>0){
+					
 					if(mapConducta.containsKey(eval.getEvaluacionId())){
 						String edo = mapConducta.get(eval.getEvaluacionId()).getEstado();
 						if(edo.equals("A")){
@@ -193,7 +194,7 @@
 				<tr>
 					<td class="text-center"><%=cont%></td>
 					<td>
-						<%if(cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A") && evaluarConducta){%> 
+						<% if(cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A") && evaluarConducta){%> 
 							<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');"> 
 								<%=eval.getEvaluacionNombre()%>
 							</a> 
