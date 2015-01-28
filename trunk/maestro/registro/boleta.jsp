@@ -254,7 +254,7 @@
 	    					cursoEncontrado=true;
 	    				}
 	    			}
-	    			
+ 			
 	    			if(cursoEncontrado){
 
 		    			cantidadMaterias++;
@@ -274,7 +274,7 @@
 		    				alumnoCurso.setCal9( alumnoCurso.getCal9().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal9())) );
 		    				alumnoCurso.setCal10( alumnoCurso.getCal10().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal10())) );
 		    				
-		    				
+		    				//System.out.println("Paso 4.1:"+codigoAlumno+":"+curso.getCursoNombre()+":"+);
 		    				if(alumnoCurso.getCursoId().equals(curso.getCursoId()) && cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
 		    					
 		    					if (Integer.parseInt(curso.getGrado()) != numGrado){
@@ -460,7 +460,8 @@
 		    					}
 		    					if(!alumnoCurso.getCal4().equals("-")){
 		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal3()) );
+		    						//System.out.println("Datos:"+codigoAlumno+":"+alumnoCurso.getCal4());
+		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal4()) );
 		    						sumaPorBimestre[3] += Float.parseFloat(alumnoCurso.getCal4());
 		    					}else{
 		    						materiasSinNota[3] = materiasSinNota[3]+1;
@@ -540,7 +541,7 @@
 		    					if(!alumnoCurso.getFalta10().equals("0")){
 		    						faltasPorBimestre[9] += Float.parseFloat(alumnoCurso.getFalta5());
 		    					}    					
-		    					
+		    						    					
 		    					celda = new PdfPCell(new Phrase(String.valueOf(materias+1), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 			    				tabla.addCell(celda);
@@ -610,7 +611,7 @@
 			    					if(cantidadBimestres!=0){
 			    						nota = sumaBimestres.divide(new BigDecimal(cantidadBimestres+""), 1, RoundingMode.DOWN)+"";
 			    					}
-			    					//System.out.println("Datos 1:"+alumnoCurso.getCodigoId()+":"+sumaBimestres+":"+cantidadBimestres+":"+nota);
+			    					
 			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    				tabla.addCell(celda);
@@ -973,7 +974,7 @@
 		}catch(IOException ioe) {
 			System.err.println("Error boleta en PDF: "+ioe.getMessage());
 		}
-		
+			
 		document.close();
 %>
 	<head>
