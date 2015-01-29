@@ -155,7 +155,7 @@
 			
 
 			
-			topTable.writeSelectedRows(0, 1, 70, 681+extra, pdf.getDirectContent());
+			topTable.writeSelectedRows(0, 1, 70, 670+extra, pdf.getDirectContent());
 			
 			
 			celda = new PdfPCell(new Phrase(campo  , 
@@ -165,7 +165,7 @@
 			topTable.addCell(celda);
 			
 			
-			topTable.writeSelectedRows(1, 2, 5, 670+extra, pdf.getDirectContent());
+			topTable.writeSelectedRows(1, 2, 85, 663+extra, pdf.getDirectContent());
 
 			
 			
@@ -344,19 +344,18 @@
 			
 			cicloTable.writeSelectedRows(0, 2, 340, 648+extra, pdf.getDirectContent());
 			
-			int indent = 443;
 				
-			cicloTable.writeSelectedRows(2, 3, 329, 588+extra, pdf.getDirectContent());	
-			cicloTable.writeSelectedRows(3, 4, 348, 588+extra, pdf.getDirectContent());
-			cicloTable.writeSelectedRows(4, 5, 367, 588+extra, pdf.getDirectContent());
-			cicloTable.writeSelectedRows(5, 6, 387, 588+extra, pdf.getDirectContent());
-			cicloTable.writeSelectedRows(6, 7, 407, 588+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(2, 3, 320, 607+extra, pdf.getDirectContent());	
+			cicloTable.writeSelectedRows(3, 4, 336, 607+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(4, 5, 354, 607+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(5, 6, 371, 607+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(6, 7, 389, 607+extra, pdf.getDirectContent());
 			
-			cicloTable.writeSelectedRows(2, 3, 7+indent, 588+extra, pdf.getDirectContent());
-			cicloTable.writeSelectedRows(3, 4, 27+indent, 588+extra, pdf.getDirectContent());
-			cicloTable.writeSelectedRows(4, 5, 47+indent, 588+extra, pdf.getDirectContent());
-			cicloTable.writeSelectedRows(5, 6, 65+indent, 588+extra, pdf.getDirectContent());
-			cicloTable.writeSelectedRows(6, 7, 84+indent, 588+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(2, 3, 320, 588+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(3, 4, 336, 588+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(4, 5, 354, 588+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(5, 6, 371, 588+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(6, 7, 389, 588+extra, pdf.getDirectContent());
 			
 
 			

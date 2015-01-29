@@ -96,8 +96,10 @@
 	<div class="alert">
 		<fmt:message key="maestros.ConsejeroDeGrupo" />: <%=Grupo.getEmpleadoId()%> | <%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE")%>
 	</div>
-	
-	<table class="table table-bordered table-condensed">
+	<div class="well" style="text-align:center;">
+		<a href="javascript:tableToExcel('table', 'Movimientos')" style="float:center;" class="btn btn-success"><i class="icon-white icon-arrow-down"></i> Bajar Lista a Excel</a>
+	</div>
+	<table class="table table-bordered table-condensed" id="table">
 		<tr>
 			<th>#</th>
 			<th><fmt:message key="aca.Matricula" /></th>
@@ -225,8 +227,10 @@
 	</table>
 	
 	<br>
-	
-	<table class="table table-bordered table-condensed">
+	<div class="well" style="text-align:center;">
+		<a href="javascript:tableToExcel('table', 'Promedios')" style="float:center;" class="btn btn-success"><i class="icon-white icon-arrow-down"></i> Bajar Lista a Excel</a>
+	</div>
+	<table class="table table-bordered table-condensed" id="table">
 		<tr>
 			<th>#</th>
 			<th><fmt:message key="aca.Materias" /></th>
@@ -251,5 +255,5 @@
 	</table>
 	
 </div>
-
+<script src="../../js-plugins/tableToExcel/tableToExcel.js"></script>
 <%@ include file="../../cierra_elias.jsp"%>
