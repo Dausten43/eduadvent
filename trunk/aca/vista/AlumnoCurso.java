@@ -531,6 +531,7 @@ public class AlumnoCurso{
 		}	
 	}
 	
+	
 	public boolean existeReg(Connection conn) throws SQLException{
 		boolean 			ok 	= false;
 		ResultSet 		rs		= null;

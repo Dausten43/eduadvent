@@ -111,7 +111,7 @@ public class AlumnoCursoLista {
 		return lisAlumno;
 	}
 	
-	public static HashMap<String,AlumnoCurso> getMapNotas(Connection conn, String codigoId, String cicloGrupoId ) throws SQLException{
+	public static HashMap<String, AlumnoCurso> getMapNotas(Connection conn, String codigoId, String cicloGrupoId ) throws SQLException{
 		
 		HashMap<String,AlumnoCurso> lista = new HashMap<String,AlumnoCurso>();
 		Statement st 				= conn.createStatement();
@@ -121,8 +121,38 @@ public class AlumnoCursoLista {
 		
 		try{
 			comando = " select * from alumno_curso " +
-					" where codigo_id = '"+codigoId+"' " +
+					" where codigo_id = '"+codigoId+"' "+
 					" and ciclo_grupo_id = '"+cicloGrupoId+"'  ";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				AlumnoCurso obj = new AlumnoCurso();
+				obj.mapeaReg(rs);
+				llave = obj.getCursoId();
+				lista.put(llave, obj);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.vista.AlumnoCursoLista|getMapNotas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return lista;
+	}
+	
+	public static HashMap <String, AlumnoCurso> getMapNotas(Connection conn, String codigoId ) throws SQLException{
+		
+		HashMap<String,AlumnoCurso> lista = new HashMap<String,AlumnoCurso>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+		String llave				= "";
+		
+		try{
+			comando = " select * from alumno_curso " +
+					" where codigo_id = '"+codigoId+"' ";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
