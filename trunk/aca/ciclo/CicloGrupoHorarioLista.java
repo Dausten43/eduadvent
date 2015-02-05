@@ -259,7 +259,7 @@ public class CicloGrupoHorarioLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.ciclo.CicloGrupoHorarioLista|getListSalonesMaestro|:"+ex);
+			System.out.println("Error - aca.ciclo.CicloGrupoHorarioLista|getListSalonesAlumno|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
