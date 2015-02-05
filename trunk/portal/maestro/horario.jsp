@@ -61,12 +61,12 @@
 	
 	for(aca.catalogo.CatHorarioCiclo folio : listCiclos){
 		
-		if(tmpF==""){
-		ciclos += folio.getCiclos();
-		}
-		
-		else if(tmpF!=folio.getCiclos()){
-		ciclos +=","+folio.getCiclos();
+		if(tmpF.equals("")){
+			ciclos += folio.getCiclos();
+		}else if(!tmpF.equals(folio.getCiclos())){
+			ciclos +=","+folio.getCiclos();
+		}else{
+			ciclos += folio.getCiclos();
 		}
 		tmpF 	= folio.getFolio();
 	}
