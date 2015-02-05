@@ -54,10 +54,21 @@
 	
 	/* Traer ciclos que comparten horario o salones */
 	ArrayList<aca.catalogo.CatHorarioCiclo> listCiclos = HorarioCicloL.getListCiclo(conElias, escuelaId, cicloId, "");
+	
 	String ciclos = listCiclos.size()>0?"":"'"+cicloId+"'";
+	String tmpF = "";
+	
 	
 	for(aca.catalogo.CatHorarioCiclo folio : listCiclos){
+		
+		if(tmpF==""){
 		ciclos += folio.getCiclos();
+		}
+		
+		else if(tmpF!=folio.getCiclos()){
+		ciclos +=","+folio.getCiclos();
+		}
+		tmpF 	= folio.getFolio();
 	}
 		
 	/* Salones en los que el maestro tiene horario */
@@ -78,7 +89,7 @@
 	
 	<%if(horarios.size()==0){ %>
 		<div class="alert alert-danger"><fmt:message key="aca.NoTieneHorarios" /></div>
-	<%}else{ %>
+	<%}else{  %>
 		
 		
 		<form action="horario.jsp" method="post" name="forma">
@@ -89,7 +100,7 @@
 						<label for="horarioId"><fmt:message key="aca.Horario" />:</label>
 						<select name="horarioId" id="horarioId" style="width:100%;" onchange="document.forma.submit();">
 						<%
-							for(aca.catalogo.CatHorario horario: horarios){
+							for(aca.catalogo.CatHorario horario: horarios){ 
 						%>
 								<option value="<%=horario.getHorarioId() %>" <%if(horario.getHorarioId().equals(horarioId)){out.print("selected");} %>><%=horario.getHorarioNombre() %></option>
 						<%
@@ -121,12 +132,13 @@
 				%>
 						<tr>
 							<td><%=per.getHoraInicio() %>:<%=per.getMinInicio() %> - <%=per.getHorafin() %>:<%=per.getMinfin() %></td>
-							<%for(int dia=1; dia<8; dia++){%>
+							<%for(int dia=1; dia<8; dia++){ %>
 								<td>
 									
-									<%for(String salonId : listSalonesMaestro){%>
+									<%for(String salonId : listSalonesMaestro){ %>
 										
-											<%if(mapHorarioMaestro.containsKey(salonId+"@"+per.getPeriodoId()+"@"+dia)){ %>
+											<%if(mapHorarioMaestro.containsKey(salonId+"@"+per.getPeriodoId()+"@"+dia)){ 
+												//System.out.println("test");%>
 												<strong class="materia-info" data-content="
 																							<strong><fmt:message key='aca.Salon' />:</strong> <%= aca.catalogo.CatSalon.getSalonNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getSalonId()) %>
 																							<br>
