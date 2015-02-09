@@ -193,7 +193,9 @@
 
 							// Calcula el promedio del alumno
 							promAlum += nota;
-							numMaterias++;
+							if(!(nota1.equals("-"))|| !(nota2.equals("-"))){
+								numMaterias++;
+							}
 							
 						} else {
 							strNota = "-";
