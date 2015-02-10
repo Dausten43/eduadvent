@@ -130,6 +130,7 @@
 				// Calcula el promedio del alumno
 				double promAlum = 0;
 				int numMaterias = 0;
+				BigDecimal test = new BigDecimal("0");
 		%>
 				<tr>
 					<td><%=i + 1%></td>
@@ -192,6 +193,7 @@
 							}
 
 							// Calcula el promedio del alumno
+							
 							promAlum += nota;
 							if(!(nota1.equals("-"))|| !(nota2.equals("-"))){
 								numMaterias++;
@@ -205,6 +207,7 @@
 		<%
 					}
 					promAlum = promAlum / numMaterias;
+					promAlum = new BigDecimal(promAlum).setScale(2,RoundingMode.HALF_DOWN).doubleValue();
 		%>
 					<td class="text-center"><%=frmDecimal.format(promAlum)%></td>
 				</tr>
