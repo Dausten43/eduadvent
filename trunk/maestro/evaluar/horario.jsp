@@ -55,9 +55,16 @@
 	/* Traer ciclos que comparten horario o salones */
 	ArrayList<aca.catalogo.CatHorarioCiclo> listCiclos = HorarioCicloL.getListCiclo(conElias, escuelaId, cicloId, "");
 	String ciclos = listCiclos.size()>0?"":"'"+cicloId+"'";
-	
+	String tmpF = "";
 	for(aca.catalogo.CatHorarioCiclo folio : listCiclos){
-		ciclos += folio.getCiclos();
+		if(tmpF.equals("")){
+			ciclos += folio.getCiclos();
+		}else if(!tmpF.equals(folio.getCiclos())){
+			ciclos +=","+folio.getCiclos();
+		}else{
+			ciclos += folio.getCiclos();
+		}
+		tmpF 	= folio.getFolio();
 	}
 		
 	/* Salones en los que el maestro tiene horario */
