@@ -130,7 +130,6 @@
 				// Calcula el promedio del alumno
 				double promAlum = 0;
 				int numMaterias = 0;
-				BigDecimal test = new BigDecimal("0");
 		%>
 				<tr>
 					<td><%=i + 1%></td>
@@ -193,23 +192,30 @@
 							}
 
 							// Calcula el promedio del alumno
-							
 							promAlum += nota;
-							if(!(nota1.equals("-"))|| !(nota2.equals("-"))){
-								numMaterias++;
-							}
+							
+							
 							
 						} else {
 							strNota = "-";
 						}
+						
+						if(!strNota.equals("-")){
+							numMaterias++;
+						}
+						
 		%>
 						<td class="text-center"><%=strNota%></td>
 		<%
 					}
+					
+					if(numMaterias!=0){
 					promAlum = promAlum / numMaterias;
 					promAlum = new BigDecimal(promAlum).setScale(2,RoundingMode.HALF_DOWN).doubleValue();
+					}
+					
 		%>
-					<td class="text-center"><%=frmDecimal.format(promAlum)%></td>
+					<td class="text-center"><%=(numMaterias!=0)?frmDecimal.format(promAlum):"-"%></td>
 				</tr>
 		<%
 			} //fin de for
@@ -226,6 +232,7 @@
 			<%
 				}
 				promGral = promGral / lisGrupoCurso.size();
+			    
 			%>
 			<th class="text-center"><%=frmDecimal2.format(promGral)%></th>
 		</tr>
