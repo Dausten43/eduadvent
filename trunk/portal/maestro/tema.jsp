@@ -117,7 +117,7 @@
 		
 		<fieldset>
 			<label for="Nombre"><fmt:message key="aca.Nombre" /></label> 
-			<input name="Nombre" type="text" class="text input-xxlarge" id="Nombre" value="<%=Tema.getTemaNombre()%>"  maxlength="50">
+			<input name="Nombre" type="text" class="text input-xxlarge" id="Nombre" value="<%=Tema.getTemaNombre()%>"  maxlength="75">
 		</fieldset>
 		
 		<fieldset>
