@@ -95,7 +95,8 @@
 	for (int j = 0; j < lisTema.size(); j++) {
 		aca.ciclo.CicloGpoTema tema = lisTema.get(j);
 		ArrayList<aca.ciclo.CicloGrupoArchivo> lisArchivo = ArchivoL.getListTema(conElias, cicloGrupo, cursoId, tema.getTemaId(), " ORDER BY FOLIO");				
-		ArrayList<aca.ciclo.CicloGrupoTarea> lisTarea = TareaL.getListTareasTema(conElias, cicloGrupo, cursoId, tema.getTemaId(), " ORDER BY FECHA, TEMA_ID, TAREA_ID");
+		ArrayList<aca.ciclo.CicloGrupoTarea> lisTarea = TareaL.getListTareasTema(conElias, cicloGrupo, cursoId, tema.getTemaId(), " ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD'), TEMA_ID, TAREA_ID");
+		
 		
 		String nomTema = tema.getTemaNombre();
 		
