@@ -22,6 +22,7 @@ public class CicloGrupoActividad {
 	private String valor;
 	private String tipoactId;
 	private String etiquetaId;
+	private String mostrar;
 	
 	public CicloGrupoActividad(){
 		cicloGrupoId		= "";
@@ -33,6 +34,8 @@ public class CicloGrupoActividad {
 		valor				= "";
 		tipoactId			= "";
 		etiquetaId			= "";
+		mostrar				= "";
+		
 	}
 
 	/**
@@ -149,6 +152,14 @@ public class CicloGrupoActividad {
 		this.etiquetaId = etiquetaId;
 	}
 
+	public String getMostrar() {
+		return mostrar;
+	}
+
+	public void setMostrar(String mostrar) {
+		this.mostrar = mostrar;
+	}
+
 	public boolean insertReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
  		boolean ok = false;
@@ -156,7 +167,7 @@ public class CicloGrupoActividad {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_ACTIVIDAD" +
 					" (CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, ACTIVIDAD_ID, ACTIVIDAD_NOMBRE, FECHA, VALOR, TIPOACT_ID, ETIQUETA_ID)" +
-					" VALUES(?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, TO_TIMESTAMP(?, 'DD/MM/YYYY HH24:MI'), TO_NUMBER(?, '999.99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '999'))");
+					" VALUES(?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, TO_TIMESTAMP(?, 'DD/MM/YYYY HH24:MI'), TO_NUMBER(?, '999.99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '999'),?)");
 			
 			ps.setString(1, cicloGrupoId);
 			ps.setString(2, cursoId);
@@ -167,7 +178,7 @@ public class CicloGrupoActividad {
 			ps.setString(7, valor);
 			ps.setString(8, tipoactId);
 			ps.setString(9, etiquetaId);
-			
+			ps.setString(10, mostrar);
 			if ( ps.executeUpdate()== 1){
 				ok = true;
 				conn.commit();
@@ -192,7 +203,7 @@ public class CicloGrupoActividad {
 			ps = conn.prepareStatement("UPDATE CICLO_GRUPO_ACTIVIDAD" +
 					" SET ACTIVIDAD_NOMBRE = ?," +
 					" FECHA = TO_TIMESTAMP(?, 'DD/MM/YYYY HH24:MI')," +
-					" VALOR = TO_NUMBER(?, '999.99'), TIPOACT_ID = TO_NUMBER(?, '99'), ETIQUETA_ID = TO_NUMBER(?, '999')" +
+					" VALOR = TO_NUMBER(?, '999.99'), TIPOACT_ID = TO_NUMBER(?, '99'), ETIQUETA_ID = TO_NUMBER(?, '999'), MOSTRAR=?" +
 					" WHERE CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
 					" AND EVALUACION_ID = TO_NUMBER(?, '99')" +
@@ -203,10 +214,12 @@ public class CicloGrupoActividad {
 			ps.setString(3, valor);
 			ps.setString(4, tipoactId);
 			ps.setString(5, etiquetaId);
-			ps.setString(6, cicloGrupoId);
-			ps.setString(7, cursoId);
-			ps.setString(8, evaluacionId);
-			ps.setString(9, actividadId);
+			ps.setString(6, mostrar);
+			ps.setString(7, cicloGrupoId);
+			ps.setString(8, cursoId);
+			ps.setString(9, evaluacionId);
+			ps.setString(10, actividadId);
+			
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -296,6 +309,7 @@ public class CicloGrupoActividad {
 		valor				= rs.getString("VALOR");
 		tipoactId			= rs.getString("TIPOACT_ID");
 		etiquetaId			= rs.getString("ETIQUETA_ID");
+		mostrar				= rs.getString("MOSTRAR");
 	}
 	
 	public void mapeaRegId(Connection con, String cicloGrupoId, String cursoId, String evaluacionId, String actividadId) throws SQLException{
@@ -303,7 +317,7 @@ public class CicloGrupoActividad {
 		ResultSet rs = null;
 		try{
 			ps = con.prepareStatement("SELECT CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, ACTIVIDAD_ID," +
-					" ACTIVIDAD_NOMBRE, TO_CHAR(FECHA, 'DD/MM/YYYY HH:MI AM') AS FECHA, VALOR, TIPOACT_ID, ETIQUETA_ID " +
+					" ACTIVIDAD_NOMBRE, TO_CHAR(FECHA, 'DD/MM/YYYY HH:MI AM') AS FECHA, VALOR, TIPOACT_ID, ETIQUETA_ID, MOSTRAR " +
 					" FROM CICLO_GRUPO_ACTIVIDAD" +
 					" WHERE CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
