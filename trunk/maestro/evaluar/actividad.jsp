@@ -261,7 +261,7 @@
 		</fieldset>
 		
 		<fieldset>
-			<label for="Mostrar"><fmt:message key="aca.Mosrtar"/></label>
+			<label for="Mostrar"><fmt:message key="Mostrar"/></label>
 			<select name="Mostrar" id="Mostrar">
 			
 			  	<option value="S" <%if ( cicloGrupoActividad.getMostrar().equals("S") ) out.println("selected"); %> >Si</option>
