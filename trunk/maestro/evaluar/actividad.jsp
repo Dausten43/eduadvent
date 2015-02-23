@@ -82,6 +82,7 @@
 			cicloGrupoActividad.setValor(valor);
 			cicloGrupoActividad.setTipoactId(request.getParameter("Tipoact"));	
 			cicloGrupoActividad.setEtiquetaId(request.getParameter("EtiquetaId"));
+			cicloGrupoActividad.setMostrar(request.getParameter("Mostrar"));
 			
 			String Hora 	= request.getParameter("Hora").length()==1 ? "0"+request.getParameter("Hora") : request.getParameter("Hora");
 			String Min 		= request.getParameter("Min").length()==1 ? "0"+request.getParameter("Min") : request.getParameter("Min");
@@ -258,6 +259,17 @@
 			 <%} %>
 			 </select>		
 		</fieldset>
+		
+		<fieldset>
+			<label for="Mostrar"><fmt:message key="aca.Mosrtar"/></label>
+			<select name="Mostrar" id="Mostrar">
+			
+			  	<option value="S" <%if ( cicloGrupoActividad.getMostrar().equals("S") ) out.println("selected"); %> >Si</option>
+				<option value="N" <%if ( cicloGrupoActividad.getMostrar().equals("N") ) out.println("selected"); %> >No</option>
+			
+			 </select>		
+		</fieldset>
+		
 		
 		<%if(etiquetas.size()>0){ %>
 			<fieldset>
