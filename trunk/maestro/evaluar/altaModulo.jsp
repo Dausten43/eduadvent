@@ -159,7 +159,7 @@
 <script>
 
 	$('#Nombre').maxlength({ 
-	    max: 50
+	    max: 100
 	});
 /*
 	$('#Descripcion').maxlength({ 
