@@ -59,12 +59,11 @@
 		<div class="well">	
 			<select name="plan" id="plan" onchange="location.href='cardex.jsp?plan='+this.options[this.selectedIndex].value;" class="input-xxlarge">
 				<%for(aca.alumno.AlumPlan alPlan : lisPlan){%>
-					<option value="<%=alPlan.getPlanId() %>" <%if(planId.equals(alPlan.getPlanId())){out.print("selected");} %>><%=plan.getPlanNombre() %></option>
+					<option value="<%=alPlan.getPlanId() %>" <%if(planId.equals(alPlan.getPlanId())){out.print("selected");} %>><%=aca.plan.Plan.getNombrePlan(conElias, alPlan.getPlanId())%></option>
 				<%}%>
 			</select>
-		</div>
-		
-<%				
+		</div>		
+<%
 
 			float [] sumaPorBimestre 	= {0,0,0,0,0,0,0,0,0,0};
 			int [] materiasSinNota 		= {0,0,0,0,0,0,0,0,0,0};
