@@ -84,6 +84,7 @@
 	 				for(int j=0; j<tareas.size();j++){
 						aca.ciclo.CicloGrupoActividad actividad = (aca.ciclo.CicloGrupoActividad) tareas.get(j);
 						//if(j%2==1)strBgcolor = strColor; else strBgcolor = "";
+						if(actividad.getMostrar().equals("S")){
 					%>		
 							<tr>
 							  <td><img src="../../imagenes/evaluation.png" width="25px"/></td>
@@ -190,6 +191,7 @@
 						<%	
 							}
 					}
+	 				}
 				}
 				
 			}
