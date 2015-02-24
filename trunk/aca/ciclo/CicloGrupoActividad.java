@@ -166,8 +166,8 @@ public class CicloGrupoActividad {
 		
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_ACTIVIDAD" +
-					" (CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, ACTIVIDAD_ID, ACTIVIDAD_NOMBRE, FECHA, VALOR, TIPOACT_ID, ETIQUETA_ID)" +
-					" VALUES(?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, TO_TIMESTAMP(?, 'DD/MM/YYYY HH24:MI'), TO_NUMBER(?, '999.99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '999'),?)");
+					" (CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, ACTIVIDAD_ID, ACTIVIDAD_NOMBRE, FECHA, VALOR, TIPOACT_ID, ETIQUETA_ID, MOSTRAR)" +
+					" VALUES(?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, TO_TIMESTAMP(?, 'DD/MM/YYYY HH24:MI'), TO_NUMBER(?, '999.99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '999'), ?)");
 			
 			ps.setString(1, cicloGrupoId);
 			ps.setString(2, cursoId);
