@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%
-	String lenguajeValue =  (String) session.getAttribute("lenguaje")==null?"es": (String) session.getAttribute("lenguaje");;
+	String lenguajeValue =  (String) session.getAttribute("lenguaje")==null?"es": (String) session.getAttribute("lenguaje");
 %>
 
 <%if(lenguajeValue.equals("es")){%>
@@ -12,7 +12,6 @@
 	<fmt:setLocale value="en" scope="session"/>
 <%}else{%>
 	<fmt:setLocale value="es" scope="session"/>
-<%} %>
-	
+<%} %>	
 	
 <fmt:setBundle basename="idiomas.messages"/>
