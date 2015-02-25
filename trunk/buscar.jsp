@@ -1,14 +1,25 @@
 <!doctype html>
 
+<%@page import="java.util.HashMap"%>
 <%@ include file= "con_elias.jsp" %>
 
 <jsp:useBean id="usuariosU" scope="page" class="aca.vista.UsuariosLista"/>
+<jsp:useBean id="AlumPlanLista" scope="page" class="aca.alumno.AlumPlanLista"/>
+<jsp:useBean id="PlanLista" scope="page" class="aca.plan.PlanLista"/>
+<jsp:useBean id="CatNivelEscuelaLista" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
 
 <%if(((String)session.getAttribute("codigoId")).contains("E") || ((String)session.getAttribute("codigoId")).equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){ %> 
 
 <%
-	String parametro = request.getParameter("parametro");
-	String escuela   = (String) session.getAttribute("escuela");
+	
+	String parametro  = request.getParameter("parametro");
+	String escuela    = (String) session.getAttribute("escuela");
+	
+	java.util.HashMap <String, aca.alumno.AlumPlan> mapAlumPlan = AlumPlanLista.mapPlanActivo(conElias, escuela); // codigoPersonal
+	
+	java.util.HashMap <String, aca.plan.Plan> mapPlan = PlanLista.mapPlanesEscuela(conElias, escuela); //planID
+	
+	java.util.HashMap <String, aca.catalogo.CatNivelEscuela> mapNivel = CatNivelEscuelaLista.mapNiveles(conElias); //escuela + nivel
 	
 	ArrayList <aca.vista.Usuarios> usuarios;
 	if(parametro.length() >= 3 && parametro.substring(0,3).equals(escuela) ){//busqueda por codigo
@@ -95,7 +106,8 @@
 			
 %>
 			<tr class="resultado <%=tipoFiltro%>">
-				<td style="width:140px;" onclick="subirCodigo('../../parametros/<%=tipo%>/buscar.jsp?Accion=3&CodigoPersonal=<%=usuario.getCodigoId()%>')" class="cursor" width="15%">
+			
+				<td width="70%" onclick="subirCodigo('../../parametros/<%=tipo%>/buscar.jsp?Accion=3&CodigoPersonal=<%=usuario.getCodigoId()%>')" class="cursor" width="15%">
 					<% if (!session.getAttribute("admin").equals("-------")){%>
 						<a class="btn btn-link btn-mini" href="../../usuario/configuracion/busca.jsp?Accion=3&matricula=<%=usuario.getCodigoId()%>">
 							<i class="icon-user"></i>
@@ -104,7 +116,46 @@
 					<%} %>
 					<%=usuario.getCodigoId() %>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<%=usuario.getNombre()%> <%=usuario.getaPaterno() %> <%=usuario.getaMaterno()%></td>
+					<%=usuario.getNombre()%> <%=usuario.getaPaterno() %> <%=usuario.getaMaterno()%>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					
+					</td>
+			
+			 <%
+			 
+			 String planId	= "-";
+			 String nivelId	= "-";
+			 String	nivel	= "-";
+			 String grado	= "-";
+			 String grupo	= "-";
+			 
+			 
+			if(mapAlumPlan.containsKey(usuario.getCodigoId())){
+				
+				planId = mapAlumPlan.get(usuario.getCodigoId()).getPlanId();
+				grado  = mapAlumPlan.get(usuario.getCodigoId()).getGrado();
+				grupo  = mapAlumPlan.get(usuario.getCodigoId()).getGrupo();
+				
+				if(mapPlan.containsKey(planId)){
+					nivelId = mapPlan.get(planId).getNivelId();
+					
+					if(mapNivel.containsKey(escuela+nivelId)){
+						
+						nivel=mapNivel.get(escuela+nivelId).getNivelNombre().replace("NIVEL", "");
+						
+					}
+					
+				}
+				
+				
+				%>
+
+			
+			<%}%>
+			
+				<td width="25%"><%=nivel %></td>
+				<td width="5%"><%=grado%><%=grupo%></td>	
+			
 			</tr>
 <%	
 		}
