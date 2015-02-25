@@ -173,5 +173,32 @@ public class CatNivelEscuelaLista {
 		
 		return map;
 	}
+	
+	public HashMap<String,CatNivelEscuela> mapNiveles(Connection conn) throws SQLException{
+		
+		HashMap<String,CatNivelEscuela> map 	= new HashMap<String,CatNivelEscuela>();
+		Statement st 							= conn.createStatement();
+		ResultSet rs 							= null;
+		String comando							= "";		
+		
+		try{
+			comando = " SELECT * FROM CAT_NIVEL_ESCUELA";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){		
+				CatNivelEscuela obj = new CatNivelEscuela();				
+				obj.mapeaReg(rs);
+				map.put(obj.getEscuelaId()+obj.getNivelId(), obj);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatNivelEscuelaLista|mapNiveles|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
 
 }
