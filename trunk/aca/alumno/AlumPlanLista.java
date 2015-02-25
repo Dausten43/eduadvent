@@ -3,6 +3,7 @@ package aca.alumno;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AlumPlanLista{
 		
@@ -67,6 +68,36 @@ public class AlumPlanLista{
 		}	
 		
 		return lisPlan;
+	}
+	
+	public HashMap<String, AlumPlan> mapPlanActivo(Connection conn, String escuelaId) throws SQLException{
+		HashMap<String, AlumPlan> map 	= new HashMap<String, AlumPlan>();
+		Statement st 						= conn.createStatement();
+		ResultSet rs 						= null;
+		String comando						= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, PLAN_ID,"
+					+ " TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO,"
+					+ " TO_CHAR(F_GRADUACION,'DD/MM/YYYY') AS F_GRADUACION,"
+					+ " ESTADO, GRADO, GRUPO"
+					+ " FROM ALUM_PLAN"
+					+ " WHERE SUBSTR(CODIGO_ID,1,3) = '"+escuelaId+"'"
+					+ " AND ESTADO = 'A'";		
+			rs = st.executeQuery(comando);
+			
+			while (rs.next()){
+				AlumPlan plan = new AlumPlan();
+				plan.mapeaReg(rs);
+				map.put(plan.getCodigoId(), plan);
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.alumno.AlumPlanLista|mapPlanActivo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		return map;
 	}
 	
 }
