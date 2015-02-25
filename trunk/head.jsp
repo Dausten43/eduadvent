@@ -3,8 +3,6 @@
 <%@ include file= "idioma.jsp" %>
 <%@page buffer="32kb"%>
 
-
-
 <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../bootstrap/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="../../css/style.css" />
