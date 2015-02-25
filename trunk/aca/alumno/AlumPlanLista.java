@@ -83,7 +83,7 @@ public class AlumPlanLista{
 					+ " ESTADO, GRADO, GRUPO"
 					+ " FROM ALUM_PLAN"
 					+ " WHERE SUBSTR(CODIGO_ID,1,3) = '"+escuelaId+"'"
-					+ " AND ESTADO = 'A'";		
+					+ " AND ESTADO = '1'";		
 			rs = st.executeQuery(comando);
 			
 			while (rs.next()){
