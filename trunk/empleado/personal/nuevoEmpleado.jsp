@@ -16,8 +16,8 @@
 	String escuela 			= (String)session.getAttribute("escuela");
 	boolean inserto 		= false;
 	
-	String nuevoAlumno 	= Personal.maximoRegEmp(conElias,escuela);
-	Personal.setCodigoId(nuevoAlumno);
+	String nuevoEmpleado 	= Personal.maximoRegEmp(conElias,escuela);
+	Personal.setCodigoId(nuevoEmpleado);
 	Personal.setEscuelaId(escuela);
 	Personal.setNombre(request.getParameter("Nombre"));
 	Personal.setApaterno(request.getParameter("APaterno"));
@@ -53,7 +53,7 @@
 				inserto = true;
 				
 				// subir el codigo reciente del alumno a session
-				session.setAttribute("codigoEmpleado",nuevoAlumno);
+				session.setAttribute("codigoEmpleado",nuevoEmpleado);
 				
 			}else{
 				conElias.rollback();
@@ -62,21 +62,16 @@
 	}
 	conElias.setAutoCommit(true);
 	
-	Personal.mapeaRegId(conElias, nuevoAlumno);
+	Personal.mapeaRegId(conElias, nuevoEmpleado);
 	if (inserto){
-		out.println("<div class='alert alert-info'>¡El empleado fue creado, recuerda que debes actualizar sus datos!  </div>  ");
-		%> 
-		<!--  <div class="alert alert-info"><fmt:message key="aca.Recordatorio"/></div>-->
-		<a href="empleado.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
-		<%
+		out.print("<div class='alert alert-info'>¡El empleado fue creado, recuerda que debes actualizar sus datos!  </div>  ");
+		out.print("<meta http-equiv='refresh' content='1;url=empleado.jsp' />");
 	}else{
 		%> 
-			<div class="alert alert-danger"><fmt:message key="aca.ErrorEnOperacion"/></div>
+			<div class="alert alert-danger"><fmt:message key="aca.ErrorEnOperacion"/></div>			
 			<a href="empleado.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
 		<%
 	}
 %>
-
 </div>
-
 <%@ include file= "../../cierra_elias.jsp" %>
