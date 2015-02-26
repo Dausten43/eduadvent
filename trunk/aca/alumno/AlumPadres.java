@@ -315,4 +315,32 @@ public class AlumPadres {
 		
 		return genero;
 	}
+	
+	public static int numeroDeHijos(Connection conn, String padreId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String comando			= "";		
+		int hijos			= 0;
+		try{
+			ps = conn.prepareStatement("SELECT COALESCE(COUNT(CODIGO_ID),0) AS TOTAL FROM ALUM_PADRES"
+					+ " WHERE CODIGO_PADRE = ? OR CODIGO_MADRE = ? OR CODIGO_TUTOR = ?");
+ 			
+ 			ps.setString(1, padreId);
+ 			ps.setString(2, padreId);
+ 			ps.setString(3, padreId);					
+			rs = ps.executeQuery(comando);
+			if (rs.next()){
+				hijos = rs.getInt("TOTAL");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.alumno.AlumPersonal|numeroDeHijos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();			
+		}
+		
+		return hijos;
+	}
 }
