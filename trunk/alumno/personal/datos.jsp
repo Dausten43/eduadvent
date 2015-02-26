@@ -66,29 +66,39 @@
 
 		<h2><fmt:message key="alumnos.VerificaciondeInformacion"/></h2>
 		
-		<div class="alert alert-info"><fmt:message key="aca.IngresaDatos"/></div>
+		
 
 		<div class="well">
 			<a class="btn btn-primary" href="alumno.jsp">
 				<i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/>
 			</a>
+		&nbsp;  &nbsp;Instrucciones: <fmt:message key="aca.IngresaDatos"/>
 		</div>
 		
-		<p>
-			<label><fmt:message key="aca.Nombre"/></label>
-			<input name="nombre" type="text" value="<%=nombre%>">
-		</p>
-		
-		<p>
-			<label><fmt:message key="aca.ApellidoPat"/></label>
-			<input type="text" name="aPaterno" value="<%=aPaterno%>">
-		</p>
-		
-		<p>
-			<label><fmt:message key="aca.ApellidoMat"/></label>
-			<input type="text" name="aMaterno" value="<%=aMaterno%>">
-		</p>
-			
+		<table class="table table-condensed" onkeypress='presDocumento()'>
+		 <tr>
+		  <td>
+		     <p>
+			   <label><fmt:message key="aca.Nombre"/></label>
+			   <input name="nombre" type="text" value="<%=nombre%>">
+		     </p>
+		  </td>
+				
+		  <td>
+		    <p>
+			  <label><fmt:message key="aca.ApellidoPat"/></label>
+			  <input type="text" name="aPaterno" value="<%=aPaterno%>">
+		    </p>
+		  </td>	
+		  
+		  <td>
+		     <p>
+			   <label><fmt:message key="aca.ApellidoMat"/></label>
+			   <input type="text" name="aMaterno" value="<%=aMaterno%>">
+		     </p>
+		  </td>
+		 </tr>
+		</table>	
 		<div class="well">
 			<button class="btn btn-primary btn-large" onclick="return Buscar();">
 				<i class="icon-search icon-white"></i> <fmt:message key="boton.Buscar"/>
