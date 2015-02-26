@@ -45,32 +45,39 @@
 	
 	<h2><fmt:message key="alumnos.VerificaciondeInformacion" /></h2>
 	
-	<div class="alert alert-info">
-		<fmt:message key="empleados.IngresaDatosEmpleado" />
-	</div>
-	
 	<div class="well">
 		<a href="empleado.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		&nbsp;  &nbsp;Instrucciones: <fmt:message key="empleados.IngresaDatosEmpleado" />
 	</div>
 		
 	<form action="datos.jsp" name="frmDatos" method="post" target="_self">
 		<input type="hidden" name="Accion">
-						
-		<p>			
-			<label for="Nombre"><fmt:message key="aca.Nombre" /></label>
-			<input name="nombre" type="text" class="text" size="20" value="<%=nombre%>">
-		</p>
 		
-		<p>
-			<label for="Paterno"><fmt:message key="aca.ApellidoPat" /></label>
-			<input type="text" class="text" size="20" name="aPaterno" value="<%=aPaterno%>">
-		</p>
-		
-		<p>
-			<label for="Materno"><fmt:message key="aca.ApellidoMat" /></label>
-			<input type="text" class="text" size="20" name="aMaterno" value="<%=aMaterno%>">
-		</p>
-					
+		<table class="table table-condensed" onkeypress='presDocumento()' style="margin-bottom: 0px;">
+		 <tr>
+		  <td>
+		     <p>			
+				<label for="Nombre"><fmt:message key="aca.Nombre" /></label>
+				<input name="nombre" type="text" class="text" size="20" value="<%=nombre%>">
+			</p>
+		  </td>
+				
+		  <td>
+		    <p>
+				<label for="Paterno"><fmt:message key="aca.ApellidoPat" /></label>
+				<input type="text" class="text" size="20" name="aPaterno" value="<%=aPaterno%>">
+			</p>
+		  </td>	
+		  
+		  <td>
+		     <p>
+				<label for="Materno"><fmt:message key="aca.ApellidoMat" /></label>
+				<input type="text" class="text" size="20" name="aMaterno" value="<%=aMaterno%>">
+			</p>
+		  </td>
+		 </tr>
+		</table>	
+				
 		<div class="well">
 			<a class="btn btn-primary btn-large" href="javascript:Buscar()"><i class="icon-search icon-white"></i> <fmt:message key="boton.Buscar" /></a>
 		</div>
