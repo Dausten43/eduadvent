@@ -75,7 +75,7 @@
 		&nbsp;  &nbsp;Instrucciones: <fmt:message key="aca.IngresaDatos"/>
 		</div>
 		
-		<table class="table table-condensed" onkeypress='presDocumento()'>
+		<table class="table table-condensed" onkeypress='presDocumento()' style="margin-bottom: 0px;">
 		 <tr>
 		  <td>
 		     <p>
