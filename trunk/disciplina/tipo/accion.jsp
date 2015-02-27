@@ -7,17 +7,10 @@
 <jsp:useBean id="reporte" scope="page" class="aca.cond.CondTipoReporte" />
 <head>
 <script language="javascript">
-	/*function Nuevo()	{		
-		document.frmReporte.TipoId.value 		= " ";
-		document.frmReporte.TipoNombre.value 	= " ";
-		document.frmReporte.Comentario.value	= "";	
-		document.frmReporte.Accion.value="1";
-		document.frmReporte.submit();		
-	}*/
-
+	
 	function Grabar() {
 
-		if (document.frmReporte.TipoId.value != "") {
+		if (document.frmReporte.TipoId.value != "" && document.frmReporte.TipoNombre.value != ""){
 			document.frmReporte.Accion.value = "2";
 			document.frmReporte.submit();
 		} else {
@@ -26,8 +19,12 @@
 	}
 
 	function Modificar() {
-		document.frmReporte.Accion.value = "3";
-		document.frmReporte.submit();
+		if (document.frmReporte.TipoId.value != "" && document.frmReporte.TipoNombre.value != ""){
+			document.frmReporte.Accion.value = "3";
+			document.frmReporte.submit();
+		}else{
+			alert("<fmt:message key="js.Completar"/> ");
+		}	
 	}
 
 	function Borrar() {
@@ -41,104 +38,98 @@
 			document.frmReporte.TipoId.focus();
 		}
 	}
-
-	/*function Consultar(){
-		document.frmReporte.Accion.value="5";
-		document.frmReporte.submit();		
-	}*/
 </script>
 </head>
 <%
-	// Declaracion de variables	
-		String sResultado = "";
-		String escuelaId = (String) session.getAttribute("escuela");
-		int i = 0;
-		int nAccion = Integer.parseInt(request.getParameter("Accion"));
-		ArrayList listor = new ArrayList();
-		ArrayList lisReligion = new ArrayList();
+	// Declaracion de variables
+		
+	String escuelaId 		= (String) session.getAttribute("escuela");
+	int nAccion 			= Integer.parseInt(request.getParameter("Accion"));
+	String sResultado 		= "";
+	int i = 0;	
 
-		if (nAccion == 1)
-			reporte.setTipoId(reporte.maximoReg(conElias));
-		else
-			reporte.setTipoId(request.getParameter("TipoId"));
+	if (nAccion == 1)
+		reporte.setTipoId(reporte.maximoReg(conElias));
+	else
+		reporte.setTipoId(request.getParameter("TipoId"));
 
-		// Operaciones a realizar en la pantalla	
-		switch (nAccion) {
-		case 2: { // Grabar			
-			reporte.setTipoId(request.getParameter("TipoId"));
-			reporte.setTipoNombre(request.getParameter("TipoNombre"));
-			reporte.setComentario(request.getParameter("Comentario"));
-			reporte.setEscuelaId(escuelaId);
-			if (reporte.existeReg(conElias) == false) {
-				if (reporte.insertReg(conElias)) {
-					sResultado = "Guardado";
-					conElias.commit();
-				//	response.sendRedirect("tipo.jsp");
-				} else {
-					sResultado = "NoGuardo";
-				}
+	// Operaciones a realizar en la pantalla	
+	switch (nAccion) {
+	case 2: { // Grabar			
+		reporte.setTipoId(request.getParameter("TipoId"));
+		reporte.setTipoNombre(request.getParameter("TipoNombre"));
+		reporte.setComentario(request.getParameter("Comentario"));
+		reporte.setEscuelaId(escuelaId);
+		if (reporte.existeReg(conElias) == false) {
+			if (reporte.insertReg(conElias)) {
+				sResultado = "Guardado";
+				conElias.commit();
+			//	response.sendRedirect("tipo.jsp");
 			} else {
-				sResultado = "Existe";
+				sResultado = "NoGuardo";
 			}
+		} else {
+			sResultado = "Existe";
+		}
 
-			break;
-		}
-		case 3: { // Modificar
-			reporte.mapeaRegId(conElias, request.getParameter("TipoId"));
-			reporte.setTipoId(request.getParameter("TipoId"));
-			reporte.setTipoNombre(request.getParameter("TipoNombre"));
-			reporte.setComentario(request.getParameter("Comentario"));
-			if (reporte.existeReg(conElias) == true) {
-				if (reporte.updateReg(conElias)) {
-					sResultado = "Modificado";
-					conElias.commit();
-					/*response.sendRedirect("tipo.jsp");*/
-				} else {
-					sResultado = "NoModificado";
-				}
+		break;
+	}
+	case 3: { // Modificar
+		reporte.mapeaRegId(conElias, request.getParameter("TipoId"));
+		reporte.setTipoId(request.getParameter("TipoId"));
+		reporte.setTipoNombre(request.getParameter("TipoNombre"));
+		reporte.setComentario(request.getParameter("Comentario"));
+		if (reporte.existeReg(conElias) == true) {
+			if (reporte.updateReg(conElias)) {
+				sResultado = "Modificado";
+				conElias.commit();
+				/*response.sendRedirect("tipo.jsp");*/
 			} else {
-				sResultado = "NoExiste";
+				sResultado = "NoModificado";
 			}
-			break;
+		} else {
+			sResultado = "NoExiste";
 		}
-		case 4: { // Borrar			
-			if (reporte.existeReg(conElias) == true) {
-				if (reporte.deleteReg(conElias)) {
-					sResultado = "Eliminado";
-					conElias.commit();
-					/*response.sendRedirect("tipo.jsp");*/
-				} else {
-					sResultado = "NoEliminado";
-				}
+		break;
+	}
+	case 4: { // Borrar			
+		if (reporte.existeReg(conElias) == true) {
+			if (reporte.deleteReg(conElias)) {
+				sResultado = "Eliminado";
+				conElias.commit();
+				/*response.sendRedirect("tipo.jsp");*/
 			} else {
-				sResultado = "NoExiste: ";
+				sResultado = "NoEliminado";
 			}
+		} else {
+			sResultado = "NoExiste: ";
+		}
 
-			break;
+		break;
+	}
+	case 5: { // Consultar
+		if (reporte.existeReg(conElias) == true) {
+			reporte.mapeaRegId(conElias,
+					request.getParameter("TipoId"));
+			sResultado = "Consulta";
+		} else {
+			sResultado = "NoExiste";
 		}
-		case 5: { // Consultar
-			if (reporte.existeReg(conElias) == true) {
-				reporte.mapeaRegId(conElias,
-						request.getParameter("TipoId"));
-				sResultado = "Consulta";
-			} else {
-				sResultado = "NoExiste";
-			}
-			break;
-		}
-		}
-		pageContext.setAttribute("resultado", sResultado);
+		break;
+	}
+	}
+	pageContext.setAttribute("resultado", sResultado);
 %>
 <body>
 	<div id="content">
 		<h2><fmt:message key="catalogo.CatalogoReportes"/></h2>
-		<%
-			if (!sResultado.equals("")) {
-		%>
+	<%
+		if (!sResultado.equals("")){
+	%>
 		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
-		<%
-			}
-		%>
+	<%
+		}
+	%>
 		<div class="well" style="overflow: hidden;">
 			<a class="btn btn-primary" href="tipo.jsp"><i class="icon-list icon-white"></i> <fmt:message key="boton.Listado"/></a>
 		</div>
@@ -146,7 +137,7 @@
 			<input type="hidden" name="Accion"> 
 			<input type="hidden" name="TipoId" id="TipoId" value="<%=reporte.getTipoId()%>">
 
-			<fieldset>	
+			<fieldset>
 
 				<div class="control-group ">
 					<label for="TipoNombre"> <fmt:message key="aca.Nombre"/>: </label> 
@@ -163,12 +154,8 @@
 					<a class="btn btn-primary" href="javascript:Grabar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></a>
 					<a class="btn btn-primary" href="javascript:Modificar()"><i class="icon-edit icon-white"></i> <fmt:message key="boton.Modificar"/></a>
 				</div>
-			</fieldset>
-
-			<%
-				listor = null;
-			%>
-			</table>
+				
+			</fieldset>			
 		</form>
 	</div>
 </body>

@@ -16,8 +16,10 @@
 	</script>
 </head>
 <%
-	String escuelaId					= (String) session.getAttribute("escuela");
-	ArrayList lisReporte				= tipoU.getListEscuela(conElias, escuelaId, " ORDER BY TIPO_NOMBRE");	
+	String escuelaId			= (String) session.getAttribute("escuela");
+
+	// Lista de tipos de reporte en la escuela
+	ArrayList<aca.cond.CondTipoReporte> lisReporte				= tipoU.getListEscuela(conElias, escuelaId, " ORDER BY TIPO_NOMBRE");	
 %>
 <body>
 
