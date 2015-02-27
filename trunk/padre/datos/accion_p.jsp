@@ -480,7 +480,12 @@
 	}else if (existePadre==false){
 %>
   <table width="100%">
-    <tr><td align="center" width="100%"><font size="3"><fmt:message key="aca.EstePadreNoExiste" />:[<%=codigoPadre %>]</font></td></tr>
+    <tr><td align="center" width="100%"><font size="3">¡<fmt:message key="aca.EstePadreNoExiste" />!(Código: <%=codigoPadre%>)</font></td></tr>
+    <tr>
+    	<td align="center" width="100%">
+    	<a class="btn btn-info" href="datosNew.jsp" title="Nuevo padre"><i class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a>
+    	</td>
+    </tr>
   </table>
 <%
 	}else if (padreDeEscuela==false){
