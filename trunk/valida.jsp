@@ -142,8 +142,9 @@
 				session.setAttribute("lisOpcion", lisOpcion);
 				session.setAttribute("opciones", strOpcion);
 				
-				session.setAttribute("codigoEmpleado", strCodigoId );
 				session.setAttribute("codigoAlumno", strCodigoId);
+				session.setAttribute("codigoEmpleado", strCodigoId );				
+				session.setAttribute("codigoPadre", "00000000");
 				
 				// Elegir el mejor ciclo
 				ciclo = aca.ciclo.Ciclo.getMejorCarga(conn,strCodigoId);
