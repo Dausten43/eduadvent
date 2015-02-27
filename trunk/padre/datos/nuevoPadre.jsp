@@ -53,7 +53,7 @@
 				inserto = true;
 				
 				// subir el codigo reciente del alumno a session
-				session.setAttribute("codigoEmpleado",nuevoEmpleado);
+				session.setAttribute("codigoPadre",nuevoEmpleado);
 				session.setAttribute("codigoReciente",nuevoEmpleado);
 				
 			}else{
