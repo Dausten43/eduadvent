@@ -340,7 +340,7 @@
 
 	<div class="well">
 <%		if(nAccion!=1){%>
-		<a class="btn btn-info" href="javascript:Nuevo()" title="Nuevo padre"><i class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a>
+		<a class="btn btn-info" href="datosNew.jsp" title="Nuevo padre"><i class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a>
 		<input name="CodigoEmpleado" style="margin:0;" id="CodigoEmpleado" type="text" value="<%=Personal.getCodigoId()%>" readonly>
 		<%}else{%>
 		<a class="btn btn-info" href="accion_p.jsp" title="Cancelar"><i class="icon-remove icon-white"></i> <fmt:message key="boton.Cancelar" /></a>
