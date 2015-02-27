@@ -26,8 +26,14 @@
 		usuarios = usuariosU.getListUsuarios(conElias, escuela, "AND CODIGO_ID like'%"+parametro+"%' ORDER BY NOMBRE, APATERNO, AMATERNO");
 		if(usuarios.size() == 1){
 			String tipo = "alumno";
-			if(usuarios.get(0).getCodigoId().substring(3, 4).equals("E"))tipo="empleado";
+			if(usuarios.get(0).getCodigoId().substring(3, 4).equals("E"))
+				tipo = "empleado";
+			else if(usuarios.get(0).getCodigoId().substring(3, 4).equals("P"))
+				tipo = "padre";
+			else
+				tipo = "alumno";
 %>			
+
 				<script>
 					location.href = "../../parametros/<%=tipo%>/buscar.jsp?Accion=3&CodigoPersonal=<%=usuarios.get(0).getCodigoId() %>";
 				</script>
@@ -60,11 +66,7 @@
 	if(usuarios.size()>1000){ 
 %>
 		<div style="padding:15px;text-align:center;" class="alert alert-danger">
-			<h4>Demasiadas Coincidencias, Favor de ser más especifico</h4>
-				<!-- 
-				<input onclick="busquedaAvanzada('parametros/alumno/buscar.jsp')" type="button" class="btn" value="buscar alumno">
-				<input onclick="busquedaAvanzada('parametros/empleado/buscar.jsp')" type="button" class="btn" value="buscar empleado">
-				 -->
+			<h4>Demasiadas Coincidencias, Favor de ser más especifico</h4>				
 		</div>
 <%
 	}else{
@@ -93,19 +95,17 @@
 				</td>
 			</tr>
 <%
-		for(aca.vista.Usuarios usuario: usuarios){
-			String tipo 		= "alumno";
-			String tipoFiltro 	= "alumno";
-			if(usuario.getCodigoId().substring(3, 4).equals("E")){
-				tipo		= "empleado";
-				tipoFiltro 	= "empleado"; 
-			}else if(usuario.getCodigoId().substring(3, 4).equals("P")){
-				tipoFiltro 	= "padre";
+		for(aca.vista.Usuarios usuario: usuarios){			
+			String tipo 	= "alumno";
+			if(usuario.getCodigoId().substring(3, 4).equals("E")){				
+				tipo 	= "empleado"; 
+			}else if(usuario.getCodigoId().substring(3, 4).equals("P")){				
+				tipo 	= "padre";
 			}
 			
 			
 %>
-			<tr class="resultado <%=tipoFiltro%>">
+			<tr class="resultado <%=tipo%>">
 			
 				<td width="70%" onclick="subirCodigo('../../parametros/<%=tipo%>/buscar.jsp?Accion=3&CodigoPersonal=<%=usuario.getCodigoId()%>')" class="cursor" width="15%">
 					<% if (!session.getAttribute("admin").equals("-------")){%>
