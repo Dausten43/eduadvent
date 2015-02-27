@@ -719,6 +719,32 @@ public class EmpPersonal {
 		return ok;
 	}
 	
+	public static boolean existeReg(Connection conn, String codigoId) throws SQLException{
+		boolean ok 			= false;
+		ResultSet rs 			= null;
+		PreparedStatement ps	= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM EMP_PERSONAL" +
+					" WHERE CODIGO_ID = ?");
+			ps.setString(1, codigoId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				ok = true;
+			}else{
+				ok = false;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.empleado.EmpPersonal|existeReg|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return ok;
+	}
+	
 	public static String getNombre(Connection conn, String codigoId, String opcion) throws SQLException{
 		
 		Statement st 		= conn.createStatement();

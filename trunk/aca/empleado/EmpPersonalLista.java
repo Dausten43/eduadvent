@@ -446,8 +446,12 @@ public class EmpPersonalLista{
 		String comando	= "";
 		
 		try{
-			comando = " SELECT * FROM EMP_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND UPPER(NOMBRE)||' '||UPPER(APATERNO)||' '||UPPER(AMATERNO) LIKE '%"+nombreCompleto.toUpperCase()+"%'"+ orden;
+			comando = " SELECT CODIGO_ID, ESCUELA_ID, NOMBRE,"
+					+ " APATERNO, AMATERNO, GENERO, TO_CHAR(F_NACIMIENTO, 'DD/MM/YYYY') AS F_NACIMIENTO,"
+					+ " PAIS_ID, ESTADO_ID, CIUDAD_ID, EMAIL, COLONIA, DIRECCION, TELEFONO, ESTADO, ESTADO_CIVIL, TIPO_ID, OCUPACION, RFC, SSOCIAL, PUBLICAR"
+					+ " FROM EMP_PERSONAL"
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
+					+ " AND UPPER(NOMBRE)||' '||UPPER(APATERNO)||' '||UPPER(AMATERNO) LIKE '%"+nombreCompleto.toUpperCase()+"%' "+ orden;
 			
 			
 			rs = st.executeQuery(comando);			
