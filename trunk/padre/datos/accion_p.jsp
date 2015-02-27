@@ -6,8 +6,8 @@
 
 <%@ page import= "java.security.MessageDigest" %>
 <%@ page import= "sun.misc.BASE64Encoder"%>
-<%@page import="aca.alumno.AlumPersonal"%>
-<%@page import="aca.alumno.AlumPadres"%>
+<%@ page import="aca.alumno.AlumPersonal"%>
+<%@ page import="aca.alumno.AlumPadres"%>
 
 <jsp:useBean id="alumPadresLista" scope="page" class="aca.alumno.AlumPadresLista"/>
 <jsp:useBean id="alumnoLista" scope="page" class="aca.alumno.AlumPersonalLista"/>
@@ -18,34 +18,23 @@
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario"/>
 
 <%
-	//Declaracion de variables	
+	//Declaracion de variables
+	String escuela 			= session.getAttribute("escuela").toString();
+	String codigoId 		= session.getAttribute("codigoId").toString();
 	
-	String strCodigo 	= (String) session.getAttribute("codigoReciente");
-	String strTipo 		= request.getParameter("tipo");
-	String strAccion 	= request.getParameter("Accion");
-	String vref			= (String)request.getParameter("ref");
-	String escuela 		= (String)session.getAttribute("escuela");	
-	if(!strCodigo.substring(0, 4).equals(escuela+"P")){
-		strCodigo = "00000000";
-	}
-	String empleado 	= (String)session.getAttribute("codigoId");
+	String codigoPadre 		= request.getParameter("CodigoPadre")==null?session.getAttribute("codigoPadre").toString():request.getParameter("CodigoPadre");
+	String strAccion 		= request.getParameter("Accion")==null?"5":request.getParameter("Accion");
+	String strTipo 			= request.getParameter("tipo");
+	String vref				= request.getParameter("ref")==null?"0":request.getParameter("ref");
+	String tipo				= "";
+	String sResultado		= "";
 	
-	String tipo			= "";
+	boolean existePadre 	= aca.empleado.EmpPersonal.existeReg(conElias, codigoPadre);
+	boolean padreDeEscuela	= false;
 	
-	if(strCodigo == null)
-		strCodigo = (String) session.getAttribute("codigoEmpleado");
-	
-	if (vref==null)vref	= "0";
-	if (strAccion == null) strAccion = "5";
-	int nAccion			= Integer.parseInt(strAccion);
-	int i 				= 0;
-	String sResultado	= "";
-	ArrayList listor		= new ArrayList();
-	ArrayList lisPais		= new ArrayList();
-	
-	String clave 		= "";
-	String codPers		= "";
-	boolean existe 		= false;
+	int nAccion				= Integer.parseInt(strAccion);
+	int i 					= 0;
+		
 %>
 <head>
 <script>		
@@ -115,12 +104,11 @@
 </script>
 </head>
 <% 
-	if(strCodigo.substring(0,3).equals(escuela)){
-		Personal.setCodigoId(strCodigo);
-	}else if(strCodigo.equals("B01P0002")){
-		Personal.setCodigoId(strCodigo);
-	}else if(!strCodigo.substring(0,3).equals(escuela)){
-		Personal.setCodigoId(empleado);	
+	
+	// Si el padre pertenece a una escuela actual
+	if( codigoPadre.substring(0,3).equals(escuela) ){
+		Personal.setCodigoId(codigoPadre);
+		padreDeEscuela = true;
 	}else{
 		nAccion = 0;
 	}
@@ -198,7 +186,7 @@
 						
 						nAccion = 5;
 						strTipo = "Consulta";
-						strCodigo = Personal.getCodigoId();
+						codigoPadre = Personal.getCodigoId();
 						sResultado = "Grabado";
 					}else{
 						sResultado = "NoGrabo";
@@ -223,10 +211,10 @@
 			Personal.setEstado(request.getParameter("estado"));
 			Personal.setTipoId("3");
 				
-			if(strCodigo.substring(3,4).equals("P")){
+			if(codigoPadre.substring(3,4).equals("P")){
 				if (Personal.existeReg(conElias)){
 					if (Personal.updateReg(conElias)){
-						Personal.mapeaRegId(conElias, strCodigo);
+						Personal.mapeaRegId(conElias, codigoPadre);
 						sResultado = "Modificado";
 						conElias.commit();
 					}else{
@@ -275,9 +263,9 @@
 		
 		case 5: { // Consultar
 			if (Personal.existeReg(conElias) == true){
-				Personal.mapeaRegId(conElias, strCodigo);
-				session.setAttribute("codigoReciente", Personal.getCodigoId());
-				session.setAttribute("codigoEmpleado", strCodigo);
+				Personal.mapeaRegId(conElias, codigoPadre);
+				session.setAttribute("codigoReciente", codigoPadre);
+				session.setAttribute("codigoPadre", codigoPadre);
 				sResultado = "Consulta";
 				strTipo = "Consulta";
 			}else{
@@ -291,7 +279,7 @@
 			tipo 		= request.getParameter("Tipo");
 			
 			if (Personal.existeReg(conElias) == true){
-				Personal.mapeaRegId(conElias, strCodigo);
+				Personal.mapeaRegId(conElias, codigoPadre);
 				sResultado = "Consulta";
 				strTipo = "Consulta";
 			}else{
@@ -317,7 +305,7 @@
 	} // fin de switch	
 	
 	session.setAttribute("emp",Personal.getCodigoId());
-	if(Personal.existeReg(conElias) || nAccion == 1 || nAccion == 2 || nAccion == 3 || nAccion == 4 || nAccion == 5){
+	if( existePadre && padreDeEscuela && nAccion != 0){
 		pageContext.setAttribute("resultado",sResultado);
 %>
 
@@ -489,14 +477,18 @@
 </form>
 
 <%
-	}else{
+	}else if (existePadre==false){
 %>
-
   <table width="100%">
-    <tr><td align="center" width="100%"><font size="5" color="red"><fmt:message key="aca.EstePadreNoExiste" />:[<%=strCodigo %>]</font></td></tr>
+    <tr><td align="center" width="100%"><font size="3"><fmt:message key="aca.EstePadreNoExiste" />:[<%=codigoPadre %>]</font></td></tr>
   </table>
-
 <%
+	}else if (padreDeEscuela==false){
+%>
+  <table width="100%">
+    <tr><td align="center" width="100%"><font size="3">Este padre (<%=codigoPadre %>) pertenece a otra escuela</font></td></tr>
+  </table>
+<%		
 	}
 %>
 

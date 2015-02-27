@@ -54,6 +54,7 @@
 				
 				// subir el codigo reciente del alumno a session
 				session.setAttribute("codigoEmpleado",nuevoEmpleado);
+				session.setAttribute("codigoReciente",nuevoEmpleado);
 				
 			}else{
 				conElias.rollback();
@@ -65,11 +66,11 @@
 	Personal.mapeaRegId(conElias, nuevoEmpleado);
 	if (inserto){
 		out.print("<div class='alert alert-info'>¡El padre fue creado, recuerda que debes actualizar sus datos!  </div>  ");
-		out.print("<meta http-equiv='refresh' content='1;url=padre.jsp' />");
+		out.print("<meta http-equiv='refresh' content='1;url=accion_p.jsp' />");
 	}else{
 		%> 
 			<div class="alert alert-danger"><fmt:message key="aca.ErrorEnOperacion"/></div>			
-			<a href="padre.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
+			<a href="accion_p.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
 		<%
 	}
 %>

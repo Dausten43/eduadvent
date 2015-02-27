@@ -143,7 +143,7 @@
 	}
 			
 	function Select( codigoId ){
-		document.location.href = "padre.jsp?Accion=5&CodigoEmpleado="+codigoId;
+		document.location.href = "accion_p.jsp?CodigoPadre="+codigoId+"&Accion=5";
 	}		
 </script>
 
