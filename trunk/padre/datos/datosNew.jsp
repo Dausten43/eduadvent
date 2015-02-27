@@ -47,7 +47,7 @@
 	
 	<div class="well">
 		<a href="accion_p.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		&nbsp;  &nbsp;Instrucciones: <fmt:message key="empleados.IngresaDatosEmpleado" />
+		&nbsp;  &nbsp;Instrucciones: <fmt:message key="empleados.IngresaDatosPadre" />
 	</div>
 		
 	<form action="datosNew.jsp" name="frmDatos" method="post" target="_self">
@@ -94,12 +94,20 @@
 			<table  class="table table-bordered table-striped">
 				<tr>
 					<th><fmt:message key="aca.Nombre"/></th>
-					<th><fmt:message key="aca.Clave"/></th>		
+					<th><fmt:message key="aca.Genero"/></th>
+					<th><fmt:message key="aca.FechadeNacimiento"/></th>
+					<th><fmt:message key="aca.Clave"/></th>	
 				</tr>
 				<%for(EmpPersonal empleado :lisLista){ %>
 					<tr>
 						<td>
 							<a href="javascript:Select('<%=empleado.getCodigoId()%>')" title="<fmt:message key="empleados.SeleccionarEmpleado"/>"><%=empleado.getNombre()%>&nbsp;<%=empleado.getApaterno()%>&nbsp;<%=empleado.getAmaterno()%></a>
+						</td>
+						<td>
+							<%=empleado.getGenero()%>
+						</td>
+						<td>
+							<%=empleado.getFNacimiento() %>
 						</td>
 						<td>
 							<%=empleado.getCodigoId()%>
