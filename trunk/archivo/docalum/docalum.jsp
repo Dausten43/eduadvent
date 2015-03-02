@@ -25,9 +25,9 @@
 %>
 
 <div id="content">
-
+ 
 <% 	// Si no existe el alumno
-	if (nombreAlumno.equals("x")){
+	if (nombreAlumno.equals("-")){
 %>	
 	<div class="alert">
 		<fmt:message key="aca.NoAlumnoSeleccionado" />
