@@ -131,7 +131,7 @@
 			
 			<div class="row"  style="margin-left:40px;">
 			
-			<div class="span8">
+			<div class="span9">
 				<div class="alert">
 					<h4>
 						<fmt:message key="aca.Actividades" />
@@ -159,9 +159,9 @@
 								<th><fmt:message key="aca.Actividad" /></th>
 								<th><fmt:message key="aca.FechaEntrega" /></th>
 								<th><fmt:message key="aca.Valor" /> </th> 
-								<th><fmt:message key="aca.Etiqueta" /> </th> 
-								<th><fmt:message key="aca.ArchivosEnviados" /></th>
-							
+								<th><fmt:message key="aca.Etiqueta" /> </th>
+								<th><fmt:message key="aca.Mostrar" /> </th>
+								<th><fmt:message key="aca.ArchivosEnviados" /></th>							
 							</tr>
 <%
 						}
@@ -192,6 +192,7 @@
 								<td><%=fecha.substring(0, 10)%> <%=fecha.substring(10)%></td>
 								<td><%=act.getValor()%>%</td>
 								<td><%= aca.catalogo.CatActividadEtiqueta.getNombreEtiqueta(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")), act.getEtiquetaId()) %></td>
+								<td><%= act.getMostrar().equals("S")?"SI":"NO" %></td>
 <%
 								ArrayList<aca.kardex.KrdxAlumArchivo> archivosEnviandos = ArchivosEnviadosLista.getListArchivosEnviados(conElias, cicloGrupoId, cursoId, act.getEvaluacionId(), act.getActividadId(), " ORDER BY FECHA");
 								int archivosEnviados = archivosEnviandos.size();
