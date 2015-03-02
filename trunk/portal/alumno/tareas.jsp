@@ -15,7 +15,6 @@
 <%@page import="java.util.Date"%>
 <jsp:useBean id="archivoLista" scope="page" class="aca.kardex.KrdxAlumArchivoLista"/>
 
-
 <%
 	String codigoId = (String) session.getAttribute("codigoAlumno");
 
@@ -79,6 +78,7 @@
 <%
 					}
 				}
+				
 				if (tareas.size()>0){//TAREAS DEl METODO DE EVALUACION
 					nTareas++;
 	 				for(int j=0; j<tareas.size();j++){
@@ -148,14 +148,12 @@
 										<img src="../../imagenes/Archivo-candado.png" width="25">
 										<span class="badge badge-info"><%=lista.size()%></span>
 									  </td>
-					<% 			}
-								else{%>
+					<% 			}else{%>
 									<td>
 										<img src="../../imagenes/Archivo-candado.png" width="25"> 
 								  	</td>
 							<% 	}
-			  				}
-			  				else{			  				
+			  				}else{			  				
 								if(archivo.existeArchivo(conElias)){
 									archivo.mapeaRegId(conElias, codigoId);
 									ArrayList<aca.kardex.KrdxAlumArchivo> lista = archivoLista.getListEvaluacionAlumno(conElias, codigoId, cicloGrupoId, cursoId, evaluacionId, actividadId, "ORDER BY FECHA");
@@ -168,8 +166,7 @@
 											
 											<span class="badge badge-info"><%=lista.size()%></span>
 									  </td>
-					<% 			}
-								else{%>
+					<% 			}else{%>
 									<td>
 										<a class="btn btn-primary"
 										   href="subir.jsp?cicloGrupoId=<%=cicloGrupoId%>&cursoId=<%=cursoId%>&evaluacionId=<%=evaluacionId%>&actividadId=<%=actividadId%>&fechaTarea=<%=tiempoTarea%>&Regresar=1">
@@ -190,16 +187,16 @@
 								<td>&nbsp;</td>
 						<%	
 							}
-					}
-	 				}
-				}
+						} // Si se debe mostrar la actividad
+	 				} // for de lsta de tareas
+				} // Si tiene tareas
 				
-			}
+			} // Dias de la semana 1..7
 			
 			if(nTareas==0)out.print("<tr><td colspan='10'>No hay tareas registradas para la semana</td></tr>");
 			%>
 			
-	   </table>    
+	   </table>
 	      
 </div>
 
