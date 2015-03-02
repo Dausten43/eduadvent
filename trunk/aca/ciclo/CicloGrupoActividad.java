@@ -532,7 +532,7 @@ public class CicloGrupoActividad {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT SUM(VALOR) AS SUMA FROM 	CICLO_GRUPO_ACTIVIDAD" +
+			ps = conn.prepareStatement("SELECT SUM(VALOR) AS SUMA FROM CICLO_GRUPO_ACTIVIDAD" +
 					" WHERE CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
 					" AND EVALUACION_ID = TO_NUMBER(?, '99')" +
