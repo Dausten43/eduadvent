@@ -268,8 +268,7 @@
 				<option value="N" <%if ( cicloGrupoActividad.getMostrar().equals("N") ) out.println("selected"); %> >No</option>
 			
 			 </select>		
-		</fieldset>
-		
+		</fieldset>		
 		
 		<%if(etiquetas.size()>0){ %>
 			<fieldset>
