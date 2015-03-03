@@ -4,7 +4,6 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-
 <jsp:useBean id="Personal" scope="page" class="aca.empleado.EmpPersonal"/>
 <jsp:useBean id="alumPadresLista" scope="page" class="aca.alumno.AlumPadresLista"/>
 <jsp:useBean id="alumPadres" scope="page" class="aca.alumno.AlumPadres"/>
@@ -12,16 +11,14 @@
 <jsp:useBean id="FinMov" scope="page" class="aca.fin.FinMovimientos"/>
 <jsp:useBean id="FinMovL" scope="page" class="aca.fin.FinMovimientosLista"/>
 
-
 <head>
-<%
+<%	
 	String escuelaId	= (String) session.getAttribute("escuela");
 	String codigoId 	= (String) session.getAttribute("codigoId");
 	
 	ArrayList<aca.alumno.AlumPadres> lisAlumPadres = alumPadresLista.getListTutor(conElias, codigoId, "ORDER BY 1");
 	
-	Personal.mapeaRegId(conElias, codigoId);
-	
+	Personal.mapeaRegId(conElias, codigoId);	
 %>
 </head>
 <body>
