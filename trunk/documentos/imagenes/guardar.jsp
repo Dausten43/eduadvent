@@ -24,7 +24,7 @@
 		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, carpeta, 15*1024*1024);
 	    String nombre			= multi.getFilesystemName("archivo");
 	    String ruta				= carpeta+nombre;
-	    System.out.println("Datos:"+nombre+":"+ruta);
+	    //System.out.println("Datos:"+nombre+":"+ruta);
 	    // Leer el archivo en objeto File y FileInputStream
 	    File archivo = new File(ruta);
 	    
@@ -35,7 +35,7 @@
 		
 		// llenar el arreglo de bytes con los bytes del archivo
 		fis.read(buf,0,(int)archivo.length());
-		System.out.println("Buffer:"+buf.length);
+		//System.out.println("Buffer:"+buf.length);
 		// Escribir el archivo en el directorio del servidor de aplicaciones con el objeto FileOutputStream 
 		FileOutputStream fos = new FileOutputStream(ruta);
 		fos.write(buf,0,(int)archivo.length());
