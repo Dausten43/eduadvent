@@ -9,29 +9,17 @@
 <%@page import="java.io.FileOutputStream"%>
 <%	
 
-	String escuelaId		= (String) session.getAttribute("escuela");
-	System.out.println(escuelaId);
-	java.io.File file = new File("/Users/davidblanco/eclipse/workspace/escuela/WEB-INF/"+escuelaId);
-	if(!file.exists())
-	    file.mkdirs();
+	String escuelaId	= (String) session.getAttribute("escuela");	
+	String ruta 		= application.getRealPath("/WEB-INF/");
 	
-	String codigoAlumno		= (String) session.getAttribute("codigoAlumno");
-	System.out.println(request.getParameter("nombreArchivo"));
-	String nombreArchivo	= request.getParameter("nombreArchivo")==null?"":request.getParameter("nombreArchivo");
-	System.out.println(nombreArchivo);
-	String ruta 			= application.getRealPath("/documentos/imagenes/")+"/";
-	String nombre 			= "";
-
-	
-	
-	String dir				= application.getRealPath("/WEB-INF/"+escuelaId+"/"+nombreArchivo+".jpg");
-	int widthImage     		= 0;
-	int heightImage			= 0;
+	// Crea la carpeta de la escuela si no existe
+	java.io.File file = new File(ruta+escuelaId);
+	if(!file.exists()) file.mkdirs();
 	
 	boolean guardo = false;	
 	try{		
 		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, 5*1024*1024);
-	    nombre			= multi.getFilesystemName("archivo");
+	    String nombre			= multi.getFilesystemName("archivo");
 	    
 	    // Leer el archivo en objeto File y FileInputStream
 	    File fi = new File(ruta+nombre);
@@ -78,7 +66,6 @@
 		</div>
 <%		
 	}
-	
 	
 	if (guardo){ 
 		System.gc();
