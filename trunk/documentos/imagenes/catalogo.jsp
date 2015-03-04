@@ -5,7 +5,8 @@
 <%@ include file= "../../menu.jsp" %>
 <head>
 <%
-	String escuela = (String)session.getAttribute("escuela");
+	String escuela 		= (String)session.getAttribute("escuela");
+	String dir 			= application.getRealPath("/WEB-INF/"+escuela);
 
 %>
 </head>
@@ -23,6 +24,21 @@
 			<th>Imagen</th>
 			<th>Ruta</th>		
 		</tr>
+<%	
+	java.io.File file = new java.io.File(dir);
+	if (file.exists()){
+		java.io.File[] lisArchivos = file.listFiles();
+		for (int x=0;x<lisArchivos.length;x++){
+			// lisArchivos[x].getName();
+			out.print("<tr><td colspan='3'>"+lisArchivos[x].getName()+"</td></tr>");
+		}		
+%>
+	
+<%		
+	}else{
+		out.print("<tr><td colspan='3'>¡ No tiene imagenes !</td></tr>");
+	}
+%>		
 	</table>
 </div>
 </body>

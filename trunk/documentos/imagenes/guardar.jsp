@@ -10,20 +10,20 @@
 <%	
 
 	String escuelaId	= (String) session.getAttribute("escuela");	
-	String carpeta			= application.getRealPath("/WEB-INF/");
+	String carpeta		= application.getRealPath("/WEB-INF/");
 	
 	// Crea la carpeta de la escuela si no existe
-	java.io.File file = new File(carpeta+escuelaId);
+	java.io.File file = new File(carpeta+"/"+escuelaId);
 	if(!file.exists()) file.mkdirs();
 	
 	boolean guardo = false;	
 	try{		
-		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, carpeta+escuelaId, 5*1024*1024);
+		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, carpeta+"/"+escuelaId, 5*1024*1024);
 	    String nombre			= multi.getFilesystemName("archivo");
-	    String ruta				= carpeta+escuelaId+"/"+nombre;
+	    String ruta				= carpeta+"/"+escuelaId+"/"+nombre;
 	    
 	    // Leer el archivo en objeto File y FileInputStream
-	    File archivo = new File(carpeta+nombre);	      
+	    File archivo = new File(ruta);	      
 	    
 	    FileInputStream fis = new FileInputStream(archivo);
 	    

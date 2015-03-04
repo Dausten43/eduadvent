@@ -9,15 +9,13 @@
 %>
 
 <script>
-		function guardar(){
-			if(document.formaEnviar.archivo.value != ""
-			&& document.formaEnviar.nombreArchivo.value!= ""){
-				document.formaEnviar.btnGuardar.disabled = true;
-				document.formaEnviar.btnGuardar.value = "Guardando...";
-				document.formaEnviar.submit();
-			}else
-				alert("<fmt:message key="aca.SeleccionaArchivoNombre"/>");
+	function guardar(){
+		if(document.formaEnviar.archivo.value != ""){
+			document.formaEnviar.btnGuardar.disabled = true;
+			document.formaEnviar.btnGuardar.value = "Guardando...";
+			document.formaEnviar.submit();
 		}
+	}
 </script>
 
 <link rel="stylesheet" href="../../js-plugins/bootstrap-fileupload/bootstrap-fileupload.min.css" />
@@ -47,8 +45,7 @@
 			  		<input type="file" id="archivo" name="archivo" />
 			  	</span>
 				<a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><fmt:message key="boton.Quitar" /></a>
-			</div>	
-			<input type="text" name="nombreArchivo" id="nombreArchivo" placeholder="Nombre del Archivo">
+			</div>			
 		</div>		
 		<div class="well">
 			<button type="button" id="btnGuardar" class="btn btn-primary btn-large" onclick="guardar();"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></button>
