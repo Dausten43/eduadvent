@@ -28,7 +28,7 @@
 	<h2><fmt:message key="aca.SubirFotoAlumno"/></h2>
 		
 	<div class="well">
-		<a href="alumno.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>		
+		<a href="catalogo.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>		
 	</div>
 	
 	<div class="alert alert-info">
