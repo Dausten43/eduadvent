@@ -29,12 +29,14 @@
 	if (file.exists()){
 		java.io.File[] lisArchivos = file.listFiles();
 		for (int x=0;x<lisArchivos.length;x++){
-			// lisArchivos[x].getName();
-			out.print("<tr><td colspan='3'>"+lisArchivos[x].getName()+"</td></tr>");
-		}		
 %>
-	
-<%		
+		<tr>
+			<td width="4%"><%=x+1%></td>			
+			<td><img src="imagen.jsp?NombreArchivo=<%=lisArchivos[x].getName()%>&id=<%=new java.util.Date().getTime()%>"></td>
+			<td><%=dir+"/"+lisArchivos[x].getName()%></td>
+		</tr>
+<%
+		}	
 	}else{
 		out.print("<tr><td colspan='3'>¡ No tiene imagenes !</td></tr>");
 	}
