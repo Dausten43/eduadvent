@@ -9,24 +9,27 @@
 <%@page import="java.io.FileOutputStream"%>
 <%	
 
-	String escuelaId	= (String) session.getAttribute("escuela");	
-	String carpeta		= application.getRealPath("/WEB-INF/");
+	String escuelaId	= (String) session.getAttribute("escuela");
+
+	// Carpeta donde quedará almacenada la imagen 
+	String carpeta		= application.getRealPath("/WEB-INF"+"/"+escuelaId+"/");
 	
 	// Crea la carpeta de la escuela si no existe
-	java.io.File file = new File(carpeta+"/"+escuelaId);
-	if(file.exists()) 
-		carpeta = carpeta+"/"+escuelaId+"/";
-	else
-		file.mkdirs();		 
+	java.io.File file = new File(carpeta);
+	if(!file.exists()){	
+		file.mkdirs();		
+	}
+	
+	// Carpeta de almacenamiento temporal de la imagen 
+	String ruta			= application.getRealPath("/documentos/imagenes/")+"/";	
 	
 	boolean guardo = false;	
 	try{		
-		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, carpeta, 15*1024*1024);
-	    String nombre			= multi.getFilesystemName("archivo");
-	    String ruta				= carpeta+nombre;
-	    //System.out.println("Datos:"+nombre+":"+ruta);
+		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, 5*1024*1024);
+	    String nombre			= multi.getFilesystemName("archivo");	    
+	    
 	    // Leer el archivo en objeto File y FileInputStream
-	    File archivo = new File(ruta);
+	    File archivo = new File(ruta+nombre);
 	    
 	    FileInputStream fis = new FileInputStream(archivo);
 	    
@@ -35,15 +38,16 @@
 		
 		// llenar el arreglo de bytes con los bytes del archivo
 		fis.read(buf,0,(int)archivo.length());
-		//System.out.println("Buffer:"+buf.length);
-		// Escribir el archivo en el directorio del servidor de aplicaciones con el objeto FileOutputStream 
-		FileOutputStream fos = new FileOutputStream(ruta);
+		
+		// Escribir el archivo en el directorio del servidor de aplicaciones con el objeto FileOutputStream		
+		FileOutputStream fos = new FileOutputStream(carpeta+"/"+nombre);
 		fos.write(buf,0,(int)archivo.length());
-		fos.flush();	
+		fos.flush();
 		
 		// Cerrar los objetos
 		if (fos!=null) fos.close();
 		if (fis!=null) fis.close();		
+		archivo.delete();
 		
 		guardo = true;
 	    
@@ -52,7 +56,7 @@
 %>
 		<div id="content">
 			<div class="alert alert-danger">
-				<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.ErrorGrandeImagen"/>
+				<strong><fmt:message key="aca.Error"/></strong>¡ Error !
 				<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
 			</div>
 		</div>
