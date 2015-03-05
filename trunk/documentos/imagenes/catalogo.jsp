@@ -20,7 +20,8 @@
 	
 	<table class="table table-condensed table-bordered table-striped table-fontsmall">
 		<tr>
-			<th width="4%"><fmt:message key="aca.AbreviaNum" /></th>			
+			<th width="4%"><fmt:message key="aca.AbreviaNum" /></th>
+			<th width="4%">Op.</th>			
 			<th>Imagen</th>
 			<th>Ruta</th>		
 		</tr>
@@ -32,6 +33,7 @@
 %>
 		<tr>
 			<td width="4%"><%=x+1%></td>			
+			<td width="4%"><a href="javascript: borrar('<%=lisArchivos[x].getName()%>');"><i class="icon icon-remove"></i></a></td>
 			<td><img src="imagen.jsp?NombreArchivo=<%=lisArchivos[x].getName()%>&id=<%=new java.util.Date().getTime()%>" width="300px;"></td>
 			<td><%=dir+"/"+lisArchivos[x].getName()%></td>
 		</tr>
@@ -43,5 +45,12 @@
 %>		
 	</table>
 </div>
+<script>
+	function borrar(nombre){
+		if( confirm("<fmt:message key="js.Confirma" />") ){
+			location.href="borrar.jsp?nombreArchivo="+nombre;
+		}
+	}
+</script>
 </body>
 <%@ include file= "../../cierra_elias.jsp" %> 
