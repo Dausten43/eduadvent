@@ -14,7 +14,7 @@
   <li class="documentos"><a href="docalum.jsp">Documentos</a></li>
   <li class="materias"><a href="materias.jsp">Materias</a></li>
   <li class="notas"><a href="notas.jsp">Notas</a></li>
-  <li class="disciplina"><a href="disciplina.jsp">Disciplina</a></li>
+  <li class="disciplina"><a href="disciplina.jsp"><fmt:message key="aca.Mentoria"/></a></li>
   <li class="finanzas"><a href="finanzas.jsp">Finanzas</a></li>
   <li class="tareas"><a href="tareas.jsp">Tareas</a></li>
 </ul>
