@@ -509,7 +509,9 @@ public class Ciclo {
 	public static String getCargaActual(Connection conn, String escuelaId) throws SQLException {
         
 		PreparedStatement ps 	= null;
+		PreparedStatement ps2 	= null;
 		ResultSet rs 			= null;
+		ResultSet rs2 			= null;
 		String cicloId			= "XXXXXXX";
 
 	    try{
@@ -521,11 +523,11 @@ public class Ciclo {
 	        if(rs.next()){
 				cicloId = rs.getString("CICLO");
 	        }else{
-	        	ps = conn.prepareStatement("SELECT MAX(CICLO_ID) AS CICLO FROM CICLO" +
+	        	ps2 = conn.prepareStatement("SELECT MAX(CICLO_ID) AS CICLO FROM CICLO" +
 						" WHERE SUBSTR(CICLO_ID,1,3) = '"+escuelaId+"'");				
-		        rs = ps.executeQuery();
-		        if(rs.next()){
-					cicloId = rs.getString("CICLO");
+		        rs2 = ps2.executeQuery();
+		        if(rs2.next()){
+					cicloId = rs2.getString("CICLO");
 		        }	        	
 	        }			
 				
@@ -534,6 +536,8 @@ public class Ciclo {
 	    }finally{
 			if (rs != null) rs.close();
 			if (ps != null) ps.close();
+			if (rs2 != null) rs2.close();
+			if (ps2 != null) ps2.close();
 		}        
 
 	    return cicloId;
