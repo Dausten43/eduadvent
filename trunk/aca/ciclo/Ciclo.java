@@ -687,7 +687,7 @@ public class Ciclo {
 		String cicloEscolar		= "0000";
 		
 		try{
-			ps = conn.prepareStatement("SELECT CICLO_ESCOLAR FROM CICLO WHERE CICLO_ID IN (SELECT CICLO_ID FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = ?");
+			ps = conn.prepareStatement("SELECT CICLO_ESCOLAR FROM CICLO WHERE CICLO_ID IN (SELECT CICLO_ID FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = ?)");
 			ps.setString(1, cicloGrupoId);
 			rs = ps.executeQuery();
 			if (rs.next()){
