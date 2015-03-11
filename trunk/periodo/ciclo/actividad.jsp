@@ -59,7 +59,7 @@
 			<tr>
   				<td>  
 					<a class="icon-pencil" href="accionActividad.jsp?Accion=5&BloqueId=<%=bloqueId%>&ActividadId=<%=act.getActividadId() %>"></a>
-					<%if (numMaterias == 0){ // Verifica que no existan materias para poder borrar el ciclo. %> 	
+					<%if (numMaterias == 0){ // Verifica que no existan materias para poder borrar el ciclo. %>
 						<a class="icon-remove" href="javascript:Borrar('<%=act.getBloqueId()%>','<%=act.getActividadId() %>')"></a>
 					<%}%>	
   				</td>    
