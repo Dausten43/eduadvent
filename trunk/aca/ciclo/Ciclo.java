@@ -668,6 +668,29 @@ public class Ciclo {
 		return cicloEscolar;
 	}
 	
+	public static String getCicloEscolarMateria( Connection conn, String cicloGrupoId) throws SQLException, Exception {
+
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String cicloEscolar		= "0000";
+		
+		try{
+			ps = conn.prepareStatement("SELECT CICLO_ESCOLAR FROM CICLO WHERE CICLO_ID IN (SELECT CICLO_ID FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"')");
+			ps.setString(1, cicloGrupoId);
+			rs = ps.executeQuery();
+			if (rs.next()){
+				cicloEscolar = rs.getString("CICLO_ESCOLAR");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.Ciclo|getCicloEscolarMateria|:"+ex);
+		}finally{
+		
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return cicloEscolar;
+	}
+	
 	public static String getEditarActividad( Connection conn, String cicloId) throws SQLException, Exception {
 		
 		PreparedStatement ps	= null;
