@@ -242,7 +242,6 @@ public class CicloGrupoActividadLista {
 		
 		return map;
 	}
-
 	
 	public ArrayList<String> getEtiquetas(Connection conn, String cicloGrupoId, String evaluacionId ) throws SQLException{
 		
@@ -251,17 +250,15 @@ public class CicloGrupoActividadLista {
 		ResultSet rs 			= null;
 		String comando			= "";
 		
-		try{
-		
+		try{		
 		/* *** MATERIA CON EL MAYOR NUMBERO DE ETIQUETAS *** */
 			comando = " SELECT CURSO_ID, COUNT( DISTINCT(CURSO_ID||'@@'||ETIQUETA_ID) ) AS CANTIDAD FROM CICLO_GRUPO_ACTIVIDAD"
 					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "
 					+ " AND EVALUACION_ID =  "+evaluacionId+" "
 					+ " AND ETIQUETA_ID != 0 "
 					+ " AND ETIQUETA_ID IS NOT NULL "
-					+ " GROUP BY CURSO_ID";
-			
-			rs = st.executeQuery(comando);			
+					+ " GROUP BY CURSO_ID";			
+			rs = st.executeQuery(comando);
 			
 			String materiaConMasEtiquetas = "";
 			
@@ -275,9 +272,9 @@ public class CicloGrupoActividadLista {
 					materiaConMasEtiquetas = materia;
 				}
 			}
-		/* *** END MATERIA CON EL MAYOR NUMBERO DE ETIQUETAS *** */
-			
-			
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		/* *** END MATERIA CON EL MAYOR NUMBERO DE ETIQUETAS *** */			
 		
 		/* *** ETIQUETAS DE LA MATERIA CON EL MAYOR NUMERO *** */	
 			comando = " SELECT DISTINCT(ETIQUETA_ID) AS ETIQUETA_ID FROM CICLO_GRUPO_ACTIVIDAD"
@@ -287,7 +284,7 @@ public class CicloGrupoActividadLista {
 					+ " AND ETIQUETA_ID IS NOT NULL "
 					+ " AND CURSO_ID = '"+materiaConMasEtiquetas+"' ";
 			
-			rs = st.executeQuery(comando);		
+			rs = st.executeQuery(comando);
 			
 			while (rs.next()){
 				list.add(rs.getString("ETIQUETA_ID"));
