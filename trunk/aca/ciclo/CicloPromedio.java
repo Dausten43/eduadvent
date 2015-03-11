@@ -2,70 +2,137 @@ package aca.ciclo;
 
 public class CicloPromedio {
 
-	private String CicloGrupoId;
-	private String PromedioId;
-	private String Ciclo_Id;
+	private String cicloId;
+	private String promedioId;	
 	private String nombre;
 	private String corto;
 	private String calculo;
-
-	public CicloPromedio(){
-		
-		  CicloGrupoId	= "";
-		  PromedioId 	= "";
-		  Ciclo_Id 		= "";
+	private String orden;
+	private String decimales;
+	private String valor;
+	
+	public CicloPromedio(){		
+		  cicloId		= "";
+		  promedioId 	= "";		  
 		  nombre 		= "";
 		  corto 		= "";
 		  calculo 		= "";
+		  orden 		= "";
+		  decimales		= "";
+		  valor 		= "";
 	}
 
-	public String getCicloGrupoId() {
-		return CicloGrupoId;
+	/**
+	 * @return the cicloId
+	 */
+	public String getCicloId() {
+		return cicloId;
 	}
 
-	public void setCicloGrupoId(String cicloGrupoId) {
-		CicloGrupoId = cicloGrupoId;
+	/**
+	 * @param cicloId the cicloId to set
+	 */
+	public void setCicloId(String cicloId) {
+		this.cicloId = cicloId;
 	}
 
+	/**
+	 * @return the promedioId
+	 */
 	public String getPromedioId() {
-		return PromedioId;
+		return promedioId;
 	}
 
+	/**
+	 * @param promedioId the promedioId to set
+	 */
 	public void setPromedioId(String promedioId) {
-		PromedioId = promedioId;
+		this.promedioId = promedioId;
 	}
 
-	public String getCiclo_Id() {
-		return Ciclo_Id;
-	}
-
-	public void setCiclo_Id(String ciclo_Id) {
-		Ciclo_Id = ciclo_Id;
-	}
-
+	/**
+	 * @return the nombre
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * @param nombre the nombre to set
+	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	/**
+	 * @return the corto
+	 */
 	public String getCorto() {
 		return corto;
 	}
 
+	/**
+	 * @param corto the corto to set
+	 */
 	public void setCorto(String corto) {
 		this.corto = corto;
 	}
 
+	/**
+	 * @return the calculo
+	 */
 	public String getCalculo() {
 		return calculo;
 	}
 
+	/**
+	 * @param calculo the calculo to set
+	 */
 	public void setCalculo(String calculo) {
 		this.calculo = calculo;
 	}
 
+	/**
+	 * @return the orden
+	 */
+	public String getOrden() {
+		return orden;
+	}
+
+	/**
+	 * @param orden the orden to set
+	 */
+	public void setOrden(String orden) {
+		this.orden = orden;
+	}
+
+	/**
+	 * @return the decimales
+	 */
+	public String getDecimales() {
+		return decimales;
+	}
+
+	/**
+	 * @param decimales the decimales to set
+	 */
+	public void setDecimales(String decimales) {
+		this.decimales = decimales;
+	}
+
+	/**
+	 * @return the valor
+	 */
+	public String getValor() {
+		return valor;
+	}
+
+	/**
+	 * @param valor the valor to set
+	 */
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+	
 }
 
