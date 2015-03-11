@@ -213,6 +213,11 @@ public class CicloGrupoCurso {
 			if (rs.next()){
 				numAct = rs.getInt("NUM_ACT");
 			}
+			
+			// Cierra objetos
+			if (ps2!=null) ps2.close();
+			if (rs!=null) rs.close();
+			
 			if (numAct > 0){				
 				ps2 = conn.prepareStatement("DELETE FROM CICLO_GRUPO_ACTIVIDAD" +
 						" WHERE CICLO_GRUPO_ID = ?" +
@@ -226,6 +231,9 @@ public class CicloGrupoCurso {
 				delAct = true;
 			}
 			
+			// Cierra objetos
+			if (ps2!=null) ps2.close();
+			
 			/* ========== EVALUACIONES ========== */
 			
 			ps2 = conn.prepareStatement("SELECT COALESCE(COUNT(*),0) AS NUM_EVAL FROM CICLO_GRUPO_EVAL" +
@@ -237,6 +245,11 @@ public class CicloGrupoCurso {
 			if (rs.next()){
 				numEval = rs.getInt("NUM_EVAL");
 			}
+			
+			// Cierra los objetos
+			if (ps2!=null) ps2.close();
+			if (rs!=null) rs.close();
+			
 			if (numEval > 0){				
 				ps2 = conn.prepareStatement("DELETE FROM CICLO_GRUPO_EVAL" +
 						" WHERE CICLO_GRUPO_ID = ?" +
@@ -269,6 +282,7 @@ public class CicloGrupoCurso {
 		}finally{
 			if (ps!=null) ps.close();
 			if (ps2!=null) ps2.close();
+			if (rs!=null) rs.close();
 			conn.setAutoCommit(true);
 		}
 		
