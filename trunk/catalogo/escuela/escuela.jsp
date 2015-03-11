@@ -67,7 +67,7 @@
     			<td><%= aca.catalogo.CatAsociacion.getNombre(conElias,  escuela.getAsociacionId()) %></td>
     			<td><%=escuela.getDireccion()%></td>
     			<td><%=escuela.getTelefono()%></td>
-    			<td><a href="parametros.jsp?escuela=<%=escuela.getEscuelaId() %>"><fmt:message key="aca.Config" /></a></td>
+    			<td><a href="parametros.jsp?escuela=<%=escuela.getEscuelaId() %>&unionId=<%=unionId%>"><fmt:message key="aca.Config" /></a></td>
   			</tr>
   		<%}%>
 	</table>

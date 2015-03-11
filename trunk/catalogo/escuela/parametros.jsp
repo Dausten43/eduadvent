@@ -11,6 +11,7 @@
 <%
 	String escuelaSesion	= (String) session.getAttribute("escuela");
 	String escuela 			= request.getParameter("escuela");
+	String unionId 			= request.getParameter("unionId");
 	String accion 			= request.getParameter("Accion")==null ?"0": request.getParameter("Accion");
 	String resultado 		= "";
 
@@ -23,6 +24,7 @@
 		CatParametro.setBaseDatos(request.getParameter("BaseDatos"));
 		CatParametro.setPuerto(request.getParameter("Puerto"));
 		CatParametro.setCaja(request.getParameter("Caja"));
+		CatParametro.setTipoBoleta(request.getParameter("tipoBoleta"));
 		
 		if(!CatParametro.existeReg(conElias)){
 			if(CatParametro.insertReg(conElias)){
@@ -55,10 +57,11 @@
    		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
   	<% }%>
 	<div class="well" style="overflow:hidden;">
-		<a href="escuela.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i>&nbsp; <fmt:message key="boton.Regresar" /></a>
+		<a href="escuela.jsp?unionId=<%=unionId %>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i>&nbsp; <fmt:message key="boton.Regresar" /></a>
 	</div>
 	<form name="frmParametro" action="parametros.jsp">
 		<input name="escuela" type="hidden" value="<%=escuela%>" />
+		<input name="unionId" type="hidden" value="<%=unionId%>" />
 		<input name="Accion" type="hidden" />
 		<fieldset>
 		<div class="control-group ">
@@ -117,6 +120,16 @@
 	        	<fmt:message key="aca.caja" />:
 	        </label>
 	       <input type="text" id="Caja" name="Caja" value="<%=CatParametro.getCaja()%>" maxlength="10" />    	
+	    </div>
+	    
+	    <div class="control-group ">
+	    	<label for="Boleta">
+	        	<fmt:message key="aca.Boleta" />:
+	        </label>
+	        <select id="boleta" name="tipoBoleta">
+				<option value="1"<%=CatParametro.getTipoBoleta().equals("1")?" Selected":""%>><fmt:message key="aca.BoletaMex" /></option>
+				<option value="2"<%=CatParametro.getTipoBoleta().equals("2")?" Selected":""%>><fmt:message key="aca.BoletaDom" /></option>					  
+		   </select>
 	    </div>
 	    
 	</fieldset>	

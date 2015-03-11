@@ -15,7 +15,7 @@ public class CatParametroLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA FROM CAT_PARAMETRO "+orden;
+			comando = "SELECT ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, BOLETA FROM CAT_PARAMETRO "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){

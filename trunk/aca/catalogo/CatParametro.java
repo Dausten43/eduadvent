@@ -15,6 +15,7 @@ public class CatParametro {
 	private String baseDatos;
 	private String puerto;
 	private String caja;	
+	private String tipoBoleta;
 	
 	public CatParametro(){
 		escuelaId		= "";
@@ -25,9 +26,20 @@ public class CatParametro {
 		baseDatos		= "";
 		puerto			= "";
 		caja			= "";
+		tipoBoleta		= "";
 	}
 
 	
+	public String getTipoBoleta() {
+		return tipoBoleta;
+	}
+
+
+	public void setTipoBoleta(String tipoBoleta) {
+		this.tipoBoleta = tipoBoleta;
+	}
+
+
 	public String getEscuelaId() {
 		return escuelaId;
 	}
@@ -118,14 +130,14 @@ public class CatParametro {
 	public void setCaja(String caja) {
 		this.caja = caja;
 	}
-
+	
 	public boolean insertReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_PARAMETRO" +
-					" (ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA)" + 
-					" VALUES(?, ?, ?, ?, ?, ?, ?, ?)");			
+					" (ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, TIPO_BOLETA)" + 
+					" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");			
 			ps.setString(1, escuelaId);
 			ps.setString(2, firmaBoleta);
 			ps.setString(3, firmaPadre);
@@ -133,7 +145,8 @@ public class CatParametro {
 			ps.setString(5, ipServer);
 			ps.setString(6, baseDatos);
 			ps.setString(7, puerto);
-			ps.setString(8, caja);			
+			ps.setString(8, caja);
+			ps.setString(9, tipoBoleta);
 			if ( ps.executeUpdate()== 1){
 				ok = true;				
 			}else{
@@ -159,7 +172,8 @@ public class CatParametro {
 					" IP_SERVER = ?," +
 					" BASEDATOS = ?," +
 					" PUERTO	= ?," +
-					" CAJA 		= ?" +
+					" CAJA 		= ?," +
+					" TIPO_BOLETA	= ?" +
 					" WHERE ESCUELA_ID = ?");
 			ps.setString(1, firmaBoleta);
 			ps.setString(2, firmaPadre);
@@ -168,7 +182,8 @@ public class CatParametro {
 			ps.setString(5, baseDatos);
 			ps.setString(6, puerto);
 			ps.setString(7, caja);
-			ps.setString(8, escuelaId);
+			ps.setString(8, tipoBoleta);
+			ps.setString(9, escuelaId);
 						
 			if ( ps.executeUpdate()== 1){
 				ok = true;				
@@ -215,6 +230,7 @@ public class CatParametro {
 		baseDatos		= rs.getString("BASEDATOS");
 		puerto			= rs.getString("PUERTO");
 		caja			= rs.getString("CAJA");
+		tipoBoleta		= rs.getString("TIPO_BOLETA");
 		
 	}
 	
@@ -222,7 +238,7 @@ public class CatParametro {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			ps = con.prepareStatement("SELECT ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA" +
+			ps = con.prepareStatement("SELECT ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, TIPO_BOLETA" +
 					" FROM CAT_PARAMETRO" +
 					" WHERE ESCUELA_ID = ? ");
 			
