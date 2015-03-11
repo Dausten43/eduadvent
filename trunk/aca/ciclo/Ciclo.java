@@ -440,7 +440,9 @@ public class Ciclo {
 	public static String getMejorCarga(Connection conn, String codigoId) throws SQLException {
         
 		PreparedStatement ps 	= null;
+		PreparedStatement ps2 	= null;
 		ResultSet rs 			= null;
+		ResultSet rs2 			= null;
 		String cicloId			= "XXXXXXX";
 
 	    try{
@@ -451,18 +453,20 @@ public class Ciclo {
 	        	cicloId = rs.getString("CICLO_ID");
 	        	
 	        }else{
-	        	ps = conn.prepareStatement("SELECT CICLO_ID FROM CICLO WHERE NOW() BETWEEN F_INICIAL AND F_FINAL");
-		        rs = ps.executeQuery();
-		        if (rs.next()) {
-					cicloId = rs.getString("CICLO_ID");					
-		        }
-	        }				
+	        	ps2 = conn.prepareStatement("SELECT CICLO_ID FROM CICLO WHERE NOW() BETWEEN F_INICIAL AND F_FINAL");
+		        rs2 = ps2.executeQuery();
+		        if (rs2.next()) {
+					cicloId = rs2.getString("CICLO_ID");
+		        }		        
+	        }      
 				
 		} catch (Exception ex) {
 			System.out.println("Error - aca.ciclo.ciclo|getMejorCarga|:" +ex);
 	    }finally{
 			if (rs != null) rs.close();
 			if (ps != null) ps.close();
+			if (rs2 != null) rs2.close();
+			if (ps2 != null) ps2.close();
 		}        
 
 	    return cicloId;
@@ -471,7 +475,9 @@ public class Ciclo {
 	public static String getMejorCargaEscuela(Connection conn, String escuelaId) throws SQLException {
         
 		PreparedStatement ps 	= null;
+		PreparedStatement ps2 	= null;
 		ResultSet rs 			= null;
+		ResultSet rs2 			= null;
 		String cicloId			= "XXXXXXX";
 
 	    try{
@@ -481,10 +487,10 @@ public class Ciclo {
 	        if (rs.next() && !rs.getString("CICLO_ID").equals("0")) {
 	        	cicloId = rs.getString("CICLO_ID");      	
 	        }else{
-	        	ps = conn.prepareStatement("SELECT COALESCE(MAX(CICLO_ID),'XXXXXXX') AS CICLO FROM CICLO WHERE SUBSTR(CICLO_ID,1,3) = '"+escuelaId+"'");
-		        rs = ps.executeQuery();
-		        if (rs.next()) {
-					cicloId = rs.getString("CICLO");
+	        	ps2 = conn.prepareStatement("SELECT COALESCE(MAX(CICLO_ID),'XXXXXXX') AS CICLO FROM CICLO WHERE SUBSTR(CICLO_ID,1,3) = '"+escuelaId+"'");
+		        rs2 = ps2.executeQuery();
+		        if (rs2.next()) {
+					cicloId = rs2.getString("CICLO");
 		        }
 	        }				
 				
@@ -493,6 +499,8 @@ public class Ciclo {
 	    }finally{
 			if (rs != null) rs.close();
 			if (ps != null) ps.close();
+			if (rs2 != null) rs2.close();
+			if (ps2 != null) ps2.close();
 		}        
 
 	    return cicloId;
@@ -675,7 +683,7 @@ public class Ciclo {
 		String cicloEscolar		= "0000";
 		
 		try{
-			ps = conn.prepareStatement("SELECT CICLO_ESCOLAR FROM CICLO WHERE CICLO_ID IN (SELECT CICLO_ID FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"')");
+			ps = conn.prepareStatement("SELECT CICLO_ESCOLAR FROM CICLO WHERE CICLO_ID IN (SELECT CICLO_ID FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = ?");
 			ps.setString(1, cicloGrupoId);
 			rs = ps.executeQuery();
 			if (rs.next()){
