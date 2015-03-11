@@ -1,6 +1,6 @@
 package aca.ciclo;
 
-public class CicloGrupoPromedio {
+public class CicloPromedio {
 
 	private String CicloGrupoId;
 	private String PromedioId;
@@ -9,7 +9,7 @@ public class CicloGrupoPromedio {
 	private String corto;
 	private String calculo;
 
-	public CicloGrupoPromedio(){
+	public CicloPromedio(){
 		
 		  CicloGrupoId	= "";
 		  PromedioId 	= "";
