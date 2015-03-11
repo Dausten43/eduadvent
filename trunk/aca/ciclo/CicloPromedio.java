@@ -1,5 +1,10 @@
 package aca.ciclo;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class CicloPromedio {
 
 	private String cicloId;
@@ -132,6 +137,189 @@ public class CicloPromedio {
 	 */
 	public void setValor(String valor) {
 		this.valor = valor;
+	}
+	
+	
+	public boolean insertReg(Connection conn ) throws SQLException{
+		PreparedStatement ps = null;
+		boolean ok = false;
+		try{
+			ps = conn.prepareStatement("INSERT INTO CICLO_PROMEDIO"
+					+ " (CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR)"
+					+ " VALUES(?, TO_NUMBER(?, '99'), ?, ?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '9'), TO_NUMBER(?, '999.99'))");
+			
+			ps.setString(1, cicloId);
+			ps.setString(2, promedioId);
+			ps.setString(3, nombre);
+			ps.setString(4, corto);
+			ps.setString(5, calculo);
+			ps.setString(6, orden);
+			ps.setString(7, decimales);
+			ps.setString(8, valor);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+			}else{
+				ok = false;
+			}			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|insertReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public boolean updateReg(Connection conn ) throws SQLException{
+		PreparedStatement ps = null;
+		boolean ok = false;
+		try{
+			ps = conn.prepareStatement("UPDATE CICLO_PROMEDIO"
+					+ " SET NOMBRE = ?,"
+					+ " CORTO = ?,"
+					+ " CALCULO = ?,"
+					+ " ORDEN = TO_NUMBER(?, '99')"
+					+ " DECIMALES = TO_NUMBER(?, '9')"
+					+ " VALOR = TO_NUMBER(?, '999.99')"
+					+ " WHERE CICLO_ID = ?"
+					+ " AND PROMEDIO_ID = TO_NUMBER(?, '99')");			
+			ps.setString(1, nombre);
+			ps.setString(2, corto);
+			ps.setString(3, calculo);
+			ps.setString(4, orden);
+			ps.setString(5, decimales);
+			ps.setString(6, valor);
+			ps.setString(7, cicloId);
+			ps.setString(8, promedioId);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+			}else{
+				ok = false;
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|updateReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public boolean deleteReg(Connection conn ) throws SQLException{
+		PreparedStatement ps = null;
+		boolean ok = false;
+		try{
+			ps = conn.prepareStatement("DELETE FROM CICLO_PROMEDIO" +
+					" WHERE CICLO_ID = ?" +
+					" AND PROMEDIO_ID = TO_NUMBER(?, '99')");
+			ps.setString(1, cicloId);
+			ps.setString(2, promedioId);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+			}else{
+				ok = false;
+			}
+			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|deleteReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public void mapeaReg(ResultSet rs ) throws SQLException{
+		cicloId			= rs.getString("CICLO_ID");
+		promedioId		= rs.getString("PROMEDIO_ID");
+		nombre			= rs.getString("NOMBRE");
+		corto			= rs.getString("CORTO");
+		calculo			= rs.getString("CALCULO");
+		orden			= rs.getString("ORDEN");
+		decimales		= rs.getString("DECIMALES");
+		valor			= rs.getString("VALOR");
+	}
+	
+	public void mapeaRegId(Connection con, String cicloId, String bloqueId) throws SQLException{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try{
+			ps = con.prepareStatement("SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR"
+					+ " FROM CICLO_PROMEDIO"
+					+ " WHERE CICLO_ID = ?"
+					+ " AND PROMEDIO_ID = TO_NUMBER(?, '99')");
+			ps.setString(1, cicloId);
+			ps.setString(2, promedioId);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				mapeaReg(rs);
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|mapeaRegId|:"+ex);
+			ex.printStackTrace();
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+	}
+	
+	public boolean existeReg(Connection conn) throws SQLException{
+		boolean ok 			= false;
+		ResultSet rs 			= null;
+		PreparedStatement ps	= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM CICLO_PROMEDIO" +
+					" WHERE CICLO_ID = ?" +
+					" AND PROMEDIO_ID = TO_NUMBER(?, '99')");
+			ps.setString(1, cicloId);
+			ps.setString(2, promedioId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				ok = true;
+			}else{
+				ok = false;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|existeReg|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return ok;
+	}
+	
+	public String maximoReg(Connection conn, String cicloId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String maximo 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT COALESCE(MAX(PROMEDIO_ID)+1, '1') AS MAXIMO FROM CICLO_PROMEDIO" +
+					" WHERE CICLO_ID = ?");
+			ps.setString(1, cicloId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				maximo = rs.getString("MAXIMO");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|maximoReg|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return maximo;
 	}
 	
 }
