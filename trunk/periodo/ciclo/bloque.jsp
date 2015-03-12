@@ -20,6 +20,7 @@
 
 	String accion 			= (String) request.getParameter("Accion");
 	String cicloId 			= (String) request.getParameter("CicloId");
+	String promedioId		= (String) request.getParameter("promedioId");
 	
 	if (cicloId!=null){ 
 		session.setAttribute("cicloId",cicloId);
@@ -44,7 +45,7 @@
 	</h2>
 	
 	<div class="well">
-		<a class="btn btn-primary" href="ciclo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a class="btn btn-primary" href="promedio.jsp?cicloId=<%=cicloId%>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		<%if (Integer.parseInt(Bloque.maximoReg(conElias, cicloId)) <= numModulos){%>
 	    	<a href="accionBloque.jsp?Accion=1&CicloId=<%=cicloId%>" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
 		<%}%>      

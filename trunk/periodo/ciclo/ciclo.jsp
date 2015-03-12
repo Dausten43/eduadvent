@@ -50,14 +50,14 @@
 	  		<tr>
 	  			<td>
 		  			<a class="icon-pencil" href="accion.jsp?Accion=5&CicloId=<%=ciclo.getCicloId()%>"></a>
-		  			<%if( aca.ciclo.CicloPermiso.existeCiclo(conElias, ciclo.getCicloId()) == false && aca.ciclo.CicloBloque.existeEvaluaciones(conElias, ciclo.getCicloId()) == false ){%>
+		  			<%if( aca.ciclo.CicloPermiso.existeCiclo(conElias, ciclo.getCicloId()) == false && aca.ciclo.CicloPromedio.existeEvaluaciones(conElias, ciclo.getCicloId()) == false ){%>
 		  				<a class="icon-remove" href="javascript:Borrar('<%=ciclo.getCicloId()%>')"></a>
 		  			<%}%>
 				</td>
 	    		<td><%=cont %></td>
 	    		<td><%=ciclo.getCicloId() %></td>
 	    		<td>
-					<a href="bloque.jsp?Accion=1&CicloId=<%=ciclo.getCicloId()%>">
+					<a href="promedio.jsp?Accion=1&cicloId=<%=ciclo.getCicloId()%>">
 		  				<%=ciclo.getCicloNombre() %>
 		  			</a>
 				</td>

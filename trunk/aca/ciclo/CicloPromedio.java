@@ -243,7 +243,7 @@ public class CicloPromedio {
 		valor			= rs.getString("VALOR");
 	}
 	
-	public void mapeaRegId(Connection con, String cicloId, String bloqueId) throws SQLException{
+	public void mapeaRegId(Connection con, String cicloId, String promedioId) throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
@@ -320,6 +320,32 @@ public class CicloPromedio {
 		}		
 		
 		return maximo;
+	}
+	
+	public static boolean existeEvaluaciones(Connection conn, String cicloId) throws SQLException{
+		boolean ok 			= false;
+		ResultSet rs 			= null;
+		PreparedStatement ps	= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM CICLO_PROMEDIO" +
+					" WHERE CICLO_ID = ?");
+			ps.setString(1, cicloId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				ok = true;
+			}else{
+				ok = false;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|existeEvaluaciones|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return ok;
 	}
 	
 }

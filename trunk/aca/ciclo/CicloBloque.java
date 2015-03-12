@@ -20,6 +20,7 @@ public class CicloBloque {
 	private String fFinal;
 	private String valor;
 	private String orden;
+	private String promedioId;
 	
 	public CicloBloque(){
 		cicloId			= "";
@@ -29,6 +30,7 @@ public class CicloBloque {
 		fFinal			= "";
 		valor			= "";
 		orden			= "";
+		promedioId		= "";
 	}
 
 	/**
@@ -126,15 +128,39 @@ public class CicloBloque {
 	public void setOrden(String orden) {
 		this.orden = orden;
 	}
+	
+	public String getfInicio() {
+		return fInicio;
+	}
+
+	public void setfInicio(String fInicio) {
+		this.fInicio = fInicio;
+	}
+
+	public String getfFinal() {
+		return fFinal;
+	}
+
+	public void setfFinal(String fFinal) {
+		this.fFinal = fFinal;
+	}
+
+	public String getPromedioId() {
+		return promedioId;
+	}
+
+	public void setPromedioId(String promedioId) {
+		this.promedioId = promedioId;
+	}
 
 	public boolean insertReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_BLOQUE" +
-					" (CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, F_INICIO, F_FINAL, VALOR, ORDEN)" +
+					" (CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, F_INICIO, F_FINAL, VALOR, ORDEN, PROMEDIO_ID)" +
 					" VALUES(?, TO_NUMBER(?, '99'), ?," +
-					" TO_DATE(?, 'DD/MM/YYYY'),TO_DATE(?, 'DD/MM/YYYY'), TO_NUMBER(?, '999.99'), TO_NUMBER(?, '99'))");
+					" TO_DATE(?, 'DD/MM/YYYY'),TO_DATE(?, 'DD/MM/YYYY'), TO_NUMBER(?, '999.99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'))");
 			
 			ps.setString(1, cicloId);
 			ps.setString(2, bloqueId);
@@ -143,6 +169,7 @@ public class CicloBloque {
 			ps.setString(5, fFinal);
 			ps.setString(6, valor);
 			ps.setString(7, orden);
+			ps.setString(8, promedioId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -166,7 +193,7 @@ public class CicloBloque {
 			ps = conn.prepareStatement("UPDATE CICLO_BLOQUE" +
 					" SET BLOQUE_NOMBRE = ?," +
 					" F_INICIO = TO_DATE(?, 'DD/MM/YYYY')," +
-					" F_FINAL = TO_DATE(?, 'DD/MM/YYYY'), VALOR = TO_NUMBER(?, '999.99'), ORDEN = TO_NUMBER(?, '99') " +
+					" F_FINAL = TO_DATE(?, 'DD/MM/YYYY'), VALOR = TO_NUMBER(?, '999.99'), ORDEN = TO_NUMBER(?, '99'), PROMEDIO_ID = TO_NUMBER(?, '99') " +
 					" WHERE CICLO_ID = ?" +
 					" AND BLOQUE_ID = TO_NUMBER(?, '99')");			
 			ps.setString(1, bloqueNombre);
@@ -174,8 +201,9 @@ public class CicloBloque {
 			ps.setString(3, fFinal);
 			ps.setString(4, valor);
 			ps.setString(5, orden);
-			ps.setString(6, cicloId);
-			ps.setString(7, bloqueId);
+			ps.setString(6, promedioId);
+			ps.setString(7, cicloId);
+			ps.setString(8, bloqueId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -224,6 +252,7 @@ public class CicloBloque {
 		fFinal			= rs.getString("F_FINAL");
 		valor			= rs.getString("VALOR");
 		orden			= rs.getString("ORDEN");
+		promedioId		= rs.getString("PROMEDIO_ID");
 	}
 	
 	public void mapeaRegId(Connection con, String cicloId, String bloqueId) throws SQLException{
@@ -232,7 +261,7 @@ public class CicloBloque {
 		try{
 			ps = con.prepareStatement("SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE," +
 					" TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO, " +
-					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN " +
+					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID" +
 					" FROM CICLO_BLOQUE" +
 					" WHERE CICLO_ID = ?" +
 					" AND BLOQUE_ID = TO_NUMBER(?, '99')");
@@ -281,15 +310,15 @@ public class CicloBloque {
 		return ok;
 	}
 	
-	public static boolean existeEvaluaciones(Connection conn, String cicloId) throws SQLException{
+	public static boolean existeEvaluaciones(Connection conn, String promedioId) throws SQLException{
 		boolean ok 			= false;
 		ResultSet rs 			= null;
 		PreparedStatement ps	= null;
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CICLO_BLOQUE" +
-					" WHERE CICLO_ID = ?");
-			ps.setString(1, cicloId);
+					" WHERE PROMEDIO_ID = ?");
+			ps.setString(1, promedioId);
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
@@ -306,7 +335,6 @@ public class CicloBloque {
 		
 		return ok;
 	}
-	
 	
 	public String maximoReg(Connection conn, String cicloId) throws SQLException{
 		
