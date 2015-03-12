@@ -31,6 +31,9 @@
 	/* Planes de estudio del alumno */
 	ArrayList<aca.alumno.AlumPlan> lisPlan			= alumPlanLista.getArrayList(conElias, codigoId, "ORDER BY F_INICIO");
 	
+	/* Array de Esquema o calculo de promedio */
+	ArrayList<aca.ciclo.CicloPromedio> lisPromedio	= new ArrayList<aca.ciclo.CicloPromedio>();
+	
 	/* Array de Bloques de la materia */
 	ArrayList<aca.ciclo.CicloBloque> lisBloque		= new ArrayList<aca.ciclo.CicloBloque>();
 	
@@ -41,7 +44,7 @@
 	ArrayList<aca.vista.AlumnoCurso> lisAlumnoCurso = AlumnoCursoLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 	
 	//TreeMap de los promedios del alumno en la materia
-	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm 	= AlumPromLista.getTreeAlumno(conElias, codigoId,"");	
+	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm 	= AlumPromLista.getTreeAlumno(conElias, codigoId,"");
 		
 	alumPersonal.mapeaRegId(conElias, codigoId);
 %>
@@ -72,8 +75,7 @@
 			int cont 					= 1;
 			int contGeneral 			= 0;
 			
-			for(aca.plan.PlanCurso curso : lisCurso){
-				
+			for(aca.plan.PlanCurso curso : lisCurso){				
 				 
 				if(curso.getGrado() != null && curso.getGrado() != ""){
 					grado = Integer.parseInt(curso.getGrado());			
@@ -93,7 +95,7 @@
 							gradoTemp = grado;
 							cont = 1;
 							
-							// Trae el numero de bloques del ciclo
+							// Trae la lista de bloques o evaluaciones del ciclo academico
 							lisBloque = cicloBloqueL.getListCiclo(conElias, alumnoCurso.getCicloId(), "ORDER BY BLOQUE_ID");
 							
 							if(contGeneral>1){
