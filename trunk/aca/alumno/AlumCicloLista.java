@@ -107,6 +107,40 @@ public class AlumCicloLista{
 		return lisAlumCiclo;		
 	}
 	
+	public ArrayList<AlumCiclo> listCiclosConMaterias(Connection conn, String codigoId, String planId, String tipos, String orden ) throws SQLException{
+
+		
+		ArrayList<AlumCiclo> lisAlumCiclo	= new ArrayList<AlumCiclo>();
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";	
+		
+		try{
+			comando = "SELECT * FROM ALUM_CICLO"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'"
+					+ " AND PLAN_ID = '"+planId+"'"
+					+ " AND CICLO_ID IN "
+					+ "		(SELECT SUBSTR(CICLO_GRUPO_ID,1,8) FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"') AND TIPOCAL_ID IN ("+tipos+") "
+					+ orden;
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				
+				AlumCiclo alumCiclo = new AlumCiclo();
+				alumCiclo.mapeaReg(rs);
+				lisAlumCiclo.add(alumCiclo);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.alumno.AlumCicloLista|listCiclosConMaterias|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}				
+		
+		return lisAlumCiclo;		
+	}
+	
 	public static HashMap<String,AlumCiclo> getMapHistoria(Connection conn, String orden ) throws SQLException{
 		
 		HashMap<String,AlumCiclo> mapPais = new HashMap<String,AlumCiclo>();
