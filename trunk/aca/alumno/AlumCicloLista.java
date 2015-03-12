@@ -120,7 +120,7 @@ public class AlumCicloLista{
 					+ " WHERE CODIGO_ID = '"+codigoId+"'"
 					+ " AND PLAN_ID = '"+planId+"'"
 					+ " AND CICLO_ID IN "
-					+ "		(SELECT SUBSTR(CICLO_GRUPO_ID,1,8) FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"') AND TIPOCAL_ID IN ("+tipos+") "
+					+ "		(SELECT SUBSTR(CICLO_GRUPO_ID,1,8) FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' AND TIPOCAL_ID IN ("+tipos+")) "
 					+ orden;
 			
 			rs = st.executeQuery(comando);
