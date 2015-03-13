@@ -77,6 +77,33 @@ public class KrdxAlumEvalLista {
 		return lisEval;
 	}
 	
+	public static HashMap<String, KrdxAlumEval> mapEvalAlumno(Connection conn, String codigoId) throws SQLException{
+		HashMap<String,KrdxAlumEval> map 			= new HashMap<String, KrdxAlumEval>();
+		Statement st 						= conn.createStatement();
+		ResultSet rs 						= null;
+		String comando						= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, NOTA, FALTA, CONDUCTA, PROMEDIO_ID"
+					+ " FROM KRDX_ALUM_EVAL"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'";
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				KrdxAlumEval kae = new KrdxAlumEval();		
+				kae.mapeaReg(rs);
+				map.put(rs.getString("CODIGO_ID")+rs.getString("CICLO_GRUPO_ID")+rs.getString("CURSO_ID")+rs.getString("EVALUACION_ID"), kae);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalAlumno|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}	
+	
 	public TreeMap<String,KrdxAlumEval> getTreeAlumMat(Connection conn, String codigoId, String cicloGrupoId, String cursoId, String orden ) throws SQLException{
 		TreeMap<String,KrdxAlumEval> treeEval 	= new TreeMap<String, KrdxAlumEval>();
 		Statement st 	= conn.createStatement();
@@ -379,7 +406,7 @@ public class KrdxAlumEvalLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxCursoActLista|mapAlumnosEvaluadosCiclo|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapAlumnosEvaluadosCiclo|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
