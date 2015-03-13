@@ -80,6 +80,36 @@ public class AlumnoCursoLista {
 		return lisAlumno;
 	}
 	
+	public ArrayList<AlumnoCurso> getListAlumCurso(Connection conn, String codigoId, String orden ) throws SQLException{
+		ArrayList<AlumnoCurso> lisAlumno 	= new ArrayList<AlumnoCurso>();
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, ALUM_APELLIDO(CODIGO_ID), CICLO_GRUPO_ID, CURSO_ID, " +
+					" CAL1, CAL2, CAL3, CAL4, CAL5, CAL6,CAL7,CAL8,CAL9,CAL10, " +
+					" NOTA, F_NOTA, NOTA_EXTRA, F_EXTRA, TIPOCAL_ID, COMENTARIO, CICLO_ID," +
+					" FALTA1, FALTA2, FALTA3, FALTA4, FALTA5,FALTA6,FALTA7,FALTA8,FALTA9,FALTA10" +
+					" FROM ALUMNO_CURSO" +
+					" WHERE CODIGO_ID = '"+codigoId+"' " + orden;			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				AlumnoCurso ac = new AlumnoCurso();
+				ac.mapeaReg(rs);
+				lisAlumno.add(ac);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.vista.AlumnoCursoLista|getListCurso|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisAlumno;
+	}
+	
 	public ArrayList<AlumnoCurso> getListAlumCurso(Connection conn, String codigoId, String cicloGrupoId, String orden ) throws SQLException{
 		ArrayList<AlumnoCurso> lisAlumno 	= new ArrayList<AlumnoCurso>();
 		Statement st 		= conn.createStatement();
@@ -96,7 +126,7 @@ public class AlumnoCursoLista {
 					" AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
-				AlumnoCurso ac = new AlumnoCurso();				
+				AlumnoCurso ac = new AlumnoCurso();
 				ac.mapeaReg(rs);
 				lisAlumno.add(ac);
 			}
