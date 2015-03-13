@@ -41,7 +41,7 @@
 	ArrayList<aca.plan.PlanCurso> lisCurso 			= CursoLista.getListCurso(conElias, planId," AND (CURSO_ID IN (SELECT CURSO_ID FROM KRDX_CURSO_IMP WHERE CODIGO_ID = '"+codigoId+"') OR CURSO_ID IN (SELECT CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"')) ORDER BY GRADO, TIPOCURSO_ID, ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE");
 	
 	/* Notas el alumno en las materias */
-	ArrayList<aca.vista.AlumnoCurso> lisAlumnoCurso = AlumnoCursoLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
+	ArrayList<aca.vista.AlumnoCurso> lisAlumnoCurso = AlumnoCursoLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' ORDER BY TIPO_CURSO(CURSO_ID),ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 	
 	//TreeMap de los promedios del alumno en la materia
 	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm 	= AlumPromLista.getTreeAlumno(conElias, codigoId,"");
