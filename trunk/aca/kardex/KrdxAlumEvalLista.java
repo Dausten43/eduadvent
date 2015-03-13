@@ -389,7 +389,6 @@ public class KrdxAlumEvalLista {
 		return map;
 	}	
 	
-	
 	public static HashMap<String, String> mapAlumnosEvaluadosCiclo(Connection conn, String cicloId) throws SQLException{
 		HashMap<String,String> map 			= new HashMap<String, String>();
 		Statement st 						= conn.createStatement();
@@ -414,5 +413,55 @@ public class KrdxAlumEvalLista {
 		
 		return map;
 	}	
+	
+	public static HashMap<String, String> mapEvalSumaNotas(Connection conn, String codigoId) throws SQLException{
+		HashMap<String,String> map 			= new HashMap<String, String>();
+		Statement st 						= conn.createStatement();
+		ResultSet rs 						= null;
+		String comando						= "";
+		
+		try{
+			comando = " SELECT CICLO_GRUPO_ID, TIPO_CURSO_ID(CURSO_ID) AS TIPO, EVALUACION_ID, COALESCE(SUM(NOTA),0) AS SUMA FROM KRDX_ALUM_EVAL"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'"
+					+ " GROUP BY CICLO_GRUPO_ID, TIPO_CURSO_ID(CURSO_ID), EVALUACION_ID";
+			rs = st.executeQuery(comando);			
+			while (rs.next()){				 				
+				map.put(rs.getString("CICLO_GRUPO_ID")+rs.getString("TIPO")+rs.getString("EVALUACION_ID"), rs.getString("SUMA"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalSumaNotas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
+	public static HashMap<String, String> mapEvalCuentaNotas(Connection conn, String codigoId) throws SQLException{
+		HashMap<String,String> map 			= new HashMap<String, String>();
+		Statement st 						= conn.createStatement();
+		ResultSet rs 						= null;
+		String comando						= "";
+		
+		try{
+			comando = " SELECT CICLO_GRUPO_ID, TIPO_CURSO_ID(CURSO_ID) AS TIPO, EVALUACION_ID, COALESCE(COUNT(NOTA),0) AS TOTAL FROM KRDX_ALUM_EVAL"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'"
+					+ " GROUP BY CICLO_GRUPO_ID, TIPO_CURSO_ID(CURSO_ID), EVALUACION_ID";
+			rs = st.executeQuery(comando);			
+			while (rs.next()){				 				
+				map.put(rs.getString("CICLO_GRUPO_ID")+rs.getString("TIPO")+rs.getString("EVALUACION_ID"), rs.getString("TOTAL"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalSumaNotas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
 	
 }
