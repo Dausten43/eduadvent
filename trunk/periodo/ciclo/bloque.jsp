@@ -19,8 +19,8 @@
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 
 	String accion 			= (String) request.getParameter("Accion");
-	String cicloId 			= (String) request.getParameter("CicloId");
-	String promedioId		= (String) request.getParameter("promedioId");
+	String cicloId 			= (String) request.getParameter("cicloId") == null?"":request.getParameter("cicloId");
+	String promedioId		= (String) request.getParameter("promedioId") == null?"":request.getParameter("promedioId");
 	
 	if (cicloId!=null){ 
 		session.setAttribute("cicloId",cicloId);
@@ -28,7 +28,7 @@
 		cicloId = (String) session.getAttribute("cicloId");
 	}
 	
-	ArrayList<aca.ciclo.CicloBloque> lisBloque 		= BloqueLista.getListCiclo(conElias, cicloId," ORDER BY ORDEN");
+	ArrayList<aca.ciclo.CicloBloque> lisBloque 		= BloqueLista.getBloquePromedioCiclo(conElias, promedioId, cicloId, "ORDER BY BLOQUE_ID");	
 	java.util.HashMap<String, String> mapAlumnos 	= aca.kardex.KrdxAlumEvalLista.mapAlumnosEvaluadosCiclo(conElias, cicloId);
 	java.util.HashMap<String, String> mapActividades 	= aca.ciclo.CicloGrupoActividadLista.getMapActividadesCiclo(conElias, cicloId);
 	
@@ -45,7 +45,7 @@
 	</h2>
 	
 	<div class="well">
-		<a class="btn btn-primary" href="promedio.jsp?cicloId=<%=cicloId%>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a class="btn btn-primary" href="promedio.jsp?cicloId=<%=cicloId%>&promedioId=<%=promedioId%>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		<%if (Integer.parseInt(Bloque.maximoReg(conElias, cicloId)) <= numModulos){%>
 	    	<a href="accionBloque.jsp?Accion=1&CicloId=<%=cicloId%>" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
 		<%}%>      
@@ -82,7 +82,7 @@
   				</td>    
   				<td><%=bloque.getBloqueId()%></td>
   				<td>
-  					<a href="actividad.jsp?bloqueId=<%=bloque.getBloqueId() %>">
+  					<a href="actividad.jsp?bloqueId=<%=bloque.getBloqueId() %>&cicloId=<%=bloque.getCicloId()%>&promedioId=<%=promedioId%>">
   						<%=bloque.getBloqueNombre()%>
   					</a>
   				</td>

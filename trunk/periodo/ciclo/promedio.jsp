@@ -59,7 +59,7 @@
 	    		<td><%=promedio.getCicloId() %></td>
 	    		<td><%=promedio.getPromedioId() %></td>
 	    		<td>
-					<a href="bloque.jsp?Accion=1&promedioId=<%=promedio.getPromedioId()%>">
+					<a href="bloque.jsp?Accion=1&promedioId=<%=promedio.getPromedioId()%>&cicloId=<%=promedio.getCicloId()%>">
 		  				<%=promedio.getNombre()%>
 		  			</a>
 				</td>

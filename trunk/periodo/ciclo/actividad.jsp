@@ -19,8 +19,9 @@
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 
 	String accion 			= (String) request.getParameter("Accion");
-	String cicloId 			= (String) session.getAttribute("cicloId");
-	String bloqueId 		= request.getParameter("bloqueId");
+	String cicloId 			= request.getParameter("cicloId")==null?(String) session.getAttribute("cicloId"):request.getParameter("cicloId");
+	String bloqueId 		= request.getParameter("bloqueId")==null?"":request.getParameter("bloqueId");
+	String promedioId 		= request.getParameter("promedioId")==null?"":request.getParameter("promedioId");
 	
 	int numMaterias			= aca.ciclo.CicloGrupoCurso.numMatCiclo(conElias,cicloId);
 	
@@ -36,7 +37,7 @@
 	</h2>
 	
 	<div class="well">
-		<a class="btn btn-primary" href="bloque.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a class="btn btn-primary" href="bloque.jsp?bloqueId=<%=bloqueId %>&cicloId=<%=cicloId%>&promedioId=<%=promedioId%>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		<a href="accionActividad.jsp?Accion=1&BloqueId=<%=bloqueId%>" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
 	</div>
 
