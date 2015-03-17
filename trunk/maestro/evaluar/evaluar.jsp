@@ -889,6 +889,9 @@
 					<th class="text-center" title="<fmt:message key='aca.MensajePromedioEvaluaciones' />">
 						<fmt:message key="aca.Promedio" />
 					</th>
+					<th class="text-center" title="<fmt:message key='aca.MensajePuntosEvaluaciones' />">
+						<fmt:message key="aca.Puntos" />
+					</th>
 					<th class="text-center" style="width:4%;">
 						<%if (cicloGrupoCurso.getEstado().equals("3")) {%>
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
@@ -1013,7 +1016,7 @@
 							
 							<td class="text-center"><%=strPromedio%></td>
 					
-					
+							<td class="text-center"><%=strPromedio%></td>
 					
 							<!-- --------- EXTRAORDINARIO --------- -->
 						<%
