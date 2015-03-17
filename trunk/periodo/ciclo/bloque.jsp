@@ -56,10 +56,12 @@
 			<tr>
 	  			<th width="3%"><fmt:message key="aca.Accion" /></th>
 	  			<th width="5%"><fmt:message key="aca.Id" /></th>
-	  			<th width="39%"><fmt:message key="aca.Nombre" /></th>  
+	  			<th width="30%"><fmt:message key="aca.Nombre" /></th>  
+	  			<th width="10%"><fmt:message key="aca.Corto" /></th> 
 	  			<th width="13%"><fmt:message key="aca.Inicio" /></th>
 	  			<th width="12%"><fmt:message key="aca.Fin" /></th> 
 	  			<th width="12%"><fmt:message key="aca.Valor" /></th> 
+	  			<th width="12%"><fmt:message key="aca.Decimales" /></th>
 	  			<th width="12%"><fmt:message key="aca.Orden" /></th> 
 			</tr>
 		</thead>
@@ -86,9 +88,11 @@
   						<%=bloque.getBloqueNombre()%>
   					</a>
   				</td>
+  				<td><%=bloque.getCorto()%></td>
   				<td><%=bloque.getFInicio()%></td>
   				<td><%=bloque.getFFinal()%></td>
   				<td><%=bloque.getValor()%>%</td>
+  				<td><%=bloque.getDecimales()%></td>
   				<td><%=bloque.getOrden()%></td>
 			</tr>  
 			<%
@@ -96,9 +100,11 @@
 			%>
 		<%}%>
 		<tr>
-			<th colspan="5"><fmt:message key="aca.TotalPorcentaje" /></th>
+			<th colspan="6"><fmt:message key="aca.TotalPorcentaje" /></th>
 			<th><%=getformato.format( total ) %>%</th>
 			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			
 		</tr>
 	</table>
 </div>
