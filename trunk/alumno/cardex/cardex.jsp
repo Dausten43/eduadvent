@@ -1,3 +1,4 @@
+<%@page import="aca.ciclo.CicloBloque"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -130,12 +131,16 @@
 					}
 				}			
 				// Inserta columna del promedio de las evaluaciones
-				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");				
+				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");		
+				
+				
+				
 			}
 			if (lisPromedio.size() > 1){
-				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");
+				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
 			}
 %>			
+				<th class="text-center" width="5%"><fmt:message key="aca.Puntos"/></th>
 				<th class="text-center" width="5%"><fmt:message key="aca.FechaNota"/></th>
 				<th class="text-center" width="5%"><fmt:message key="aca.Extra"/></th>
 				<th class="text-center" width="5%"><fmt:message key="aca.FechaExtra"/></th>
@@ -255,6 +260,8 @@
 						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
 						
 						// Puntos del promedio
+						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+formato0.format(Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval)+"</td>");
+						//System.out.println("promedio"+ cicloPromedio.getValor()+ "escala"+ escalaEval);
 						
 					}
 					if (lisPromedio.size() > 1){
