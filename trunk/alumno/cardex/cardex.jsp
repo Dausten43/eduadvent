@@ -98,6 +98,9 @@
 			// Nombre del grado
 			String gradoNombre	= aca.catalogo.CatNivel.getGradoNombre( Integer.parseInt(ciclo.getGrado()) )+" "+nivelTitulo;
 			
+			// Escala
+			int escalaEval = aca.ciclo.Ciclo.getEscala(conElias, ciclo.getCicloId());
+			
 			// Clave del grupo donde se inscribio el alumno
 			String cicloGrupoId	= aca.ciclo.CicloGrupo.getCicloGrupoId(conElias, ciclo.getNivel(), ciclo.getGrado(), ciclo.getGrupo(), ciclo.getCicloId(), planId);
 			
@@ -108,7 +111,7 @@
 			lisPromedio 		= CicloPromedioL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY PROMEDIO_ID");
 			
 			// Lista de evaluaciones o bloques en el ciclo
-			lisBloque 			= CicloBloqueL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY BLOQUE_ID");	
+			lisBloque 			= CicloBloqueL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY BLOQUE_ID");			
 %>			
 	<div class="alert alert-info"><%= cicloNombre %> - <%= nivelNombre %> - <%= gradoNombre %> "<%= ciclo.getGrupo() %>"</div>
 				
@@ -249,7 +252,10 @@
 						}
 						
 						// Inserta columna del promedio de las evaluaciones
-						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");						
+						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
+						
+						// Puntos del promedio
+						
 					}
 					if (lisPromedio.size() > 1){
 						out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
