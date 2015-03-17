@@ -16,7 +16,7 @@ public class KrdxAlumPromLista {
 		String comando	= "";
 		
 		try{
-			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA"
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA, VALOR"
 					+ " FROM KRDX_ALUM_PROM"
 					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'"
 					+ " AND CURSO_ID = '"+cursoId+"' "+orden;
@@ -46,7 +46,7 @@ public class KrdxAlumPromLista {
 		String comando	= "";
 		
 		try{
-			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA"
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA, VALOR"
 					+ " FROM KRDX_ALUM_PROM"
 					+ " WHERE CODIGO_ID = '"+codigoId+"'";
 			
@@ -75,7 +75,7 @@ public class KrdxAlumPromLista {
 		String comando	= "";
 		
 		try{
-			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA"
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA, VALOR"
 					+ " FROM KRDX_ALUM_PROM"
 					+ " WHERE CODIGO_ID = '"+cicloGrupoId+"'";
 			
