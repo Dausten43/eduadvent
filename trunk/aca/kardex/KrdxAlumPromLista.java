@@ -6,30 +6,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 public class KrdxAlumPromLista {
-	public ArrayList<KrdxAlumFalta> getListAll(Connection conn, String orden ) throws SQLException{
-		ArrayList<KrdxAlumFalta> lis 	= new ArrayList<KrdxAlumFalta>();
+	public ArrayList<KrdxAlumProm> getListCurso(Connection conn, String cicloGrupoId, String cursoId, String orden ) throws SQLException{
+		ArrayList<KrdxAlumProm> lis 	= new ArrayList<KrdxAlumProm>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
-                " PROMEDIO_ID, NOTA " +
-                " FROM KRDX_ALUM_PROM "+orden;
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA"
+					+ " FROM KRDX_ALUM_PROM"
+					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'"
+					+ " AND CURSO_ID = '"+cursoId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				
-				KrdxAlumFalta obj = new KrdxAlumFalta();				
+				KrdxAlumProm obj = new KrdxAlumProm();				
 				obj.mapeaReg(rs);
 				lis.add(obj);
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumPromLista|getListAll|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumPromLista|getListCurso|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
@@ -38,65 +39,62 @@ public class KrdxAlumPromLista {
 		return lis;
 	}
 	
-	public TreeMap<String,KrdxAlumFalta> getTreeAlumMat(Connection conn, String codigoId, String cicloGrupoId, String cursoId, String orden ) throws SQLException{
-		TreeMap<String,KrdxAlumFalta> tree 	= new TreeMap<String, KrdxAlumFalta>();
+	public static HashMap<String,KrdxAlumProm> mapPromAlumno(Connection conn, String codigoId) throws SQLException{
+		HashMap<String,KrdxAlumProm> map 	= new HashMap<String, KrdxAlumProm>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
-                " PROMEDIO_ID, NOTA " +
-                " FROM KRDX_ALUM_PROM" +
-                " WHERE CODIGO_ID = '"+codigoId+"'" +
-                " AND CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
-                " AND CURSO_ID = '"+cursoId+"' "+ orden;
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA"
+					+ " FROM KRDX_ALUM_PROM"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'";
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
 				
-				KrdxAlumFalta obj = new KrdxAlumFalta();		
+				KrdxAlumProm obj = new KrdxAlumProm();		
 				obj.mapeaReg(rs);
-				tree.put(obj.getCodigoId()+obj.getCicloGrupoId()+obj.getCursoId()+obj.getEvaluacionId(), obj);
+				map.put(obj.getCicloGrupoId()+obj.getCursoId()+obj.getPromedioId(), obj);
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumPromLista|getTreeAlumMat|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumPromLista|mapPromAlumno|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
 		}		
 		
-		return tree;
+		return map;
 	}
 	
-	public TreeMap<String,KrdxAlumFalta> getTreeFalta( Connection conn, String cicloGrupoId, String orden ) throws SQLException{
-		TreeMap<String,KrdxAlumFalta> treemap 	= new TreeMap<String, KrdxAlumFalta>();
+	public static HashMap<String,KrdxAlumProm> mapPromGrupo(Connection conn, String cicloGrupoId) throws SQLException{
+		HashMap<String,KrdxAlumProm> map 	= new HashMap<String, KrdxAlumProm>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
-                " PROMEDIO_ID, NOTA " +
-                " FROM KRDX_ALUM_PROM " +
-                " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+ orden;
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA"
+					+ " FROM KRDX_ALUM_PROM"
+					+ " WHERE CODIGO_ID = '"+cicloGrupoId+"'";
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
-				KrdxAlumFalta obj = new KrdxAlumFalta();		
+				
+				KrdxAlumProm obj = new KrdxAlumProm();		
 				obj.mapeaReg(rs);
-				treemap.put(obj.getCicloGrupoId()+obj.getCursoId()+obj.getEvaluacionId()+obj.getCodigoId(), obj);
+				map.put(obj.getCodigoId()+obj.getCursoId()+obj.getPromedioId(), obj);
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumPromLista|getTreeFalta|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumPromLista|mapPromGrupo|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
 		}		
 		
-		return treemap;
+		return map;
 	}
 	
 }

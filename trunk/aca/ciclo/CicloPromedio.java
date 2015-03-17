@@ -179,8 +179,8 @@ public class CicloPromedio {
 					+ " SET NOMBRE = ?,"
 					+ " CORTO = ?,"
 					+ " CALCULO = ?,"
-					+ " ORDEN = TO_NUMBER(?, '99')"
-					+ " DECIMALES = TO_NUMBER(?, '9')"
+					+ " ORDEN = TO_NUMBER(?, '99'),"
+					+ " DECIMALES = TO_NUMBER(?, '9'),"
 					+ " VALOR = TO_NUMBER(?, '999.99')"
 					+ " WHERE CICLO_ID = ?"
 					+ " AND PROMEDIO_ID = TO_NUMBER(?, '99')");			

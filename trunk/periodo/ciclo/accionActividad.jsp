@@ -33,14 +33,11 @@
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 
 	// Declaracion de variables	
-	String cicloId 		= (String) session.getAttribute("cicloId");
+	String cicloId 		= session.getAttribute("cicloId").toString();
 	String bloqueId 	= request.getParameter("BloqueId");
 
 	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListAll(conElias, "ORDER BY 1");
-	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")) , " ORDER BY ORDEN");
-	
-	
-	
+	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")) , " ORDER BY ORDEN");	
 	
 	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 		

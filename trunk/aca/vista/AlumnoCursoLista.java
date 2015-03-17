@@ -87,12 +87,13 @@ public class AlumnoCursoLista {
 		String comando		= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, ALUM_APELLIDO(CODIGO_ID), CICLO_GRUPO_ID, CURSO_ID, " +
-					" CAL1, CAL2, CAL3, CAL4, CAL5, CAL6,CAL7,CAL8,CAL9,CAL10, " +
-					" NOTA, F_NOTA, NOTA_EXTRA, F_EXTRA, TIPOCAL_ID, COMENTARIO, CICLO_ID," +
-					" FALTA1, FALTA2, FALTA3, FALTA4, FALTA5,FALTA6,FALTA7,FALTA8,FALTA9,FALTA10" +
-					" FROM ALUMNO_CURSO" +
-					" WHERE CODIGO_ID = '"+codigoId+"' " + orden;			
+			comando = "SELECT CODIGO_ID, ALUM_APELLIDO(CODIGO_ID), CICLO_GRUPO_ID, CURSO_ID,"
+					+ " CAL1, CAL2, CAL3, CAL4, CAL5, CAL6,CAL7,CAL8,CAL9,CAL10,"
+					+ " NOTA, TO_CHAR(F_NOTA,'DD/MM/YYYY') AS F_NOTA, NOTA_EXTRA,"
+					+ " TO_CHAR(F_EXTRA,'DD/MM/YYYY') AS F_EXTRA, TIPOCAL_ID, COMENTARIO, CICLO_ID,"
+					+ " FALTA1, FALTA2, FALTA3, FALTA4, FALTA5, FALTA6, FALTA7, FALTA8, FALTA9, FALTA10"
+					+ " FROM ALUMNO_CURSO"
+					+ " WHERE CODIGO_ID = '"+codigoId+"' " + orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				AlumnoCurso ac = new AlumnoCurso();
@@ -117,13 +118,14 @@ public class AlumnoCursoLista {
 		String comando		= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, ALUM_APELLIDO(CODIGO_ID), CICLO_GRUPO_ID, CURSO_ID, " +
-					" CAL1, CAL2, CAL3, CAL4, CAL5, CAL6,CAL7,CAL8,CAL9,CAL10, " +
-					" NOTA, F_NOTA, NOTA_EXTRA, F_EXTRA, TIPOCAL_ID, COMENTARIO, CICLO_ID," +
-					" FALTA1, FALTA2, FALTA3, FALTA4, FALTA5,FALTA6,FALTA7,FALTA8,FALTA9,FALTA10" +
-					" FROM ALUMNO_CURSO" +
-					" WHERE CODIGO_ID = '"+codigoId+"'" +
-					" AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+orden;			
+			comando = "SELECT CODIGO_ID, ALUM_APELLIDO(CODIGO_ID), CICLO_GRUPO_ID, CURSO_ID,"
+					+ " CAL1, CAL2, CAL3, CAL4, CAL5, CAL6, CAL7, CAL8, CAL9, CAL10,"
+					+ " NOTA, TO_CHAR(F_NOTA,'DD/MM/YYYY') AS F_NOTA, NOTA_EXTRA,"
+					+ " TO_CHAR(F_EXTRA,'DD/MM/YYYY') AS F_EXTRA, TIPOCAL_ID, COMENTARIO, CICLO_ID,"
+					+ " FALTA1, FALTA2, FALTA3, FALTA4, FALTA5, FALTA6, FALTA7, FALTA8, FALTA9, FALTA10"
+					+ " FROM ALUMNO_CURSO"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'"
+					+ " AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				AlumnoCurso ac = new AlumnoCurso();

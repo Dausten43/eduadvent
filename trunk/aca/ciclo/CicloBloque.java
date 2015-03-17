@@ -21,6 +21,8 @@ public class CicloBloque {
 	private String valor;
 	private String orden;
 	private String promedioId;
+	private String corto;
+	private String decimales;
 	
 	public CicloBloque(){
 		cicloId			= "";
@@ -31,6 +33,8 @@ public class CicloBloque {
 		valor			= "";
 		orden			= "";
 		promedioId		= "";
+		corto			= "";
+		decimales		= "";
 	}
 
 	/**
@@ -152,15 +156,37 @@ public class CicloBloque {
 	public void setPromedioId(String promedioId) {
 		this.promedioId = promedioId;
 	}
+	
+
+	public String getCorto() {
+		return corto;
+	}
+
+	public void setCorto(String corto) {
+		this.corto = corto;
+	}
+
+	public String getDecimales() {
+		return decimales;
+	}
+
+	public void setDecimales(String decimales) {
+		this.decimales = decimales;
+	}
 
 	public boolean insertReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
-			ps = conn.prepareStatement("INSERT INTO CICLO_BLOQUE" +
-					" (CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, F_INICIO, F_FINAL, VALOR, ORDEN, PROMEDIO_ID)" +
-					" VALUES(?, TO_NUMBER(?, '99'), ?," +
-					" TO_DATE(?, 'DD/MM/YYYY'),TO_DATE(?, 'DD/MM/YYYY'), TO_NUMBER(?, '999.99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'))");
+			ps = conn.prepareStatement("INSERT INTO CICLO_BLOQUE"
+					+ " (CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, F_INICIO, F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES)"
+					+ " VALUES(?, TO_NUMBER(?, '99'), ?,"
+					+ " TO_DATE(?, 'DD/MM/YYYY'),"
+					+ " TO_DATE(?, 'DD/MM/YYYY'),"
+					+ " TO_NUMBER(?, '999.99'), "
+					+ " TO_NUMBER(?, '99'),"
+					+ " TO_NUMBER(?, '99')"
+					+ " ?, TO_NUMBER(?, '9'))");
 			
 			ps.setString(1, cicloId);
 			ps.setString(2, bloqueId);
@@ -170,13 +196,14 @@ public class CicloBloque {
 			ps.setString(6, valor);
 			ps.setString(7, orden);
 			ps.setString(8, promedioId);
+			ps.setString(9, corto);
+			ps.setString(10, decimales);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
 			}else{
 				ok = false;
-			}
-			
+			}			
 			
 		}catch(Exception ex){
 			System.out.println("Error - aca.ciclo.CicloBloque|insertReg|:"+ex);
@@ -190,10 +217,15 @@ public class CicloBloque {
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
-			ps = conn.prepareStatement("UPDATE CICLO_BLOQUE" +
-					" SET BLOQUE_NOMBRE = ?," +
-					" F_INICIO = TO_DATE(?, 'DD/MM/YYYY')," +
-					" F_FINAL = TO_DATE(?, 'DD/MM/YYYY'), VALOR = TO_NUMBER(?, '999.99'), ORDEN = TO_NUMBER(?, '99'), PROMEDIO_ID = TO_NUMBER(?, '99') " +
+			ps = conn.prepareStatement("UPDATE CICLO_BLOQUE"
+					+ " SET BLOQUE_NOMBRE = ?,"
+					+ " F_INICIO = TO_DATE(?, 'DD/MM/YYYY'),"
+					+ " F_FINAL = TO_DATE(?, 'DD/MM/YYYY'),"
+					+ " VALOR = TO_NUMBER(?, '999.99'),"
+					+ " ORDEN = TO_NUMBER(?, '99'),"
+					+ " PROMEDIO_ID = TO_NUMBER(?, '99'),"
+					+ " CORTO = ?,"
+					+ " DECIMALES = TO_NUMBER(?,'9')" +
 					" WHERE CICLO_ID = ?" +
 					" AND BLOQUE_ID = TO_NUMBER(?, '99')");			
 			ps.setString(1, bloqueNombre);
@@ -202,8 +234,10 @@ public class CicloBloque {
 			ps.setString(4, valor);
 			ps.setString(5, orden);
 			ps.setString(6, promedioId);
-			ps.setString(7, cicloId);
-			ps.setString(8, bloqueId);
+			ps.setString(7, corto);
+			ps.setString(8, decimales);
+			ps.setString(9, cicloId);
+			ps.setString(10, bloqueId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -233,8 +267,7 @@ public class CicloBloque {
 				ok = true;
 			}else{
 				ok = false;
-			}
-			
+			}			
 			
 		}catch(Exception ex){
 			System.out.println("Error - aca.ciclo.CicloBloque|deleteReg|:"+ex);
@@ -253,6 +286,8 @@ public class CicloBloque {
 		valor			= rs.getString("VALOR");
 		orden			= rs.getString("ORDEN");
 		promedioId		= rs.getString("PROMEDIO_ID");
+		corto			= rs.getString("CORTO");
+		decimales		= rs.getString("DECIMALES");
 	}
 	
 	public void mapeaRegId(Connection con, String cicloId, String bloqueId) throws SQLException{
@@ -261,7 +296,7 @@ public class CicloBloque {
 		try{
 			ps = con.prepareStatement("SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE," +
 					" TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO, " +
-					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID" +
+					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES" +
 					" FROM CICLO_BLOQUE" +
 					" WHERE CICLO_ID = ?" +
 					" AND BLOQUE_ID = TO_NUMBER(?, '99')");

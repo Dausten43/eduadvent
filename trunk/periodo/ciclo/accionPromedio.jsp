@@ -24,13 +24,13 @@
 	}
 	
 	function Modificar(){
-		document.frmcarga.Accion.value="3";
-		document.frmcarga.submit();
+		document.frmPromedio.Accion.value="3";
+		document.frmPromedio.submit();
 	}
 	
 	function Consultar(){
-		document.frmcarga.Accion.value="5";
-		document.frmcarga.submit();		
+		document.frmPromedio.Accion.value="5";
+		document.frmPromedio.submit();		
 	}
 	
 </script>
@@ -38,19 +38,17 @@
 <%
 	// Declaracion de variables
 	
-	String cicloId		= request.getParameter("cicloId")==null?"":request.getParameter("cicloId");
+	String cicloId		= session.getAttribute("cicloId").toString();
 	String promedioId	= request.getParameter("promedioId")==null?"":request.getParameter("promedioId");
-	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String sResultado	= "";
 	
 	
 	if ( !accion.equals("1") ){
-		Promedio.setCicloId(request.getParameter("CicloId"));
-	}
-	if ( accion.equals("1") ){
+		Promedio.setCicloId(cicloId);
+	}else{
 		Promedio.setPromedioId(Promedio.maximoReg(conElias, cicloId));
-	}
-	
+	}	
 	
 	if( accion.equals("2") ){ // Grabar
 		Promedio.setCicloId(cicloId);
@@ -65,7 +63,7 @@
 		if (Promedio.existeReg(conElias) == false){
 			if (Promedio.insertReg(conElias)){
 				sResultado = "Grabado";
-				response.sendRedirect("promedio.jsp?cicloId="+cicloId);
+				response.sendRedirect("promedio.jsp");
 			}else{
 				sResultado = "NoGrabó";
 				accion = "1";
@@ -89,7 +87,7 @@
 		if (Promedio.existeReg(conElias) == true){
 			if (Promedio.updateReg(conElias)){
 				sResultado = "Modificado";
-				response.sendRedirect("promedio.jsp?cicloId="+cicloId);
+				response.sendRedirect("promedio.jsp");
 			}else{
 				sResultado = "Nocambio";
 				accion = "5";
@@ -102,12 +100,12 @@
 	
 	else if( accion.equals("4") ){ // Borrar
 		Promedio.setCicloId(cicloId);
-		Promedio.setPromedioId(request.getParameter("promedioId"));
+		Promedio.setPromedioId(promedioId);
 		if (Promedio.existeReg(conElias) == true){
 			if (Promedio.deleteReg(conElias)){
 				sResultado = "Eliminado";
 				conElias.commit();
-				response.sendRedirect("promedio.jsp?cicloId="+cicloId);
+				response.sendRedirect("promedio.jsp");
 			}else{
 				sResultado = "NoElimino";
 				accion = "5";
@@ -118,7 +116,8 @@
 		}
 	}
 	
-	else if( accion.equals("5") ){ // Consultar			
+	else if( accion.equals("5") ){ // Consultar
+		Promedio.setPromedioId(promedioId);
 		if (Promedio.existeReg(conElias) == true){
 			Promedio.mapeaRegId(conElias, cicloId, promedioId);
 		}else{
@@ -141,12 +140,11 @@
   	<%} %>
 	
 	<div class="well">
-		<a class="btn btn-primary" href="promedio.jsp?cicloId=<%=cicloId%>"><i class="icon-arrow-left icon-white" ></i> <fmt:message key="boton.Regresar" /></a>
+		<a class="btn btn-primary" href="promedio.jsp"><i class="icon-arrow-left icon-white" ></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
 	
 	<form action="accionPromedio.jsp" method="post" name="frmPromedio" target="_self">
 		<input type="hidden" name="Accion">
-		<input type="hidden" name="cicloId" value="<%=cicloId%>">
 		<fieldset>
 			<label for="promedioId"><fmt:message key="aca.PromedioId" /></label>
 			<input name="promedioId" type="text" id="promedioId" value="<%=Promedio.getPromedioId()%>" readonly>
@@ -161,18 +159,18 @@
 		</fieldset>
 		<fieldset>
 			<label for="calculo"><fmt:message key="aca.Calculo" /></label>
-			<select name="calculo" class="input-medium">
+			<select name="calculo" class="input-small">
            		<option value='V' <%if(Promedio.getDecimales().equals("V")){out.print("selected");}%>>Valores</option>
            		<!--  <option value='P' <%if(Promedio.getDecimales().equals("P")){out.print("selected");}%>>Promedio</option>-->
           	</select>
 		</fieldset>
 		<fieldset>
 			<label for="orden"><fmt:message key="aca.Orden" /></label>
-			<input name="orden" type="text" id="orden" value="<%=Promedio.getOrden()%>">
+			<input name="orden" type="text" id="orden" value="<%=Promedio.getOrden()%>" class="input-small">
 		</fieldset>
 		<fieldset>
 			<label for="decimales"><fmt:message key="aca.Decimal" /></label>
-			<select name="decimales" class="input-medium">
+			<select name="decimales" class="input input-small">
            		<option value='0' <%if(Promedio.getDecimales().equals("0")){out.print("selected");}%>>0</option>
            		<option value='1' <%if(Promedio.getDecimales().equals("1")){out.print("selected");}%>>1</option>
            		<!--  <option value='1' <%if(Promedio.getDecimales().equals("2")){out.print("selected");}%>>2</option>-->
@@ -180,7 +178,7 @@
 		</fieldset>
 		<fieldset>
 			<label for="valor"><fmt:message key="aca.Valor" /></label>
-			<input name="valor" type="text" id="valor" value="<%=Promedio.getValor()%>">
+			<input name="valor" type="text" id="valor" value="<%=Promedio.getValor()%>" class="input input-small">
 		</fieldset>
 	</form>
 	                  

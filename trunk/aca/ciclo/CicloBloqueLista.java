@@ -12,11 +12,11 @@ public class CicloBloqueLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, " +
-					"TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO, " +
-					"TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID " +
-					"FROM CICLO_BLOQUE " +
-					"WHERE SUBSTR(CICLO_ID,1,3)='"+escuelaId+"' "+orden;
+			comando = "SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE," +
+					" TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO," +
+					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES" +
+					" FROM CICLO_BLOQUE " +
+					" WHERE SUBSTR(CICLO_ID,1,3)='"+escuelaId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -43,11 +43,11 @@ public class CicloBloqueLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, " +
-					"TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO, " +
-					"TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID " +
-					"FROM CICLO_BLOQUE " +
-					"WHERE CICLO_ID = '"+cicloId+"' "+orden;
+			comando = "SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE," +
+					" TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO," +
+					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES" +
+					" FROM CICLO_BLOQUE " +
+					" WHERE CICLO_ID = '"+cicloId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -74,22 +74,22 @@ public class CicloBloqueLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, " +
-					"TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO, " +
-					"TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID " +
-					"FROM CICLO_BLOQUE " +
-					"WHERE PROMEDIO_ID = '"+promedioId+"' AND CICLO_ID='"+cicloId+"' "+orden;
+			comando = "SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE," +
+					" TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO," +
+					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES" +
+					" FROM CICLO_BLOQUE " +
+					" WHERE PROMEDIO_ID = '"+promedioId+"' AND CICLO_ID='"+cicloId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				
-				CicloBloque ciclo = new CicloBloque();				
+				CicloBloque ciclo = new CicloBloque();	
 				ciclo.mapeaReg(rs);
 				lisCicloBloque.add(ciclo);
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.ciclo.cicloBloqueLista|getListCiclo|:"+ex);
+			System.out.println("Error - aca.ciclo.cicloBloqueLista|getBloquePromedioCiclo|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();

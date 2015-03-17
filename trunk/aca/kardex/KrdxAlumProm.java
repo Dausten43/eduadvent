@@ -12,6 +12,7 @@ public class KrdxAlumProm {
 	private String cursoId;
 	private String promedioId;
 	private String nota;
+	private String valor;
 	
 	public KrdxAlumProm(){
 		
@@ -20,6 +21,7 @@ public class KrdxAlumProm {
 		cursoId 		= "";
 		promedioId		= "";
 		nota			= "";
+		valor			= "";
 	}
 
 	public String getCodigoId() {

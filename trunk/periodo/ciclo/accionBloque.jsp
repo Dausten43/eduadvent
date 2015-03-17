@@ -33,41 +33,43 @@
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 
 	// Declaracion de variables	
-	String cicloId 		= (String) session.getAttribute("cicloId");
-	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	int numModulos 		= aca.ciclo.Ciclo.getModulos(conElias, cicloId); 
-	
+	String cicloId 		= session.getAttribute("cicloId").toString();
+	String promedioId	= session.getAttribute("promedioId").toString();
+	String bloqueId		= request.getParameter("BloqueId")==null?"0":request.getParameter("BloqueId");
+	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+	int numModulos 		= aca.ciclo.Ciclo.getModulos(conElias, cicloId);
+	String strResultado	= "";
 	
 	java.util.HashMap<String, String> mapAlumnos 		= aca.kardex.KrdxAlumEvalLista.mapAlumnosEvaluadosCiclo(conElias, cicloId);
-	java.util.HashMap<String, String> mapActividades 	= aca.ciclo.CicloGrupoActividadLista.getMapActividadesCiclo(conElias, cicloId);
-	
+	java.util.HashMap<String, String> mapActividades 	= aca.ciclo.CicloGrupoActividadLista.getMapActividadesCiclo(conElias, cicloId);	
 		
 	Bloque.setCicloId(cicloId);
+	Bloque.setPromedioId(promedioId);
 	if ( !accion.equals("1") ){
-		Bloque.setBloqueId(request.getParameter("BloqueId"));
+		Bloque.setBloqueId(bloqueId);
 	}
 			
-	// Operaciones a realizar en la pantalla
-	String strResultado	= "";
+	// Operaciones a realizar en la pantalla	
 	if( accion.equals("1") ){ // Nuevo
 		Bloque.setBloqueId(Bloque.maximoReg(conElias,Bloque.getCicloId()));
 		Bloque.setFInicio(aca.util.Fecha.getHoy());
-	}		
-	
-	else if( accion.equals("2") ){ // Grabar
+	}else if( accion.equals("2") ){ // Grabar
 		
 		/* BEGIN TRANSACTION */
 		boolean error = false;
-		conElias.setAutoCommit(false);
-		
+		conElias.setAutoCommit(false);		
 		
 		/* GUARDANDO EN EL BLOQUE DEL CICLO */
+		Bloque.setPromedioId(promedioId);
 		Bloque.setBloqueId(request.getParameter("BloqueId"));			
 		Bloque.setBloqueNombre(request.getParameter("BloqueNombre"));
 		Bloque.setFInicio(request.getParameter("FInicio"));
 		Bloque.setFFinal(request.getParameter("FFinal"));
 		Bloque.setValor(request.getParameter("Valor"));
 		Bloque.setOrden(request.getParameter("Orden"));
+		Bloque.setOrden(request.getParameter("Orden"));		
+		Bloque.setCorto(request.getParameter("Corto"));
+		Bloque.setDecimales(request.getParameter("Decimales"));
 											
 		if (Bloque.existeReg(conElias) == false){
 			if (Bloque.insertReg(conElias)){
@@ -93,18 +95,16 @@
 			GrupoEval.setTipo("P");
 			GrupoEval.setEstado("A");
 			GrupoEval.setCalculo("V");
-			GrupoEval.setOrden(Bloque.getOrden());									
-			
+			GrupoEval.setOrden(Bloque.getOrden());
 			if(!GrupoEval.existeReg(conElias)){
 				if(GrupoEval.insertReg(conElias)){
 					// INSERTADO					
 				}else{
-					error = true; break;
+					error = true; 
+					break;
 				}
 			}
-		}
-		
-		
+		}	
 		
 		if(error){
 			strResultado = "NoGrabo";
@@ -122,22 +122,20 @@
 	else if( accion.equals("3") ){ // Modificar
 		
 		//No modificar si ya hay alumnos evaluados en esta evaluacion
-		if(!mapAlumnos.containsKey(Bloque.getBloqueId())){
-		
+		if(!mapAlumnos.containsKey(Bloque.getBloqueId())){		
 		
 				/* BEGIN TRANSACTION */
 				boolean error = false;
-				conElias.setAutoCommit(false);
-				
-				
+				conElias.setAutoCommit(false);			
+				Bloque.setPromedioId(promedioId);
 				Bloque.setBloqueId(request.getParameter("BloqueId"));		
 				Bloque.setBloqueNombre(request.getParameter("BloqueNombre"));
 				Bloque.setFInicio(request.getParameter("FInicio"));
 				Bloque.setFFinal(request.getParameter("FFinal"));
 				Bloque.setValor(request.getParameter("Valor"));
 				Bloque.setOrden(request.getParameter("Orden"));
-				
-					
+				Bloque.setCorto(request.getParameter("Corto"));
+				Bloque.setDecimales(request.getParameter("Decimales"));
 					
 				if (Bloque.existeReg(conElias) == true){
 					if (Bloque.updateReg(conElias)){
@@ -155,10 +153,7 @@
 				}else{
 					error = true;
 					accion = "5";
-				}
-			
-				
-				
+				}			
 				
 				if(error){
 					strResultado = "NoGrabo";
@@ -182,8 +177,7 @@
 	else if( accion.equals("4") ){ // Borrar
 		
 		//Eliminar solo si no hay alumnos evaluados en esa evaluacion y si esa evaluacion no tiene actividades (ya que quizas algun maestro ya agrego sus actividades) y si es el ultimo bloque (para que no borre bloques de enmedio y el ID no sea consecutivo)
-		if( !mapAlumnos.containsKey(Bloque.getBloqueId()) && !mapActividades.containsKey(Bloque.getBloqueId()) && Bloque.getUltimoBloque(conElias, cicloId).equals( Bloque.getBloqueId() ) ){
-		
+		if( !mapAlumnos.containsKey(Bloque.getBloqueId()) && !mapActividades.containsKey(Bloque.getBloqueId()) && Bloque.getUltimoBloque(conElias, cicloId).equals( Bloque.getBloqueId() ) ){		
 		
 				/* BEGIN TRANSACTION */
 				boolean error = false;
@@ -203,9 +197,7 @@
 					}	
 				}else{
 					error = true;
-				}
-				
-				
+				}			
 				
 				if(error){
 					strResultado = "NoElimino";
@@ -222,8 +214,7 @@
 		
 		}else{
 			strResultado = "NoEditarEvaluacion";
-		}
-		
+		}		
 	
 	}
 	
@@ -262,6 +253,11 @@
  	   </fieldset>
  	   
  	   <fieldset>
+	    	<label for="Corto"><fmt:message key="aca.Corto" /></label>
+	        <input name="Corto" type="text" id="Corto" size="10" maxlength="10" value="<%=Bloque.getCorto()%>">  
+ 	   </fieldset>
+ 	   
+ 	   <fieldset>
 	    	<label for="FInicio"><fmt:message key="aca.FechaInicio" /></label>
 	       <input name="FInicio" type="text" id="FInicio" maxlength="10" value="<%=Bloque.getFInicio()%>" class="input-medium"> 
  	   </fieldset>
@@ -272,12 +268,19 @@
 		</fieldset>
 		
 		<fieldset>
-			<label for="Valor"><fmt:message key="aca.Valor" /></label>
-			
+			<label for="Valor"><fmt:message key="aca.Valor" /></label>			
 			<div class="input-append">
 				<input name="Valor" type="text" id="Valor" maxlength="6" value="<%=Bloque.getValor().equals("")? getformato.format( 100f/(float)numModulos ):Bloque.getValor() %>" class="onlyNumbers input-mini" data-max-num="100">
 				<span class="add-on">%</span>
 			</div>
+		</fieldset>
+		
+		<fieldset>
+			<label for="Decimales"><fmt:message key="aca.Decimales" /></label>
+			<select name="Decimales" id="Decimales" class="input input-small">
+				<option value="0" <% if (Bloque.getDecimales().equals("0")) out.print(" selected");%>>0</option>
+				<option value="1" <% if (Bloque.getDecimales().equals("1")) out.print(" selected");%>>1</option>
+			</select>
 		</fieldset>
 		
 		<fieldset>

@@ -464,4 +464,54 @@ public class KrdxAlumEvalLista {
 		return map;
 	}
 	
+	public static HashMap<String, String> mapEvalSumaNotasTot(Connection conn, String codigoId) throws SQLException{
+		HashMap<String,String> map 			= new HashMap<String, String>();
+		Statement st 						= conn.createStatement();
+		ResultSet rs 						= null;
+		String comando						= "";
+		
+		try{
+			comando = " SELECT CICLO_GRUPO_ID, EVALUACION_ID, COALESCE(SUM(NOTA),0) AS SUMA FROM KRDX_ALUM_EVAL"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'"
+					+ " GROUP BY CICLO_GRUPO_ID, EVALUACION_ID";
+			rs = st.executeQuery(comando);			
+			while (rs.next()){				 				
+				map.put(rs.getString("CICLO_GRUPO_ID")+rs.getString("EVALUACION_ID"), rs.getString("SUMA"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalSumaNotasTot|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
+	public static HashMap<String, String> mapEvalCuentaNotasTot(Connection conn, String codigoId) throws SQLException{
+		HashMap<String,String> map 			= new HashMap<String, String>();
+		Statement st 						= conn.createStatement();
+		ResultSet rs 						= null;
+		String comando						= "";
+		
+		try{
+			comando = " SELECT CICLO_GRUPO_ID, EVALUACION_ID, COALESCE(COUNT(NOTA),0) AS TOTAL FROM KRDX_ALUM_EVAL"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'"
+					+ " GROUP BY CICLO_GRUPO_ID, EVALUACION_ID";
+			rs = st.executeQuery(comando);			
+			while (rs.next()){				 				
+				map.put(rs.getString("CICLO_GRUPO_ID")+rs.getString("EVALUACION_ID"), rs.getString("TOTAL"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalSumaNotasTot|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
 }

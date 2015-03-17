@@ -8,9 +8,9 @@
 <jsp:useBean id="BloqueLista" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 
 <script>
-	function Borrar( CicloId, BloqueId ){
+	function Borrar( BloqueId ){
 		if(confirm("<fmt:message key="js.Confirma" />")){
-	  		document.location="accionBloque.jsp?Accion=4&CicloId="+CicloId+"&BloqueId="+BloqueId;
+	  		document.location="accionBloque.jsp?Accion=4&BloqueId="+BloqueId;
 	  	}
 	}
 </script>
@@ -18,17 +18,17 @@
 <%
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 
-	String accion 			= (String) request.getParameter("Accion");
-	String cicloId 			= (String) request.getParameter("cicloId") == null?"":request.getParameter("cicloId");
-	String promedioId		= (String) request.getParameter("promedioId") == null?"":request.getParameter("promedioId");
+	String cicloId 			= session.getAttribute("cicloId").toString();
+	String promedioId		= request.getParameter("promedioId") == null?"vacio":request.getParameter("promedioId");
+	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	
-	if (cicloId!=null){ 
-		session.setAttribute("cicloId",cicloId);
+	if (accion.equals("1")&& !promedioId.equals("vacio")){ 
+		session.setAttribute("promedioId", promedioId);
 	}else{
-		cicloId = (String) session.getAttribute("cicloId");
+		promedioId = session.getAttribute("promedioId").toString();
 	}
 	
-	ArrayList<aca.ciclo.CicloBloque> lisBloque 		= BloqueLista.getBloquePromedioCiclo(conElias, promedioId, cicloId, "ORDER BY BLOQUE_ID");	
+	ArrayList<aca.ciclo.CicloBloque> lisBloque 		= BloqueLista.getBloquePromedioCiclo(conElias, promedioId, cicloId, " ORDER BY BLOQUE_ID");	
 	java.util.HashMap<String, String> mapAlumnos 	= aca.kardex.KrdxAlumEvalLista.mapAlumnosEvaluadosCiclo(conElias, cicloId);
 	java.util.HashMap<String, String> mapActividades 	= aca.ciclo.CicloGrupoActividadLista.getMapActividadesCiclo(conElias, cicloId);
 	
@@ -45,9 +45,9 @@
 	</h2>
 	
 	<div class="well">
-		<a class="btn btn-primary" href="promedio.jsp?cicloId=<%=cicloId%>&promedioId=<%=promedioId%>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a class="btn btn-primary" href="promedio.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		<%if (Integer.parseInt(Bloque.maximoReg(conElias, cicloId)) <= numModulos){%>
-	    	<a href="accionBloque.jsp?Accion=1&CicloId=<%=cicloId%>" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
+	    	<a href="accionBloque.jsp?Accion=1" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
 		<%}%>      
 	</div>
 
@@ -69,15 +69,15 @@
 		<%for (aca.ciclo.CicloBloque bloque : lisBloque){%>				
 			<tr>
   				<td>  
-					<%if(!mapAlumnos.containsKey(bloque.getBloqueId())){ %>
-						<a class="icon-pencil" href="accionBloque.jsp?Accion=5&CicloId=<%=bloque.getCicloId()%>&BloqueId=<%=bloque.getBloqueId()%>"></a>
+					<% if(!mapAlumnos.containsKey(bloque.getBloqueId())){ %>
+						<a class="icon-pencil" href="accionBloque.jsp?Accion=5&BloqueId=<%=bloque.getBloqueId()%>"></a>
 					<%} %>
 					
 					<%if (  !mapAlumnos.containsKey(bloque.getBloqueId()) && 
 							!mapActividades.containsKey(bloque.getBloqueId()) &&
 							Bloque.getUltimoBloque(conElias, cicloId).equals( bloque.getBloqueId() )  &&
 							aca.ciclo.CicloBloqueActividad.existeActividades(conElias, bloque.getCicloId(), bloque.getBloqueId()) == false ){ // Verifica que no existan materias para poder borrar el ciclo. %> 	
-						<a class="icon-remove" href="javascript:Borrar('<%=bloque.getCicloId()%>','<%=bloque.getBloqueId()%>')"></a>
+						<a class="icon-remove" href="javascript:Borrar('<%=bloque.getBloqueId()%>')"></a>
 					<%}%>	
   				</td>    
   				<td><%=bloque.getBloqueId()%></td>

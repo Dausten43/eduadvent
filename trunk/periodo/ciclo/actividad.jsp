@@ -15,18 +15,14 @@
 </script>
 
 <%
-
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 
-	String accion 			= (String) request.getParameter("Accion");
-	String cicloId 			= request.getParameter("cicloId")==null?(String) session.getAttribute("cicloId"):request.getParameter("cicloId");
-	String bloqueId 		= request.getParameter("bloqueId")==null?"":request.getParameter("bloqueId");
-	String promedioId 		= request.getParameter("promedioId")==null?"":request.getParameter("promedioId");
-	
+	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+	String cicloId 			= session.getAttribute("cicloId").toString();
+	String bloqueId 		= request.getParameter("bloqueId")==null?"0":request.getParameter("bloqueId");	
 	int numMaterias			= aca.ciclo.CicloGrupoCurso.numMatCiclo(conElias,cicloId);
 	
-	ArrayList<aca.ciclo.CicloBloqueActividad> lisAct = BloqueActividadLista.getListBloque(conElias, cicloId, bloqueId, "ORDER BY ACTIVIDAD_ID");
-	
+	ArrayList<aca.ciclo.CicloBloqueActividad> lisAct = BloqueActividadLista.getListBloque(conElias, cicloId, bloqueId, "ORDER BY ACTIVIDAD_ID");	
 %>
 
 <div id="content">
@@ -37,7 +33,7 @@
 	</h2>
 	
 	<div class="well">
-		<a class="btn btn-primary" href="bloque.jsp?bloqueId=<%=bloqueId %>&cicloId=<%=cicloId%>&promedioId=<%=promedioId%>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a class="btn btn-primary" href="bloque.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		<a href="accionActividad.jsp?Accion=1&BloqueId=<%=bloqueId%>" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
 	</div>
 
@@ -62,7 +58,7 @@
 					<a class="icon-pencil" href="accionActividad.jsp?Accion=5&BloqueId=<%=bloqueId%>&ActividadId=<%=act.getActividadId() %>"></a>
 					<%if (numMaterias == 0){ // Verifica que no existan materias para poder borrar el ciclo. %>
 						<a class="icon-remove" href="javascript:Borrar('<%=act.getBloqueId()%>','<%=act.getActividadId() %>')"></a>
-					<%}%>	
+					<%}%>
   				</td>    
   				<td><%=act.getActividadId() %></td>
   				<td><%=act.getActividadNombre() %></td>
