@@ -253,17 +253,20 @@
 				if (evalcerradas>0 && evalcerradas == lisBloque.size()){
 %>				
 				<td>
-					&nbsp;
+					<a href="notasMetodo.jsp?Accion=1&CursoId=<%=alumCurso.getCursoId()%>&CicloGrupoId=<%=cicloGrupoId %>&CodigoAlumno=<%=codigoAlumno %>&EvaluacionId=0" class="btn btn-primary btn-mini">
+						<i class="icon-refresh icon-white"></i>
+					</a>
 				</td>
 
 		<%
 				}else{
 %>
 				<td>
-					<a href="notasMetodo.jsp?Accion=1&CursoId=<%=alumCurso.getCursoId()%>&CicloGrupoId=<%=cicloGrupoId %>&CodigoAlumno=<%=codigoAlumno %>&EvaluacionId=0" class="btn btn-primary btn-mini">
 						<i class="icon-refresh icon-white"></i>
-					</a>
+					
 				</td>
+						
+							
 <%				}
 				evalcerradas = 0;
 			}
