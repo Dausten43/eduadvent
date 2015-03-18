@@ -30,6 +30,7 @@
 	String planId 			= aca.alumno.AlumPlan.getPlanActual(conElias, codigoAlumno);
 	// Escala
 	int escalaEval 			= aca.ciclo.Ciclo.getEscala(conElias, cicloId );
+	int evalcerradas		= 0;
 	
 	double promTotal 		= 0;
 	
@@ -198,13 +199,19 @@
 								notaFormato = formato1.format(notaEval);
 							
 							// Inserta columnas de evaluaciones
+							if(estadoEval.equals("A")){
 %>
 							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>
 								<a href="evalEstrategias.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=codigoAlumno%>&evaluacionId=<%=cicloBloque.getBloqueId()%>&materia=<%=alumCurso.getCursoId()%>">
 									<%= notaFormato %>
 								</a>
 							</td>
-<%													
+<%						
+							}else{
+%>
+							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'><%= notaFormato %></td>
+<%	
+							}
 						}
 					}
 					
@@ -233,7 +240,7 @@
 					if (evalCerradas>0 && evalCerradas == lisBloque.size()){
 						colorProm = "color:black;";
 					}
-					
+					evalcerradas = evalCerradas; 
 					// Inserta columna del promedio de las evaluaciones
 					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
 					
@@ -243,16 +250,24 @@
 				if (lisPromedio.size() > 1){
 					out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
 				}
+				if (evalcerradas>0 && evalcerradas == lisBloque.size()){
 %>				
+				<td>
+					&nbsp;
+				</td>
+
+		<%
+				}else{
+%>
 				<td>
 					<a href="notasMetodo.jsp?Accion=1&CursoId=<%=alumCurso.getCursoId()%>&CicloGrupoId=<%=cicloGrupoId %>&CodigoAlumno=<%=codigoAlumno %>&EvaluacionId=0" class="btn btn-primary btn-mini">
 						<i class="icon-refresh icon-white"></i>
 					</a>
 				</td>
-			</tr>
-		<%
+<%				}
+				evalcerradas = 0;
 			}
-			
+			out.print("</tr>");
 			out.print("<td colspan='2'>Promedio General:</td>");
 			
 			double promCiclo 	= 0;
