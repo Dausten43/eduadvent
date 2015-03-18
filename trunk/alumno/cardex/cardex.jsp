@@ -105,7 +105,7 @@
 			// Clave del grupo donde se inscribio el alumno
 			String cicloGrupoId	= aca.ciclo.CicloGrupo.getCicloGrupoId(conElias, ciclo.getNivel(), ciclo.getGrado(), ciclo.getGrupo(), ciclo.getCicloId(), planId);
 			
-			/* Notas el alumno en las materias */
+			/* Lista de materias del alumno*/
 			lisAlumnoCurso 		= AlumnoCursoL.getListAlumCurso(conElias, codigoId, cicloGrupoId, " ORDER BY TIPO_CURSO_ID(CURSO_ID), ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 			
 			// Lista de promedios en el ciclo
@@ -127,20 +127,17 @@
 				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
 					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
 						// Inserta columnas de evaluaciones
-						out.print("<th class='text-center' width='2%' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");		
+						out.print("<th class='text-center' width='2%' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");
 					}
 				}			
 				// Inserta columna del promedio de las evaluaciones
-				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");		
-				
-				
-				
+				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");
+				out.print("<th class='text-center' width='2%' title='Puntos'>"+cicloPromedio.getValor()+"%</th>");				
 			}
 			if (lisPromedio.size() > 1){
 				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
 			}
-%>			
-				<th class="text-center" width="5%"><fmt:message key="aca.Puntos"/></th>
+%>						
 				<th class="text-center" width="5%"><fmt:message key="aca.FechaNota"/></th>
 				<th class="text-center" width="5%"><fmt:message key="aca.Extra"/></th>
 				<th class="text-center" width="5%"><fmt:message key="aca.FechaExtra"/></th>
@@ -243,12 +240,20 @@
 						if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
 							promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
 						}
-						// Formato del promedio (decimales usados)
-						String promFormato = formato1.format(promEval);
-						if (cicloPromedio.getDecimales().equals("0"))
-							promFormato = formato0.format(promEval);
-						else if (cicloPromedio.getDecimales().equals("2"))
-							promFormato = formato2.format(promEval);
+						
+						// Puntos del promedio
+						double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
+						
+						// Formato del promedio y los puntos (decimales usados)
+						String promFormato		= formato1.format(promEval);
+						String puntosFormato	= formato1.format(puntosEval);
+						if (cicloPromedio.getDecimales().equals("0")){
+							promFormato 		= formato0.format(promEval);
+							puntosFormato 		= formato0.format(puntosEval);
+						}else if (cicloPromedio.getDecimales().equals("2")){
+							promFormato 		= formato2.format(promEval);
+							puntosFormato 		= formato2.format(puntosEval);
+						}	
 						
 						// Color del promedio
 						String colorProm = "color:blue;";
@@ -259,10 +264,8 @@
 						// Inserta columna del promedio de las evaluaciones
 						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
 						
-						// Puntos del promedio
-						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+formato0.format(Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval)+"</td>");
-						//System.out.println("promedio"+ cicloPromedio.getValor()+ "escala"+ escalaEval);
-						
+						// Inserta columna de los puntos
+						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
 					}
 					if (lisPromedio.size() > 1){
 						out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
@@ -271,7 +274,7 @@
 			<td class="text-center" width="5%"><%if(alumCurso.getFNota() == null) out.print("-"); else out.print(alumCurso.getFNota()); %></td>
 			<td class="text-center" width="5%"><%if(alumCurso.getNotaExtra() == null) out.print("-"); else out.print(alumCurso.getNotaExtra()); %></td>
 			<td class="text-center" width="5%"><%if(alumCurso.getFExtra() == null) out.print("-"); else out.print(alumCurso.getFExtra()); %></td>
-		</tr>				
+		</tr>	
 <%						
 			}
 			
