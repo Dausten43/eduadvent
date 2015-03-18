@@ -195,6 +195,6 @@ public class AlumnoProm{
 		}
 		
 		return ok;
-	}
+	}	
 	
 }
