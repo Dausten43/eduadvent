@@ -285,6 +285,37 @@ public class CicloGrupoEvalLista {
 		return map;
 	}
 	
+	public static HashMap<String,CicloGrupoEval> mapEvalCurso(Connection conn, String cicloGrupoId, String cursoId ) throws SQLException{
+		
+		HashMap<String,CicloGrupoEval> map 	= new HashMap<String,CicloGrupoEval>();
+		Statement st 						= conn.createStatement();
+		ResultSet rs 						= null;
+		String comando						= "";
+		String llave						= "";
+		
+		try{
+			comando = " SELECT * FROM CICLO_GRUPO_EVAL"
+					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'"
+					+ " AND CURSO_ID = '"+cursoId+"'";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				CicloGrupoEval cicloGrupo = new CicloGrupoEval();
+				cicloGrupo.mapeaReg(rs);
+				llave = cicloGrupo.getCicloGrupoId()+cicloGrupo.getCursoId()+cicloGrupo.getEvaluacionId();
+				map.put(llave, cicloGrupo);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloGrupoEvalLista|mapEvalCurso|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
 	// SELECT * FROM CICLO_GRUPO_EVAL WHERE CICLO_GRUPO_ID IN (SELECT CICLO_GRUPO_ID FROM KRDX_ALUM_EVAL WHERE CODIGO_ID = 'A1106057');
 	
 }
