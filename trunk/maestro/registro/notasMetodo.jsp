@@ -74,9 +74,6 @@
 	
 	// Lista de evaluaciones o bloques en el ciclo
 	ArrayList<aca.ciclo.CicloBloque> lisBloque 			= CicloBloqueL.getListCiclo(conElias, cicloId, " ORDER BY BLOQUE_ID");	
-
-	//TreeMap de los promedios del alumno en la materia
-	TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeAlumno(conElias, codigoAlumno, "");
 	
 	//Map de materias del plan seleccionado
 	java.util.HashMap<String, aca.plan.PlanCurso> mapCurso		= aca.plan.PlanCursoLista.mapPlanCursos(conElias, planId);
@@ -85,13 +82,7 @@
 	java.util.HashMap<String, aca.ciclo.CicloGrupoEval> mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalAlumno(conElias, codigoAlumno);
 	
 	//Map de evaluaciones del alumno en Krdx_Alum_Eval
-	java.util.HashMap<String, aca.kardex.KrdxAlumEval> mapEval	= aca.kardex.KrdxAlumEvalLista.mapEvalAlumno(conElias, codigoAlumno);
-	
-	//Map que suma las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
-	java.util.HashMap<String, String> mapEvalSuma				= aca.kardex.KrdxAlumEvalLista.mapEvalSumaNotas(conElias, codigoAlumno);
-	
-	//Map que cuenta las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
-	java.util.HashMap<String, String> mapEvalCuenta				= aca.kardex.KrdxAlumEvalLista.mapEvalCuentaNotas(conElias, codigoAlumno);
+	java.util.HashMap<String, aca.kardex.KrdxAlumEval> mapEval	= aca.kardex.KrdxAlumEvalLista.mapEvalAlumno(conElias, codigoAlumno);	
 	
 	//Map que suma las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
 	java.util.HashMap<String, String> mapEvalSumaTot			= aca.kardex.KrdxAlumEvalLista.mapEvalSumaNotasTot(conElias, codigoAlumno);
