@@ -29,14 +29,13 @@
 	String cicloId			= (String) session.getAttribute("cicloId");	
 	
 	// Escala
-	int escalaEval 			= aca.ciclo.Ciclo.getEscala(conElias, cicloId );
-	
+	int escalaEval 			= 100;  //aca.ciclo.Ciclo.getEscala(conElias, cicloId );
 	int evalcerradas		= 0;
 	
 	ArrayList<aca.kardex.KrdxCursoAct> lisAlum				= CursoActLista.getListAlumMat(conElias, cicloGrupoId, cursoId, " ORDER BY CODIGO_ID");
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
-	Grupo.mapeaRegId(conElias,cicloGrupoId);	
+	Grupo.mapeaRegId(conElias, cicloGrupoId);
 	
 	// TreeMap para obtener la nota de un alumno en la materia
 	java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNota		= kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, cursoId, "");
@@ -51,7 +50,7 @@
 	java.util.HashMap<String, aca.ciclo.CicloGrupoEval> mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalCurso(conElias, cicloGrupoId, cursoId);
 	
 	//Map de promedios del alumno en cada materia
-	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);	
 %>
 
 <div id="content">
@@ -82,12 +81,15 @@
 				}			
 				// Inserta columna del promedio de las evaluaciones
 				out.print("<th class='text-center' width='2%' >"+cicloPromedio.getCorto()+"</th>");
-				out.print("<th class='text-center' width='2%' >"+cicloPromedio.getValor()+"%</th>");				
+%>				
+				<th class='text-center' width='2%' ><fmt:message key='aca.Puntos'/></th>
+<%				
 			}
 			if (lisPromedio.size() > 1){
-				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
-			}
-			out.print("<th class='text-center' width='2%'><fmt:message key='aca.Actualizar'/></th>");
+%>				
+				<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>
+<%					
+			}			
 %>
 		</tr>
 	</thead>
@@ -142,9 +144,8 @@
 					
 					// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
 					double promEval = 0; 
-					if (mapPromAlumno.containsKey(alumno.getCicloGrupoId()+alumno.getCursoId()+cicloPromedio.getPromedioId())){
-						promEval = Double.parseDouble(mapPromAlumno.get(alumno.getCicloGrupoId()+alumno.getCursoId()+cicloPromedio.getPromedioId()).getNota());
-					}
+					if (mapPromAlumno.containsKey(alumno.getCodigoId()+alumno.getCursoId()+cicloPromedio.getPromedioId())){
+						promEval = Double.parseDouble(mapPromAlumno.get(alumno.getCodigoId()+alumno.getCursoId()+cicloPromedio.getPromedioId()).getNota());											}
 					
 					// Puntos del promedio
 					double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;

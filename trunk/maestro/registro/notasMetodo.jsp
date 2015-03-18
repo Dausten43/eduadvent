@@ -29,7 +29,7 @@
 	// Plan actual del alumno
 	String planId 			= aca.alumno.AlumPlan.getPlanActual(conElias, codigoAlumno);
 	// Escala
-	int escalaEval 			= aca.ciclo.Ciclo.getEscala(conElias, cicloId );
+	int escalaEval 			= 100;// aca.ciclo.Ciclo.getEscala(conElias, cicloId );
 	int evalcerradas		= 0;
 	
 	double promTotal 		= 0;
@@ -132,13 +132,15 @@
 						// Inserta columnas de evaluaciones
 						out.print("<th class='text-center' width='2%' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");
 					}
-				}			
+				}			// "+cicloPromedio.getValor()+"%   // <fmt:message key='aca.Puntos'/>
 				// Inserta columna del promedio de las evaluaciones
 				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");
-				out.print("<th class='text-center' width='2%' title='Puntos'>"+cicloPromedio.getValor()+"%</th>");				
+%>				
+				<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th>
+<%				
 			}
 			if (lisPromedio.size() > 1){
-				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
+				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");
 			}
 			out.print("<th class='text-center' width='2%'><fmt:message key='aca.Actualizar'/></th>");
 %>			
