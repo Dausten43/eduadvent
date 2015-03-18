@@ -20,29 +20,26 @@
 	}
 </script>
 <%	
-	java.text.DecimalFormat frmDecimal	= new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
-	java.text.DecimalFormat frmDecimal2	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
-	java.text.DecimalFormat frmEntero	= new java.text.DecimalFormat("###,##0;(###,##0)");
-	
-	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
-	frmDecimal2.setRoundingMode(java.math.RoundingMode.DOWN);
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");	
 
 	String cicloGrupoId		= (String) request.getParameter("CicloGrupoId");
 	String cursoId			= (String) request.getParameter("CursoId");
-	String cicloId			= (String) session.getAttribute("cicloId");
+	String cicloId			= (String) session.getAttribute("cicloId");	
 	
+	// Escala
+	int escalaEval 			= aca.ciclo.Ciclo.getEscala(conElias, cicloId );
 	
-	ArrayList<String> lisAlum						= CursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId);
-	ArrayList<aca.ciclo.CicloBloque> listBloques 	= ciclo.getListCiclo(conElias, cicloId, "ORDER BY BLOQUE_ID");	
+	int evalcerradas		= 0;
+	
+	ArrayList<aca.kardex.KrdxCursoAct> lisAlum				= CursoActLista.getListAlumMat(conElias, cicloGrupoId, cursoId, " ORDER BY CODIGO_ID");
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
-	Grupo.mapeaRegId(conElias,cicloGrupoId);
-	
-	// TreeMap para verificar si el alumno lleva la materia
-	java.util.TreeMap<String,aca.kardex.KrdxCursoAct> treeAlumCurso	= kardexLista.getTreeAlumnoCurso(conElias, cicloGrupoId, "");
+	Grupo.mapeaRegId(conElias,cicloGrupoId);	
 	
 	// TreeMap para obtener la nota de un alumno en la materia
-	java.util.TreeMap treeNota		= kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, cursoId, "");
+	java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNota		= kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, cursoId, "");
 	
 	// Lista de promedios en el ciclo
 	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
@@ -53,17 +50,8 @@
 	// Map de evaluaciones del alumno en Ciclo_Grupo_Eval
 	java.util.HashMap<String, aca.ciclo.CicloGrupoEval> mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalCurso(conElias, cicloGrupoId, cursoId);
 	
-	// Arreglos para calcular el promedio de la materia
-	
-	float[] promedio 	= new float[20];
-	int[] numAlum 		= new int[20];                       
-	
-	// Inicializa los arreglos
-	for(int i=0;i<20;i++){
-		promedio[i] = 0; numAlum[i] = 0;		
-	}
-	
-	java.util.TreeMap<String,aca.vista.AlumnoProm> treeProm 	= AlumPromLista.getTreeCurso(conElias, cicloGrupoId, cursoId,"");
+	//Map de promedios del alumno en cada materia
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
 %>
 
 <div id="content">
@@ -106,13 +94,13 @@
 		<%
 			double totalGeneral = 0;
 			int cont = 0;
-			for (String codigoAlumno : lisAlum){
+			for (aca.kardex.KrdxCursoAct alumno : lisAlum){
 				cont++;
 		%>
 		<tr>
     		<td><%=cont%></td>
-    		<td><%=codigoAlumno%></td>
-    		<td><%=aca.alumno.AlumPersonal.getNombre(conElias,codigoAlumno,"APELLIDO")%></td>
+    		<td><%=alumno.getCodigoId()%></td>
+    		<td><%=aca.alumno.AlumPersonal.getNombre(conElias,alumno.getCodigoId(),"APELLIDO")%></td>
 <%
 				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 					int evalCerradas = 0;
@@ -121,15 +109,15 @@
 							
 							// Nota del alumno en la evaluacion
 							double notaEval = 0;
-							if (treeNota.containsKey(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+codigoAlumno)){
-								notaEval = Double.parseDouble(mapEval.get(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+codigoAlumno).getNota());
+							if (treeNota.containsKey(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+ alumno.getCodigoId())){
+								notaEval = Double.parseDouble(treeNota.get(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+alumno.getCodigoId()).getNota());
 							}
 							// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
 							String estadoEval = "A";
 							String nombreEval = "-";
-							if (mapEvalCiclo.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEstado();
-								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
+							if (mapEvalCiclo.containsKey(cicloGrupoId+alumno.getCursoId()+cicloBloque.getBloqueId())){
+								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumno.getCursoId()+cicloBloque.getBloqueId()).getEstado();
+								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumno.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
 							}
 							// Color de la evaluacion
 							String colorEval = "color:blue;";
@@ -147,7 +135,7 @@
 							if(estadoEval.equals("A")){
 %>
 							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>
-								<a href="evalEstrategias.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=codigoAlumno%>&evaluacionId=<%=cicloBloque.getBloqueId()%>&materia=<%=alumCurso.getCursoId()%>">
+								<a href="evalEstrategias.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=alumno.getCodigoId()%>&evaluacionId=<%=cicloBloque.getBloqueId()%>&materia=<%=alumno.getCursoId()%>">
 									<%= notaFormato %>
 								</a>
 							</td>
@@ -162,8 +150,8 @@
 					
 					// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
 					double promEval = 0; 
-					if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
-						promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
+					if (mapPromAlumno.containsKey(alumno.getCicloGrupoId()+alumno.getCursoId()+cicloPromedio.getPromedioId())){
+						promEval = Double.parseDouble(mapPromAlumno.get(alumno.getCicloGrupoId()+alumno.getCursoId()+cicloPromedio.getPromedioId()).getNota());
 					}
 					
 					// Puntos del promedio
@@ -193,11 +181,13 @@
 					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
 				}
 				if (lisPromedio.size() > 1){
-					out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
-				}
-				if (evalcerradas>0 && evalcerradas == lisBloque.size()){
+					out.print("<td class='text-center' width='2%'>"+alumno.getNota()+"</td>");
+				}				
 %>
 	 		</tr>
+<%
+			}
+%>	 		
 	</table>
 
 </div>
