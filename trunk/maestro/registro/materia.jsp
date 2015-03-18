@@ -81,8 +81,8 @@
 					}
 				}			
 				// Inserta columna del promedio de las evaluaciones
-				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");
-				out.print("<th class='text-center' width='2%' title='Puntos'>"+cicloPromedio.getValor()+"%</th>");				
+				out.print("<th class='text-center' width='2%' >"+cicloPromedio.getCorto()+"</th>");
+				out.print("<th class='text-center' width='2%' >"+cicloPromedio.getValor()+"%</th>");				
 			}
 			if (lisPromedio.size() > 1){
 				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
@@ -132,19 +132,11 @@
 								notaFormato = formato1.format(notaEval);
 							
 							// Inserta columnas de evaluaciones
-							if(estadoEval.equals("A")){
 %>
-							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>
-								<a href="evalEstrategias.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=alumno.getCodigoId()%>&evaluacionId=<%=cicloBloque.getBloqueId()%>&materia=<%=alumno.getCursoId()%>">
+							<td class='text-center' width='1%'  style='"+colorEval+"'>
 									<%= notaFormato %>
-								</a>
 							</td>
 <%						
-							}else{
-%>
-							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'><%= notaFormato %></td>
-<%	
-							}
 						}
 					}
 					
@@ -168,17 +160,11 @@
 						puntosFormato 		= formato2.format(puntosEval);
 					}	
 					
-					// Color del promedio
-					String colorProm = "color:blue;";
-					if (evalCerradas>0 && evalCerradas == lisBloque.size()){
-						colorProm = "color:black;";
-					}
-					evalcerradas = evalCerradas; 
 					// Inserta columna del promedio de las evaluaciones
-					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
+					out.print("<td class='text-center' width='2%'  >"+promFormato+"</td>");
 					
 					// Inserta columna de los puntos
-					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
+					out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
 				}
 				if (lisPromedio.size() > 1){
 					out.print("<td class='text-center' width='2%'>"+alumno.getNota()+"</td>");
