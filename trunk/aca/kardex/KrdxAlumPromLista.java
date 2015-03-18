@@ -77,7 +77,7 @@ public class KrdxAlumPromLista {
 		try{
 			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA, VALOR"
 					+ " FROM KRDX_ALUM_PROM"
-					+ " WHERE CODIGO_ID = '"+cicloGrupoId+"'";
+					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'";
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
