@@ -115,11 +115,9 @@
 								notaEval = Double.parseDouble(treeNota.get(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+alumno.getCodigoId()).getNota());
 							}
 							// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
-							String estadoEval = "A";
-							String nombreEval = "-";
+							String estadoEval = "A";							
 							if (mapEvalCiclo.containsKey(cicloGrupoId+alumno.getCursoId()+cicloBloque.getBloqueId())){
-								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumno.getCursoId()+cicloBloque.getBloqueId()).getEstado();
-								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumno.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
+								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumno.getCursoId()+cicloBloque.getBloqueId()).getEstado();								
 							}
 							// Color de la evaluacion
 							String colorEval = "color:blue;";
@@ -135,7 +133,7 @@
 							
 							// Inserta columnas de evaluaciones
 %>
-							<td class='text-center' width='1%'  style='"+colorEval+"'>
+							<td class='text-center' width='1%'  style='<%=colorEval%>'>
 									<%= notaFormato %>
 							</td>
 <%						
