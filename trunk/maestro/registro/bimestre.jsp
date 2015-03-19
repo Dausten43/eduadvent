@@ -46,8 +46,8 @@
 	String cicloGrupoId 		= (String) request.getParameter("CicloGrupoId");
 	
 	String promedioId			= request.getParameter("PromedioId")==null?"1":request.getParameter("PromedioId");
-	String bloque 				= request.getParameter("bloque")==null?"1":request.getParameter("bloque");
-	String bloque2 				= request.getParameter("bloque2")==null?"*":request.getParameter("bloque2");
+	String bloque 				= request.getParameter("bloque")==null?"0":request.getParameter("bloque");
+	String bloque2 				= request.getParameter("bloque2")==null?"0":request.getParameter("bloque2");
 	String strBgcolor 			= "";
 
 	Grupo.setCicloGrupoId(cicloGrupoId);
@@ -70,6 +70,9 @@
 	
 	// TreeMap para obtener la nota de un alumno en la materia
 	TreeMap<String, aca.kardex.KrdxAlumEval> treeNota 		= kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, "");
+	
+	//Map de promedios del alumno en cada materia
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
 %>
 
 <div id="content">
@@ -90,13 +93,14 @@
 			</select>&nbsp;&nbsp;
 			Nivel 2:			
 			<select name="bloque" id="bloque" onchange='javascript:cambiaBloque()'>
+				<option value="0"><fmt:message key="boton.Todos" /></option>
 				<%for (aca.ciclo.CicloBloque bloq : listBloques){%>
 					<option value="<%=bloq.getBloqueId() %>" <%if(bloq.getBloqueId().equals(bloque)){out.print("selected");} %>><%=bloq.getBloqueNombre() %></option>
 				<%}%>
 			</select>
 			
 			<select name="bloque2" id="bloque2" onchange='javascript:cambiaBloque()'>
-				<option value="*"><fmt:message key="boton.Todos" /></option>
+				<option value="0"><fmt:message key="boton.Todos" /></option>
 				<%for (aca.ciclo.CicloBloque bloq : listBloques){%>
 					<option value="<%=bloq.getBloqueId() %>" <%if(bloq.getBloqueId().equals(bloque2)){out.print("selected");} %>><%=bloq.getBloqueNombre() %></option>
 				<%}%>
