@@ -13,6 +13,7 @@
 <jsp:useBean id="empPersonal" scope="page" class="aca.empleado.EmpPersonal" />
 <jsp:useBean id="cicloGrupoActividadL" scope="page" class="aca.ciclo.CicloGrupoActividadLista" />
 <jsp:useBean id="cicloGrupoEval" scope="page" class="aca.ciclo.CicloGrupoEval" />
+<jsp:useBean id="promedioL" scope="page" class="aca.ciclo.CicloPromedioLista" />
 <jsp:useBean id="cicloGrupoActividad" scope="page" class="aca.ciclo.CicloGrupoActividad" />
 <jsp:useBean id="ArchivosEnviadosLista" scope="page" class="aca.kardex.KrdxAlumArchivoLista" />
 
@@ -31,7 +32,8 @@
 	
 	String resultado			= "";
 	
-	ArrayList<aca.ciclo.CicloGrupoEval> listEstrategias 	= GrupoEvalL.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
+	ArrayList<aca.ciclo.CicloPromedio> listPromedio 		= promedioL.getListPromedioCiclo(conElias, cicloId,"");
+	ArrayList<aca.ciclo.CicloGrupoEval> listEstrategias 	= new ArrayList();
 	ArrayList<aca.ciclo.CicloGrupoActividad> lisActividad 	= cicloGrupoActividadL.getListGrupo(conElias, cicloGrupoId, cursoId, "ORDER BY EVALUACION_ID, ACTIVIDAD_ID");
 	
 	DecimalFormat getformato  	= new DecimalFormat("##0.00;(##0.00)");
@@ -72,7 +74,18 @@
 		<a class="btn btn-primary" href="cursos.jsp"><i class="icon icon-th-list icon-white"></i> <fmt:message key="maestros.Cursos" /></a>
 	</div>	
 <%
-	if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
+
+
+	double sumaPromedioGrupo 	= 0D;
+	int numEvaluaciones 		= 0;
+	float sumValorEvaluaciones 	= 0;
+	
+	for(aca.ciclo.CicloPromedio promedios : listPromedio){	
+%>
+	<div class="alert alert-danger"><%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</div>
+<%	
+	listEstrategias = GrupoEvalL.getArrayListPorPromedio(conElias, cicloGrupoId, cursoId, promedios.getPromedioId(), "ORDER BY ORDEN");
+if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 %> 
 	<div class="well">
 		<a class="btn btn-primary" href="estrategia.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>">
@@ -81,11 +94,6 @@
 	</div>
 <%
 	}
-
-	double sumaPromedioGrupo 	= 0D;
-	int numEvaluaciones 		= 0;
-	float sumValorEvaluaciones 	= 0;
-
 	for (int i = 0; i < listEstrategias.size(); i++) {
 		aca.ciclo.CicloGrupoEval evaluacion = (aca.ciclo.CicloGrupoEval) listEstrategias.get(i);
 		
@@ -230,7 +238,8 @@
 	</div>
 <%			
 
-	} // for de estrategias
+		} // for de estrategias
+	}
 %>	
 	<hr>	
 	<div class="alert alert-success">

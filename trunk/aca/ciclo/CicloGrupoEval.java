@@ -13,6 +13,7 @@ public class CicloGrupoEval{
 	private String calculo;
 	private String orden;
 	private String estado;
+	private String promedioId;
 	
 	
 	public CicloGrupoEval(){
@@ -26,6 +27,7 @@ public class CicloGrupoEval{
 		estado				= "";
 		calculo				= "";
 		orden				= "1";
+		promedioId			= "";
 	}
 	
 	
@@ -178,6 +180,15 @@ public class CicloGrupoEval{
 	 */
 	public void setOrden(String orden) {
 		this.orden = orden;
+	}
+	
+	public String getPromedioId() {
+		return promedioId;
+	}
+
+
+	public void setPromedioId(String promedioId) {
+		this.promedioId = promedioId;
 	}
 
 
@@ -404,6 +415,7 @@ public class CicloGrupoEval{
 		estado				= rs.getString("ESTADO");
 		calculo				= rs.getString("CALCULO");
 		orden				= rs.getString("ORDEN");
+		promedioId			= rs.getString("PROMEDIO_ID");
 	}
 	
 	public void mapeaRegId( Connection conn, String cicloGrupoId, String cursoId, String evaluacionId ) throws SQLException{
@@ -412,7 +424,7 @@ public class CicloGrupoEval{
 		try{
 		ps = conn.prepareStatement("SELECT"+
 			" CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, EVALUACION_NOMBRE,"+ 
-			" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN"+
+			" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN, PROMEDIO_ID"+
 			" FROM CICLO_GRUPO_EVAL"+
 			" WHERE CICLO_GRUPO_ID = ?"+
 			" AND CURSO_ID = ?"+

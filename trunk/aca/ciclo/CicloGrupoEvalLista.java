@@ -17,7 +17,7 @@ public class CicloGrupoEvalLista {
 		try{
 			comando = "SELECT "+
 				" CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, EVALUACION_NOMBRE,"+
-				" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN"+
+				" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN, PROMEDIO_ID"+
 				" FROM CICLO_GRUPO_EVAL" +
 				" WHERE SUBSTR(CICLO_GRUPO_ID,1,3) = '"+escuelaId+"' "+orden;
 			
@@ -48,7 +48,7 @@ public class CicloGrupoEvalLista {
 		try{
 			comando = "SELECT "+
 				" CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, EVALUACION_NOMBRE,"+
-				" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN"+
+				" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN, PROMEDIO_ID"+
 				" FROM CICLO_GRUPO_EVAL"+
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+
 				" AND CURSO_ID = '"+cursoId+"' "+orden;
@@ -71,6 +71,38 @@ public class CicloGrupoEvalLista {
 		return lisGrupoEval;
 	}
 	
+	public ArrayList<CicloGrupoEval> getArrayListPorPromedio(Connection conn, String cicloGrupoId, String cursoId, String promedioId, String orden ) throws SQLException{
+		ArrayList<CicloGrupoEval> lisGrupoEval = new ArrayList<CicloGrupoEval>();
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		
+		try{
+			comando = "SELECT "+
+				" CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, EVALUACION_NOMBRE,"+
+				" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN, PROMEDIO_ID"+
+				" FROM CICLO_GRUPO_EVAL"+
+				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+
+				" AND CURSO_ID = '"+cursoId+"' AND PROMEDIO_ID = '"+promedioId+"' "+orden;
+			
+			rs = st.executeQuery(comando);		
+			while (rs.next()){
+				
+				CicloGrupoEval evaluacion = new CicloGrupoEval();				
+				evaluacion.mapeaReg(rs);
+				lisGrupoEval.add(evaluacion);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloGrupoLista|getArrayListPorPromedio|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisGrupoEval;
+	}
+	
 	public ArrayList<CicloGrupoEval> getEvalGrupo(Connection conn, String cicloGrupoId, String orden ) throws SQLException{
 		ArrayList<CicloGrupoEval> lisGrupoEval = new ArrayList<CicloGrupoEval>();
 		Statement st 		= conn.createStatement();
@@ -80,7 +112,6 @@ public class CicloGrupoEvalLista {
 		try{
 			comando = "SELECT "+
 				" CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, EVALUACION_NOMBRE,"+
-				" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN"+
 				" FROM CICLO_GRUPO_EVAL"+
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+ orden;
 			
