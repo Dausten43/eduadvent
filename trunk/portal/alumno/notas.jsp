@@ -7,455 +7,360 @@
 
 <%@ include file= "menuPortal.jsp" %>
 
-<%@page import="java.util.TreeMap"%>
-<%@page import="aca.alumno.AlumPlan"%>
-<%@page import="aca.plan.Plan"%>
-<%@page import="aca.vista.AlumnoCurso"%>
-<%@page import="aca.plan.PlanCurso"%>
-<%@page import="aca.ciclo.CicloBloque"%>
+<jsp:useBean id="AlumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
+<jsp:useBean id="AlumPlanL" scope="page" class="aca.alumno.AlumPlanLista"/>
+<jsp:useBean id="AlumCicloL" scope="page" class="aca.alumno.AlumCicloLista"/>
+<jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
+<jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
+<jsp:useBean id="AlumnoCursoL" scope="page" class="aca.vista.AlumnoCursoLista"/>
+<%	
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
 
-<jsp:useBean id="alumPlan" scope="page" class="aca.alumno.AlumPlan"/>
-<jsp:useBean id="alumPlanLista" scope="page" class="aca.alumno.AlumPlanLista"/>
-<jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
-<jsp:useBean id="plan" scope="page" class="aca.plan.Plan"/>
-<jsp:useBean id="Curso" scope="page" class="aca.plan.PlanCurso"/>
-<jsp:useBean id="CursoLista" scope="page" class="aca.plan.PlanCursoLista"/>
-<jsp:useBean id="alumnoCurso" scope="page" class="aca.vista.AlumnoCurso"/>
-<jsp:useBean id="alumnoCursoLista" scope="page" class="aca.vista.AlumnoCursoLista"/>
-<jsp:useBean id="cicloBloque" scope="page" class="aca.ciclo.CicloBloque"/>
-<jsp:useBean id="cicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
-<jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista"/>
-
-<%
-	//java.text.DecimalFormat frmEntero	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat frmDecimal	= new java.text.DecimalFormat("##0.0;-##0.0");
-	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
-
-	String escuelaId 	= (String) session.getAttribute("escuela");
-	String codigoId 	= (String) session.getAttribute("codigoAlumno");
-	String planId		= request.getParameter("plan")==null?AlumPlan.getPlanActual(conElias, codigoId):request.getParameter("plan");
-	String nivel		= aca.plan.Plan.getNivel(conElias, planId);
+	String escuelaId 		= (String) session.getAttribute("escuela");
+	String codigoId 		= (String) session.getAttribute("codigoAlumno");
 	
-	//float[] sumaPorBimestre 	= new float[10];
-	int grado 					= 0;
-	int gradoTemp				= 0;				
-	double prom					= 0;		
-	int numBloques				= 0;
+	String planId			= request.getParameter("plan")==null?aca.alumno.AlumPlan.getPlanActual(conElias, codigoId):request.getParameter("plan");
+	String nivel			= aca.plan.Plan.getNivel(conElias, planId);
+	String nivelNombre		= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivel);
+	String nivelTitulo		= aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, nivel).toUpperCase();
+	boolean existeAlumno 	= false;			
 	
 	/* Planes de estudio del alumno */
-	ArrayList<AlumPlan> lisPlan			= alumPlanLista.getArrayList(conElias, codigoId, "ORDER BY F_INICIO");
+	ArrayList<aca.alumno.AlumPlan> lisPlan						= AlumPlanL.getArrayList(conElias, codigoId, "ORDER BY F_INICIO");
+	
+	/* Ciclos en los que el alumno ha estudiado */
+	ArrayList<aca.alumno.AlumCiclo> lisCiclos					= AlumCicloL.listCiclosConMaterias(conElias, codigoId, planId, "1,2,3,4,5", " ORDER BY CICLO_ID");
+	
+	//Map de materias del plan seleccionado
+	java.util.HashMap<String, aca.plan.PlanCurso> mapCurso		= aca.plan.PlanCursoLista.mapPlanCursos(conElias, planId);
+	
+	/* Array de Esquema o calculo de promedio */
+	ArrayList<aca.ciclo.CicloPromedio> lisPromedio				= new ArrayList<aca.ciclo.CicloPromedio>();
 	
 	/* Array de Bloques de la materia */
-	ArrayList<CicloBloque> lisBloque	= null;
-	
-	/* Materias o cursos del plan de estudio del alumno */
-	ArrayList<PlanCurso> lisCurso 			= CursoLista.getListCurso(conElias, planId," AND (CURSO_ID IN (SELECT CURSO_ID FROM KRDX_CURSO_IMP WHERE CODIGO_ID = '"+codigoId+"') OR CURSO_ID IN (SELECT CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"')) ORDER BY GRADO, TIPOCURSO_ID, ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE");
+	ArrayList<aca.ciclo.CicloBloque> lisBloque					= new ArrayList<aca.ciclo.CicloBloque>();
 	
 	/* Notas el alumno en las materias */
-	ArrayList<AlumnoCurso> lisAlumnoCurso 	= alumnoCursoLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
+	ArrayList<aca.vista.AlumnoCurso> lisAlumnoCurso 			= new ArrayList<aca.vista.AlumnoCurso>();
 	
-	//TreeMap de los promedios del alumno en la materia
-	TreeMap treeProm 	= AlumPromLista.getTreeAlumno(conElias, codigoId,"");	
+	// Map de evaluaciones del alumno en Ciclo_Grupo_Eval
+	java.util.HashMap<String, aca.ciclo.CicloGrupoEval> mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalAlumno(conElias, codigoId);
+	
+	//Map de evaluaciones del alumno en Krdx_Alum_Eval
+	java.util.HashMap<String, aca.kardex.KrdxAlumEval> mapEval	= aca.kardex.KrdxAlumEvalLista.mapEvalAlumno(conElias, codigoId);
+	
+	//Map que suma las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
+	java.util.HashMap<String, String> mapEvalSuma				= aca.kardex.KrdxAlumEvalLista.mapEvalSumaNotas(conElias, codigoId);
+	
+	//Map que cuenta las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
+	java.util.HashMap<String, String> mapEvalCuenta				= aca.kardex.KrdxAlumEvalLista.mapEvalCuentaNotas(conElias, codigoId);
+	
+	//Map que suma las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
+	java.util.HashMap<String, String> mapEvalSumaTot			= aca.kardex.KrdxAlumEvalLista.mapEvalSumaNotasTot(conElias, codigoId);
 		
-	alumPersonal.mapeaRegId(conElias, codigoId);
+	//Map que cuenta las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
+	java.util.HashMap<String, String> mapEvalCuentaTot			= aca.kardex.KrdxAlumEvalLista.mapEvalCuentaNotasTot(conElias, codigoId);
+		
+	//Map de promedios del alumno en cada materia
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromAlumno(conElias, codigoId);
+	
+	// Verifica si existe el alumno
+	AlumPersonal.setCodigoId(codigoId);
+	if (AlumPersonal.existeReg(conElias)){
+		existeAlumno = true;
+	}else{
+		existeAlumno = false;
+	}
 %>
-
+	
 <div id="content">
-	<h2><fmt:message key="aca.Calificaciones"/> <small><%=alumPersonal.getNombre() %> <%=alumPersonal.getApaterno() %> <%=alumPersonal.getAmaterno() %></small></h2>
 	
-	<div class="well">
-		<select name="plan" id="plan" onchange="location.href='notas.jsp?plan='+this.options[this.selectedIndex].value;">
-		<%	for(int i = 0; i < lisPlan.size(); i++){
-				alumPlan = (AlumPlan) lisPlan.get(i);
-				if(planId.equals(alumPlan.getPlanId())){
-		%>
-							<option value="<%=alumPlan.getPlanId() %>" selected="selected"><%=Plan.getNombrePlan(conElias, alumPlan.getPlanId()) %></option>
-		<%
-				}else{
-		%>
-							<option value="<%=alumPlan.getPlanId() %>"><%=Plan.getNombrePlan(conElias, alumPlan.getPlanId()) %></option>
-		<%
-				}
-			}
-				plan.mapeaRegId(conElias, planId);
-		%>
+	
+	<h2><fmt:message key="aca.Calificaciones"/> <small><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoId, "NOMBRE") %> </small></h2>
+	
+	<div class="well">	
+		<select name="plan" id="plan" onchange="location.href='notas.jsp?plan='+this.options[this.selectedIndex].value;" class="input-xxlarge">
+			<%for(aca.alumno.AlumPlan alPlan : lisPlan){%>
+				<option value="<%=alPlan.getPlanId() %>" <%if(planId.equals(alPlan.getPlanId())){out.print("selected");} %>><%=aca.plan.Plan.getNombrePlan(conElias, alPlan.getPlanId())%></option>
+			<%}%>
 		</select>
-	</div>
+	</div>	
+<%	
+		for(aca.alumno.AlumCiclo ciclo : lisCiclos){
 			
-<%				
-	
-
-	float [] sumaPorBimestre = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	int [] materiasSinNota = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	int cantidadMaterias = 0;
-	String oficial = "1";
-	int cont = 1;
-	
-	for(int i=0; i<lisCurso.size(); i++){
-		PlanCurso curso = (aca.plan.PlanCurso) lisCurso.get(i);
+			//Nombre del ciclo escolar 
+			String cicloNombre 	= aca.ciclo.Ciclo.getCicloNombre(conElias, ciclo.getCicloId());
 			
-		if(curso.getGrado() != null && curso.getGrado() != "") grado = Integer.parseInt(curso.getGrado());			
-		boolean encontro = false;
+			// Nombre del grado
+			String gradoNombre	= aca.catalogo.CatNivel.getGradoNombre( Integer.parseInt(ciclo.getGrado()) )+" "+nivelTitulo;
+			
+			// Escala
+			int escalaEval = aca.ciclo.Ciclo.getEscala(conElias, ciclo.getCicloId());
+			
+			// Clave del grupo donde se inscribio el alumno
+			String cicloGrupoId	= aca.ciclo.CicloGrupo.getCicloGrupoId(conElias, ciclo.getNivel(), ciclo.getGrado(), ciclo.getGrupo(), ciclo.getCicloId(), planId);
+			
+			/* Lista de materias del alumno*/
+			lisAlumnoCurso 		= AlumnoCursoL.getListAlumCurso(conElias, codigoId, cicloGrupoId, " ORDER BY TIPO_CURSO_ID(CURSO_ID), ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
+			
+			// Lista de promedios en el ciclo
+			lisPromedio 		= CicloPromedioL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY PROMEDIO_ID");
+			
+			// Lista de evaluaciones o bloques en el ciclo
+			lisBloque 			= CicloBloqueL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY BLOQUE_ID");			
+%>			
+	<div class="alert alert-info"><%= cicloNombre %> - <%= nivelNombre %> - <%= gradoNombre %> "<%= ciclo.getGrupo() %>"</div>
 				
-		for(int j=0; j<lisAlumnoCurso.size(); j++){
-			alumnoCurso = (AlumnoCurso) lisAlumnoCurso.get(j);
-			if(alumnoCurso.getCursoId().equals(curso.getCursoId())){
-				encontro = true;										
-				
-				// Despliega el encabezado por grados 
-				if (grado!=gradoTemp){
-					gradoTemp = grado;
-					cont = 1;
-					
-					// Trae el numero de bloques del ciclo
-					lisBloque = cicloBloqueL.getListCiclo(conElias, alumnoCurso.getCicloId(), "ORDER BY BLOQUE_ID");
-					numBloques = lisBloque.size();
-					
-					if(i!=0){
-					%>
-						<!-- Promedio General -->
-	
-						<tr class="alert">
-							<td colspan="3" align="right"><fmt:message key="aca.PromedioGeneral"/>:&nbsp;&nbsp;&nbsp;&nbsp;</td>
-							<%for(int l = 0; l < lisBloque.size()+1; l++){ 
-								
-								if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){ 
-		    						int cantidadMateriasTmp = cantidadMaterias;
-		    						cantidadMateriasTmp = cantidadMateriasTmp-materiasSinNota[l];
-
-			    					sumaPorBimestre[l] = sumaPorBimestre[l]/(cantidadMateriasTmp);
-								
-								
-								}
-								
-								
-								if(l==lisBloque.size()){
-									
-
-										
-										float oficial2[] = new float[lisBloque.size()];
-										float total=0;
-										
-										//System.out.println(lisBloque.size()+"materias");
-										
-										for(float elements:  sumaPorBimestre){
-											
-											total += elements;
-											//System.out.println(total);
-										}
-										
-										
-									sumaPorBimestre[l]=total/lisBloque.size();	
-									
-								}
-								
-								
-
-								
-							%>
-							<td align="center"><%=String.valueOf(sumaPorBimestre[l]).substring(0,String.valueOf(sumaPorBimestre[l]).indexOf(".")+2) %></td>
-							<%} %>
-							<td colspan="20"></td>
-						</tr>
-				
-						<!-- ---------------- -->
-					<% 
-					}
-    				sumaPorBimestre[0] = 0;
-					sumaPorBimestre[1] = 0;
-					sumaPorBimestre[2] = 0;
-					sumaPorBimestre[3] = 0;
-					sumaPorBimestre[4] = 0;
-					sumaPorBimestre[5] = 0;
-					sumaPorBimestre[6] = 0;
-					sumaPorBimestre[7] = 0;
-					sumaPorBimestre[8] = 0;
-					sumaPorBimestre[9] = 0;
-
-					materiasSinNota[0] = 0;
-					materiasSinNota[1] = 0;
-					materiasSinNota[2] = 0;
-					materiasSinNota[3] = 0;
-					materiasSinNota[4] = 0;
-					materiasSinNota[5] = 0;
-					materiasSinNota[6] = 0;
-					materiasSinNota[7] = 0;
-					materiasSinNota[8] = 0;
-					materiasSinNota[9] = 0;
-					
-					cantidadMaterias = 0;
-					oficial = "1";
-						
-%>
-					</table>
-					<div class="alert alert-info"><b>
-					   <%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivel) %> - <%=aca.catalogo.CatNivel.getGradoNombre(grado)%> <%= aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, nivel).toUpperCase() %></b>
-					</div>
-					<table class="table table-condensed">
-					<tr>
-						<th align="center" width="2%" >#</th>
-					    <th align="center" width="6%" ><fmt:message key="aca.Materia"/></th>
-					    <th align="left" width="25%" ><fmt:message key="aca.NombreMateria"/></th>
+	<table class="table table-condensed table-bordered">
+		<thead>
+			<tr>
+				<th width="2%">#</th>
+			    <th width="20%"><fmt:message key="aca.NombreMateria"/></th>
 <%
-					for(int k = 0; k < numBloques; k++){
-						cicloBloque = (CicloBloque) lisBloque.get(k);
-%>
-							<th align="center" width="5%"  title="<%=cicloBloque.getBloqueNombre() %>"><%=k+1%></th>
-<%					} %>
-					    <th align="center" width="5%" ><fmt:message key="aca.Nota"/></th>
-					    <th align="center" width="5%" ><fmt:message key="aca.FNota"/></th>
-					    <th align="center" width="5%" ><fmt:message key="aca.Extra"/></th>
-					    <th align="center" width="5%" ><fmt:message key="aca.FExtra"/></th>
-					</tr>
-<%				}	%>
-
-					<!-- Promedio Oficial -->
+			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 					
-					
-				<%
-				float promOficial=0;
-				int countOficial =0;
-				float oficial2[] = new float[lisBloque.size()+1];
-				float total=0;
+				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
+						// Inserta columnas de evaluaciones
+						out.print("<th class='text-center' width='2%' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");
+					}
+				}			
+				// Inserta columna del promedio de las evaluaciones
+				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");
+				out.print("<th class='text-center' width='2%' title='Puntos'>Puntos</th>");				
+			}
+			if (lisPromedio.size() > 1){
+				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
+			}
+%>						
+				<th class="text-center" width="5%"><fmt:message key="aca.FechaNota"/></th>
+				<th class="text-center" width="5%"><fmt:message key="aca.Extra"/></th>
+				<th class="text-center" width="10%"><fmt:message key="aca.FechaExtra"/></th>
+			</tr>
+		</thead>
+<%
+			String tipoCurso = "0";			
+			int row = 0;
+			for (aca.vista.AlumnoCurso alumCurso : lisAlumnoCurso){				
+				row++;
 				
-				if(!curso.getTipocursoId().equals(oficial) && curso.getTipocursoId().equals("2")){ %>
+				aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
+				// Si el alumno tiene el curso
+				if (mapCurso.containsKey(alumCurso.getCursoId())){
+					curso = mapCurso.get(alumCurso.getCursoId());				
+				}
+				
+				// Poner Totales
+				if (!tipoCurso.equals(curso.getTipocursoId()) && !tipoCurso.equals("0")){
 					
-					<tr class="alert">
-						<td colspan="3" align="right"><fmt:message key="aca.PromedioOficial"/>:&nbsp;&nbsp;&nbsp;&nbsp;</td>
-						<%out.print(lisBloque.size()); %>
-						<%
+					out.print("<tr class='alert alert-success'>");
+					out.print("<td colspan='2'>Promedio:</td>");
+					
+					double promCiclo 	= 0;
+					int numProm 		= 0;
+					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+						
+						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+							if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
+								double sumaEval = 0;
+								if (mapEvalSuma.containsKey(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId())){
+									sumaEval = Double.parseDouble(mapEvalSuma.get(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId()));
+								}
+								double cuentaEval = 0;
+								if (mapEvalCuenta.containsKey(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId())){
+									cuentaEval = Double.parseDouble(mapEvalCuenta.get(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId()));
+								}
+								double promEval = 0;
+								if (cuentaEval>0 && sumaEval>0){
+									promEval = sumaEval/cuentaEval;
+									numProm++;
+									promCiclo += promEval;
+								}
+								// Inserta columnas de evaluaciones
+								out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
+							}
+						}
+						if (numProm > 0) promCiclo = promCiclo / numProm;
+						// Inserta columna del promedio de las evaluaciones
+						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
 						
 						
-						for(int l = 0; l < lisBloque.size()+1; l++){ 
-							
-							if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){ 
-	    						int cantidadMateriasTmp = cantidadMaterias;
-	    						cantidadMateriasTmp = cantidadMateriasTmp-materiasSinNota[l];
-	    						
-	    						promOficial = sumaPorBimestre[l]/cantidadMateriasTmp;
-								oficial2[l]= sumaPorBimestre[l]/cantidadMateriasTmp;
-	    					}
-							
-						
-							if(l==lisBloque.size()){
+					}
+					
+					// Completa las columnas del renglon de promedio  
+					out.print("<td colspan='20'></td>");
+				}
+				
+				// Tipo de curso
+				tipoCurso = curso.getTipocursoId();
+%>
+		<tr> 
+		    <td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
+		    <td width="20%"><%=curso.getCursoNombre()%></td>
+<%
+					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+						int evalCerradas = 0;
+						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+							if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
 								
-
-								
-								for(float elements:  oficial2){
-									
-									total += elements;
-									//System.out.println(total);
+								// Nota del alumno en la evaluacion
+								double notaEval = 0;
+								if (mapEval.containsKey(codigoId+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
+									notaEval = Double.parseDouble(mapEval.get(codigoId+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
+								}
+								// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
+								String estadoEval = "A";
+								String nombreEval = "-";
+								if (mapEvalCiclo.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
+									estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEstado();
+									nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
+								}
+								// Color de la evaluacion
+								String colorEval = "color:blue;";
+								if (estadoEval.equals("C")){
+									evalCerradas++;
+									colorEval = "color:black;";
 								}
 								
+								// Formato de la evaluacion
+								String notaFormato = formato0.format(notaEval);
+								if (cicloBloque.getDecimales().equals("1")) 
+									notaFormato = formato1.format(notaEval);
 								
-							promOficial=total/lisBloque.size();	
-							
+								// Inserta columnas de evaluaciones
+								out.print("<td class='text-center' width='1%' title='' style='"+colorEval+"'>"+notaFormato+"</td>");
+							}
 						}
-							
-
 						
-						%>
-						<td align="center"><%=String.valueOf(promOficial).substring(0,String.valueOf(promOficial).indexOf(".")+2) %></td>
-						<%
-							promOficial=0;
-						} %>
-						<td colspan="20"></td>
-					</tr>	
-				<%
-				oficial = curso.getTipocursoId();
-				}
-				cantidadMaterias++;
-				%>
-					<!-- ---------------- -->
-					<tr> 
-					    <td align="center"><%=cont %></td>
-					    <td align="center"><%=curso.getCursoId()%></td>
-					    <td align="left"><%=curso.getCursoNombre()%></td>
-<%				
-				for(int k=0; k<numBloques; k++){
-					switch(k+1){
-						case 1:{%>
-						<td align="center"><%=alumnoCurso.getCal1().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal1() ) ) %></td>
-				<%		}
-						break;
-						case 2:{%>
-						<td align="center"><%=alumnoCurso.getCal2().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal2() ) ) %></td>
-				<%		}
-						break;
-						case 3:{%>
-						<td align="center"><%=alumnoCurso.getCal3().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal3() ) ) %></td>
-				<%		}
-						break;
-						case 4:{%>
-						<td align="center"><%=alumnoCurso.getCal4().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal4() ) ) %></td>
-				<%		}
-						break;
-						case 5:{%>
-				   		<td align="center"><%=alumnoCurso.getCal5().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal5() ) ) %></td>
-				<%		}
-						break;
-						case 6:{%>
-						<td align="center"><%=alumnoCurso.getCal6().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal6() ) ) %></td>
-				<%		}
-						break;
-						case 7:{%>
-						<td align="center"><%=alumnoCurso.getCal7().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal7() ) ) %></td>
-				<%		}
-						break;
-						case 8:{%>
-						<td align="center"><%=alumnoCurso.getCal8().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal8() ) ) %></td>
-				<%		}
-						break;
-						case 9:{%>
-						<td align="center"><%=alumnoCurso.getCal9().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal9() ) ) %></td>
-				<%		}
-						break;
-						case 10:{%>
-						<td align="center"><%=alumnoCurso.getCal10().equals("-")?"-":frmDecimal.format( Double.parseDouble( alumnoCurso.getCal10() ) ) %></td>
-				<%		}
-						break;
+						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
+						double promEval = 0; 
+						if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
+							promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
+						}
+						
+						// Puntos del promedio
+						double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
+						
+						// Formato del promedio y los puntos (decimales usados)
+						String promFormato		= formato1.format(promEval);
+						String puntosFormato	= formato1.format(puntosEval);
+						if (cicloPromedio.getDecimales().equals("0")){
+							promFormato 		= formato0.format(promEval);
+							puntosFormato 		= formato0.format(puntosEval);
+						}else if (cicloPromedio.getDecimales().equals("2")){
+							promFormato 		= formato2.format(promEval);
+							puntosFormato 		= formato2.format(puntosEval);
+						}	
+						
+						// Color del promedio
+						String colorProm = "color:blue;";
+						if (evalCerradas>0 && evalCerradas == lisBloque.size()){
+							colorProm = "color:black;";
+						}
+						
+						// Inserta columna del promedio de las evaluaciones
+						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
+						
+						// Puntos del promedio
+						
+						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+formato0.format(Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval)+"</td>");
+						//System.out.println("promedio"+ cicloPromedio.getValor()+ "escala"+ escalaEval);
+						
+						// Inserta columna de los puntos
+						//out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
+					}
+					if (lisPromedio.size() > 1){
+						out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
+					}
+%>
+			<td class="text-center" width="5%"><%if(alumCurso.getFNota() == null) out.print("-"); else out.print(alumCurso.getFNota()); %></td>
+			<td class="text-center" width="5%"><%if(alumCurso.getNotaExtra() == null) out.print("-"); else out.print(alumCurso.getNotaExtra()); %></td>
+			<td class="text-center" width="5%"><%if(alumCurso.getFExtra() == null) out.print("-"); else out.print(alumCurso.getFExtra()); %></td>
+		</tr>	
+<%						
+			}
+			
+			// Colocar el promedio del ultimo tipo de curso
+			out.print("<tr class='alert alert-success'>");
+			out.print("<td colspan='2'>Promedio:</td>");
+			
+			double promCiclo 	= 0;
+			int numProm 		= 0;
+			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+				
+				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
+						double sumaEval = 0;
+						if (mapEvalSuma.containsKey(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId())){
+							sumaEval = Double.parseDouble(mapEvalSuma.get(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId()));
+						}
+						double cuentaEval = 0;
+						if (mapEvalCuenta.containsKey(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId())){
+							cuentaEval = Double.parseDouble(mapEvalCuenta.get(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId()));
+						}
+						double promEval = 0;
+						if (cuentaEval>0 && sumaEval>0){
+							promEval = sumaEval/cuentaEval;
+							numProm++;
+							promCiclo += promEval;
+						}								
+						// Inserta columnas de evaluaciones
+						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
 					}
 				}
-								
-				if(!alumnoCurso.getCal1().equals("-")){
-					sumaPorBimestre[0] += Float.parseFloat(alumnoCurso.getCal1());
-				}else{
-					materiasSinNota[0] = materiasSinNota[0]+1;
-				}
-				if(!alumnoCurso.getCal2().equals("-")){
-					sumaPorBimestre[1] += Float.parseFloat(alumnoCurso.getCal2());
-				}else{
-					materiasSinNota[1] = materiasSinNota[1]+1;
-				}
-				if(!alumnoCurso.getCal3().equals("-")){
-					sumaPorBimestre[2] += Float.parseFloat(alumnoCurso.getCal3());
-				}else{
-					materiasSinNota[2] = materiasSinNota[2]+1;
-				}
-				if(!alumnoCurso.getCal4().equals("-")){
-					sumaPorBimestre[3] += Float.parseFloat(alumnoCurso.getCal4());
-				}else{
-					materiasSinNota[3] = materiasSinNota[3]+1;
-				}
-				if(!alumnoCurso.getCal5().equals("-")){
-					sumaPorBimestre[4] += Float.parseFloat(alumnoCurso.getCal5());
-				}else{
-					materiasSinNota[4] = materiasSinNota[4]+1;
-				}
 				
-				if(!alumnoCurso.getCal6().equals("-")){   						
-					sumaPorBimestre[5] += Float.parseFloat(alumnoCurso.getCal6());
-				}else{
-					materiasSinNota[5] = materiasSinNota[5]+1;
-				}
-				
-				if(!alumnoCurso.getCal7().equals("-")){
-					sumaPorBimestre[6] += Float.parseFloat(alumnoCurso.getCal7());
-				}else{
-					materiasSinNota[6] = materiasSinNota[6]+1;
-				}
-				if(!alumnoCurso.getCal8().equals("-")){
-					sumaPorBimestre[7] += Float.parseFloat(alumnoCurso.getCal8());
-				}else{
-					materiasSinNota[7] = materiasSinNota[7]+1;
-				}    					
-				if(!alumnoCurso.getCal9().equals("-")){
-					sumaPorBimestre[8] += Float.parseFloat(alumnoCurso.getCal9());
-				}else{
-					materiasSinNota[8] = materiasSinNota[8]+1;
-				}    					
-				if(!alumnoCurso.getCal10().equals("-")){
-					sumaPorBimestre[9] += Float.parseFloat(alumnoCurso.getCal10());
-				}else{
-					materiasSinNota[9] = materiasSinNota[9]+1;
-				}	
-					
-				
-				String nota="";%>
-						<td align="center">
-			<%	if(alumnoCurso.getNota() == null || alumnoCurso.getNota().equals("")){							
-					//nota = String.valueOf(sumaBimestres/cantidadBimestres);
-					if (treeProm.containsKey(alumnoCurso.getCicloGrupoId()+alumnoCurso.getCursoId()+codigoId)){
-						aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(alumnoCurso.getCicloGrupoId()+alumnoCurso.getCursoId()+codigoId);
-						prom = Double.parseDouble(alumProm.getPromedio())+Double.parseDouble(alumProm.getPuntosAjuste());
-						out.print( "<b>"+frmDecimal.format(prom)+"</b>");
-					}else{
-						out.print( "-");
-					}										 
-				}else{
-					out.print(alumnoCurso.getNota());
-				}%>
-						</td>
-				    	<td align="center"><%if(alumnoCurso.getFNota() == null) out.print("-"); else out.print(alumnoCurso.getFNota()); %></td>
-				    	<td align="center"><%if(alumnoCurso.getNotaExtra() == null) out.print("-"); else out.print(alumnoCurso.getNotaExtra()); %></td>
-				    	<td align="center"><%if(alumnoCurso.getFExtra() == null) out.print("-"); else out.print(alumnoCurso.getFExtra()); %></td>
-					</tr>
-<%				j = lisAlumnoCurso.size();					
+				if (numProm > 0) promCiclo = promCiclo / numProm;
+				// Inserta columna del promedio de las evaluaciones
+				out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
 			}
-		} //for lisAlumno		
-		cont++;
-	} // for lisCurso
-%>	
-	
-				 	   <!-- Promedio General -->
-	
-						<tr class="alert">
-							<td colspan="3" align="right"><fmt:message key="aca.PromedioGeneral"/>:&nbsp;&nbsp;&nbsp;&nbsp;</td>
-							<%
-							
-							
-							
-							if(lisBloque!=null){	
-								for(int l = 0; l < lisBloque.size()+1; l++){ 
-									
-									if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){ 
-			    						int cantidadMateriasTmp = cantidadMaterias;
-			    						cantidadMateriasTmp = cantidadMateriasTmp-materiasSinNota[l];
-			    						
-				    					sumaPorBimestre[l] = sumaPorBimestre[l]/(cantidadMateriasTmp);
-				    					
-									
-				    					
-				    					
-									}
-									
-									if(l==lisBloque.size()){
-									
-
-										
-										float oficial2[] = new float[lisBloque.size()];
-										float total=0;
-										
-										//System.out.println(lisBloque.size()+"materias");
-										
-										for(float elements:  sumaPorBimestre){
-											
-											total += elements;
-											//System.out.println(total);
-										}
-										
-										
-									sumaPorBimestre[l]=total/lisBloque.size();	
-									
-								}
-									
-									
-								%>
-								<td align="center"><%=String.valueOf(sumaPorBimestre[l]).substring(0,String.valueOf(sumaPorBimestre[l]).indexOf(".")+2) %></td>
-							<%	
-								}
-							}
-							%>
-							<td colspan="20"></td>
-						</tr>
+			// Completa las columnas del renglon de promedio  
+			out.print("<td colspan='20'></td>");
+					
+			// Poner promedio general
+			
+			// Colocar el promedio del ultimo tipo de curso
+			out.print("<tr class='alert alert-success'>");
+			
+			out.print("<td colspan='2'>Promedio General:</td>");
+			
+			promCiclo 	= 0;
+			numProm 	= 0;
+			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 				
-						<!-- ---------------- -->
-						<tr><td>&nbsp;</td></tr>
-				</table>
+				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
+						double sumaEval = 0;
+						if (mapEvalSumaTot.containsKey(cicloGrupoId+cicloBloque.getBloqueId())){
+							sumaEval = Double.parseDouble(mapEvalSumaTot.get(cicloGrupoId+cicloBloque.getBloqueId()));
+						}
+						double cuentaEval = 0;
+						if (mapEvalCuentaTot.containsKey(cicloGrupoId+cicloBloque.getBloqueId())){
+							cuentaEval = Double.parseDouble(mapEvalCuentaTot.get(cicloGrupoId+cicloBloque.getBloqueId()));
+						}
+						double promEval = 0;
+						if (cuentaEval>0 && sumaEval>0){
+							promEval = sumaEval/cuentaEval;
+							numProm++;
+							promCiclo += promEval;
+						}
+						// Inserta columnas de evaluaciones
+						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
+					}
+				}
+				
+				if (numProm > 0) promCiclo = promCiclo / numProm;
+				// Inserta columna del promedio de las evaluaciones
+				out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
+			}
+			// Completa las columnas del renglon de promedio  
+			out.print("<td colspan='20'></td>");
+%>
+	</table>	
+<%		} // for de ciclos
 
+%>	
 </div>
 
-<script>
-	jQuery('.notas').addClass('active');
-</script>
 <%@ include file="../../cierra_elias.jsp" %>
