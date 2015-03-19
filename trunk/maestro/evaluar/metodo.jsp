@@ -63,19 +63,14 @@
 		<fmt:message key="aca.MetodoEval" />
 		<span class="label label-info"><fmt:message key="aca.SoloPuedeTener" /> <%=modulos %> <fmt:message key="aca.EvaluacionesMin" /></span>
 		<small><%=aca.empleado.EmpPersonal.getNombre(conElias,codigoId, "NOMBRE")%></small>
-	</h2>
-	
-	<div class="alert alert-info">
-		<h4><%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%></h4>
-		<small><%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoId))%></small> 
-	</div>
-	
-	<div class="well">
-		<a class="btn btn-primary" href="cursos.jsp"><i class="icon icon-th-list icon-white"></i> <fmt:message key="maestros.Cursos" /></a>
-	</div>	
+	</h2>	
+	<div class="well"> 
+			  <a class="btn btn-primary" href="cursos.jsp"><i class="icon icon-th-list icon-white"></i> <fmt:message key="maestros.Cursos" /></a>
+			  &nbsp;&nbsp;<strong>Plan: </strong><%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoId))%>
+			  &nbsp;&nbsp;<strong>Materia: </strong> <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%>
+			  &nbsp;&nbsp;<strong>Grado: </strong><%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%>
+	</div>			
 <%
-
-
 	double sumaPromedioGrupo 	= 0D;
 	int numEvaluaciones 		= 0;
 	float sumValorEvaluaciones 	= 0;
