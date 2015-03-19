@@ -18,15 +18,14 @@
 <jsp:useBean id="promedioL" scope="page" class="aca.ciclo.CicloPromedioLista" />
 
 <%
-	String codigoId				= (String) session.getAttribute("codigoId");
-	String escuelaId			= (String) session.getAttribute("escuela");
+	String codigoId			= session.getAttribute("codigoId").toString();
+	String escuelaId		= session.getAttribute("escuela").toString();
+	String cicloId 			= session.getAttribute("cicloId").toString();
 	
 	if (request.getParameter("CicloGrupoId")!=null){
 		session.setAttribute("cicloGrupoId", request.getParameter("CicloGrupoId"));
 		session.setAttribute("cursoId", request.getParameter("CursoId"));
-	}	
-	
-	String cicloId 		= (String)session.getAttribute("cicloId");
+	}
 	
 	String cicloGrupoId 		= (String) session.getAttribute("cicloGrupoId");
 	String cursoId 				= (String) session.getAttribute("cursoId");
