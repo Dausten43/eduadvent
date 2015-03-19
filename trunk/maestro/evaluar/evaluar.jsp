@@ -184,6 +184,9 @@
 		notaMinima = notaMinima * 10;	
 	}
 	
+	// Escala para la columna de puntos
+	int escalaEval 			= 100;
+	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
 	
@@ -199,6 +202,8 @@
 	// Map de evaluaciones del alumno en Ciclo_Grupo_Eval
 	java.util.HashMap<String, aca.ciclo.CicloGrupoEval> mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalCurso(conElias, cicloGrupoId, cursoId);
 	
+	//Map de promedios del alumno en cada materia
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);	
 	
 	//SI LA MATERIA TIENE ESTADO DE 'MATERIA CREADA' ENTONCES CAMBIALO A 'MATERIA EN EVALUACION'
 	if ( estadoMateria.equals("1") ) {
@@ -418,7 +423,7 @@
 					
 					if (treeProm.containsKey(cicloGrupoId + cursoId	+ kardex.getCodigoId())) {
 						aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
-						promedio = Double.parseDouble(alumProm.getPromedio().replaceAll(",",".")) + Double.parseDouble(alumProm.getPuntosAjuste().replaceAll(",",".")); 
+						promedio = Double.parseDouble(alumProm.getPromedio().replaceAll(",",".")); 
 					}
 					
 					/* Guardar promedio del alumno en krdx_curso_act */
@@ -907,8 +912,13 @@
 %>				
 						<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th>
 <%
-					}	
-					%>					
+					}
+					if (lisPromedio.size() > 1){
+%>				
+						<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>
+<%					
+					}
+%>					
 					<th class="text-center" style="width:4%;">
 						<%if (cicloGrupoCurso.getEstado().equals("3")) {%>
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
@@ -1019,27 +1029,40 @@
 						<%
 								}
 							} // End for evaluaciones
-						}//End for de promedio
-						%>
 							
-							<!-- --------- PROMEDIO --------- -->
-						<%						
-							String strPromedio = "-";
-							if (promedio > 0) {
-								if (evaluaConPunto.equals("S")) {
-									strPromedio = frmDecimal.format(promedio).replaceAll(",", ".");
-								} else {
-									strPromedio = frmEntero.format(promedio).replaceAll(",", ".");
-								}
+							// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
+							double promEval = 0; 
+							if (mapPromAlumno.containsKey(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId())){
+								promEval = Double.parseDouble(mapPromAlumno.get(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId()).getNota());									
 							}
-						%>
 							
-							<td class="text-center"><%=strPromedio%></td>
-					
-							<td class="text-center"><%=strPromedio%></td>
-					
-							<!-- --------- EXTRAORDINARIO --------- -->
-						<%
+							// Puntos del promedio
+							double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
+							
+							// Formato del promedio y los puntos (decimales usados)
+							String promFormato		= formato1.format(promEval);
+							String puntosFormato	= formato1.format(puntosEval);
+							if (cicloPromedio.getDecimales().equals("0")){
+								promFormato 		= formato0.format(promEval);
+								puntosFormato 		= formato0.format(puntosEval);
+							}else if (cicloPromedio.getDecimales().equals("2")){
+								promFormato 		= formato2.format(promEval);
+								puntosFormato 		= formato2.format(puntosEval);
+							}	
+							
+							// Inserta columna del promedio de las evaluaciones
+							out.print("<td class='text-center' width='2%'  >"+promFormato+"</td>");
+							
+							// Inserta columna de los puntos
+							out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
+							
+						}//End for de promedio
+						if (lisPromedio.size() > 1){
+							out.print("<td class='text-center' width='2%'>"+kardex.getNota()+"</td>");
+						}
+%>											
+						<!-- --------- EXTRAORDINARIO --------- -->
+<%
 							float numExtra 	= 0;
 							String strExtra = "";
 							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && promedio < notaAC) {	
@@ -1051,7 +1074,7 @@
 								}
 							}
 						%>
-							<td class="text-center">
+							<td class="text-center">-
 								<div id="extra<%=i%>"><%=strExtra %></div>
 								
 								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
