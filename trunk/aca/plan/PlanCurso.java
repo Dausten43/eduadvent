@@ -20,6 +20,7 @@ public class PlanCurso{
 	private String estado;
 	private String tipoEvaluacion;
 	
+	
 	public PlanCurso(){
 		planId			= "";
 		cursoId			= "";
@@ -36,6 +37,7 @@ public class PlanCurso{
 		creditos		= "";
 		estado 			= "A"; 
 		tipoEvaluacion	= "C";
+		
 	}
 	
 	/**
