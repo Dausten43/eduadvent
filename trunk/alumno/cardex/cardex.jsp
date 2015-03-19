@@ -132,7 +132,7 @@
 				}			
 				// Inserta columna del promedio de las evaluaciones
 				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");
-				out.print("<th class='text-center' width='2%' title='Puntos'>"+cicloPromedio.getValor()+"%</th>");				
+				out.print("<th class='text-center' width='2%' title='Puntos'>Puntos</th>");				
 			}
 			if (lisPromedio.size() > 1){
 				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
@@ -140,7 +140,7 @@
 %>						
 				<th class="text-center" width="5%"><fmt:message key="aca.FechaNota"/></th>
 				<th class="text-center" width="5%"><fmt:message key="aca.Extra"/></th>
-				<th class="text-center" width="5%"><fmt:message key="aca.FechaExtra"/></th>
+				<th class="text-center" width="10%"><fmt:message key="aca.FechaExtra"/></th>
 			</tr>
 		</thead>
 <%
@@ -272,7 +272,7 @@
 						//System.out.println("promedio"+ cicloPromedio.getValor()+ "escala"+ escalaEval);
 						
 						// Inserta columna de los puntos
-						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
+						//out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
 					}
 					if (lisPromedio.size() > 1){
 						out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
