@@ -10,6 +10,7 @@
 <jsp:useBean id="kardexEvalLista" scope="page"	class="aca.kardex.KrdxAlumEvalLista" />
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.CicloBloqueLista" />
 <jsp:useBean id="GrupoEvalL" scope="page" class="aca.ciclo.CicloGrupoEvalLista" />
+<jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 
 <%@ page import="java.text.*"%>
 <%@page import="java.util.TreeMap"%>
@@ -19,15 +20,11 @@
 		document.forma.submit();
 	}
 </script>
-
 <style>
-
 	.table td, .table th{
 		font-size: 10px;
-	} 
-
+	}
 </style>
-
 <%
 	//Define los colores a usar en cada columna
 	String[] colores = { "#FF8080", "#93C9FF", "#04C68B",
@@ -47,17 +44,26 @@
 	String codigoId 			= (String) session.getAttribute("codigoId");
 	String cicloId 				= (String) session.getAttribute("cicloId");
 	String cicloGrupoId 		= (String) request.getParameter("CicloGrupoId");
-	String bloque 				= request.getParameter("bloque") == null ? "1":request.getParameter("bloque");
-	String bloque2 				= request.getParameter("bloque2") == null ? "*":request.getParameter("bloque2");
-
+	
+	String promedioId			= request.getParameter("PromedioId")==null?"1":request.getParameter("PromedioId");
+	String bloque 				= request.getParameter("bloque")==null?"1":request.getParameter("bloque");
+	String bloque2 				= request.getParameter("bloque2")==null?"*":request.getParameter("bloque2");
 	String strBgcolor 			= "";
 
 	Grupo.setCicloGrupoId(cicloGrupoId);
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
-
+	
+	// Lista de alumnos en el grupo
 	ArrayList<String> lisAlum 							= kardexLista.getListAlumnosGrupo(conElias, cicloGrupoId);
+	
+	// Lista de materias en el grupo
 	ArrayList<aca.ciclo.CicloGrupoCurso> lisGrupoCurso 	= GrupoCursoLista.getListMateriasGrupo( conElias, cicloGrupoId, "ORDER BY ORDEN_CURSO_ID(CURSO_ID)");
-	ArrayList<aca.ciclo.CicloBloque> listBloques 		= ciclo.getListCiclo(conElias, cicloId, "ORDER BY BLOQUE_ID");
+	
+	// Lista de promedios en el ciclo
+	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
+	
+	// Lista de bloques o evaluaciones
+	ArrayList<aca.ciclo.CicloBloque> listBloques 		= ciclo.getListCiclo(conElias, cicloId, promedioId, "ORDER BY BLOQUE_ID");
 
 	// TreeMap para verificar si el alumno lleva la materia
 	TreeMap<String, aca.kardex.KrdxCursoAct> treeAlumCurso 	= kardexLista.getTreeAlumnoCurso( conElias, cicloGrupoId, "");
@@ -75,8 +81,14 @@
 			<a href="grupo.jsp" class="btn btn-primary"> 
 				<i class="icon-arrow-left icon-white"></i> 
 				<fmt:message key="boton.Regresar" />
-			</a>
-			
+			</a>&nbsp;&nbsp;
+			NIvel 1:
+			<select name="Promedio" id="Promedio" onchange='javascript:cambiaBloque()'>
+				<%for (aca.ciclo.CicloPromedio prom : lisPromedio){%>
+					<option value="<%=prom.getPromedioId() %>" <%if(prom.getPromedioId().equals(bloque)){out.print("selected");} %>><%=prom.getNombre() %></option>
+				<%}%>
+			</select>&nbsp;&nbsp;
+			Nivel 2:			
 			<select name="bloque" id="bloque" onchange='javascript:cambiaBloque()'>
 				<%for (aca.ciclo.CicloBloque bloq : listBloques){%>
 					<option value="<%=bloq.getBloqueId() %>" <%if(bloq.getBloqueId().equals(bloque)){out.print("selected");} %>><%=bloq.getBloqueNombre() %></option>
