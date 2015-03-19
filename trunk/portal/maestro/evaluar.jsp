@@ -17,6 +17,8 @@
 <jsp:useBean id="kardexConductaLista" scope="page" class="aca.kardex.KrdxAlumConductaLista" />
 <jsp:useBean id="kardexEval" scope="page" class="aca.kardex.KrdxAlumEval" />
 <jsp:useBean id="planCurso" scope="page" class="aca.plan.PlanCurso" />
+<jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
+<jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 
 <script>
 	
@@ -146,6 +148,10 @@
 <%
 	
 	//FORMATOS ---------------------------->
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
+
 	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("##0.0;-##0.0");
 	
@@ -178,12 +184,26 @@
 		notaMinima = notaMinima * 10;	
 	}
 	
+	// Escala para la columna de puntos
+	int escalaEval 			= 100;	
+	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
 	
 	//LISTA DE EVALUACIONES EN LA MATERIA
 	ArrayList<aca.ciclo.CicloGrupoEval> lisEvaluacion = cicloGrupoEvalLista.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
 	
+	// Lista de promedios en el ciclo
+	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
+			
+	// Lista de evaluaciones o bloques en el ciclo
+	ArrayList<aca.ciclo.CicloBloque> lisBloque 			= CicloBloqueL.getListCiclo(conElias, cicloId, " ORDER BY BLOQUE_ID");
+		
+	// Map de evaluaciones del alumno en Ciclo_Grupo_Eval
+	java.util.HashMap<String, aca.ciclo.CicloGrupoEval> mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalCurso(conElias, cicloGrupoId, cursoId);
+	
+	//Map de promedios del alumno en cada materia
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);	
 	
 	//SI LA MATERIA TIENE ESTADO DE 'MATERIA CREADA' ENTONCES CAMBIALO A 'MATERIA EN EVALUACION'
 	if ( estadoMateria.equals("1") ) {
@@ -403,7 +423,7 @@
 					
 					if (treeProm.containsKey(cicloGrupoId + cursoId	+ kardex.getCodigoId())) {
 						aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
-						promedio = Double.parseDouble(alumProm.getPromedio().replaceAll(",",".")) + Double.parseDouble(alumProm.getPuntosAjuste().replaceAll(",",".")); 
+						promedio = Double.parseDouble(alumProm.getPromedio().replaceAll(",",".")); 
 					}
 					
 					/* Guardar promedio del alumno en krdx_curso_act */
@@ -878,17 +898,22 @@
 					
 					<!-- --------- RECORRE LAS EVALUACIONES --------- -->
 					<%
-						cont = 0;
-						for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
-							cont++;
-					%>
-							<th style="width:4%;" class="text-center" title="<%=eval.getEvaluacionNombre()%>"><%=cont%></th>
-					<%
-						}
-					%>
-					<th class="text-center" title="<fmt:message key='aca.MensajePromedioEvaluaciones' />">
-						<fmt:message key="aca.Promedio" />
-					</th>
+					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){							
+							if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){								
+								// Inserta columnas de evaluaciones							
+								out.print("<th class='text-center' width='2%' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");					
+								
+							}
+						}						
+						// Inserta columna del promedio de las evaluaciones
+						out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");
+%>				
+						<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th>
+<%
+					}						
+%>					
+					
 					<th class="text-center" style="width:4%;">
 						<%if (cicloGrupoCurso.getEstado().equals("3")) {%>
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
@@ -907,10 +932,7 @@
 						</th>
 					<%} %>
 				</tr>
-			</thead>
-			
-			
-			
+			</thead>			
 			
 			<%
 				// Recorre la lista de Alumnos en la materia
@@ -920,7 +942,7 @@
 					double promedio = 0.0;
 					if (treeProm.containsKey(cicloGrupoId + cursoId + kardex.getCodigoId())) {
 						aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
-						promedio = Double.parseDouble(alumProm.getPromedio()) + Double.parseDouble(alumProm.getPuntosAjuste());
+						promedio = Double.parseDouble(alumProm.getPromedio());
 					} else {
 						System.out.println("No encontro el promedio de:" + kardex.getCodigoId());
 					}
@@ -954,32 +976,39 @@
 						
 							<!-- --------- RECORRE LAS EVALUACIONES --------- -->
 						<%
-							for (aca.ciclo.CicloGrupoEval eval: lisEvaluacion) {
-								String strNota = "-";
-	
-								if (treeNota.containsKey(cicloGrupoId + cursoId + eval.getEvaluacionId() + kardex.getCodigoId())) {
-									kardexEval = (aca.kardex.KrdxAlumEval) treeNota.get(cicloGrupoId + cursoId + eval.getEvaluacionId() + kardex.getCodigoId());
-								
-									if (kardexEval.getCodigoId().equals( kardex.getCodigoId()) && eval.getEvaluacionId().equals( kardexEval.getEvaluacionId()) && !kardexEval.getNota().equals("0")) {
-	
-										// Verifica si la materia evalua con decimales
-										if (evaluaConPunto.equals("S")) {
-											strNota = frmDecimal.format(Double.parseDouble(kardexEval.getNota())).replaceAll(",", ".");
-										} else {
-											strNota = frmEntero.format(Double.parseDouble(kardexEval.getNota())).replaceAll(",", ".");
-										}
+						int evalCerradas =0;						
+						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+							
+							for(aca.ciclo.CicloBloque cicloBloque : lisBloque){					
+								if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){			
+									String strNota = "-";
+									// Nota del alumno en la evaluacion
+									double notaEval = 0;
+									if (treeNota.containsKey(cicloGrupoId + cursoId + cicloBloque.getBloqueId() + kardex.getCodigoId())) {
+										notaEval = Double.parseDouble(treeNota.get(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
+										
+										// Formato de la evaluacion
+										strNota = formato0.format(notaEval);
+										if (cicloBloque.getDecimales().equals("1")) 
+											strNota = formato1.format(notaEval);
+									}								
+									// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
+									String estadoEval = "A";			
+									if (mapEvalCiclo.containsKey(cicloGrupoId+kardex.getCursoId()+cicloBloque.getBloqueId())){
+										estadoEval 	= mapEvalCiclo.get(cicloGrupoId+kardex.getCursoId()+cicloBloque.getBloqueId()).getEstado();										
 									}
-								}
+									// Color de la evaluacion
+									String colorEval = "color:blue;";
+									if (estadoEval.equals("C")){
+										evalCerradas++;
+										colorEval = "color:black;";
+									}						
 						%>
-								<td class="text-center">
-									
-									<div>
-										<%=strNota%>
-									</div>
+								<td class="text-center"><div><%=strNota%></div>
 									
 									<!-- INPUT PARA EDITAR LAS NOTAS (ESCONDIDO POR DEFAULT) -->
-									<%if (!kardex.getTipoCalId().equals("6") && eval.getEstado().equals("A") ) { /* Si el alumno no se ha dado de baja puede editar su nota */ %>
-										<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
+									<%if (!kardex.getTipoCalId().equals("6") && estadoEval.equals("A") ) { /* Si el alumno no se ha dado de baja puede editar su nota */ %>
+										<div class="editar<%=cicloBloque.getBloqueId() %>" style="display:none;">
 											<input 
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers" 
@@ -987,8 +1016,8 @@
 												data-max-num="<%=escala %>"
 												type="text" 
 												tabindex="<%=i+1%>" 
-												name="nota<%=i%>-<%=eval.getEvaluacionId()%>"
-												id="nota<%=i%>-<%=eval.getEvaluacionId()%>" 
+												name="nota<%=i%>-<%=cicloBloque.getBloqueId()%>"
+												id="nota<%=i%>-<%=cicloBloque.getBloqueId()%>" 
 												value="<%=strNota.equals("-")?"":strNota %>" 
 											/>
 										</div>
@@ -996,25 +1025,37 @@
 									
 								</td>
 						<%
-							}//End for evaluaciones
-						%>
+								} // valida el bloque
+							} //End for Bloques
 							
-							<!-- --------- PROMEDIO --------- -->
-						<%						
-							String strPromedio = "-";
-							if (promedio > 0) {
-								if (evaluaConPunto.equals("S")) {
-									strPromedio = frmDecimal.format(promedio).replaceAll(",", ".");
-								} else {
-									strPromedio = frmEntero.format(promedio).replaceAll(",", ".");
-								}
+							// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
+							double promEval = 0; 
+							if (mapPromAlumno.containsKey(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId())){
+								promEval = Double.parseDouble(mapPromAlumno.get(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId()).getNota());									
 							}
-						%>
 							
-							<td class="text-center"><%=strPromedio%></td>
-					
-					
-					
+							// Puntos del promedio
+							double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
+							
+							// Formato del promedio y los puntos (decimales usados)
+							String promFormato		= formato1.format(promEval);
+							String puntosFormato	= formato1.format(puntosEval);
+							if (cicloPromedio.getDecimales().equals("0")){
+								promFormato 		= formato0.format(promEval);
+								puntosFormato 		= formato0.format(puntosEval);
+							}else if (cicloPromedio.getDecimales().equals("2")){
+								promFormato 		= formato2.format(promEval);
+								puntosFormato 		= formato2.format(puntosEval);
+							}	
+							
+							// Inserta columna del promedio de las evaluaciones
+							out.print("<td class='text-center' width='2%'  >"+promFormato+"</td>");
+							
+							// Inserta columna de los puntos
+							out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
+							
+						} //End for Promedios
+						%>				
 							<!-- --------- EXTRAORDINARIO --------- -->
 						<%
 							float numExtra 	= 0;
