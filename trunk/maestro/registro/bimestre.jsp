@@ -185,6 +185,15 @@
 								}
 							}
 							
+							
+							if(bloque.equals("0")&&bloque2.equals("0")){
+								
+								if(mapPromAlumno.containsKey(codigoAlumno+grupoCurso.getCursoId()+promedioId)){
+									
+									strNota = mapPromAlumno.get(codigoAlumno+grupoCurso.getCursoId()+promedioId).getNota();
+								}
+							}
+							
 							float nota = 0;
 							
 							if(!bloque2.equals("*")){// Tiene doble filtro
@@ -206,7 +215,8 @@
 								promedio[j] = promedio[j] + nota;
 								numAlum[j] = numAlum[j] + 1;
 							}
-
+							
+							
 							// Calcula el promedio del alumno
 							promAlum += nota;
 							
