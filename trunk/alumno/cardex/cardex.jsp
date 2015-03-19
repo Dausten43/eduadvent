@@ -188,6 +188,8 @@
 						if (numProm > 0) promCiclo = promCiclo / numProm;
 						// Inserta columna del promedio de las evaluaciones
 						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
+						
+						
 					}
 					
 					// Completa las columnas del renglon de promedio  
@@ -264,6 +266,11 @@
 						// Inserta columna del promedio de las evaluaciones
 						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
 						
+						// Puntos del promedio
+						
+						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+formato0.format(Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval)+"</td>");
+						//System.out.println("promedio"+ cicloPromedio.getValor()+ "escala"+ escalaEval);
+						
 						// Inserta columna de los puntos
 						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
 					}
@@ -318,6 +325,7 @@
 			
 			// Colocar el promedio del ultimo tipo de curso
 			out.print("<tr class='alert alert-success'>");
+			
 			out.print("<td colspan='2'>Promedio General:</td>");
 			
 			promCiclo 	= 0;
