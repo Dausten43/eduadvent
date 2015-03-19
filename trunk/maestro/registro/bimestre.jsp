@@ -163,7 +163,7 @@
 							if(bloque.equals("0")&&bloque2.equals("0")){								
 								if(mapPromAlumno.containsKey(codigoAlumno+grupoCurso.getCursoId()+promedioId)){	
 									strNota = mapPromAlumno.get(codigoAlumno+grupoCurso.getCursoId()+promedioId).getNota();
-									nota 	= Float.parseFloat(strNota);
+									nota 	= new BigDecimal(strNota).floatValue(); 
 								}
 							}else{
 								String nota1 		= "-";
