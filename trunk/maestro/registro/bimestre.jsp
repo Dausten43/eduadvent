@@ -34,11 +34,8 @@
 			"#ABE17F", "#D52D0C", "#48B0F1" };
 
 	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)");
-	DecimalFormat frmDecimal2 	= new DecimalFormat("###,##0.0;(###,##0.0)");
-	DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)");
-	
+	DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)");	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
-	frmDecimal2.setRoundingMode(java.math.RoundingMode.DOWN);
 
 	String escuelaId 			= (String) session.getAttribute("escuela");
 	String codigoId 			= (String) session.getAttribute("codigoId");
@@ -160,56 +157,53 @@
 						// Verifica si el alumno tiene dada de alta la materia
 						if (treeAlumCurso.containsKey(cicloGrupoId + grupoCurso.getCursoId() + codigoAlumno)) {
 							
-							strNota = "-";
-							String nota1 		= "-";
-							String nota2 		= "-";
+							float nota 		= 0;
+							strNota 		= "-";
 							
-							/* ==== OBTENER NOTA1 ==== */
-							if (treeNota.containsKey(cicloGrupoId + grupoCurso.getCursoId() + bloque + codigoAlumno)) {
-								aca.kardex.KrdxAlumEval krdxEval = (aca.kardex.KrdxAlumEval) treeNota.get(cicloGrupoId + grupoCurso.getCursoId() + bloque + codigoAlumno);
-								
-								if(punto.equals("S")) {
-									nota1 = new BigDecimal(krdxEval.getNota())+"";
-								}else{
-									nota1 = new BigDecimal(krdxEval.getNota()).setScale(0,BigDecimal.ROUND_DOWN)+"";
-								}
-							}
-							/* ==== OBTENER NOTA2 ==== */
-							if (treeNota.containsKey(cicloGrupoId + grupoCurso.getCursoId() + bloque2 + codigoAlumno)) {
-								aca.kardex.KrdxAlumEval krdxEval = (aca.kardex.KrdxAlumEval) treeNota.get(cicloGrupoId + grupoCurso.getCursoId() + bloque2 + codigoAlumno);
-								
-								if(punto.equals("S")) {
-									nota2 = new BigDecimal(krdxEval.getNota())+"";
-								}else{
-									nota2 = new BigDecimal(krdxEval.getNota()).setScale(0,BigDecimal.ROUND_DOWN)+"";
-								}
-							}
-							
-							
-							if(bloque.equals("0")&&bloque2.equals("0")){
-								
-								if(mapPromAlumno.containsKey(codigoAlumno+grupoCurso.getCursoId()+promedioId)){
-									
+							if(bloque.equals("0")&&bloque2.equals("0")){								
+								if(mapPromAlumno.containsKey(codigoAlumno+grupoCurso.getCursoId()+promedioId)){	
 									strNota = mapPromAlumno.get(codigoAlumno+grupoCurso.getCursoId()+promedioId).getNota();
+									nota 	= Float.parseFloat(strNota);
 								}
-							}
-							
-							float nota = 0;
-							
-							if(!bloque2.equals("*")){// Tiene doble filtro
-								if(!nota1.equals("-") || !nota2.equals("-")){
-									if(nota1.equals("-"))nota1="0";
-									if(nota2.equals("-"))nota2="0";
-									nota = new BigDecimal(nota1).add(new BigDecimal(nota2)).divide(new BigDecimal("2"), 1, RoundingMode.DOWN).floatValue();
-									strNota = nota+"";
+							}else{
+								String nota1 		= "-";
+								String nota2 		= "-";
+								
+								/* ==== OBTENER NOTA1 ==== */
+								if (treeNota.containsKey(cicloGrupoId + grupoCurso.getCursoId() + bloque + codigoAlumno)) {
+									aca.kardex.KrdxAlumEval krdxEval = (aca.kardex.KrdxAlumEval) treeNota.get(cicloGrupoId + grupoCurso.getCursoId() + bloque + codigoAlumno);
+									
+									if(punto.equals("S")) {
+										nota1 = new BigDecimal(krdxEval.getNota())+"";
+									}else{
+										nota1 = new BigDecimal(krdxEval.getNota()).setScale(0,BigDecimal.ROUND_DOWN)+"";
+									}
 								}
-							}else{// El filtro normal (uno)
-								if(!nota1.equals("-")){
-									nota = new BigDecimal(nota1).floatValue();
-									strNota = nota+"";
+								/* ==== OBTENER NOTA2 ==== */
+								if (treeNota.containsKey(cicloGrupoId + grupoCurso.getCursoId() + bloque2 + codigoAlumno)) {
+									aca.kardex.KrdxAlumEval krdxEval = (aca.kardex.KrdxAlumEval) treeNota.get(cicloGrupoId + grupoCurso.getCursoId() + bloque2 + codigoAlumno);
+									
+									if(punto.equals("S")) {
+										nota2 = new BigDecimal(krdxEval.getNota())+"";
+									}else{
+										nota2 = new BigDecimal(krdxEval.getNota()).setScale(0,BigDecimal.ROUND_DOWN)+"";
+									}
 								}
-							}
-							
+								
+								if(!bloque2.equals("0")){// Tiene doble filtro
+									if(!nota1.equals("-") || !nota2.equals("-")){
+										if(nota1.equals("-"))nota1="0";
+										if(nota2.equals("-"))nota2="0";
+										nota = new BigDecimal(nota1).add(new BigDecimal(nota2)).divide(new BigDecimal("2"), 1, RoundingMode.DOWN).floatValue();
+										strNota = nota+"";
+									}
+								}else{// El filtro normal (uno)
+									if(!nota1.equals("-")){
+										nota = new BigDecimal(nota1).floatValue();
+										strNota = nota+"";
+									}
+								}
+							}						
 							
 							if (nota>0) {
 								promedio[j] = promedio[j] + nota;
@@ -254,13 +248,13 @@
 					double prom = promedio[j] / numAlum[j];
 					promGral += prom;
 			%>
-					<th class="text-center"><%=frmDecimal2.format(prom)%></th>
+					<th class="text-center"><%=frmDecimal.format(prom)%></th>
 			<%
 				}
 				promGral = promGral / lisGrupoCurso.size();
 			    
 			%>
-			<th class="text-center"><%=frmDecimal2.format(promGral)%></th>
+			<th class="text-center"><%=frmDecimal.format(promGral)%></th>
 		</tr>
 	</table>
 	
