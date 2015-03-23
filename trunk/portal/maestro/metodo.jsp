@@ -241,10 +241,8 @@
 
 		}
 	}// for de estrategias
-%>
-	
-	<hr>
-	
+%>	
+	<hr>	
 	<div class="alert alert-success">
 		<h4>
 			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numEvaluaciones%> <fmt:message key="aca.Estrategias" />
