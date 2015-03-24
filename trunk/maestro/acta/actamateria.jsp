@@ -36,13 +36,14 @@
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
-	String codigoId 		= (String) session.getAttribute("escuelaNombre");
+	String codigoId 		= (String) session.getAttribute("codigoEmpleado");
 	String escuelaNom 		= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId);
 	String cicloId 			= (String) session.getAttribute("cicloId");
 
 	String cicloGrupoId = request.getParameter("CicloGrupoId");
 	String cursoId = request.getParameter("CursoId");
 	
+
 
 	double[] prom = new double[10];
 	double promTmp = 0;
