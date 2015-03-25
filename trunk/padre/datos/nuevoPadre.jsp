@@ -35,7 +35,7 @@
 	if (Personal.insertNuevo(conElias)){		
 		
 		Clave.setCodigoId(Personal.getCodigoId());
-		Clave.setTipoId("2");
+		Clave.setTipoId("3");
 		Clave.setCuenta(Personal.getCodigoId());
 		Clave.setClave(claveDigest);
 		Clave.setAdministrador("N");
