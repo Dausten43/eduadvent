@@ -494,6 +494,8 @@
 		
 		// Lista de evaluaciones de la materia
 		lisEvaluacion = cicloGrupoEvalLista.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
+		// Actualizar el map de evaluaciones
+		mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalCurso(conElias, cicloGrupoId, cursoId);
 	}
 //------------- GUARDA LOS EXTRAORDINARIOS ------------->	
 	else if (accion.equals("5")) { //Guardar Extraordinarios
@@ -1004,13 +1006,13 @@
 									if (estadoEval.equals("C")){
 										evalCerradas++;
 										colorEval = "color:black;";
-									}																	
+									}
 						%>
 								<td class="text-center" style="<%=colorEval%>"><div><%=strNota%></div>
-									
 									<!-- INPUT PARA EDITAR LAS NOTAS (ESCONDIDO POR DEFAULT) -->
+									<% /*System.out.println("Datos:"+cicloBloque.getBloqueId()+":"+estadoEval+":"+kardex.getCodigoId());*/ %>
 									<%if (!kardex.getTipoCalId().equals("6") && estadoEval.equals("A") ) { /* Si el alumno no se ha dado de baja y puede editar su nota */ %>
-										<div class="editar<%=cicloBloque.getBloqueId() %>" style="display:none;">
+										<div class="editar<%=cicloBloque.getBloqueId()%>" style="display:none;">
 										<input 
 											style="margin-bottom:0;text-align:center;" 
 											class="input-mini onlyNumbers" 
