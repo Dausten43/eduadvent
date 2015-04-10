@@ -77,7 +77,7 @@
 			<div class="alert alert-danger"><%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</div>
 		<%	
 			listEstrategias = GrupoEvalL.getArrayListPorPromedio(conElias, cicloGrupoId, cursoId, promedios.getPromedioId(), "ORDER BY ORDEN");
-		if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
+		if (listEstrategias.size() < modulos){
 		%> 
 			<div class="well">
 				<a class="btn btn-primary" href="estrategia.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>">
