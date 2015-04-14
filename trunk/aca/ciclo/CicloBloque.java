@@ -185,7 +185,7 @@ public class CicloBloque {
 					+ " TO_DATE(?, 'DD/MM/YYYY'),"
 					+ " TO_NUMBER(?, '999.99'), "
 					+ " TO_NUMBER(?, '99'),"
-					+ " TO_NUMBER(?, '99')"
+					+ " TO_NUMBER(?, '99'),"
 					+ " ?, TO_NUMBER(?, '9'))");
 			
 			ps.setString(1, cicloId);
