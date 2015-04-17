@@ -191,8 +191,8 @@
 							if (cicloBloque.getDecimales().equals("1")) 
 								notaFormato = formato1.format(notaEval);
 							
-							// Inserta columnas de evaluaciones
-							if(estadoEval.equals("A")){
+							// Inserta columnas de evaluaciones (Habilitado para modificar aunque este cerrado el bimestre)
+							if(estadoEval.equals("A") || estadoEval.equals("C")){
 %>
 							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>
 								<a href="evalEstrategias.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=codigoAlumno%>&evaluacionId=<%=cicloBloque.getBloqueId()%>&materia=<%=alumCurso.getCursoId()%>">
