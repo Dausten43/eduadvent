@@ -41,7 +41,7 @@
 		<br>
 		<%
 			for (int j = 1; j < listaNivel.length; j++) {
-				ArrayList<aca.empleado.EmpPersonal> lisMaestro = EmpPersonalL.getListMaestroxNivel(conElias, escuelaId, listaNivel[j], cicloId, " ORDER BY NOMBRE");				
+				ArrayList<aca.empleado.EmpPersonal> lisMaestro = EmpPersonalL.getListMaestroxNivel(conElias, escuelaId, listaNivel[j], cicloId, " ORDER BY NOMBRE");			
 				if (lisMaestro.size() > 0) {
 		%>
 		<table width="50%" border="0" align="center" class="table table-condensed">
