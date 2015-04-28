@@ -178,6 +178,7 @@
 								String [] niveles = usuario.getNivel().split("-");
 								String nivel = "";
 								for(int i=0; i<niveles.length; i++){
+									if(niveles[i].equals("0"))nivel="Maternal";
 									if(niveles[i].equals("1"))nivel="Preescolar";
 									if(niveles[i].equals("2"))nivel="Primaria";
 									if(niveles[i].equals("3"))nivel="Secundaria";
@@ -190,7 +191,6 @@
 									  	<%=niveles[i]%>
 									  </td>	  
 									  <td>
-									    <%=nivel%>
 									    <label><fmt:message key="aca.${nivel}" /></label>
 									  </td>
 									</tr>
