@@ -141,11 +141,12 @@
 		
 		conElias.setAutoCommit(false);
 		
-		if (KrdxCursoAct.existeReg(conElias) ){				
+		if (KrdxCursoAct.existeReg(conElias) ){			
 			if (tieneActiv){
 				if (aca.kardex.KrdxAlumActiv.deleteRegMateria(conElias, codigoId, KrdxCursoAct.getCicloGrupoId(), KrdxCursoAct.getCursoId()))
 					tieneActiv = false;
 			}
+			
 			if (tieneEval && !tieneActiv){
 				if (aca.kardex.KrdxAlumEval.deleteRegMateria(conElias, codigoId, KrdxCursoAct.getCicloGrupoId(), KrdxCursoAct.getCursoId()))
 					tieneEval = false;
@@ -155,7 +156,7 @@
 				conElias.commit();					 
 				mensaje = "EvaluacionesBorradas";
 			}else{
-				mensaje = "ImposibleBorrarEval";										
+				mensaje = "ImposibleBorrarEval";					
 			}
 		}
 		
