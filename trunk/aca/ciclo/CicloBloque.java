@@ -345,15 +345,16 @@ public class CicloBloque {
 		return ok;
 	}
 	
-	public static boolean existeEvaluaciones(Connection conn, String promedioId) throws SQLException{
-		boolean ok 			= false;
+	public static boolean existeEvaluaciones(Connection conn, String cicloId, String promedioId) throws SQLException{
+		
 		ResultSet rs 			= null;
 		PreparedStatement ps	= null;
+		boolean ok 				= false;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM CICLO_BLOQUE" +
-					" WHERE PROMEDIO_ID = ?");
-			ps.setString(1, promedioId);
+			ps = conn.prepareStatement("SELECT * FROM CICLO_BLOQUE WHERE CICLO_ID = ? AND PROMEDIO_ID = ?");
+			ps.setString(1, cicloId);
+			ps.setString(2, promedioId);
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
