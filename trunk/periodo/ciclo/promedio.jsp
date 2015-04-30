@@ -59,7 +59,7 @@
 	  		<tr>
 	  			<td>
 		  			<a class="icon-pencil" href="accionPromedio.jsp?Accion=5&promedioId=<%=promedio.getPromedioId()%>"></a>
-		  			<%if(aca.ciclo.CicloBloque.existeEvaluaciones(conElias, promedio.getPromedioId()) == false ){%>
+		  			<%if(aca.ciclo.CicloBloque.existeEvaluaciones(conElias, promedio.getCicloId(), promedio.getPromedioId()) == false ){%>
 		  				<a class="icon-remove" href="javascript:Borrar('<%=promedio.getPromedioId()%>')"></a>
 		  			<%}%>
 				</td>
