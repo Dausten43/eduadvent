@@ -63,11 +63,13 @@
 	
 	String resultado		= "";
 	
-	if ( numAccion == 1 ){
-		Cuenta.setCuentaId(Cuenta.maxReg(conElias, escuelaId));
+	if ( numAccion == 1 ){		
+		Cuenta.setCuentaId(Cuenta.maxReg(conElias, escuelaId));		
 	}else{
 		Cuenta.mapeaRegId(conElias, request.getParameter("CuentaId"));
+		Cuenta.setCuentaId(request.getParameter("CuentaId"));
 	}
+	
 	// Operaciones a realizar en la pantalla	
 	switch (numAccion){
 		case 2: { // Grabar
@@ -77,7 +79,7 @@
 			Cuenta.setBeca(request.getParameter("Beca"));
 			Cuenta.setTipo(tipo);
 			Cuenta.setCuentaSunPlus(request.getParameter("SunPlus"));
-			Cuenta.setPagoInicial(request.getParameter("PagoInicial"));
+			Cuenta.setPagoInicial(request.getParameter("PagoInicial"));			
 			if (Cuenta.existeReg(conElias) == false){
 				if (Cuenta.insertReg(conElias)){
 					resultado = "Guardado";
