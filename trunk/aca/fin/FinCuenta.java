@@ -284,10 +284,10 @@ public class FinCuenta {
         return ok;
     }    
     
-    public String maxReg(Connection conn, String escuelaId) throws SQLException {
-        String maximo			= "01";
+    public String maxReg(Connection conn, String escuelaId) throws SQLException {        
         ResultSet rs			= null;
         PreparedStatement ps	= null;
+        String maximo			= escuelaId+"001";
 
         try {
         	if (escuelaId.length()==1) escuelaId = "0"+escuelaId;
