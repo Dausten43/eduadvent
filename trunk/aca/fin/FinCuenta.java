@@ -287,19 +287,26 @@ public class FinCuenta {
     public String maxReg(Connection conn, String escuelaId) throws SQLException {        
         ResultSet rs			= null;
         PreparedStatement ps	= null;
-        String maximo			= escuelaId+"001";
+        String cuenta			= escuelaId+"001";
+        int maximo				= 1;
 
-        try {
-        	if (escuelaId.length()==1) escuelaId = "0"+escuelaId;
-        	maximo = escuelaId+maximo;
-            ps = conn.prepareStatement("SELECT TRIM(COALESCE(TO_CHAR(MAX(TO_NUMBER(SUBSTRING(CUENTA_ID,4,3),'999'))+1,'000'),'001')) AS MAXIMO" +
+        try {     	
+        	
+            ps = conn.prepareStatement("SELECT MAX(SUBSTR(CUENTA_ID,4,3)) AS MAXIMO" +
             		" FROM FIN_CUENTA WHERE ESCUELA_ID = ?");
             ps.setString(1, escuelaId);
             
             rs = ps.executeQuery();
-            if(rs.next()){
-                maximo = escuelaId + rs.getString("MAXIMO");
-            }            
+            if(rs.next()){            	
+            	maximo  = Integer.parseInt(rs.getString("MAXIMO"))+1;
+            	if (maximo<10){
+            		cuenta = escuelaId+"00"+String.valueOf(maximo);
+            	}else if (maximo<100){ 
+            		cuenta = escuelaId+"0"+String.valueOf(maximo);
+            	}else{
+            		cuenta = escuelaId+String.valueOf(maximo);
+            	}
+            }        
            
         }catch(Exception ex){
             System.out.println("Error - aca.fin.FinCuenta|existeReg|:" +ex);
@@ -307,7 +314,7 @@ public class FinCuenta {
 	        if(rs != null) rs.close();
 	        if(ps != null) ps.close();
         }
-        return maximo;
+        return cuenta;
     }
     
     public static String getCuentaNombre(Connection conn, String cuentaId) throws SQLException {
