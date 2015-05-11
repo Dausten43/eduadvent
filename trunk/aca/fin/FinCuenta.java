@@ -246,7 +246,7 @@ public class FinCuenta {
 
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_CUENTA WHERE CUENTA_ID = ?");            
+            ps = conn.prepareStatement("SELECT * FROM FIN_CUENTA WHERE CUENTA_ID = ?");
             ps.setString(1, cuentaId);
             
             rs = ps.executeQuery();
