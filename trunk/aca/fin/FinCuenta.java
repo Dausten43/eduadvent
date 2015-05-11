@@ -292,12 +292,12 @@ public class FinCuenta {
 
         try {     	
         	
-            ps = conn.prepareStatement("SELECT MAX(SUBSTR(CUENTA_ID,4,3)) AS MAXIMO" +
+            ps = conn.prepareStatement("SELECT COALESCE(MAX(SUBSTR(CUENTA_ID,4,3)),'000') AS MAXIMO" +
             		" FROM FIN_CUENTA WHERE ESCUELA_ID = ?");
             ps.setString(1, escuelaId);
             
             rs = ps.executeQuery();
-            if(rs.next()){            	
+            if(rs.next()){
             	maximo  = Integer.parseInt(rs.getString("MAXIMO"))+1;
             	if (maximo<10){
             		cuenta = escuelaId+"00"+String.valueOf(maximo);
@@ -309,7 +309,7 @@ public class FinCuenta {
             }        
            
         }catch(Exception ex){
-            System.out.println("Error - aca.fin.FinCuenta|existeReg|:" +ex);
+            System.out.println("Error - aca.fin.FinCuenta|maxReg|:" +ex);
         }finally{
 	        if(rs != null) rs.close();
 	        if(ps != null) ps.close();
