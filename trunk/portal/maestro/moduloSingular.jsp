@@ -42,7 +42,7 @@
 	String cursoIdFrom 			= (String) session.getAttribute("cursoId");	
 	String cursoTo 				= request.getParameter("cursoId")==null?"":request.getParameter("cursoId");
 	String cicloGrupoTo 		= request.getParameter("cicloGrupo")==null?"":request.getParameter("cicloGrupo");
-	String modulo				= request.getParameter("ModuloId")==null?"0":request.getParameter("ModuloId");
+	String modulo				= request.getParameter("moduloId")==null?"0":request.getParameter("moduloId");
 	
 	String accion = request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
