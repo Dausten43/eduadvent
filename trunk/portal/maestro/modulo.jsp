@@ -81,7 +81,7 @@
 
 	<h3>
 		<%=Modulo.getModuloNombre()%>
-		&nbsp; <a class="btn btn-success" href="moduloSingular.jsp?moduloId=<%=modulo2 %>"><fmt:message key="maestros.Modulo" /> <i class="icon-random icon-white"></i></a>
+		&nbsp; <a class="btn btn-success" href="moduloSingular.jsp?moduloId=<%=modulo2 %>"><fmt:message key="maestros.TraspasarModulo" /> <i class="icon-random icon-white"></i></a>
 	</h3>
 	
 	
