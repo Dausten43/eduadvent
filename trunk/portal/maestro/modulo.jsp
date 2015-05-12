@@ -41,6 +41,7 @@
 			if (lisModulo.size() > 0) {
 		%>
 			<a class="btn btn-success" href="moduloTraspaso.jsp"><fmt:message key="maestros.TraspasarPlaneacion" /> <i class="icon-random icon-white"></i></a>
+			
 		<%
 			}
 		%>
@@ -80,7 +81,10 @@
 
 	<h3>
 		<%=Modulo.getModuloNombre()%>
+		&nbsp; <a class="btn btn-success" href="moduloSingular.jsp?moduloId=<%=modulo2 %>"><fmt:message key="maestros.Modulo" /> <i class="icon-random icon-white"></i></a>
 	</h3>
+	
+	
 	
 	<p><%=descripcion.equals("") ? "-" : descripcion%></p>
 	
