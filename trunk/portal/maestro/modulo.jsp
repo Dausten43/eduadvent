@@ -59,7 +59,7 @@
 		if (modulo2.equals("0") && i == 0)
 			modulo2 = mod.getModuloId();
 	%>
-			<a class="btn btn-info btn-mini <%if(modulo2.equals(mod.getModuloId()))out.print("active"); %>" href="modulo.jsp?ModuloId=<%=mod.getModuloId()%>"> <%=i+1%></a> 
+			<a class="btn btn-info btn-mini <%if(modulo2.equals(mod.getModuloId()))out.print("active"); %>" href="modulo.jsp?ModuloId=<%=mod.getModuloId()%>"> <%=mod.getModuloId()%></a> 
 			<a class="icon-pencil" href="altaModulo.jsp?ModuloId=<%=mod.getModuloId()%>" > </a> &nbsp;&nbsp;
 	<%
 		}
@@ -81,7 +81,7 @@
 
 	<h3>
 		<%=Modulo.getModuloNombre()%>
-		&nbsp; <a class="btn btn-success" href="moduloSingular.jsp?moduloId=<%=modulo2 %>"><fmt:message key="maestros.TraspasarModulo" /> <i class="icon-random icon-white"></i></a>
+		&nbsp; <a class="btn btn-success" href="moduloSingular.jsp?moduloId=<%=modulo2%>"><fmt:message key="maestros.TraspasarModulo" /> <i class="icon-random icon-white"></i></a>
 	</h3>
 	
 	
