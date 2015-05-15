@@ -117,6 +117,34 @@ public class CatNivelEscuelaLista {
 		return lis;
 	}
 	
+	
+	public HashMap<String, CatNivelEscuela> mapNivelesEscuela(Connection conn, String escuelaId ) throws SQLException{
+		HashMap<String, CatNivelEscuela> map 	= new HashMap<String, CatNivelEscuela>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT * FROM CAT_NIVEL_ESCUELA" +
+					" WHERE ESCUELA_ID = '"+escuelaId+"' ";
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				
+				CatNivelEscuela obj = new CatNivelEscuela();				
+				obj.mapeaReg(rs);
+				map.put(obj.getEscuelaId(), obj );
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatNivelEscuelaLista|getListNivelesCarga|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return map;
+	}
 	public ArrayList<CatNivelEscuela> getListNivelesPermitidos(Connection conn, String escuelaId, String cicloId, String orden ) throws SQLException{
 		ArrayList<CatNivelEscuela> lis 	= new ArrayList<CatNivelEscuela>();
 		Statement st 	= conn.createStatement();
