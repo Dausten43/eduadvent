@@ -101,6 +101,37 @@ public class CicloGpoModulo {
 			return ok;
 		}
 		
+		
+		public boolean insertReg(Connection conn, String moduloId ) throws SQLException{
+			PreparedStatement ps = null;
+			boolean ok = false;
+			try{
+				ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_MODULO" +
+						" (CICLO_GRUPO_ID, MODULO_ID, MODULO_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN)" +
+						" VALUES(?, ?, ?, ? , ?, ?)");
+				
+				ps.setString(1, cicloGrupoId);
+				ps.setString(2, moduloId);
+				ps.setString(3, moduloNombre);
+				ps.setString(4, descripcion);
+				ps.setString(5, cursoId);
+				ps.setString(6, orden);
+				
+				if ( ps.executeUpdate()== 1){
+					ok = true;
+				}else{
+					ok = false;
+				}
+				
+				
+			}catch(Exception ex){
+				System.out.println("Error - aca.ciclo.CicloGpoModulo|insertRegDeCicloGrupoModulo|:"+ex);
+			}finally{
+				if (ps!=null) ps.close();
+			}
+			return ok;
+		}
+		
 		public boolean updateReg(Connection conn ) throws SQLException{
 			PreparedStatement ps = null;
 			boolean ok = false;
@@ -236,6 +267,36 @@ public class CicloGpoModulo {
 						" AND CURSO_ID = ?");
 				ps.setString(1, cicloGrupoId);
 				ps.setString(2, cursoId);
+				
+				rs= ps.executeQuery();		
+				if(rs.next()){
+					ok = true;
+				}else{
+					ok = false;
+				}
+			}catch(Exception ex){
+				System.out.println("Error - aca.ciclo.CicloGpoModulo|existeEnGrupo|:"+ex);
+			}finally{
+				if (rs!=null) rs.close();
+				if (ps!=null) ps.close();
+			}		
+			
+			return ok;
+		}
+		
+		public boolean existeEnGrupo(Connection conn, String cicloGrupoId, String cursoId, String moduloId) throws SQLException{
+			boolean ok 			= false;
+			ResultSet rs 			= null;
+			PreparedStatement ps	= null;
+			
+			try{
+				ps = conn.prepareStatement("SELECT * FROM CICLO_GRUPO_MODULO" +
+						" WHERE CICLO_GRUPO_ID = ?" +
+						" AND CURSO_ID = ?"+
+						" AND MODULO_ID = ?");
+				ps.setString(1, cicloGrupoId);
+				ps.setString(2, cursoId);
+				ps.setString(3, moduloId);
 				
 				rs= ps.executeQuery();		
 				if(rs.next()){
