@@ -45,23 +45,20 @@
 	String modulo				= request.getParameter("moduloId")==null?"0":request.getParameter("moduloId");
 	
 	String accion = request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	
-	if(accion.equals("1") ){
+	if(accion.equals("1")){
 
-		ArrayList<aca.ciclo.CicloGpoModulo> modulosTo = ModuloL.getListCurso(conElias, cicloGrupoTo, cursoTo, "");
-		if(modulosTo.size()==0){
+		ArrayList<aca.ciclo.CicloGpoModulo> modulosTo = ModuloL.getCurso(conElias, cicloGrupoTo, cursoTo, modulo, "");
+		
+		if(!modulosTo.contains(modulo)){
+			
 			conElias.setAutoCommit(false);
 			
-			ArrayList<aca.ciclo.CicloGpoModulo> modulosFrom = ModuloL.getListCurso(conElias, cicloGrupoFrom, cursoIdFrom, "");
+			ArrayList<aca.ciclo.CicloGpoModulo> modulosFrom = ModuloL.getCurso(conElias, cicloGrupoFrom, cursoIdFrom, modulo, "");
 			boolean grabo = true;
 			
-			
-			if(!modulosFrom.contains(modulo)){
-				
-				aca.ciclo.CicloGpoModulo modulo2 = modulosFrom.get(Integer.parseInt(modulo));
-			
+			for(aca.ciclo.CicloGpoModulo modulo2: modulosFrom){
 				if(grabo==false){
-					
+					break;
 				}
 				
 				Modulo.setCicloGrupoId(cicloGrupoTo);
@@ -71,11 +68,11 @@
 				Modulo.setModuloId(Modulo.maximoReg(conElias));
 				Modulo.setOrden(modulo2.getOrden());
 				
-				if(Modulo.insertReg(conElias)){
+				if(Modulo.insertReg(conElias, modulo)){
 					ArrayList<aca.ciclo.CicloGpoTema> temas = TemaL.getListTemasModulo(conElias, cicloGrupoFrom, cursoIdFrom, modulo2.getModuloId(), "");
 					for(aca.ciclo.CicloGpoTema tema: temas){
 						if(grabo==false){
-							
+							break;
 						}
 						
 						Tema.setCicloGrupoId(cicloGrupoTo);
@@ -86,12 +83,12 @@
 						Tema.setTemaId(Tema.maximoReg(conElias));
 						Tema.setOrden(tema.getOrden());
 						
-						if(Tema.insertReg(conElias)){
+						if(Tema.insertReg(conElias, modulo)){
 							
 							ArrayList<aca.ciclo.CicloGrupoTarea> tareas = TareaL.getListTareasTema(conElias, cicloGrupoFrom, cursoIdFrom, tema.getTemaId(), "");
 							for(aca.ciclo.CicloGrupoTarea tarea: tareas){
 								if(grabo==false){
-									
+									break;
 								}
 								
 								Tarea.setCicloGrupoId(cicloGrupoTo);
@@ -107,7 +104,7 @@
 								}else{
 									grabo = false;
 									msj = "ErrorAlTraspasarTareas";
-									
+									break;
 								}
 								
 							}
@@ -129,24 +126,24 @@
 									
 								}else{
 									grabo = false;
-									msj = "ErrorAlTraspasarTareas";
-									
+									msj = "ErrorAlTraspasarTareas1";
+									break;
 								}
 							}
 							
 						}else{
 							grabo = false;
 							msj = "ErrorAlTraspasarTemas";
-							
+							break;
 						}
 					}
 				}else{
 					grabo = false;
 					msj = "ErrorAlTraspasarModulos";
-					
+					break;
 				}
-			
 			}
+			
 			if(grabo==false){
 				conElias.rollback();
 			}else{
@@ -159,6 +156,7 @@
 			msj = "YaTienePlaneacion";
 		}
 	}
+	
 	
 	pageContext.setAttribute("resultado", msj);
 %>
@@ -174,7 +172,7 @@
 	<div class="well">
 		<a class="btn btn-primary" href="modulo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	
-		<select id="Ciclo" onchange="location.href='moduloTraspaso.jsp?Ciclo='+this.options[this.selectedIndex].value" class="input-xxlarge"> <!-- show modulo -->
+		<select id="Ciclo" onchange="location.href='moduloSingular.jsp?Ciclo='+this.options[this.selectedIndex].value?moduloId="+<%=modulo %> class="input-xxlarge"> <!-- show modulo -->
 <%
 			String cicloSeleccionado;
 			boolean tieneCiclo = false;
@@ -210,14 +208,18 @@
 		</tr>
 <%
 		ArrayList<aca.ciclo.CicloGrupoCurso> lisCursos = cicloGrupoCursoLista.getListAll(conElias, "WHERE EMPLEADO_ID = '"+codigoId+"' AND CICLO_GRUPO_ID LIKE '"+cicloId+"%' ORDER BY ORDEN_NGG(CICLO_GRUPO_ID), ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
-		for(int i = 0; i < lisCursos.size(); i++){
+		
+for(int i = 0; i < lisCursos.size(); i++){
 			cicloGrupoCurso = (CicloGrupoCurso)lisCursos.get(i);
 			cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());		
 			
 			materia = PlanCurso.getCursoNombre(conElias, cicloGrupoCurso.getCursoId());
+			System.out.println(cicloGrupoCurso.getCicloGrupoId()+" " +cicloGrupoCurso.getCursoId()+" "+modulo);
+			
+			
 %>
 			<tr>
-				<% if(Modulo.existeEnGrupo(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId())){ %>
+				<% if(Modulo.existeEnGrupo(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId(), modulo)){ %>
 						<td>
 							<input type="radio" checked disabled />
 						</td>
@@ -226,10 +228,11 @@
 					  		<input class="radioCurso" type="radio" name="curso" />
 					  		<input class="curso" type="hidden" value="<%=cicloGrupoCurso.getCursoId() %>">
 					  		<input class="cicloGrupo" type="hidden" value="<%=cicloGrupoCurso.getCicloGrupoId() %>">
+					  		<input class="moduloId" type="hidden" value="<%=modulo%>">
 						</td>
 				<% } %>
 				<td>
-					<% if(Modulo.existeEnGrupo(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId())){ %>
+					<% if(Modulo.existeEnGrupo(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId(), modulo)){ %>
 						<span class="label label-info"><fmt:message key="aca.MateriaConPlaneacion" /></span>
 					<% } %>
 				</td>
@@ -271,7 +274,7 @@
 		});
 		
 		if(checked){
-			location.href="moduloTraspaso.jsp?Accion=1&cursoId="+checked.siblings(".curso").val()+"&cicloGrupo="+checked.siblings(".cicloGrupo").val();
+			location.href="moduloSingular.jsp?Accion=1&cursoId="+checked.siblings(".curso").val()+"&cicloGrupo="+checked.siblings(".cicloGrupo").val()+"&moduloId="+checked.siblings(".moduloId").val();
 		}else{
 			alert("<fmt:message key="aca.SeleccioneMateria" />");
 		}
