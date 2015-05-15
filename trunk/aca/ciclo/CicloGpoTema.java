@@ -112,6 +112,37 @@ public class CicloGpoTema {
 		return ok;
 	}
 	
+	public boolean insertReg(Connection conn, String moduloId ) throws SQLException{
+		PreparedStatement ps = null;
+		boolean ok = false;
+		try{
+			ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_TEMA" +
+					" (CICLO_GRUPO_ID, MODULO_ID, TEMA_ID, TEMA_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN)" +
+					" VALUES(?, ?, ?, ? , ?, ?, ?)");
+			
+			ps.setString(1, cicloGrupoId);
+			ps.setString(2, moduloId);
+			ps.setString(3, temaId);
+			ps.setString(4, temaNombre);
+			ps.setString(5, descripcion);
+			ps.setString(6, cursoId);
+			ps.setString(7, orden);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+			}else{
+				ok = false;
+			}
+			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloGpoTema|insertReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
 	public boolean updateReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
 		boolean ok = false;
