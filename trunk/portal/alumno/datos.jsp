@@ -11,10 +11,9 @@
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 
 <%
-	String codigoId = (String) session.getAttribute("codigoId");
+	String codigoId			= session.getAttribute("codigoId").toString();
 	
-	alumPersonal.mapeaRegId(conElias, codigoId);
-	
+	alumPersonal.mapeaRegId(conElias, codigoId);	
 	session.setAttribute("mat",codigoId);
 %>
 
