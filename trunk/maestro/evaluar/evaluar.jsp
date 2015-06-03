@@ -212,10 +212,7 @@
 	}
 	
 	//LISTA DE ALUMNOS
-	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos			= krdxCursoActL.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
-	
-
-	
+	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos			= krdxCursoActL.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");	
 	
 /* ********************************** ACCIONES ********************************** */
 	String msj = "";	
@@ -256,7 +253,7 @@
 						kardexEval.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, evaluacion);
 						kardexEval.setNota(nota);
 						if(kardexEval.updateReg(conElias)){
-							//Actualizado correctamente
+							//Actualizado correctamente							
 						}else{
 							error = true; break;
 						}
