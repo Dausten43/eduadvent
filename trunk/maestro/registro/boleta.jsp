@@ -43,9 +43,10 @@
 	boolean hayAbiertas = CicloGrupoCurso.hayAbiertas(conElias, cicloGrupoId);
 	
 	ArrayList<String> lisAlum 			= cursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId);	
-	ArrayList<CicloBloque> lisBloque	= cicloBloqueL.getListCiclo(conElias, cicloGrupoId.substring(0,8), "ORDER BY BLOQUE_ID");
+	ArrayList<CicloBloque> lisBloque	= cicloBloqueL.getListCiclo(conElias, cicloGrupoId.substring(0,8), "ORDER BY BLOQUE_ID");	
 	
 	java.text.DecimalFormat frm = new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
+	java.text.DecimalFormat frm1 = new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
 	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	if(escala == 100){
@@ -72,6 +73,9 @@
 	if(!subnivel.equals("")){
 		subnivel = "Ciclo: ["+subnivel+"] - ";
 	}
+	
+	//Map de promedios del alumno en cada materia
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
 	
 	if(hayAbiertas){
 %>
@@ -607,10 +611,15 @@
 			    				boolean estanTodasCerradas = CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, alumnoCurso.getCursoId());
 			    				
 			    				if(!estanTodasCerradas){
-			    					String nota = "-";
+			    					String nota = "0";			    					
 			    					if(cantidadBimestres!=0){
-			    						nota = sumaBimestres.divide(new BigDecimal(cantidadBimestres+""), 1, RoundingMode.DOWN)+"";
+			    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1")){
+			    							nota = mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1" ).getNota();
+				    					}			    						
 			    					}
+			    					
+			    					// Colocar formato con una decimal
+			    					nota = frm1.format(Double.parseDouble(nota));
 			    					
 			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
