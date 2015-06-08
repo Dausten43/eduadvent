@@ -38,7 +38,7 @@ public class KrdxAlumPromLista {
 		
 		return lis;
 	}
-	
+	/* OBTIENE EL PROMEDIO DEL ALUMNO EN UN PERIODO O PROMEDIO DE LA MATERIA */
 	public static HashMap<String,KrdxAlumProm> mapPromAlumno(Connection conn, String codigoId) throws SQLException{
 		HashMap<String,KrdxAlumProm> map 	= new HashMap<String, KrdxAlumProm>();
 		Statement st 	= conn.createStatement();
@@ -68,6 +68,35 @@ public class KrdxAlumPromLista {
 		return map;
 	}
 	
+	/* OBTIENE EL PROMEDIO GENERAL DEL ALUMNO EN TODAS SUS MATERIAS REGISTRADAS */
+	public static HashMap<String,String> mapPromAlumnoCurso(Connection conn, String codigoId) throws SQLException{
+		HashMap<String,String> map 	= new HashMap<String, String>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT CICLO_GRUPO_ID, CURSO_ID, COALESCE(TRIM(TO_CHAR(SUM(NOTA*VALOR)/100,'999.99')),'0') AS NOTA"
+					+ " FROM KRDX_ALUM_PROM"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'"
+					+ " GROUP BY CICLO_GRUPO_ID, CURSO_ID";
+			
+			rs = st.executeQuery(comando);		
+			while (rs.next()){				
+				map.put(rs.getString("CICLO_GRUPO_ID")+rs.getString("CURSO_ID"), rs.getString("NOTA"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumPromLista|mapPromAlumnoCurso|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return map;
+	}
+	
+	/* OBTIENE EL PROMEDIO DE LOS ALUMNOS POR PERIODO O PROMEDIO_ID EN CADA MATERIA REGISTRADA EN EL GRUPO */
 	public static HashMap<String,KrdxAlumProm> mapPromGrupo(Connection conn, String cicloGrupoId) throws SQLException{
 		HashMap<String,KrdxAlumProm> map 	= new HashMap<String, KrdxAlumProm>();
 		Statement st 	= conn.createStatement();
@@ -89,6 +118,34 @@ public class KrdxAlumPromLista {
 			
 		}catch(Exception ex){
 			System.out.println("Error - aca.kardex.KrdxAlumPromLista|mapPromGrupo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return map;
+	}
+	
+	/* OBTIENE EL PROMEDIO GENERAL DE LOS ALUMNOS EN CADA MATERIA REGISTRADA EN EL GRUPO */
+	public static HashMap<String,String> mapPromGrupoCurso(Connection conn, String cicloGrupoId) throws SQLException{
+		HashMap<String,String> map 	= new HashMap<String, String>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CURSO_ID, COALESCE(TRIM(TO_CHAR(SUM(NOTA*VALOR)/100,'999.99')),'0') AS NOTA"
+					+ " FROM KRDX_ALUM_PROM"
+					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'"
+					+ " GROUP BY CODIGO_ID, CURSO_ID";
+			
+			rs = st.executeQuery(comando);		
+			while (rs.next()){				
+				map.put(rs.getString("CODIGO_ID")+rs.getString("CURSO_ID"), rs.getString("NOTA"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumPromLista|mapPromGrupoCurso|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();

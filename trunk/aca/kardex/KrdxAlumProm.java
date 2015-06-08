@@ -230,7 +230,7 @@ public class KrdxAlumProm {
 				ok = false;
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumpRrom|existeReg|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumProm|existeReg|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
