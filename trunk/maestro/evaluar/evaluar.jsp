@@ -281,6 +281,8 @@
 		}
 		
 		conElias.setAutoCommit(true);//** END TRANSACTION **
+		
+		mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
 	}
 //------------- BORRA CALIFICACIONES DE UNA EVALUACION ------------->
 	else if (accion.equals("2")) {
