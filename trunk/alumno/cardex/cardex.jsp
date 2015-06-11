@@ -112,7 +112,7 @@
 			lisPromedio 		= CicloPromedioL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY PROMEDIO_ID");
 			
 			// Lista de evaluaciones o bloques en el ciclo
-			lisBloque 			= CicloBloqueL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY BLOQUE_ID");			
+			lisBloque 			= CicloBloqueL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY BLOQUE_ID");	
 %>			
 	<div class="alert alert-info"><%= cicloNombre %> - <%= nivelNombre %> - <%= gradoNombre %> "<%= ciclo.getGrupo() %>"</div>
 				
@@ -144,15 +144,15 @@
 			</tr>
 		</thead>
 <%
-			String tipoCurso = "0";			
+			String tipoCurso = "0";
 			int row = 0;
-			for (aca.vista.AlumnoCurso alumCurso : lisAlumnoCurso){				
+			for (aca.vista.AlumnoCurso alumCurso : lisAlumnoCurso){
 				row++;
 				
 				aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
 				// Si el alumno tiene el curso
 				if (mapCurso.containsKey(alumCurso.getCursoId())){
-					curso = mapCurso.get(alumCurso.getCursoId());				
+					curso = mapCurso.get(alumCurso.getCursoId());
 				}
 				
 				// Poner Totales
@@ -266,9 +266,8 @@
 						// Inserta columna del promedio de las evaluaciones
 						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
 						
-						// Puntos del promedio
-						
-						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+formato0.format(Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval)+"</td>");
+						// Puntos del promedio						
+						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+formato1.format(Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval)+"</td>");
 						//System.out.println("promedio"+ cicloPromedio.getValor()+ "escala"+ escalaEval);
 						
 						// Inserta columna de los puntos
