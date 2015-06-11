@@ -19,6 +19,10 @@
 	function promedio(cicloGrupoId, codigoAlumno) {
 		document.location.href = "promedio.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno;
 	}
+	
+	function boletaAlumno(cicloGrupoId, codigoAlumno) {
+		document.location.href = "boletaAlumno.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno;
+	}
 </script>
 
 <%
@@ -46,59 +50,57 @@
 	</div>
 	
 	<div class="well"> 
-		<a class="btn btn-primary" href="grupo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		
-		<%
-			String boleta 			= "boleta.jsp";
-			String boletaActividad 	= "boletaActividades.jsp";
-			if(aca.catalogo.CatEsquemaLista.getEsquemaEvaluacionNivel(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId(), Grupo.getGrado()).equals("C")){/* SI EVALUA POR COMPETENCIA */
-				boleta 			= "boletaCompetencias.jsp";
-				boletaActividad = "boletaActividadCompetencias.jsp";
-			}
-		%>
-		
+		<a class="btn btn-primary" href="grupo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>		
+<%
+		String boleta 			= "boleta.jsp";
+		String boletaActividad 	= "boletaActividades.jsp";
+		if(aca.catalogo.CatEsquemaLista.getEsquemaEvaluacionNivel(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId(), Grupo.getGrado()).equals("C")){/* SI EVALUA POR COMPETENCIA */
+			boleta 			= "boletaCompetencias.jsp";
+			boletaActividad = "boletaActividadCompetencias.jsp";
+		}
+%>		
 		<a class="btn btn-info" href="<%=boleta %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoleta" /></a>
-		<a class="btn btn-info" href="<%=boletaActividad %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaConActividades" /></a>
-		
+		<a class="btn btn-info" href="<%=boletaActividad %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaConActividades" /></a>		
 	</div>
-	
-	
+		
 	<table class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
 				<th width="5%" align="center">#</th>
 				<th width="15%" align="center"><fmt:message key="aca.Matricula" /></th>
-				<th width="80%" align="center"><fmt:message key="aca.NombreDelAlumno" /></th>
+				<th width="60%" align="center"><fmt:message key="aca.NombreDelAlumno" /></th>
+				<th width="20%" align="center"><fmt:message key="aca.Boleta" /></th>
 			</tr>
 		</thead>
 		
-		<%
-			int cont = 0;
-			for (String codigoAlumno : lisAlum) {
-				cont++;
-				if (metodo.equals("N")) {
-		%>
-					<tr>
-						<td><%=cont%></td>
-						<td><%=codigoAlumno%></td>
-						<td>
-							<a href="javascript:notas('<%=cicloGrupoId%>','<%=codigoAlumno%>');"><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "APELLIDO")%></a>
-						</td>
-					</tr>
-			  <%}else{%>
-					<tr>
-						<td><%=cont%></td>
-						<td><%=codigoAlumno%></td>
-						<td>
-							<a href="javascript:notasMetodo('<%=cicloGrupoId%>','<%=codigoAlumno%>');"><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "APELLIDO")%></a>
-						</td>
-					</tr>
-		<%
-			  	}
-			} //fin de for
-		%>
+<%
+		int cont = 0;
+		for (String codigoAlumno : lisAlum) {
+			cont++;				
+%>
+			<tr>
+				<td><%=cont%></td>
+				<td><%=codigoAlumno%></td>
+<%				
+			if (metodo.equals("N")){
+%>						
+				<td>
+					<a href="javascript:notas('<%=cicloGrupoId%>','<%=codigoAlumno%>');"><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "APELLIDO")%></a>
+				</td>
+<%			}else{%>
+				<td>
+					<a href="javascript:notasMetodo('<%=cicloGrupoId%>','<%=codigoAlumno%>');"><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "APELLIDO")%></a>
+				</td>				
+<%			}%>		
+				<td>
+					<a href="javascript:boletaAlumno('<%=cicloGrupoId%>','<%=codigoAlumno%>');">Boleta</a>
+				</td>			
+			</tr>			
+<%			  	
+		} //fin de for
+%>
 	</table>
-		
+
 </div>
 
 <%@ include file="../../cierra_elias.jsp"%>
