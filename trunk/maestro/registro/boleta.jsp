@@ -140,7 +140,7 @@
         		if (foto.exists()){
         			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela);	        			
         		}else{
-        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logoIASD.png");	
+        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/logoIASD.png");	
         		}
 
 	            
