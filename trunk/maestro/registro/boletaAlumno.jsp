@@ -91,33 +91,56 @@
 	java.util.HashMap<String, String> mapEvalCuentaTot			= aca.kardex.KrdxAlumEvalLista.mapEvalCuentaNotasTot(conElias, codigoAlumno);
 		
 	//Map de promedios del alumno en cada materia
-	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromAlumno(conElias, codigoAlumno);	
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromAlumno(conElias, codigoAlumno);
+	
+	// Logo de la escuela	
+	String logoEscuela 	= aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
+	String dirLogo 		= application.getRealPath("/imagenes/logos/") + "/" + logoEscuela;
+	
+	
+	boolean tieneLogo 	= false;		
+	// Verifica si existe la imagen del logo	
+	java.io.File archivo = new java.io.File(dirLogo);
+	if (archivo.exists()){
+		tieneLogo = true;		
+	}else{
+		dirLogo = application.getRealPath("/imagenes/logos/")+"/logoIASD.png";
+	}
+	System.out.println("Ruta:"+dirLogo);
 %>
 
 <div id="content">
-	<h2><fmt:message key="aca.Promedio" /></h2>
-	
-	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
-   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
-  	<% }else if(!msj.equals("")){%>
-  		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
-  	<%} %>
+	<h2>Boleta de Calificaciones</h2>
   	
   	<div class="alert alert-info">
-		<h4><%=aca.alumno.AlumPersonal.getNombre(conElias,codigoAlumno, "NOMBRE")%></h4> 
-		<strong><fmt:message key="aca.Maestro" />:</strong> <%=aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(), "NOMBRE")%> 
-  	</div>
-  	
-  	<div class="well">
-			<a class="btn btn-primary" href="alumnos.jsp?CicloGrupoId=<%=cicloGrupoId%>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-	</div>
-
+  		<a class="btn btn-primary" href="alumnos.jsp?CicloGrupoId=<%=cicloGrupoId%>"><i class="icon-arrow-left icon-white"></i></a>	 
+  	</div>  	
+	<table class="table table-bordered">
+		<tr>
+			<td rowspan="4"><img src="<%=dirLogo%>"/></td>
+		</tr>
+		<tr>
+			<td><strong>Escuela:</strong></td>
+			<td><%=aca.alumno.AlumPersonal.getNombre(conElias,codigoAlumno, "NOMBRE")%></td>
+		</tr>		
+		<tr>
+			<td><strong>Maestro:</strong></td>
+			<td><%=aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(), "NOMBRE")%></td>
+		</tr>
+		<tr>
+			<td><strong>Maestro:</strong></td>
+			<td><%=aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(), "NOMBRE")%></td>
+		</tr>
+		<tr>
+			<td><strong>Maestro:</strong></td>
+			<td><%=aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(), "NOMBRE")%></td>
+		</tr>
+	</table>
 	<form name="frmNotas" action="notasMetodo.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=codigoAlumno%>" method="post">
 		<input type="hidden" name="Accion"> 
 		<input type="hidden" name="CicloGrupoId" value="<%=cicloGrupoId%>"> 
 		<input type="hidden" name="CodigoAlumno" value="<%=codigoAlumno%>">
-			
-				
+						
 		<table class="table table-condensed table-striped table-bordered">
 			<thead>
 			<tr>
@@ -193,10 +216,8 @@
 							// Inserta columnas de evaluaciones (Habilitado para modificar aunque este cerrado el bimestre)
 							if(estadoEval.equals("A") || estadoEval.equals("C")){
 %>
-							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>
-								<a href="evalEstrategias.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=codigoAlumno%>&evaluacionId=<%=cicloBloque.getBloqueId()%>&materia=<%=alumCurso.getCursoId()%>">
-									<%= notaFormato %>
-								</a>
+							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>						
+								<%= notaFormato %>								
 							</td>
 <%						
 							}else{
@@ -254,11 +275,8 @@
 				}else{
 %>
 				<td>
-						<i class="icon-refresh icon-white"></i>
-					
-				</td>
-						
-							
+					<i class="icon-refresh icon-white"></i>					
+				</td>							
 <%				}
 				evalcerradas = 0;
 			}
@@ -299,8 +317,6 @@
 %>			
 		</table>
 	</form>
-
-
+	
 </div>
-
 <%@ include file="../../cierra_elias.jsp"%>
