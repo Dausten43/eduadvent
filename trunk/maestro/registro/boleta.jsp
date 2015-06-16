@@ -138,15 +138,13 @@
 	            String dirFoto = application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela;
 				java.io.File foto = new java.io.File(dirFoto);
         		if (foto.exists()){
-        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela);	        			
+        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela);
         		}else{
-        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/logoIASD.png");	
+        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/logoIASD.png");
         		}
-
-	            
+	            System.out.println("Ruta Boleta:"+dirFoto);
 	            jpg.setAlignment(Image.LEFT | Image.UNDERLYING);
-	            jpg.scaleAbsolute(50, 49);
-	            
+	            jpg.scaleAbsolute(50, 49);	            
 	            
 	            cell = new PdfPCell();
             	cell.addElement(jpg);
