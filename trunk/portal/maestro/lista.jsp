@@ -14,13 +14,14 @@
 </script>
 
 <%
+	String cicloId 			= (String) session.getAttribute("cicloId");
 	String cicloGrupoId 	= (String) request.getParameter("CicloGrupoId");
-	String cicloId 			= (String) session.getAttribute("cicloId");	
+	String cursoId 			= (String) request.getParameter("CursoId");	
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
 	
-	ArrayList<String> lisAlum 	= CursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId);
+	ArrayList<aca.kardex.KrdxCursoAct> lisAlum 	= CursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId, cursoId, " ORDER BY ORDEN");
 %>
 
 <div id="content">
@@ -41,40 +42,29 @@
 	<table class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th width="5%" align="center">Orden</th>
+				<th width="5%" align="center"><fmt:message key="aca.Orden" /></th>				
 				<th width="15%" align="center"><fmt:message key="aca.Matricula" /></th>
-				<th width="60%" align="center"><fmt:message key="aca.NombreDelAlumno" /></th>
+				<th width="50%" align="center"><fmt:message key="aca.NombreDelAlumno" /></th>
+				<th width="10%" align="center"><fmt:message key="aca.Orden" /></th>
 			</tr>
 		</thead>
 		
 <%
 		int cont = 0;
-		for (String codigoAlumno : lisAlum) {
-			cont++;				
+		for (aca.kardex.KrdxCursoAct kca : lisAlum){
+			cont++;
 %>
-			<tr>
-				<td><%=cont%></td>
-				<td><%=codigoAlumno%></td>
-<%				
-			if (metodo.equals("N")){
-%>						
-				<td>
-					<a href="javascript:notas('<%=cicloGrupoId%>','<%=codigoAlumno%>');"><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "APELLIDO")%></a>
-				</td>
-<%			}else{%>
-				<td>
-					<a href="javascript:notasMetodo('<%=cicloGrupoId%>','<%=codigoAlumno%>');"><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "APELLIDO")%></a>
-				</td>				
-<%			}%>		
-				<td>
-					<a href="javascript:boletaAlumno('<%=cicloGrupoId%>','<%=codigoAlumno%>');">Boleta</a>
-				</td>			
-			</tr>			
+		<tr>
+			<td><%=cont%></td>
+			<td><%=kca.getCodigoId()%></td>					
+			<td>
+				<%=aca.alumno.AlumPersonal.getNombre(conElias, kca.getCodigoId(), "APELLIDO")%>
+			</td>
+			<td><%=kca.getOrden()%></td>
+		</tr>			
 <%			  	
 		} //fin de for
 %>
 	</table>
-
 </div>
-
 <%@ include file="../../cierra_elias.jsp"%>
