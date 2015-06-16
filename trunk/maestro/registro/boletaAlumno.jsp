@@ -15,6 +15,7 @@
 <jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="AlumnoCursoL" scope="page" class="aca.vista.AlumnoCursoLista"/>
+<jsp:useBean id="CatEscuela" scope="page" class="aca.catalogo.CatEscuela"/>
 <%
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -93,47 +94,69 @@
 	//Map de promedios del alumno en cada materia
 	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromAlumno(conElias, codigoAlumno);
 	
+	// Datos de la escuela
+	CatEscuela.setEscuelaId(escuelaId);
+	if (CatEscuela.existeReg(conElias)){
+		CatEscuela.mapeaRegId(conElias, escuelaId);
+	}
+	
 	// Logo de la escuela	
 	String logoEscuela 	= aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
-	String dirLogo 		= application.getRealPath("/imagenes/logos/") + "/" + logoEscuela;
-	
+	String dirLogo 		= application.getRealPath("/imagenes/logos/") + "/" + logoEscuela;	
 	
 	boolean tieneLogo 	= false;		
 	// Verifica si existe la imagen del logo	
 	java.io.File archivo = new java.io.File(dirLogo);
 	if (archivo.exists()){
-		tieneLogo = true;		
+		tieneLogo = true;
+		dirLogo = "../../imagenes/logos/"+logoEscuela;				
 	}else{
-		dirLogo = application.getRealPath("/imagenes/logos/")+"/logoIASD.png";
-	}
-	System.out.println("Ruta:"+dirLogo);
+		dirLogo = "../../imagenes/logos/logoIASD.png";
+	}	
 %>
 
-<div id="content">
-	<h2>Boleta de Calificaciones</h2>
-  	
-  	<div class="alert alert-info">
-  		<a class="btn btn-primary" href="alumnos.jsp?CicloGrupoId=<%=cicloGrupoId%>"><i class="icon-arrow-left icon-white"></i></a>	 
-  	</div>  	
-	<table class="table table-bordered">
+<div id="content">	
+	<table class="table" style="width:70%; margin:0 auto;">
 		<tr>
-			<td rowspan="4"><img src="<%=dirLogo%>"/></td>
+			<td width="10%"> 
+				<a class="btn btn-primary" href="alumnos.jsp?CicloGrupoId=<%=cicloGrupoId%>"><i class="icon-arrow-left icon-white"></i></a>
+			</td>
+			<td width="20%"> 
+				<img width="120px" src="<%=dirLogo%>">
+			</td>
+			<td width="70%">
+				<p style="font-size:30px; font-weight: bold;"><%=CatEscuela.getEscuelaNombre()%></p>
+				<p style="font-size:15px; font-weight: bold;">
+				<%=CatEscuela.getDireccion()%>,<%=CatEscuela.getColonia()%><br>
+				Telefono: <%=CatEscuela.getTelefono()%><br>
+				Fax: <%=CatEscuela.getFax()%>
+				</p>
+				<p style="font-size:20px; font-weight: bold;">
+				Boleta de Calificaciones
+				<p style="font-size:15px; font-weight: bold;">
+			</td>
+		</tr>			
+	</table>
+	<table class="table table-bordered table-condensed">
+		<tr>
+			<th width="5%">No.</th>
+			<th width="25%">Nombres</th>
+			<th width="30%">Apellidos</th>
+			<th width="15%">Ciclo Escolar</th>
+			<th width="10%">Nivel</th>
+			<th width="5%">Curso</th>
+			<th width="5%">Sección</th>
+			<th width="5%">Tanda</th>
 		</tr>
 		<tr>
-			<td><strong>Escuela:</strong></td>
-			<td><%=aca.alumno.AlumPersonal.getNombre(conElias,codigoAlumno, "NOMBRE")%></td>
-		</tr>		
-		<tr>
-			<td><strong>Maestro:</strong></td>
-			<td><%=aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(), "NOMBRE")%></td>
-		</tr>
-		<tr>
-			<td><strong>Maestro:</strong></td>
-			<td><%=aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(), "NOMBRE")%></td>
-		</tr>
-		<tr>
-			<td><strong>Maestro:</strong></td>
-			<td><%=aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(), "NOMBRE")%></td>
+			<td>11</td>
+			<td>Mario</td>
+			<td>Martinez Degollado</td>
+			<td>2014-2015</td>
+			<td>PRIMARIA</td>
+			<td>PRIMERO</td>
+			<td>A</td>
+			<td>MATUTINO</td>	
 		</tr>
 	</table>
 	<form name="frmNotas" action="notasMetodo.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=codigoAlumno%>" method="post">
