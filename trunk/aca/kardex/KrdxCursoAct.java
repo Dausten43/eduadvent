@@ -24,6 +24,7 @@ public class KrdxCursoAct {
 	private String fExtra;
 	private String notaExtra2;
 	private String fExtra2;
+	private String orden;
 	
 	public KrdxCursoAct(){
 		codigoId		= "";
@@ -37,6 +38,7 @@ public class KrdxCursoAct {
 		fExtra			= "";
 		notaExtra2		= "";
 		fExtra2			= "";
+		orden 			= "0";
 	}
 
 	/**
@@ -179,6 +181,20 @@ public class KrdxCursoAct {
 
 	public void setfExtra2(String fExtra2) {
 		this.fExtra2 = fExtra2;
+	}	
+
+	/**
+	 * @return the orden
+	 */
+	public String getOrden() {
+		return orden;
+	}
+
+	/**
+	 * @param orden the orden to set
+	 */
+	public void setOrden(String orden) {
+		this.orden = orden;
 	}
 
 	public boolean insertReg(Connection conn ) throws SQLException{

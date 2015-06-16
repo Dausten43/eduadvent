@@ -111,8 +111,41 @@ public class KrdxCursoActLista {
 		return lisNombres;
 	}
 	
+	public ArrayList<KrdxCursoAct> getListAlumnosGrupo(Connection conn, String cicloGrupoId, String cursoId, String orden ) throws SQLException{
+		ArrayList<KrdxCursoAct> lista 	= new ArrayList<KrdxCursoAct>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID,"
+                + " NOTA, TO_CHAR(F_NOTA, 'DD/MM/YYYY') AS F_NOTA,"
+                + " TIPOCAL_ID, COMENTARIO, NOTA_EXTRA,"
+                + " TO_CHAR(F_EXTRA, 'DD/MM/YYYY') AS F_EXTRA,"
+                + " NOTA_EXTRA2,"
+                + " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2"
+                + " FROM KRDX_CURSO_ACT" 
+				+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'"
+				+ " AND CURSO_ID = '"+cursoId+"' " + orden;
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				KrdxCursoAct kardex = new KrdxCursoAct();
+				kardex.mapeaReg(rs);				
+				lista.add(kardex);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxCursoActLista|getListAlumnosGrupo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();	
+		}
+		
+		return lista;
+	}
+	
 	public ArrayList<KrdxCursoAct> getListAlumMat(Connection conn, String cicloGrupoId, String cursoId, String orden ) throws SQLException{
-		ArrayList<KrdxCursoAct> lisCiclo 	= new ArrayList<KrdxCursoAct>();
+		ArrayList<KrdxCursoAct> lista 	= new ArrayList<KrdxCursoAct>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
@@ -132,7 +165,7 @@ public class KrdxCursoActLista {
 			while (rs.next()){
 				KrdxCursoAct kardex = new KrdxCursoAct();		
 				kardex.mapeaReg(rs);
-				lisCiclo.add(kardex);
+				lista.add(kardex);
 			}			
 		}catch(Exception ex){
 			System.out.println("Error - aca.kardex.KrdxCursoActLista|getListAlumMat|:"+ex);
@@ -141,11 +174,11 @@ public class KrdxCursoActLista {
 			if (st!=null) st.close();	
 		}
 		
-		return lisCiclo;
+		return lista;
 	}
 	
 	public ArrayList<KrdxCursoAct> getLisCursosAlumno(Connection conn, String codigoId, String cicloGrupodId, String orden ) throws SQLException{
-		ArrayList<KrdxCursoAct> lisCiclo 	= new ArrayList<KrdxCursoAct>();
+		ArrayList<KrdxCursoAct> lista 	= new ArrayList<KrdxCursoAct>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
@@ -162,9 +195,9 @@ public class KrdxCursoActLista {
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
-				KrdxCursoAct kardex = new KrdxCursoAct();		
+				KrdxCursoAct kardex = new KrdxCursoAct();
 				kardex.mapeaReg(rs);
-				lisCiclo.add(kardex);
+				lista.add(kardex);
 			}
 			
 		}catch(Exception ex){
@@ -174,7 +207,7 @@ public class KrdxCursoActLista {
 			if (st!=null) st.close();	
 		}
 		
-		return lisCiclo;
+		return lista;
 	}
 	
 	public TreeMap<String, String> treeCantidadAlumnos(Connection conn, String cicloId) throws SQLException{
