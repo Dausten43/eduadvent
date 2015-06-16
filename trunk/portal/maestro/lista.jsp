@@ -36,7 +36,7 @@
 	</div>
 	
 	<div class="well"> 
-		<a class="btn btn-primary" href="grupo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a class="btn btn-primary" href="curso.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
 		
 	<table class="table table-striped table-bordered table-condensed">
