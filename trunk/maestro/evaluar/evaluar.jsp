@@ -921,7 +921,7 @@
 					}
 %>					
 					<th class="text-center" style="width:4%;">
-						<%if (cicloGrupoCurso.getEstado().equals("3")) {%>
+						<%if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
 						<%}%>
 							<fmt:message key="aca.Extra" />

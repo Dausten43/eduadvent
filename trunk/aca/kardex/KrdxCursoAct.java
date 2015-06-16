@@ -292,6 +292,35 @@ public class KrdxCursoAct {
 		return ok;
 	}
 	
+	public boolean updateOrden(Connection conn ) throws SQLException{
+		boolean ok = false;
+		PreparedStatement ps = null;
+		try{
+			ps = conn.prepareStatement("UPDATE KRDX_CURSO_ACT" +
+					" SET ORDEN = TO_NUMBER(?, '999') " +
+					" WHERE CODIGO_ID = ?" +
+					" AND CICLO_GRUPO_ID = ?" +
+					" AND CURSO_ID = ?");			
+			
+			ps.setString(1, orden);
+			ps.setString(2, codigoId);
+			ps.setString(3, cicloGrupoId);
+			ps.setString(4, cursoId);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+				conn.commit();
+			}else{
+				ok = false;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxCursoAct|updateOrden|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
 	public boolean updateReg(Connection conn ) throws SQLException{
 		boolean ok = false;
 		PreparedStatement ps = null;

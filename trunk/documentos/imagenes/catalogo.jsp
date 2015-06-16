@@ -6,7 +6,7 @@
 <head>
 <%
 	String escuela 		= (String)session.getAttribute("escuela");
-	String dir 			= application.getRealPath("/WEB-INF/"+escuela);
+	String dir 			= application.getRealPath("http://www.academico.um.edu.mx/escuela/WEB-INF/"+escuela);
 
 %>
 </head>
