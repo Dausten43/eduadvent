@@ -456,6 +456,7 @@ public class KrdxCursoAct {
 		fExtra			= rs.getString("F_EXTRA");
 		notaExtra2		= rs.getString("NOTA_EXTRA2");
 		fExtra2			= rs.getString("F_EXTRA2");
+		orden			= rs.getString("ORDEN");
 	}
 	
 	public void mapeaRegId(Connection con, String codigoId, String cicloGrupoId, String cursoId) throws SQLException{

@@ -25,6 +25,7 @@
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
+	
 	if(accion.equals("1")){
 		for (aca.kardex.KrdxCursoAct kca : lisAlum){
 			CursoAct.setCicloGrupoId(cicloGrupoId);
@@ -32,19 +33,20 @@
 			CursoAct.setCursoId(cursoId);
 			
 			String orden = request.getParameter("Orden"+kca.getCodigoId());
-			System.out.println(orden);
-			CursoAct.setOrden(request.getParameter("Orden"+kca.getCodigoId()));
-			/*if (!orden.equals("")){
-				if (CursoAct.updateReg(conElias)){ 
-					Resultado = "1";
-					conElias.commit();
-				}else{
-					Resultado = "2";
-				}
-			}*/
+			CursoAct.setOrden(orden);
+			if (!orden.equals("")){
+					if (CursoAct.updateOrden(conElias)){ 
+						Resultado = "1";
+						conElias.commit();
+					}else{
+						Resultado = "2";
+					}
+			}
 			
 		}
 	}
+	
+	lisAlum 	= CursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId, cursoId, " ORDER BY ORDEN");
 	
 %>
 
@@ -58,15 +60,18 @@
 		</h4> 
 		<strong><fmt:message key="aca.Maestro" />:</strong> <%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE")%>
 	</div>
+	<br>
 	<%if(Resultado.equals("1")){ %>
 	<div class="alert alert-info">Los Datos han sido Modificados Correctamente</div>
 	<%}else if(Resultado.equals("2")){ %>
 	<div class="alert alert-danger">No Cambió</div>
+	<%} else if(Resultado.equals("3")){ %>
+	<div class="alert alert-danger">Ya existe el registro</div>
 	<%} %>
 	<div class="well"> 
 		<a class="btn btn-primary" href="cursos.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
-	<form action="lista.jsp?accion=1" method="post" name="forma" target="_self">
+	<form action="lista.jsp?accion=1&CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>" method="post" name="forma" target="_self">
 	<table class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
@@ -90,7 +95,7 @@
 			</td>
 			<td>
 			<%if(editar.equals("1")){%>
-			<input type="text" id="Orden<%= kca.getCodigoId()%>" name="Orden<%= kca.getCodigoId() %>" />
+			<input type="text" id="Orden<%= kca.getCodigoId()%>" name="Orden<%= kca.getCodigoId() %>" value="<%=kca.getOrden() %>" />
 			<%}else{ %>
 			<%=kca.getOrden()%>
 			<%} %>
@@ -100,7 +105,8 @@
 		} //fin de for
 %>
 	</table>
-	</form>
 	<div class="well" ><input class="btn btn-primary" type="submit" value="Guardar" /></div>
+	</form>
+	
 </div>
 <%@ include file="../../cierra_elias.jsp"%>
