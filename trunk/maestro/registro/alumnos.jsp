@@ -20,8 +20,8 @@
 		document.location.href = "promedio.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno;
 	}
 	
-	function boletaAlumno(cicloGrupoId, codigoAlumno) {
-		document.location.href = "boletaAlumno.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno;
+	function boletaAlumno(cicloGrupoId, codigoAlumno, empleadoId) {
+		document.location.href = "boletaAlumno.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno+"&empleadoId" + empleadoId;
 	}
 </script>
 
@@ -93,7 +93,7 @@
 				</td>				
 <%			}%>		
 				<td>
-					<a href="javascript:boletaAlumno('<%=cicloGrupoId%>','<%=codigoAlumno%>');">Boleta</a>
+					<a href="javascript:boletaAlumno('<%=cicloGrupoId%>','<%=codigoAlumno%>','<%=Grupo.getEmpleadoId()%>');">Boleta</a>
 				</td>			
 			</tr>			
 <%			  	

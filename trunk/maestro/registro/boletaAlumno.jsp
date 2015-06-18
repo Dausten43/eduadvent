@@ -8,6 +8,7 @@
 <%@page import="java.util.HashMap"%>
 <%@ page import="java.text.*"%>
 
+<jsp:useBean id="AlumPersonal" scope="page" class="aca.alumno.AlumPersonal" />
 <jsp:useBean id="Grupo" scope="page" class="aca.ciclo.CicloGrupo" />
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista" />
 <jsp:useBean id="AlumProm" scope="page" class="aca.vista.AlumnoProm" />
@@ -25,8 +26,16 @@
 	String cicloId 			= (String) session.getAttribute("cicloId");
 	
 	String cicloGrupoId 	= request.getParameter("CicloGrupoId");
-	String codigoAlumno 	= request.getParameter("CodigoAlumno");	 	
+	String codigoAlumno 	= request.getParameter("CodigoAlumno");	 
+	String empleadoId	 	= request.getParameter("empleadoId");	 
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+	
+	Grupo.setCicloGrupoId(cicloGrupoId);
+	Grupo.mapeaRegId(conElias, cicloGrupoId);
+	
+	AlumPersonal.setCodigoId(codigoAlumno);
+	AlumPersonal.mapeaRegId(conElias, codigoAlumno);
+	
 	// Plan actual del alumno
 	String planId 			= aca.alumno.AlumPlan.getPlanActual(conElias, codigoAlumno);
 	// Escala
@@ -149,13 +158,13 @@
 			<th width="5%">Tanda</th>
 		</tr>
 		<tr>
-			<td>11</td>
-			<td>Mario</td>
-			<td>Martinez Degollado</td>
+			<td><%=kardex.getOrden() %></td>
+			<td><%=AlumPersonal.getNombre() %></td>
+			<td><%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %></td>
 			<td>2014-2015</td>
-			<td>PRIMARIA</td>
-			<td>PRIMERO</td>
-			<td>A</td>
+			<td><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId())%></td>
+			<td><%=aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(Grupo.getGrado())) %></td>
+			<td><%=Grupo.getGrupo() %></td>
 			<td>MATUTINO</td>	
 		</tr>
 	</table>
@@ -340,6 +349,27 @@
 %>			
 		</table>
 	</form>
+	<br><br><br><br>
+	<div class="row">
+		<div class="span6" style="align:center;">
+			<center>________________________________________________
+			<br>
+			<%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE") %>
+			<br>
+			PROF. TITULAR</center>
+		</div>
+		<div class="span8" style="align:center;">
+		<br>
+		&nbsp;
+		</div>
+		<div class="span4" style="right;">
+			<center>________________________________________________
+			<br>
+			<%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE") %>
+			<br>
+			DIRECTOR (A)</center>
+		</div>
+	</div>
 	
 </div>
 <%@ include file="../../cierra_elias.jsp"%>
