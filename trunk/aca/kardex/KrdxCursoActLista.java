@@ -189,7 +189,7 @@ public class KrdxCursoActLista {
                 " TIPOCAL_ID, COMENTARIO, NOTA_EXTRA," +
                 " TO_CHAR(F_EXTRA, 'DD/MM/YYYY') AS F_EXTRA," +
                 " NOTA_EXTRA2," +
-                " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2" +
+                " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2, ORDEN" +
                 " FROM KRDX_CURSO_ACT " +
                 " WHERE CODIGO_ID = '"+codigoId+"' AND CICLO_GRUPO_ID='"+cicloGrupodId+"' " +orden;
 			
