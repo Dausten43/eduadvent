@@ -30,7 +30,7 @@ public class KrdxCursoActLista {
                 " TIPOCAL_ID, COMENTARIO, NOTA_EXTRA," +
                 " TO_CHAR(F_EXTRA, 'DD/MM/YYYY') AS F_EXTRA,"+ 
                 " NOTA_EXTRA2," +
-                " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2" +
+                " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2, ORDEN" +
                 " FROM KRDX_CURSO_ACT " +
                 " WHERE SUBSTR(CODIGO_ID,1,3) = '"+escuelaId+"' " +orden;
 			
@@ -64,7 +64,7 @@ public class KrdxCursoActLista {
             " TIPOCAL_ID, COMENTARIO, NOTA_EXTRA," +
             " TO_CHAR(F_EXTRA, 'DD/MM/YYYY') AS F_EXTRA," +
             " NOTA_EXTRA2," +
-            " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2" +
+            " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2, ORDEN" +
             " FROM KRDX_CURSO_ACT " +
             " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' " +orden;
 			rs = st.executeQuery(comando);			
@@ -156,7 +156,7 @@ public class KrdxCursoActLista {
                 " TIPOCAL_ID, COMENTARIO, NOTA_EXTRA," +
                 " TO_CHAR(F_EXTRA, 'DD/MM/YYYY') AS F_EXTRA," +
                 " NOTA_EXTRA2," +
-                " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2" +
+                " TO_CHAR(F_EXTRA2, 'DD/MM/YYYY') AS F_EXTRA2, ORDEN" +
                 " FROM KRDX_CURSO_ACT " +
                 " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
                 " AND CURSO_ID = '"+cursoId+"' " +
