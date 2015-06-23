@@ -883,9 +883,10 @@
 	    		    		for(int l=0; l<lisBloque.size(); l++){
 	    		    			notaDeTodas += sumaPorBimestre[l];
 	    		    		}
-	    		    		if(lisBloque.size()!=0){
+	    		    		/*if(lisBloque.size()!=0){
 	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
-	    		    		}
+	    		    		}*/
+	    		    		notaDeTodas = (notaDeTodas/lisBloque.size());
 	    		    		celda = new PdfPCell(new Phrase( frm.format(notaDeTodas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 	        				tabla.addCell(celda);
