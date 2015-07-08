@@ -179,10 +179,12 @@
 								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
 							}
 							// Color de la evaluacion
-							String colorEval = "color:blue;";
+							String edo 			="A";	
+							String colorEval 	= "color:blue;";
 							if (estadoEval.equals("C")){
 								evalCerradas++;
-								colorEval = "color:black;";
+								colorEval 		= "color:black;";
+								edo				= "C";		
 							}
 							
 							// Formato de la evaluacion
@@ -193,7 +195,7 @@
 							// Inserta columnas de evaluaciones (Habilitado para modificar aunque este cerrado el bimestre)
 							if(estadoEval.equals("A") || estadoEval.equals("C")){
 %>
-							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>
+							<td class='text-center' width='1%' title='<%=edo + " " + cicloBloque.getValor()%>' style='"+colorEval+"'>
 								<a href="evalEstrategias.jsp?CicloGrupoId=<%=cicloGrupoId%>&codigoAlumno=<%=codigoAlumno%>&evaluacionId=<%=cicloBloque.getBloqueId()%>&materia=<%=alumCurso.getCursoId()%>">
 									<%= notaFormato %>
 								</a>
