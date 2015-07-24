@@ -66,13 +66,7 @@
 	}
 	
 	
-	
-	
-	
-	java.util.HashMap<String, String> mapNotaActividades = aca.ciclo.CicloGrupoActividadLista.getMapNotaActividadCursos(conElias, cicloGrupoId);
-	
-	
-	
+	java.util.HashMap<String, String> mapNotaActividades = aca.ciclo.CicloGrupoActividadLista.getMapNotaActividadCursos(conElias, cicloGrupoId);	
 	
 	int totalActividades = 0;
 	java.util.HashMap<String, String> mapActividades = new java.util.HashMap<String, String>();
@@ -95,9 +89,7 @@
 			strActividades = strActividades.substring(0, strActividades.length()-1);
 			mapActividades.put(bloque.getBloqueId(), strActividades);
 		}
-		/* ***** END ACTIVIDADES DE CADA EVALUACION (BLOQUE) ***** */
-		
-		
+		/* ***** END ACTIVIDADES DE CADA EVALUACION (BLOQUE) ***** */	
 		
 		
 		
@@ -120,18 +112,12 @@
 		
 	}
 	
-	java.util.HashMap<String, String> etiquetas = aca.ciclo.CicloBloqueActividadLista.getMapEtiquetas(conElias, cicloId);
-	
-	
-	
-	
-	
+	java.util.HashMap<String, String> etiquetas = aca.ciclo.CicloBloqueActividadLista.getMapEtiquetas(conElias, cicloId);	
 	
 	
 	CatParametro.setEscuelaId(escuela);
 	boolean firmaDirector = false;
-	boolean firmaPadre	  = false; 		
-	
+	boolean firmaPadre	  = false;	
 	
 	if(CatParametro.existeReg(conElias)){
 		CatParametro.mapeaRegId(conElias, escuela);
@@ -783,6 +769,7 @@
 			    					}
 			    				}
 			    				boolean estanTodasCerradas = CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, alumnoCurso.getCursoId());
+			    				//System.out.println("Cerradas:"+estanTodasCerradas);
 			    				if(!estanTodasCerradas){
 			    					String nota = "";
 			    					if(cantidadBimestres!=0){
@@ -793,6 +780,7 @@
 				    				tabla.addCell(celda);
 			    				}else{
 			    					String nota = alumnoCurso.getNota();
+			    					//System.out.println("Datos:"+alumnoCurso.getCodigoId()+":"+alumnoCurso.getCicloGrupoId() +":"+alumnoCurso.getCursoId()+":"+alumnoCurso.getNota());
 			    					if(nota!=null){
 			    						nota=frm.format(Float.parseFloat(nota.trim()));
 			    					}
