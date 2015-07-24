@@ -14,10 +14,21 @@
 <%@page import="java.util.HashMap"%>
 <% 
 	String escuelaId		= (String) session.getAttribute("escuela");
-
-	String ciclo			= request.getParameter("ciclo");
-	if(ciclo==null)
-		ciclo = Ciclo.getCargaActual(conElias,escuelaId);
+	String ciclo			= request.getParameter("ciclo")==null?aca.ciclo.Ciclo.getCargaActual(conElias,escuelaId):request.getParameter("ciclo");
+	
+	// Lista de ciclos activos en la escuela
+	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuelaId, "ORDER BY 1");
+	
+	// Busca el ciclo en la lista de ciclos
+	boolean ok = false;
+	for (aca.ciclo.Ciclo lista: lisCiclo ){
+		if (lista.getCicloId().equals(ciclo)) ok = true;
+	}
+	
+	// Si no esta el ciclo en la lista asigna el primer elemento de la lista como el ciclo actual
+	if (!ok && lisCiclo.size() > 0){
+		ciclo = lisCiclo.get(0).getCicloId();
+	}
 	
 	String strBgcolor		= "";
 	String nivelTemp        = "-1";
@@ -37,8 +48,10 @@
 	
 	
 	// Lista de Alumnos Inscritos en un ciclo escolar
-	ArrayList lisInscritos = AlumnoL.getListAlumnosInscritos(conElias,escuelaId,ciclo, " ORDER BY NIVEL_ID,GRADO,GRUPO,APATERNO,AMATERNO,NOMBRE");
-	HashMap<String, aca.alumno.AlumCiclo > mapaGradoGrupo =   CicloLista.getMapHistoria(conElias, "");
+	ArrayList<aca.alumno.AlumPersonal> lisInscritos = AlumnoL.getListAlumnosInscritos(conElias,escuelaId,ciclo, " ORDER BY NIVEL_ID,GRADO,GRUPO,APATERNO,AMATERNO,NOMBRE");
+	
+	// Map de historico del alumno
+	HashMap<String, aca.alumno.AlumCiclo > mapaGradoGrupo =   aca.alumno.AlumCicloLista.getMapHistoria(conElias, "");
 %>
 <style>
 	body{
@@ -54,16 +67,15 @@
   <form name="forma" action="inscritos.jsp" method='post'>
 	<div class="well">
 		<select id="ciclo" name="ciclo" onchange="document.forma.submit();" style="width:310px;">
-				
-				<%
-				ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuelaId, "ORDER BY 1");
-				for(int i = 0; i < lisCiclo.size(); i++){
-					Ciclo = (aca.ciclo.Ciclo) lisCiclo.get(i);
-				%>
+<%
+			
+			for(int i = 0; i < lisCiclo.size(); i++){
+				Ciclo = (aca.ciclo.Ciclo) lisCiclo.get(i);
+%>
 				<option value="<%=Ciclo.getCicloId() %>"<%=Ciclo.getCicloId().equals(ciclo)?" Selected":"" %>><%=Ciclo.getCicloNombre() %></option>
-				<%
-				}
-				%>
+<%
+			}
+%>
 			</select>
 			&nbsp; &nbsp; 			
 			<a onclick="location='inscritos_grupo.jsp'" class="btn btn-primary"><i class="icon-th-list icon-white"></i> <fmt:message key="boton.ListaGrado" /></a>
