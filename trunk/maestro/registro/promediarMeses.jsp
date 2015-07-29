@@ -115,7 +115,7 @@
 			if(j%2!=0){
 				String nota = strNota.replaceAll(",",".");
 				if(!nota.equals("X") && !nota.equals("-") && !notaAnterior.equals("X") && !notaAnterior.equals("-")){
-					nota = frmDecimal.format((Float.parseFloat(nota)+Float.parseFloat(notaAnterior))/2)+"";
+					nota = Float.toString(new BigDecimal(nota).add(new BigDecimal(notaAnterior)).divide(new BigDecimal("2"), 1, RoundingMode.DOWN).floatValue());
 				}
 %>			
     			<td width="7%" align="center"><%=nota %></td>
