@@ -50,7 +50,7 @@
 		Asociacion.setAsociacionNombre(request.getParameter("AsocNombre"));		
 		Asociacion.setUnionId(request.getParameter("UnionId"));
 		Asociacion.setFondoId(request.getParameter("FondoId"));
-		Asociacion.setFondoId(request.getParameter("AsocNombreCorto"));
+		Asociacion.setAsociacionNombreCorto(request.getParameter("AsocNombreCorto"));
 			
 		if(Asociacion.existeReg(conElias)){
 			if(Asociacion.updateReg(conElias)){
@@ -69,7 +69,7 @@
 		
 		
 		//Si ya hay una Asociacion 
-		if(!Asociacion.existeReg(conElias)){
+	/*	if(!Asociacion.existeReg(conElias)){
 			if(Asociacion.insertReg(conElias)){
 				sResultado = "Guardado";
 			}else{
@@ -83,7 +83,7 @@
 				sResultado = "NoModifico"; 
 			}
 		}
-		
+		*/
 	}else if(accion.equals("3")){//Borrar
 		Asociacion.setAsociacionId(request.getParameter("AsocId"));
 	
@@ -151,6 +151,8 @@
 					for(int i=0; i<lisUnion.size(); i++){
 						aca.catalogo.CatUnion union = (aca.catalogo.CatUnion) lisUnion.get(i);
 				   	   		if(union.getUnionId().equals(Asociacion.getUnionId())){
+								out.print(" <option value='"+union.getUnionId()+"' Selected>"+ union.getUnionNombre()+"</option>");
+							}else if (unionId.equals(union.getUnionId())){
 								out.print(" <option value='"+union.getUnionId()+"' Selected>"+ union.getUnionNombre()+"</option>");
 							}else{
 								out.print(" <option value='"+union.getUnionId()+"'>"+ union.getUnionNombre()+"</option>");
