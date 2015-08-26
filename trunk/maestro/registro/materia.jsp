@@ -32,7 +32,7 @@
 	int escalaEval 			= 100;  //aca.ciclo.Ciclo.getEscala(conElias, cicloId );
 	int evalcerradas		= 0;
 	
-	ArrayList<aca.kardex.KrdxCursoAct> lisAlum				= CursoActLista.getListAlumMat(conElias, cicloGrupoId, cursoId, " ORDER BY CODIGO_ID");
+	ArrayList<aca.kardex.KrdxCursoAct> lisAlum				= CursoActLista.getListAlumMat(conElias, cicloGrupoId, cursoId, " ORDER BY ALUM_APELLIDO(CODIGO_ID)");
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
