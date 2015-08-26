@@ -619,10 +619,10 @@
 		</div>
 		
 		<div class="alert alert-info">
-			<fmt:message key="aca.Plan" />: <strong><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></strong> <br />
-			<fmt:message key="aca.Grado" />: <strong><%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(grado))%> "<%=grupo%>"</strong> <br /> 
-			<fmt:message key="aca.ClasificacionFin" />: <strong><%=aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, clasFin)  %></strong> <br />
-			<fmt:message key="aca.Saldo" />: <strong><%=formato.format(aca.fin.FinMovimiento.saldoAlumno(conElias, codigoAlumno, aca.util.Fecha.getHoy()))%></strong>
+			<fmt:message key="aca.Plan" />: [<strong><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></strong>] &nbsp;
+			<fmt:message key="aca.Grado" />: [<strong><%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(grado))%> "<%=grupo%>"</strong>] &nbsp; 
+			<fmt:message key="aca.ClasificacionFin" />: [<strong><%=aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, clasFin)  %></strong>] &nbsp;
+			<fmt:message key="aca.Saldo" />: [<strong><%=formato.format(aca.fin.FinMovimiento.saldoAlumno(conElias, codigoAlumno, aca.util.Fecha.getHoy()))%></strong>] &nbsp;
 		</div>
 				
 	<div class="row">
