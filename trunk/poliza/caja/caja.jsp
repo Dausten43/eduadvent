@@ -143,7 +143,7 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.PolizasCaja" />
+		<fmt:message key="aca.PolizasCaja" /><small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> ) </small>
 	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
@@ -153,10 +153,7 @@
   	<% }%>
   	
   	<%
-  	if(aca.fin.FinEjercicio.existeEjercicio(conElias, ejercicioId)){ %>
-	<div class="alert alert-info">
-		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong>
-	</div>
+  	if(aca.fin.FinEjercicio.existeEjercicio(conElias, ejercicioId)){ %>	
 	<div class="well">
 		<a href="accion.jsp" class="btn btn-primary">
 			<i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />

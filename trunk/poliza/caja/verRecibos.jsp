@@ -67,13 +67,9 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.Recibos" />
+		<fmt:message key="aca.Recibos" /> <small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> ) </small>
 	</h2>
-	
-	<div class="alert alert-info">
-		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong>
-	</div>
-	
+		
 	<div class="well">
 		<a href="caja.jsp" class="btn btn-primary">
 			<i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" />

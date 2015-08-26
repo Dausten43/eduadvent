@@ -36,12 +36,8 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.Movimientos" />
-	</h2>
-	
-	<div class="alert alert-info">
-		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong>
-	</div>
+		<fmt:message key="aca.Movimientos" /> <small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> ) </small>
+	</h2>	
 	
 	<div class="well">
 		<a href="caja.jsp" class="btn btn-primary">
