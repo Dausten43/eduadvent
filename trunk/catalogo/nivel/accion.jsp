@@ -110,6 +110,7 @@
 		    <select name="titulo" id="titulo" class="input-medium">
 		    	<option value="Grado" <%if(nivel.getTitulo().equals("Grado")){out.print("selected");} %>><fmt:message key="aca.Grado" /></option>
 		    	<option value="Semestre" <%if(nivel.getTitulo().equals("Semestre")){out.print("selected");} %>><fmt:message key="aca.Semestre" /></option>
+		    	<option value="Cuatrimestre" <%if(nivel.getTitulo().equals("Cuatrimestre")){out.print("selected");} %>><fmt:message key="aca.Cuatrimestre" /></option>
 		    </select>
 		</fieldset>
 		
