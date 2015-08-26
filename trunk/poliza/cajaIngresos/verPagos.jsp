@@ -160,7 +160,7 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.Movimientos" />
+		<fmt:message key="aca.Movimientos" /> <small>( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> )</small>
 	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
@@ -168,10 +168,6 @@
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
   	<%} %>
-	
-	<div class="alert alert-info">
-		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong>
-	</div>
 	
 	<form action="" name="forma" method="post">
 		<input type="hidden" name="Accion" />

@@ -117,12 +117,10 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.PolizasIngreso" />
+		<fmt:message key="aca.PolizasIngreso" /> <small>( <fmt:message key="aca.EjercicioActual" /> : <strong><%=ejercicioId.replace(escuelaId + "-", "")%></strong> )</small>
 	</h2>
-	<%if(aca.fin.FinEjercicio.existeEjercicio(conElias, ejercicioId)){ %>
-	<div class="alert alert-info">
-		<fmt:message key="aca.EjercicioActual" /> : <strong><%=ejercicioId.replace(escuelaId + "-", "")%></strong>
-	</div>
+<%	if(aca.fin.FinEjercicio.existeEjercicio(conElias, ejercicioId)){ %>
+		
 	<div class="well">
 		<a href="accion.jsp" class="btn btn-primary"> <i
 			class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
@@ -178,11 +176,11 @@
 			</tr>
 		<%}%>
 	</table>
-<%}else{%>
+<%	}else{%>
 <div class="alert alert-danger">
 		<h3><fmt:message key="aca.EjercicioNoValido" /></h3>
 </div>
-<%} %>
+<%	} %>
 </div>
 
 <%@ include file="../../cierra_elias.jsp"%>
