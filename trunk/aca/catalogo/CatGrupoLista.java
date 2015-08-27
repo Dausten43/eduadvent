@@ -184,7 +184,7 @@ public class CatGrupoLista {
 		return lisGrupo;
 	}
 	
-	public ArrayList<CatGrupo> listGruposEnCiclo(Connection conn, String cicloId, String escuelaId, String orden ) throws SQLException{		
+	public ArrayList<CatGrupo> listGruposEnCiclo(Connection conn, String cicloId, String escuelaId, String orden ) throws SQLException{
 		ArrayList<CatGrupo> lisGrupo 	= new ArrayList<CatGrupo>();
 		Statement st 		= conn.createStatement();
 		ResultSet rs 		= null;
