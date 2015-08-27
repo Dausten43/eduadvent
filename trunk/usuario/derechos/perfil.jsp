@@ -350,7 +350,7 @@
 	});
 	
 	$('#Escuelas').maxlength({ 
-	    max: 800
+	    max: 1500
 	});
 		
 </script>
