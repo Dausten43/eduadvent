@@ -202,5 +202,65 @@ public class AlumCicloLista{
 		return mapa;
 	}
 	
+	public static HashMap<String,String> mapCuentaGenero(Connection conn, String cicloId ) throws SQLException{
+		
+		HashMap<String,String> mapa = new HashMap<String,String>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+		String llave				= "";
+		
+		try{
+			comando = " SELECT NIVEL, GRADO, GRUPO, ALUM_GENERO(CODIGO_ID) AS GENERO, COALESCE(COUNT(CODIGO_ID),0) AS TOTAL FROM ALUM_CICLO"
+					+ " WHERE CICLO_ID = '"+cicloId+"'"
+					+ " AND ESTADO = 'I'"
+					+ " GROUP BY NIVEL, GRADO, GRUPO, ALUM_GENERO(CODIGO_ID)";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				llave = rs.getString("NIVEL")+rs.getString("GRADO")+rs.getString("GRUPO")+rs.getString("GENERO");
+				mapa.put(llave, rs.getString("TOTAL"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.AlumCiclo|mapCuentaGenero|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return mapa;
+	}
+	
+	public static HashMap<String,String> mapCuentaClasificacion(Connection conn, String cicloId ) throws SQLException{
+		
+		HashMap<String,String> mapa = new HashMap<String,String>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+		String llave				= "";
+		
+		try{
+			comando = " SELECT NIVEL, GRADO, GRUPO, CLASFIN_ID, COALESCE(COUNT(CODIGO_ID),0) AS TOTAL FROM ALUM_CICLO"
+					+ " WHERE CICLO_ID = '"+cicloId+"'"
+					+ " AND ESTADO = 'I'"
+					+ " GROUP BY NIVEL, GRADO, GRUPO, CLASFIN_ID";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				llave = rs.getString("NIVEL")+rs.getString("GRADO")+rs.getString("GRUPO")+rs.getString("CLASFIN_ID");
+				mapa.put(llave, rs.getString("TOTAL"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.AlumCiclo|mapCuentaClasificacion|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return mapa;
+	}
+	
 }
 
