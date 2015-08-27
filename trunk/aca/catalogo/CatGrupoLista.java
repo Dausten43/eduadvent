@@ -184,6 +184,34 @@ public class CatGrupoLista {
 		return lisGrupo;
 	}
 	
+	public ArrayList<CatGrupo> listGruposEnCiclo(Connection conn, String cicloId, String escuelaId, String orden ) throws SQLException{		
+		ArrayList<CatGrupo> lisGrupo 	= new ArrayList<CatGrupo>();
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		
+		try{
+			comando = " SELECT FOLIO, NIVEL_ID, GRADO, GRUPO, ESCUELA_ID, TURNO FROM CAT_GRUPO"
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
+					+ " AND TRIM(TO_CHAR(NIVEL_ID,'99'))||TRIM(TO_CHAR(GRADO,'99'))||GRUPO IN "
+					+ "		(SELECT TRIM(TO_CHAR(NIVEL,'99'))||TRIM(TO_CHAR(GRADO,'99'))||GRUPO FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"') " + orden;
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				CatGrupo grupo = new CatGrupo();
+				grupo.mapeaReg(rs);
+				lisGrupo.add(grupo);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatGrupoLista|listGruposEnCiclo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return lisGrupo;
+	}
+	
 	public String getGrupos(Connection conn, String escuelaId, String nivelId ) throws SQLException{
 		
 		Statement st 		= conn.createStatement();
