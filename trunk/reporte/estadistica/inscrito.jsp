@@ -9,15 +9,17 @@
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
 <jsp:useBean id="CatClas" scope="page" class="aca.catalogo.CatClasFinLista"/>
-
 <%
 	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
 	String escuela 	= (String)session.getAttribute("escuela");
 	String ciclo	= request.getParameter("ciclo")==null?aca.ciclo.Ciclo.getCargaActual(conElias,escuela):request.getParameter("ciclo");
 	
-	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuela, "ORDER BY 1");
-	ArrayList<aca.catalogo.CatNivelEscuela> lisNivel = catNivelL.getListEscuela(conElias,escuela,"ORDER BY NIVEL_ID");
+	ArrayList<aca.ciclo.Ciclo> lisCiclo 				= cicloLista.getListActivos(conElias, escuela, "ORDER BY 1");
+	ArrayList<aca.catalogo.CatNivelEscuela> lisNivel 	= catNivelL.getListEscuela(conElias,escuela,"ORDER BY NIVEL_ID");
+	
+	// Map de inscritos
+	java.util.HashMap<String, String> mapInscritos 		= aca.alumno.AlumCicloLista.mapCuentaInscritos(conElias, ciclo);
 	
 %>
 <div id="content">
@@ -29,7 +31,7 @@
 	for(int i = 0; i < lisCiclo.size(); i++){
 		Ciclo = (aca.ciclo.Ciclo) lisCiclo.get(i);
 %>
-			<option value="<%=Ciclo.getCicloId() %>"<%=Ciclo.getCicloId().equals(ciclo)?" Selected":"" %>><%=Ciclo.getCicloNombre() %></option>
+			<option value="<%=Ciclo.getCicloId() %>"<%=Ciclo.getCicloId().equals(ciclo)?" Selected":"" %>>[<%=Ciclo.getCicloId()%>] <%=Ciclo.getCicloNombre() %></option>
 <%	}%>
 		</select>
 	</div>
