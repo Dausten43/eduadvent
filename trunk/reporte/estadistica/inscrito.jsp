@@ -61,9 +61,12 @@
 	
 	for( aca.catalogo.CatGrupo grupo: lisGrupos){		
 		if (!nivelTemp.equals(grupo.getNivelId())){
-			out.print("<div class='alert alert-info'><h4>"+grupo.getNivelId()+"</h4></div>");			
-			if (openTabla) out.print("</table>");		
+			nivelTemp = grupo.getNivelId();
+			
+			if (openTabla) out.print("</table>");
 			openTabla = true;
+			String nombreNivel = aca.catalogo.CatNivel.getNivelNombre(conElias, grupo.getNivelId());
+			out.print("<div class='alert alert-info'><h4>"+nombreNivel+"</h4></div>");		
 %>
 	<table class='table table-fullcondensed'>
 	<tr>
@@ -81,8 +84,7 @@
 <%			}%>	
 	</tr>
 <%			
-		}
-		String gradoNombre = aca.catalogo.CatEsquemaLista.getGradoYGrupo(conElias, escuela, grupo.getNivelId(), grupo.getGrado());						
+		}								
 						
 		int alumnos    		= 0;
 		if (mapInscritos.containsKey(grupo.getNivelId()+grupo.getGrado()+grupo.getGrupo()))
@@ -96,23 +98,29 @@
 		if (mapGenero.containsKey(grupo.getNivelId()+grupo.getGrado()+grupo.getGrupo()+"F"))
 			mujeres = Integer.parseInt(mapGenero.get(grupo.getNivelId()+grupo.getGrado()+grupo.getGrupo()+"F"));
 		
-		int acfe 	   		= 0;
-		int noAcfe     		= 0;
-		float hombresPor 	= 0;
-		float mujeresPor 	= 0;
-		
+		float hombresPor 	= 0;		
 		if(hombres == 0) hombresPor = 0; else hombresPor = (float)hombres/(float)alumnos*100f;
+		
+		float mujeresPor 	= 0;
 		if(mujeres == 0) mujeresPor = 0; else mujeresPor = (float)mujeres/(float)alumnos*100f;
+		
+		int acfe 	   		= 0;
+		if (mapClasificacion.containsKey(grupo.getNivelId()+grupo.getGrado()+grupo.getGrupo()+"1"))
+			acfe = Integer.parseInt(mapClasificacion.get(grupo.getNivelId()+grupo.getGrado()+grupo.getGrupo()+"1"));
+		
+		int noAcfe     		= 0;
+		if (mapClasificacion.containsKey(grupo.getNivelId()+grupo.getGrado()+grupo.getGrupo()+"2"))
+			noAcfe = Integer.parseInt(mapClasificacion.get(grupo.getNivelId()+grupo.getGrado()+grupo.getGrupo()+"2"));		
 %>
 	<tr>
-		<td><%=gradoNombre %> "<%=grupo %>"</td>
+		<td><%=grupo.getGrado() %> "<%=grupo.getGrupo()%>"</td>
 		<td><%=alumnos %></td>
 		<td><%=hombres %></td>
 		<td><%=mujeres %></td>
-		<td><%=acfe %></td>
-		<td><%=noAcfe %></td>
 		<td><%=getformato.format( hombresPor ) %></td>
 		<td><%=getformato.format( mujeresPor ) %></td>
+		<td><%=acfe %></td>
+		<td><%=noAcfe %></td>		
 	</tr>
 <%
 		totAlumnos += alumnos;
@@ -131,10 +139,10 @@
 			<td><strong><%=totAlumnos %></strong></td>
 			<td><strong><%=totHombres %></strong></td>
 			<td><strong><%=totMujeres %></strong></td>
-			<td><strong><%=totAcfe %></strong></td>
-			<td><strong><%=totNoAcfe %></strong></td>
 			<td><strong><%=getformato.format( totHombresPor ) %></strong></td>
 			<td><strong><%=getformato.format( totMujeresPor ) %></strong></td>
+			<td><strong><%=totAcfe %></strong></td>
+			<td><strong><%=totNoAcfe %></strong></td>		
 		</tr>
 	</table>
 </div>
