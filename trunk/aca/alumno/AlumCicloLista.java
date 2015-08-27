@@ -172,5 +172,35 @@ public class AlumCicloLista{
 		return mapPais;
 	}
 	
+	public static HashMap<String,String> mapCuentaInscritos(Connection conn, String cicloId ) throws SQLException{
+		
+		HashMap<String,String> mapa = new HashMap<String,String>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+		String llave				= "";
+		
+		try{
+			comando = " SELECT NIVEL, GRADO, GRUPO, COALESCE(COUNT(CODIGO_ID),0) AS TOTAL FROM ALUM_CICLO"
+					+ " WHERE CICLO_ID = '"+cicloId+"'"
+					+ " AND ESTADO = 'I'"
+					+ " GROUP BY NIVEL, GRADO, GRUPO ";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				llave = rs.getString("NIVEL")+rs.getString("GRADO")+rs.getString("GRUPO");
+				mapa.put(llave, rs.getString("TOTAL"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.AlumCiclo|mapCuentaInscritos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return mapa;
+	}
+	
 }
 
