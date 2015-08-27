@@ -25,7 +25,7 @@ public class KrdxCursoActLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
+			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, ALUM_APELLIDO(CODIGO_ID)," +
                 " COALESCE(NOTA,0) AS NOTA, TO_CHAR(F_NOTA, 'DD/MM/YYYY') AS F_NOTA," +
                 " TIPOCAL_ID, COMENTARIO, NOTA_EXTRA," +
                 " TO_CHAR(F_EXTRA, 'DD/MM/YYYY') AS F_EXTRA,"+ 
