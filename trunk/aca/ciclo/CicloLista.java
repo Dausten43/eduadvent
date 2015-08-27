@@ -3,6 +3,7 @@ package aca.ciclo;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CicloLista {
 	public ArrayList<Ciclo> getListAll(Connection conn, String escuelaId, String orden ) throws SQLException{
@@ -329,5 +330,6 @@ public class CicloLista {
 		}				
 		
 		return lisCiclo;
-	}
+	}	
+	
 }
