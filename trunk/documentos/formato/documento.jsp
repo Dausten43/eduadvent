@@ -32,7 +32,7 @@
 <div id="content">
 	
 	<h2>
-		<fmt:message key="alumnos.Constancias"/> <small><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %></small>
+		<fmt:message key="alumnos.Constancias"/> <small>( <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small>
 	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
