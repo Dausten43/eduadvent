@@ -76,7 +76,7 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="informes.CumpleanosAlumno" /> <small><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%></small>
+		<fmt:message key="informes.CumpleanosAlumno" /> <small>( <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%> )</small>
 	</h2>
 	
 	<%if(!sResultado.equals("") ){%> 
