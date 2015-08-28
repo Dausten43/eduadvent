@@ -34,7 +34,7 @@
 	
 %>
 <div id="content">
-	<h2><fmt:message key="reportes.EstadisticaInscritos" /> <small><%= aca.catalogo.CatEscuela.getNombreCorto(conElias, escuela)%></small></h2>
+	<h2><fmt:message key="reportes.EstadisticaInscritos" /> <small>( <%= aca.catalogo.CatEscuela.getNombreCorto(conElias, escuela)%> )</small></h2>
 	<form name="forma" action="inscrito.jsp" method='post'>		
 	<div class="well">
 		<select id="ciclo" name="ciclo" onchange="document.forma.submit();" class="input-xxlarge">
