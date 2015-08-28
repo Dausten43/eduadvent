@@ -25,7 +25,7 @@
 <div id="content">
 	
 	<h2>
-		<fmt:message key="alumnos.Constancias"/> <small><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %></small>
+		<fmt:message key="alumnos.Constancias"/> <small>( <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small>
 	</h2>
 	
 	<form action="vistaPrevia.jsp" target="_blank">
