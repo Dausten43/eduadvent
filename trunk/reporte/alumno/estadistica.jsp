@@ -38,7 +38,7 @@
 </style>
 
 <div id="content">
-  <h2><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%> <small><fmt:message key="reportes.DistribucionAlumnos" /></small></h2>
+  <h2><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%> <small>( <fmt:message key="reportes.DistribucionAlumnos" /> )</small></h2>
   <form id="forma" name="forma" action="estadistica.jsp" method="post">    
   <div class="well">	
 	<select id="ciclo" name="ciclo" onchange="document.forma.submit();" style="width:310px;">
