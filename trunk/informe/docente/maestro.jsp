@@ -43,7 +43,7 @@
 <form id="frmMaestro" name="frmMaestro" action="maestro.jsp" method="post">
 
 
-<h2><fmt:message key="informes.CargaDocente" /> <small><%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %></small></h2>
+<h2><fmt:message key="informes.CargaDocente" /> <small>( <%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small></h2>
 
 <div class="well">
 	<select id="ciclo" name="ciclo" onchange="document.frmMaestro.submit();" style="width:310px;">
