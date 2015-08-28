@@ -40,7 +40,7 @@
 <div id="content">
   
   <form name="forma" action="estadistica.jsp" method='post'>  
-    <h2><fmt:message key="reportes.EstaGradoGeneroEdad" /> <small><%= aca.catalogo.CatEscuela.getNombreCorto(conElias, escuela)%></small></h2>
+    <h2><fmt:message key="reportes.EstaGradoGeneroEdad" /> <small>( <%= aca.catalogo.CatEscuela.getNombreCorto(conElias, escuela)%> )</small></h2>
     <div class="well">
 	<select id="ciclo" name="ciclo" onchange="document.forma.submit();" style="width:310px;">
 <%
