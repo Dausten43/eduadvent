@@ -12,7 +12,7 @@
 </head>
 <body>
 <div id="content">
-	<h2>Catálogo de imágenes <small><%=aca.catalogo.CatEscuela.getNombre(conElias, escuela) %></small></h2>
+	<h2>Catálogo de imágenes <small>( <%=aca.catalogo.CatEscuela.getNombre(conElias, escuela) %> )</small></h2>
 
 	<div class="well" style="overflow:hidden;">
  		<a class="btn btn-primary" href="subir.jsp"><i class="icon-plus icon-white"></i>&nbsp;<fmt:message key="boton.Anadir" /></a>
