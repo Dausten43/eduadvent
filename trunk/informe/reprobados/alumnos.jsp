@@ -59,7 +59,7 @@
 
 <div id="content">
 
-<h2><fmt:message key="aca.Reprobados" /> <small><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%></small></h2>
+<h2><fmt:message key="aca.Reprobados" /> <small>( <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%> )</small></h2>
 
 <form name="forma" action="alumnos.jsp" method="post">
 	<input type="hidden" name="Accion" />
