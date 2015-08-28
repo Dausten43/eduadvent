@@ -52,7 +52,7 @@
 
 <div id="content">
 
-<h2><fmt:message key="reportes.PadresInscritos" /> <small><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%></small></h2>
+<h2><fmt:message key="reportes.PadresInscritos" /> <small>( <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%> )</small></h2>
 
 <form name="forma" action="inscritos.jsp" method='post'>
 
