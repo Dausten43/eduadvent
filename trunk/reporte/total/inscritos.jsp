@@ -21,7 +21,7 @@
 	
 %>
 <div id="content">
-	<h2><fmt:message key="reportes.EstadisticaInscritos" /> <small><%= aca.catalogo.CatEscuela.getNombreCorto(conElias, escuela)%></small></h2>
+	<h2><fmt:message key="reportes.EstadisticaInscritos" /> <small>( <%= aca.catalogo.CatEscuela.getNombreCorto(conElias, escuela)%> )</small></h2>
 <%		
 	String ciclosActivos = "";
 	for(int i = 0; i < lisCiclo.size(); i++){
