@@ -21,7 +21,7 @@
 	String editar 			= request.getParameter("editar")==null?"0":request.getParameter("editar");
 	String Resultado 		= "";
 	String accion			= request.getParameter("accion")==null?"0":request.getParameter("accion");
-	ArrayList<aca.kardex.KrdxCursoAct> lisAlum 	= CursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId, cursoId, " ORDER BY ORDEN");
+	ArrayList<aca.kardex.KrdxCursoAct> lisAlum 	= CursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId, cursoId, " ORDER BY ORDEN, ALUM_APELLIDO(CODIGO_ID)");
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
@@ -46,7 +46,7 @@
 		}
 	}
 	
-	lisAlum 	= CursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId, cursoId, " ORDER BY ORDEN");
+	lisAlum 	= CursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId, cursoId, " ORDER BY ORDEN, ALUM_APELLIDO(CODIGO_ID)");
 	
 %>
 
