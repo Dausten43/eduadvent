@@ -13,7 +13,7 @@
 	String planId 			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String cursoNombre 		= aca.plan.PlanCurso.getCursoNombre(conElias, cursoId);
 
-	//Lista de alumnos	
+	//Lista de alumnos
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardex = kardexLista.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ORDEN, ALUM_APELLIDO(CODIGO_ID)");
 
 %>
@@ -70,7 +70,7 @@
 			<tr>
 				<td><%=cont %></td>
 				<td><%=alumno.getCodigoId() %></td>
-				<td><%=aca.alumno.AlumPersonal.getNombre(conElias, alumno.getCodigoId(), "NOMBRE") %></td>
+				<td><%=aca.alumno.AlumPersonal.getNombre(conElias, alumno.getCodigoId(), "") %></td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
