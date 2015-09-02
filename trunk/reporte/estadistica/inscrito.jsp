@@ -4,6 +4,11 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
+
+<jsp:useBean id="catNivelL" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
+<jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
+<jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
 <jsp:useBean id="CicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="CatClas" scope="page" class="aca.catalogo.CatClasFinLista"/>
 <jsp:useBean id="GrupoL" scope="page" class="aca.catalogo.CatGrupoLista"/>
