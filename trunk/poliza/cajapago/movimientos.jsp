@@ -10,6 +10,7 @@
 <jsp:useBean id="FinMov" scope="page" class="aca.fin.FinMovimientos"/>
 <jsp:useBean id="FinMovLista" scope="page" class="aca.fin.FinMovimientosLista"/>
 <jsp:useBean id="FinFolio" scope="page" class="aca.fin.FinFolio"/>
+
 <jsp:useBean id="empleadoU" scope="page" class="aca.empleado.EmpPersonalLista"/>
 
 <script>
@@ -22,21 +23,28 @@
 		}
 	}
 	
-	function Eliminar(movimientoId){
+	function Eliminar(movimientoId){		
 		if(confirm(' <fmt:message key='js.Confirma' /> ')){
 			document.forma.Accion.value = "2";
 			document.forma.MovimientoId.value = movimientoId;
 			document.forma.submit();
 		}
 	}
+	
+	function PagosPendientes(){
+		document.forma.Accion.value = "3";		
+		document.forma.submit();
+	}
 </script>
 
 <%
-	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;(##0.00)");	
+	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;(##0.00)");
 
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId"); 
+	
+	String alumnoCaja 	= request.getParameter("Auxiliar")==null?"0":request.getParameter("Auxiliar");	
 	
 	/* INFORMACION DEL RECIBO */
 	FinFolio.mapeaRegId(conElias, ejercicioId, usuario);
@@ -70,7 +78,8 @@
 	String accion 	= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String msj 		= "";
 	
-	if( accion.equals("1") ){//Guardar
+	// Guardar
+	if( accion.equals("1") ){
 		if(movimientoId.equals("")){
 			movimientoId = FinMov.maxReg(conElias, ejercicioId, polizaId);
 		}
@@ -126,16 +135,19 @@
 	pageContext.setAttribute("resultado", msj);
 	
 	/* PADRES */
-	ArrayList<aca.empleado.EmpPersonal> padres 	= empleadoU.getListEscuela(conElias, escuelaId," AND SUBSTR(CODIGO_ID,4,1)='P' AND (SELECT COUNT(*) FROM ALUM_PADRES WHERE CODIGO_PADRE= EMP_PERSONAL.CODIGO_ID OR CODIGO_MADRE = EMP_PERSONAL.CODIGO_ID OR CODIGO_TUTOR = EMP_PERSONAL.CODIGO_ID) > 0 ORDER BY SUBSTR(CODIGO_ID,1,3),APATERNO,AMATERNO,NOMBRE");
+	ArrayList<aca.empleado.EmpPersonal> padres		= empleadoU.getListEscuela(conElias, escuelaId," AND SUBSTR(CODIGO_ID,4,1)='P' AND (SELECT COUNT(*) FROM ALUM_PADRES WHERE CODIGO_PADRE= EMP_PERSONAL.CODIGO_ID OR CODIGO_MADRE = EMP_PERSONAL.CODIGO_ID OR CODIGO_TUTOR = EMP_PERSONAL.CODIGO_ID) > 0 ORDER BY SUBSTR(CODIGO_ID,1,3),APATERNO,AMATERNO,NOMBRE");
 	
 	/* ALUMNOS */
-	ArrayList<aca.alumno.AlumPersonal> alumnos = AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
+	ArrayList<aca.alumno.AlumPersonal> alumnos		= AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
 	
 	/* CUENTAS */
-	ArrayList<aca.fin.FinCuenta> cuentas = FinCuentaLista.getListCuentas(conElias, escuelaId, " ORDER BY CUENTA_ID");
+	ArrayList<aca.fin.FinCuenta> cuentas 			= FinCuentaLista.getListCuentas(conElias, escuelaId, " ORDER BY CUENTA_ID");
+	
+	/* CUENTAS */
+	ArrayList<aca.fin.FinCalculoPago> pagos 		= new ArrayList<aca.fin.FinCalculoPago>();
 	
 	/* MOVIMIENTOS DEL RECIBO ACTUAL */
-	ArrayList<aca.fin.FinMovimientos> movimientos = FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
+	ArrayList<aca.fin.FinMovimientos> movimientos 	= FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
 	
 	if(!movimientoId.equals("")){
 		FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);	
@@ -177,161 +189,138 @@
 
 	<%if(reciboDisponible == false){ %>
 		
-		<div class="well">
-			<a href="caja.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		</div>
+	<div class="well">
+		<a href="caja.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+	</div>
 		
-		<div class="alert">
-			<fmt:message key="aca.NoRecibosDisponibles" />
-		</div>
+	<div class="alert">
+		<fmt:message key="aca.NoRecibosDisponibles" />
+	</div>
 	
 	<%}else if( !FinPoliza.getEstado().equals("A") ){ %>
 		
-		<div class="well">
-			<a href="caja.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		</div>
+	<div class="well">
+		<a href="caja.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+	</div>
 		
-		<div class="alert">
-			<fmt:message key="aca.PolizaCerrada" />
-		</div>
+	<div class="alert">
+		<fmt:message key="aca.PolizaCerrada" />
+	</div>
 		
 	<%}else{ %>
 	
-			<div class="well">
-				<a href="caja.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-				<%if(movimientos.size()==0){ %>
-					<a disabled title="Este recibo aún no tiene movimientos" class="btn btn-success"><i class="icon-list-alt icon-white"></i> <fmt:message key="aca.GuardarRecibo" /></a>
-				<%}else{ %>
-					<a href="recibo.jsp" class="btn btn-success"><i class="icon-list-alt icon-white"></i> <fmt:message key="aca.GuardarRecibo" /></a>
-				<%} %>
-			</div>
+	<div class="well">
+		<a href="caja.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<%if(movimientos.size()==0){ %>
+			<a disabled title="Este recibo aún no tiene movimientos" class="btn btn-success"><i class="icon-list-alt icon-white"></i> <fmt:message key="aca.GuardarRecibo" /></a>
+		<%}else{ %>
+			<a href="recibo.jsp" class="btn btn-success"><i class="icon-list-alt icon-white"></i> <fmt:message key="aca.GuardarRecibo" /></a>
+		<%} %>
+	</div>
 			
-			<div class="row">
-				<div class="span5">
-					
-					<form action="" method="post" name="forma">
-						<input type="hidden" name="Accion" />
-						<input type="hidden" name="MovimientoId" />
+	<div class="row">
+		<div class="span5">			
+			<form action="" method="post" name="forma">
+				<input type="hidden" name="Accion" />
+				<input type="hidden" name="MovimientoId" />
 						
-						<div class="alert">
-						
-							<fieldset>
-								<%
-									String PADRE = request.getParameter("Padre")==null?"":request.getParameter("Padre");
-								%>
-								<a href="#myModal2" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Padres" /> <i class="icon-question-sign"></i></label></a>
-								<select name="Padre" id="Padre" style="width:100%;">
-									<option value=""><fmt:message key="boton.Todos" /></option>
-									<%for(aca.empleado.EmpPersonal padre : padres){%>
-										<option value="<%=padre.getCodigoId() %>" <%if(PADRE.equals(padre.getCodigoId())){out.print("selected");}%>>
-											<%=padre.getCodigoId() %> | <%=padre.getNombre()+" "+padre.getApaterno()+" "+padre.getAmaterno() %>
-										</option>
-									<%}%>
-								</select>
-							</fieldset>
-						
-							<fieldset>
-								<a href="#myModal" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Alumno" /> <i class="icon-question-sign"></i></label></a>
-								<select name="Auxiliar" id="Auxiliar" style="width:100%;">
-									<%for(aca.alumno.AlumPersonal alumno : alumnos){ %>
-										<option value="<%=alumno.getCodigoId()%>" <%if(FinMov.getAuxiliar().equals(alumno.getCodigoId()))out.print("selected"); %>>
-											<%=alumno.getCodigoId()%> | <%=alumno.getNombre()+" "+alumno.getApaterno()+" "+alumno.getAmaterno() %>
-										</option>
-									<%} %>
-								</select>
-							</fieldset>
-								
-							<fieldset>
-								<label for="CuentaId"><fmt:message key="aca.Cuenta" /></label>
-								<select name="CuentaId" id="CuentaId" style="width:100%;">
-									<%for(aca.fin.FinCuenta cuenta : cuentas){%>
-										<option value="<%=cuenta.getCuentaId() %>" <%if(FinMov.getCuentaId().equals(cuenta.getCuentaId()))out.print("selected"); %>>
-											<%=cuenta.getCuentaId() %> | <%=cuenta.getCuentaNombre() %>
-										</option>
-									<%}%>
-								</select>
-							</fieldset>
-							
-							<fieldset>			
-								<label for="Importe"><fmt:message key="aca.Importe" /></label>
-								<input type="text" name="Importe" id="Importe" style="max-width:100%;" maxlength="8" value="<%=FinMov.getImporte() %>" />
-							</fieldset>
-							
-							<fieldset>
-								<label for="Descripcion"><fmt:message key="aca.Descripcion" /></label>
-								<textarea name="Descripcion" id="Descripcion" rows="2" cols="20" style="max-width:100%;width: 100%;box-sizing: border-box;"><%=FinMov.getDescripcion() %></textarea>
-							</fieldset>
-								
-							<fieldset>
-								<label for="Referencia"><fmt:message key="aca.Referencia" /></label>
-								<input type="text" name="Referencia" id="Referencia" maxlength="20" value="<%=FinMov.getReferencia() %>" />
-							</fieldset>
-						
-						</div>
-						
-						<div class="well">
-							<a href="javascript:Guardar();" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
-							<%if(!movimientoId.equals("")){ %>
-								<a href="movimientos.jsp" class="btn btn-large"><i class="icon-file"></i> <fmt:message key="boton.Nuevo" /></a>
-							<%} %>
-						</div>
-					</form>
-					
-				</div>
+				<div class="alert">
 				
-				<div class="span7">
-					
-					<h4><fmt:message key="aca.Movimientos" /> <a href="javascript:tableToExcel('bajarExcel', 'Movimientos')" style="float:right;"><img src="excel.png" height="25" width="25"></a></h4>
-					
-					<table class="table table-condensed table-bordered table-striped" id="bajarExcel">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th><fmt:message key="aca.Alumno" /></th>
-								<th><fmt:message key="aca.Cuenta" /></th>
-								<th><fmt:message key="aca.Fecha" /></th>
-								<th><fmt:message key="aca.Descripcion" /></th>
-								<th><fmt:message key="aca.Referencia" /></th>
-								<th class="text-right"><fmt:message key="aca.Importe" /></th>
-							</tr>
-						</thead>
+					<fieldset>
 						<%
-							float total = 0;
-							int cont = 0;
-							for(aca.fin.FinMovimientos mov : movimientos){
-								cont++;
-								
-								float importe = Float.parseFloat(mov.getImporte());
-								total+=importe;
+							String PADRE = request.getParameter("Padre")==null?"":request.getParameter("Padre");
 						%>
-								<tr>
-									<td><%=cont %></td>
-									<td>
-										<a href=" javascript:Eliminar('<%=mov.getMovimientoId() %>'); "><i class="icon-remove"></i></a>
-										<a href="movimientos.jsp?MovimientoId=<%=mov.getMovimientoId() %>"><i class="icon-pencil"></i></a>
-										<%=aca.alumno.AlumPersonal.getNombre(conElias, mov.getAuxiliar(), "NOMBRE")  %>
-									</td>
-									<td><%=mov.getCuentaId() %></td>
-									<td><%=mov.getFecha() %></td>
-									<td><%=mov.getDescripcion() %></td>
-									<td><%=mov.getReferencia() %></td>
-									<td class="text-right"><%=getformato.format( importe ) %></td>
-								</tr>
-						<%
-							}
-						%>
-						<tr>
-							<th colspan="6"><fmt:message key="aca.Total" /></th>
-							<th class="text-right"><%=getformato.format( total ) %></th>
-						</tr>
-					</table>
-			
-			
+						<a href="#myModal2" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Padres" /> <i class="icon-question-sign"></i></label></a>
+						<select name="Padre" id="Padre" style="width:100%;">
+							<option value=""><fmt:message key="boton.Todos" /></option>
+							<%for(aca.empleado.EmpPersonal padre : padres){%>
+								<option value="<%=padre.getCodigoId() %>" <%if(PADRE.equals(padre.getCodigoId())){out.print("selected");}%>>
+									<%=padre.getCodigoId() %> | <%=padre.getNombre()+" "+padre.getApaterno()+" "+padre.getAmaterno() %>
+								</option>
+							<%}%>
+						</select>
+					</fieldset>
+					<% System.out.println("Alumno:"+alumnoCaja);%>	
+					<fieldset>
+						<a href="#myModal" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Alumno" /> <i class="icon-question-sign"></i></label></a>
+						<select name="Auxiliar" id="Auxiliar" style="width:100%;">
+							<%for(aca.alumno.AlumPersonal alumno : alumnos){
+								if (alumnoCaja.equals(alumno.getCodigoId())) System.out.println("Lo encontre:"+alumnoCaja);
+							%>
+								<option value="<%=alumno.getCodigoId()%>" <%if(alumnoCaja.equals(alumno.getCodigoId())) out.print(" Selected"); %>>
+									<%=alumno.getCodigoId()%> | <%=alumno.getNombre()+" "+alumno.getApaterno()+" "+alumno.getAmaterno() %>
+								</option>
+							<%} %>
+						</select>
+						<a id="Pagos" class="btn btn-primary btn-small"><i class="icon-refresh icon-white"></i></a>
+					</fieldset>
+					<div id ="listaPagos">
+					</div>							
+							
 				</div>
-			</div>
+						
+				<div class="well">
+					<a href="javascript:Guardar();" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
+					<%if(!movimientoId.equals("")){ %>
+						<a href="movimientos.jsp" class="btn btn-large"><i class="icon-file"></i> <fmt:message key="boton.Nuevo" /></a>
+					<%} %>
+				</div>
+			</form>
+					
+		</div>
+				
+		<div class="span7">
+			
+			<h4><fmt:message key="aca.Movimientos" /> <a href="javascript:tableToExcel('bajarExcel', 'Movimientos')" style="float:right;"><img src="excel.png" height="25" width="25"></a></h4>
+			
+			<table class="table table-condensed table-bordered table-striped" id="bajarExcel">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th><fmt:message key="aca.Alumno" /></th>
+						<th><fmt:message key="aca.Cuenta" /></th>
+						<th><fmt:message key="aca.Fecha" /></th>
+						<th><fmt:message key="aca.Descripcion" /></th>
+						<th><fmt:message key="aca.Referencia" /></th>
+						<th class="text-right"><fmt:message key="aca.Importe" /></th>
+					</tr>
+				</thead>
+				<%
+					float total = 0;
+					int cont = 0;
+					for(aca.fin.FinMovimientos mov : movimientos){
+						cont++;
+						
+						float importe = Float.parseFloat(mov.getImporte());
+						total+=importe;
+				%>
+						<tr>
+							<td><%=cont %></td>
+							<td>
+								<a href=" javascript:Eliminar('<%=mov.getMovimientoId() %>'); "><i class="icon-remove"></i></a>
+								<a href="movimientos.jsp?MovimientoId=<%=mov.getMovimientoId() %>"><i class="icon-pencil"></i></a>
+								<%=aca.alumno.AlumPersonal.getNombre(conElias, mov.getAuxiliar(), "NOMBRE")  %>
+							</td>
+							<td><%=mov.getCuentaId() %></td>
+							<td><%=mov.getFecha() %></td>
+							<td><%=mov.getDescripcion() %></td>
+							<td><%=mov.getReferencia() %></td>
+							<td class="text-right"><%=getformato.format( importe ) %></td>
+						</tr>
+				<%
+					}
+				%>
+				<tr>
+					<th colspan="6"><fmt:message key="aca.Total" /></th>
+					<th class="text-right"><%=getformato.format( total ) %></th>
+				</tr>
+			</table>
 	
+	
+		</div>
+	</div>
+		
 	<%} %>	
-	
 	 
 	<!-- Modal -->
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -386,6 +375,7 @@
 	var alumno 		= $('#Auxiliar');
 	var padre 		= $('#Padre');
 	var modalBody	= $('.modal-body');
+	var pagos 		= $('#Pagos');
 	
 	$('#myModal').on('show', function () {
 		$.get('getMovimientosAlumno.jsp?codigoId='+alumno.val(), function(r){
@@ -402,15 +392,28 @@
 	function cambiarHijos(){
 		$('#Auxiliar').html("<option value=''>Cargando...</option>").trigger("liszt:updated");
 		
-		$.get('getHijos.jsp?padre='+padre.val(), function(r){
+		$.get('getHijos.jsp?padre='+padre.val()+'&alumno='+alumno.val(), function(r){
 			$('#Auxiliar').html($.trim(r)).trigger("liszt:updated");
 		});
 	}
+	
+	function getLisPagos(){	
+		alert("llegue");
+		$.get('getPagos.jsp?alumno='+alumno.val(), function(r){
+			$('#listaPagos').html($.trim(r));
+		});
+	}
+	
 	cambiarHijos();
 	
 	padre.on('change', function(){
 		cambiarHijos();
 	})
+	
+	pagos.on('click'), function(){
+		alert("llegue");
+		getLisPagos();
+	}
 </script>
 <script src="../../js-plugins/tableToExcel/tableToExcel.js"></script>
 
