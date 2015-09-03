@@ -499,6 +499,7 @@
 										FinCalculoPago.setEstado("A");
 										FinCalculoPago.setBeca( BecaDeUnPagoDetalle.add(becaExtra)+"" ); /* al ultimo pago le agregamos los decimales sobrantes para que cuadre perfectamente la division de pagos */
 										FinCalculoPago.setCuentaId(det.getCuentaId());
+										FinCalculoPago.setPagado("N");
 										
 										if (FinCalculoPago.insertReg(conElias)){
 										

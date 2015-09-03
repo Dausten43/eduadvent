@@ -184,7 +184,7 @@
 			</table>
 			
 			<p>
-				Por el presente pagaré me comprometo a pagar al <%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> las cantidades citadas en los vencimientos señalados. Si no fuere cubierto a su vencimiento, causará suspensión de los servicios de enseñanza. En <%=Escuela.getDireccion() %>, a <%=aca.util.Fecha.getHoy() %>.
+				Por el presente pagaré me comprometo a pagar a <%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> las cantidades citadas en los vencimientos señalados. Si no fuere cubierto a su vencimiento, causará suspensión de los servicios de enseñanza. En <%=Escuela.getDireccion() %>, a <%=aca.util.Fecha.getHoy() %>.
 			</p>
 			
 			<br /><br /><br />
