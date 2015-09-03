@@ -11,11 +11,13 @@
 	String alumno 		= request.getParameter("alumno");
 	String escuelaId 	= (String) session.getAttribute("escuela");
 
-	ArrayList<aca.alumno.AlumPadres> lisAlumPadres = alumPadresLista.getListTutor(conElias, codigoId, "ORDER BY 1");
-	
+	ArrayList<aca.alumno.AlumPadres> lisAlumPadres = alumPadresLista.getListTutor(conElias, codigoId, "ORDER BY 1");	
+%>
+		<option value="0">Elegir</option>
+<%	
 	for(aca.alumno.AlumPadres alum : lisAlumPadres){
 %>
-		<option value="<%=alum.getCodigoId()%> <% if (alum.getCodigoId().equals(alumno)) out.print(" Selected"); %>">
+		<option value="<%=alum.getCodigoId()%>">
 			<%=alum.getCodigoId()%> | <%=aca.alumno.AlumPersonal.getNombre(conElias, alum.getCodigoId(), "NOMBRE") %>
 		</option>
 <%		
@@ -26,7 +28,7 @@
 		ArrayList<aca.alumno.AlumPersonal> alumnos = AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
 		for(aca.alumno.AlumPersonal alum : alumnos){
 %>
-			<option value="<%=alum.getCodigoId()%> <% if (alum.getCodigoId().equals(alumno)) out.print(" Selected"); %>">
+			<option value="<%=alum.getCodigoId()%>">
 				<%=alum.getCodigoId()%> | <%=aca.alumno.AlumPersonal.getNombre(conElias, alum.getCodigoId(), "NOMBRE") %>
 			</option>
 <%		

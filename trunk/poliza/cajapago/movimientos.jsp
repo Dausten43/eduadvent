@@ -6,10 +6,15 @@
 
 <jsp:useBean id="FinPoliza" scope="page" class="aca.fin.FinPoliza"/>
 <jsp:useBean id="AlumPersonalLista" scope="page" class="aca.alumno.AlumPersonalLista"/>
+<jsp:useBean id="AlumPadresLista" scope="page" class="aca.alumno.AlumPadresLista"/>
 <jsp:useBean id="FinCuentaLista" scope="page" class="aca.fin.FinCuentaLista"/>
 <jsp:useBean id="FinMov" scope="page" class="aca.fin.FinMovimientos"/>
 <jsp:useBean id="FinMovLista" scope="page" class="aca.fin.FinMovimientosLista"/>
 <jsp:useBean id="FinFolio" scope="page" class="aca.fin.FinFolio"/>
+<jsp:useBean id="FinPagoLista" scope="page" class="aca.fin.FinCalculoPagoLista"/>
+
+
+
 
 <jsp:useBean id="empleadoU" scope="page" class="aca.empleado.EmpPersonalLista"/>
 
@@ -31,7 +36,7 @@
 		}
 	}
 	
-	function PagosPendientes(){
+	function Refrescar(){
 		document.forma.Accion.value = "3";		
 		document.forma.submit();
 	}
@@ -44,7 +49,8 @@
 	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId"); 
 	
-	String alumnoCaja 	= request.getParameter("Auxiliar")==null?"0":request.getParameter("Auxiliar");	
+	String padreCaja 	= request.getParameter("Padre")==null?"0":request.getParameter("Padre");
+	String alumnoCaja 	= request.getParameter("Auxiliar")==null?"0":request.getParameter("Auxiliar");
 	
 	/* INFORMACION DEL RECIBO */
 	FinFolio.mapeaRegId(conElias, ejercicioId, usuario);
@@ -135,19 +141,22 @@
 	pageContext.setAttribute("resultado", msj);
 	
 	/* PADRES */
-	ArrayList<aca.empleado.EmpPersonal> padres		= empleadoU.getListEscuela(conElias, escuelaId," AND SUBSTR(CODIGO_ID,4,1)='P' AND (SELECT COUNT(*) FROM ALUM_PADRES WHERE CODIGO_PADRE= EMP_PERSONAL.CODIGO_ID OR CODIGO_MADRE = EMP_PERSONAL.CODIGO_ID OR CODIGO_TUTOR = EMP_PERSONAL.CODIGO_ID) > 0 ORDER BY SUBSTR(CODIGO_ID,1,3),APATERNO,AMATERNO,NOMBRE");
+	ArrayList<aca.empleado.EmpPersonal> lisPadres		= empleadoU.getListEscuela(conElias, escuelaId," AND SUBSTR(CODIGO_ID,4,1)='P' AND (SELECT COUNT(*) FROM ALUM_PADRES WHERE CODIGO_PADRE= EMP_PERSONAL.CODIGO_ID OR CODIGO_MADRE = EMP_PERSONAL.CODIGO_ID OR CODIGO_TUTOR = EMP_PERSONAL.CODIGO_ID) > 0 ORDER BY SUBSTR(CODIGO_ID,1,3),APATERNO,AMATERNO,NOMBRE");
 	
 	/* ALUMNOS */
-	ArrayList<aca.alumno.AlumPersonal> alumnos		= AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
+	ArrayList<aca.alumno.AlumPersonal> lisAlumnos		= AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
+	
+	/* Lista de Hijos de un padre*/
+	ArrayList<aca.alumno.AlumPadres> lisHijos 			= AlumPadresLista.getListTutor(conElias, padreCaja, "ORDER BY 1");
 	
 	/* CUENTAS */
-	ArrayList<aca.fin.FinCuenta> cuentas 			= FinCuentaLista.getListCuentas(conElias, escuelaId, " ORDER BY CUENTA_ID");
+	ArrayList<aca.fin.FinCuenta> lisCuentas 			= FinCuentaLista.getListCuentas(conElias, escuelaId, " ORDER BY CUENTA_ID");
 	
 	/* CUENTAS */
-	ArrayList<aca.fin.FinCalculoPago> pagos 		= new ArrayList<aca.fin.FinCalculoPago>();
+	ArrayList<aca.fin.FinCalculoPago> lisPagos 			= new ArrayList<aca.fin.FinCalculoPago>();
 	
 	/* MOVIMIENTOS DEL RECIBO ACTUAL */
-	ArrayList<aca.fin.FinMovimientos> movimientos 	= FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
+	ArrayList<aca.fin.FinMovimientos> lisMovimientos 	= FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
 	
 	if(!movimientoId.equals("")){
 		FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);	
@@ -211,7 +220,7 @@
 	
 	<div class="well">
 		<a href="caja.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		<%if(movimientos.size()==0){ %>
+		<%if(lisMovimientos.size()==0){ %>
 			<a disabled title="Este recibo aún no tiene movimientos" class="btn btn-success"><i class="icon-list-alt icon-white"></i> <fmt:message key="aca.GuardarRecibo" /></a>
 		<%}else{ %>
 			<a href="recibo.jsp" class="btn btn-success"><i class="icon-list-alt icon-white"></i> <fmt:message key="aca.GuardarRecibo" /></a>
@@ -222,40 +231,71 @@
 		<div class="span5">			
 			<form action="" method="post" name="forma">
 				<input type="hidden" name="Accion" />
-				<input type="hidden" name="MovimientoId" />
+				<input type="hidden" name="MovimientoId" />				
 						
 				<div class="alert">
 				
-					<fieldset>
-						<%
-							String PADRE = request.getParameter("Padre")==null?"":request.getParameter("Padre");
-						%>
+					<fieldset>						
 						<a href="#myModal2" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Padres" /> <i class="icon-question-sign"></i></label></a>
-						<select name="Padre" id="Padre" style="width:100%;">
+						<select name="Padre" id="Padre" style="width:100%;" onchange="javascript:Refrescar();">						
 							<option value=""><fmt:message key="boton.Todos" /></option>
-							<%for(aca.empleado.EmpPersonal padre : padres){%>
-								<option value="<%=padre.getCodigoId() %>" <%if(PADRE.equals(padre.getCodigoId())){out.print("selected");}%>>
+							<%for(aca.empleado.EmpPersonal padre : lisPadres){%>
+								<option value="<%=padre.getCodigoId() %>" <%if(padreCaja.equals(padre.getCodigoId())){out.print("selected");}%>>
 									<%=padre.getCodigoId() %> | <%=padre.getNombre()+" "+padre.getApaterno()+" "+padre.getAmaterno() %>
 								</option>
 							<%}%>
 						</select>
-					</fieldset>
-					<% System.out.println("Alumno:"+alumnoCaja);%>	
+					</fieldset>						
 					<fieldset>
 						<a href="#myModal" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Alumno" /> <i class="icon-question-sign"></i></label></a>
-						<select name="Auxiliar" id="Auxiliar" style="width:100%;">
-							<%for(aca.alumno.AlumPersonal alumno : alumnos){
-								if (alumnoCaja.equals(alumno.getCodigoId())) System.out.println("Lo encontre:"+alumnoCaja);
-							%>
-								<option value="<%=alumno.getCodigoId()%>" <%if(alumnoCaja.equals(alumno.getCodigoId())) out.print(" Selected"); %>>
-									<%=alumno.getCodigoId()%> | <%=alumno.getNombre()+" "+alumno.getApaterno()+" "+alumno.getAmaterno() %>
-								</option>
-							<%} %>
-						</select>
-						<a id="Pagos" class="btn btn-primary btn-small"><i class="icon-refresh icon-white"></i></a>
+						<select name="Auxiliar" id="Auxiliar" style="width:100%;" onchange="javascript:Refrescar();">
+							<option value="0">Elegir</option>
+						<% 
+							// Muestra todos los alumnos de la escuela
+							if (padreCaja.equals("0")){
+								for(aca.alumno.AlumPersonal alum : lisAlumnos){
+						%>
+							<option value="<%=alum.getCodigoId()%>" <%if(alumnoCaja.equals(alum.getCodigoId())) out.print(" selected"); %>>
+								<%=alum.getCodigoId()%> | <%=alum.getNombre()+" "+alum.getApaterno()+" "+alum.getAmaterno() %>
+							</option>
+						<%		
+								}								
+							}else{
+								for(aca.alumno.AlumPadres alum : lisHijos){
+						%>
+							<option value="<%=alum.getCodigoId()%>" <%if(alumnoCaja.equals(alum.getCodigoId())) out.print(" selected"); %>>
+								<%=alum.getCodigoId()%> | <%=aca.alumno.AlumPersonal.getNombre(conElias, alum.getCodigoId(), "NOMBRE") %>
+							</option>
+						<%		
+								}
+								
+							}
+						%>							
+						</select>						
 					</fieldset>
-					<div id ="listaPagos">
-					</div>							
+				<%
+					lisPagos 		= FinPagoLista.listPagosPendientes(conElias, alumnoCaja, "ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
+				%>	
+					<table class="table table-condensed">
+					<tr>
+						<th>#</th>
+						<th>Fecha</th>
+						<th>Importe</th>
+					</tr>
+	<%
+					int row = 0;
+					for (aca.fin.FinCalculoPago pago: lisPagos){
+						row++;
+	%>
+					<tr>
+						<td><%=row%></td>
+						<td><%= pago.getFecha() %></td>
+						<td><%= pago.getImporte() %></td>
+					</tr>
+	<%			
+					}
+	%>
+					</table>
 							
 				</div>
 						
@@ -288,7 +328,7 @@
 				<%
 					float total = 0;
 					int cont = 0;
-					for(aca.fin.FinMovimientos mov : movimientos){
+					for(aca.fin.FinMovimientos mov : lisMovimientos){
 						cont++;
 						
 						float importe = Float.parseFloat(mov.getImporte());
@@ -374,8 +414,7 @@
 	
 	var alumno 		= $('#Auxiliar');
 	var padre 		= $('#Padre');
-	var modalBody	= $('.modal-body');
-	var pagos 		= $('#Pagos');
+	var modalBody	= $('.modal-body');	
 	
 	$('#myModal').on('show', function () {
 		$.get('getMovimientosAlumno.jsp?codigoId='+alumno.val(), function(r){
@@ -388,7 +427,7 @@
 			modalBody.html($.trim(r));
 		});  
 	});
-	
+/*	
 	function cambiarHijos(){
 		$('#Auxiliar').html("<option value=''>Cargando...</option>").trigger("liszt:updated");
 		
@@ -397,23 +436,13 @@
 		});
 	}
 	
-	function getLisPagos(){	
-		alert("llegue");
-		$.get('getPagos.jsp?alumno='+alumno.val(), function(r){
-			$('#listaPagos').html($.trim(r));
-		});
-	}
-	
 	cambiarHijos();
 	
 	padre.on('change', function(){
 		cambiarHijos();
-	})
+	});
+*/	
 	
-	pagos.on('click'), function(){
-		alert("llegue");
-		getLisPagos();
-	}
 </script>
 <script src="../../js-plugins/tableToExcel/tableToExcel.js"></script>
 
