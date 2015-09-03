@@ -19,17 +19,19 @@ public class FinCalculoPago {
 	private String estado;
 	private String cuentaId;
 	private String beca;
-		
+	private String pagado;
+	
 	public FinCalculoPago(){		
 		cicloId		= "";
 		periodoId	= "";
 		codigoId	= "";
 		pagoId		= "";
-		importe		= "";
+		importe		= "0";
 		fecha		= "";
 		estado		= "";
 		cuentaId	= "";
-		beca 		= "";
+		beca 		= "0";
+		pagado 		= "N";
 	}	
 
 		
@@ -100,6 +102,13 @@ public class FinCalculoPago {
 		this.beca = beca;
 	}
 
+	public String getPagado() {
+		return pagado;
+	}
+
+	public void setPagado(String pagado) {
+		this.pagado = pagado;
+	}
 
 	/**
 	 * @param Conection the conn to set
@@ -111,7 +120,7 @@ public class FinCalculoPago {
             ps = conn.prepareStatement(
                  " INSERT INTO FIN_CALCULO_PAGO(CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, FECHA, ESTADO, CUENTA_ID, BECA)" +
                  " VALUES(?, TO_NUMBER(?, '99'), ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99999.99')," +            
-                 " TO_DATE(?,'DD/MM/YYYY'), ?, ?, TO_NUMBER(?, '99999.99'))");
+                 " TO_DATE(?,'DD/MM/YYYY'), ?, ?, TO_NUMBER(?, '99999.99'),?)");
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
             ps.setString(3, codigoId);
@@ -121,6 +130,7 @@ public class FinCalculoPago {
             ps.setString(7, estado);
             ps.setString(8, cuentaId);
             ps.setString(9, beca);
+            ps.setString(10, pagado);
             
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -145,7 +155,7 @@ public class FinCalculoPago {
                     " UPDATE FIN_CALCULO_PAGO " + 
                     " SET IMPORTE = TO_NUMBER(?, '99999.99')," +                   
                     " FECHA = TO_DATE(?,'DD/MM/YYYY')," +
-                    " ESTADO = ?, BECA = TO_NUMBER(?, '99999.99') " +
+                    " ESTADO = ?, BECA = TO_NUMBER(?, '99999.99'), PAGADO = ? " +
                     " WHERE CICLO_ID = ?" +                    
                     " AND PERIODO_ID = TO_NUMBER(?,'99')" +
                     " AND CODIGO_ID = ?" +
@@ -154,12 +164,13 @@ public class FinCalculoPago {
             ps.setString(1, importe);
             ps.setString(2, fecha);     
             ps.setString(3, estado);    
-            ps.setString(4, beca);    
-            ps.setString(5, cicloId);
-            ps.setString(6, periodoId);            
-            ps.setString(7, codigoId);
-            ps.setString(8, pagoId);
-            ps.setString(9, cuentaId);
+            ps.setString(4, beca);
+            ps.setString(5, pagado);
+            ps.setString(6, cicloId);
+            ps.setString(7, periodoId);            
+            ps.setString(8, codigoId);
+            ps.setString(9, pagoId);
+            ps.setString(10, cuentaId);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -278,6 +289,7 @@ public class FinCalculoPago {
 		estado 		= rs.getString("ESTADO");
 		cuentaId	= rs.getString("CUENTA_ID");
 		beca 		= rs.getString("BECA");
+		pagado 		= rs.getString("PAGADO");
     }
 
     public void mapeaRegId(Connection con, String cicloId, String periodoId, String codigoId, String pagoId) throws SQLException{
@@ -285,7 +297,7 @@ public class FinCalculoPago {
         PreparedStatement ps = null; 
         try{
         	ps = con.prepareStatement(
-        		" SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, ESTADO, CUENTA_ID, BECA"+
+        		" SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, ESTADO, CUENTA_ID, BECA, PAGADO"+
                 " FROM FIN_CALCULO_PAGO" +
                 " WHERE CICLO_ID = ?" +
                 " AND PERIODO_ID = TO_NUMBER(?,'99')" +
