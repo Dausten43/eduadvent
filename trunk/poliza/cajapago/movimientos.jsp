@@ -13,9 +13,6 @@
 <jsp:useBean id="FinFolio" scope="page" class="aca.fin.FinFolio"/>
 <jsp:useBean id="FinPagoLista" scope="page" class="aca.fin.FinCalculoPagoLista"/>
 
-
-
-
 <jsp:useBean id="empleadoU" scope="page" class="aca.empleado.EmpPersonalLista"/>
 
 <script>
@@ -36,8 +33,16 @@
 		}
 	}
 	
-	function Refrescar(){
-		document.forma.Accion.value = "3";		
+	function Refrescar(opcion){
+		document.forma.Accion.value = "3";
+		if (opcion=="Padre")
+			document.forma.Auxiliar.value = "0";
+		document.forma.submit();
+	}
+	
+	function EnviarPago(fechaPago){
+		document.forma.Accion.value = "4";
+		document.forma.FechaPago.value = fechaPago;
 		document.forma.submit();
 	}
 </script>
@@ -46,11 +51,12 @@
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;(##0.00)");
 
 	String escuelaId 	= (String) session.getAttribute("escuela");
-	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
-	String usuario 		= (String)session.getAttribute("codigoId"); 
+	String ejercicioId 	= (String) session.getAttribute("EjercicioId");
+	String usuario 		= (String) session.getAttribute("codigoId"); 
 	
 	String padreCaja 	= request.getParameter("Padre")==null?"0":request.getParameter("Padre");
 	String alumnoCaja 	= request.getParameter("Auxiliar")==null?"0":request.getParameter("Auxiliar");
+	String fechaPago 	= request.getParameter("FechaPago")==null?"0":request.getParameter("FechaPago");
 	
 	/* INFORMACION DEL RECIBO */
 	FinFolio.mapeaRegId(conElias, ejercicioId, usuario);
@@ -121,19 +127,31 @@
 		movimientoId = "";
 		
 	}else if( accion.equals("2") ){//Eliminar
-		
+		conElias.setAutoCommit(false);
 		FinMov.setEjercicioId(ejercicioId);
 		FinMov.setPolizaId(polizaId);
 		FinMov.setMovimientoId(movimientoId);
-		
+		 
 		if(FinMov.existeReg(conElias)){
-			if(FinMov.deleteReg(conElias)){
-				msj = "Eliminado";
+			FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);
+			String [] fechaPag = FinMov.getDescripcion().split(",");
+			System.out.println("Datos:"+fechaPag[0]+":"+FinMov.getCuentaId());
+			if(FinMov.deleteReg(conElias)){				 
+				if (aca.fin.FinCalculoPago.updatePagado(conElias, FinMov.getAuxiliar(), fechaPag[0], FinMov.getCuentaId(), "N")){
+					conElias.commit();
+					msj = "Eliminado";
+				}else{
+					msj = "NoElimino";
+					conElias.rollback();
+					System.out.println("1");
+				}
 			}else{
 				msj = "NoElimino";
+				System.out.println("2");
 			}
 		}
 		
+		conElias.setAutoCommit(true);
 		FinMov = new aca.fin.FinMovimientos();
 		movimientoId = "";
 	}
@@ -146,22 +164,75 @@
 	/* ALUMNOS */
 	ArrayList<aca.alumno.AlumPersonal> lisAlumnos		= AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
 	
-	/* Lista de Hijos de un padre*/
+	/* LISTA DE HIJOS DE UN PADRE*/
 	ArrayList<aca.alumno.AlumPadres> lisHijos 			= AlumPadresLista.getListTutor(conElias, padreCaja, "ORDER BY 1");
 	
 	/* CUENTAS */
 	ArrayList<aca.fin.FinCuenta> lisCuentas 			= FinCuentaLista.getListCuentas(conElias, escuelaId, " ORDER BY CUENTA_ID");
 	
-	/* CUENTAS */
-	ArrayList<aca.fin.FinCalculoPago> lisPagos 			= new ArrayList<aca.fin.FinCalculoPago>();
+	/* LISTA DETALLADA DE PAGOS PENDIENTES DEL ALUMNO*/
+	ArrayList<aca.fin.FinCalculoPago> lisPagos 			= FinPagoLista.lisPagos(conElias, alumnoCaja, "'N'","ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
+	
+	/* LISTA DE FECHAS DE PAGO (DISTINCT FECHAS) */
+	ArrayList<String> lisFechas 						= FinPagoLista.lisFechasPagos(conElias, alumnoCaja,"'N'");
 	
 	/* MOVIMIENTOS DEL RECIBO ACTUAL */
 	ArrayList<aca.fin.FinMovimientos> lisMovimientos 	= FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
 	
+	/* MAP DE IMPORTE DE CADA PAGO DEL ALUMNO (TOTAL DE IMPORTE-BECA POR PAGO)*/
+	java.util.HashMap<String,String> mapaPago 			= FinPagoLista.mapPagoFecha(conElias, alumnoCaja,"'N'");
+	
 	if(!movimientoId.equals("")){
 		FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);	
 	}
-
+	
+	if (accion.equals("4")){
+		conElias.setAutoCommit(false);
+		for (aca.fin.FinCalculoPago pagos : lisPagos){
+			String[] fechaEnPartes = pagos.getFecha().split("/");
+			/* Si la fecha del pago corresponde*/
+			if (fechaPago.equals(fechaEnPartes[2]+"/"+fechaEnPartes[1]+"/"+fechaEnPartes[0])){
+				
+				float importe = Float.parseFloat(pagos.getImporte())-Float.parseFloat(pagos.getBeca());
+				
+				movimientoId = FinMov.maxReg(conElias, ejercicioId, polizaId);		
+			
+				FinMov.setEjercicioId(ejercicioId);
+				FinMov.setPolizaId(polizaId);
+				FinMov.setMovimientoId(movimientoId);
+				FinMov.setCuentaId(pagos.getCuentaId());
+				FinMov.setAuxiliar(alumnoCaja);
+				FinMov.setDescripcion(pagos.getFecha()+","+pagos.getCicloId());
+				FinMov.setImporte(String.valueOf(importe));
+				FinMov.setNaturaleza("C"); /* Cargo */
+				FinMov.setReferencia("-");
+				FinMov.setEstado("A"); /* Abierto o Creado */
+				FinMov.setFecha(aca.util.Fecha.getDateTime());
+				FinMov.setReciboId(FinFolio.getReciboActual());
+				
+				if(FinMov.insertReg(conElias)){
+					if (aca.fin.FinCalculoPago.updatePagado(conElias, alumnoCaja, pagos.getFecha(), pagos.getCuentaId(),"S")){
+						conElias.commit();
+						msj = "Guardado";
+					}else{
+						conElias.rollback();
+						msj = "NoGuardo";
+					}					
+				}else{
+					msj = "NoGuardo";	
+				}
+				FinMov = new aca.fin.FinMovimientos();
+			}
+		}
+		conElias.setAutoCommit(true);
+		// Actualizar la lista movimientos
+		lisMovimientos 		= FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
+		// Actualizar la lista de pagos
+		lisPagos 			= FinPagoLista.lisPagos(conElias, alumnoCaja, "'N'","ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
+		// Actualizar la lista de fechas
+		lisFechas 			= FinPagoLista.lisFechasPagos(conElias, alumnoCaja,"'N'");
+	}
+	
 %>
 
 <style>
@@ -231,13 +302,14 @@
 		<div class="span5">			
 			<form action="" method="post" name="forma">
 				<input type="hidden" name="Accion" />
-				<input type="hidden" name="MovimientoId" />				
+				<input type="hidden" name="MovimientoId" />		
+				<input type="hidden" name="FechaPago" />
 						
 				<div class="alert">
 				
 					<fieldset>						
 						<a href="#myModal2" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Padres" /> <i class="icon-question-sign"></i></label></a>
-						<select name="Padre" id="Padre" style="width:100%;" onchange="javascript:Refrescar();">						
+						<select name="Padre" id="Padre" style="width:100%;" onchange="javascript:Refrescar('Padre');">						
 							<option value=""><fmt:message key="boton.Todos" /></option>
 							<%for(aca.empleado.EmpPersonal padre : lisPadres){%>
 								<option value="<%=padre.getCodigoId() %>" <%if(padreCaja.equals(padre.getCodigoId())){out.print("selected");}%>>
@@ -248,7 +320,7 @@
 					</fieldset>						
 					<fieldset>
 						<a href="#myModal" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Alumno" /> <i class="icon-question-sign"></i></label></a>
-						<select name="Auxiliar" id="Auxiliar" style="width:100%;" onchange="javascript:Refrescar();">
+						<select name="Auxiliar" id="Auxiliar" style="width:100%;" onchange="javascript:Refrescar('Alumno');">
 							<option value="0">Elegir</option>
 						<% 
 							// Muestra todos los alumnos de la escuela
@@ -267,30 +339,34 @@
 								<%=alum.getCodigoId()%> | <%=aca.alumno.AlumPersonal.getNombre(conElias, alum.getCodigoId(), "NOMBRE") %>
 							</option>
 						<%		
-								}
-								
+								}								
 							}
 						%>							
 						</select>						
 					</fieldset>
-				<%
-					lisPagos 		= FinPagoLista.listPagosPendientes(conElias, alumnoCaja, "ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
-				%>	
+					
 					<table class="table table-condensed">
 					<tr>
 						<th>#</th>
 						<th>Fecha</th>
 						<th>Importe</th>
+						<th>Enviar</th>
 					</tr>
-	<%
+	<%					
 					int row = 0;
-					for (aca.fin.FinCalculoPago pago: lisPagos){
+					for (String fechaPagos: lisFechas){
 						row++;
+						String[] parteFecha = fechaPagos.split("/");
+						String importe = "0";
+						if (mapaPago.containsKey(fechaPagos) ){
+							importe = mapaPago.get(fechaPagos);
+						}
 	%>
 					<tr>
-						<td><%=row%></td>
-						<td><%= pago.getFecha() %></td>
-						<td><%= pago.getImporte() %></td>
+						<td><%= row %></td>
+						<td><%= fechaPagos %></td>
+						<td><%= importe %></td>
+						<td><a class="btn btn-primary btn-small" onclick="javascript:EnviarPago('<%= fechaPagos %>');"><i class="icon-arrow-right icon-white"></i></a></td>
 					</tr>
 	<%			
 					}
@@ -309,7 +385,7 @@
 					
 		</div>
 				
-		<div class="span7">
+		<div class="span9">
 			
 			<h4><fmt:message key="aca.Movimientos" /> <a href="javascript:tableToExcel('bajarExcel', 'Movimientos')" style="float:right;"><img src="excel.png" height="25" width="25"></a></h4>
 			
@@ -337,8 +413,7 @@
 						<tr>
 							<td><%=cont %></td>
 							<td>
-								<a href=" javascript:Eliminar('<%=mov.getMovimientoId() %>'); "><i class="icon-remove"></i></a>
-								<a href="movimientos.jsp?MovimientoId=<%=mov.getMovimientoId() %>"><i class="icon-pencil"></i></a>
+								<a href=" javascript:Eliminar('<%=mov.getMovimientoId() %>'); "><i class="icon-remove"></i></a>								
 								<%=aca.alumno.AlumPersonal.getNombre(conElias, mov.getAuxiliar(), "NOMBRE")  %>
 							</td>
 							<td><%=mov.getCuentaId() %></td>
@@ -355,8 +430,7 @@
 					<th class="text-right"><%=getformato.format( total ) %></th>
 				</tr>
 			</table>
-	
-	
+				
 		</div>
 	</div>
 		
