@@ -198,7 +198,7 @@ public class FinCalculoPago {
                     " WHERE CICLO_ID = ?" +                    
                     " AND PERIODO_ID = TO_NUMBER(?,'99')" +
                     " AND CODIGO_ID = ?" +
-        			" AND PAGO_ID = TO_NUMBER(?,'99') AND CUENTA_ID = ?");            
+        			" AND PAGO_ID = TO_NUMBER(?,'99') AND CUENTA_ID = ?");
              
             ps.setString(1, estado);     
             ps.setString(2, cicloId);
@@ -206,6 +206,37 @@ public class FinCalculoPago {
             ps.setString(4, codigoId);
             ps.setString(5, pagoId);
             ps.setString(6, cuentaId);
+
+            if(ps.executeUpdate() == 1){
+                ok = true;
+            }
+
+            
+        }catch (Exception ex){
+            System.out.println("Error - aca.fin.FinCalculoPago|updateEstado|:" + ex);
+        }finally{
+        	if(ps != null){
+                ps.close();
+            }
+        }
+
+        return ok;
+    }
+    
+    public static boolean updatePagado(Connection conn, String codigoId, String fecha, String cuentaId, String pagado) throws SQLException{
+        boolean ok = false;
+        PreparedStatement ps = null;
+        try{
+            ps = conn.prepareStatement("UPDATE FIN_CALCULO_PAGO"
+                    + " SET PAGADO = ?"
+                    + " WHERE CODIGO_ID = ?"
+                    + " AND FECHA = TO_DATE(?,'DD/MM/YYYY')"
+                    + " AND CUENTA_ID = ?");             
+            
+            ps.setString(1, pagado);
+            ps.setString(2, codigoId);
+            ps.setString(3, fecha);            
+            ps.setString(4, cuentaId);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
