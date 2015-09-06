@@ -80,14 +80,15 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.FechasDeCobro" /></h2>
+	<h2><fmt:message key="aca.FechasDeCobro" /><small>( <%=escuelaId%> - <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small></small></h2>
 	
 	<form id="forma" name="forma" action="cobro.jsp" method="post">
 		<div class="well">
+			
 			<a class="btn btn-primary" href="edita_cobro.jsp?ciclo=<%=cicloId%>&periodo=<%=periodoId%>">
 				  <i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
 			</a>
-			
+			&nbsp;&nbsp;<fmt:message key="aca.Ciclo" />:&nbsp;&nbsp;
 			<select id="Ciclo" name="Ciclo" onchange="document.location = 'cobro.jsp?Ciclo='+this.options[this.selectedIndex].value;" style="width:360px;margin-bottom:0px;">
 		<%
 			for(int i = 0; i < lisCiclo.size(); i++){
@@ -97,7 +98,8 @@
 		<%
 			}
 		%>
-			</select>				
+			</select>
+			&nbsp;&nbsp;<fmt:message key="aca.Periodo" />:&nbsp;&nbsp;				
 			<select id="Periodo" name="Periodo" onchange="document.forma.submit();" >
 		<%		
 			for(int i = 0; i < lisCicloPeriodo.size(); i++){
@@ -119,6 +121,7 @@
 						<th>#</th>
 						<th><fmt:message key="aca.Descripcion" /></th>
 						<th><fmt:message key="aca.Fecha" /></th>
+						<th><fmt:message key="aca.Tipo" /></th>
 						<th><fmt:message key="aca.Orden" /></th>
 					</tr>
 				</thead>
@@ -142,6 +145,7 @@
 							</td>
 							<td><%=finPago.getDescripcion() %></td>
 							<td><%=finPago.getFecha() %></td>
+							<td><%=finPago.getTipo().equals("I")?"Inicial":"Ordinario" %></td>
 							<td><%=finPago.getOrden()%></td>
 						</tr>
 			<%

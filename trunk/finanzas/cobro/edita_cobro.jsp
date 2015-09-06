@@ -48,6 +48,7 @@
 		finPago.setPeriodoId(periodoId);
 		finPago.setFecha(request.getParameter("fecha"));
 		finPago.setDescripcion(request.getParameter("descripcion"));
+		finPago.setTipo(request.getParameter("tipo"));
 		finPago.setOrden(request.getParameter("orden"));
 		if(metodo.equals("Guardar")){	// Guardar	
 			//Busca el siguiente folio 
@@ -93,14 +94,23 @@
 			<label for="descripcion"><fmt:message key="aca.Descripcion" /></label>
 			<input type="text" id="descripcion" name="descripcion" value="<%=finPago.getDescripcion() %>" maxlength="40" size="30" />
 		</fieldset>
-		
+				
 		<fieldset>
 			<label for="fecha"><fmt:message key="aca.Fecha" /></label>
 			<input type="text" id="fecha" name="fecha" value="<%=finPago.getFecha() %>" size="8" maxlength="10" />
 		</fieldset>
+		
+		<fieldset>
+			<label for="tipo"><fmt:message key="aca.Tipo" /></label>
+			<select name="tipo" id="tipo">
+				<option value="I" <% if (finPago.getTipo().equals("I")) out.print("selected");%>><fmt:message key="aca.Inicial" /></option>
+				<option value="P" <% if (finPago.getTipo().equals("P")) out.print("selected");%>><fmt:message key="aca.Ordinario" /></option>
+			</select>						
+		</fieldset>
+		
 		<fieldset>
 			<label for="orden"><fmt:message key="aca.Orden" /></label>
-			<input type="text" id="orden" name="orden" value="<%=finPago.getOrden() %>" size="3" maxlength="2" />						
+			<input type="text" id="orden" name="orden" value="<%=finPago.getOrden() %>" size="3" maxlength="2" />
 		</fieldset>
 			
 		<div class="well">

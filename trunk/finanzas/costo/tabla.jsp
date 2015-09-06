@@ -148,13 +148,13 @@
 		<input name="costo" type="hidden" value="<%=costoId%>">
 		
 		<div class="well">
-		
+			<fmt:message key="aca.Ciclo" />:&nbsp;
 			<select class="input-xlarge" id="ciclo" name="ciclo" onchange="document.location='tabla.jsp?ciclo='+this.options[this.selectedIndex].value;" class="input-xlarge">
 				<%for(aca.ciclo.Ciclo ciclo : lisCiclo){%>
 					<option value="<%=ciclo.getCicloId() %>" <%if(cicloId.equals(ciclo.getCicloId())){out.print("selected");} %>><%=ciclo.getCicloNombre() %></option>	
 				<%}%>
 			</select>
-			
+			&nbsp;&nbsp;<fmt:message key="aca.Periodo" />:&nbsp;			
 			<select id="periodo" name="periodo" onchange="document.forma.submit();" class="input-xlarge">
 				<% 
 					ArrayList<aca.ciclo.CicloPeriodo> lisCicloPeriodo = cicloPeriodoL.getListCiclo(conElias, cicloId, "ORDER BY F_INICIO");
@@ -168,7 +168,7 @@
 					}
 				%>
 			</select>
-			
+			&nbsp;&nbsp;<fmt:message key="aca.Plan" />:&nbsp;
 			<select id="plan" name="plan" onchange="document.forma.submit();" class="input-xlarge">
 				<%
 					ArrayList<aca.plan.Plan> lisPlan = planL.getListPlanPermiso(conElias, cicloId, "ORDER BY NIVEL_ID");
