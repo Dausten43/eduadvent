@@ -341,6 +341,35 @@ public class FinPago {
         return ok;
     }
     
+    public static boolean tienePagoInicial(Connection conn, String cicloId, String periodoId) throws SQLException {
+        boolean ok	 			= false;
+        ResultSet rs1 			= null;
+        PreparedStatement ps1 	= null;
+
+        try {
+            ps1 = conn.prepareStatement("SELECT * FROM FIN_PAGO" +
+                    " WHERE CICLO_ID = ?" +
+                    " AND PERIODO_ID = TO_NUMBER(?, '99')" +
+                    " AND TIPO = 'I'");
+            
+            ps1.setString(1, cicloId);
+            ps1.setString(2, periodoId);
+            
+            rs1 = ps1.executeQuery();
+            if(rs1.next()){
+            	ok = true;
+            }
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinPago|tienePagoInicial|:" +ex);
+        }finally{
+
+	        if(rs1 != null) rs1.close();
+	        if(ps1 != null) ps1.close();
+        }
+        
+        return ok;
+    }
+    
     public static String numPagos(Connection conn, String cicloId, String periodoId, String tipo) throws SQLException {
     	
         PreparedStatement ps1 	= null;
