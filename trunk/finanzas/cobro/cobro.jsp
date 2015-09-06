@@ -39,6 +39,7 @@
 	String cicloElegido	= request.getParameter("Ciclo")==null?"0":request.getParameter("Ciclo");
 	
 	String mensaje		= "";
+	boolean tienePagoInicial	= false; 
 	
 	// Ciclo escolar elegido o activo
 	if (!cicloElegido.equals("0")){
@@ -80,7 +81,7 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.FechasDeCobro" /><small>( <%=escuelaId%> - <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small></small></h2>
+	<h2><fmt:message key="aca.FechasDeCobro" /><small>( <%=escuelaId%> - <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small></h2>
 	
 	<form id="forma" name="forma" action="cobro.jsp" method="post">
 		<div class="well">
@@ -131,7 +132,7 @@
 					elimina = true;
 					
 					for(int i = 0; i < lisFinPago.size(); i++){
-						finPago = (FinPago) lisFinPago.get(i);
+						finPago = (FinPago) lisFinPago.get(i);						 
 			%>
 						<tr>
 							<td>					

@@ -112,9 +112,6 @@
 
 %>
 
-
-
-
 <%
 	java.text.DecimalFormat formato 			= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 
@@ -157,7 +154,7 @@
 	ArrayList<aca.fin.FinCalculoPago> pagosAlumno 	= FinCalculoPagoL.getListPagosAlumnoCuentas(conElias, cicloId, periodoId, codigoAlumno, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD')");
 	
 	/* PAGOS DADOS DE ALTA EN CIERTO CICLO Y PERIODO DE INSCRIPCION */
-	ArrayList<aca.fin.FinPago> lisPagos 			= FinPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD')");
+	ArrayList<aca.fin.FinPago> lisPagos 			= FinPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, "'P'"," ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD')");
 	
 	
 	/* INFORMACION ACADEMICA DEL ALUMNO */
@@ -378,7 +375,7 @@
 			}
 		}
 		
-		
+		System.out.println("Paso 1:"+numeroPagos);
 		/* EMPEZAR CALCULO DE COBRO */
 		conElias.setAutoCommit(false);
 		boolean error = false;
@@ -386,7 +383,7 @@
 		FinCalculo.setCicloId(cicloId);
 		FinCalculo.setPeriodoId(periodoId);
 		FinCalculo.setCodigoId(codigoAlumno);
-		
+		System.out.println("Paso 2");
 		if (FinCalculo.existeReg(conElias)){			
 			
 			FinCalculo.mapeaRegId(conElias, cicloId, periodoId, codigoAlumno);
@@ -397,16 +394,15 @@
 			FinCalculo.setNumPagos(numeroPagos+"");
 			FinCalculo.setPagoInicial(pagoInicial);
 			FinCalculo.setFecha(fecha);
-			
+			System.out.println("Paso 3");
 			if (FinCalculo.updateReg(conElias)){
 				
+				System.out.println("Paso 4");
 				// Borra los pagos que tenga el alumno en la tabla Fin_Calculo_Pagos
 				aca.fin.FinCalculoPago.deletePagosAlumno(conElias, cicloId, periodoId, codigoAlumno);	
 				if (aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno) != 0){
 					error = true;
-				}
-				
-				
+				}				
 				
 				if (tipoPago.equals("C")){// ======> DE CONTADO
 					
@@ -419,7 +415,7 @@
 					
 				}else{// ======> POR PAGARES
 						
-					
+					System.out.println("Paso 5");
 					for(aca.fin.FinCalculoDet det : lisDetalles){
 						
 						BigDecimal ImporteDetalle 		= new BigDecimal(det.getImporte());
@@ -445,7 +441,7 @@
 							}else{
 								error = true;
 							}
-						
+							System.out.println("Paso 6");
 						/* CALCULA Y GUARDA LOS PAGOS */
 							
 							String ultimoPago 									= "";
@@ -465,7 +461,7 @@
 									ultimoPago = pago.getPagoId();
 								}
 							}
-							
+							System.out.println("Paso 7");
 							ImporteDeUnPagoDetalle 	= ImporteDeTodosLosPagosDetalle.divide(numeroPagos, 2, RoundingMode.DOWN); /*  ImporteDeTodosLosPagosDetalle/numeroPagos */
 							BecaDeUnPagoDetalle 	= BecaDeTodosLosPagosDetalle.divide(numeroPagos, 2, RoundingMode.DOWN); /*  BecaDeTodosLosPagosDetalle/numeroPagos */
 							
@@ -473,16 +469,17 @@
 							ImporteExtraParaBalancearPagosDetalle 	= ImporteDeTodosLosPagosDetalle.subtract( (ImporteDeUnPagoDetalle.multiply(numeroPagos)) ); /* ImporteDeTodosLosPagosDetalle - (ImporteDeUnPagoDetalle * numeroPagos) */
 							BecaExtraParaBalancearPagosDetalle 		= BecaDeTodosLosPagosDetalle.subtract( (BecaDeUnPagoDetalle.multiply(numeroPagos)) ); /* BecaDeTodosLosPagosDetalle - (BecaDeUnPagoDetalle * numeroPagos) */
 							
-							
+							System.out.println("Paso 8");
 							if (error == false){
+								System.out.println("Paso 8.1");
 								if (aca.fin.FinCalculoPago.numPagosAlumnoCuenta(conElias, cicloId, periodoId, codigoAlumno, det.getCuentaId()) == 0){
 									
 									for (aca.fin.FinPago pago : lisPagos){
-										
+										System.out.println("Paso 8.2");
 										if( request.getParameter("fechaCobro"+pago.getPagoId()) == null ){
 											continue;
 										}
-										
+										System.out.println("Paso 9");
 										BigDecimal importeExtra = new BigDecimal("0");
 										BigDecimal becaExtra 	= new BigDecimal("0");
 										if(pago.getPagoId().equals(ultimoPago)){
@@ -500,9 +497,9 @@
 										FinCalculoPago.setBeca( BecaDeUnPagoDetalle.add(becaExtra)+"" ); /* al ultimo pago le agregamos los decimales sobrantes para que cuadre perfectamente la division de pagos */
 										FinCalculoPago.setCuentaId(det.getCuentaId());
 										FinCalculoPago.setPagado("N");
-										
+										System.out.println("Paso 10");
 										if (FinCalculoPago.insertReg(conElias)){
-										
+											System.out.println("Paso 11");
 										}else{
 											error = true; break;
 										}
@@ -603,20 +600,20 @@
 		<input type="hidden" name="Accion">
 	
 		<div class="well">
+			<fmt:message key="aca.Ciclo" />:&nbsp;
 			<select name="Ciclo" id="Ciclo" onchange="javascript:cambiaCiclo()" class="input-xlarge">
 				<%for(aca.ciclo.Ciclo ciclo : lisCiclo){%>
 					<option value="<%=ciclo.getCicloId() %>" <%if(ciclo.getCicloId().equals(cicloId)){out.print("selected");} %>><%=ciclo.getCicloId()%> | <%=ciclo.getCicloNombre()%></option>
 				<%} %>
 			</select>
-			
+			&nbsp;&nbsp;<fmt:message key="aca.Periodo" />:&nbsp;
 			<select name="PeriodoId" id="PeriodoId" onchange="javascript:cambiaPeriodo()">
 				<%for(aca.ciclo.CicloPeriodo periodo : lisPeriodo){%>
 					<option value="<%=periodo.getPeriodoId() %>" <%if(periodo.getPeriodoId().equals(periodoId)){out.print("selected");} %>><%=periodo.getPeriodoNombre() %></option>
 				<%}%>
-			</select>
-			
-			 
-			Fecha: <input name="Fecha" class="input-medium" type="text" id="Fecha" value="<%=fecha%>" style="margin:0;">
+			</select>			
+			&nbsp;&nbsp;<fmt:message key="aca.Fecha" />:&nbsp; 
+			<input name="Fecha" class="input-medium" type="text" id="Fecha" value="<%=fecha%>" style="margin:0;">
 		</div>
 		
 		<div class="alert alert-info">
@@ -824,7 +821,7 @@
 				    		
 			    			<div style="margin-bottom:7px;">
 			    				<input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" style="margin-top:-3px;" <%=checked %>> 
-			    				<%=pago.getFecha() %> 
+			    				<%=pago.getFecha() %> - <%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> 
 			    			</div>
 				    	<%} %>
 					  </div>
