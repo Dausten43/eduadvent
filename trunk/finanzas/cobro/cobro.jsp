@@ -58,7 +58,7 @@
 		periodoId = lisCicloPeriodo.get(0).getPeriodoId();
 	}
 	
-	boolean tienePagoInicial	= aca.fin.FinPago.tienePagoInicial(conElias, cicloId, periodoId);
+	String numPagosIniciales	= aca.fin.FinPago.numPagosIniciales(conElias, cicloId, periodoId);
 	
 	if(accion.equals("1")){	//Eliminar
 		String pagoId	= request.getParameter("pago");
@@ -160,7 +160,7 @@
 			%>
 		</table>
 		<%
-			if (tienePagoInicial==false){
+			if (numPagosIniciales.equals("0")){
 		%>		
 				<div class="alert"><fmt:message key="aca.NoExistePagoInicial"/></div>
 		<%						

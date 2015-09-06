@@ -27,7 +27,7 @@
 	String periodoId	= request.getParameter("periodo")==null?"1":request.getParameter("periodo");
 	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String pagoId		= request.getParameter("pago");	
-	String metodo		= "";
+	String metodo		= "";	
 	
 	if(pagoId != null){
 		if(!pagoId.equals("")){

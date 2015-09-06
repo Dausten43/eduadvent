@@ -407,7 +407,7 @@
 				if (tipoPago.equals("C")){// ======> DE CONTADO
 					
 					// Modifica el pago inicial y el importe de las cuentas
-					if (aca.fin.FinCalculoDet.updateContado(conElias, cicloId, periodoId, codigoAlumno)){						
+					if (aca.fin.FinCalculoDet.updateContado(conElias, cicloId, periodoId, codigoAlumno)){
 											
 					}else{
 						error = true;						
