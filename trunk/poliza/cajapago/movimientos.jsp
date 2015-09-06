@@ -12,17 +12,14 @@
 <jsp:useBean id="FinMovLista" scope="page" class="aca.fin.FinMovimientosLista"/>
 <jsp:useBean id="FinFolio" scope="page" class="aca.fin.FinFolio"/>
 <jsp:useBean id="FinPagoLista" scope="page" class="aca.fin.FinCalculoPagoLista"/>
-
 <jsp:useBean id="empleadoU" scope="page" class="aca.empleado.EmpPersonalLista"/>
 
 <script>
-	function Guardar(){
-		if( document.forma.Importe.value != "" && document.forma.Descripcion.value != "" && document.forma.Auxiliar.value ){
-			document.forma.Accion.value = "1";
-			document.forma.submit();	
-		}else{
-			alert('<fmt:message key="js.Completar" />');	
-		}
+
+	function EnviarPago(fechaPago){
+		document.forma.Accion.value = "4";
+		document.forma.FechaPago.value = fechaPago;
+		document.forma.submit();
 	}
 	
 	function Eliminar(movimientoId){		
@@ -40,11 +37,6 @@
 		document.forma.submit();
 	}
 	
-	function EnviarPago(fechaPago){
-		document.forma.Accion.value = "4";
-		document.forma.FechaPago.value = fechaPago;
-		document.forma.submit();
-	}
 </script>
 
 <%
@@ -135,19 +127,17 @@
 		if(FinMov.existeReg(conElias)){
 			FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);
 			String [] fechaPag = FinMov.getDescripcion().split(",");
-			System.out.println("Datos:"+fechaPag[0]+":"+FinMov.getCuentaId());
+			//System.out.println("Datos:"+fechaPag[0]+":"+FinMov.getCuentaId());
 			if(FinMov.deleteReg(conElias)){				 
 				if (aca.fin.FinCalculoPago.updatePagado(conElias, FinMov.getAuxiliar(), fechaPag[0], FinMov.getCuentaId(), "N")){
 					conElias.commit();
 					msj = "Eliminado";
 				}else{
 					msj = "NoElimino";
-					conElias.rollback();
-					System.out.println("1");
+					conElias.rollback();					
 				}
 			}else{
-				msj = "NoElimino";
-				System.out.println("2");
+				msj = "NoElimino";				
 			}
 		}
 		
@@ -370,13 +360,17 @@
 					</tr>
 	<%			
 					}
+					
+					// Si no hay cobros registrados
+					if (lisFechas.size() == 0){
+						out.print("<tr><td colspan='4'>¡No tiene cobros registrados!</td></tr>");
+					}
 	%>
 					</table>
 							
 				</div>
 						
-				<div class="well">
-					<a href="javascript:Guardar();" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
+				<div class="well">					
 					<%if(!movimientoId.equals("")){ %>
 						<a href="movimientos.jsp" class="btn btn-large"><i class="icon-file"></i> <fmt:message key="boton.Nuevo" /></a>
 					<%} %>
