@@ -38,8 +38,7 @@
 	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String cicloElegido	= request.getParameter("Ciclo")==null?"0":request.getParameter("Ciclo");
 	
-	String mensaje		= "";
-	boolean tienePagoInicial	= false; 
+	String mensaje		= "";	
 	
 	// Ciclo escolar elegido o activo
 	if (!cicloElegido.equals("0")){
@@ -58,6 +57,8 @@
 	if(encontro==false && lisCicloPeriodo.size()>0){
 		periodoId = lisCicloPeriodo.get(0).getPeriodoId();
 	}
+	
+	boolean tienePagoInicial	= aca.fin.FinPago.tienePagoInicial(conElias, cicloId, periodoId);
 	
 	if(accion.equals("1")){	//Eliminar
 		String pagoId	= request.getParameter("pago");
@@ -132,7 +133,7 @@
 					elimina = true;
 					
 					for(int i = 0; i < lisFinPago.size(); i++){
-						finPago = (FinPago) lisFinPago.get(i);						 
+						finPago = (FinPago) lisFinPago.get(i);					 
 			%>
 						<tr>
 							<td>					
@@ -158,7 +159,13 @@
 				}
 			%>
 		</table>
-		
+		<%
+			if (tienePagoInicial==false){
+		%>		
+				<div class="alert"><fmt:message key="aca.NoExistePagoInicial"/></div>
+		<%						
+			}
+		%>
 	</form>
 </div>
 
