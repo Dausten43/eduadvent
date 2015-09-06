@@ -251,6 +251,30 @@ public class FinPago {
 	        if(ps != null) ps.close();
 	    }
     }
+    
+    public void mapeaRegInicial(Connection con, String cicloId, String periodoId) throws SQLException{
+        ResultSet rs = null;
+        PreparedStatement ps = null; 
+        try{
+	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
+	                + " FROM FIN_PAGO"
+	                + " WHERE CICLO_ID = ?"
+	                + " AND PERIODO_ID = ?"
+	                + " AND TIPO = 'I'");
+	        
+	        ps.setString(1, cicloId);
+	        ps.setString(2, periodoId);	        
+	        
+	        rs = ps.executeQuery();
+	        if(rs.next()){
+	            mapeaReg(rs);
+	        }	
+	        
+        }finally{
+        	if(rs != null) rs.close();
+	        if(ps != null) ps.close();
+	    }
+    }
 
     public boolean existeReg(Connection conn) throws SQLException {
         boolean ok = false;
@@ -341,13 +365,14 @@ public class FinPago {
         return ok;
     }
     
-    public static boolean tienePagoInicial(Connection conn, String cicloId, String periodoId) throws SQLException {
-        boolean ok	 			= false;
-        ResultSet rs1 			= null;
+    public static String numPagosIniciales(Connection conn, String cicloId, String periodoId) throws SQLException {       
+        
         PreparedStatement ps1 	= null;
+        ResultSet rs1 			= null;
+        String numPagoInicial	= "0"; 
 
         try {
-            ps1 = conn.prepareStatement("SELECT * FROM FIN_PAGO" +
+            ps1 = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM FIN_PAGO" +
                     " WHERE CICLO_ID = ?" +
                     " AND PERIODO_ID = TO_NUMBER(?, '99')" +
                     " AND TIPO = 'I'");
@@ -357,8 +382,9 @@ public class FinPago {
             
             rs1 = ps1.executeQuery();
             if(rs1.next()){
-            	ok = true;
+            	numPagoInicial = rs1.getString("TOTAL");
             }
+            
         }catch(Exception ex){
             System.out.println("Error - aca.fin.FinPago|tienePagoInicial|:" +ex);
         }finally{
@@ -367,7 +393,7 @@ public class FinPago {
 	        if(ps1 != null) ps1.close();
         }
         
-        return ok;
+        return numPagoInicial;
     }
     
     public static String numPagos(Connection conn, String cicloId, String periodoId, String tipo) throws SQLException {
