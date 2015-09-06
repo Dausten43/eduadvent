@@ -34,7 +34,7 @@
 <div id="content">
 	
 	
-	<h3><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> <small><fmt:message key="aca.Fecha" />: <strong><%= aca.util.Fecha.getHoy() %></strong></small></h3>
+	<h3><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> <small>( <fmt:message key="aca.Fecha" />: <strong><%= aca.util.Fecha.getHoy() %></strong> )</small></h3>
 	
 	<p>
 		<%=aca.ciclo.Ciclo.getCicloNombre(conElias, cicloId)%> |
@@ -143,18 +143,10 @@
 			      	<th class="text-right"><fmt:message key="aca.Costo" /></th>
 			      	<th class="text-right"><fmt:message key="aca.Beca" /></th>
 			      	<th class="text-right"><fmt:message key="aca.Total" /></th>
-			    </tr>
-			    	<tr class="alert">
-						<td>&nbsp;</td>
-	  					<td>&nbsp;</td>
-		  				<td><strong><fmt:message key="aca.PagoInicial" /></strong></td>
-		  				<td class="text-right"><strong><%=finCalculo.getPagoInicial()%></strong></td>
-		  				<td class="text-right">0</td>
-		  				<td class="text-right"><strong><%=finCalculo.getPagoInicial()%></strong></td>
-					</tr>
+			    </tr>			    
 				<%
-					BigDecimal totPago 		= new BigDecimal(finCalculo.getPagoInicial());
-					BigDecimal costoPago 	= new BigDecimal(finCalculo.getPagoInicial());
+					BigDecimal totPago 		= new BigDecimal("0");
+					BigDecimal costoPago 	= new BigDecimal("0");
 					BigDecimal becaPago 	= new BigDecimal("0");
 				
 					int cont = 0;

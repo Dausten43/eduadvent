@@ -15,6 +15,7 @@
 <jsp:useBean id="FinCalculo" scope="page" class="aca.fin.FinCalculo"/>
 <jsp:useBean id="FinCalculoDet" scope="page" class="aca.fin.FinCalculoDet"/>
 <jsp:useBean id="FinCalculoPago" scope="page" class="aca.fin.FinCalculoPago"/>
+<jsp:useBean id="FinPago" scope="page" class="aca.fin.FinPago"/>
 <jsp:useBean id="FinPagoL" scope="page" class="aca.fin.FinPagoLista"/>
 <jsp:useBean id="FinCalculoPagoL" scope="page" class="aca.fin.FinCalculoPagoLista"/>
 
@@ -144,11 +145,13 @@
 	}
 	
 	
-	String fecha 			= request.getParameter("Fecha")				==null ? aca.util.Fecha.getHoy() : request.getParameter("Fecha");
-	String accion 			= request.getParameter("Accion")			==null ? "0" : request.getParameter("Accion");
-	String inicialPagos		= request.getParameter("InicialPagos")		==null ? "0" : request.getParameter("InicialPagos");
-	String inicialContado	= request.getParameter("InicialContado")	==null ? "0" : request.getParameter("InicialContado");
-	String tipoPago 		= request.getParameter("TipoPago")			==null ? "P" : request.getParameter("TipoPago");
+	String fecha 				= request.getParameter("Fecha")				==null ? aca.util.Fecha.getHoy() : request.getParameter("Fecha");
+	String accion 				= request.getParameter("Accion")			==null ? "0" : request.getParameter("Accion");
+	String inicialPagos			= request.getParameter("InicialPagos")		==null ? "0" : request.getParameter("InicialPagos");
+	String inicialContado		= request.getParameter("InicialContado")	==null ? "0" : request.getParameter("InicialContado");
+	String tipoPago 			= request.getParameter("TipoPago")			==null ? "P" : request.getParameter("TipoPago");
+	
+	String numPagosIniciales	= aca.fin.FinPago.numPagosIniciales(conElias, cicloId, periodoId);
 	
 	/* PAGOS DEL ALUMNO */
 	ArrayList<aca.fin.FinCalculoPago> pagosAlumno 	= FinCalculoPagoL.getListPagosAlumnoCuentas(conElias, cicloId, periodoId, codigoAlumno, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD')");
@@ -159,14 +162,14 @@
 	
 	/* INFORMACION ACADEMICA DEL ALUMNO */
 	
-	String nombreAlumno		= "";
-	String planId			= "";
-	String grado 			= "0";
-	String grupo			= "0";	
-	String clasFin			= "0";
+	String nombreAlumno			= "";
+	String planId				= "";
+	String grado 				= "0";
+	String grupo				= "0";	
+	String clasFin				= "0";
 	
-	boolean existeAlumno 	= false;
-	boolean existePlan		= false;
+	boolean existeAlumno 		= false;
+	boolean existePlan			= false;
 	
 	// Busca el nombre del alumno
 	if (Alumno.existeReg(conElias, codigoAlumno)){
@@ -373,9 +376,8 @@
 					numeroPagos = numeroPagos.add(new BigDecimal("1")); /* numeroPagos++ */
 				}
 			}
-		}
+		}		
 		
-		System.out.println("Paso 1:"+numeroPagos);
 		/* EMPEZAR CALCULO DE COBRO */
 		conElias.setAutoCommit(false);
 		boolean error = false;
@@ -383,7 +385,7 @@
 		FinCalculo.setCicloId(cicloId);
 		FinCalculo.setPeriodoId(periodoId);
 		FinCalculo.setCodigoId(codigoAlumno);
-		System.out.println("Paso 2");
+		
 		if (FinCalculo.existeReg(conElias)){			
 			
 			FinCalculo.mapeaRegId(conElias, cicloId, periodoId, codigoAlumno);
@@ -394,17 +396,40 @@
 			FinCalculo.setNumPagos(numeroPagos+"");
 			FinCalculo.setPagoInicial(pagoInicial);
 			FinCalculo.setFecha(fecha);
-			System.out.println("Paso 3");
+			
 			if (FinCalculo.updateReg(conElias)){
 				
-				System.out.println("Paso 4");
+				
 				// Borra los pagos que tenga el alumno en la tabla Fin_Calculo_Pagos
 				aca.fin.FinCalculoPago.deletePagosAlumno(conElias, cicloId, periodoId, codigoAlumno);	
 				if (aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno) != 0){
 					error = true;
-				}				
+				}		
 				
-				if (tipoPago.equals("C")){// ======> DE CONTADO
+				// Grabar el pago inicial de contado o en pagos
+				FinPago.mapeaRegInicial(conElias, cicloId, periodoId);
+				for(aca.fin.FinCalculoDet detalleInicial : lisDetalles){
+					FinCalculoPago.setCicloId(cicloId);
+					FinCalculoPago.setPeriodoId(periodoId);					
+					FinCalculoPago.setCodigoId(codigoAlumno);
+					FinCalculoPago.setPagoId(FinPago.getPagoId());
+					FinCalculoPago.setCuentaId(detalleInicial.getCuentaId());					
+					FinCalculoPago.setFecha(FinPago.getFecha());
+					FinCalculoPago.setImporte( detalleInicial.getImporteInicial() );					
+					FinCalculoPago.setBeca( detalleInicial.getImporteBeca() );				
+					FinCalculoPago.setEstado("A");
+					FinCalculoPago.setPagado("N");
+					if (FinCalculoPago.insertReg(conElias)){
+						
+					}else{
+						error = true;
+					}
+				}
+				
+				
+				// ======> DE CONTADO
+						
+				if (tipoPago.equals("C")){
 					
 					// Modifica el pago inicial y el importe de las cuentas
 					if (aca.fin.FinCalculoDet.updateContado(conElias, cicloId, periodoId, codigoAlumno)){
@@ -413,9 +438,9 @@
 						error = true;						
 					}
 					
-				}else{// ======> POR PAGARES
-						
-					System.out.println("Paso 5");
+				// ======> POR PAGARES	
+				}else{					
+					
 					for(aca.fin.FinCalculoDet det : lisDetalles){
 						
 						BigDecimal ImporteDetalle 		= new BigDecimal(det.getImporte());
@@ -441,7 +466,7 @@
 							}else{
 								error = true;
 							}
-							System.out.println("Paso 6");
+							
 						/* CALCULA Y GUARDA LOS PAGOS */
 							
 							String ultimoPago 									= "";
@@ -461,7 +486,7 @@
 									ultimoPago = pago.getPagoId();
 								}
 							}
-							System.out.println("Paso 7");
+							
 							ImporteDeUnPagoDetalle 	= ImporteDeTodosLosPagosDetalle.divide(numeroPagos, 2, RoundingMode.DOWN); /*  ImporteDeTodosLosPagosDetalle/numeroPagos */
 							BecaDeUnPagoDetalle 	= BecaDeTodosLosPagosDetalle.divide(numeroPagos, 2, RoundingMode.DOWN); /*  BecaDeTodosLosPagosDetalle/numeroPagos */
 							
@@ -469,17 +494,17 @@
 							ImporteExtraParaBalancearPagosDetalle 	= ImporteDeTodosLosPagosDetalle.subtract( (ImporteDeUnPagoDetalle.multiply(numeroPagos)) ); /* ImporteDeTodosLosPagosDetalle - (ImporteDeUnPagoDetalle * numeroPagos) */
 							BecaExtraParaBalancearPagosDetalle 		= BecaDeTodosLosPagosDetalle.subtract( (BecaDeUnPagoDetalle.multiply(numeroPagos)) ); /* BecaDeTodosLosPagosDetalle - (BecaDeUnPagoDetalle * numeroPagos) */
 							
-							System.out.println("Paso 8");
+							
 							if (error == false){
-								System.out.println("Paso 8.1");
+								
 								if (aca.fin.FinCalculoPago.numPagosAlumnoCuenta(conElias, cicloId, periodoId, codigoAlumno, det.getCuentaId()) == 0){
 									
 									for (aca.fin.FinPago pago : lisPagos){
-										System.out.println("Paso 8.2");
+										
 										if( request.getParameter("fechaCobro"+pago.getPagoId()) == null ){
 											continue;
 										}
-										System.out.println("Paso 9");
+										
 										BigDecimal importeExtra = new BigDecimal("0");
 										BigDecimal becaExtra 	= new BigDecimal("0");
 										if(pago.getPagoId().equals(ultimoPago)){
@@ -497,9 +522,9 @@
 										FinCalculoPago.setBeca( BecaDeUnPagoDetalle.add(becaExtra)+"" ); /* al ultimo pago le agregamos los decimales sobrantes para que cuadre perfectamente la division de pagos */
 										FinCalculoPago.setCuentaId(det.getCuentaId());
 										FinCalculoPago.setPagado("N");
-										System.out.println("Paso 10");
+										
 										if (FinCalculoPago.insertReg(conElias)){
-											System.out.println("Paso 11");
+											
 										}else{
 											error = true; break;
 										}
