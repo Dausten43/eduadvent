@@ -21,10 +21,40 @@ public class FinPagoLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT PAGO_ID, CICLO_ID, PERIODO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, ORDEN" +
+			comando = "SELECT PAGO_ID, CICLO_ID, PERIODO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN" +
 					" FROM FIN_PAGO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
 					" AND PERIODO_ID = "+periodoId+" "+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				FinPago fp = new FinPago();				
+				fp.mapeaReg(rs);
+				lisFinPago.add(fp);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinPagoLista|getListCicloPeriodo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisFinPago;
+	}
+	
+	public ArrayList<FinPago> getListCicloPeriodo(Connection conn, String cicloId, String periodoId, String tipo, String orden ) throws SQLException{
+		ArrayList<FinPago> lisFinPago 	= new ArrayList<FinPago>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT PAGO_ID, CICLO_ID, PERIODO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
+					+ " FROM FIN_PAGO"
+					+ " WHERE CICLO_ID = '"+cicloId+"'"
+					+ " AND PERIODO_ID = "+periodoId+""
+					+ " AND TIPO IN ("+tipo+") "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){

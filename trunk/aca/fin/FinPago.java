@@ -18,6 +18,7 @@ public class FinPago {
 	private String pagoId;
 	private String fecha;
 	private String descripcion;
+	private String tipo;
 	private String orden;
 	
 	public FinPago(){
@@ -26,6 +27,7 @@ public class FinPago {
 		pagoId		= "";
 		fecha		= "";
 		descripcion	= "";
+		tipo 		= "P";
 		orden 		= "0"; 
 	}
 
@@ -112,22 +114,36 @@ public class FinPago {
 	public void setOrden(String orden) {
 		this.orden = orden;
 	}
-	
+
+	/**
+	 * @return the tipo
+	 */
+	public String getTipo() {
+		return tipo;
+	}
+
+	/**
+	 * @param tipo the tipo to set
+	 */
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
 	public boolean insertReg(Connection conn) throws SQLException{
         boolean ok = false;
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement(
-                    "INSERT INTO FIN_PAGO(CICLO_ID, PERIODO_ID, PAGO_ID, FECHA, DESCRIPCION, ORDEN)" +
-                    " VALUES(?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_DATE(?, 'DD/MM/YYYY'), ?, TO_NUMBER(?, '99'))");
+                    "INSERT INTO FIN_PAGO(CICLO_ID, PERIODO_ID, PAGO_ID, FECHA, DESCRIPCION, TIPO, ORDEN)" +
+                    " VALUES(?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_DATE(?, 'DD/MM/YYYY'), ?, ?, TO_NUMBER(?, '99'))");
             
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
             ps.setString(3, pagoId);
             ps.setString(4, fecha);
             ps.setString(5, descripcion);
-            ps.setString(6, orden);
+            ps.setString(6, tipo);
+            ps.setString(7, orden);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -149,19 +165,19 @@ public class FinPago {
         boolean ok = false;
         PreparedStatement ps = null;
         try{
-            ps = conn.prepareStatement(
-                    "UPDATE FIN_PAGO" +
-                    " SET FECHA = TO_DATE(?, 'DD/MM/YYYY'), DESCRIPCION = ?, ORDEN = TO_NUMBER(?,'99')" +
-                    " WHERE CICLO_ID = ? " +
-                    " AND PERIODO_ID = TO_NUMBER(?, '99')" +
-                    " AND PAGO_ID = TO_NUMBER(?, '99')");
+            ps = conn.prepareStatement("UPDATE FIN_PAGO"
+            		+ " SET FECHA = TO_DATE(?, 'DD/MM/YYYY'), DESCRIPCION = ?, TIPO = ?, ORDEN = TO_NUMBER(?,'99')"
+            		+ " WHERE CICLO_ID = ?"
+            		+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
+            		+ " AND PAGO_ID = TO_NUMBER(?, '99')");
             
             ps.setString(1, fecha);
             ps.setString(2, descripcion);
-            ps.setString(3, orden);
-            ps.setString(4, cicloId);
-            ps.setString(5, periodoId);
-            ps.setString(6, pagoId);
+            ps.setString(3, tipo);
+            ps.setString(4, orden);
+            ps.setString(5, cicloId);
+            ps.setString(6, periodoId);
+            ps.setString(7, pagoId);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -207,6 +223,7 @@ public class FinPago {
 		pagoId		= rs.getString("PAGO_ID");
 		fecha		= rs.getString("FECHA");
 		descripcion	= rs.getString("DESCRIPCION");
+		tipo		= rs.getString("TIPO");
 		orden 		= rs.getString("ORDEN");
     }
 
@@ -214,10 +231,11 @@ public class FinPago {
         ResultSet rs = null;
         PreparedStatement ps = null; 
         try{
-	        ps = con.prepareStatement(
-	                "SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, ORDEN " +
-	                " FROM FIN_PAGO" +
-	                " WHERE CICLO_ID = ? AND PERIODO_ID = ? AND PAGO_ID = TO_NUMBER(?, '99')");
+	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
+	                + " FROM FIN_PAGO"
+	                + " WHERE CICLO_ID = ?"
+	                + " AND PERIODO_ID = ?"
+	                + " AND PAGO_ID = TO_NUMBER(?, '99')");
 	        
 	        ps.setString(1, cicloId);
 	        ps.setString(2, periodoId);
@@ -323,19 +341,21 @@ public class FinPago {
         return ok;
     }
     
-    public static String numPagos(Connection conn, String cicloId, String periodoId) throws SQLException {
+    public static String numPagos(Connection conn, String cicloId, String periodoId, String tipo) throws SQLException {
     	
         PreparedStatement ps1 	= null;
         ResultSet rs 			= null;
         String pagos			= "0";
 
         try {
-            ps1 = conn.prepareStatement("SELECT COALESCE(COUNT(PAGO_ID),0) AS TOTAL FROM FIN_PAGO" +
-                    " WHERE CICLO_ID = ?" +
-                    " AND PERIODO_ID = TO_NUMBER(?, '99')");
+            ps1 = conn.prepareStatement("SELECT COALESCE(COUNT(PAGO_ID),0) AS TOTAL FROM FIN_PAGO"
+            		+ " WHERE CICLO_ID = ?"
+            		+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
+            		+ " AND TIPO IN(?)");
             
             ps1.setString(1, cicloId);
             ps1.setString(2, periodoId);
+            ps1.setString(3, tipo);
             
             rs = ps1.executeQuery();
             if(rs.next()){

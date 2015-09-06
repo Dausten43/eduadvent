@@ -118,7 +118,7 @@ public class FinCalculoPago {
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement(
-                 " INSERT INTO FIN_CALCULO_PAGO(CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, FECHA, ESTADO, CUENTA_ID, BECA)" +
+                 " INSERT INTO FIN_CALCULO_PAGO(CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, FECHA, ESTADO, CUENTA_ID, BECA, PAGADO)" +
                  " VALUES(?, TO_NUMBER(?, '99'), ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99999.99')," +            
                  " TO_DATE(?,'DD/MM/YYYY'), ?, ?, TO_NUMBER(?, '99999.99'),?)");
             ps.setString(1, cicloId);
