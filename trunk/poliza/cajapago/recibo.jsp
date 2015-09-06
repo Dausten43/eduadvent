@@ -136,7 +136,7 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.Recibo" /></h2>
+	<h2><fmt:message key="aca.Recibo" /> <small>( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong> )</small></h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
@@ -144,14 +144,10 @@
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
   	<%} %>
 	
-	<div class="alert alert-info">
-		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong>
-		<br>
-		<fmt:message key="aca.Poliza" />: <strong><%=polizaId %> | <%=FinPoliza.getDescripcion() %></strong>
-		<br>
-		<fmt:message key="aca.ReciboActual" />: <strong><%=FinFolio.getReciboActual().equals("-1")?"-":FinFolio.getReciboActual() %></strong>
-		<br>
-		<fmt:message key="aca.RangoRecibo" />: <strong><%=FinFolio.getReciboInicial() %> - <%=FinFolio.getReciboFinal() %></strong>
+	<div class="alert alert-info">			
+		<fmt:message key="aca.Poliza" />: [ <strong><%=polizaId %> | <%=FinPoliza.getDescripcion() %></strong> ] &nbsp;&nbsp;
+		<fmt:message key="aca.ReciboActual" />: [ <strong><%=FinFolio.getReciboActual().equals("-1")?"-":FinFolio.getReciboActual() %></strong> ] &nbsp;&nbsp;
+		<fmt:message key="aca.RangoRecibo" />: [ <strong><%=FinFolio.getReciboInicial() %> - <%=FinFolio.getReciboFinal() %></strong> ]
 	</div>
 	
 	<%if(reciboDisponible == false){ %>

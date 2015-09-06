@@ -369,12 +369,7 @@
 					</table>
 							
 				</div>
-						
-				<div class="well">					
-					<%if(!movimientoId.equals("")){ %>
-						<a href="movimientos.jsp" class="btn btn-large"><i class="icon-file"></i> <fmt:message key="boton.Nuevo" /></a>
-					<%} %>
-				</div>
+								
 			</form>
 					
 		</div>
