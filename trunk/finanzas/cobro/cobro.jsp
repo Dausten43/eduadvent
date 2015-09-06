@@ -162,8 +162,12 @@
 		<%
 			if (numPagosIniciales.equals("0")){
 		%>		
-				<div class="alert"><fmt:message key="aca.NoExistePagoInicial"/></div>
+				<div class="alert alert-info"><fmt:message key="aca.NoExistePagoInicial"/></div>
 		<%						
+			}else if (Integer.parseInt(numPagosIniciales) > 1){
+		%>		
+				<div class="alert alert-danger">¡Error! Solo se permite un pago inicial.</div>
+		<%		
 			}
 		%>
 	</form>

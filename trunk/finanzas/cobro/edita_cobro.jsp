@@ -29,6 +29,8 @@
 	String pagoId		= request.getParameter("pago");	
 	String metodo		= "";	
 	
+	String numPagosIniciales	= aca.fin.FinPago.numPagosIniciales(conElias, cicloId, periodoId);
+	
 	if(pagoId != null){
 		if(!pagoId.equals("")){
 			finPago.mapeaRegId(conElias, cicloId, periodoId, pagoId);
@@ -103,7 +105,9 @@
 		<fieldset>
 			<label for="tipo"><fmt:message key="aca.Tipo" /></label>
 			<select name="tipo" id="tipo">
+			<% if (numPagosIniciales.equals("0") || finPago.getTipo().equals("I")){ %>
 				<option value="I" <% if (finPago.getTipo().equals("I")) out.print("selected");%>><fmt:message key="aca.Inicial" /></option>
+			<% }%>	
 				<option value="P" <% if (finPago.getTipo().equals("P")) out.print("selected");%>><fmt:message key="aca.Ordinario" /></option>
 			</select>						
 		</fieldset>
