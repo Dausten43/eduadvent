@@ -698,11 +698,11 @@
 								</td>
 							<%} %>
 							<td><%=nombreCuenta%></td>
-							<td class="text-right"><%=importeTotal %></td>
+							<td class="text-right"><%=formato.format(importeTotal)%></td>
 							<td class="text-right"><%=becaPorcentaje%>%</td>
-							<td class="text-right"><%=becaCantidad%></td>
-							<td class="text-right"><%=importeBeca%></td>
-							<td class="text-right"><%=importeTotal.subtract(importeBeca)%></td>
+							<td class="text-right"><%=formato.format(becaCantidad)%></td>
+							<td class="text-right"><%=formato.format(importeBeca)%></td>
+							<td class="text-right"><%=formato.format(importeTotal.subtract(importeBeca))%></td>
 						</tr>
 				<%				
 					}
@@ -778,11 +778,11 @@
 								</td>
 							<%} %>
 							<td><%=nombreCuenta%></td>
-							<td class="text-right"><%=importe %></td>
-							<td class="text-right"><%=importeBeca %></td>
-							<td class="text-right"><%=importeTotal %></td>
-							<td class="text-right"><%=PIpagos %></td>
-							<td class="text-right"><%=PIcontado %></td>
+							<td class="text-right"><%=formato.format(importe) %></td>
+							<td class="text-right"><%=formato.format(importeBeca) %></td>
+							<td class="text-right"><%=formato.format(importeTotal) %></td>
+							<td class="text-right"><%=formato.format(PIpagos) %></td>
+							<td class="text-right"><%=formato.format(PIcontado) %></td>
 						</tr>
 				<%				
 					}
@@ -791,11 +791,11 @@
 					<th <%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>colspan="2"<%} %>>
 						<fmt:message key="aca.Total"/>
 					</th>
-					<th class="text-right"><%=totalImporte %></th>
-					<th class="text-right"><%=totalImporteBeca %></th>
-					<th class="text-right"><%=totalImporteTotal %></th>
-					<th class="text-right"><%=totalPIpagos %></th>
-					<th class="text-right"><%=totalPIcontado %></th>
+					<th class="text-right"><%=formato.format(totalImporte) %></th>
+					<th class="text-right"><%=formato.format(totalImporteBeca) %></th>
+					<th class="text-right"><%=formato.format(totalImporteTotal) %></th>
+					<th class="text-right"><%=formato.format(totalPIpagos) %></th>
+					<th class="text-right"><%=formato.format(totalPIcontado) %></th>
 				</tr>
 			</table>
 		</div>
