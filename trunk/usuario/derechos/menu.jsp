@@ -97,7 +97,7 @@
 
 <div id="content">
 
-	<h2><fmt:message key="privilegios.PrivilegiosAplicaciones" /><small><%=nombreUsuario%> | <%=strCodigoId%></small></h2>
+	<h2><fmt:message key="privilegios.PrivilegiosAplicaciones" /> ( <small><%=nombreUsuario%> | <%=strCodigoId%></small> )</h2>
 	
 	<div class="well">
 		<a href="usuario.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
