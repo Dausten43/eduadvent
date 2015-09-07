@@ -134,6 +134,7 @@
 		    <th><fmt:message key="aca.ClassFin" /></th>
 		    <th><fmt:message key="aca.Religion" /></th>
 		    <th><fmt:message key="aca.Tutor" /></th>    
+	     	<th><fmt:message key="aca.Celular" /></th>    
 		  </tr>
 <%  		}
 			if (mapaGradoGrupo.containsKey(inscrito.getCodigoId()+ciclo+"1")){
@@ -164,6 +165,7 @@
 		  <td align="left"><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias,escuelaId,inscrito.getClasfinId())%></td>
 		  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,inscrito.getReligion())%></td>
 		  <td align="left"><%= inscrito.getTutor()%></td> 
+		  <td align="left"><%= inscrito.getCelular()%></td> 
 	</tr> 
 	  
 	  <%String gen 		= inscrito.getGenero();
