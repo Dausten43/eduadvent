@@ -52,17 +52,12 @@
 			boolean borrar = !aca.ciclo.CicloGrupo.existeGradoyGrupo(conElias, escuelaId, grupo.getGrado(), grupo.getGrupo());
 			
 			if(!grado.equals(grupo.getGrado())){
+				String titulo = aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, nivelId);
 	%> 
 		</table>
 		<div class="alert alert-info" style="overflow:hidden;padding:8px 14px 8px 14px;"> 
 	  		
-	  		<div style="float:left;">
-	  			<%if(aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, nivelId).equals("Grado")){ %>
-	  				<fmt:message key="aca.Grado" /> 
-	  			<%}else{ %>
-	  				<fmt:message key="aca.Semestre" />
-	  			<%} %>
-	  			<%=grupo.getGrado() %>
+	  		<div style="float:left;"><%=titulo%> <%=grupo.getGrado() %>
 			</div>
 			
 			<div style="float:right;">
