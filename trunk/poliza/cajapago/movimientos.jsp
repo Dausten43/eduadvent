@@ -299,8 +299,8 @@
 				
 					<fieldset>						
 						<a href="#myModal2" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Padres" /> <i class="icon-question-sign"></i></label></a>
-						<select name="Padre" id="Padre" style="width:100%;" onchange="javascript:Refrescar('Padre');">						
-							<option value=""><fmt:message key="boton.Todos" /></option>
+						<select name="Padre" id="Padre" style="width:100%;" onchange="javascript:Refrescar('Padre');">			
+							<option value="0"><fmt:message key="boton.Todos" /></option>
 							<%for(aca.empleado.EmpPersonal padre : lisPadres){%>
 								<option value="<%=padre.getCodigoId() %>" <%if(padreCaja.equals(padre.getCodigoId())){out.print("selected");}%>>
 									<%=padre.getCodigoId() %> | <%=padre.getNombre()+" "+padre.getApaterno()+" "+padre.getAmaterno() %>
@@ -314,7 +314,7 @@
 							<option value="0">Elegir</option>
 						<% 
 							// Muestra todos los alumnos de la escuela
-							if (padreCaja.equals("0")){
+							if (padreCaja.equals("0")){								
 								for(aca.alumno.AlumPersonal alum : lisAlumnos){
 						%>
 							<option value="<%=alum.getCodigoId()%>" <%if(alumnoCaja.equals(alum.getCodigoId())) out.print(" selected"); %>>
@@ -322,7 +322,7 @@
 							</option>
 						<%		
 								}								
-							}else{
+							}else{								
 								for(aca.alumno.AlumPadres alum : lisHijos){
 						%>
 							<option value="<%=alum.getCodigoId()%>" <%if(alumnoCaja.equals(alum.getCodigoId())) out.print(" selected"); %>>
