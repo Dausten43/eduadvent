@@ -50,8 +50,8 @@
 	
 	<div class="well">
 		<a href="<%=from %>.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		<a href="reciboPDF.jsp?Recibo=<%=recibo %>&ejercicioId=<%=ejercicioId%>&polizaId=<%=polizaId %>" class = "btn btn-primary"><i class="icon-print icon-white"></i> Imprimir M&eacute;xico</a>
-		<a href="reciboHTML.jsp?Recibo=<%=recibo %>&ejercicioId=<%=ejercicioId%>&polizaId=<%=polizaId %>" class = "btn btn-primary"><i class="icon-print icon-white"></i> Imprimir UDOCA</a>
+		<a href="reciboPDF.jsp?Recibo=<%=recibo %>&ejercicioId=<%=ejercicioId%>&polizaId=<%=polizaId %>" class = "btn btn-primary"><i class="icon-print icon-white"></i> M&eacute;xico</a>
+		<a href="reciboHTML.jsp?Recibo=<%=recibo %>&ejercicioId=<%=ejercicioId%>&polizaId=<%=polizaId %>" class = "btn btn-primary"><i class="icon-print icon-white"></i> UDOCA</a>
 	</div>
 		
 	<h4><fmt:message key="aca.Movimientos" /></h4>
