@@ -25,7 +25,7 @@
 	String recibo 			= request.getParameter("Recibo"); 
 	String polizaId 		= request.getParameter("polizaId");
 	
-	String fechaHoy 	= aca.util.Fecha.getHoy();	
+	String fechayHora	 	= aca.util.Fecha.getDateTime();	
 	
     String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
     String rutaLogo = "../../imagenes/logos/"+logoEscuela;
@@ -52,7 +52,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td align="center">
-				<strong>Fecha:</strong> [ <%=fechaHoy %> ] &nbsp; &nbsp; 
+				<strong>Fecha y Hora:</strong> [ <%=fechayHora %> ] &nbsp; &nbsp; 
 				<strong>No. Recibo:</strong> [ <%=finRecibo.getReciboId() %> ] &nbsp; &nbsp; 
 				<strong>No. Folio:</strong>[ <%= polizaId %> ]
 			</td>
