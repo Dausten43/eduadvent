@@ -244,7 +244,7 @@ public class FinCalculoPago {
 
             
         }catch (Exception ex){
-            System.out.println("Error - aca.fin.FinCalculoPago|updateEstado|:" + ex);
+            System.out.println("Error - aca.fin.FinCalculoPago|updatePagado|:" + ex);
         }finally{
         	if(ps != null){
                 ps.close();
