@@ -89,7 +89,7 @@ for( int i=0; i<lista.size(); i++){
 %>
 			<tr>
 				<td><%=movimientos.getDescripcion() %></td>
-				<td><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos))+" pesos. "+centavos+" /100 M.N." %></td>
+				<td><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos))+" pesos. "+centavos+" /100" %></td>
 				<td style="text-align:right">$<%=movimientos.getImporte() %></td>
 			</tr>
 <%

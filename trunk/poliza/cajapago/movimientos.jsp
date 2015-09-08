@@ -126,7 +126,7 @@
 		 
 		if(FinMov.existeReg(conElias)){
 			FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);
-			String [] fechaPag = FinMov.getDescripcion().split(",");
+			String [] fechaPag = FinMov.getReferencia().split(",");
 			//System.out.println("Datos:"+fechaPag[0]+":"+FinMov.getCuentaId());
 			if(FinMov.deleteReg(conElias)){				 
 				if (aca.fin.FinCalculoPago.updatePagado(conElias, FinMov.getAuxiliar(), fechaPag[0], FinMov.getCuentaId(), "N")){
@@ -192,10 +192,10 @@
 				FinMov.setMovimientoId(movimientoId);
 				FinMov.setCuentaId(pagos.getCuentaId());
 				FinMov.setAuxiliar(alumnoCaja);
-				FinMov.setDescripcion(pagos.getFecha()+","+pagos.getCicloId());
+				FinMov.setDescripcion("Pago a cuenta: "+aca.fin.FinCuenta.getCuentaNombre(conElias, pagos.getCuentaId()));
 				FinMov.setImporte(String.valueOf(importe));
 				FinMov.setNaturaleza("C"); /* Cargo */
-				FinMov.setReferencia("-");
+				FinMov.setReferencia(pagos.getFecha()+","+pagos.getCicloId());
 				FinMov.setEstado("A"); /* Abierto o Creado */
 				FinMov.setFecha(aca.util.Fecha.getDateTime());
 				FinMov.setReciboId(FinFolio.getReciboActual());
