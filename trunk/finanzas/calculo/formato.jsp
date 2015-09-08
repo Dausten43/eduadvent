@@ -23,7 +23,8 @@
 	
 	ArrayList<aca.fin.FinCalculoDet> lisDetalles	=  DetalleL.getListCalDet(conElias, cicloId, periodoId, codigoAlumno,"ORDER BY CUENTA_ID");
 	ArrayList<aca.fin.FinCalculoPago> listaPagos 	= FinCalculoPagoL.getListPagosAlumnoCuentas(conElias, cicloId, periodoId, codigoAlumno, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD')");
-	java.text.DecimalFormat formato 			= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat formato 			= new java.text.DecimalFormat("###,###,##0.00;-###,###,##0.00");
+
 %>
 
 <style>
@@ -156,13 +157,14 @@
 						totPago 	= totPago.add( new BigDecimal( pago.getImporte() ).subtract( new BigDecimal(pago.getBeca()) ) );
 						costoPago 	= costoPago.add( new BigDecimal(pago.getImporte()) );
 						becaPago 	= becaPago.add( new BigDecimal(pago.getBeca()) );
+						
 				%>
 						<tr>
 							<td><%=cont%></td>
 		  					<td><%=pago.getFecha()%></td>
 			  				<td><%=aca.fin.FinPago.getDescripcion(conElias, cicloId, periodoId, pago.getPagoId())%></td>
-			  				<td class="text-right"><%=formato.format(pago.getImporte()) %></td>
-							<td class="text-right"><%=formato.format(pago.getBeca()) %></td>
+			  				<td class="text-right"><%=formato.format(costoPago)%></td>
+							<td class="text-right"><%=formato.format(becaPago)%></td>
 			  				<td class="text-right"><%= formato.format(new BigDecimal(pago.getImporte()).subtract(new BigDecimal(pago.getBeca()))) %></td>
 						</tr>
 				<%
@@ -191,7 +193,7 @@
 			
 		<%}else{ %>
 			<div class="alert">
-				<h4><fmt:message key="aca.PagoInicial" />:  $ <%=formato.format(Double.valueOf(finCalculo.getPagoInicial()))%></h4>
+				<h4><fmt:message key="aca.PagoInicial" />:  $ <%=Double.valueOf(finCalculo.getPagoInicial())%></h4>
 			</div>
 		<%} %>
 	
