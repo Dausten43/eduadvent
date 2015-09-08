@@ -529,4 +529,30 @@ public class FinMovimientos {
         return saldo;
     }
     
+    public static String getPolizaId(Connection conn, String ejercicio, String recibo) throws SQLException {
+        
+        PreparedStatement ps	= null;
+        ResultSet rs			= null;
+        String saldo 			= "0";
+
+        try {
+            ps = conn.prepareStatement("SELECT POLIZA_ID FROM FIN_MOVIMIENTOS WHERE EJERCICIO_ID = ? AND RECIBO = ?");
+            
+            ps.setString(1, ejercicio);
+	        ps.setString(2, recibo);
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+                saldo = rs.getString("SALDO");
+            }            
+           
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinCuenta|maxReg|:" +ex);
+        }finally{
+	        if(rs != null) rs.close();
+	        if(ps != null) ps.close();
+        }
+        return saldo;
+    }
+    
 }
