@@ -215,8 +215,7 @@
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="CicloGrupoId" />
 		<input type="hidden" name="EmpleadoId" />
-		<input type="hidden" name="Grado" />
-	
+		<input type="hidden" name="Grado" />	
 <%	
 		for(aca.ciclo.CicloGrupo grupo: lisGrupo){
 			
