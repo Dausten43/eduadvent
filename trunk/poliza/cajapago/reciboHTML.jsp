@@ -16,95 +16,93 @@
 <jsp:useBean id="Escuela" scope="page" class="aca.catalogo.CatEscuela"/>
 
 <%
+	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+
+	String escuelaId 		= (String) session.getAttribute("escuela");
+	String ejercicioId 		= (String)session.getAttribute("EjercicioId");
 	String codigoEmpleado 	= (String) session.getAttribute("codigoEmpleado");
-	String recibo 			= request.getParameter("Recibo");	
-	String ejercicioId 		= (String)session.getAttribute("EjercicioId");	
-	String escuelaId 	= (String) session.getAttribute("escuela"); 
-	String polizaId 		= request.getParameter("polizaId");	
-	String day				= "";
-	String month			= "";
-	String year				= "";
-	Coordenada.mapeaRegId(conElias, codigoEmpleado, "R");
-	String fechaHoy 	= aca.util.Fecha.getHoy();
 	
-	String jpg = "";
+	String recibo 			= request.getParameter("Recibo"); 
+	String polizaId 		= request.getParameter("polizaId");
+	
+	String fechaHoy 	= aca.util.Fecha.getHoy();	
+	
     String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
+    String rutaLogo = "../../imagenes/logos/"+logoEscuela;
     
-    String dirFoto = application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela;
-	java.io.File foto = new java.io.File(dirFoto);
-	if (foto.exists()){
-		jpg = application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela;
-	}else{
-		jpg = application.getRealPath("/imagenes/")+"/logos/logoIASD.png";
-	}
-	Escuela.mapeaRegId(conElias, escuelaId);
-	
+	Escuela.mapeaRegId(conElias, escuelaId);	
 	finRecibo.mapeaRegId(conElias, recibo, ejercicioId);
+	
+	// Lista de movimientos en el recibo
+	ArrayList<aca.fin.FinMovimientos> lista 	= finML.getMovimientos(conElias,ejercicioId,polizaId,recibo," ORDER BY FECHA");
 %>
 <div id="content">
-	<div class="row">
-		<div class="span4">
-			<img src="<%=jpg%>">
-			<br>&nbsp;
-		</div>
-		<div class="span4" style="text-align:center;">
-				<%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %>
+	<table class="tabla" style="margin: 0 auto;">
+		<tr>
+			<td>
+				<img src="<%=rutaLogo%>" width="150">
+			</td>		
+			<td align="center">
+				<h4><%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %></h4>
+				<strong>Direcci&oacute;n:</strong> <%=Escuela.getDireccion()%>, <%=Escuela.getColonia() %>
 				<br>
-				<strong>Direcci&oacute;n:</strong> <%=Escuela.getDireccion()%>, <%=Escuela.getColonia() %>, <%=aca.catalogo.CatCiudad.getCiudad(conElias, Escuela.getPaisId(), Escuela.getEstadoId(), Escuela.getCiudadId()) %>
-				<br>
-				<strong>Tel&eacute;fono: </strong><%=Escuela.getTelefono() %>
-				<br>&nbsp;
-		</div>
-		<div class="span4">
-			Fecha: <%=fechaHoy %>
-			<br> 
-			No. Recibo:
-			<%=finRecibo.getReciboId() %>
-			<br>
-			No. Folio
-			<br>&nbsp;
-		</div>
-	</div>
+				<strong>Tel&eacute;fono: </strong><%=Escuela.getTelefono() %>				
+			</td>			
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td align="center">
+				<strong>Fecha:</strong> [ <%=fechaHoy %> ] &nbsp; &nbsp; 
+				<strong>No. Recibo:</strong> [ <%=finRecibo.getReciboId() %> ] &nbsp; &nbsp; 
+				<strong>No. Folio:</strong>[ <%= polizaId %> ]
+			</td>
+		</tr>			
+	</table>
 	<br>
 	&nbsp;<strong>Cliente:</strong> <%=finRecibo.getCliente() %>
-	<br>
-	<div style="text-align:center;">
-		
-		<table class="table table-condensed">
-			<tr>
-				<th>Descripci&oacute;n</th>
-				<th>Monto Letra</th>
-				<th style="text-align:right">Cantidad</th>
-			</tr>
+	<br>		
+	<table class="table table-condensed">
+	<tr>
+		<th>Descripci&oacute;n</th>
+		<th>Monto Letra</th>
+		<th style="text-align:right">Cantidad</th>
+	</tr>
 <%
-ArrayList lista = finML.getMovimientos(conElias,ejercicioId,polizaId,recibo,"");
-String pesos 	= "0";
-String centavos	= "00"; 
-for( int i=0; i<lista.size(); i++){
-	aca.fin.FinMovimientos movimientos= (aca.fin.FinMovimientos)lista.get(i);
-	pesos 		= movimientos.getImporte().indexOf(".")>=0?movimientos.getImporte().substring(0,movimientos.getImporte().indexOf(".")):movimientos.getImporte();
-	centavos 	= movimientos.getImporte().indexOf(".")>=0?movimientos.getImporte().substring(movimientos.getImporte().indexOf(".")+1, movimientos.getImporte().length()):"00";
+
+	String pesos 	= "0";
+	String centavos	= "00";
 	
-	movimientos.getDPoliza(conElias, movimientos.getPolizaId());
+	for( int i=0; i<lista.size(); i++){
+		aca.fin.FinMovimientos movimientos= (aca.fin.FinMovimientos)lista.get(i);
+		
+		pesos 		= movimientos.getImporte().indexOf(".")>=0?movimientos.getImporte().substring(0,movimientos.getImporte().indexOf(".")):movimientos.getImporte();
+		centavos 	= movimientos.getImporte().indexOf(".")>=0?movimientos.getImporte().substring(movimientos.getImporte().indexOf(".")+1, movimientos.getImporte().length()):"00";
+	
+		aca.fin.FinMovimientos.getDPoliza(conElias, movimientos.getPolizaId());
 %>
-			<tr>
-				<td><%=movimientos.getDescripcion() %></td>
-				<td><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos))+" pesos. "+centavos+" /100" %></td>
-				<td style="text-align:right">$<%=movimientos.getImporte() %></td>
-			</tr>
+	<tr>
+		<td><%=movimientos.getDescripcion() %></td>
+		<td><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos))+" pesos. "+centavos+" /100" %></td>
+		<td style="text-align:right">$<%=formato.format(Double.parseDouble(movimientos.getImporte())) %></td>
+	</tr>
 <%
 	}
 %>	
-			<tr>	
-				<td><strong>Monto a Pagar: </strong> </td>
+	<tr>	
+		<td><strong>Monto a Pagar: </strong> </td>
 <%
-	pesos 		= finRecibo.getImporte().indexOf(".")>=0?finRecibo.getImporte().substring(0,finRecibo.getImporte().indexOf(".")):finRecibo.getImporte();
-	centavos 	= finRecibo.getImporte().indexOf(".")>=0?finRecibo.getImporte().substring(finRecibo.getImporte().indexOf(".")+1, finRecibo.getImporte().length()):"00";
+		pesos 		= finRecibo.getImporte().indexOf(".")>=0?finRecibo.getImporte().substring(0,finRecibo.getImporte().indexOf(".")):finRecibo.getImporte();
+		centavos 	= finRecibo.getImporte().indexOf(".")>=0?finRecibo.getImporte().substring(finRecibo.getImporte().indexOf(".")+1, finRecibo.getImporte().length()):"00";
 %>
-				<td><strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos))+" pesos. "+centavos+" /100" %></strong></td>
-				<td style="text-align:right">$<%=finRecibo.getImporte() %></td>
-			</tr>
-		</table>
-	</div>
+		<td><strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos))+" pesos. "+centavos+" /100" %></strong></td>
+		<td style="text-align:right">$<%=formato.format(Double.parseDouble(finRecibo.getImporte())) %></td>
+	</tr>
+	</table>
+	<br>
+	<table class="tabla" style="margin: 0 auto;">
+	<tr>
+		<td class="center">Firma del Cajero: ____________________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Firma del Padre: ____________________________</td>
+	</tr>
+	</table>	
 </div>
 <%@ include file= "../../cierra_elias.jsp" %>
