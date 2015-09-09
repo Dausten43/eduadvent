@@ -163,8 +163,8 @@
 							<td><%=cont%></td>
 		  					<td><%=pago.getFecha()%></td>
 			  				<td><%=aca.fin.FinPago.getDescripcion(conElias, cicloId, periodoId, pago.getPagoId())%></td>
-			  				<td class="text-right"><%=formato.format(costoPago)%></td>
-							<td class="text-right"><%=formato.format(becaPago)%></td>
+			  				<td class="text-right"><%=pago.getImporte()%></td>
+							<td class="text-right"><%=pago.getBeca()%></td>
 			  				<td class="text-right"><%= formato.format(new BigDecimal(pago.getImporte()).subtract(new BigDecimal(pago.getBeca()))) %></td>
 						</tr>
 				<%

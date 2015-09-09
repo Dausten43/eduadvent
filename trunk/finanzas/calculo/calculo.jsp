@@ -415,8 +415,13 @@
 					FinCalculoPago.setPagoId(FinPago.getPagoId());
 					FinCalculoPago.setCuentaId(detalleInicial.getCuentaId());					
 					FinCalculoPago.setFecha(FinPago.getFecha());
-					FinCalculoPago.setImporte( detalleInicial.getImporteInicial() );					
-					FinCalculoPago.setBeca( detalleInicial.getImporteBeca() );				
+					FinCalculoPago.setImporte( detalleInicial.getImporteInicial() );
+					if (tipoPago.equals("C")){
+						FinCalculoPago.setBeca( detalleInicial.getImporteBeca() );
+					}else{
+						FinCalculoPago.setBeca( "0" );
+					}
+									
 					FinCalculoPago.setEstado("A");
 					FinCalculoPago.setPagado("N");
 					if (FinCalculoPago.insertReg(conElias)){
