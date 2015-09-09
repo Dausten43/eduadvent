@@ -168,7 +168,6 @@
 	function grabar() {
 		if (document.frmAlta.TemaId.value.value != ""
 				&& document.frmAlta.Nombre.value != ""
-				&& document.frmAlta.Descripcion.value != ""
 				&& document.frmAlta.Orden.value != "") {
 			document.frmAlta.Accion.value = "2";
 			document.frmAlta.submit();
@@ -188,6 +187,48 @@
 			document.frmAlta.TemaId.focus();
 		}
 	}
+</script>
+<script src="../../js-plugins/ckeditor/ckeditor.js"></script>
+<style>
+	.cke{
+		margin-bottom: 10px;
+	}
+</style>
+<script>
+
+	// Replace the <textarea id="constancia"> with an CKEditor instance.
+	CKEDITOR.replace( 'Descripcion', {
+		on: {
+			// Check for availability of corresponding plugins.
+			pluginsLoaded: function( evt ) {
+				var doc = CKEDITOR.document, ed = evt.editor;
+				if ( !ed.getCommand( 'bold' ) )
+					doc.getById( 'exec-bold' ).hide();
+				if ( !ed.getCommand( 'link' ) )
+					doc.getById( 'exec-link' ).hide();
+			}
+		},
+		toolbar :
+			[
+				{ name: 'document', items : [ 'Source','-','DocProps','Preview','Print','-','Templates' ] },
+				{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
+				{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','SpellChecker', 'Scayt' ] },
+				{ name: 'insert', items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] },
+				{ name: 'links', items : [ 'Link','Unlink' ] },
+				'/',
+				{ name: 'tools', items : [ 'Maximize','-' ] },
+				{ name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
+				{ name: 'colors', items : [ 'TextColor','BGColor' ] },
+				{ name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+				{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote',
+				'-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] }
+				
+			],
+	});
+	
+	CKEDITOR.config.height = 200;
+
+	
 </script>
 
 <%@ include file="../../cierra_elias.jsp"%>
