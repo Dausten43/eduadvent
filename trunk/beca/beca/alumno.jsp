@@ -205,7 +205,7 @@
 						<label><fmt:message key="aca.Cuenta" /></label>		
 						<select id="CuentaId" name="CuentaId">
 							<%for(aca.fin.FinCuenta cuenta : lisCuenta){%>			
-								<option value="<%=cuenta.getCuentaId()%>" <%=BecAlum.getCuentaId().equals(cuenta.getCuentaId())?" Selected":"" %>><%=cuenta.getCuentaNombre()%></option>								
+								<option value="<%=cuenta.getCuentaId()%>" <%=BecAlum.getCuentaId().equals(cuenta.getCuentaId())?" Selected":"" %>>[<%=cuenta.getCuentaId()%>] - <%=cuenta.getCuentaNombre()%></option>								
 							<%}%>
 						</select>			
 					</fieldset>
