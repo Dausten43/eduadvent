@@ -6,6 +6,7 @@
 
 
 <jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
+<jsp:useBean id="AlumP" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="CicloLista" scope="page" class="aca.alumno.AlumCicloLista"/>
@@ -84,6 +85,7 @@
 <%	 	
 	for(int i=0; i<lisInscritos.size();i++){ cont++;
 		aca.alumno.AlumPersonal inscrito = (aca.alumno.AlumPersonal) lisInscritos.get(i);
+		AlumP.mapeaRegId(conElias, inscrito.getCodigoId());
 		
 		  if(!nivelTemp.equals(inscrito.getNivelId())){
 			  if(!nivelTemp.equals("-1")){%>
@@ -167,7 +169,7 @@
 		  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,inscrito.getReligion())%></td>
 		  <td align="left"><%= inscrito.getTutor()%></td> 
 		  <td align="left"><%= inscrito.getCelular()%></td> 
-		  <td align="left"><%= inscrito.getCorreo()%></td> 
+		  <td align="left"><%= AlumP.getEmail()%></td> 
 		  
 	</tr> 
 	  
