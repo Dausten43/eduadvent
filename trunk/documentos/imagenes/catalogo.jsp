@@ -7,6 +7,7 @@
 <%
 	String escuela 		= (String)session.getAttribute("escuela");
 	String dir 			= application.getRealPath("http://www.academico.um.edu.mx/escuela/WEB-INF/"+escuela);
+	String codigoId		= session.getAttribute("codigoId").toString()==null?"-":session.getAttribute("codigoId").toString();
 
 %>
 </head>
@@ -30,12 +31,13 @@
 	if (file.exists()){
 		java.io.File[] lisArchivos = file.listFiles();
 		for (int x=0;x<lisArchivos.length;x++){
+		dir = "http://academico.um.edu.mx/escuela/documentos/imagenes/imagen.jsp?NombreArchivo="+lisArchivos[x].getName()+"&"+codigoId;
 %>
 		<tr>
 			<td width="4%"><%=x+1%></td>			
 			<td width="4%"><a href="javascript: borrar('<%=lisArchivos[x].getName()%>');"><i class="icon icon-remove"></i></a></td>
 			<td><img src="imagen.jsp?NombreArchivo=<%=lisArchivos[x].getName()%>&id=<%=new java.util.Date().getTime()%>" width="300px;"></td>
-			<td><%=dir+"/"+lisArchivos[x].getName()%></td>
+			<td><%=dir%></td>
 		</tr>
 <%
 		}	
