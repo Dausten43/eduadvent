@@ -42,6 +42,7 @@
 				<th><fmt:message key="aca.Escala" /></th>
 				<th><fmt:message key="aca.NumEval" /></th>
 				<th><fmt:message key="aca.CicloEscuela" /></th>
+				<th><fmt:message key="aca.Decimal" /></th>
 			</tr>
 		</thead>
 		<%int cont = 0; %>
@@ -74,6 +75,7 @@
 				<td><%=ciclo.getEscala()%></td>
 				<td><%=ciclo.getModulos()%></td>
 				<td><%=ciclo.getCicloEscolar()%></td>
+				<td><%=ciclo.getDecimales()%></td>
 	  		</tr>  
 		<%}%>  
 	</table>
