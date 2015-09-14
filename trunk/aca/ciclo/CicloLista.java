@@ -17,7 +17,7 @@ public class CicloLista {
                 + " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
                 + " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
                 + " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
-                + " CICLO_ESCOLAR"
+                + " CICLO_ESCOLAR, DECIMALES"
                 + " FROM CICLO"
                 + " WHERE CICLO_ID LIKE '"+escuelaId+"%' "+orden;
 			
@@ -47,14 +47,15 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, " +
-                "TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA, " +
-                "TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL, " +
-                "TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL, " +
-                "NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR " +
-                "FROM CICLO" +
-                " WHERE CICLO_ID LIKE '"+escuelaId+"%' AND ESTADO = 'A'"+orden;
-			
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE,"
+                + " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA,"
+                + " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
+                + " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
+                + " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
+                + " CICLO_ESCOLAR, DECIMALES"
+                + " FROM CICLO"
+                + " WHERE CICLO_ID LIKE '"+escuelaId+"%'"
+                + " AND ESTADO = 'A'"+orden;			
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -81,14 +82,15 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE," +
-                " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA," +
-                " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL," +
-                " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL," +
-                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR " +
-                " FROM CICLO" +
-                " WHERE CICLO_ID LIKE '"+escuelaId+"%' " +
-                " AND ESTADO = 'A'" +orden;
+			comando = " SELECT CICLO_ID, CICLO_NOMBRE,"
+					+ " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA,"
+					+ " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
+					+ " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
+					+ " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
+					+ " CICLO_ESCOLAR, DECIMALES"
+					+ " FROM CICLO"
+					+ " WHERE CICLO_ID LIKE '"+escuelaId+"%'"
+					+ " AND ESTADO = 'A'" +orden;
 			
 			rs = st.executeQuery( comando );
 			while (rs.next()){
@@ -115,11 +117,12 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, " +
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE," +
                 "TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA, " +
                 "TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL, " +
                 "TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL, " +
-                "NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR " +
+                "NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
+                + " CICLO_ESCOLAR " +
                 "FROM CICLO" +
                 " WHERE CICLO_ID LIKE '"+escuelaId+"%' AND ESTADO = 'A' AND TO_DATE('"+fecha+"' , 'DD/MM/YYYY') BETWEEN F_INICIAL AND F_FINAL "+orden;
 			
