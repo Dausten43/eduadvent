@@ -67,6 +67,7 @@
 		Ciclo.setEditarActividad(request.getParameter("Editar"));
 		Ciclo.setModulos(request.getParameter("Modulos"));
 		Ciclo.setCicloEscolar(request.getParameter("cicloEscolar"));
+		Ciclo.setDecimales(request.getParameter("decimal"));
 
 		if (Ciclo.existeReg(conElias) == false){
 			if (Ciclo.insertReg(conElias)){
@@ -95,6 +96,8 @@
 		Ciclo.setEditarActividad(request.getParameter("Editar"));
 		Ciclo.setModulos(request.getParameter("Modulos"));
 		Ciclo.setCicloEscolar(request.getParameter("cicloEscolar"));
+		Ciclo.setDecimales(request.getParameter("decimal"));
+		
 		if (Ciclo.existeReg(conElias) == true){
 			if (Ciclo.updateReg(conElias)){
 				sResultado = "Modificado";
@@ -257,6 +260,13 @@
 		<fieldset>
 			<label for="cicloEscolar"><fmt:message key="aca.CicloEscuela" /></label>
 			<input name="cicloEscolar" type="text" id="cicloEscolar" size="4" maxlength="4" value="<%=Ciclo.getCicloEscolar()%>" class="onlyNumbers input-mini">
+		</fieldset>
+		<fieldset>
+			<label for="Decimal"><fmt:message key="aca.Decimal" /></label>
+			<select id="decimal" name="decimal">
+				<option value="0" <%if(Ciclo.getDecimales().equals("0")){out.print("selected");}%>>0</option>
+				<option value="1" <%if(Ciclo.getDecimales().equals("1")){out.print("selected");}%>>1</option>
+			</select>
 		</fieldset>
 	</form>
 	                  
