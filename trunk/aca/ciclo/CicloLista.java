@@ -3,7 +3,6 @@ package aca.ciclo;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CicloLista {
 	public ArrayList<Ciclo> getListAll(Connection conn, String escuelaId, String orden ) throws SQLException{
@@ -13,13 +12,14 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE," +
-                " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA," +
-                " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL," +
-                " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL," +
-                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
-                " FROM CICLO" +
-                " WHERE CICLO_ID LIKE '"+escuelaId+"%' "+orden;
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE,"
+                + " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA,"
+                + " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
+                + " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
+                + " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
+                + " CICLO_ESCOLAR"
+                + " FROM CICLO"
+                + " WHERE CICLO_ID LIKE '"+escuelaId+"%' "+orden;
 			
 			
 			rs = st.executeQuery(comando);			

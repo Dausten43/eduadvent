@@ -16,6 +16,7 @@ public class Ciclo {
     private String modulos;
     private String editarActividad;
     private String cicloEscolar;
+    private String decimales;
 
     public Ciclo() {
         cicloId 		= "";
@@ -28,6 +29,7 @@ public class Ciclo {
         modulos			= "0";
         editarActividad = "SI";
         cicloEscolar	= "0000";
+        decimales 		= "1";
     }
     
     
@@ -131,6 +133,21 @@ public class Ciclo {
 	public void setCicloEscolar(String cicloEscolar) {
 		this.cicloEscolar = cicloEscolar;
 	}
+	
+	/**
+	 * @return the decimales
+	 */
+	public String getDecimales() {
+		return decimales;
+	}
+
+
+	/**
+	 * @param decimales the decimales to set
+	 */
+	public void setDecimales(String decimales) {
+		this.decimales = decimales;
+	}
 
 
 	public boolean insertReg(Connection conn) throws SQLException {
@@ -138,15 +155,15 @@ public class Ciclo {
 		boolean ok = false;
 
         try {
-            ps = conn.prepareStatement(
-                    " INSERT INTO CICLO(CICLO_ID, " +
-                    " CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR)" +
-                    " VALUES(?, ?, TO_DATE(?,'DD/MM/YYYY')," +
-                    " TO_DATE(?,'DD/MM/YYYY')," +
-                    " TO_DATE(?,'DD/MM/YYYY')," +
-                    " TO_NUMBER(?,'999'), ?," +
-                    " TO_NUMBER(?,'999')," +
-                    " TO_NUMBER(?,'99'), ?, ?)");
+            ps = conn.prepareStatement("INSERT INTO CICLO(CICLO_ID,"
+                    + " CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES)"
+                    + " VALUES(?, ?, TO_DATE(?,'DD/MM/YYYY'),"
+                    + " TO_DATE(?,'DD/MM/YYYY'),"
+                    + " TO_DATE(?,'DD/MM/YYYY'),"
+                    + " TO_NUMBER(?,'999'), ?,"
+                    + " TO_NUMBER(?,'999'),"
+                    + " TO_NUMBER(?,'99'), ?, ?,"
+                    + " TO_NUMBER(?,'9'))");
             ps.setString(1, cicloId);
             ps.setString(2, cicloNombre);
             ps.setString(3, fCreada);
@@ -158,6 +175,7 @@ public class Ciclo {
             ps.setString(9, modulos);
             ps.setString(10, editarActividad);
             ps.setString(11, cicloEscolar);
+            ps.setString(12, decimales);
 
             if (ps.executeUpdate() == 1) {
                 ok = true;
@@ -184,17 +202,18 @@ public class Ciclo {
 
         try {
            ps = conn.prepareStatement(
-                    " UPDATE CICLO SET CICLO_NOMBRE = ?, " +
-                    " F_CREADA = TO_DATE(?,'DD/MM/YYYY'), " +
-                    " F_INICIAL = TO_DATE(?,'DD/MM/YYYY'), " +
-                    " F_FINAL = TO_DATE(?,'DD/MM/YYYY'), " +
-                    " NUM_CURSOS = TO_NUMBER(?,'999'), " +                    
-                    " ESTADO = ?, " +
-                    " ESCALA = TO_NUMBER(?,'999')," +
-                    " MODULOS = TO_NUMBER(?,'99')," +
-                    " EDITAR_ACTIVIDAD = ?, " +
-                    " CICLO_ESCOLAR = ? " +
-                    " WHERE CICLO_ID = ?");
+                    " UPDATE CICLO SET CICLO_NOMBRE = ?,"
+                    + " F_CREADA = TO_DATE(?,'DD/MM/YYYY'),"
+                    + " F_INICIAL = TO_DATE(?,'DD/MM/YYYY'),"
+                    + " F_FINAL = TO_DATE(?,'DD/MM/YYYY'),"
+                    + " NUM_CURSOS = TO_NUMBER(?,'999'),"
+                    + " ESTADO = ?,"
+                    + " ESCALA = TO_NUMBER(?,'999'),"
+                    + " MODULOS = TO_NUMBER(?,'99'),"
+                    + " EDITAR_ACTIVIDAD = ?,"
+                    + " CICLO_ESCOLAR = ?,"
+                    + " DECIMALES = TO_NUMBER(?,'9')"
+                    + " WHERE CICLO_ID = ?");
             
             ps.setString(1, cicloNombre);
             ps.setString(2, fCreada);
@@ -206,7 +225,8 @@ public class Ciclo {
             ps.setString(8, modulos);
             ps.setString(9, editarActividad);
             ps.setString(10, cicloEscolar);
-            ps.setString(11, cicloId);
+            ps.setString(11, decimales);
+            ps.setString(12, cicloId);
 
             if (ps.executeUpdate() == 1) {
                 ok = true;
@@ -269,6 +289,7 @@ public class Ciclo {
         modulos			= rs.getString("MODULOS");
         editarActividad = rs.getString("EDITAR_ACTIVIDAD");
         cicloEscolar	= rs.getString("CICLO_ESCOLAR");
+        decimales		= rs.getString("DECIMALES");
     }
 
     public void mapeaRegId(Connection con, String cicloId) throws SQLException {
@@ -276,13 +297,13 @@ public class Ciclo {
     	ResultSet rs = null;
         
     	try{
-	        ps = con.prepareStatement(
-	                " SELECT CICLO_ID, CICLO_NOMBRE," +
-	                " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA," +
-	                " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL," +
-	                " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL," +
-	                " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
-	                " FROM CICLO WHERE CICLO_ID = ?");
+	        ps = con.prepareStatement("SELECT CICLO_ID, CICLO_NOMBRE,"
+	                + " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA,"
+	                + " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
+	                + " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
+	                + " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
+	                + " CICLO_ESCOLAR, DECIMALES"
+	                + " FROM CICLO WHERE CICLO_ID = ?");
 	        ps.setString(1, cicloId);
 	        rs = ps.executeQuery();
 	
@@ -748,6 +769,30 @@ public class Ciclo {
 			if (ps!=null) ps.close();
 		}
 		return activo;
+	}
+	
+	public static String getDecimales( Connection conn, String cicloId) throws SQLException, Exception {
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String decimales		= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT DECIMALES FROM CICLO WHERE CICLO_ID = ?");
+			ps.setString(1, cicloId);
+			
+			rs = ps.executeQuery();
+			if (rs.next()){
+				decimales = rs.getString("DECIMALES");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.Ciclo|getDecimales|:"+ex);
+		}finally{
+		
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return decimales;
 	}
 	
 }
