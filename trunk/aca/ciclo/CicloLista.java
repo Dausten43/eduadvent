@@ -117,14 +117,16 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE," +
-                "TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA, " +
-                "TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL, " +
-                "TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL, " +
-                "NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
-                + " CICLO_ESCOLAR " +
-                "FROM CICLO" +
-                " WHERE CICLO_ID LIKE '"+escuelaId+"%' AND ESTADO = 'A' AND TO_DATE('"+fecha+"' , 'DD/MM/YYYY') BETWEEN F_INICIAL AND F_FINAL "+orden;
+			comando = " SELECT CICLO_ID, CICLO_NOMBRE,"
+					+ " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA,"
+					+ " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
+					+ " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
+					+ " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
+					+ " CICLO_ESCOLAR, DECIMALES"
+					+ " FROM CICLO"
+					+ " WHERE CICLO_ID LIKE '"+escuelaId+"%'"
+					+ " AND ESTADO = 'A'"
+					+ " AND TO_DATE('"+fecha+"' , 'DD/MM/YYYY') BETWEEN F_INICIAL AND F_FINAL "+orden;
 			
 			
 			rs = st.executeQuery(comando);			
@@ -152,7 +154,7 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES" +
 					" FROM CICLO" +
 					" WHERE CICLO_ID IN (SELECT CICLO_ID" +
 										" FROM CICLO_GRUPO" +
@@ -182,7 +184,7 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES" +
 					" FROM CICLO" +
 					" WHERE CICLO_ID IN (SELECT CICLO_ID" +
 										" FROM CICLO_GRUPO" +
@@ -215,7 +217,7 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR"+
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES"+
 					 " FROM CICLO"+ 
 					 " WHERE CICLO_ID IN (SELECT CICLO_ID"+
 										" FROM CICLO_GRUPO"+ 
@@ -249,9 +251,10 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR FROM CICLO"+ 
-					 " WHERE CICLO_ID IN " +
-					 "		(SELECT B.CICLO_ID FROM ALUM_CICLO B WHERE B.CODIGO_ID = '"+codigoId+"' AND B.ESTADO = 'I') "+orden;			
+			comando = " SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES "
+					+ " FROM CICLO"
+					+ " WHERE CICLO_ID IN "
+					+"		(SELECT B.CICLO_ID FROM ALUM_CICLO B WHERE B.CODIGO_ID = '"+codigoId+"' AND B.ESTADO = 'I') "+orden;			
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -278,11 +281,12 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR FROM CICLO"+ 
-					 " WHERE CICLO_ID NOT IN " +
-					 "		(SELECT B.CICLO_ID FROM ALUM_CICLO B WHERE B.CODIGO_ID = '"+codigoId+"' AND B.ESTADO = 'I') " +
-					 " AND NOW() BETWEEN F_INICIAL AND F_FINAL " +
-					 " AND SUBSTR(CICLO_ID,1,3)= '"+escuelaId+"' "+orden;
+			comando = " SELECT CICLO_ID, CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES"
+					+ " FROM CICLO"
+					+ " WHERE CICLO_ID NOT IN "
+					+ "		(SELECT B.CICLO_ID FROM ALUM_CICLO B WHERE B.CODIGO_ID = '"+codigoId+"' AND B.ESTADO = 'I') "
+					+ " AND NOW() BETWEEN F_INICIAL AND F_FINAL "
+					+ " AND SUBSTR(CICLO_ID,1,3)= '"+escuelaId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -309,13 +313,15 @@ public class CicloLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, CICLO_NOMBRE," +
-					" TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA," +
-					" TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL," +
-					" TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL," +
-					" NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR" +
-					" FROM CICLO " +
-					" WHERE SUBSTR(CICLO_ID,1,3) = '"+escuelaId+"' AND ESTADO = 'A' "+orden;
+			comando = " SELECT CICLO_ID, CICLO_NOMBRE," 
+					+ " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA,"
+					+ " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
+					+ " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
+					+ " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
+					+ " CICLO_ESCOLAR, DECIMALES"
+					+ " FROM CICLO "
+					+ " WHERE SUBSTR(CICLO_ID,1,3) = '"+escuelaId+"'"
+					+ " AND ESTADO = 'A' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
