@@ -180,19 +180,23 @@
 		conElias.setAutoCommit(false);
 		for (aca.fin.FinCalculoPago pagos : lisPagos){
 			String[] fechaEnPartes = pagos.getFecha().split("/");
+			
 			/* Si la fecha del pago corresponde*/
 			if (fechaPago.equals(fechaEnPartes[2]+"/"+fechaEnPartes[1]+"/"+fechaEnPartes[0])){
 				
 				float importe = Float.parseFloat(pagos.getImporte())-Float.parseFloat(pagos.getBeca());
 				
-				movimientoId = FinMov.maxReg(conElias, ejercicioId, polizaId);		
+				movimientoId = FinMov.maxReg(conElias, ejercicioId, polizaId);
+				
+				// Nombre del alumno
+				String nombreAlumno = aca.alumno.AlumPersonal.getNombreCorto(conElias, alumnoCaja, "NOMBRE");
 			
 				FinMov.setEjercicioId(ejercicioId);
 				FinMov.setPolizaId(polizaId);
 				FinMov.setMovimientoId(movimientoId);
 				FinMov.setCuentaId(pagos.getCuentaId());
 				FinMov.setAuxiliar(alumnoCaja);
-				FinMov.setDescripcion("Pago a cuenta: "+aca.fin.FinCuenta.getCuentaNombre(conElias, pagos.getCuentaId()));
+				FinMov.setDescripcion(aca.fin.FinCuenta.getCuentaNombre(conElias, pagos.getCuentaId())+"-"+alumnoCaja+"-"+nombreAlumno);
 				FinMov.setImporte(String.valueOf(importe));
 				FinMov.setNaturaleza("C"); /* Cargo */
 				FinMov.setReferencia(pagos.getFecha()+","+pagos.getCicloId());
