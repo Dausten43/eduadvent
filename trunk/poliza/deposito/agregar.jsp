@@ -36,6 +36,20 @@
 			<input name="Folio" type="text" id="Folio" size="10" maxlength="10" value="<%=FinDeposito.maxReg(conElias, escuelaId )%>" disabled>
 		</fieldset>
 		
+		<fieldset style="max-width:100px; display:inline;">
+			<label for="Folio"><fmt:message key="aca.Folio" /></label>
+			<input name="Folio" type="text" id="Folio" size="10" maxlength="10" value="<%=FinDeposito.maxReg(conElias, escuelaId )%>" disabled>
+		</fieldset>
+		
+		<fieldset style="max-width:100px; display:inline;">
+			<label for="Folio"><fmt:message key="aca.Folio" /></label>
+			<input name="Folio" type="text" id="Folio" size="10" maxlength="10" value="<%=FinDeposito.maxReg(conElias, escuelaId )%>" disabled>
+		</fieldset>
+		
+		<fieldset style="max-width:100px; display:inline;">
+			<label for="Folio"><fmt:message key="aca.Folio" /></label>
+			<input name="Folio" type="text" id="Folio" size="10" maxlength="10" value="<%=FinDeposito.maxReg(conElias, escuelaId )%>" disabled>
+		</fieldset>
 		
 			
 		</form>

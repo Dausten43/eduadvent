@@ -50,11 +50,13 @@
 		</tr>		
 <%	
 	float total = 0;
+	int row = 0;
 	for (aca.fin.FinDeposito deposito : lisDepositos){
 		total	= Float.parseFloat( deposito.getImporte() );
+		row++;
 %>
 		<tr>				
-			<td><%=x%></td>
+			<td><%=row%></td>
 			<td><%=deposito.getFecha_deposito()%></td>
 			<td><%=deposito.getImporte() %></td>
 			<td><%=deposito.getResponsable() %></td>			
