@@ -46,9 +46,9 @@
 	
 	<div class="well">
 		<a class="btn btn-primary" href="promedio.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		<%if (Integer.parseInt(Bloque.maximoReg(conElias, cicloId)) <= numModulos){%>
-	    	<a href="accionBloque.jsp?Accion=1" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
-		<%}%>      
+		<% /* if (Integer.parseInt(Bloque.maximoReg(conElias, cicloId)) <= numModulos){ */%>
+	    <a href="accionBloque.jsp?Accion=1" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
+		<%/*}*/%>      
 	</div>
 
 	<table class="table table-condensed table-bordered table-stripped">
