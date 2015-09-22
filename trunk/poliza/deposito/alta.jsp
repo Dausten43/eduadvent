@@ -38,7 +38,7 @@
 		<fmt:message key="aca.FechaFinal" />:&nbsp;&nbsp;
 		<input name="FFinal" type="text" id="FFinal" size="10" maxlength="10" value="<%=fFinal%>" class="input-medium datepicker">&nbsp;&nbsp;		
 		<button class="btn btn-primary" onclick="javascript:Mostrar()"><i class="icon-refresh icon-white"></i> <fmt:message key="aca.Mostrar"/></button>&nbsp;&nbsp;		
-		<button class="btn btn-primary" id="agregar"><i class="icon-ok icon-white"></i> <fmt:message key="aca.Agregar" /></button>
+		<a href="agregar.jsp" class="btn btn-primary" id="agregar"><i class="icon-ok icon-white"></i> <fmt:message key="aca.Agregar" /></a>
 	</div>
 	</form>				
 	<table class="table">
@@ -57,7 +57,7 @@
 %>
 		<tr>				
 			<td><%=row%></td>
-			<td><%=deposito.getFecha_deposito()%></td>
+			<td><%=deposito.getFechaDeposito()%></td>
 			<td><%=deposito.getImporte() %></td>
 			<td><%=deposito.getResponsable() %></td>			
 		</tr>
