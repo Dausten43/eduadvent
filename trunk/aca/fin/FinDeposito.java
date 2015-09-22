@@ -133,8 +133,8 @@ public class FinDeposito {
         try{
             ps = conn.prepareStatement(
                     "UPDATE FIN_DEPOSITO" +
-                    " SET FECHA = ?," +
-                    " FECHA_DEPOSITO = ?," +
+                    " SET FECHA = TO_DATE(?,'DD/MM/YYYY')," +
+                    " FECHA_DEPOSITO = TO_DATE(?,'DD/MM/YYYY')," +
                     " IMPORTE = ?," +
                     " RESPONSABLE = TO_NUMBER(?, '99999.99')" +
                     " WHERE ESCUELA_ID = TO_NUMBER(?, '9999999') " +
