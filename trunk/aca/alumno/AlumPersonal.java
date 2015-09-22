@@ -1027,7 +1027,7 @@ public class AlumPersonal {
 		return ok;
 	}
 	
-	public static String getNombre(Connection conn, String codigoId, String Orden) throws SQLException{
+	public static String getNombre(Connection conn, String codigoId, String Opcion) throws SQLException{
 		
 		Statement st 		= conn.createStatement();
 		ResultSet rs 		= null;
@@ -1035,7 +1035,7 @@ public class AlumPersonal {
 		String nombre		= "-";
 		
 		try{
-			if ( Orden.equals("NOMBRE")){
+			if ( Opcion.equals("NOMBRE")){
 				comando = "SELECT NOMBRE||' '||APATERNO||' '||AMATERNO AS NOMBRE "+
 					"FROM ALUM_PERSONAL WHERE CODIGO_ID = '"+codigoId+"'";
 			}else{
@@ -1049,6 +1049,35 @@ public class AlumPersonal {
 			
 		}catch(Exception ex){
 			System.out.println("Error - aca.alumno.AlumPersonal|getNombre|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();		
+		}
+		return nombre;
+	}
+	
+	public static String getNombreCorto(Connection conn, String codigoId, String Opcion) throws SQLException{
+		
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		String nombre		= "-";
+		
+		try{
+			if ( Opcion.equals("NOMBRE")){
+				comando = "SELECT NOMBRE||' '||APATERNO AS NOMBRE "+
+					"FROM ALUM_PERSONAL WHERE CODIGO_ID = '"+codigoId+"'";
+			}else{
+				comando = "SELECT APATERNO||' '||NOMBRE AS NOMBRE "+
+					"FROM ALUM_PERSONAL WHERE CODIGO_ID = '"+codigoId+"'";
+			}	
+			rs = st.executeQuery(comando);
+			if (rs.next()){
+				nombre = rs.getString("NOMBRE");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.alumno.AlumPersonal|getNombreCorto|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();		
