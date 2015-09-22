@@ -40,7 +40,8 @@ public class FinDepositoLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT ESCUELA_ID, FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_DEPOSITO WHERE FECHA_DEPOSITO BETWEEN TO_DATE("+fechaInicio+",'DD/MM/YYYY') AND TO_DATE('"+fechaFinal+"','DD/MM/YYYY')";			
+			comando = " SELECT ESCUELA_ID, FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_DEPOSITO"
+					+ " WHERE FECHA_DEPOSITO BETWEEN TO_DATE('"+fechaInicio+"','DD/MM/YYYY') AND TO_DATE('"+fechaFinal+"','DD/MM/YYYY')";			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
 				FinDeposito recibo = new FinDeposito();	
