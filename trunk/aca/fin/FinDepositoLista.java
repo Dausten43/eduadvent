@@ -33,14 +33,14 @@ public class FinDepositoLista {
 		return lisRecibodet;
 	}
 	
-	public ArrayList<FinDeposito> getListRecibo(Connection conn, String reciboId, String orden ) throws SQLException{
+	public ArrayList<FinDeposito> getListEntre(Connection conn, String fechaInicio, String fechaFinal ) throws SQLException{
 		ArrayList<FinDeposito> lisRecibodet 	= new ArrayList<FinDeposito>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT ESCUELA_ID, FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_RECIBODET WHERE ESCUELA_ID = '"+reciboId+"' "+orden;			
+			comando = "SELECT ESCUELA_ID,FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_RECIBODET WHERE FECHA_DEPOSITO BETWEEN"+fechaInicio+"AND"+fechaFinal;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
 				FinDeposito recibo = new FinDeposito();	
