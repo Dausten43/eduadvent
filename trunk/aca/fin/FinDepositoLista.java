@@ -15,7 +15,7 @@ public class FinDepositoLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT ESCUELA_ID,FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_RECIBODET "+orden;			
+			comando = "SELECT ESCUELA_ID,FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_DEPOSITO "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
 				FinDeposito recibo = new FinDeposito();				
@@ -40,7 +40,7 @@ public class FinDepositoLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT ESCUELA_ID,FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_RECIBODET WHERE FECHA_DEPOSITO BETWEEN"+fechaInicio+"AND"+fechaFinal;			
+			comando = "SELECT ESCUELA_ID, FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_DEPOSITO WHERE FECHA_DEPOSITO BETWEEN TO_DATE("+fechaInicio+",'DD/MM/YYYY') AND TO_DATE('"+fechaFinal+"','DD/MM/YYYY')";			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
 				FinDeposito recibo = new FinDeposito();	
@@ -49,7 +49,7 @@ public class FinDepositoLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.Finanzas.FinDeposito|getListAll|:"+ex);
+			System.out.println("Error - aca.Finanzas.FinDeposito|getListEntre|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();

@@ -6,53 +6,50 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FinDeposito {
-	private String escuela_id;
+	private String escuelaId;
 	private String folio;
 	private String fecha;
-	private String fecha_deposito;
+	private String fechaDeposito;
 	private String importe;
 	private String responsable;
 	
 	
 	public FinDeposito(){
-		escuela_id		= "";
+		escuelaId		= "";
 		folio			= "";
 		fecha			= "";
-		fecha_deposito	= "";
+		fechaDeposito	= "";
 		importe 		= "";
 		responsable		= "";
 	}
 	
 
-
-	public String getEscuela_id() {
-		return escuela_id;
+	/**
+	 * @return the escuelaId
+	 */
+	public String getEscuelaId() {
+		return escuelaId;
 	}
 
-
-
-	public void setEscuela_id(String escuela_id) {
-		this.escuela_id = escuela_id;
+	/**
+	 * @param escuelaId the escuelaId to set
+	 */
+	public void setEscuelaId(String escuelaId) {
+		this.escuelaId = escuelaId;
 	}
-
-
+	
 
 	public String getFolio() {
 		return folio;
 	}
 
-
-
 	public void setFolio(String folio) {
 		this.folio = folio;
 	}
-
-
-
+	
 	public String getFecha() {
 		return fecha;
 	}
-
 
 
 	public void setFecha(String fecha) {
@@ -60,17 +57,14 @@ public class FinDeposito {
 	}
 
 
-
-	public String getFecha_deposito() {
-		return fecha_deposito;
+	public String getFechaDeposito() {
+		return fechaDeposito;
 	}
 
 
-
-	public void setFecha_deposito(String fecha_deposito) {
-		this.fecha_deposito = fecha_deposito;
+	public void setFechaDeposito(String fechaDeposito) {
+		this.fechaDeposito = fechaDeposito;
 	}
-
 
 
 	public String getImporte() {
@@ -78,11 +72,9 @@ public class FinDeposito {
 	}
 
 
-
 	public void setImporte(String importe) {
 		this.importe = importe;
 	}
-
 
 
 	public String getResponsable() {
@@ -90,11 +82,9 @@ public class FinDeposito {
 	}
 
 
-
 	public void setResponsable(String responsable) {
 		this.responsable = responsable;
 	}
-
 
 
 	public boolean insertReg(Connection conn) throws SQLException{
@@ -106,10 +96,10 @@ public class FinDeposito {
                     " VALUES(TO_NUMBER(?, '999'), TO_NUMBER(?, '99999'),TO_DATE(?,'DD/MM/YYYY'), TO_DATE(?,'DD/MM/YYYY')," +
                     " TO_NUMBER(?, '99999.99'),?)");
             
-            ps.setString(1, escuela_id);
+            ps.setString(1, escuelaId);
             ps.setString(2, folio);
             ps.setString(3, fecha);
-            ps.setString(4, fecha_deposito);
+            ps.setString(4, fechaDeposito);
             ps.setString(5, importe);
             ps.setString(6, responsable);
             if(ps.executeUpdate() == 1){
@@ -140,10 +130,10 @@ public class FinDeposito {
                     " WHERE ESCUELA_ID = TO_NUMBER(?, '9999999') " +
                     " AND FOLIO = TO_NUMBER(?, '99')");
             ps.setString(1, fecha);
-            ps.setString(2, fecha_deposito);
+            ps.setString(2, fechaDeposito);
             ps.setString(3, importe);
             ps.setString(4, responsable);
-            ps.setString(5, escuela_id);
+            ps.setString(5, escuelaId);
             ps.setString(6, folio);   
             
 
@@ -171,7 +161,7 @@ public class FinDeposito {
                     " WHERE ESCUELA_ID = TO_NUMBER(?, '999')" +
                     " AND FOLIO = TO_NUMBER(?, '99999')");
             
-            ps.setString(1, escuela_id);
+            ps.setString(1, escuelaId);
             ps.setString(2, folio);
           
             if(ps.executeUpdate() == 1){
@@ -190,10 +180,10 @@ public class FinDeposito {
     }
 
     public void mapeaReg(ResultSet rs) throws SQLException {
-        escuela_id		= rs.getString("ESCUELA_ID");
+        escuelaId		= rs.getString("ESCUELA_ID");
 		folio			= rs.getString("FOLIO");
 		fecha			= rs.getString("FECHA");
-		fecha_deposito	= rs.getString("FECHA_DEPOSITO");
+		fechaDeposito	= rs.getString("FECHA_DEPOSITO");
 		importe   		= rs.getString("IMPORTE");
 		responsable		= rs.getString("RESPONSABLE");
     }
@@ -233,7 +223,7 @@ public class FinDeposito {
             ps = conn.prepareStatement("SELECT * FROM FIN_DEPOSITO" +
             		" WHERE ESCUELA_ID = TO_NUMBER(?, '999')" +
             		" AND FOLIO = TO_NUMBER(?, '99999')");
-            ps.setString(1, escuela_id);
+            ps.setString(1, escuelaId);
             ps.setString(2, folio);
             
             rs = ps.executeQuery();
