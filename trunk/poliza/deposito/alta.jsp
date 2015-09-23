@@ -7,25 +7,20 @@
 <%@ page import="java.text.DateFormat" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 
-<jsp:useBean id="Coordenada" scope="page" class="aca.fin.FinCoordenada" />
 <jsp:useBean id="FinDepositoLista" scope="page" class="aca.fin.FinDepositoLista" />
 <head>
 	
 <script>
-	function Mostrar(){
-		document.frmDeposito.Accion.value="1";
-		document.frmDeposito.submit();
-	}
+
 </script>
 <%
 
 	String fInicio 		= request.getParameter("FInicio")==null?aca.util.Fecha.getHoy():request.getParameter("FInicio");
 	String fFinal 		= request.getParameter("FFinal")==null?aca.util.Fecha.getHoy():request.getParameter("FFinal");
-	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	
+	String escuelaId 	= (String) session.getAttribute("escuela");
 	
 	// Lista de depositos en el rango de fechas
-	ArrayList<aca.fin.FinDeposito> lisDepositos 	= FinDepositoLista.getListEntre(conElias, fInicio, fFinal);
+	ArrayList<aca.fin.FinDeposito> lisDepositos 	= FinDepositoLista.getListEntre(conElias, fInicio, fFinal, escuelaId);
 	
 %>
 </head>
@@ -37,7 +32,7 @@
 		<input name="FInicio" type="text" id="FInicio" size="10" maxlength="10" value="<%=fInicio%>" class="input-medium datepicker" >		
 		<fmt:message key="aca.FechaFinal" />:&nbsp;&nbsp;
 		<input name="FFinal" type="text" id="FFinal" size="10" maxlength="10" value="<%=fFinal%>" class="input-medium datepicker">&nbsp;&nbsp;		
-		<button class="btn btn-primary" onclick="javascript:Mostrar()"><i class="icon-refresh icon-white"></i> <fmt:message key="aca.Mostrar"/></button>&nbsp;&nbsp;		
+		<button class="btn btn-primary" type=submit><i class="icon-refresh icon-white"></i> <fmt:message key="aca.Mostrar"/></button>&nbsp;&nbsp;		
 		<a href="agregar.jsp" class="btn btn-primary" id="agregar"><i class="icon-ok icon-white"></i> <fmt:message key="aca.Agregar" /></a>
 	</div>
 	</form>				
