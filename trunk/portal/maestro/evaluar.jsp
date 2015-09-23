@@ -735,7 +735,14 @@
 	</div>
 	
 <!--  -------------------- TABLA DE EVALUACIONES -------------------- -->
-	
+<%
+	int cont = 0;
+	for (aca.ciclo.CicloPromedio promedio : lisPromedio){
+%>
+	<div class="alert alert-info">
+		<fmt:message key="aca.Estrategia" />: [ <%= promedio.getNombre() %> ] &nbsp;&nbsp; <fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>]
+	</div>
+		
 	<table class="table table-condensed table-bordered table-striped">
 			<thead>
 				<tr>
@@ -747,10 +754,10 @@
 					<th style="width:1%;"></th>
 				</tr>
 			</thead>
-			<%
-				int cont = 0;
+			<%				
 				for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
-					cont++;
+					if (eval.getPromedioId().equals(promedio.getPromedioId())){
+						cont++;
 			%>
 					<tr>
 						<td class="text-center"><%=cont%></td>
@@ -801,9 +808,10 @@
 							<%} %> 	
 						</td>
 					</tr>
+				<%	} %>	
 			<%}%>
 	</table>
-	
+<%	} %>	
 <!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->
 	<%
 		planCurso.mapeaRegId(conElias, cursoId);
