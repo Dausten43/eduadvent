@@ -3,9 +3,6 @@
 <%@ include file="../../seguro.jsp"%>
 <%@ include file="../../head.jsp"%>
 <%@ include file="../../menu.jsp"%>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.text.DateFormat" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 
 <jsp:useBean id="FinDeposito" scope="page" class="aca.fin.FinDeposito" />
 <head>
