@@ -272,7 +272,7 @@
 	                  
 	<%if( accion.equals("1") ){%>				
 		<div class="well">
-			<button class="btn btn-primary btn-large" onclick="javascript:Grabar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Grabar" /></button>
+			<button class="btn btn-primary btn-large" onclick="javascript:Grabar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Anadir" /></button>
 		</div>
 	<%}%>
 	
