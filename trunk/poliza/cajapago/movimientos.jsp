@@ -199,8 +199,7 @@
 				FinMov.setMovimientoId(movimientoId);
 				FinMov.setCuentaId(pagos.getCuentaId());
 				FinMov.setAuxiliar(alumnoCaja);
-				FinMov.setDescripcion(nombrePago+" - "+aca.fin.FinCuenta.getCuentaNombre(conElias, pagos.getCuentaId())+" - "+alumnoCaja+" - "+nombreAlumno);+3
-				.
+				FinMov.setDescripcion(nombrePago+" - "+aca.fin.FinCuenta.getCuentaNombre(conElias, pagos.getCuentaId())+" - "+alumnoCaja+" - "+nombreAlumno);
 				FinMov.setImporte(String.valueOf(importe));
 				FinMov.setNaturaleza("C"); /* Cargo */
 				FinMov.setReferencia(pagos.getFecha()+","+pagos.getCicloId());
