@@ -190,13 +190,17 @@
 				
 				// Nombre del alumno
 				String nombreAlumno = aca.alumno.AlumPersonal.getNombreCorto(conElias, alumnoCaja, "NOMBRE");
+				
+				// Nombre del pago
+				String nombrePago = aca.fin.FinPago.getDescripcion(conElias, pagos.getCicloId(), pagos.getPeriodoId(), pagos.getPagoId());
 			
 				FinMov.setEjercicioId(ejercicioId);
 				FinMov.setPolizaId(polizaId);
 				FinMov.setMovimientoId(movimientoId);
 				FinMov.setCuentaId(pagos.getCuentaId());
 				FinMov.setAuxiliar(alumnoCaja);
-				FinMov.setDescripcion(aca.fin.FinCuenta.getCuentaNombre(conElias, pagos.getCuentaId())+"-"+alumnoCaja+"-"+nombreAlumno);
+				FinMov.setDescripcion(nombrePago+" - "+aca.fin.FinCuenta.getCuentaNombre(conElias, pagos.getCuentaId())+" - "+alumnoCaja+" - "+nombreAlumno);+3
+				.
 				FinMov.setImporte(String.valueOf(importe));
 				FinMov.setNaturaleza("C"); /* Cargo */
 				FinMov.setReferencia(pagos.getFecha()+","+pagos.getCicloId());
