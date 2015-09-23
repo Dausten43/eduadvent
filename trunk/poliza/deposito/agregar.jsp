@@ -42,42 +42,42 @@
 
 </head>
 
-	<div id="content">
-		<h2>Depositos de caja</h2>
-		<br>
-		<div class="well">
-			<a class="btn btn-primary" href="alta.jsp">
-				<i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/>
-			</a></div>
-		
-		<form action="agregar.jsp" method="post" name="frmDeposito" target="_self" >
-		<input type="hidden" name="Accion">
-		<fieldset style="max-width:100px; display:inline;">
-			<label for="Folio"><fmt:message key="aca.Folio" /></label>
-			<input name="Folio" type="text" id="Folio" size="10" maxlength="10" value="<%=folio%>" disabled>
-		</fieldset>
+<div id="content">
+	<h2>Depositos de caja</h2>
+	<br>
+	<div class="well">
+		<a class="btn btn-primary" href="alta.jsp">
+			<i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/>
+		</a></div>
+	
+	<form action="agregar.jsp" method="post" name="frmDeposito" target="_self" >
+	<input type="hidden" name="Accion">
+	<fieldset style="max-width:100px; display:inline;">
+		<label for="Folio"><fmt:message key="aca.Folio" /></label>
+		<input name="Folio" type="text" id="Folio" size="10" maxlength="10" value="<%=folio%>" disabled>
+	</fieldset>
 
-		<fieldset>
-			<label for="FechaDeposito"><fmt:message key="aca.Fecha" /></label>
-			<input name="FechaDeposito" type="text" id="FechaDeposito" size="10" maxlength="10" class="datepicker" value="" required>
-		</fieldset>		
+	<fieldset>
+		<label for="FechaDeposito"><fmt:message key="aca.Fecha" /></label>
+		<input name="FechaDeposito" type="text" id="FechaDeposito" size="10" maxlength="10" class="datepicker" value="" required>
+	</fieldset>		
 
-		<fieldset>
-			<label for="Importe"><fmt:message key="aca.Importe" /></label>
-			<input name="Importe" type="text" id="Importe" size="10" maxlength="10" value="" required>
-		</fieldset>		
-		
-		<fieldset>
-			<label for="Responsable"><fmt:message key="aca.Responsable" /></label>
-			<input name="Responsable" type="text" id="Responsable" size="10" maxlength="10" value=""  required>
-		</fieldset>
-		
-		<div class="well">
-			<button class="btn btn-primary btn-large" onclick="javascript:Grabar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Anadir" /></button>
-		</div>
+	<fieldset>
+		<label for="Importe"><fmt:message key="aca.Importe" /></label>
+		<input name="Importe" type="text" id="Importe" size="10" maxlength="10" value="" required>
+	</fieldset>		
+	
+	<fieldset>
+		<label for="Responsable"><fmt:message key="aca.Responsable" /></label>
+		<input name="Responsable" type="text" id="Responsable" size="10" maxlength="10" value=""  required>
+	</fieldset>
+	
+	<div class="well">
+		<button class="btn btn-primary btn-large" onclick="javascript:Grabar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Anadir" /></button>
+	</div>
 
-		</form>
-
+	</form>
+</div>
 		
 	
 <link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
