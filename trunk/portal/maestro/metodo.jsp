@@ -20,7 +20,7 @@
 <%
 	String codigoId			= session.getAttribute("codigoId").toString();
 	String escuelaId		= session.getAttribute("escuela").toString();
-	String cicloId 			= session.getAttribute("cicloId").toString();
+	String cicloId 			= session.getAttribute("cicloId").toString();	
 	
 	if (request.getParameter("CicloGrupoId")!=null){
 		session.setAttribute("cicloGrupoId", request.getParameter("CicloGrupoId"));
@@ -70,32 +70,31 @@
 <%
 	double sumaPromedioGrupo 	= 0D;
 	int numEvaluaciones 		= 0;
+	float sumValorPromedios 	= 0;
 	float sumValorEvaluaciones 	= 0;
 	
-	for(aca.ciclo.CicloPromedio promedios : listPromedio){	
+	for(aca.ciclo.CicloPromedio promedios : listPromedio){
+		sumValorPromedios += Float.parseFloat(promedios.getValor()); 
 		%>
 			<div class="alert alert-danger"><%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</div>
-		<%	
-			listEstrategias = GrupoEvalL.getArrayListPorPromedio(conElias, cicloGrupoId, cursoId, promedios.getPromedioId(), "ORDER BY ORDEN");
-		if (listEstrategias.size() < modulos){
-		%> 
-			<div class="well">
-				<a class="btn btn-primary" href="estrategia.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>">
-					<i class="icon-plus icon-white"></i> <fmt:message key="boton.AnadirEvaluacion" />
-				</a>
-			</div>
-		<%
-			}
+<%	
+		listEstrategias = GrupoEvalL.getArrayListPorPromedio(conElias, cicloGrupoId, cursoId, promedios.getPromedioId(), "ORDER BY ORDEN");		
+%> 
+			<!--  div class="well" -->
+				<!-- a class="btn btn-primary" href="estrategia.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>"> -->
+					<!-- i class="icon-plus icon-white"></i> <fmt:message key="boton.AnadirEvaluacion" />  -->
+				<!-- </a> -->
+			<!-- </div> -->
+<%
+	
 
-	for (int i = 0; i < listEstrategias.size(); i++) {
+		for (int i = 0; i < listEstrategias.size(); i++) {
 			aca.ciclo.CicloGrupoEval evaluacion = (aca.ciclo.CicloGrupoEval) listEstrategias.get(i);
-
 			
 			double tmpPromedioEval = aca.ciclo.CicloGrupoEval.promedioEstrategia(conElias, cicloGrupoId, cursoId, evaluacion.getEvaluacionId());
 			sumaPromedioGrupo += tmpPromedioEval;
 			numEvaluaciones++;
-			sumValorEvaluaciones += Float.parseFloat(evaluacion.getValor());
-			
+			sumValorEvaluaciones += Float.parseFloat(evaluacion.getValor());			
 %>			
 			<div class="alert alert-info">		
 
