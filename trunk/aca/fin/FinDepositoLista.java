@@ -8,14 +8,15 @@ import java.util.ArrayList;
 
 public class FinDepositoLista {	
 	
-	public ArrayList<FinDeposito> getListAll(Connection conn, String orden ) throws SQLException{
+	public ArrayList<FinDeposito> getListAll(Connection conn, String escuelaId, String orden ) throws SQLException{
 		ArrayList<FinDeposito> lisRecibodet 	= new ArrayList<FinDeposito>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT ESCUELA_ID,FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_DEPOSITO "+orden;			
+			comando = "SELECT ESCUELA_ID,FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_DEPOSITO "
+					+ "WHERE ESCUELA_ID="+escuelaId+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
 				FinDeposito recibo = new FinDeposito();				
@@ -33,7 +34,7 @@ public class FinDepositoLista {
 		return lisRecibodet;
 	}
 	
-	public ArrayList<FinDeposito> getListEntre(Connection conn, String fechaInicio, String fechaFinal ) throws SQLException{
+	public ArrayList<FinDeposito> getListEntre(Connection conn, String fechaInicio, String fechaFinal, String escuelaId ) throws SQLException{
 		ArrayList<FinDeposito> lisRecibodet 	= new ArrayList<FinDeposito>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
@@ -41,7 +42,8 @@ public class FinDepositoLista {
 		
 		try{			
 			comando = " SELECT ESCUELA_ID, FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE FROM FIN_DEPOSITO"
-					+ " WHERE FECHA_DEPOSITO BETWEEN TO_DATE('"+fechaInicio+"','DD/MM/YYYY') AND TO_DATE('"+fechaFinal+"','DD/MM/YYYY')";			
+					+ " WHERE ESCUELA_ID ='"+escuelaId+"'"
+					+ " AND FECHA_DEPOSITO BETWEEN TO_DATE('"+fechaInicio+"','DD/MM/YYYY') AND TO_DATE('"+fechaFinal+"','DD/MM/YYYY')";			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
 				FinDeposito recibo = new FinDeposito();	
