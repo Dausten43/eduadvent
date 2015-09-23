@@ -61,6 +61,16 @@
 			document.forma.submit();
 		}	
 	}
+	
+	function Todos(){
+		alert("entre a todos");
+		$(".checkbox-pagos").attr('checked',true);
+	}
+		
+	function Ninguno(){
+		alert("entre a ninguno");
+		$(".checkbox-pagos").attr('checked',false);
+	}
 </script>
 
 
@@ -733,15 +743,12 @@
 						<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
 							<th rowspan="2" ><fmt:message key="aca.Accion" /></th>					
 						<%} %>
-						<th rowspan="2" ><fmt:message key="aca.Cuenta" /></th>
-						<th rowspan="2"  class="text-right"><fmt:message key="aca.Costo" /></th>
-						<th rowspan="2"  class="text-right"><fmt:message key="aca.Beca" /></th>
-						<th rowspan="2"  class="text-right"><fmt:message key="aca.Total" /></th>
-						<th colspan="2" class="text-center alert-success"><fmt:message key="aca.PagoInicial" /></th>
-					</tr>
-					<tr>
+						<th><fmt:message key="aca.Cuenta" /></th>
+						<th class="text-right"><fmt:message key="aca.Costo" /></th>
+						<th class="text-right"><fmt:message key="aca.Beca" /></th>
+						<th class="text-right"><fmt:message key="aca.Total" /></th>
+						<th class="text-right"><fmt:message key="aca.PagoInicial" /></th>
 						<th class="text-right"><fmt:message key="aca.PorPagos" /></th>
-						<th class="text-right"><fmt:message key="aca.DeContado" /></th>
 					</tr>
 				</thead>
 			 
@@ -750,8 +757,8 @@
 				 	BigDecimal totalImporte 		= new BigDecimal("0");
 				 	BigDecimal totalImporteBeca 	= new BigDecimal("0");
 				 	BigDecimal totalImporteTotal 	= new BigDecimal("0");
-				 	BigDecimal totalPIpagos			= new BigDecimal("0");
-				 	BigDecimal totalPIcontado		= new BigDecimal("0");
+				 	BigDecimal totalPagoInicial		= new BigDecimal("0");
+				 	BigDecimal totalEnPagos			= new BigDecimal("0");
 				 
 					for(aca.fin.FinCalculoDet detalle : lisDetalles){
 						
@@ -766,15 +773,20 @@
 						BigDecimal importe 		= new BigDecimal(detalle.getImporte());
 						BigDecimal importeBeca 	= new BigDecimal(detalle.getImporteBeca());
 						BigDecimal importeTotal = importe.subtract(importeBeca);
-						BigDecimal PIpagos      = PIpagos(importe, importeBeca, porcentajePagoInicial);
-						BigDecimal PIcontado 	= importeTotal;
+						
+						BigDecimal pagoInicial  = new BigDecimal("0");						
+						if (FinCalculo.getTipoPago().equals("P"))
+							pagoInicial	= PIpagos(importe, importeBeca, porcentajePagoInicial);
+						else
+							pagoInicial	= importeTotal;
+						
+						BigDecimal enPagos 		= importeTotal.subtract(pagoInicial);
 						
 						totalImporte 		= totalImporte.add(importe);
 						totalImporteBeca 	= totalImporteBeca.add(importeBeca);
 						totalImporteTotal 	= totalImporteTotal.add(importeTotal);
-						totalPIpagos 		= totalPIpagos.add(PIpagos);
-						totalPIcontado 		= totalPIcontado.add(PIcontado);
-								 
+						totalPagoInicial 	= totalPagoInicial.add(pagoInicial);
+						totalEnPagos 		= totalEnPagos.add(enPagos);								 
 				%>
 						<tr>
 							<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
@@ -786,8 +798,8 @@
 							<td class="text-right"><%=formato.format(importe) %></td>
 							<td class="text-right"><%=formato.format(importeBeca) %></td>
 							<td class="text-right"><%=formato.format(importeTotal) %></td>
-							<td class="text-right"><%=formato.format(PIpagos) %></td>
-							<td class="text-right"><%=formato.format(PIcontado) %></td>
+							<td class="text-right"><%=formato.format(pagoInicial) %></td>
+							<td class="text-right"><%=formato.format(enPagos) %></td>
 						</tr>
 				<%				
 					}
@@ -799,8 +811,8 @@
 					<th class="text-right"><%=formato.format(totalImporte) %></th>
 					<th class="text-right"><%=formato.format(totalImporteBeca) %></th>
 					<th class="text-right"><%=formato.format(totalImporteTotal) %></th>
-					<th class="text-right"><%=formato.format(totalPIpagos) %></th>
-					<th class="text-right"><%=formato.format(totalPIcontado) %></th>
+					<th class="text-right"><%=formato.format(totalPagoInicial) %></th>
+					<th class="text-right"><%=formato.format(totalEnPagos) %></th>
 				</tr>
 			</table>
 		</div>
@@ -826,13 +838,17 @@
 			
 				<span class="numPagos">
 					
-					<a href="#myModal" data-toggle="modal" class="btn btn-info"><i class="icon-calendar icon-white"></i> </a>				
+					<a href="#myModal" data-toggle="modal" class="btn btn-info"><i class="icon-calendar icon-white"></i> </a>
 					
 					<!-- Modal -->
 					<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					  <div class="modal-header">
 					    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="position:static;">x</button>
 					    <h3 id="myModalLabel"><fmt:message key="aca.FechasPagos" /></h3>
+					    <!--
+					    <a onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
+					    <a onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
+					    -->			    					    
 					  </div>
 					  <div class="modal-body">
 				    	<%for(aca.fin.FinPago pago : lisPagos){ %>
@@ -845,12 +861,13 @@
 				    			}
 				    			
 				    			if(pagosAlumno.size()==0){
-				    				checked = "checked=checked";
+				    				checked = "checked='checked' ";
 				    			}
+				    			
 				    		%>
 				    		
 			    			<div style="margin-bottom:7px;">
-			    				<input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" style="margin-top:-3px;" <%=checked %>> 
+			    				<input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" style="margin-top:-3px;">
 			    				<%=pago.getFecha() %> - <%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> 
 			    			</div>
 				    	<%} %>
@@ -867,8 +884,8 @@
 			<%}%>   
 			
 			
-			<input name="InicialPagos" type="hidden" id="InicialPagos" value="<%=totalPIpagos%>">
-			<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPIcontado%>">
+			<input name="InicialPagos" type="hidden" id="InicialPagos" value="<%=totalPagoInicial%>">
+			<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
 			<input name="Importe" type="hidden" id="Importe" value="<%=totalImporteTotal%>">
 			
 			<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
