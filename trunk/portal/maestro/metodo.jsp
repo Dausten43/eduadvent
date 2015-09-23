@@ -69,11 +69,15 @@
 	</div>	
 <%
 	double sumaPromedioGrupo 	= 0D;
-	int numEvaluaciones 		= 0;
+	
+	int numPromedios			= 0;
 	float sumValorPromedios 	= 0;
+	
+	int numEvaluaciones 		= 0;
 	float sumValorEvaluaciones 	= 0;
 	
 	for(aca.ciclo.CicloPromedio promedios : listPromedio){
+		numPromedios++;
 		sumValorPromedios += Float.parseFloat(promedios.getValor()); 
 		%>
 			<div class="alert alert-danger"><%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</div>
@@ -96,8 +100,8 @@
 			numEvaluaciones++;
 			sumValorEvaluaciones += Float.parseFloat(evaluacion.getValor());			
 %>			
-			<div class="alert alert-info">		
-
+			<div class="alert alert-info">
+			
 				<h4>
 					<%=evaluacion.getEvaluacionNombre()%> <small><%if(evaluacion.getEstado().equals("A")){%><fmt:message key="aca.Abierto" /><%}else{%><fmt:message key="aca.Cerrado" /><%}%></small>
 					<% 
@@ -112,14 +116,12 @@
 						}
 					%> 
 					<span class="pull-right">
-						<fmt:message key="aca.Valor" />: <%=evaluacion.getValor()%>%
-						<br>
-						<span style="font-size:12px;"><fmt:message key="aca.Promedio" />: <%=getformato.format(tmpPromedioEval)%></span>
+						<fmt:message key="aca.Valor" />: <%=evaluacion.getValor()%>% &nbsp; &nbsp;
+						( <span style="font-size:12px;"><fmt:message key="aca.Promedio" />: <%=getformato.format(tmpPromedioEval)%></span> )
 					</span>
-				</h4>
-				<small><%=evaluacion.getFecha()%></small>
-				
-<%			
+					<small>( <%=evaluacion.getFecha()%> )</small>
+				</h4>				
+<%
 				boolean actividades = false;
 				boolean entro = false;
 				float sumaActividades = 0;
@@ -242,12 +244,12 @@
 	}// for de estrategias
 %>	
 	<hr>	
-	<div class="alert alert-success">
+	<div class="alert alert-danger">
 		<h4>
-			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numEvaluaciones%> <fmt:message key="aca.Estrategias" />
+			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numPromedios%> <fmt:message key="aca.Estrategias" />
 			
 			<span style="float:right;">
-				<fmt:message key="aca.ValorTotal" />: <%=sumValorEvaluaciones%>%
+				<fmt:message key="aca.ValorTotal" />: <%=sumValorPromedios%>%
 			</span>
 		</h4>
 	</div>
