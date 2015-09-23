@@ -93,7 +93,7 @@ public class FinDeposito {
         try{
             ps = conn.prepareStatement(
                     "INSERT INTO FIN_DEPOSITO( ESCUELA_ID, FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE )" +
-                    " VALUES(TO_NUMBER(?, '999'), TO_NUMBER(?, '99999'),TO_DATE(?,'DD/MM/YYYY'), TO_DATE(?,'DD/MM/YYYY')," +
+                    " VALUES(?, TO_NUMBER(?, '99999'),TO_DATE(?,'DD/MM/YYYY'), TO_DATE(?,'DD/MM/YYYY')," +
                     " TO_NUMBER(?, '99999.99'),?)");
             
             ps.setString(1, escuelaId);
@@ -127,7 +127,7 @@ public class FinDeposito {
                     " FECHA_DEPOSITO = TO_DATE(?,'DD/MM/YYYY')," +
                     " IMPORTE = ?," +
                     " RESPONSABLE = TO_NUMBER(?, '99999.99')" +
-                    " WHERE ESCUELA_ID = TO_NUMBER(?, '9999999') " +
+                    " WHERE ESCUELA_ID = ? " +
                     " AND FOLIO = TO_NUMBER(?, '99')");
             ps.setString(1, fecha);
             ps.setString(2, fechaDeposito);
@@ -158,7 +158,7 @@ public class FinDeposito {
         try {
             ps = conn.prepareStatement(
                     "DELETE FROM FIN_DEPOSITO " +
-                    " WHERE ESCUELA_ID = TO_NUMBER(?, '999')" +
+                    " WHERE ESCUELA_ID = ?" +
                     " AND FOLIO = TO_NUMBER(?, '99999')");
             
             ps.setString(1, escuelaId);
@@ -195,7 +195,7 @@ public class FinDeposito {
 	        ps = con.prepareStatement(
 	                " SELECT ESCUELA_ID, FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE " +
 	                " FROM FIN_DEPOSITO" +
-	                " WHERE ESCUELA_ID = TO_NUMBER(?, '999') " +
+	                " WHERE ESCUELA_ID = ?" +
 	                " AND FOLIO = TO_NUMBER(?, '9999999')");
 	        ps.setString(1, escuelaId);
 	        ps.setString(2, folio);
@@ -221,7 +221,7 @@ public class FinDeposito {
 
         try {
             ps = conn.prepareStatement("SELECT * FROM FIN_DEPOSITO" +
-            		" WHERE ESCUELA_ID = TO_NUMBER(?, '999')" +
+            		" WHERE ESCUELA_ID = ?" +
             		" AND FOLIO = TO_NUMBER(?, '99999')");
             ps.setString(1, escuelaId);
             ps.setString(2, folio);
@@ -246,7 +246,7 @@ public class FinDeposito {
         String maximo = "1";
         try {
             ps = conn.prepareStatement("SELECT COALESCE(MAX(FOLIO+1),1) AS MAXIMO FROM FIN_DEPOSITO" +
-            		" WHERE ESCUELA_ID = TO_NUMBER(?, '999')");
+            		" WHERE ESCUELA_ID = ?");
             ps.setString(1, escuelaId);
             
             rs = ps.executeQuery();
