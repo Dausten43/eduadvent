@@ -76,8 +76,9 @@
 	float sumValorEvaluaciones 	= 0;
 	
 	for(aca.ciclo.CicloPromedio promedios : listPromedio){	
+		numEvaluaciones++;
 %>
-	<div class="alert alert-danger"><%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</div>
+	<div class="alert alert-success"><h4>N1. <%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</h4></div>
 <%	
 	listEstrategias = GrupoEvalL.getArrayListPorPromedio(conElias, cicloGrupoId, cursoId, promedios.getPromedioId(), "ORDER BY ORDEN");
 if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
@@ -94,11 +95,11 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 		
 		double tmpPromedioEval = aca.ciclo.CicloGrupoEval.promedioEstrategia(conElias, cicloGrupoId, cursoId, evaluacion.getEvaluacionId());
 		sumaPromedioGrupo += tmpPromedioEval;
-		numEvaluaciones++;
+		
 		sumValorEvaluaciones += Float.parseFloat(evaluacion.getValor());			
 %>			
 	<div class="alert alert-info">
-		<h4>
+		<h5>N2. 
 				<%=evaluacion.getEvaluacionNombre()%> <small><%if(evaluacion.getEstado().equals("A")){%><fmt:message key="aca.Abierto" /><%}else{%><fmt:message key="aca.Cerrado" /><%}%></small>
 				<% 
 					if (evaluacion.getEstado().equals("A") && escuelaId.equals("A17")) { 
@@ -111,13 +112,13 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 						} 
 					}
 				%> 
+			<small>( <%=evaluacion.getFecha()%> )</small>	
 			<span class="pull-right">
-				<fmt:message key="aca.Valor" />: <%=evaluacion.getValor()%>%
-				<br>
-				<span style="font-size:12px;"><fmt:message key="aca.Promedio" />: <%=getformato.format(tmpPromedioEval)%></span>
+				<fmt:message key="aca.Valor" />: <%=evaluacion.getValor()%>% &nbsp; &nbsp;
+				( <span style="font-size:12px;"><fmt:message key="aca.Promedio" />: <%=getformato.format(tmpPromedioEval)%></span> )
 			</span>
-		</h4>
-		<small><%=evaluacion.getFecha()%></small>			
+		</h5>
+		
 <%			
 		boolean actividades = false;
 		boolean entro = false;
@@ -129,7 +130,7 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 			
 		<div class="span9">
 			<div class="alert">
-				<h4>
+				<h6>N3.
 					<fmt:message key="aca.Actividades" />
 					&nbsp;
 					<%if( aca.ciclo.Ciclo.getEditarActividad(conElias, cicloId).equals("SI") ){ %>
@@ -137,7 +138,7 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 							<i class="icon-plus"></i> <fmt:message key="boton.AnadirActividad" />
 						</a>
 					<%} %>
-				</h4>
+				</h6>
 			</div>
 <%
 		for (int j = 0; j < lisActividad.size(); j++) {
@@ -239,8 +240,7 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 	<hr>	
 	<div class="alert alert-success">
 		<h4>
-			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numEvaluaciones%> <fmt:message key="aca.Estrategias" />
-			
+			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numEvaluaciones%> <%if(numEvaluaciones==1){%><fmt:message key='aca.Estrategia'/><%}else{%><fmt:message key='aca.Estrategias'/><%}%>
 			<span style="float:right;">
 				<fmt:message key="aca.ValorTotal" />: <%=sumValorEvaluaciones%>%
 			</span>
