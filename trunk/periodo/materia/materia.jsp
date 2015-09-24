@@ -260,11 +260,12 @@
 									<th style="width:25%;"><fmt:message key="aca.Materia" /></th>
 									<th style="width:4%;"><fmt:message key="aca.Cred" /></th>
 									<th style="width:4%;"><fmt:message key="aca.Horas" /></th>
-									<th style="width:25%;"><fmt:message key="aca.Maestro" /></th>    
-									<th style="width:8%;"><fmt:message key="aca.Evaluaciones" /></th>
-									<th style="width:8%;"><fmt:message key="aca.Actividades" /></th>
-									<th style="width:8%;"><fmt:message key="aca.Alumnos" /></th>
-									<th style="width:8%;"><fmt:message key="aca.Borrar" /></th>
+									<th style="width:25%;"><fmt:message key="aca.Maestro" /></th> 
+									<th style="width:7%;"><fmt:message key="aca.Estrategias" /></th>
+									<th style="width:7%;"><fmt:message key="aca.Evaluaciones" /></th>
+									<th style="width:7%;"><fmt:message key="aca.Actividades" /></th>
+									<th style="width:7%;"><fmt:message key="aca.Alumnos" /></th>
+									<th style="width:7%;"><fmt:message key="aca.Borrar" /></th>
 								</tr>
 <%					
 						}
@@ -321,10 +322,13 @@
 <%							}else{
 								out.println("-");
 							}
-							int numEval = aca.ciclo.CicloGrupoEval.getNumEval(conElias, grupo.getCicloGrupoId(), curso.getCursoId());
-							int numAct  = aca.ciclo.CicloGrupoActividad.getNumActividades(conElias, grupo.getCicloGrupoId(), curso.getCursoId());
+
+							int numProm		= Integer.parseInt(aca.ciclo.CicloPromedio.numPromedios(conElias, cicloId));
+							int numEval 	= aca.ciclo.CicloGrupoEval.getNumEval(conElias, grupo.getCicloGrupoId(), curso.getCursoId());
+							int numAct  	= aca.ciclo.CicloGrupoActividad.getNumActividades(conElias, grupo.getCicloGrupoId(), curso.getCursoId());
 %>      
 		    				</td>
+		    				<td><%=numProm%></td>
 		    				<td>
 <% 							if (numEval==0){ %>
 		    					<a href="javascript:llenarEvaluaciones('<%=curso.getCursoId()%>','<%=grupo.getCicloGrupoId()%>')"><%=numEval%></a>
