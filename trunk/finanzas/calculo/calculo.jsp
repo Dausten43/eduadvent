@@ -73,9 +73,6 @@
 	}
 </script>
 
-
-
-
 <%! 
    
 	/* CLASE PARA TRAER LA BECA EN PORCENTAJE, CANTIDAD E IMPORTE TOTAL */
