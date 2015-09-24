@@ -80,7 +80,7 @@
 		numPromedios++;
 		sumValorPromedios += Float.parseFloat(promedios.getValor()); 
 		%>
-			<div class="alert alert-success">N1. <%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</div>
+			<div class="alert alert-success"><h4>N1. <%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)<h4></div>
 <%	
 		listEstrategias = GrupoEvalL.getArrayListPorPromedio(conElias, cicloGrupoId, cursoId, promedios.getPromedioId(), "ORDER BY ORDEN");		
 %> 
@@ -102,7 +102,7 @@
 %>			
 			<div class="alert alert-info">
 			
-				<h4> N2. 
+				<h5> N2. 
 					<%=evaluacion.getEvaluacionNombre()%> <small><%if(evaluacion.getEstado().equals("A")){%><fmt:message key="aca.Abierto" /><%}else{%><fmt:message key="aca.Cerrado" /><%}%></small>
 					<% 
 						if (evaluacion.getEstado().equals("A") && escuelaId.equals("A17")) { 
@@ -120,7 +120,7 @@
 						( <span style="font-size:12px;"><fmt:message key="aca.Promedio" />: <%=getformato.format(tmpPromedioEval)%></span> )
 					</span>
 					<small>( <%=evaluacion.getFecha()%> )</small>
-				</h4>				
+				</h5>				
 <%
 				boolean actividades = false;
 				boolean entro = false;
@@ -132,7 +132,7 @@
 			
 			<div class="span9">
 				<div class="alert">
-					<h4>N3. 
+					<h6>N3. 
 						<fmt:message key="aca.Actividades" />
 						&nbsp;
 						<%if( aca.ciclo.Ciclo.getEditarActividad(conElias, cicloId).equals("SI") ){ %>
@@ -140,7 +140,7 @@
 								<i class="icon-plus"></i> <fmt:message key="boton.AnadirActividad" />
 							</a>
 						<%} %>
-					</h4>
+					</h6>
 				</div>
 			
 	
@@ -246,8 +246,7 @@
 	<hr>	
 	<div class="alert alert-success">
 		<h4>
-			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numPromedios%> <fmt:message key="aca.Estrategias" />
-			
+			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numEvaluaciones%> <%if(numEvaluaciones==1){%><fmt:message key='aca.Estrategia'/><%}else{%><fmt:message key='aca.Estrategias'/><%}%>
 			<span style="float:right;">
 				<fmt:message key="aca.ValorTotal" />: <%=sumValorPromedios%>%
 			</span>
