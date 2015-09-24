@@ -80,7 +80,7 @@
 		numPromedios++;
 		sumValorPromedios += Float.parseFloat(promedios.getValor()); 
 		%>
-			<div class="alert alert-danger"><%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</div>
+			<div class="alert alert-success">N1. <%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</div>
 <%	
 		listEstrategias = GrupoEvalL.getArrayListPorPromedio(conElias, cicloGrupoId, cursoId, promedios.getPromedioId(), "ORDER BY ORDEN");		
 %> 
@@ -102,7 +102,7 @@
 %>			
 			<div class="alert alert-info">
 			
-				<h4>
+				<h4> N2. 
 					<%=evaluacion.getEvaluacionNombre()%> <small><%if(evaluacion.getEstado().equals("A")){%><fmt:message key="aca.Abierto" /><%}else{%><fmt:message key="aca.Cerrado" /><%}%></small>
 					<% 
 						if (evaluacion.getEstado().equals("A") && escuelaId.equals("A17")) { 
@@ -132,7 +132,7 @@
 			
 			<div class="span9">
 				<div class="alert">
-					<h4>
+					<h4>N3. 
 						<fmt:message key="aca.Actividades" />
 						&nbsp;
 						<%if( aca.ciclo.Ciclo.getEditarActividad(conElias, cicloId).equals("SI") ){ %>
@@ -244,7 +244,7 @@
 	}// for de estrategias
 %>	
 	<hr>	
-	<div class="alert alert-danger">
+	<div class="alert alert-success">
 		<h4>
 			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numPromedios%> <fmt:message key="aca.Estrategias" />
 			
