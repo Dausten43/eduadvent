@@ -322,7 +322,8 @@ public class CicloPromedio {
 		return maximo;
 	}
 	
-	public static boolean existeEvaluaciones(Connection conn, String cicloId) throws SQLException{
+	public static boolean existeEvaluaciones(Connection conn, String cicloId) throws SQLException{	
+		
 		boolean ok 			= false;
 		ResultSet rs 			= null;
 		PreparedStatement ps	= null;
@@ -347,6 +348,31 @@ public class CicloPromedio {
 		
 		return ok;
 	}
+	
+	public static String numPromedios(Connection conn, String cicloId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String total 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM CICLO_PROMEDIO WHERE CICLO_ID = ?");
+			ps.setString(1, cicloId);
+			
+			rs= ps.executeQuery();	
+			if(rs.next()){
+				total = rs.getString("TOTAL");
+			}	
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|numPromedios|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return total;
+	}
+	
 	
 }
 
