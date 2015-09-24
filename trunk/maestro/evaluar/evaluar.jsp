@@ -715,8 +715,8 @@
   	<%} %>
 	
 	<div class="alert alert-info">
-		<h4><%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%></h4>
-		<small><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></small> 
+		<h5><%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> <small><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></small> </h5>
+		
 	</div>
 	
 	<div class="well" style="overflow:hidden;">
