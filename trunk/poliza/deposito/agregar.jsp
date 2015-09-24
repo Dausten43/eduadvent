@@ -22,7 +22,6 @@
 	String folio 		= FinDeposito.maxReg(conElias, escuelaId );
 
 	if( accion.equals("1")){ // Nuevo
-		System.out.println("Entro");
 		FinDeposito.setEscuelaId(escuelaId);
 		FinDeposito.setFolio(folio);
 		FinDeposito.setFecha(aca.util.Fecha.getHoy());
