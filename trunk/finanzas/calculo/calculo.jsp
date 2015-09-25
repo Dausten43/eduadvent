@@ -663,8 +663,7 @@
 			<fmt:message key="aca.Saldo" />: [<strong><%=formato.format(aca.fin.FinMovimiento.saldoAlumno(conElias, codigoAlumno, aca.util.Fecha.getHoy()))%></strong>] &nbsp;
 		</div>
 				
-	<div class="row">
-		<div class="span6">		
+		<div>		
 			<div class="alert">
 				<h4><fmt:message key="aca.CostoDisponibles" /></h4>
 			</div>	
@@ -730,7 +729,7 @@
 			<%} %>
 			
 		</div>		
-		<div class="span7">
+		<div >
 		
 			<div class="alert alert-success">
 				<h4><fmt:message key="aca.CostoAplicados" /></h4>
@@ -838,47 +837,54 @@
 				</div>
 			<%} %>
 		</div>
-	</div>
 	<input name="InicialPagos" type="hidden" id="InicialPagos" value="<%=totalPagoInicial%>">
 	<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
 	<input name="Importe" type="hidden" id="Importe" value="<%=totalImporteTotal%>">
 	
-<%
-	if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){%>
+<%		if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
 		
 	<div class="row">
-		<div class="span6">
-			<h4><fmt:message key="aca.FechasPagos" /></h4>
-			<a id ="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
-			<a id ="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
-<%			
-			int row = 0;
-			for(aca.fin.FinPago pago : lisPagos){
-				row++;				
-				String checked = "";
-					
-				for(aca.fin.FinCalculoPago pagoAlumno : pagosAlumno){
-			    	if(pago.getPagoId().equals(pagoAlumno.getPagoId())){
-			    		checked = "checked='checked'";
-			    	}			    	
-			    }			    		
-%>				    		
-			<div style="margin-bottom:7px;">
-				<input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" <%=checked%>>
-				<%=pago.getFecha() %> - <%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> 
-			</div>
-<%
-			}
-%>		    			
-			
-		</div>
+	<h4><fmt:message key="aca.FechasPagos" /></h4>	
+	<a id ="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
+	<a id ="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
+	<table>
+		<tr>
+			<th>#</th>
+			<th></th>
+			<th>Fecha</th>
+			<th>Tipo de Pago</th>
+			<th>Importe</th>
+		</tr>
+		<%
+		int row = 0;
+		int cont = 1;
+		for(aca.fin.FinPago pago : lisPagos){
+			row++;				
+			String checked = "";
+			int importe = 0;
+			for(aca.fin.FinCalculoPago pagoAlumno : pagosAlumno){
+				importe = Integer.parseInt(pagoAlumno.getImporte());
+		    	if(pago.getPagoId().equals(pagoAlumno.getPagoId())){
+		    		checked = "checked='checked'";
+		    	}			    	
+		    }	
+		%>
+		<tr>
+			<td><%=cont %></td>
+			<td><input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" <%=checked%>></td>
+			<td><%=pago.getFecha() %></td>
+			<td><%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> </td>
+			<td><%=importe %></td>
+		</tr>
+		<%cont++;} %>
+	</table>
 	</div>	
 <%	
 	}
 
 	if ( FinCalculo.getInscrito().equals("C") || FinCalculo.getInscrito().equals("G") ){%>		
 	
-<%	}%>	
+	<%}%>	
 	
 </form>
 
