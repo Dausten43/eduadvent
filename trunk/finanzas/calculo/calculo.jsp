@@ -30,6 +30,11 @@
 		document.forma.submit();
 	}
 	
+	function cambiaPago( ){
+		document.forma.Accion.value = "7";
+		document.forma.submit();
+	}
+	
 	function Grabar(){
 		document.forma.Accion.value	= "2";
 		document.forma.submit();
@@ -62,14 +67,12 @@
 		}	
 	}
 	
-	function Todos(){
-		alert("entre a todos");
-		$(".checkbox-pagos").attr('checked',true);
+	function Todos(){		
+		$(".checkbox-pagos").prop('checked',true);
 	}
 		
-	function Ninguno(){
-		alert("entre a ninguno");
-		$(".checkbox-pagos").attr('checked',false);
+	function Ninguno(){		
+		$(".checkbox-pagos").prop('checked',false);
 	}
 </script>
 
@@ -156,7 +159,7 @@
 	String accion 				= request.getParameter("Accion")			==null ? "0" : request.getParameter("Accion");
 	String inicialPagos			= request.getParameter("InicialPagos")		==null ? "0" : request.getParameter("InicialPagos");
 	String inicialContado		= request.getParameter("InicialContado")	==null ? "0" : request.getParameter("InicialContado");
-	String tipoPago 			= request.getParameter("TipoPago")			==null ? "P" : request.getParameter("TipoPago");
+	String tipoPago 			= request.getParameter("TipoPago")			==null ? "P" : request.getParameter("TipoPago");	
 	
 	String numPagosIniciales	= aca.fin.FinPago.numPagosIniciales(conElias, cicloId, periodoId);
 	
@@ -207,7 +210,7 @@
 	FinCalculo.setCodigoId(codigoAlumno);						
 	if (FinCalculo.existeReg(conElias)){
 		FinCalculo.mapeaRegId(conElias, cicloId, periodoId, codigoAlumno);
-		if (!accion.equals("4") && !accion.equals("5")){ /* SI NO SE VA HA REALIZAR EL CALCULO DE COBRO, Y SI SI ENTONCES PONER EL QUE ESTA SELECCIONADO */
+		if (!accion.equals("4") && !accion.equals("5") && !accion.equals("7")){ /* SI NO SE VA HA REALIZAR EL CALCULO DE COBRO, Y SI SI ENTONCES PONER EL QUE ESTA SELECCIONADO */
 			tipoPago = FinCalculo.getTipoPago();
 		}
 		existeCalculo = true;
@@ -661,8 +664,7 @@
 		</div>
 				
 	<div class="row">
-		<div class="span6">	
-		
+		<div class="span6">		
 			<div class="alert">
 				<h4><fmt:message key="aca.CostoDisponibles" /></h4>
 			</div>	
@@ -723,26 +725,7 @@
 			
 			<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>	
 				<div class="well">
-					<a class="btn btn-primary" href="javascript:Grabar();"><fmt:message key="boton.Aplicar" /> <i class="icon-arrow-right icon-white"></i></a>&nbsp;&nbsp;
-					<select id="TipoPago" name="TipoPago" class="TipoPago input-medium" onclick="javascript:muestraPago()">
-						<option value="C" <%if (tipoPago.equals("C")) out.print("Selected");%>><fmt:message key="aca.DeContado" /></option>
-						<option value="P" <%if (tipoPago.equals("P")) out.print("Selected");%>><fmt:message key="aca.PorPagos" /></option>
-					</select>
-					&nbsp;&nbsp;
-				<%if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){%>			
-					<a href="javascript:Calcular()" class="btn btn-primary"><i class="icon-refresh icon-white"></i> <fmt:message key="aca.CalcularCobro" /></a>
-					<%if (FinCalculo.getInscrito().equals("C")){%>
-					<a href="javascript:CerrarCalculo()" class="btn btn-success"><i class="icon-ok icon-white"></i> <fmt:message key="aca.CerrarCobro" /></a>
-					<%}%>
-					
-				<%}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){%>	   	
-			   	
-			   		<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')"><i class="icon-print icon-white"></i> <fmt:message key="boton.Imprimir" /></a>
-			   	
-					<%if ( (esContable||esAdmin) && (!FinCalculo.getInscrito().equals("")) && FinCalculo.getInscrito().equals("P")==false){%>
-					<a class="btn btn-primary" href="javascript:AbrirCalculo()"><i class="icon-eye-open icon-white"></i> <fmt:message key="boton.Abrir" /></a>
-					<%}%>				    	
-				<%}%>
+					<a class="btn btn-primary" href="javascript:Grabar();"><fmt:message key="boton.Aplicar" /> <i class="icon-arrow-right icon-white"></i></a>&nbsp;&nbsp;					
 				</div>
 			<%} %>
 			
@@ -828,75 +811,73 @@
 					<th class="text-right"><%=formato.format(totalImporteBeca) %></th>
 					<th class="text-right"><%=formato.format(totalImporteTotal) %></th>
 					<th class="text-right"><%=formato.format(totalPagoInicial) %></th>
-					<th class="text-right"><%=formato.format(totalEnPagos) %></th>
+					<th class="text-right"><%=formato.format(totalEnPagos) %></th>					
 				</tr>
 			</table>
+			<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>	
+				<div class="well">					
+					<select id="TipoPago" name="TipoPago" class="TipoPago input-medium" onchange="javascript:cambiaPago()">
+						<option value="C" <%if (tipoPago.equals("C")) out.print("Selected");%>><fmt:message key="aca.DeContado" /></option>
+						<option value="P" <%if (tipoPago.equals("P")) out.print("Selected");%>><fmt:message key="aca.PorPagos" /></option>
+					</select>
+					&nbsp;&nbsp;
+				<%if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){%>			
+					<a href="javascript:Calcular()" class="btn btn-primary"><i class="icon-refresh icon-white"></i> <fmt:message key="aca.CalcularCobro" /></a>
+					<%if (FinCalculo.getInscrito().equals("C")){%>
+					<a href="javascript:CerrarCalculo()" class="btn btn-success"><i class="icon-ok icon-white"></i> <fmt:message key="aca.CerrarCobro" /></a>
+					<%}%>
+					
+				<%}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){%>	   	
+			   	
+			   		<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')"><i class="icon-print icon-white"></i> <fmt:message key="boton.Imprimir" /></a>
+			   	
+					<%if ( (esContable||esAdmin) && (!FinCalculo.getInscrito().equals("")) && FinCalculo.getInscrito().equals("P")==false){%>
+					<a class="btn btn-primary" href="javascript:AbrirCalculo()"><i class="icon-eye-open icon-white"></i> <fmt:message key="boton.Abrir" /></a>
+					<%}%>				    	
+				<%}%>
+				</div>
+			<%} %>
 		</div>
 	</div>
+	<input name="InicialPagos" type="hidden" id="InicialPagos" value="<%=totalPagoInicial%>">
+	<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
+	<input name="Importe" type="hidden" id="Importe" value="<%=totalImporteTotal%>">
 	
-	<%if ( FinCalculo.getInscrito().equals("C") || FinCalculo.getInscrito().equals("G") ){%>		
-	
-	<%}%>
-	<%if(!lisDetalles.isEmpty()){ %>
-	
-		<div class="well">
-			
-			<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>			
-			
-				<span class="numPagos">
+<%		if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
+		
+	<div class="row">
+		<div class="span6">
+			<h4><fmt:message key="aca.FechasPagos" /></h4>
+			<a id ="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
+			<a id ="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
+<%			
+			int row = 0;
+			for(aca.fin.FinPago pago : lisPagos){
+				row++;				
+				String checked = "";
 					
-					<a href="#myModal" data-toggle="modal" class="btn btn-info"><i class="icon-calendar icon-white"></i> </a>
-					
-					<!-- Modal -->
-					<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					  <div class="modal-header">
-					    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="position:static;">x</button>
-					    <h3 id="myModalLabel"><fmt:message key="aca.FechasPagos" /></h3>
-					    <!--
-					    <a onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
-					    <a onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
-					    -->			    					    
-					  </div>
-					  <div class="modal-body">
-				    	<%for(aca.fin.FinPago pago : lisPagos){ %>
-				    		<%
-				    			String checked = "";
-				    			for(aca.fin.FinCalculoPago p : pagosAlumno){
-				    				if(pago.getPagoId().equals(p.getPagoId())){
-				    					checked = "checked=true";
-				    				}
-				    			}
-				    			
-				    			if(pagosAlumno.size()==0){
-				    				checked = "checked='checked' ";
-				    			}
-				    			
-				    		%>
-				    		
-			    			<div style="margin-bottom:7px;">
-			    				<input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" style="margin-top:-3px;">
-			    				<%=pago.getFecha() %> - <%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> 
-			    			</div>
-				    	<%} %>
-					  </div>
-					  <div class="modal-footer text-left">
-					    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></button>
-					  </div>
-					</div>
-									
-				</span>
-				
-				<hr />
-				
-			<%}%>
-			
-			<input name="InicialPagos" type="hidden" id="InicialPagos" value="<%=totalPagoInicial%>">
-			<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
-			<input name="Importe" type="hidden" id="Importe" value="<%=totalImporteTotal%>">		
+				for(aca.fin.FinCalculoPago pagoAlumno : pagosAlumno){
+			    	if(pago.getPagoId().equals(pagoAlumno.getPagoId())){
+			    		checked = "checked='checked'";
+			    	}			    	
+			    }			    		
+%>				    		
+			<div style="margin-bottom:7px;">
+				<input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" <%=checked%>>
+				<%=pago.getFecha() %> - <%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> 
+			</div>
+<%
+			}
+%>		    			
 			
 		</div>
+	</div>	
+<%	
+	}
+
+	if ( FinCalculo.getInscrito().equals("C") || FinCalculo.getInscrito().equals("G") ){%>		
 	
-	<%} %>
+	<%}%>	
 	
 </form>
 
@@ -908,20 +889,6 @@
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 <script>
 	$('#Fecha').datepicker();
-	$('.fechaCobro').datepicker();
-</script>
-<script>	
-	function muestraPago(){
-		var valor = $('select#TipoPago').val();
-		if(valor=="P"){
-			$(".numPagos").show();
-		}else{
-			$(".numPagos").hide();
-		}
-	}
-	$('select#TipoPago').on('change',function(){
-		muestraPago();
-	});
-	muestraPago();
+	$('.fechaCobro').datepicker();	
 </script>
 <%@ include file= "../../cierra_elias.jsp" %>
