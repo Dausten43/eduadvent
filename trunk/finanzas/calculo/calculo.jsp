@@ -843,7 +843,8 @@
 	<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
 	<input name="Importe" type="hidden" id="Importe" value="<%=totalImporteTotal%>">
 	
-<%		if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
+<%
+	if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){%>
 		
 	<div class="row">
 		<div class="span6">
@@ -877,7 +878,7 @@
 
 	if ( FinCalculo.getInscrito().equals("C") || FinCalculo.getInscrito().equals("G") ){%>		
 	
-	<%}%>	
+<%	}%>	
 	
 </form>
 
