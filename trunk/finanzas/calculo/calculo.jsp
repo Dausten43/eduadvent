@@ -847,7 +847,7 @@
 	<h4><fmt:message key="aca.FechasPagos" /></h4>	
 	<a id ="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
 	<a id ="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
-	<table class="table table-bordered">
+	<table class="table table-bordered table-striped table-condensed">
 		<tr>
 			<th>#</th>
 			<th></th>
