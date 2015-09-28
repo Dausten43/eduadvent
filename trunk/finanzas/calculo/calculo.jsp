@@ -843,11 +843,11 @@
 	
 <%		if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
 		
-	<div class="row">
+	<div>
 	<h4><fmt:message key="aca.FechasPagos" /></h4>	
 	<a id ="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
 	<a id ="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
-	<table>
+	<table class="table table-bordered">
 		<tr>
 			<th>#</th>
 			<th></th>
@@ -861,9 +861,9 @@
 		for(aca.fin.FinPago pago : lisPagos){
 			row++;				
 			String checked = "";
-			int importe = 0;
+			double importe = 0;
 			for(aca.fin.FinCalculoPago pagoAlumno : pagosAlumno){
-				importe = Integer.parseInt(pagoAlumno.getImporte());
+				importe = Double.parseDouble(pagoAlumno.getImporte());
 		    	if(pago.getPagoId().equals(pagoAlumno.getPagoId())){
 		    		checked = "checked='checked'";
 		    	}			    	
