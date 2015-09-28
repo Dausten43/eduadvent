@@ -668,7 +668,7 @@
 				<h4><fmt:message key="aca.CostoDisponibles" /></h4>
 			</div>	
 		
-			<table class="table table-bordered table-striped">
+			<table class="table table-bordered table-striped table-condensed">
 				<thead>
 					<tr>
 						<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
@@ -735,7 +735,7 @@
 				<h4><fmt:message key="aca.CostoAplicados" /></h4>
 			</div>
 		
-			<table class="table table-bordered table-striped">
+			<table class="table table-bordered table-striped table-condensed">
 				<thead>
 					<tr>
 						<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
