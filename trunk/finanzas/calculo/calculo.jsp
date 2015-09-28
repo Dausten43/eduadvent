@@ -904,7 +904,7 @@
 %>	
 	<div class="well">
 	<%	
-		if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){				
+		if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){
 	%>						
 			<a href="javascript:Calcular()" class="btn btn-primary"><i class="icon-refresh icon-white"></i> <fmt:message key="aca.CalcularCobro" /></a>
 			<%if (FinCalculo.getInscrito().equals("C")){%>
