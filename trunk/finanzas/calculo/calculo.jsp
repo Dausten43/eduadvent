@@ -394,7 +394,7 @@
 				
 		FinCalculo.setCicloId(cicloId);
 		FinCalculo.setPeriodoId(periodoId);
-		FinCalculo.setCodigoId(codigoAlumno);
+		FinCalculo.setCodigoId(codigoAlumno);		
 		
 		if (FinCalculo.existeReg(conElias)){			
 			
@@ -414,33 +414,7 @@
 				aca.fin.FinCalculoPago.deletePagosAlumno(conElias, cicloId, periodoId, codigoAlumno);	
 				if (aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno) != 0){
 					error = true;
-				}		
-				
-				// Grabar el pago inicial de contado o en pagos
-				FinPago.mapeaRegInicial(conElias, cicloId, periodoId);
-				for(aca.fin.FinCalculoDet detalleInicial : lisDetalles){
-					FinCalculoPago.setCicloId(cicloId);
-					FinCalculoPago.setPeriodoId(periodoId);					
-					FinCalculoPago.setCodigoId(codigoAlumno);
-					FinCalculoPago.setPagoId(FinPago.getPagoId());
-					FinCalculoPago.setCuentaId(detalleInicial.getCuentaId());					
-					FinCalculoPago.setFecha(FinPago.getFecha());
-					FinCalculoPago.setImporte( detalleInicial.getImporteInicial() );
-					if (tipoPago.equals("C")){
-						FinCalculoPago.setBeca( detalleInicial.getImporteBeca() );
-					}else{
-						FinCalculoPago.setBeca( "0" );
-					}
-									
-					FinCalculoPago.setEstado("A");
-					FinCalculoPago.setPagado("N");
-					if (FinCalculoPago.insertReg(conElias)){
-						
-					}else{
-						error = true;
-					}
-				}
-				
+				}				
 				
 				// ======> DE CONTADO
 						
@@ -450,13 +424,13 @@
 					if (aca.fin.FinCalculoDet.updateContado(conElias, cicloId, periodoId, codigoAlumno)){
 											
 					}else{
-						error = true;						
+						error = true;
 					}
 					
 				// ======> POR PAGARES	
-				}else{					
+				}else{				
 					
-					for(aca.fin.FinCalculoDet det : lisDetalles){
+					for(aca.fin.FinCalculoDet det : lisDetalles){					
 						
 						BigDecimal ImporteDetalle 		= new BigDecimal(det.getImporte());
 						BigDecimal ImporteDetalleBeca 	= new BigDecimal(det.getImporteBeca());
@@ -507,8 +481,7 @@
 							
 							/* calcular los decimales extra para agregarselos al ultimo pago (para que de justo) */
 							ImporteExtraParaBalancearPagosDetalle 	= ImporteDeTodosLosPagosDetalle.subtract( (ImporteDeUnPagoDetalle.multiply(numeroPagos)) ); /* ImporteDeTodosLosPagosDetalle - (ImporteDeUnPagoDetalle * numeroPagos) */
-							BecaExtraParaBalancearPagosDetalle 		= BecaDeTodosLosPagosDetalle.subtract( (BecaDeUnPagoDetalle.multiply(numeroPagos)) ); /* BecaDeTodosLosPagosDetalle - (BecaDeUnPagoDetalle * numeroPagos) */
-							
+							BecaExtraParaBalancearPagosDetalle 		= BecaDeTodosLosPagosDetalle.subtract( (BecaDeUnPagoDetalle.multiply(numeroPagos)) ); /* BecaDeTodosLosPagosDetalle - (BecaDeUnPagoDetalle * numeroPagos) */							
 							
 							if (error == false){
 								
@@ -571,6 +544,50 @@
 		
 		conElias.setAutoCommit(true);
 		
+		// GRABA EL PAGO INICIAL
+		if (tipoPago.equals("C")){
+			// Grabar el pago inicial de contado
+			FinPago.mapeaRegInicial(conElias, cicloId, periodoId);
+			for(aca.fin.FinCalculoDet detalleInicial : lisDetalles){
+				FinCalculoPago.setCicloId(cicloId);
+				FinCalculoPago.setPeriodoId(periodoId);					
+				FinCalculoPago.setCodigoId(codigoAlumno);
+				FinCalculoPago.setPagoId(FinPago.getPagoId());
+				FinCalculoPago.setCuentaId(detalleInicial.getCuentaId());					
+				FinCalculoPago.setFecha(FinPago.getFecha());
+				FinCalculoPago.setImporte( detalleInicial.getImporteInicial() );
+				FinCalculoPago.setBeca( "0" );
+				FinCalculoPago.setEstado("A");
+				FinCalculoPago.setPagado("N");
+				if (FinCalculoPago.insertReg(conElias)){
+					
+				}else{
+					error = true;
+				}
+			}
+		}else{
+			
+			// Grabar el detalle del pago inicial por tipo pagarés  
+			FinPago.mapeaRegInicial(conElias, cicloId, periodoId);
+			for(aca.fin.FinCalculoDet detalleInicial : lisDetalles){
+				FinCalculoPago.setCicloId(cicloId);
+				FinCalculoPago.setPeriodoId(periodoId);					
+				FinCalculoPago.setCodigoId(codigoAlumno);
+				FinCalculoPago.setPagoId(FinPago.getPagoId());
+				FinCalculoPago.setCuentaId(detalleInicial.getCuentaId());					
+				FinCalculoPago.setFecha(FinPago.getFecha());
+				FinCalculoPago.setImporte( detalleInicial.getImporteInicial() );							
+				FinCalculoPago.setBeca( "0" );											
+				FinCalculoPago.setEstado("A");
+				FinCalculoPago.setPagado("N");
+				if (FinCalculoPago.insertReg(conElias)){
+					
+				}else{
+					error = true;
+				}
+			}
+		}	
+		
 		/* Refrescar datos */
 		pagosAlumno = FinCalculoPagoL.getListPagosAlumno(conElias, cicloId, periodoId, codigoAlumno, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD')");
 	}
@@ -606,6 +623,19 @@
 			}
 		}	
 	}	
+	
+	/* ========== ACTUALIZA EL PAGO INICIAL EN LOS DETALLES ========== */
+	if (accion.equals("7")){
+		
+		if (tipoPago.equals("C")){
+			
+			// Modifica el pago inicial y el importe de las cuentas
+			if (aca.fin.FinCalculoDet.updateContado(conElias, cicloId, periodoId, codigoAlumno)){
+									
+			}
+		}	
+			
+	}
 		
 	
 	pageContext.setAttribute("resultado", msj);
@@ -664,8 +694,13 @@
 		</div>
 				
 		<div>		
-			<div class="alert">
-				<h4><fmt:message key="aca.CostoDisponibles" /></h4>
+			<div class="alert alert-success">
+				<h4>
+					<fmt:message key="aca.CostoDisponibles" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>				
+					<a class="btn btn-primary" href="javascript:Grabar();"><fmt:message key="boton.Aplicar" /> <i class="icon-arrow-right icon-white"></i></a>&nbsp;&nbsp;
+				<%} %>
+				</h4>
 			</div>	
 		
 			<table class="table table-bordered table-striped table-condensed">
@@ -720,19 +755,22 @@
 				<%				
 					}
 				%>	
-			</table>
-			
-			<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>	
-				<div class="well">
-					<a class="btn btn-primary" href="javascript:Grabar();"><fmt:message key="boton.Aplicar" /> <i class="icon-arrow-right icon-white"></i></a>&nbsp;&nbsp;					
-				</div>
-			<%} %>
-			
+			</table>			
 		</div>		
 		<div >
 		
 			<div class="alert alert-success">
-				<h4><fmt:message key="aca.CostoAplicados" /></h4>
+				<h4>
+					<fmt:message key="aca.CostoAplicados" />&nbsp;&nbsp;&nbsp;&nbsp;
+			<%	
+				if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){				
+			%>					
+					<select id="TipoPago" name="TipoPago" class="TipoPago input-medium" onchange="javascript:cambiaPago()">
+						<option value="C" <%if (tipoPago.equals("C")) out.print("Selected");%>><fmt:message key="aca.DeContado" /></option>
+						<option value="P" <%if (tipoPago.equals("P")) out.print("Selected");%>><fmt:message key="aca.PorPagos" /></option>
+					</select>
+			<%	} %>		
+				</h4>
 			</div>
 		
 			<table class="table table-bordered table-striped table-condensed">
@@ -813,40 +851,21 @@
 					<th class="text-right"><%=formato.format(totalEnPagos) %></th>					
 				</tr>
 			</table>
-			<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>	
-				<div class="well">					
-					<select id="TipoPago" name="TipoPago" class="TipoPago input-medium" onchange="javascript:cambiaPago()">
-						<option value="C" <%if (tipoPago.equals("C")) out.print("Selected");%>><fmt:message key="aca.DeContado" /></option>
-						<option value="P" <%if (tipoPago.equals("P")) out.print("Selected");%>><fmt:message key="aca.PorPagos" /></option>
-					</select>
-					&nbsp;&nbsp;
-				<%if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){%>			
-					<a href="javascript:Calcular()" class="btn btn-primary"><i class="icon-refresh icon-white"></i> <fmt:message key="aca.CalcularCobro" /></a>
-					<%if (FinCalculo.getInscrito().equals("C")){%>
-					<a href="javascript:CerrarCalculo()" class="btn btn-success"><i class="icon-ok icon-white"></i> <fmt:message key="aca.CerrarCobro" /></a>
-					<%}%>
-					
-				<%}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){%>	   	
-			   	
-			   		<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')"><i class="icon-print icon-white"></i> <fmt:message key="boton.Imprimir" /></a>
-			   	
-					<%if ( (esContable||esAdmin) && (!FinCalculo.getInscrito().equals("")) && FinCalculo.getInscrito().equals("P")==false){%>
-					<a class="btn btn-primary" href="javascript:AbrirCalculo()"><i class="icon-eye-open icon-white"></i> <fmt:message key="boton.Abrir" /></a>
-					<%}%>				    	
-				<%}%>
-				</div>
-			<%} %>
+						
 		</div>
 	<input name="InicialPagos" type="hidden" id="InicialPagos" value="<%=totalPagoInicial%>">
 	<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
 	<input name="Importe" type="hidden" id="Importe" value="<%=totalImporteTotal%>">
 	
-<%		if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
+<%	if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
 		
-	<div>
-	<h4><fmt:message key="aca.FechasPagos" /></h4>	
-	<a id ="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
-	<a id ="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
+	<div class="alert alert-success">
+		<h4>
+			<fmt:message key="aca.FechasPagos" />&nbsp;&nbsp;
+			<a id ="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
+			<a id ="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
+		</h4>	
+	</div>	
 	<table class="table table-bordered table-striped table-condensed">
 		<tr>
 			<th>#</th>
@@ -862,12 +881,12 @@
 			row++;				
 			String checked = "";
 			double importe = 0;
-			for(aca.fin.FinCalculoPago pagoAlumno : pagosAlumno){
-				importe = Double.parseDouble(pagoAlumno.getImporte());
+			for(aca.fin.FinCalculoPago pagoAlumno : pagosAlumno){				
 		    	if(pago.getPagoId().equals(pagoAlumno.getPagoId())){
+		    		importe += Double.parseDouble(pagoAlumno.getImporte()) - Double.parseDouble(pagoAlumno.getBeca());
 		    		checked = "checked='checked'";
 		    	}			    	
-		    }	
+		    }
 		%>
 		<tr>
 			<td><%=cont %></td>
@@ -876,22 +895,36 @@
 			<td><%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> </td>
 			<td><%=importe %></td>
 		</tr>
-		<%cont++;} %>
-	</table>
-	</div>	
+<%			cont++;
+		} 
+%>
+	</table>			
 <%	
 	}
-
-	if ( FinCalculo.getInscrito().equals("C") || FinCalculo.getInscrito().equals("G") ){%>		
-	
-	<%}%>	
-	
+%>	
+	<div class="well">
+	<%	
+		if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){				
+	%>						
+			<a href="javascript:Calcular()" class="btn btn-primary"><i class="icon-refresh icon-white"></i> <fmt:message key="aca.CalcularCobro" /></a>
+			<%if (FinCalculo.getInscrito().equals("C")){%>
+			<a href="javascript:CerrarCalculo()" class="btn btn-success"><i class="icon-ok icon-white"></i> <fmt:message key="aca.CerrarCobro" /></a>
+			<%}%>
+			
+	<%	}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){ %>	   	
+	   	
+	   		<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')"><i class="icon-print icon-white"></i> <fmt:message key="boton.Imprimir" /></a>
+	   	
+	<%		if ( (esContable||esAdmin) && (!FinCalculo.getInscrito().equals("")) && FinCalculo.getInscrito().equals("P")==false){%>
+			<a class="btn btn-primary" href="javascript:AbrirCalculo()"><i class="icon-eye-open icon-white"></i> <fmt:message key="boton.Abrir" /></a>
+	<%		}
+		}
+	%>				    	
+			
+	</div>
 </form>
-
 <%}%>
-
 </div>
-
 <link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 <script>

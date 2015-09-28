@@ -404,11 +404,11 @@
 			FinCalculo.setPagoInicial(pagoInicial);
 			FinCalculo.setFecha(fecha);
 			
-			if (FinCalculo.updateReg(conElias)){
-				
+			if (FinCalculo.updateReg(conElias)){				
 				
 				// Borra los pagos que tenga el alumno en la tabla Fin_Calculo_Pagos
-				aca.fin.FinCalculoPago.deletePagosAlumno(conElias, cicloId, periodoId, codigoAlumno);	
+				aca.fin.FinCalculoPago.deletePagosAlumno(conElias, cicloId, periodoId, codigoAlumno);
+				
 				if (aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno) != 0){
 					error = true;
 				}		
