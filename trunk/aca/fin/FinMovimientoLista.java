@@ -4,10 +4,12 @@
 package aca.fin;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author elifo
@@ -96,5 +98,41 @@ public class FinMovimientoLista {
 		}	
 		
 		return list;
+	}
+	
+	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String tipo, String estado, String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;		
+		HashMap<String,String> map 	= new HashMap<String,String>();
+		
+		try{
+			ps = conn.prepareStatement("SELECT CUENTA_ID, SUM(IMPORTE) AS SALDO FROM FIN_MOVIMIENTOS"
+				+ " WHERE POLIZA_ID IN "
+				+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = ? AND ESTADO IN (?) AND TIPO IN (?) "
+				+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
+				+ " AND NATURALEZA = ?"
+				+ " GROUP BY CUENTA_ID");
+			
+			ps.setString(1, escuela);
+			ps.setString(2, estado);
+			ps.setString(3, tipo);
+			ps.setString(4, fechaIni);
+			ps.setString(5, fechaFin);
+			ps.setString(6, naturaleza);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				map.put(rs.getString("CUENTA_ID"), rs.getString("SALDO"));
+			}			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimientoLista|saldoPolizasPorCuentas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return map;
 	}
 }
