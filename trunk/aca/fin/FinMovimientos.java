@@ -561,7 +561,7 @@ public class FinMovimientos {
 		double saldo			= 0;
 		
 		try{
-			ps = conn.prepareStatement("SELECT SUM(IMPORTE) AS SALDO FROM FIN_MOVIMIENTOS"
+			ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
 				+ " WHERE POLIZA_ID IN "
 				+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = ? AND ESTADO IN (?) AND TIPO IN (?) "
 				+ "		AND FECHA BETWEEN TO_DATE(?,'DD/MM/YYYY') AND TO_DATE(?,'DD/MM/YYYY'))"
