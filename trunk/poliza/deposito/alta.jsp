@@ -5,59 +5,97 @@
 <%@ include file="../../menu.jsp"%>
 
 <jsp:useBean id="FinDepositoLista" scope="page" class="aca.fin.FinDepositoLista" />
+<jsp:useBean id="FinDeposito" scope="page" class="aca.fin.FinDeposito" />
 <head>
 	
 <script>
-
+	function BorrarDeposito(folio, fechaIni, fechaFin){
+		if ( confirm("¿Deseas borrar el registro?") ){
+			document.location.href="alta.jsp?Folio="+folio+"&Accion=1"+"&FechaIni="+fechaIni+"&FechaFin="+fechaFin;
+		}
+	}
+	
+	function EditarDeposito(folio, fechaIni, fechaFin){
+		document.location.href="agregar.jsp?Folio="+folio+"&Accion=3"+"&FechaIni="+fechaIni+"&FechaFin="+fechaFin;		
+	}
 </script>
 <%
-
-	String fInicio 		= request.getParameter("FInicio")==null?aca.util.Fecha.getHoy():request.getParameter("FInicio");
-	String fFinal 		= request.getParameter("FFinal")==null?aca.util.Fecha.getHoy():request.getParameter("FFinal");
-	String escuelaId 	= (String) session.getAttribute("escuela");
+	String escuelaId 		= (String) session.getAttribute("escuela");
+	String fechaIni			= request.getParameter("FechaIni")==null?aca.util.Fecha.getHoy():request.getParameter("FechaIni");
+	String fechaFin			= request.getParameter("FechaFin")==null?aca.util.Fecha.getHoy():request.getParameter("FechaFin");
+	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+	String folio 			= request.getParameter("Folio")==null?"0":request.getParameter("Folio");
+	
+	if (accion.equals("1")){
+		// Borrar deposito
+		FinDeposito.setEscuelaId(escuelaId);
+		FinDeposito.setFolio(folio);
+		if (FinDeposito.existeReg(conElias)){
+			if (FinDeposito.deleteReg(conElias)){
+				conElias.commit();
+			}			
+		}else{			
+		}
+		
+	}
 	
 	// Lista de depositos en el rango de fechas
-	ArrayList<aca.fin.FinDeposito> lisDepositos 	= FinDepositoLista.getListEntre(conElias, fInicio, fFinal, escuelaId);
+	ArrayList<aca.fin.FinDeposito> lisDepositos 	= FinDepositoLista.getListEntre(conElias, fechaIni, fechaFin, escuelaId);
 	
 %>
 </head>
 <div id="content">
-	<h2>Depositos de caja</h2>
-	<form action="alta.jsp" method="post" name="frmDeposito" target="_self" style="max-width:50%;display:inline;">		
+	<h2>Dep&oacute;sitos de caja</h2>
+	<form action="alta.jsp" method="post" name="frmDeposito" target="_self" style="max-width:50%;display:inline;">
 	<div class="well">		
 		<fmt:message key="aca.FechaInicio" />:&nbsp;&nbsp;
-		<input name="FInicio" type="text" id="FInicio" size="10" maxlength="10" value="<%=fInicio%>" class="input-medium datepicker" >		
+		<input name="FechaIni" type="text" id="FechaIni" size="10" maxlength="10" value="<%=fechaIni%>" class="input-medium datepicker" >		
 		<fmt:message key="aca.FechaFinal" />:&nbsp;&nbsp;
-		<input name="FFinal" type="text" id="FFinal" size="10" maxlength="10" value="<%=fFinal%>" class="input-medium datepicker">&nbsp;&nbsp;		
+		<input name="FechaFin" type="text" id="FechaFin" size="10" maxlength="10" value="<%=fechaFin%>" class="input-medium datepicker">&nbsp;&nbsp;
 		<button class="btn btn-primary" type=submit><i class="icon-refresh icon-white"></i> <fmt:message key="aca.Mostrar"/></button>&nbsp;&nbsp;		
-		<a href="agregar.jsp" class="btn btn-primary" id="agregar"><i class="icon-ok icon-white"></i> <fmt:message key="aca.Agregar" /></a>
+		<a href="agregar.jsp?FechaIni=<%=fechaIni%>&FechaFin=<%=fechaFin%>" class="btn btn-primary" id="agregar"><i class="icon-ok icon-white"></i> <fmt:message key="aca.Agregar" /></a>
 	</div>
 	</form>				
 	<table class="table">
 		<tr>
 			<th>#</th>
+			<th><fmt:message key="aca.Opcion" /></th>
 			<th><fmt:message key="aca.Fecha" /></th>
 			<th><fmt:message key="aca.Debito" /></th>
+			<th><fmt:message key="aca.Credito" /></th>
 			<th><fmt:message key="aca.Responsable" /></th>
 		</tr>		
 <%	
-	float total = 0;
+	double totalCaja 		= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, "'C','G'", "'C','T'", fechaIni, fechaFin, "D");
+	double totalDeposito 	= 0;
+	
 	int row = 0;
 	for (aca.fin.FinDeposito deposito : lisDepositos){
-		total	= Float.parseFloat( deposito.getImporte() );
+		totalDeposito	= Double.parseDouble( deposito.getImporte() );
 		row++;
 %>
 		<tr>				
 			<td><%=row%></td>
+			<td>
+				<a href="javascript:EditarDeposito('<%=deposito.getFolio()%>','<%=fechaIni%>','<%=fechaFin%>')" class="btn btn-mini btn-success">
+					<i class="icon-pencil icon-white"></i>
+				</a>
+				<a href="javascript:BorrarDeposito('<%=deposito.getFolio()%>','<%=fechaIni%>','<%=fechaFin%>')" class="btn btn-mini btn-danger">
+					<i class="icon-remove icon-white"></i>
+				</a>
+			</td>
 			<td><%=deposito.getFechaDeposito()%></td>
 			<td><%=deposito.getImporte() %></td>
-			<td><%=deposito.getResponsable() %></td>			
+			<td>&nbsp;</td>
+			<td><%=deposito.getResponsable() %></td>		
 		</tr>
 <%	} %>
 		<tr>	
-			<th colspan="2">Total</th>
-			<th colspan="2"><%=total%></th>
-		</tr>
+			<th colspan="3">Total</th>
+			<th><%=totalDeposito%></th>
+			<th><%=totalCaja%></th>
+			<th>&nbsp;</th>			
+		</tr>		
 	</table>
 </div>
 	
