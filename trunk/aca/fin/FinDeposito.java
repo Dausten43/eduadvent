@@ -126,8 +126,8 @@ public class FinDeposito {
                     " SET FECHA = TO_DATE(?,'DD/MM/YYYY')," +
                     " FECHA_DEPOSITO = TO_DATE(?,'DD/MM/YYYY')," +
                     " IMPORTE = ?," +
-                    " RESPONSABLE = TO_NUMBER(?, '99999.99')" +
-                    " WHERE ESCUELA_ID = ? " +
+                    " RESPONSABLE = ?" +
+                    " WHERE ESCUELA_ID = ?" +
                     " AND FOLIO = TO_NUMBER(?, '99')");
             ps.setString(1, fecha);
             ps.setString(2, fechaDeposito);
@@ -193,7 +193,7 @@ public class FinDeposito {
         PreparedStatement ps = null; 
         try{
 	        ps = con.prepareStatement(
-	                " SELECT ESCUELA_ID, FOLIO, FECHA, FECHA_DEPOSITO, IMPORTE, RESPONSABLE " +
+	                " SELECT ESCUELA_ID, FOLIO, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, TO_CHAR(FECHA_DEPOSITO,'DD/MM/YYYY') AS FECHA_DEPOSITO, IMPORTE, RESPONSABLE" +
 	                " FROM FIN_DEPOSITO" +
 	                " WHERE ESCUELA_ID = ?" +
 	                " AND FOLIO = TO_NUMBER(?, '9999999')");
