@@ -555,7 +555,7 @@ public class FinMovimientos {
         return saldo;
     }
     
-    public static double saldoPolizas( Connection conn, String escuela, String tipo, String estado, String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
+    public static double saldoPolizas( Connection conn, String escuela, String estado, String tipo, String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
 		ResultSet rs 			= null;
 		PreparedStatement ps	= null;
 		double saldo			= 0;

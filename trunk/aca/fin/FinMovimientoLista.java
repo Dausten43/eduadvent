@@ -100,7 +100,7 @@ public class FinMovimientoLista {
 		return list;
 	}
 	
-	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String tipo, String estado, String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
+	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela,  String estado, String tipo, String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;		

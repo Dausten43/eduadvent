@@ -342,7 +342,28 @@ public class CatAsociacion {
 		
 		return nombreCorto;
 	}
-
+	
+	public static String getAsociacionNombre(Connection conn, String escuelaId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String nombreCorto			= "-";
+		
+		try{
+			ps = conn.prepareStatement("SELECT ASOCIACION_NOMBRE FROM CAT_ASOCIACION WHERE ASOCIACION_ID = (SELECT ASOCIACION_ID FROM CAT_ESCUELA WHERE ESCUELA_ID = ?)");
+			ps.setString(1, escuelaId);
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				nombreCorto = rs.getString("ASOCIACION_NOMBRE");
+			}			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatAsociacion|getAsociacionNombreCorto|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return nombreCorto;
+	}
 
 
 	
