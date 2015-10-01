@@ -555,4 +555,38 @@ public class FinMovimientos {
         return saldo;
     }
     
+    public static double saldoPolizas( Connection conn, String escuela, String tipo, String estado, String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
+		ResultSet rs 			= null;
+		PreparedStatement ps	= null;
+		double saldo			= 0;
+		
+		try{
+			ps = conn.prepareStatement("SELECT SUM(IMPORTE) AS SALDO FROM FIN_MOVIMIENTOS"
+				+ " WHERE POLIZA_ID IN "
+				+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = ? AND ESTADO IN (?) AND TIPO IN (?) "
+				+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
+				+ " AND NATURALEZA = ?");
+			
+			ps.setString(1, escuela);
+			ps.setString(2, estado);
+			ps.setString(3, tipo);
+			ps.setString(4, fechaIni);
+			ps.setString(5, fechaFin);
+			ps.setString(6, naturaleza);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				saldo = rs.getDouble("SALDO");
+			}			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimiento|saldoPolizas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return saldo;
+	}
+    
 }
