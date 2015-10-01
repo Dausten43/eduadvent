@@ -62,8 +62,8 @@
 <%} %>
 	<tr>
 		<td>Totales</td>
-		<td><%=saldo %></td>
-		<td><%=totSaldos %></td>
+		<td style="text-align:right"><%=saldo %></td>
+		<td style="text-align:right"><%=totSaldos %></td>
 	</tr>
 	</table>
 </div>
