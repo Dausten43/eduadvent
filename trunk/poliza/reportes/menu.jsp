@@ -12,7 +12,7 @@
           <div class="well well-small">
             <ul class="nav nav-list">
               <li><a href="cierre_caja.jsp"><i class="icon-chevron-right"></i>Cierre de Caja</a></li>
-              <li><a href="cierre_caja.jsp"><i class="icon-chevron-right"></i>Control Alumno</a></li>
+              <li><a href="control.jsp"><i class="icon-chevron-right"></i>Control Alumno</a></li>
             </ul>
         </div>
 	</div>
