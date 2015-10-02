@@ -27,13 +27,17 @@
 	<h1>Control de Alumno<small></small></h1>
 	<form name="frmControl" id="frmControl" method="post" action="control.jsp">
 	<div class="well">
+		<a href="menu.jsp" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
 		Fecha Inicial:
 		<input name="FechaIni" type="text" id="FechaIni" size="12" maxlength="10" data-date-format="dd/mm/yyyy" onfocus="focusFecha(this);" value="<%=fechaIni%>" style="margin-top: 5px;">
 		Fecha Final:
 		<input name="FechaFin" type="text" id="FechaFin" size="12" maxlength="10" data-date-format="dd/mm/yyyy" onfocus="focusFecha(this);" value="<%=fechaFin%>" style="margin-top: 5px;">
 		<a onclick="javascript:document.frmControl.submit();" class="btn btn-primary"><i class="icon-white icon-filter"></i> Filtrar</a>
 	</div>
-	</form>	
+	</form>
+	<div class="center">
+		<img src="../../imagenes/construyendo.png" />
+	</div>	
 </div>
 </body>
 </html>

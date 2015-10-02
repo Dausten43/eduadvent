@@ -25,6 +25,7 @@
 	<h2>Cierre de Caja ( <small><%=asociacion %> - <%=nombre%></small> )</h2>
 	<form name="frmCierre" id="frmCierre" method="post" action="cierre_caja.jsp">
 	<div class="well">
+		<a href="menu.jsp" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
 		Fecha Inicial:
 		<input name="FechaIni" type="text" id="FechaIni" size="12" maxlength="10" data-date-format="dd/mm/yyyy" onfocus="focusFecha(this);" value="<%=fechaIni%>" style="margin-top: 5px;">
 		Fecha Final:
