@@ -168,7 +168,8 @@
 						String nombre = aca.catalogo.CatEscuela.getNombre(conElias, EscuelasUsuario.get(i));
 						int inscritosAsoc = AlumPersonal.getNumInscritosPorEscuela(conElias, EscuelasUsuario.get(i));
 						int registrosAsoc = AlumPersonal.getTotalRegistros(conElias, EscuelasUsuario.get(i));
-						int empTotEsc	  = aca.empleado.EmpPersonal.getTotalEmpleados(conElias, EscuelasUsuario.get(i));
+						System.out.println(EscuelasUsuario.get(i));
+						int empTotEsc	  = aca.empleado.EmpPersonal.getTotalEmpleadosActivos(conElias, EscuelasUsuario.get(i));
 						int empDocenciaEsc =0;
 						if(mapEmpDoc.containsKey(EscuelasUsuario.get(i))){
 							empDocenciaEsc = Integer.parseInt(mapEmpDoc.get(EscuelasUsuario.get(i)));
