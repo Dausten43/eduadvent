@@ -122,7 +122,7 @@
 			
 			frase = new Phrase("",
 	        		FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new Color(0,0,0)));
-			frase.add(new Phrase( aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), AlumPlan.getNivelAlumno(conElias, codigoAlumno)), 
+			frase.add(new Phrase( aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), Integer.toString(AlumPlan.getNivelAlumno(conElias, codigoAlumno))), 
 					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0))));
 			celda = new PdfPCell(frase);
 			celda = new PdfPCell(frase);
