@@ -225,7 +225,7 @@
 						}
 						
 		%>
-						<td class="text-center"><%=strNota%></td>
+						<td class="text-center"><%=frmDecimal.format(Double.parseDouble(strNota))%></td>
 		<%
 					}
 					
