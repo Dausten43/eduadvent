@@ -973,6 +973,32 @@ public class EmpPersonal {
 		return numAlum;
 	}
 	
+public static int getTotalEmpleadosActivos(Connection conn, String escuelaId ) throws SQLException{
+		
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		int numAlum			= 0;
+		
+		try{
+			comando = "SELECT COUNT(CODIGO_ID) AS RESULTADO FROM EMP_PERSONAL"+
+					" WHERE ESCUELA_ID = '"+escuelaId+"' AND ESTADO = 'A'";		
+					
+			rs = st.executeQuery(comando);
+			if (rs.next()){
+				numAlum = rs.getInt("RESULTADO");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.empleado.EmpPersonal|getTotalEmpleados|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return numAlum;
+	}
+	
 	public static int getTotalRegistrosAsocicacion(Connection conn, String escuelas ) throws SQLException{
 		
 		Statement st 		= conn.createStatement();
