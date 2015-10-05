@@ -236,7 +236,7 @@
 				colonia = CatEscuela.getColonia();
 			}
 			String ciudad 	= aca.catalogo.CatCiudad.getCiudad(conElias, CatEscuela.getPaisId(), CatEscuela.getEstadoId(), CatEscuela.getCiudadId());
-			String estado 	= aca.catalogo.CatEstado.getEstado(conElias, CatEscuela.getPaisId(), CatEscuela.getEscuelaId());
+			String estado 	= aca.catalogo.CatEstado.getEstado(conElias, CatEscuela.getPaisId(), CatEscuela.getEstadoId());
 			String telefono = CatEscuela.getTelefono();
 			
 			frase = new Phrase(direccion+"\n"+(!direccion2.equals("")?direccion2:"")+colonia+"\n"+ciudad+"\n"+estado+"\n"+telefono  , 
