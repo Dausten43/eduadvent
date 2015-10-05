@@ -222,14 +222,18 @@
 				colonia = CatEscuela.getColonia();; 
 			}
 			
-			frase = new Phrase(direccion+"\n"+(!direccion2.equals("")?direccion2:"")+" \n"+colonia, 
+			String ciudad 	= aca.catalogo.CatCiudad.getCiudad(conElias, CatEscuela.getPaisId(), CatEscuela.getEstadoId(), CatEscuela.getCiudadId());
+			String estado 	= aca.catalogo.CatEstado.getEstado(conElias, CatEscuela.getPaisId(), CatEscuela.getEstadoId());
+			String telefono = CatEscuela.getTelefono();
+			
+			frase = new Phrase(direccion+"\n"+(!direccion2.equals("")?direccion2:"")+colonia+"\n"+ciudad+"\n"+estado+"\n"+telefono  , 
 					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
 			celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 			celda.setBorder(0);
 			cicloTable.addCell(celda);
 			
-			cicloTable.writeSelectedRows(0, -1, 342,698+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(0, -1, 342,705+extra, pdf.getDirectContent());
 			
 			if(tieneFirma == false){
 				float[] ColumnSize = { 100F };
