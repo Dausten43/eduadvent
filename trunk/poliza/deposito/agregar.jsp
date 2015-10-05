@@ -93,8 +93,11 @@
 	</fieldset>
 	
 	<div class="well">
+	<%if(!accion.equals("4")){ %>
 		<button class="btn btn-primary" onclick="javascript:Grabar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Anadir" /></button>&nbsp;&nbsp;
+	<%}else{ %>
 		<button class="btn btn-primary" onclick="javascript:Modificar('<%=folio%>')"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Modificar" /></button>
+	<%} %>
 	</div>
 
 	</form>

@@ -53,7 +53,7 @@
 		<fmt:message key="aca.FechaFinal" />:&nbsp;&nbsp;
 		<input name="FechaFin" type="text" id="FechaFin" size="10" maxlength="10" value="<%=fechaFin%>" class="input-medium datepicker">&nbsp;&nbsp;
 		<button class="btn btn-primary" type=submit><i class="icon-refresh icon-white"></i> <fmt:message key="aca.Mostrar"/></button>&nbsp;&nbsp;		
-		<a href="agregar.jsp?FechaIni=<%=fechaIni%>&FechaFin=<%=fechaFin%>" class="btn btn-primary" id="agregar"><i class="icon-ok icon-white"></i> <fmt:message key="aca.Agregar" /></a>
+		<a href="agregar.jsp?FechaIni=<%=fechaIni%>&FechaFin=<%=fechaFin%>&accion=4" class="btn btn-primary" id="agregar"><i class="icon-ok icon-white"></i> <fmt:message key="aca.Agregar" /></a>
 	</div>
 	</form>				
 	<table class="table">
