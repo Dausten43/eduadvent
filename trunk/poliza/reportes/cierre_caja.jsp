@@ -18,7 +18,8 @@
 	String asociacion		= aca.catalogo.CatAsociacion.getAsociacionNombre(conElias, escuelaId);
 	String estado 			= "'T','C','A'";
 	String tipo				= "'G','C','I'";
-	double saldo 			= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "D"); 	
+	double saldo 			= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "C"); 	
+	System.out.println("Datos:"+saldo+":"+escuelaId+":"+estado+":"+tipo+":"+fechaIni+":"+fechaFin);
 %>
 <body>
 <div id="content">
@@ -46,7 +47,7 @@
 		</tr>
 <%
 	ArrayList<aca.fin.FinCuenta> lisCuenta = FinCuentaLista.getListCuentas(conElias, escuelaId, "ORDER BY CUENTA_ID");
-	HashMap<String, String> mapSaldos = aca.fin.FinMovimientosLista.saldoPolizasPorCuentas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "D");
+	HashMap<String, String> mapSaldos = aca.fin.FinMovimientosLista.saldoPolizasPorCuentas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "C");
 	double totSaldos = 0.0;
 	for(aca.fin.FinCuenta cuentas : lisCuenta){
 		String saldos = "";
