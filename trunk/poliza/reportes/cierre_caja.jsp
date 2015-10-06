@@ -16,8 +16,8 @@
 	
 	String nombre			= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId);
 	String asociacion		= aca.catalogo.CatAsociacion.getAsociacionNombre(conElias, escuelaId);
-	String estado 	= "'T','C'";
-	String tipo		="'G','C','I'";
+	String estado 			= "'T','C','A'";
+	String tipo				= "'G','C','I'";
 	double saldo 			= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "D"); 	
 %>
 <body>
