@@ -1,5 +1,4 @@
 <%@page import="java.util.HashMap"%>
-<%@ page import="java.text.*" %>
 
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
@@ -11,7 +10,7 @@
 <jsp:useBean id="FinCuentaLista" scope="page" class="aca.fin.FinCuentaLista"/>
 <html>
 <%
-	DecimalFormat formato	= new DecimalFormat("###,##0.00;(###,##0.00)");
+	java.text.DecimalFormat formato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String fechaHoy 		= aca.util.Fecha.getHoy();
