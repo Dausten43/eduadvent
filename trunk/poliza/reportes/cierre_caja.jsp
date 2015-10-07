@@ -1,4 +1,6 @@
 <%@page import="java.util.HashMap"%>
+<%@ page import="java.text.*" %>
+
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -9,6 +11,8 @@
 <jsp:useBean id="FinCuentaLista" scope="page" class="aca.fin.FinCuentaLista"/>
 <html>
 <%
+	DecimalFormat formato	= new DecimalFormat("###,##0.00;(###,##0.00)");
+
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String fechaHoy 		= aca.util.Fecha.getHoy();
 	String fechaIni 		= request.getParameter("FechaIni")==null?fechaHoy:request.getParameter("FechaIni");
@@ -19,7 +23,7 @@
 	String estado 			= "'T','C','A'";
 	String tipo				= "'G','C','I'";
 	double saldo 			= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "C"); 	
-	System.out.println("Datos:"+saldo+":"+escuelaId+":"+estado+":"+tipo+":"+fechaIni+":"+fechaFin);
+	//System.out.println("Datos:"+saldo+":"+escuelaId+":"+estado+":"+tipo+":"+fechaIni+":"+fechaFin);
 %>
 <body>
 <div id="content">
@@ -42,7 +46,7 @@
 		</tr>
 		<tr>
 			<td>CAJA GENERAL</td>
-			<td style="text-align:right"><%=saldo %></td>
+			<td style="text-align:right"><%=formato.format(saldo)%></td>
 			<td style="text-align:right"></td>
 		</tr>
 <%
@@ -50,7 +54,7 @@
 	HashMap<String, String> mapSaldos = aca.fin.FinMovimientosLista.saldoPolizasPorCuentas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "C");
 	double totSaldos = 0.0;
 	for(aca.fin.FinCuenta cuentas : lisCuenta){
-		String saldos = "";
+		String saldos = "0";
 		if(mapSaldos.containsKey(cuentas.getCuentaId())){
 			saldos = mapSaldos.get(cuentas.getCuentaId());
 			totSaldos += Double.parseDouble(saldos);
@@ -59,13 +63,13 @@
 	<tr>
 		<td><%=cuentas.getCuentaNombre() %></td>
 		<td style="text-align:right">&nbsp;</td>
-		<td style="text-align:right"><%=saldos %></td>
+		<td style="text-align:right"><%=formato.format(Double.parseDouble(saldos)) %></td>
 	</tr>
 <%} %>
 	<tr>
 		<td>Totales</td>
-		<td style="text-align:right"><%=saldo %></td>
-		<td style="text-align:right"><%=totSaldos %></td>
+		<td style="text-align:right"><%=formato.format(saldo) %></td>
+		<td style="text-align:right"><%=formato.format(totSaldos) %></td>
 	</tr>
 	</table>
 </div>
