@@ -973,6 +973,7 @@ public class EmpPersonal {
 		return numAlum;
 	}
 	
+	
 public static int getTotalEmpleadosActivos(Connection conn, String escuelaId ) throws SQLException{
 		
 		Statement st 		= conn.createStatement();
