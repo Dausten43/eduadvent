@@ -40,28 +40,75 @@
 	</form>
 		<h3><fmt:message key="aca.IngresosDiferidos" /></h3>
 		<table class="table">
-
-	
 		<tr>
 			<th><fmt:message key="aca.Nivel" /></th>
 			<th style="text-align:right"><fmt:message key="aca.Debito" /></th>
 			<th style="text-align:right"><fmt:message key="aca.Credito" /></th>
-		</tr>		
-		<tr>		
-<% for(int x=0; x<listEscuelaNivel.size(); x++){
+		</tr>
+<% 
+	float sum = 0;
+	for(int x=0; x<listEscuelaNivel.size(); x++){
 		if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
-			%>
-			<td style="text-align:right"><%=listEscuelaNivel.get(x).getNivelNombre()%></td>
-			<td style="text-align:right"><%=mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId())%></td>
-		<%}
+		sum += Float.valueOf(mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId()));		
+	}
+	}
 %>	
-
+		<tr>
+				<td></td>
+				<td style="text-align:right"><%=sum %></td>
+				<td></td>
+		</tr>		
+				
+<%	for(int x=0; x<listEscuelaNivel.size(); x++){%>
+	<tr>
+<%	if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
+			%>
+			<td style="text-align:left"><%=listEscuelaNivel.get(x).getNivelNombre()%></td>
+			<td style="text-align:right"></td>
+			<td style="text-align:right"><%=mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId())%></td>
+<%}
+%>	
 	</tr>
 		
 <%}%>
-
-
 	</table>
+
+		<h3><fmt:message key="aca.IngresosDiferidos" /></h3>
+		<table class="table">
+		<tr>
+			<th><fmt:message key="aca.Nivel" /></th>
+			<th style="text-align:right"><fmt:message key="aca.Debito" /></th>
+			<th style="text-align:right"><fmt:message key="aca.Credito" /></th>
+		</tr>
+<% 
+	sum = 0;
+	for(int x=0; x<listEscuelaNivel.size(); x++){
+		if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
+		sum += Float.valueOf(mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId()));		
+	}
+	}
+%>	
+		<tr>
+				<td></td>
+				<td style="text-align:right"><%=sum %></td>
+				<td></td>
+		</tr>		
+				
+<%	for(int x=0; x<listEscuelaNivel.size(); x++){%>
+	<tr>
+<%	if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
+			%>
+			<td style="text-align:left"><%=listEscuelaNivel.get(x).getNivelNombre()%></td>
+			<td style="text-align:right"></td>
+			<td style="text-align:right"><%=mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId())%></td>
+<%}
+%>	
+	</tr>
+		
+<%}%>
+	</table>
+
+
 	
 	<div class="center">
 		<img src="../../imagenes/construyendo.png" />
