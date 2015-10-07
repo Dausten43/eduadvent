@@ -1,0 +1,213 @@
+package aca.ciclo;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class CicloExtra {
+	private String cicloId;
+	private String oportunidad;
+	private String valorAnterior;
+	private String valorExtra;
+	private String oportunidadNombre;
+	
+	public CicloExtra(){
+		cicloId				= "";
+		oportunidad			= "";
+		valorAnterior		= "";
+		valorExtra 			= "";
+		oportunidadNombre	= "";
+	}
+	
+	public String getCicloId() {
+		return cicloId;
+	}
+
+	public void setCicloId(String cicloId) {
+		this.cicloId = cicloId;
+	}
+
+	public String getOportunidad() {
+		return oportunidad;
+	}
+
+	public void setOportunidad(String oportunidad) {
+		this.oportunidad = oportunidad;
+	}
+
+	public String getValorAnterior() {
+		return valorAnterior;
+	}
+
+	public void setValorAnterior(String valorAnterior) {
+		this.valorAnterior = valorAnterior;
+	}
+
+	public String getValorExtra() {
+		return valorExtra;
+	}
+
+	public void setValorExtra(String valorExtra) {
+		this.valorExtra = valorExtra;
+	}
+
+	public String getOportunidadNombre() {
+		return oportunidadNombre;
+	}
+
+	public void setOportunidadNombre(String oportunidadNombre) {
+		this.oportunidadNombre = oportunidadNombre;
+	}
+
+	public boolean insertReg(Connection conn ) throws SQLException{
+		PreparedStatement ps = null;
+		boolean ok = false;
+		try{
+			ps = conn.prepareStatement("INSERT INTO CICLO_EXTRA" +
+					" (CICLO_ID, OPORTUNIDAD, VALOR_ANTERIOR, VALOR_EXTRA, OPORTUNIDAD_NOMBRE)" +
+					" VALUES(?, TO_NUMBER(?, '99'), TO_NUMBER(?, '999.99'), TO_NUMBER(?, '999.99'), ?)");
+			
+			ps.setString(1, cicloId);
+			ps.setString(2, oportunidad);
+			ps.setString(3, valorAnterior);
+			ps.setString(4, valorExtra);
+			ps.setString(5, oportunidadNombre);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+				conn.commit();
+			}else{
+				ok = false;
+			}
+			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|insertReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public boolean updateReg(Connection conn ) throws SQLException{
+		PreparedStatement ps = null;
+		boolean ok = false;
+		try{
+			ps = conn.prepareStatement("UPDATE CICLO_EXTRA" +
+					" SET VALOR_ANTERIOR = TO_NUMBER(?, '999.99')," +
+					" VALOR_EXTRA = TO_NUMBER(?, '999.99')," +
+					" OPORTUNIDAD_NOMBRE = ?" +
+					" WHERE CICLO_ID = ?" +
+					" AND OPORTUNIDAD = TO_NUMBER(?, '99')");			
+			ps.setString(1, valorAnterior);
+			ps.setString(2, valorExtra);
+			ps.setString(3, oportunidadNombre);
+			ps.setString(4, cicloId);
+			ps.setString(5, oportunidad);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+				conn.commit();
+			}else{
+				ok = false;
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|updateReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public boolean deleteReg(Connection conn ) throws SQLException{
+		PreparedStatement ps = null;
+		boolean ok = false;
+		try{
+			ps = conn.prepareStatement("DELETE FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID = ?" +
+					" AND OPORTUNIDAD = TO_NUMBER(?, '99')");
+			ps.setString(1, cicloId);
+			ps.setString(2, oportunidad);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+				conn.commit();
+			}else{
+				ok = false;
+			}
+			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|deleteReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public void mapeaReg(ResultSet rs ) throws SQLException{
+		cicloId				= rs.getString("CICLO_ID");
+		oportunidad			= rs.getString("OPORTUNIDAD");
+		valorAnterior		= rs.getString("VALOR_ANTERIOR");
+		valorExtra			= rs.getString("VALOR_EXTRA");
+		oportunidadNombre	= rs.getString("OPORTUNIDAD_NOMBRE");
+	}
+	
+	public void mapeaRegId(Connection con, String cicloId, String bloqueId, String actividadId) throws SQLException{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try{
+			ps = con.prepareStatement("SELECT CICLO_ID, OPORTUNIDADA, VALOR_ANTERIOR," +
+					" VALOR_EXTRA, " +
+					" OPORTUNIDAD_NOMBRE" +
+					" FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID = ?" +
+					" AND OPORTUNIDAD = TO_NUMBER(?, '99')");
+			ps.setString(1, cicloId);
+			ps.setString(2, oportunidad);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				mapeaReg(rs);
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|mapeaRegId|:"+ex);
+			ex.printStackTrace();
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+	}
+	
+	public boolean existeReg(Connection conn) throws SQLException{
+		boolean ok 			= false;
+		ResultSet rs 			= null;
+		PreparedStatement ps	= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID = ?" +
+					" AND OPORTUNIDAD = TO_NUMBER(?, '99') ");
+			ps.setString(1, cicloId);
+			ps.setString(2, oportunidad);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				ok = true;
+			}else{
+				ok = false;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|existeReg|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return ok;
+	}
+		
+}

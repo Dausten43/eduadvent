@@ -299,7 +299,7 @@
 <script>
 
 	$('#Nombre').maxlength({ 
-	    max: 80
+	    max: 500
 	});
 	
 </script>
