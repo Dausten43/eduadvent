@@ -169,6 +169,7 @@
 						 	<strong><%=cicloGrupo.getGrupoNombre() %></strong> 
 						</p>
 						<div >
+							<a class="btn btn-primary btn-mini stopPropagation" href="lista.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>"><fmt:message key="maestros.Lista" /></a>
 							<a class="btn btn-primary btn-mini stopPropagation" href="modulo.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>"><fmt:message key="maestros.Planeacion" /></a> 
 							<a class="btn btn-success btn-mini stopPropagation" target="_blank" href="tarjeta.jsp?Curso=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <%=KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId() ) %> <fmt:message key="aca.Alumnos" /></a>
 						<% 	String metodo = aca.catalogo.CatNivel.getMetodo(conElias, aca.catalogo.CatNivel.getNivelId(conElias, cicloGrupoCurso.getCursoId()));			  

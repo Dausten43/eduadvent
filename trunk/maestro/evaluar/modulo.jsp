@@ -156,10 +156,10 @@
 		  <div class="span4">
 		  			<div class="alert">
 				  		<h4>
-				  			<fmt:message key="archivo.Archivos" /> &nbsp;
+				  			<fmt:message key="archivo.Recursos" /> &nbsp;
 				  			<a  class="btn btn-mini" href="subir.jsp?ModuloId=<%=tema.getModuloId()%>&TemaId=<%=tema.getTemaId()%>">
 				  				<i class="icon-file"></i>
-				  				<fmt:message key="aca.SubirArchivo" />
+				  				<fmt:message key="archivo.SubirRecursos" />
 				  			</a>
 				  		</h4>
 				  	</div>
