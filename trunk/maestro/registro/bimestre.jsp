@@ -229,7 +229,7 @@
 		<%				}else{ %>
 						<td class="text-center"><%=frmDecimal.format(Double.parseDouble(strNota))%></td>
 		<%
-						}	
+						 }	
 					}
 					
 					if(numMaterias!=0){
