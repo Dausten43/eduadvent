@@ -8,6 +8,8 @@
 <%@ include file= "../../menu.jsp" %>
 
 <jsp:useBean id="FinCuentaLista" scope="page" class="aca.fin.FinCuentaLista"/>
+<jsp:useBean id="FinCalculoPagoLista" scope="page" class="aca.fin.FinCalculoPagoLista"/>
+<jsp:useBean id="CatNivelEscuelaLista" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
 
 <html>
 <%
@@ -18,9 +20,10 @@
 	
 	String nombre			= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId);
 	String asociacion		= aca.catalogo.CatAsociacion.getAsociacionNombre(conElias, escuelaId);
-	String estado 	= "'T','C'";
-	String tipo		="'G','C','I'";
-	double saldo 			= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "D"); 	
+	
+
+	ArrayList<aca.catalogo.CatNivelEscuela> listEscuelaNivel = CatNivelEscuelaLista.getListEscuela(conElias, escuelaId, "");
+	java.util.HashMap <String, String> mapFinCalculoPago = FinCalculoPagoLista.mapNivelPago(conElias, escuelaId, fechaIni, fechaFin); 
 %>
 <body>
 <div id="content">
@@ -35,6 +38,49 @@
 		<a onclick="javascript:document.frmControl.submit();" class="btn btn-primary"><i class="icon-white icon-filter"></i> Filtrar</a>
 	</div>
 	</form>
+		<h3><fmt:message key="aca.IngresosDiferidos" /></h3>
+		<table class="table">
+
+	
+		<tr>
+			<th><fmt:message key="aca.Nivel" /></th>
+			<th style="text-align:right"><fmt:message key="aca.Debito" /></th>
+			<th style="text-align:right"><fmt:message key="aca.Credito" /></th>
+		</tr>		
+		<tr>		
+<% for(int x=0; x<listEscuelaNivel.size(); x++){
+		if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
+			%>
+			<td style="text-align:right"><%=listEscuelaNivel.get(x).getNivelId()%></td>
+			<td style="text-align:right"><%=mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId())%></td>
+		<%}
+%>	
+
+	</tr>
+		
+<%}%>
+
+<!-- 		<tr>	 -->
+<!-- 			<th colspan="3">CAJA GENERAL</th> -->
+<!-- 			<th style="text-align:right">&nbsp;</th> -->
+<!-- 			<th style="text-align:right"> </th> -->
+<!-- 			<th>&nbsp;</th>			 -->
+<!-- 		</tr> -->
+<!-- 		<tr>	 -->
+<!-- 			<th colspan="3">T O T A L E S &nbsp; </th> -->
+<!-- 			<th style="text-align:right"> </th> -->
+<!-- 			<th style="text-align:right"> </th> -->
+<!-- 			<th>&nbsp;</th>			 -->
+<!-- 		</tr>		 -->
+	</table>
+	
+	
+	
+	
+	
+	
+	
+	
 	<div class="center">
 		<img src="../../imagenes/construyendo.png" />
 	</div>	
