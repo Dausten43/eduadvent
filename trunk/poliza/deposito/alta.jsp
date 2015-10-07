@@ -20,6 +20,8 @@
 	}
 </script>
 <%
+	java.text.DecimalFormat formato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String fechaIni			= request.getParameter("FechaIni")==null?aca.util.Fecha.getHoy():request.getParameter("FechaIni");
 	String fechaFin			= request.getParameter("FechaFin")==null?aca.util.Fecha.getHoy():request.getParameter("FechaFin");
@@ -66,7 +68,7 @@
 			<th><fmt:message key="aca.Responsable" /></th>
 		</tr>		
 <%	
-	double totalCaja 		= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, "'C','G'", "'C','T'", fechaIni, fechaFin, "D");
+	double totalCaja 		= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, "'C','T','A'", "'C','G','I'", fechaIni, fechaFin, "C");
 	double totalDeposito 	= 0;
 	
 	int row = 0;
@@ -85,15 +87,21 @@
 				</a>
 			</td>
 			<td><%=deposito.getFechaDeposito()%></td>
-			<td><%=deposito.getImporte() %></td>
+			<td><%=formato.format(Double.parseDouble(deposito.getImporte())) %></td>
 			<td>&nbsp;</td>
 			<td><%=deposito.getResponsable() %></td>		
 		</tr>
 <%	} %>
 		<tr>	
-			<th colspan="3">Total</th>
-			<th><%=totalDeposito%></th>
-			<th><%=totalCaja%></th>
+			<th colspan="3">CAJA GENERAL</th>
+			<th>&nbsp;</th>
+			<th><%=formato.format(totalCaja)%></th>
+			<th>&nbsp;</th>			
+		</tr>
+		<tr>	
+			<th colspan="3">T O T A L E S &nbsp; </th>
+			<th><%=formato.format(totalDeposito)%></th>
+			<th><%=formato.format(totalCaja)%></th>
 			<th>&nbsp;</th>			
 		</tr>		
 	</table>
