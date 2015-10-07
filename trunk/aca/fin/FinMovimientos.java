@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class FinMovimientos {
 	
@@ -556,25 +557,19 @@ public class FinMovimientos {
     }
     
     public static double saldoPolizas( Connection conn, String escuela, String estado, String tipo, String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
-		ResultSet rs 			= null;
-		PreparedStatement ps	= null;
+    	Statement st		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando 		= "";		
 		double saldo			= 0;
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
-				+ " WHERE POLIZA_ID IN "
-				+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = ? AND ESTADO IN (?) AND TIPO IN (?) "
-				+ "		AND FECHA BETWEEN TO_DATE(?,'DD/MM/YYYY') AND TO_DATE(?,'DD/MM/YYYY'))"
-				+ " AND NATURALEZA = ?");
+			comando = "SELECT COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
+					+ " WHERE POLIZA_ID IN "
+					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estado+") AND TIPO IN ("+tipo+") "
+					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
+					+ " AND NATURALEZA = '"+naturaleza+"'";
 			
-			ps.setString(1, escuela);
-			ps.setString(2, estado);
-			ps.setString(3, tipo);
-			ps.setString(4, fechaIni);
-			ps.setString(5, fechaFin);
-			ps.setString(6, naturaleza);
-			
-			rs= ps.executeQuery();		
+			rs = st.executeQuery(comando);					
 			if(rs.next()){
 				saldo = rs.getDouble("SALDO");
 			}			
@@ -583,7 +578,7 @@ public class FinMovimientos {
 			System.out.println("Error - aca.fin.FinMovimiento|saldoPolizas|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
-			if (ps!=null) ps.close();
+			if (st!=null) st.close();
 		}
 		
 		return saldo;

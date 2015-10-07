@@ -1,7 +1,6 @@
 package aca.fin;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -450,26 +449,19 @@ public class FinMovimientosLista {
 	
 	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String estado, String tipo,  String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
 		
-		PreparedStatement ps	= null;
-		ResultSet rs 			= null;		
+		Statement st			= conn.createStatement();
+		ResultSet rs 			= null;
+		String comando 			= "";
 		HashMap<String,String> map 	= new HashMap<String,String>();
 		
 		try{
-			ps = conn.prepareStatement("SELECT CUENTA_ID, SUM(IMPORTE) AS SALDO FROM FIN_MOVIMIENTOS"
-				+ " WHERE POLIZA_ID IN "
-				+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = ? AND ESTADO IN (?) AND TIPO IN (?) "
-				+ "		AND FECHA BETWEEN TO_DATE(?,'DD/MM/YYYY') AND TO_DATE(?,'DD/MM/YYYY'))"
-				+ " AND NATURALEZA = ?"
-				+ " GROUP BY CUENTA_ID");
-			
-			ps.setString(1, escuela);
-			ps.setString(2, estado);
-			ps.setString(3, tipo);
-			ps.setString(4, fechaIni);
-			ps.setString(5, fechaFin);
-			ps.setString(6, naturaleza);
-			
-			rs= ps.executeQuery();		
+			comando = "SELECT CUENTA_ID, COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
+					+ " WHERE POLIZA_ID IN "
+					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estado+") AND TIPO IN ("+tipo+") "
+					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
+					+ " AND NATURALEZA = '"+naturaleza+"'"
+					+ " GROUP BY CUENTA_ID";		
+			rs= st.executeQuery(comando);		
 			if(rs.next()){
 				map.put(rs.getString("CUENTA_ID"), rs.getString("SALDO"));
 			}			
@@ -478,7 +470,7 @@ public class FinMovimientosLista {
 			System.out.println("Error - aca.fin.FinMovimientoLista|saldoPolizasPorCuentas|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
-			if (ps!=null) ps.close();
+			if (st!=null) st.close();
 		}
 		
 		return map;
