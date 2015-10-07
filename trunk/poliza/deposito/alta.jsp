@@ -63,8 +63,8 @@
 			<th>#</th>
 			<th><fmt:message key="aca.Opcion" /></th>
 			<th><fmt:message key="aca.Fecha" /></th>
-			<th><fmt:message key="aca.Debito" /></th>
-			<th><fmt:message key="aca.Credito" /></th>
+			<th style="text-align:right"><fmt:message key="aca.Debito" /></th>
+			<th style="text-align:right"><fmt:message key="aca.Credito" /></th>
 			<th><fmt:message key="aca.Responsable" /></th>
 		</tr>		
 <%	
@@ -87,21 +87,21 @@
 				</a>
 			</td>
 			<td><%=deposito.getFechaDeposito()%></td>
-			<td><%=formato.format(Double.parseDouble(deposito.getImporte())) %></td>
-			<td>&nbsp;</td>
+			<td style="text-align:right"><%=formato.format(Double.parseDouble(deposito.getImporte())) %></td>
+			<td style="text-align:right">&nbsp;</td>
 			<td><%=deposito.getResponsable() %></td>		
 		</tr>
 <%	} %>
 		<tr>	
 			<th colspan="3">CAJA GENERAL</th>
-			<th>&nbsp;</th>
-			<th><%=formato.format(totalCaja)%></th>
+			<th style="text-align:right">&nbsp;</th>
+			<th style="text-align:right"><%=formato.format(totalCaja)%></th>
 			<th>&nbsp;</th>			
 		</tr>
 		<tr>	
 			<th colspan="3">T O T A L E S &nbsp; </th>
-			<th><%=formato.format(totalDeposito)%></th>
-			<th><%=formato.format(totalCaja)%></th>
+			<th style="text-align:right"><%=formato.format(totalDeposito)%></th>
+			<th style="text-align:right"><%=formato.format(totalCaja)%></th>
 			<th>&nbsp;</th>			
 		</tr>		
 	</table>
