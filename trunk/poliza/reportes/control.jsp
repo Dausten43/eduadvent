@@ -51,7 +51,7 @@
 <% for(int x=0; x<listEscuelaNivel.size(); x++){
 		if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
 			%>
-			<td style="text-align:right"><%=listEscuelaNivel.get(x).getNivelId()%></td>
+			<td style="text-align:right"><%=listEscuelaNivel.get(x).getNivelNombre()%></td>
 			<td style="text-align:right"><%=mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId())%></td>
 		<%}
 %>	
@@ -60,26 +60,8 @@
 		
 <%}%>
 
-<!-- 		<tr>	 -->
-<!-- 			<th colspan="3">CAJA GENERAL</th> -->
-<!-- 			<th style="text-align:right">&nbsp;</th> -->
-<!-- 			<th style="text-align:right"> </th> -->
-<!-- 			<th>&nbsp;</th>			 -->
-<!-- 		</tr> -->
-<!-- 		<tr>	 -->
-<!-- 			<th colspan="3">T O T A L E S &nbsp; </th> -->
-<!-- 			<th style="text-align:right"> </th> -->
-<!-- 			<th style="text-align:right"> </th> -->
-<!-- 			<th>&nbsp;</th>			 -->
-<!-- 		</tr>		 -->
+
 	</table>
-	
-	
-	
-	
-	
-	
-	
 	
 	<div class="center">
 		<img src="../../imagenes/construyendo.png" />
