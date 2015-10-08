@@ -871,6 +871,7 @@
 			<th>#</th>
 			<th></th>
 			<th>Fecha</th>
+			<th>Descripcion</th>
 			<th>Tipo de Pago</th>
 			<th>Importe</th>
 		</tr>
@@ -892,6 +893,7 @@
 			<td><%=cont %></td>
 			<td><input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" <%=checked%>></td>
 			<td><%=pago.getFecha() %></td>
+			<td><%=pago.getDescripcion() %></td>
 			<td><%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> </td>
 			<td><%=importe %></td>
 		</tr>
