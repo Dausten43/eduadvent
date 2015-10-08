@@ -62,6 +62,7 @@
 	<table class="table table-bordered">
 		<tr>
 			<th>#</th>
+			<th><fmt:message key="aca.Op" /></th>
 			<th><fmt:message key="aca.OportunidadId" /></th>
 			<th><fmt:message key="aca.ValorAnterior" /></th>
 			<th><fmt:message key="aca.ValorExtra" /></th>
@@ -73,6 +74,9 @@
 %>
 		<tr>
 			<td><%=cont %></td>
+			<td>
+				<a class="btn btn-primary" href="accion.jsp?ciclo=<%=extras.getCicloId()%>&oportunidad=<%=extras.getOportunidad()%>"><i class="icon-white icon-pencil"></i></a>
+			</td>
 			<td><%=extras.getOportunidad() %></td>
 			<td><%=extras.getValorAnterior() %></td>
 			<td><%=extras.getValorExtra() %></td>

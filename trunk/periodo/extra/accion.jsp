@@ -27,10 +27,8 @@
 	}
 	
 	if(accion.equals("2")){
-		System.out.println("Entra");
-		max 			= cicloExtra.maximoReg(conElias, cicloId);
 		cicloExtra.setCicloId(cicloId);
-		cicloExtra.setOportunidad(max);
+		cicloExtra.setOportunidad(oportunidad);
 		cicloExtra.setValorAnterior(request.getParameter("ValorAnterior"));
 		cicloExtra.setValorExtra(request.getParameter("ValorExtra"));
 		cicloExtra.setOportunidadNombre(request.getParameter("OportunidadNombre"));
