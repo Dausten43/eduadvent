@@ -141,7 +141,7 @@
 			<tr>
 				<td>
 					<a href="accion.jsp?polizaId=<%=poliza.getPolizaId()%>"><i class="icon-pencil"></i></a> 
-					<%if (!aca.fin.FinMovimientos.existePoliza(conElias,poliza.getPolizaId())) {%>
+					<%if (!aca.fin.FinMovimientos.existePoliza(conElias, ejercicioId, poliza.getPolizaId())) {%>
 						<a href="javascript:if(confirm('<fmt:message key="js.Confirma" /> ')){location.href='accion.jsp?Accion=2&polizaId=<%=poliza.getPolizaId()%>';}"><i class="icon-remove"></i></a> 
 					<%}%>
 				</td>
