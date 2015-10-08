@@ -404,13 +404,13 @@ public class FinMovimientos {
         return ok;
     }
     
-    public static boolean existePoliza(Connection conn, String polizaId) throws SQLException {
+    public static boolean existePoliza(Connection conn, String ejercicioId, String polizaId) throws SQLException {
         boolean ok = false;
         ResultSet rs = null;
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_MOVIMIENTOS WHERE POLIZA_ID = '"+polizaId+"' ");
+            ps = conn.prepareStatement("SELECT * FROM FIN_MOVIMIENTOS WHERE EJERCICIO_ID = '"+ejercicioId+"' AND POLIZA_ID = '"+polizaId+"' ");
             
             rs = ps.executeQuery();
             if(rs.next()){
@@ -425,16 +425,17 @@ public class FinMovimientos {
         return ok;
     }
       
-    public static String getCPoliza(Connection conn, String polizaId) throws SQLException {       
+    public static String getCPoliza(Connection conn, String ejercicioId, String polizaId) throws SQLException {       
         
         PreparedStatement ps	= null;
         ResultSet rs			= null;
         String importe			= "0";
 
         try {
-            ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE),0) AS IMPORTE FROM FIN_MOVIMIENTOS "
-            		+ " WHERE NATURALEZA = 'C' "
-            		+ " AND POLIZA_ID = '"+polizaId+"' ");
+            ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE),0) AS IMPORTE FROM FIN_MOVIMIENTOS"
+            		+ " WHERE NATURALEZA = 'C'"
+            		+ " AND EJERCICIO_ID = '"+ejercicioId+"'"
+            		+ " AND POLIZA_ID = '"+polizaId+"'");
             
             
             rs = ps.executeQuery();
@@ -451,16 +452,17 @@ public class FinMovimientos {
         return importe;
     }
     
-    public static String getDPoliza(Connection conn, String polizaId) throws SQLException {     
+    public static String getDPoliza(Connection conn, String ejercicioId, String polizaId) throws SQLException {     
         
         PreparedStatement ps	= null;
         ResultSet rs			= null;
         String importe			= "0";
 
         try {
-            ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE),0) AS IMPORTE FROM FIN_MOVIMIENTOS "
-            		+ " WHERE NATURALEZA = 'D' "
-            		+ " AND POLIZA_ID = '"+polizaId+"' ");
+            ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE),0) AS IMPORTE FROM FIN_MOVIMIENTOS"
+            		+ " WHERE NATURALEZA = 'D'"
+            		+ " AND EJERCICIO_ID = '"+ejercicioId+"'"
+            		+ " AND POLIZA_ID = '"+polizaId+"'");
             
             
             rs = ps.executeQuery();
