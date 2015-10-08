@@ -54,7 +54,7 @@
 			error = true;
 		}
 		
-		if(aca.fin.FinMovimientos.getCPoliza(conElias, polizaId).equals(aca.fin.FinMovimientos.getDPoliza(conElias, polizaId)) == false){
+		if(aca.fin.FinMovimientos.getCPoliza(conElias, ejercicioId, polizaId).equals(aca.fin.FinMovimientos.getDPoliza(conElias, ejercicioId, polizaId)) == false){
 			error = true;
 		}
 		
@@ -120,7 +120,7 @@
 					<a href="accion.jsp?polizaId=<%=poliza.getPolizaId() %>">
 						<i class="icon-pencil"></i>
 					</a>
-					<%if(!aca.fin.FinMovimientos.existePoliza(conElias, poliza.getPolizaId())){ %>	
+					<%if(!aca.fin.FinMovimientos.existePoliza(conElias, ejercicioId, poliza.getPolizaId())){ %>	
 					<a href="javascript:if(confirm('<fmt:message key="js.Confirma" /> ')){location.href='accion.jsp?Accion=2&polizaId=<%=poliza.getPolizaId() %>';}">
 						<i class="icon-remove"></i>
 					</a>
@@ -135,7 +135,7 @@
 				<td><%=poliza.getFecha() %></td>
 				<td>
 					<%if(poliza.getEstado().equals("A")){%>
-						<%if(aca.fin.FinMovimientos.getCPoliza(conElias, poliza.getPolizaId()).equals(aca.fin.FinMovimientos.getDPoliza(conElias, poliza.getPolizaId()))){ %>
+						<%if(aca.fin.FinMovimientos.getCPoliza(conElias, ejercicioId, poliza.getPolizaId()).equals(aca.fin.FinMovimientos.getDPoliza(conElias, ejercicioId, poliza.getPolizaId()))){ %>
 							<a href="javascript:cerrarPoliza('<%=poliza.getPolizaId() %>');" class="btn btn-mini btn-primary"><fmt:message key="aca.CerrarPoliza" /></a>
 						<%}else{ %>
 							<a disabled class="btn btn-mini btn-primary" title="<fmt:message key="aca.AunNoCuadra" />"><fmt:message key="aca.CerrarPoliza" /></a>
