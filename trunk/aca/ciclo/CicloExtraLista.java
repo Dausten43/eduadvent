@@ -5,12 +5,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CicloExtraLista {
 	
-	public ArrayList<CicloBloqueActividad> getListAll(Connection conn, String cicloId, String oportunidad, String orden ) throws SQLException{
-		ArrayList<CicloBloqueActividad> lis 	= new ArrayList<CicloBloqueActividad>();
+	public ArrayList<CicloExtra> getListCiclo(Connection conn, String cicloId, String orden ) throws SQLException{
+		ArrayList<CicloExtra> lis 	= new ArrayList<CicloExtra>();
+		Statement st 							= conn.createStatement();
+		ResultSet rs 							= null;
+		String comando							= "";
+		
+		try{
+			comando = "SELECT CICLO_ID, OPORTUNIDAD, VALOR_ANTERIOR," +
+					" VALOR_EXTRA, " +
+					" OPORTUNIDAD_NOMBRE" +
+					" FROM CICLO_EXTRA " +
+					" WHERE CICLO_ID = '"+cicloId+"' "+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				CicloExtra obj = new CicloExtra();				
+				obj.mapeaReg(rs);
+				lis.add(obj);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloExtraLista|getListCiclo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return lis;
+	}
+	
+	public ArrayList<CicloExtra> getListAll(Connection conn, String cicloId, String oportunidad, String orden ) throws SQLException{
+		ArrayList<CicloExtra> lis 	= new ArrayList<CicloExtra>();
 		Statement st 							= conn.createStatement();
 		ResultSet rs 							= null;
 		String comando							= "";
@@ -24,13 +53,13 @@ public class CicloExtraLista {
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
-				CicloBloqueActividad obj = new CicloBloqueActividad();				
+				CicloExtra obj = new CicloExtra();				
 				obj.mapeaReg(rs);
 				lis.add(obj);
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.ciclo.cicloBloqueActividadLista|getListAll|:"+ex);
+			System.out.println("Error - aca.ciclo.cicloExtraLista|getListAll|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();

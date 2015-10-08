@@ -155,11 +155,11 @@ public class CicloExtra {
 		oportunidadNombre	= rs.getString("OPORTUNIDAD_NOMBRE");
 	}
 	
-	public void mapeaRegId(Connection con, String cicloId, String bloqueId, String actividadId) throws SQLException{
+	public void mapeaRegId(Connection con, String cicloId, String oportunidad) throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			ps = con.prepareStatement("SELECT CICLO_ID, OPORTUNIDADA, VALOR_ANTERIOR," +
+			ps = con.prepareStatement("SELECT CICLO_ID, OPORTUNIDAD, VALOR_ANTERIOR," +
 					" VALOR_EXTRA, " +
 					" OPORTUNIDAD_NOMBRE" +
 					" FROM CICLO_EXTRA" +
@@ -208,6 +208,32 @@ public class CicloExtra {
 		}		
 		
 		return ok;
+	}
+	
+	public String maximoReg(Connection conn, String cicloId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String maximo 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT COUNT(OPORTUNIDAD)+1 AS MAXIMO FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID = ? ");
+			ps.setString(1, cicloId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				maximo = rs.getString("MAXIMO");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|maximoReg|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return maximo;
 	}
 		
 }
