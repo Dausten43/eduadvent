@@ -31,6 +31,7 @@
 	String periodoId		= aca.ciclo.CicloPeriodo.periodoActual(conElias, cicloId);
 	
 	alumPersonal.mapeaRegId(conElias, codigoId);
+	String acfe = alumPersonal.getClasfinId().equals("1")?"SI":"No";
 %>
 <body>
 
@@ -147,7 +148,7 @@
 					  <div class="span3">
 						    <address>
 							  <strong><fmt:message key="aca.ACFE" /></strong><br>
-							  No Socio
+							  <input type="hidden" name="acfe" id="acfe" value="<%=alumPersonal.getClasfinId()  %>" ><%=acfe%>
 							</address>
 					  </div>
 					  <div class="span3">

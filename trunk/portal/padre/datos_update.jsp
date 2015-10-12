@@ -40,6 +40,7 @@
 	String colonia		= request.getParameter("colonia");
 	String matricula	= request.getParameter("matricula");
 	
+	alumPersonal.setCodigoId(codigoId);
 	alumPersonal.mapeaRegId(conElias, codigoId);
 	
 	String Pais			= alumPersonal.getPaisId();
@@ -58,12 +59,6 @@
 	ArrayList lisPais = new ArrayList();
 	lisPais = paisU.getListAll(conElias, "ORDER BY 1");
 	
-	ArrayList lisEstado = new ArrayList();
-	lisEstado = estadoU.getListAll(conElias, "ORDER BY 1");
-	ArrayList lisCiudad = new ArrayList();
-	lisCiudad = ciudadU.getListAll(conElias, "ORDER BY CIUDAD_NOMBRE");
-	
-
 %>
 <html>
 <head>
@@ -261,11 +256,15 @@
 		                    <fmt:message key="aca.Estado" />
 		                    <span class="required-indicator">*</span>
 		                </label>
-		               	<select name="estado" id="estado"><%
-							for (int i=0; i<lisEstado.size(); i++){
-								aca.catalogo.CatEstado edo = (aca.catalogo.CatEstado) lisEstado.get(i);%>
-								<option value="<%=edo.getEstadoId()%>" <%if(edo.getEstadoId().equals(Estado)) out.print("selected");%>><%=edo.getEstadoNombre()%></option>
-					<%		} %>
+		               	<select name="estado" id="estado">
+		               	 <%	
+						ArrayList<aca.catalogo.CatEstado> lisEstado = estadoU.getArrayList(conElias, alumPersonal.getPaisId(), "ORDER BY 1,3");
+						for(aca.catalogo.CatEstado edo: lisEstado){
+						%>
+								<option value="<%=edo.getEstadoId() %>" <%if(edo.getEstadoId().equals(alumPersonal.getEstadoId())){out.print("selected");} %>><%=edo.getEstadoNombre() %></option>
+						<%							
+							}
+						%>
 						</select>
 		            </div>
 		       </div>
@@ -289,11 +288,15 @@
 		                    <fmt:message key="aca.Ciudad" />
 		                    <span class="required-indicator">*</span>
 		                </label>
-		               	<select name="ciudad" id="ciudad"><%
-							for (int i=0; i<lisCiudad.size(); i++){
-								aca.catalogo.CatCiudad cd = (aca.catalogo.CatCiudad) lisCiudad.get(i);%>
-								<option value="<%=cd.getCiudadId()%>" <%if(cd.getCiudadId().equals(Ciudad)) out.print("selected");%>><%=cd.getCiudadNombre()%></option>
-						<%	} %>
+		               	<select name="ciudad" id="ciudad">
+		               		<%	
+					ArrayList<aca.catalogo.CatCiudad> lisCiudad = ciudadU.getArrayList(conElias, alumPersonal.getPaisId(), alumPersonal.getEstadoId(), "ORDER BY 4");
+					for(aca.catalogo.CatCiudad cd: lisCiudad){
+				%>	
+						<option value="<%=cd.getCiudadId() %>" <%if(cd.getCiudadId().equals(alumPersonal.getCiudadId())){out.print("selected");} %>><%=cd.getCiudadNombre() %></option>
+				<%						
+					}
+				%>
 						</select>
 		            </div>
 		       </div>
