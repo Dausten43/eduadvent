@@ -18,12 +18,12 @@
 	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String msj 			= "";
 	String cicloId 		= request.getParameter("ciclo")==null?"":request.getParameter("ciclo");	
-	String oportunidad 	= request.getParameter("oportunidad")==null?"0":request.getParameter("oportunidad");	
+	String oportunidad 	= request.getParameter("oportunidad")==null?"0":request.getParameter("oportunidad");
 	cicloExtra.setCicloId(cicloId);
 	String max 			= cicloExtra.maximoReg(conElias, cicloId);
-	
 	if(oportunidad.equals("0")){
 		cicloExtra.setOportunidad(max);
+		oportunidad=max;
 	}
 	
 	if(accion.equals("2")){
@@ -76,8 +76,8 @@
 		</fieldset>
 		
 		<fieldset>
-			<label for="ciclo"><fmt:message key="aca.OportunidadId" /></label>
-			<input type="text" id="OportunidadId" name="OportunidadId" value="<%=cicloExtra.getOportunidad()%>" size="8" maxlength="10" readonly>
+			<label for="oportunidad"><fmt:message key="aca.OportunidadId" /></label>
+			<input type="text" id="oportunidad" name="oportunidad" value="<%=cicloExtra.getOportunidad()%>" size="8" maxlength="10" readonly>
 		</fieldset>
 		
 		<fieldset>

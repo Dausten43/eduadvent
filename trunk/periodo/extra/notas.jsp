@@ -6,13 +6,14 @@
 
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo" />
 <jsp:useBean id="cicloL" scope="page" class="aca.ciclo.CicloLista" />
+<jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
 <jsp:useBean id="cicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista" />
 
 
 <script>
-	function eliminar(ciclo, periodo) {
+	function eliminar(ciclo, oportunidad) {
 		if (confirm("<fmt:message key="js.Confirma" />") == true) {
-			location = "listado.jsp?Accion=1&ciclo=" + ciclo + "&periodo=" + periodo;
+			location = "notas.jsp?Accion=1&ciclo=" + ciclo + "&oportunidad=" + oportunidad;
 		}
 	}
 </script>
@@ -36,9 +37,16 @@
 	}
 	String accion 		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String msj 			= "";
-
 	if (accion.equals("1")) {
-		
+		cicloExtra.mapeaRegId(conElias, cicloId, request.getParameter("oportunidad"));
+			
+		if (cicloExtra.deleteReg(conElias)) {
+			msj = "Eliminado";
+			response.sendRedirect("notas.jsp");
+		} else {
+			msj = "NoElimino";
+			response.sendRedirect("notas.jsp");
+		}
 	}
 	
 	pageContext.setAttribute("resultado", msj);
@@ -75,7 +83,8 @@
 		<tr>
 			<td><%=cont %></td>
 			<td>
-				<a class="btn btn-primary" href="accion.jsp?ciclo=<%=extras.getCicloId()%>&oportunidad=<%=extras.getOportunidad()%>"><i class="icon-white icon-pencil"></i></a>
+				<a href="accion.jsp?ciclo=<%=extras.getCicloId()%>&oportunidad=<%=extras.getOportunidad()%>"><i class="icon-pencil"></i></a>
+				<a onclick="eliminar('<%=extras.getCicloId()%>', '<%=extras.getOportunidad()%>');"><i class="icon-remove"></i></a>
 			</td>
 			<td><%=extras.getOportunidad() %></td>
 			<td><%=extras.getValorAnterior() %></td>
