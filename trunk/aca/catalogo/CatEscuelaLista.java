@@ -104,6 +104,7 @@ public class CatEscuelaLista {
 		ArrayList<CatEscuela> lisCatEscuela 	= new ArrayList<CatEscuela>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
+		ResultSet rs2 	= null;
 		String comando	= "";
 		String escuelas = "0";
 		
@@ -129,7 +130,7 @@ public class CatEscuelaLista {
 					" FROM CAT_ESCUELA" +
 					" WHERE ESCUELA_ID IN ("+escuelas+") "+orden;
 			
-			rs = st.executeQuery(comando);			
+			rs2 = st.executeQuery(comando);			
 			while (rs.next()){
 				
 				CatEscuela esc = new CatEscuela();	
@@ -141,6 +142,7 @@ public class CatEscuelaLista {
 			System.out.println("Error - aca.catalogo.CatEscuelaLista|getListDelUsuario|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
+			if (rs2!=null) rs2.close();
 			if (st!=null) st.close();
 		}	
 		
