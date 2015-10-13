@@ -352,20 +352,28 @@
 	</form>
 	<br><br><br><br>
 	<div class="row">
-		<div class="span6" style="align:center;">
-			<center>________________________________________________
+		<div class="span1"  style="align:center;"></div>
+		<div class="span5 signatures"  style="align:center;">
+			<center>
 			<br>
 			<%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE") %>
 			<br>
 			PROF. TITULAR</center>
 		</div>
-		<div class="span4" style="right;">
-			<center>________________________________________________
+
+		<div class="span5 signatures" style="margin-left:20px;">
+			<center>
 			<br>
 			<%=aca.empleado.EmpPersonal.getNombre(conElias, nivel.getDirector(conElias, escuelaId, Grupo.getNivelId()), "NOMBRE")%>
 			<br>
 			DIRECTOR (A)</center>
 		</div>
+		
+		<style>
+		.signatures{
+			border-top: 1px solid #000000;
+		}
+		</style>
 	</div>
 	
 </div>
