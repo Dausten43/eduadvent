@@ -16,6 +16,7 @@ public class CatNivelEscuela {
 	private String nivelNombre;
 	private String peso;
 	private String funcionId;
+	private String director;
 	
 	public CatNivelEscuela(){
 		escuelaId			= "";
@@ -27,6 +28,7 @@ public class CatNivelEscuela {
 		nivelNombre			= "";
 		peso				= "";
 		funcionId			= "";
+		director			= "";
 	}
 
 
@@ -102,6 +104,15 @@ public class CatNivelEscuela {
 		this.funcionId = funcionId;
 	}
 
+	public String getDirector() {
+		return director;
+	}
+
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
 
 	public boolean insertReg(Connection conn ) throws SQLException{
 		boolean ok = false;
@@ -109,7 +120,7 @@ public class CatNivelEscuela {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_NIVEL_ESCUELA " +
 					" (ESCUELA_ID, NIVEL_ID, NOTAMINIMA, GRADO_INI, GRADO_FIN, NIVEL_NOMBRE, TITULO, PESO, FUNCION_ID)" +
-					" VALUES(?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, ?, TO_NUMBER(?, '99'), ?)");
+					" VALUES(?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, ?, TO_NUMBER(?, '99'), ?, ?)");
 			
 			ps.setString(1, escuelaId);
 			ps.setString(2, nivelId);
@@ -120,6 +131,8 @@ public class CatNivelEscuela {
 			ps.setString(7, titulo);
 			ps.setString(8, peso);
 			ps.setString(9, funcionId);
+			ps.setString(10,director);
+			
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -143,7 +156,7 @@ public class CatNivelEscuela {
 		
 		try{
 			ps = conn.prepareStatement("UPDATE CAT_NIVEL_ESCUELA" +
-					" SET NOTAMINIMA = TO_NUMBER(?, '99'), GRADO_INI = TO_NUMBER(?, '99'), GRADO_FIN = TO_NUMBER(?, '99'), NIVEL_NOMBRE = ?, TITULO = ?, PESO = TO_NUMBER(?, '99'), FUNCION_ID = ? " +
+					" SET NOTAMINIMA = TO_NUMBER(?, '99'), GRADO_INI = TO_NUMBER(?, '99'), GRADO_FIN = TO_NUMBER(?, '99'), NIVEL_NOMBRE = ?, TITULO = ?, PESO = TO_NUMBER(?, '99'), FUNCION_ID = ?, DIRECTOR = ? " +
 					" WHERE ESCUELA_ID = ? AND NIVEL_ID = TO_NUMBER(?, '99') ");			
 			ps.setString(1, notaminima);
 			ps.setString(2, gradoIni);
@@ -152,8 +165,9 @@ public class CatNivelEscuela {
 			ps.setString(5, titulo);
 			ps.setString(6, peso);
 			ps.setString(7, funcionId);
-			ps.setString(8, escuelaId);
-			ps.setString(9, nivelId);
+			ps.setString(8,director);
+			ps.setString(9, escuelaId);
+			ps.setString(10, nivelId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -205,6 +219,7 @@ public class CatNivelEscuela {
 		titulo				= rs.getString("TITULO");
 		peso				= rs.getString("PESO");
 		funcionId			= rs.getString("FUNCION_ID");
+		director			= rs.getString("DIRECTOR");
 	}
 	
 	public void mapeaRegId(Connection con, String nivelId, String escuelaId) throws SQLException{
