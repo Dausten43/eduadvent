@@ -159,11 +159,16 @@
 			<th width="5%">Tanda</th>
 		</tr>
 		<tr>
+<%
+		String content = aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId());
+		content = content.replace("NIVEL", "");
+%>
+		
 			<td><%=kardex.getOrden() %></td>
 			<td><%=AlumPersonal.getNombre() %></td>
 			<td><%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %></td>
-			<td>2014-2015</td>
-			<td><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId())%></td>
+			<td>2014-2015</td> 
+			<td><%= content%></td>
 			<td><%=aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(Grupo.getGrado())) %></td>
 			<td><%=Grupo.getGrupo() %></td>
 			<td>MATUTINO</td>	
@@ -174,7 +179,7 @@
 		<input type="hidden" name="CicloGrupoId" value="<%=cicloGrupoId%>"> 
 		<input type="hidden" name="CodigoAlumno" value="<%=codigoAlumno%>">
 						
-		<table class="table table-condensed table-striped table-bordered">
+		<table class="table table-condensed table-striped table-bordered table-condensed">
 			<thead>
 			<tr>
 				<th width="2%">#</th>
@@ -350,7 +355,7 @@
 %>			
 		</table>
 	</form>
-	<br><br><br><br>
+	<br><br>
 	<div class="row">
 		<div class="span1"  style="align:center;"></div>
 		<div class="span5 signatures"  style="align:center;">
