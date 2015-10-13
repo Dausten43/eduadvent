@@ -399,4 +399,30 @@ public class CatNivelEscuela {
 	}
 	
 	
+	public static String getDirector(Connection conn, String escuelaId, String nivelId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String funcion			= "";
+		
+		try{
+			ps = conn.prepareStatement("SELECT DIRECTOR FROM CAT_NIVEL_ESCUELA " +
+					"WHERE NIVEL_ID = ? AND ESCUELA_ID = ?");
+			ps.setString(1, nivelId);
+			ps.setString(2, escuelaId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				funcion = rs.getString("DIRECTOR");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatNivelEscuela|getDirector|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return funcion;
+	}
+	
+	
 }
