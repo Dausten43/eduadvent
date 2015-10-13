@@ -32,6 +32,7 @@
 		nivel.setNotaminima(request.getParameter("notaminima"));
 		nivel.setPeso("1");
 		nivel.setFuncionId(request.getParameter("funcionId"));
+		nivel.setDirector(request.getParameter("director"));
 		
 		if(nivel.existeReg(conElias)){
 			if(nivel.updateReg(conElias)){
@@ -150,7 +151,6 @@
 		    </select>
 		</fieldset>
 		
-		
 		<fieldset>
 		    <label for="funcionId">
 		       	<fmt:message key="aca.Funcion" />
@@ -158,9 +158,16 @@
 		    <input value="<%=nivel.getFuncionId() %>" name="funcionId" id="funcionId" type="text" maxlength="10" />
 		</fieldset>
 		
+   		<fieldset>
+		    <label for="director">
+		       	<fmt:message key="aca.Director" />
+		    </label>
+		    <input value="<%=nivel.getDirector()%>" name="director" id="director" type="text" maxlength="10" />
+		</fieldset>
+		
 		<div class="well">
 			<a class="btn btn-primary btn-large" onclick="grabar();"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
-	    </div>		
+	    </div>	
 	</form>
 
 	<%
