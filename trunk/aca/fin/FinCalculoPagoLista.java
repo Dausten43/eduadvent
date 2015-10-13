@@ -228,13 +228,39 @@ public class FinCalculoPagoLista {
 		
 		return map;
 	}
-/*
-	SELECT AC.NIVEL, SUM(FCP.IMPORTE) AS TOTAL FROM FIN_CALCULO_PAGO AS FCP, ALUM_CICLO AS AC
-	WHERE SUBSTR( FCP.CICLO_ID,1,3) = 'G99' AND FCP.FECHA BETWEEN TO_DATE('01/01/2014','DD/MM/YYYY') AND TO_DATE('31/12/2014','DD/MM/YYYY')
-	AND AC.CICLO_ID = FCP.CICLO_ID
-	AND AC.CODIGO_ID = FCP.CODIGO_ID
-	AND AC.PERIODO_ID = FCP.PERIODO_ID
-	GROUP BY AC.NIVEL;
-*/
+	
+	public HashMap<String,String> mapNivelPago(Connection conn, String escuelaId, String fechaInicio, String fechaFinal ) throws SQLException{
+		
+		HashMap<String,String> map 	= new HashMap<String,String>();
+		Statement st 					= conn.createStatement();
+		ResultSet rs 					= null;
+		String comando					= "";		
+		
+		try{
+			comando = " SELECT AC.NIVEL AS NIVEL, SUM(FCP.IMPORTE) AS TOTAL FROM FIN_CALCULO_PAGO AS FCP, ALUM_CICLO AS AC"
+					+ " WHERE SUBSTR( FCP.CICLO_ID,1,3) = '"+escuelaId+"' AND FCP.FECHA BETWEEN TO_DATE('"+fechaInicio+"','DD/MM/YYYY') AND TO_DATE('"+fechaFinal+"','DD/MM/YYYY')"
+					+ " AND AC.CICLO_ID = FCP.CICLO_ID"
+					+ " AND AC.CODIGO_ID = FCP.CODIGO_ID"
+					+ " AND AC.PERIODO_ID = FCP.PERIODO_ID"
+					+ " GROUP BY AC.NIVEL";
+			
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				map.put(rs.getString("NIVEL"), rs.getString("TOTAL"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinCalculoPagoLista|mapNivelPago|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
+	
+
 
 }
