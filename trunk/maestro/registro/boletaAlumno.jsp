@@ -359,10 +359,6 @@
 			<br>
 			PROF. TITULAR</center>
 		</div>
-		<div class="span8" style="align:center;">
-		<br>
-		&nbsp;
-		</div>
 		<div class="span4" style="right;">
 			<center>________________________________________________
 			<br>
