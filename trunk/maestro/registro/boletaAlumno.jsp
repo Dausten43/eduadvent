@@ -17,6 +17,7 @@
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="AlumnoCursoL" scope="page" class="aca.vista.AlumnoCursoLista"/>
 <jsp:useBean id="CatEscuela" scope="page" class="aca.catalogo.CatEscuela"/>
+<jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 <%
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -365,7 +366,7 @@
 		<div class="span4" style="right;">
 			<center>________________________________________________
 			<br>
-			<%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE") %>
+			<%=aca.empleado.EmpPersonal.getNombre(conElias, nivel.getDirector(conElias, escuelaId, Grupo.getNivelId()), "NOMBRE")%>
 			<br>
 			DIRECTOR (A)</center>
 		</div>
