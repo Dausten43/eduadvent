@@ -538,6 +538,7 @@ public class FinCalculo {
         			+ " AND PERIODO_ID = ? "
         			+ " AND PAGO_ID = ? "
         			+ " AND ESTADO = 'A'" /* Que no se hayan tomado en cuenta en alguna poliza (que no hayan sido Contabilizado) */
+        			+ " AND IMPORTE > 0" 
         			+ " AND ( SELECT INSCRITO FROM FIN_CALCULO WHERE CICLO_ID = A.CICLO_ID AND PERIODO_ID = A.PERIODO_ID AND CODIGO_ID = A.CODIGO_ID ) = 'P' "); /* Solo si su pago inicial ya se fue contabilizado */
         	
             ps.setString(1, cicloId);

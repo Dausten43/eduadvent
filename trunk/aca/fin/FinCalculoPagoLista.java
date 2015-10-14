@@ -42,6 +42,37 @@ public class FinCalculoPagoLista {
 		return lisCalculo;
 	}
 	
+	public ArrayList<FinCalculoPago> getListPagos(Connection conn, String cicloId, String periodoId, String pagoId, String estados, String orden ) throws SQLException{
+		ArrayList<FinCalculoPago> lisCalculo 	= new ArrayList<FinCalculoPago>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, ESTADO, CUENTA_ID, BECA, PAGADO"
+					+ " FROM FIN_CALCULO_PAGO"
+					+ " WHERE CICLO_ID = '"+cicloId+"'"
+					+ " AND PERIODO_ID = '"+periodoId+"'"
+					+ " AND PAGO_ID = '"+pagoId+"'"
+					+ "	AND ESTADO IN ("+estados+") "+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				FinCalculoPago fcp = new FinCalculoPago();				
+				fcp.mapeaReg(rs);
+				lisCalculo.add(fcp);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinCostoLista|getListPagosTodos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisCalculo;
+	}
+	
 	public ArrayList<FinCalculoPago> getListPagosAlumno(Connection conn, String cicloId, String periodoId, String codigoId, String orden ) throws SQLException{
 		ArrayList<FinCalculoPago> lisCalculo 	= new ArrayList<FinCalculoPago>();
 		Statement st 	= conn.createStatement();

@@ -70,4 +70,34 @@ public class FinCalculoLista {
 		
 		return lisCalculo;
 	}
+	
+	public ArrayList<FinCalculo> getListAlumnos(Connection conn, String cicloId, String periodoId, String inscrito, String orden ) throws SQLException{
+		ArrayList<FinCalculo> lisCalculo 	= new ArrayList<FinCalculo>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT * FROM FIN_CALCULO"
+					+ " WHERE CICLO_ID = '"+cicloId+"' "
+					+ " AND PERIODO_ID = '"+periodoId+"' "
+					+ " AND INSCRITO IN ("+inscrito+") "+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				FinCalculo fc = new FinCalculo();				
+				fc.mapeaReg(rs);
+				lisCalculo.add(fc);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinCostoLista|getListAlumnos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisCalculo;
+	}
+	
 }
