@@ -93,31 +93,36 @@
 	ArrayList<aca.fin.FinPago> lisFinPago 					= finPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
 	
 	/* MAP DE CUENTAS DE LA ESCUELA */
-	java.util.HashMap<String, aca.fin.FinCuenta> mapCuenta 	= FinCuentaL.mapCuentasEscuela(conElias, escuelaId);	
+	java.util.HashMap<String, aca.fin.FinCuenta> mapCuenta 	= FinCuentaL.mapCuentasEscuela(conElias, escuelaId);
 	
 	/* ******** ACCIONES ******** */
 	
 	String accion 	= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String msj 		= "";
-	String pagoId 	= request.getParameter("pagoId")==null?"":request.getParameter("pagoId");;
+	String pagoId 	= request.getParameter("pagoId")==null?"":request.getParameter("pagoId");
 	
-	if(accion.equals("1")){//Guardar movimientos
-		/* ALUMNOS */
-		ArrayList<aca.fin.FinCalculo> alumnos 			= FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "");
-		/*DETALLES FIN CALCULO */
-		ArrayList<aca.fin.FinCalculoDet> lisDetalles	= DetalleL.getListCalDetTodosAlumnos(conElias, cicloId, periodoId, "ORDER BY CODIGO_ID, CUENTA_ID");
-		/*DETALLES FIN CALCULO */
-		ArrayList<aca.fin.FinCalculoPago> pagosAlumno	= CalculoPagoL.getListPagosTodos(conElias, cicloId, periodoId, "ORDER BY CODIGO_ID, CUENTA_ID");
-	
-		/* BEGIN TRANSACTION */
-		conElias.setAutoCommit(false);
-		boolean error = false;
+	// GUARDAR LOS MOVIMIENTOS	
+	if(accion.equals("1")){
 		
-		main:
-		for(aca.fin.FinCalculo alumno : alumnos){
-			
+		/* ALUMNOS */
+		ArrayList<aca.fin.FinCalculo> alumnos 			= null;
+		
+					
 		/* ************ PAGO INICIAL ************ */
-			if( alumno.getInscrito().equals("G") && pagoId.equals("PI") ){
+		
+		if( pagoId.equals("PI") ){
+			
+			/*DETALLES FIN CALCULO */
+			ArrayList<aca.fin.FinCalculoDet> lisDetalles	= DetalleL.getListCalDetTodosAlumnos(conElias, cicloId, periodoId, "ORDER BY CODIGO_ID, CUENTA_ID");
+			
+			// Lista de alumnos sin pago inicial
+			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G'","");
+			
+			/* BEGIN TRANSACTION */
+			conElias.setAutoCommit(false);
+			boolean error = false;
+			
+			for(aca.fin.FinCalculo alumno : alumnos){				
 				
 				for(aca.fin.FinCalculoDet detalle : lisDetalles){
 					 /* Solo los detalles del alumno actual */
@@ -140,7 +145,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("PAGO INICIAL DE CONTADO - "+cuentaNombre);
+							FinMov.setDescripcion("PAGO INICIAL DE CONTADO - "+ cuentaNombre +" - "+ detalle.getCodigoId());
 							FinMov.setImporte(detalle.getImporteInicial());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -152,7 +157,7 @@
 								if(FinMov.insertReg(conElias)){
 									//Guardado
 								}else{
-									error = true; break main;
+									error = true;
 								}
 							}
 							
@@ -163,7 +168,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("PAGO INICIAL - "+cuentaNombre);
+							FinMov.setDescripcion("PAGO INICIAL - "+cuentaNombre +" - "+detalle.getCodigoId());
 							FinMov.setImporte(detalle.getImporte());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -175,7 +180,7 @@
 								if(FinMov.insertReg(conElias)){
 									//Guardado
 								}else{
-									error = true; break main;
+									error = true;
 								}
 							}
 							
@@ -184,7 +189,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("BECA DE PAGO INICIAL - "+cuentaNombre);
+							FinMov.setDescripcion("BECA DE PAGO INICIAL - "+cuentaNombre +" - "+ detalle.getCodigoId());
 							FinMov.setImporte(detalle.getImporteBeca());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -196,7 +201,7 @@
 								if(FinMov.insertReg(conElias)){
 									//Guardado
 								}else{
-									error = true; break main;
+									error = true;
 								}
 							}
 							
@@ -209,105 +214,137 @@
 				if(aca.fin.FinCalculo.updateInscrito(conElias, cicloId, periodoId, alumno.getCodigoId(), "P")){
 					//Estado actualizado
 				}else{
-					error = true; break main;
+					error = true;
 				}
 			}
-		/* ************ OTROS PAGOS ************ */
-			else if( 
-						alumno.getInscrito().equals("P") //Si ya se guardo el pago inicial (eso se hace en la parte anterior) 
-						&& pagoId.equals("PI")==false // Si se selecciono alguno de los pagos (por lo tanto no el pago inicial)
-					){ 
+			
+			/* END TRANSACTION */
+			if(error){
+				conElias.rollback();
+				msj = "NoGuardo";
+			}else{
+				conElias.commit();
+				msj = "Guardado";
+			}
+			conElias.setAutoCommit(true);
+		}
+		
+		/* ************ O T R O S   P A G O S ************ */
+		
+		// Si se selecciono alguno de los pagos (por lo tanto no el pago inicial)
+		if( !pagoId.equals("PI") ){ 
+			
+			/*DETALLES FIN CALCULO */
+			ArrayList<aca.fin.FinCalculoPago> pagosAlumno	= CalculoPagoL.getListPagos(conElias, cicloId, periodoId, pagoId, "'A'","ORDER BY CODIGO_ID, CUENTA_ID");
+				
+			// Lista de alumnos con pago inicial
+			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'P'","");
+			
+			/* BEGIN TRANSACTION */
+			conElias.setAutoCommit(false);
+			boolean error = false;
+			
+			for(aca.fin.FinCalculo alumno : alumnos){
+				//System.out.println("Datos:"+alumno.getCodigoId()+":"+pagoId+":"+alumno.getNumPagos()+":"+pagosAlumno.size());
 				
 				for(aca.fin.FinCalculoPago pago : pagosAlumno){
-					if(!pago.getPagoId().equals(pagoId))continue;
 					
-					if( aca.fin.FinCalculoPago.getEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, pago.getCuentaId()).equals("A") ){ /* SOLO A LOS PAGOS QUE AUN NO HAN SIDO CONTABILIZADOS */
+					/* SOLO A LOS PAGOS QUE AUN NO HAN SIDO CONTABILIZADOS */	
+					if( pago.getCodigoId().equals(alumno.getCodigoId()) &&  aca.fin.FinCalculoPago.getEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, pago.getCuentaId()).equals("A") ){ 
 							
-							String cuentaNombre = pago.getCuentaId();
-							if(mapCuenta.containsKey(pago.getCuentaId())){
-								cuentaNombre = mapCuenta.get(pago.getCuentaId()).getCuentaNombre();
+						//System.out.println("Pago:"+alumno.getCodigoId()+":"+pago.getCuentaId()+":"+pago.getImporte()+":"+pago.getPagoId()+":"+pagoId);
+								
+						String cuentaNombre = pago.getCuentaId();
+						if(mapCuenta.containsKey(pago.getCuentaId())){
+							cuentaNombre = mapCuenta.get(pago.getCuentaId()).getCuentaNombre();
+						}
+								
+						BigDecimal costoPago 	= new BigDecimal(pago.getImporte());
+						BigDecimal becaPago 	= new BigDecimal(pago.getBeca());
+						//BigDecimal totalPago 	= costoPago.subtract(becaPago); 
+								
+						/* Si el costo es mayor que cero entonces guarda el movimiento */
+						if(costoPago.compareTo(BigDecimal.ZERO) > 0){
+							
+							/* ==== GRABAR MOVIMIENTO DE COSTO ==== */
+							
+							FinMov.setEjercicioId(ejercicioId);						
+							FinMov.setPolizaId(polizaId);
+							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
+							FinMov.setCuentaId(pago.getCuentaId());
+							FinMov.setAuxiliar(pago.getCodigoId());
+							FinMov.setDescripcion("PAGO "+pagoId+" - "+cuentaNombre +" - "+ pago.getCodigoId());
+							FinMov.setImporte(costoPago+"");
+							FinMov.setNaturaleza("D"); /* Debito */
+							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
+							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
+							FinMov.setFecha(aca.util.Fecha.getDateTime());
+							FinMov.setReciboId("0");
+							
+							if(!FinMov.existeReg(conElias)){
+								if(FinMov.insertReg(conElias)){
+									//Guardado
+									//System.out.println("Guarde costo:"+pago.getCodigoId()+":"+pago.getCuentaId());
+								}else{
+									//System.out.println("Encontre Error en costo..");
+									error = true;
+								}
 							}
+						}	
+						
+						/* Si el importe de la beca es mayor que cero entonces guarda el movimiento */
+						if(becaPago.compareTo(BigDecimal.ZERO) > 0){
+							/* ==== GRABAR MOVIMIENTO DE BECA  */
+	
+							FinMov.setEjercicioId(ejercicioId);						
+							FinMov.setPolizaId(polizaId);
+							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
+							FinMov.setCuentaId(pago.getCuentaId());
+							FinMov.setAuxiliar(pago.getCodigoId());
+							FinMov.setDescripcion("BECA DE PAGO "+pagoId+" - "+cuentaNombre+" - "+pago.getCodigoId());
+							FinMov.setImporte(becaPago+"");
+							FinMov.setNaturaleza("D"); /* Debito */
+							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
+							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
+							FinMov.setFecha(aca.util.Fecha.getDateTime());
+							FinMov.setReciboId("0");
 							
-							BigDecimal costoPago 	= new BigDecimal(pago.getImporte());
-							BigDecimal becaPago 	= new BigDecimal(pago.getBeca());
-							//BigDecimal totalPago 	= costoPago.subtract(becaPago); 
-							
-							if(costoPago.compareTo(BigDecimal.ZERO) > 0){/* Si el costo es mayor que cero entonces guarda el movimiento */
-							
-									/* ==== GRABAR MOVIMIENTO DE COSTO ==== */
-									
-									FinMov.setEjercicioId(ejercicioId);						
-									FinMov.setPolizaId(polizaId);
-									FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
-									FinMov.setCuentaId(pago.getCuentaId());
-									FinMov.setAuxiliar(pago.getCodigoId());
-									FinMov.setDescripcion("PAGO "+pagoId+" - "+cuentaNombre);
-									FinMov.setImporte(costoPago+"");
-									FinMov.setNaturaleza("D"); /* Debito */
-									FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
-									FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
-									FinMov.setFecha(aca.util.Fecha.getDateTime());
-									FinMov.setReciboId("0");
-									
-									if(!FinMov.existeReg(conElias)){
-										if(FinMov.insertReg(conElias)){
-											//Guardado
-										}else{
-											error = true; break main;
-										}
-									}
-									
-									/* ==== GRABAR MOVIMIENTO DE BECA  */
-		
-									FinMov.setEjercicioId(ejercicioId);						
-									FinMov.setPolizaId(polizaId);
-									FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
-									FinMov.setCuentaId(pago.getCuentaId());
-									FinMov.setAuxiliar(pago.getCodigoId());
-									FinMov.setDescripcion("BECA DE PAGO "+pagoId+" - "+cuentaNombre);
-									FinMov.setImporte(becaPago+"");
-									FinMov.setNaturaleza("D"); /* Debito */
-									FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
-									FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
-									FinMov.setFecha(aca.util.Fecha.getDateTime());
-									FinMov.setReciboId("0");
-									
-									if(!FinMov.existeReg(conElias)){
-										if(FinMov.insertReg(conElias)){
-											//Guardado
-										}else{
-											error = true; break main;
-										}
-									}
-			
+							if(!FinMov.existeReg(conElias)){
+								if(FinMov.insertReg(conElias)){
+									//Guardado
+									//System.out.println("Guarde beca:"+pago.getCodigoId()+":"+pago.getCuentaId());
+								}else{
+									//System.out.println("Encontre Error en beca..");
+									error = true;
+								}
 							}
+						}	
 							
-							if(aca.fin.FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, pago.getCuentaId(), "C") ){
-								//Estado actualizado
-							}else{
-								error = true; break main;
-							}
-							
-					}
-					
+						if(aca.fin.FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, pago.getCuentaId(), "C") ){
+							//Estado actualizado								
+						}else{
+							//System.out.println("Encontre Error al actualizar estado..");
+							error = true;
+						}								
+															
+					}// Si no está contabilizado					
 				
 				}//end for pagos alumno
 				
 				
-			}
+			} // end de ciclo de alumnos
 			
-		}
-		
-		
-		/* END TRANSACTION */
-		if(error){
-			conElias.rollback();
-			msj = "NoGuardo";
-		}else{
-			conElias.commit();
-			msj = "Guardado";
-		}
-		conElias.setAutoCommit(true);
+			/* END TRANSACTION */
+			if(error){
+				conElias.rollback();
+				msj = "NoGuardo";
+			}else{
+				conElias.commit();
+				msj = "Guardado";
+			}
+			conElias.setAutoCommit(true);
+			
+		}		
 		
 	}
 	
@@ -408,23 +445,19 @@
 								<option value="<%=pago.getPagoId() %>" <%if(pago.getPagoId().equals(pagoId)){out.print("selected");} %>><%=pago.getDescripcion() %></option>
 							<%} %>
 						</select>
-					</p>
-					
+					</p>					
 					
 					<div class="well">
 						<a href="javascript:guardar();" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
 					</div>
 				</div>
 			
-			</div>
-			
-			
+			</div>			
 			
 		</form>
-			
-	<%} %>	
-	
-	
+					
+	<%} %>
+		
 </div>
 
 <%@ include file= "../../cierra_elias.jsp" %>
