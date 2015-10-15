@@ -954,11 +954,11 @@ public class AlumPersonalLista{
 			if ( Opcion.equals("NOMBRE")){
 				comando = "SELECT CODIGO_ID, SPLIT_PART(NOMBRE, ' ', 1)||' '|| APATERNO AS NOMBRE "+
 					"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"' "+
-					" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"')";
+					" AND CODIGO_ID IN (SELECT CODIGO_ID FROM FIN_CALCULO WHERE CICLO_ID = '"+cicloId+"')";
 			}else{
 				comando = "SELECT CODIGO_ID, APATERNO||' '||SPLIT_PART(NOMBRE, ' ', 1) AS NOMBRE "+
 					"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"' "+
-					"AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"')";
+					"AND CODIGO_ID IN (SELECT CODIGO_ID FROM FIN_CALCULO WHERE CICLO_ID = '"+cicloId+"')";
 			}	
 			
 			rs = st.executeQuery(comando);
