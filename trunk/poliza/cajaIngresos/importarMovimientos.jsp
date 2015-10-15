@@ -58,7 +58,6 @@
 	ArrayList<aca.ciclo.Ciclo> lisCiclo				= CicloLista.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID");
 	
 	String cicloId 			= (String) session.getAttribute("cicloId");
-
 	java.util.HashMap<String, String> mapAlum = Alumno.mapNombreCorto(conElias, escuelaId, cicloId,"");
 	
 	if(request.getParameter("cicloId")!=null){
@@ -256,8 +255,8 @@
 				for(aca.fin.FinCalculoPago pago : pagosAlumno){
 					
 					
-					if(mapAlum.containsKey(pago.getCodigoId().toString())){
-						alum = mapAlum.get(pago.getCodigoId());
+					if(mapAlum.containsKey(pago.getCodigoId())){
+						alum = mapAlum.get(pago.getCodigoId()).toString();
 					}else{
 						alum = "-";
 					}
