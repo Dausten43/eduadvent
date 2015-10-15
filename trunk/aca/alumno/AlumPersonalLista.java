@@ -943,6 +943,39 @@ public class AlumPersonalLista{
 		return map;
 	}
 	
+	public HashMap<String,String> mapNombreCorto(Connection conn,  String escuelaId, String Opcion) throws SQLException{
+		
+		HashMap<String,String> map 	= new HashMap<String,String>();
+		Statement st 					= conn.createStatement();
+		ResultSet rs 					= null;
+		String comando					= "";		
+		
+		try{
+			if ( Opcion.equals("NOMBRE")){
+				comando = "SELECT CODIGO_ID, SPLIT_PART(NOMBRE, ' ', 1)||' '|| APATERNO AS NOMBRE "+
+					"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"' "+
+					" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID= 'G461516A')";
+			}else{
+				comando = "SELECT CODIGO_ID, APATERNO||' '||SPLIT_PART(NOMBRE, ' ', 1) AS NOMBRE "+
+					"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"' "+
+					"AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID= 'G461516A')";
+			}	
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				map.put(rs.getString("CODIGO_ID"), rs.getString("NOMBRE"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.alumno.AlumPersonal|mapaAlumnosPorEscuela|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
 	public HashMap<String, AlumPersonal> mapAlumnosAsociacion(Connection conn, String asociaciones) throws SQLException{
 		HashMap<String, AlumPersonal> map 	= new HashMap<String, AlumPersonal>();
 		Statement st 						= conn.createStatement();
