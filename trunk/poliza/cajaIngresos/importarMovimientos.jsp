@@ -407,9 +407,9 @@
 				<a href="ingresos.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 				
 				
-				<select name="cicloId" id="cicloId" onchange='javascript:cambiaCiclo()' class="input-xlarge">
+				<select name="cicloId" id="cicloId" onchange='javascript:cambiaCiclo()' class="input-xxlarge">
 				<%for(aca.ciclo.Ciclo ciclo : lisCiclo){%>
-					<option value="<%=ciclo.getCicloId() %>" <%if(ciclo.getCicloId().equals(cicloId)){out.print("selected");} %>><%=ciclo.getCicloNombre() %></option>
+					<option value="<%=ciclo.getCicloId() %>" <%if(ciclo.getCicloId().equals(cicloId)){out.print("selected");} %>>[<%=ciclo.getCicloId() %>] <%=ciclo.getCicloNombre() %></option>
 				<%}%>
 				</select>
 			
