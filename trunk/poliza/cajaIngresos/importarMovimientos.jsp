@@ -58,7 +58,7 @@
 	ArrayList<aca.ciclo.Ciclo> lisCiclo				= CicloLista.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID");
 	
 	String cicloId 			= (String) session.getAttribute("cicloId");
-	java.util.HashMap<String, String> mapAlum = Alumno.mapNombreCorto(conElias, escuelaId, cicloId,"");
+	java.util.HashMap<String, String> mapAlum = Alumno.mapNombreCorto(conElias, escuelaId, cicloId,"NOMBRE");
 	
 	if(request.getParameter("cicloId")!=null){
 		cicloId = request.getParameter("cicloId");
@@ -126,7 +126,15 @@
 			conElias.setAutoCommit(false);
 			boolean error = false;
 			
-			for(aca.fin.FinCalculo alumno : alumnos){				
+			String nombreAlumno = "";
+			
+			for(aca.fin.FinCalculo alumno : alumnos){			
+				 
+				if(mapAlum.containsKey(alumno.getCodigoId())){
+					nombreAlumno = mapAlum.get(alumno.getCodigoId()).toString();
+				}else{
+					nombreAlumno = "-";
+				}
 				
 				for(aca.fin.FinCalculoDet detalle : lisDetalles){
 					 /* Solo los detalles del alumno actual */
@@ -149,7 +157,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("PAGO INICIAL DE CONTADO - "+ cuentaNombre +" - "+ detalle.getCodigoId());
+							FinMov.setDescripcion("PAGO INICIAL DE CONTADO - "+ cuentaNombre +" - "+ detalle.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(detalle.getImporteInicial());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -172,7 +180,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("PAGO INICIAL - "+cuentaNombre +" - "+detalle.getCodigoId());
+							FinMov.setDescripcion("PAGO INICIAL - "+cuentaNombre +" - "+detalle.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(detalle.getImporte());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -193,7 +201,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("BECA DE PAGO INICIAL - "+cuentaNombre +" - "+ detalle.getCodigoId());
+							FinMov.setDescripcion("BECA DE PAGO INICIAL - "+cuentaNombre +" - "+ detalle.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(detalle.getImporteBeca());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -248,7 +256,7 @@
 			conElias.setAutoCommit(false);
 			boolean error = false;
 			
-			String alum = "-"  ;
+			String nombreAlumno = "-"  ;
 			for(aca.fin.FinCalculo alumno : alumnos){
 				//System.out.println("Datos:"+alumno.getCodigoId()+":"+pagoId+":"+alumno.getNumPagos()+":"+pagosAlumno.size());
 				
@@ -256,9 +264,9 @@
 					
 					
 					if(mapAlum.containsKey(pago.getCodigoId())){
-						alum = mapAlum.get(pago.getCodigoId()).toString();
+						nombreAlumno = mapAlum.get(pago.getCodigoId()).toString();
 					}else{
-						alum = "-";
+						nombreAlumno = "-";
 					}
 					
 					/* SOLO A LOS PAGOS QUE AUN NO HAN SIDO CONTABILIZADOS */	
@@ -285,7 +293,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(pago.getCuentaId());
 							FinMov.setAuxiliar(pago.getCodigoId());
-							FinMov.setDescripcion("PAGO "+pagoId+" - "+cuentaNombre +" - "+ pago.getCodigoId()+" - "+alum);
+							FinMov.setDescripcion("PAGO "+pagoId+" - "+cuentaNombre +" - "+ pago.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(costoPago+"");
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -313,7 +321,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(pago.getCuentaId());
 							FinMov.setAuxiliar(pago.getCodigoId());
-							FinMov.setDescripcion("BECA DE PAGO "+pagoId+" - "+cuentaNombre+" - "+pago.getCodigoId()+" - " + " - "+alum);
+							FinMov.setDescripcion("BECA DE PAGO "+pagoId+" - "+cuentaNombre+" - "+pago.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(becaPago+"");
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
