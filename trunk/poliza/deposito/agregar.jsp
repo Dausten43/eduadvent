@@ -5,6 +5,7 @@
 <%@ include file="../../menu.jsp"%>
 
 <jsp:useBean id="FinDeposito" scope="page" class="aca.fin.FinDeposito" />
+<jsp:useBean id="empLista" scope="page" class="aca.empleado.EmpPersonalLista" />
 <head>
 	
 <script>
@@ -25,6 +26,9 @@
 	String folio 		= request.getParameter("Folio")==null?"0":request.getParameter("Folio");
 	String fechaIni		= request.getParameter("FechaIni")==null?aca.util.Fecha.getHoy():request.getParameter("FechaIni");
 	String fechaFin		= request.getParameter("FechaFin")==null?aca.util.Fecha.getHoy():request.getParameter("FechaFin");
+	String responsable 	= request.getParameter("Responsable")==null?"0":request.getParameter("Responsable"); 
+	
+	ArrayList<aca.empleado.EmpPersonal> empleados = empLista.getListEmpActivos(conElias, escuelaId, "");
 	
 	if( accion.equals("1")){ // Grabar		
 		FinDeposito.setEscuelaId(escuelaId);
@@ -89,7 +93,12 @@
 	
 	<fieldset>
 		<label for="Responsable"><fmt:message key="aca.Responsable" /></label>
-		<input name="Responsable" type="text" id="Responsable" size="10" maxlength="70" value="<%=FinDeposito.getResponsable()%>"  required>
+		<select name="Responsable" required>
+		<%for(aca.empleado.EmpPersonal empleado : empleados){ %>
+		
+		<option value="<%=empleado.getCodigoId() %>" <%if(responsable.equals(empleado.getCodigoId()))out.print("selected"); %>><%=empleado.getNombre()%> <%=empleado.getApaterno() %> <%=empleado.getAmaterno() %></option>
+		<%} %>
+		</select>
 	</fieldset>
 	
 	<div class="well">

@@ -15,8 +15,8 @@
 		}
 	}
 	
-	function EditarDeposito(folio, fechaIni, fechaFin){
-		document.location.href="agregar.jsp?Folio="+folio+"&Accion=3"+"&FechaIni="+fechaIni+"&FechaFin="+fechaFin;		
+	function EditarDeposito(folio, fechaIni, fechaFin, responsable){
+		document.location.href="agregar.jsp?Folio="+folio+"&Accion=3"+"&FechaIni="+fechaIni+"&FechaFin="+fechaFin+"&Responsable="+responsable;		
 	}
 </script>
 <%
@@ -79,7 +79,7 @@
 		<tr>				
 			<td><%=row%></td>
 			<td>
-				<a href="javascript:EditarDeposito('<%=deposito.getFolio()%>','<%=fechaIni%>','<%=fechaFin%>')" class="btn btn-mini btn-success">
+				<a href="javascript:EditarDeposito('<%=deposito.getFolio()%>','<%=fechaIni%>','<%=fechaFin%>','<%=deposito.getResponsable() %>')" class="btn btn-mini btn-success">
 					<i class="icon-pencil icon-white"></i>
 				</a>
 				<a href="javascript:BorrarDeposito('<%=deposito.getFolio()%>','<%=fechaIni%>','<%=fechaFin%>')" class="btn btn-mini btn-danger">
