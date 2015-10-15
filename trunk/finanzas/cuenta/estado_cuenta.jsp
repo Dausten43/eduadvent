@@ -24,8 +24,8 @@
 	boolean usaSunPlus	= aca.catalogo.CatParametro.esSunPlus(conElias, escuelaId);
 	
 	String fechaHoy 		= aca.util.Fecha.getHoy();
-	String fechaInicio 		= request.getParameter("fechaInicio")==null?"01/01/2014":request.getParameter("fechaInicio");
-	String fechaFinal		= request.getParameter("fechaFinal")==null?"31/12/2014":request.getParameter("fechaFinal");
+	String fechaInicio 		= request.getParameter("fechaInicio")==null?"01/01/"+aca.util.Fecha.getYearNum():request.getParameter("fechaInicio");
+	String fechaFinal		= request.getParameter("fechaFinal")==null?"31/12/"+aca.util.Fecha.getYearNum():request.getParameter("fechaFinal");
 	
 	AlumPersonal.mapeaRegId(conElias, codigoId);
 	
