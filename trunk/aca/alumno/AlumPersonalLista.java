@@ -943,7 +943,7 @@ public class AlumPersonalLista{
 		return map;
 	}
 	
-	public HashMap<String,String> mapNombreCorto(Connection conn,  String escuelaId, String Opcion) throws SQLException{
+	public HashMap<String,String> mapNombreCorto(Connection conn,  String escuelaId, String cicloId,String Opcion) throws SQLException{
 		
 		HashMap<String,String> map 	= new HashMap<String,String>();
 		Statement st 					= conn.createStatement();
@@ -954,11 +954,11 @@ public class AlumPersonalLista{
 			if ( Opcion.equals("NOMBRE")){
 				comando = "SELECT CODIGO_ID, SPLIT_PART(NOMBRE, ' ', 1)||' '|| APATERNO AS NOMBRE "+
 					"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"' "+
-					" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID= 'G461516A')";
+					" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"')";
 			}else{
 				comando = "SELECT CODIGO_ID, APATERNO||' '||SPLIT_PART(NOMBRE, ' ', 1) AS NOMBRE "+
 					"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"' "+
-					"AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID= 'G461516A')";
+					"AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"')";
 			}	
 			
 			rs = st.executeQuery(comando);
