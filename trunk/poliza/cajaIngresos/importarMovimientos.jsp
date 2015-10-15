@@ -13,7 +13,7 @@
 <jsp:useBean id="FinCuentaL" scope="page" class="aca.fin.FinCuentaLista"/>
 <jsp:useBean id="FinMov" scope="page" class="aca.fin.FinMovimientos"/>
 <jsp:useBean id="finPagoL" scope="page" class="aca.fin.FinPagoLista"/>
-<jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonalLista"/>y
+<jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonalLista"/>
 
 <script>	
 	
@@ -37,7 +37,7 @@
 	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId"); 
 	
-	java.util.HashMap<String, String> mapAlum = Alumno.mapNombreCorto(conElias, escuelaId,"");
+	
 
 	
 	/* INFORMACION DE LA POLIZA */
@@ -58,6 +58,8 @@
 	ArrayList<aca.ciclo.Ciclo> lisCiclo				= CicloLista.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID");
 	
 	String cicloId 			= (String) session.getAttribute("cicloId");
+
+	java.util.HashMap<String, String> mapAlum = Alumno.mapNombreCorto(conElias, escuelaId, cicloId,"");
 	
 	if(request.getParameter("cicloId")!=null){
 		cicloId = request.getParameter("cicloId");
