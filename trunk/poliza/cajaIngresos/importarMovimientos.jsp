@@ -13,7 +13,7 @@
 <jsp:useBean id="FinCuentaL" scope="page" class="aca.fin.FinCuentaLista"/>
 <jsp:useBean id="FinMov" scope="page" class="aca.fin.FinMovimientos"/>
 <jsp:useBean id="finPagoL" scope="page" class="aca.fin.FinPagoLista"/>
-<jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonal"/>
+<jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonalLista"/>y
 
 <script>	
 	
