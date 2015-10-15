@@ -1086,36 +1086,7 @@ public class AlumPersonal {
 		return nombre;
 	}
 	
-	public HashMap<String,String> mapNombreCorto(Connection conn,  String escuelaId, String Opcion) throws SQLException{
-		
-		HashMap<String,String> map 	= new HashMap<String,String>();
-		Statement st 					= conn.createStatement();
-		ResultSet rs 					= null;
-		String comando					= "";		
-		
-		try{
-			if ( Opcion.equals("NOMBRE")){
-				comando = "SELECT CODIGO_ID, SPLIT_PART(NOMBRE, ' ', 1)||' '|| APATERNO AS NOMBRE "+
-					"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"'";
-			}else{
-				comando = "SELECT CODIGO_ID, APATERNO||' '||SPLIT_PART(NOMBRE, ' ', 1) AS NOMBRE "+
-					"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"'";
-			}	
-			
-			rs = st.executeQuery(comando);
-			while (rs.next()){				
-				map.put(rs.getString("CODIGO_ID"), rs.getString("NOMBRE"));
-			}
-			
-		}catch(Exception ex){
-			System.out.println("Error - aca.alumno.AlumPersonal|mapaAlumnosPorEscuela|:"+ex);
-		}finally{
-			if (rs!=null) rs.close();
-			if (st!=null) st.close();
-		}
-		
-		return map;
-	}
+
 	
 	
 	public String maximoReg(Connection conn, String escuelaId) throws SQLException{
