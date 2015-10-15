@@ -78,7 +78,7 @@
 		pesos 		= movimientos.getImporte().indexOf(".")>=0?movimientos.getImporte().substring(0,movimientos.getImporte().indexOf(".")):movimientos.getImporte();
 		centavos 	= movimientos.getImporte().indexOf(".")>=0?movimientos.getImporte().substring(movimientos.getImporte().indexOf(".")+1, movimientos.getImporte().length()):"00";
 	
-		aca.fin.FinMovimientos.getDPoliza(conElias, movimientos.getPolizaId());
+		aca.fin.FinMovimientos.getDPoliza(conElias, movimientos.getEjercicioId(), movimientos.getPolizaId());
 %>
 	<tr>
 		<td><%=movimientos.getDescripcion() %></td>
