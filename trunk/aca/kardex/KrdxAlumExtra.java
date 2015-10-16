@@ -1,0 +1,258 @@
+/**
+ * 
+ */
+package aca.kardex;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class KrdxAlumExtra {
+	
+	private String codigoId;
+	private String cicloGrupoId;
+	private String cursoId;
+	private String oportunidad;
+	private String notaAnterior;
+	private String notaExtra;
+	private String promedio;
+	
+	public KrdxAlumExtra(){
+		codigoId		= "";
+		cicloGrupoId	= "";
+		cursoId			= "";
+		oportunidad		= "";
+		notaAnterior	= "";
+		notaExtra		= "";
+		promedio		= "";
+	}
+		
+	public String getCodigoId() {
+		return codigoId;
+	}
+
+	public void setCodigoId(String codigoId) {
+		this.codigoId = codigoId;
+	}
+
+	public String getCicloGrupoId() {
+		return cicloGrupoId;
+	}
+
+	public void setCicloGrupoId(String cicloGrupoId) {
+		this.cicloGrupoId = cicloGrupoId;
+	}
+
+	public String getCursoId() {
+		return cursoId;
+	}
+
+	public void setCursoId(String cursoId) {
+		this.cursoId = cursoId;
+	}
+	
+	public String getOportunidad() {
+		return oportunidad;
+	}
+
+	public void setOportunidad(String oportunidad) {
+		this.oportunidad = oportunidad;
+	}
+
+	public String getNotaAnterior() {
+		return notaAnterior;
+	}
+
+	public void setNotaAnterior(String notaAnterior) {
+		this.notaAnterior = notaAnterior;
+	}
+
+	public String getNotaExtra() {
+		return notaExtra;
+	}
+
+	public void setNotaExtra(String notaExtra) {
+		this.notaExtra = notaExtra;
+	}
+
+	public String getPromedio() {
+		return promedio;
+	}
+
+	public void setPromedio(String promedio) {
+		this.promedio = promedio;
+	}
+
+	public boolean insertReg(Connection conn ) throws SQLException{
+		boolean ok = false;
+		PreparedStatement ps = null;
+		try{
+			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_EXTRA " +
+					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO)" +
+					" VALUES(?, ?, ?," +
+					" TO_NUMBER(?, '99'), TO_NUMBER(?, '999.99'),TO_NUMBER(?, '999.99'), TO_NUMBER(?, '999.99'))");
+			
+			ps.setString(1, codigoId);
+			ps.setString(2, cicloGrupoId);
+			ps.setString(3, cursoId);
+			ps.setString(4, oportunidad);
+			ps.setString(5, notaAnterior);
+			ps.setString(5, notaExtra);
+			ps.setString(5, promedio);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+				conn.commit();
+			}else{
+				ok = false;
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumExtra|insertReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public boolean updateReg(Connection conn ) throws SQLException{
+		boolean ok = false;
+		PreparedStatement ps = null;
+		try{
+			ps = conn.prepareStatement("UPDATE KRDX_ALUM_EXTRA " +
+					" SET " +
+					" NOTA_ANTERIOR = TO_NUMBER(?,'999.99')," +
+					" NOTA_EXTRA = TO_NUMBER(?,'999.99'), "+
+					" PROMEDIO = TO_NUMBER(?,'999.99'),"+
+					" WHERE CODIGO_ID = ?" +
+					" AND CICLO_GRUPO_ID = ?" +
+					" AND CURSO_ID = ?" +
+					" AND OPORTUNIDAD = TO_NUMBER(?, '99')");			
+			
+			ps.setString(1, notaAnterior);
+			ps.setString(2, notaExtra);	
+			ps.setString(2, promedio);
+			ps.setString(4, codigoId);
+			ps.setString(5, cicloGrupoId);
+			ps.setString(6, cursoId);
+			ps.setString(7, oportunidad);
+						
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+				conn.commit();
+			}else{
+				ok = false;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumExtra|updateReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public boolean deleteReg(Connection conn ) throws SQLException{
+		boolean ok = false;
+		PreparedStatement ps = null;
+		try{
+			ps = conn.prepareStatement("DELETE FROM KRDX_ALUM_EXTRA " +
+					" WHERE CODIGO_ID = ?" +
+					" AND CICLO_GRUPO_ID = ?" +
+					" AND CURSO_ID = ?" +
+					" AND OPORTUNIDAD = TO_NUMBER(?,'99')");
+			ps.setString(1, codigoId);
+			ps.setString(2, cicloGrupoId);
+			ps.setString(3, cursoId);
+			ps.setString(4, oportunidad);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+				conn.commit();
+			}else{
+				ok = false;
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumExtra|deleteReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
+	
+	public void mapeaReg(ResultSet rs ) throws SQLException{
+		codigoId		= rs.getString("CODIGO_ID");
+		cicloGrupoId	= rs.getString("CICLO_GRUPO_ID");
+		cursoId			= rs.getString("CURSO_ID");
+		oportunidad		= rs.getString("OPORTUNIDAD");
+		notaAnterior	= rs.getString("NOTA_ANTERIOR");
+		notaExtra		= rs.getString("NOTA_EXTRA");
+		promedio			= rs.getString("PROMEDIO");
+	}
+	
+	public void mapeaRegId(Connection con, String codigoId, String cicloGrupoId, String cursoId, String evaluacionId) throws SQLException{
+		
+		ResultSet rs = null;		
+		PreparedStatement ps = null; 
+		try{
+			ps = con.prepareStatement("SELECT CODIGO_ID, CICLO_GRUPO_ID," +
+					" CURSO_ID, OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO " +
+					" FROM KRDX_ALUM_EXTRA" +
+					" WHERE CODIGO_ID = ?" +
+					" AND CICLO_GRUPO_ID = ?" +
+					" AND CURSO_ID = ?"+
+					" AND OPOTUNIDAD = TO_NUMBER(?,'99')");
+			ps.setString(1, codigoId);
+			ps.setString(2, cicloGrupoId);
+			ps.setString(3, cursoId);
+			ps.setString(4, oportunidad);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				mapeaReg(rs);
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumExtra|mapeaRegId|:"+ex);
+			ex.printStackTrace();
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}	
+	}
+	
+	public boolean existeReg(Connection conn) throws SQLException{
+		boolean ok 			= false;
+		ResultSet rs 			= null;
+		PreparedStatement ps	= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM KRDX_ALUM_EXTRA" +
+					" WHERE CODIGO_ID = ?" +
+					" AND CICLO_GRUPO_ID = ?" +
+					" AND CURSO_ID = ?" +
+					" AND OPORTUNIDAD = TO_NUMBER(?, '99')");
+			ps.setString(1, codigoId);
+			ps.setString(2, cicloGrupoId);
+			ps.setString(3, cursoId);
+			ps.setString(4, oportunidad);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				ok = true;
+			}else{
+				ok = false;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumExtra|existeReg|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return ok;
+	}
+	
+}
