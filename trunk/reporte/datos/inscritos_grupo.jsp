@@ -64,13 +64,7 @@
 		for(int i=0; i<lisInscritos.size();i++){
 			cont++;			
 			aca.alumno.AlumPersonal inscrito = (aca.alumno.AlumPersonal) lisInscritos.get(i);
-			if(inscrito.getCodigoId().equals("G3914240")){
-			System.out.println(inscrito.getCodigoId()+"  "+ciclo);
-			}
 			if (mapaGradoGrupo.containsKey(inscrito.getCodigoId()+ciclo+"1")){
-				if(inscrito.getCodigoId().equals("G3914240")){
-					System.out.println("Entra");
-					}	
 				aca.alumno.AlumCiclo historia = (aca.alumno.AlumCiclo) mapaGradoGrupo.get(inscrito.getCodigoId()+ciclo+"1");
 				grado 		= historia.getGrado();			
 				grupo 		= historia.getGrupo();			 
