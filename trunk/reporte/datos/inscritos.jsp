@@ -79,7 +79,7 @@
 %>
 			</select>
 			&nbsp; &nbsp; 			
-			<a onclick="location='inscritos_grupo.jsp'" class="btn btn-primary"><i class="icon-th-list icon-white"></i> <fmt:message key="boton.ListaGrado" /></a>
+			<a onclick="location='inscritos_grupo.jsp?ciclo=<%=ciclo %>'" class="btn btn-primary"><i class="icon-th-list icon-white"></i> <fmt:message key="boton.ListaGrado" /></a>
 	</div>
   </form>			
 <%	 	
