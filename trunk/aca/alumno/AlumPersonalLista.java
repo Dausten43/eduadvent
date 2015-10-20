@@ -1011,5 +1011,35 @@ public class AlumPersonalLista{
 		return map;
 	}
 	
+	public static HashMap<String,AlumPersonal> getMapHistoria(Connection conn, String ciclo, String orden ) throws SQLException{
+		
+		HashMap<String,AlumPersonal> mapPais = new HashMap<String,AlumPersonal>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+		String llave				= "";
+		
+		try{
+			comando = " SELECT * FROM ALUM_PERSONAL" +
+					" WHERE CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+ciclo+"') "+ orden;
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				AlumPersonal personal = new AlumPersonal();
+				personal.mapeaReg(rs);
+				llave = personal.getCodigoId();
+				mapPais.put(llave, personal);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.AlumCiclo|getMapAll|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return mapPais;
+	}
+	
 }
 

@@ -7,7 +7,7 @@
 <jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
-<jsp:useBean id="CicloLista" scope="page" class="aca.alumno.AlumCicloLista"/>\
+<jsp:useBean id="CicloLista" scope="page" class="aca.alumno.AlumCicloLista"/>
 
 <%@page import="java.util.HashMap"%>
 <% 
@@ -16,7 +16,8 @@
 	
 	String strBgcolor		= "";
 	String nivelTemp        = "0";
-	String grado = "", grupo = "";
+	String grado = "", grupo = "", nombre = "", apaterno = "", amaterno ="", nacimiento = "", genero = "", curp="", pais = "", 
+			estado = "", ciudad = "", colonia = "", direccion = "", telefono = "", religion = "", tutor = "";
 	int cont				= 1;
 	int hombres				= 0;
 	int mujeres				= 0;
@@ -32,9 +33,10 @@
 	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuelaId, "ORDER BY 1");
 	
 	// Lista de Alumnos Inscritos en un ciclo escolar
-	ArrayList lisInscritos = AlumnoL.getListAlumnosInscritos(conElias,escuelaId,ciclo, " ORDER BY NIVEL_ID,GRADO,GRUPO,APATERNO,AMATERNO,NOMBRE");	
+	ArrayList lisInscritos = CicloLista.getArrayListInscritos(conElias, ciclo, "ORDER BY NIVEL,GRADO,GRUPO");
 	
-	HashMap<String, aca.alumno.AlumCiclo > mapaGradoGrupo =   aca.alumno.AlumCicloLista.getMapHistoria(conElias, "");
+	
+	HashMap<String, aca.alumno.AlumPersonal > mapaGradoGrupo =   aca.alumno.AlumPersonalLista.getMapHistoria(conElias,ciclo, "");
 %>
 <style>
 	body{
@@ -63,11 +65,25 @@
 		String gradoAndGrupo = "0";
 		for(int i=0; i<lisInscritos.size();i++){
 			cont++;			
-			aca.alumno.AlumPersonal inscrito = (aca.alumno.AlumPersonal) lisInscritos.get(i);
-			if (mapaGradoGrupo.containsKey(inscrito.getCodigoId()+ciclo+"1")){
-				aca.alumno.AlumCiclo historia = (aca.alumno.AlumCiclo) mapaGradoGrupo.get(inscrito.getCodigoId()+ciclo+"1");
+			aca.alumno.AlumCiclo inscrito = (aca.alumno.AlumCiclo) lisInscritos.get(i);
+			if (mapaGradoGrupo.containsKey(inscrito.getCodigoId())){
+				aca.alumno.AlumPersonal historia = (aca.alumno.AlumPersonal) mapaGradoGrupo.get(inscrito.getCodigoId());
 				grado 		= historia.getGrado();			
-				grupo 		= historia.getGrupo();			 
+				grupo 		= historia.getGrupo();	
+				nombre 		= historia.getNombre();  
+				apaterno 	= historia.getApaterno();  
+				amaterno 	= historia.getAmaterno(); 
+				nacimiento 	= historia.getFNacimiento();  
+				genero 		= historia.getGenero();  
+				curp		= historia.getCurp(); 
+				pais 		= historia.getPaisId();  
+				estado 		= historia.getEstadoId(); 
+				ciudad 		= historia.getCiudadId();  
+				colonia 	= historia.getColonia();  
+				direccion	= historia.getDireccion();  
+				telefono 	= historia.getTelefono();  
+				religion 	= historia.getReligion();  
+				tutor 		= historia.getTutor(); 
 								
 			}else{
 				grado = "-"; grupo = "-";
@@ -94,12 +110,12 @@
 					relDif	= 0;
 				}
 				
-				if(!nivelTemp.equals(inscrito.getNivelId())){
-					nivelTemp = inscrito.getNivelId();
+				if(!nivelTemp.equals(inscrito.getNivel())){
+					nivelTemp = inscrito.getNivel();
 					
 				%>
 				<div class="alert alert-info">
-  				<h4><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, inscrito.getNivelId())%></h4>
+  				<h4><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, inscrito.getNivel())%></h4>
   				</div>
 <%  			} %>				
 				<table class="table table-fullcondensed" width="100%">
@@ -129,24 +145,23 @@
 			<tr >
 			  <td align="center"><%= cont %></td>
 			  <td align="center"><%= inscrito.getCodigoId() %></td>
-			  <td align="left"><%= inscrito.getApaterno()+" "+inscrito.getAmaterno()+", "+inscrito.getNombre()%></td>
+			  <td align="left"><%= apaterno+" "+amaterno+", "+nombre%></td>
 			  <td align="center"><%= grado%></td>
 			  <td align="center"><%= grupo%></td>
-			  <td align="left"><%= inscrito.getFNacimiento()%></td>
-			  <td align="center"><%= inscrito.getGenero().equals("M")?"H":"M" %></td>
-			  <td align="left"><%= inscrito.getCurp()%></td>
-			  <td align="left"><%= aca.catalogo.CatPais.getPais(conElias,inscrito.getPaisId())%></td>
-			  <td align="left"><%= aca.catalogo.CatEstado.getEstado(conElias,inscrito.getPaisId(),inscrito.getEstadoId())%></td>
-			  <td align="left"><%= aca.catalogo.CatCiudad.getCiudad(conElias,inscrito.getPaisId(),inscrito.getEstadoId(),inscrito.getCiudadId())%></td>
-			  <td align="left"><%= inscrito.getColonia()%></td>
-			  <td align="left"><%= inscrito.getDireccion()%></td>
-			  <td align="left"><%= inscrito.getTelefono()%></td>
+			  <td align="left"><%= nacimiento%></td>
+			  <td align="center"><%= genero.equals("M")?"H":"M" %></td>
+			  <td align="left"><%= curp%></td>
+			  <td align="left"><%= aca.catalogo.CatPais.getPais(conElias,pais)%></td>
+			  <td align="left"><%= aca.catalogo.CatCiudad.getCiudad(conElias,pais,estado,ciudad)%></td>
+			  <td align="left"><%= colonia%></td>
+			  <td align="left"><%= direccion%></td>
+			  <td align="left"><%= telefono%></td>
 			  <td align="left"><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, inscrito.getClasfinId())%></td>
-			  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,inscrito.getReligion())%></td>
-			  <td align="left"><%= inscrito.getTutor()%></td>  
+			  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,religion)%></td>
+			  <td align="left"><%= tutor%></td>  
 			  
-			  <%String gen 		= inscrito.getGenero();
-			  	String relig 	= inscrito.getReligion();
+			  <%String gen 		= genero;
+			  	String relig 	= religion;
 			  	if(relig.equals("1")){
 			  		relAdv++;
 			  		totACFE++;
