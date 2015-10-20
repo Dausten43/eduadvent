@@ -203,7 +203,7 @@
 							FinMov.setAuxiliar(detalle.getCodigoId());
 							FinMov.setDescripcion("BECA DE PAGO INICIAL - "+cuentaNombre +" - "+ detalle.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(detalle.getImporteBeca());
-							FinMov.setNaturaleza("D"); /* Debito */
+							FinMov.setNaturaleza("C"); /* Crédito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
 							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
 							FinMov.setFecha(aca.util.Fecha.getDateTime());
@@ -323,7 +323,7 @@
 							FinMov.setAuxiliar(pago.getCodigoId());
 							FinMov.setDescripcion("BECA DE PAGO "+pagoId+" - "+cuentaNombre+" - "+pago.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(becaPago+"");
-							FinMov.setNaturaleza("D"); /* Debito */
+							FinMov.setNaturaleza("C"); /* Créditos */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
 							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
 							FinMov.setFecha(aca.util.Fecha.getDateTime());
