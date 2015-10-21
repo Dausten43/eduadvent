@@ -240,14 +240,14 @@
 			String estado 	= aca.catalogo.CatEstado.getEstado(conElias, CatEscuela.getPaisId(), CatEscuela.getEstadoId());
 			String telefono = CatEscuela.getTelefono();
 			
-			frase = new Phrase(direccion+"\n"+(!direccion2.equals("")?direccion2:"")+colonia+"\n"+ciudad+"\n"+estado+"\n"+telefono  , 
+			frase = new Phrase(direccion+(!direccion2.equals("")?direccion2:"")+",   "+colonia+"\n"+ciudad+",   "+estado+"\n"+telefono  , 
 					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
 			celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 			celda.setBorder(0);
 			cicloTable.addCell(celda);
 			
-			cicloTable.writeSelectedRows(0, -1, 322,665+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(0, -1, 322,657+extra, pdf.getDirectContent());
 			
 			if(tieneFirma == false){
 			float[] ColumnSize = { 100F };
