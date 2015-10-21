@@ -20,6 +20,7 @@
 
 <%
 	String escuelaId		= (String)session.getAttribute("escuela");
+
 	String codigoAlumno		= "";
 	String cicloId			= (String)session.getAttribute("cicloId");
 	//String cicloId			= Ciclo.getCargaActual(conElias, escuelaId);

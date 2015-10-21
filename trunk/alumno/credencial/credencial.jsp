@@ -18,6 +18,7 @@
 	String codigoAlumno		= "";
 
 	int cantidad			= Integer.parseInt(request.getParameter("cantidad"));
+	
 	int extra				= 0;
 
 	Document document = new Document(PageSize.LETTER); //Crea un objeto para el documento PDF
