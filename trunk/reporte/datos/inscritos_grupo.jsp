@@ -152,6 +152,7 @@
 			  <td align="center"><%= genero.equals("M")?"H":"M" %></td>
 			  <td align="left"><%= curp%></td>
 			  <td align="left"><%= aca.catalogo.CatPais.getPais(conElias,pais)%></td>
+			  <td align="left"><%= aca.catalogo.CatEstado.getEstado(conElias, pais, estado)%></td>
 			  <td align="left"><%= aca.catalogo.CatCiudad.getCiudad(conElias,pais,estado,ciudad)%></td>
 			  <td align="left"><%= colonia%></td>
 			  <td align="left"><%= direccion%></td>
