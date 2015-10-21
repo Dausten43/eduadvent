@@ -19,7 +19,12 @@
 
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
-	String usuario 		= (String)session.getAttribute("codigoId");											
+	String usuario 		= (String)session.getAttribute("codigoId");				
+	String cicloId		= request.getParameter("cicloId")==null?"":request.getParameter("cicloId");
+	String periodoId	= request.getParameter("periodoId")==null?"":request.getParameter("periodoId");
+	String pagoId		= request.getParameter("pagoId")==null?"":request.getParameter("pagoId");
+	
+	java.util.HashMap<String, String> mapAlumPago = FinCalculoLista.getListAlumnosPagos(conElias, cicloId, periodoId, pagoId);
 %>
 
 <div id="content">
@@ -29,7 +34,18 @@
 	<div class="alert alert-info">
 			
 	</div>
-				
+	<table>	
+<% 	for(int x=0; x<mapAlumPago.size(); x++){
+%>		
+	<tr>
+		<td></td>
+		<td><%=mapAlumPago.get(x)%></td>
+	</tr>
+<%	
+	}
+
+%>		
+	</table>		
 </div>
 
 <%@ include file= "../../cierra_elias.jsp" %>
