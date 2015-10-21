@@ -99,5 +99,39 @@ public class FinCalculoLista {
 		
 		return lisCalculo;
 	}
+
+	
+	public ArrayList<FinCalculo> getListAlumnosPagos(Connection conn, String cicloId, String periodoId, String pagoId, String orden ) throws SQLException{
+		ArrayList<FinCalculo> lisCalculo 	= new ArrayList<FinCalculo>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "	SELECT CODIGO_ID, SUM(IMPORTE-BECA) AS TOTAL FROM FIN_CALCULO_PAGO A"+
+					  " WHERE CICLO_ID = '"+cicloId+"' "+
+					  " AND PERIODO_ID =  '"+periodoId+"' "+
+					  " AND PAGO_ID =  '"+pagoId+"' "+
+					  " AND ESTADO =  'P' "+
+					  " AND IMPORTE > 0 "+
+					  " AND ( SELECT INSCRITO FROM FIN_CALCULO WHERE CICLO_ID = A.CICLO_ID AND PERIODO_ID = A.PERIODO_ID AND CODIGO_ID = A.CODIGO_ID ) = 'P' GROUP BY CODIGO_ID"+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				FinCalculo fc = new FinCalculo();				
+				fc.mapeaReg(rs);
+				lisCalculo.add(fc);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinCostoLista|getListAlumnos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisCalculo;
+	}
+
 	
 }
