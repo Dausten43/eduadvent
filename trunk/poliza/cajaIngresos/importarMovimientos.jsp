@@ -445,7 +445,7 @@
 								<%cont++;%>
 								<tr>
 									<td><%=cont %></td>
-									<td><%=pago.getDescripcion() %></td>
+									<td><a href="pagoAlumnos.jsp?<%=pago.getPagoId()%>"><%=pago.getDescripcion() %></a></td>
 									<td><%=aca.fin.FinCalculo.pendientesPago(conElias, cicloId, periodoId, pago.getPagoId()) %></td>
 								</tr>
 							<%}%>	
