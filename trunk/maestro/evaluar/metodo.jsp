@@ -73,10 +73,12 @@
 <%
 	double sumaPromedioGrupo 	= 0D;
 	int numEvaluaciones 		= 0;
+	float sumValorPromedios 	= 0;
 	float sumValorEvaluaciones 	= 0;
 	
 	for(aca.ciclo.CicloPromedio promedios : listPromedio){	
 		numEvaluaciones++;
+		sumValorPromedios += Float.parseFloat(promedios.getValor()); 
 %>
 	<div class="alert alert-success"><h4>N1. <%=promedios.getNombre() %> (Valor: <%=promedios.getValor() %>)</h4></div>
 <%	
@@ -242,7 +244,7 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 		<h4>
 			<fmt:message key="aca.TotalEstrategiasDeMateria" /> <%=numEvaluaciones%> <%if(numEvaluaciones==1){%><fmt:message key='aca.Estrategia'/><%}else{%><fmt:message key='aca.Estrategias'/><%}%>
 			<span style="float:right;">
-				<fmt:message key="aca.ValorTotal" />: <%=sumValorEvaluaciones%>%
+				<fmt:message key="aca.ValorTotal" />: <%=sumValorPromedios%>%
 			</span>
 		</h4>
 	</div>
