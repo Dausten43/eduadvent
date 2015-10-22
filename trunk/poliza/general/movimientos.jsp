@@ -74,6 +74,8 @@
 		FinMov.setEstado("R"); /* Recibo */
 		FinMov.setFecha(aca.util.Fecha.getDateTime());
 		FinMov.setReciboId("0");
+		FinMov.setCicloId("00000000");
+		FinMov.setPeriodoId("0");
 		
 		if(FinMov.existeReg(conElias)){
 			if(FinMov.updateReg(conElias)){
