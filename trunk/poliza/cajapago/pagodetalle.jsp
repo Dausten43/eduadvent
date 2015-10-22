@@ -20,6 +20,7 @@
 	String alumno 		= request.getParameter("Auxiliar");
 	String fecha 		= request.getParameter("Fecha");
 	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+	String padreCaja 	= request.getParameter("Padre")==null?"0":request.getParameter("Padre");
 	
 	// Cancelar el pago
 	if (accion.equals("1")){
@@ -41,7 +42,7 @@
 <div id="content">	
 	<h2><fmt:message key="aca.Pago" /> <small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong> )</small></h2>
 	<div class="well">
-		<a href="movimientos.jsp?Auxiliar=<%= alumno %>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a href="movimientos.jsp?Auxiliar=<%=alumno%>&Padre=<%=padreCaja%>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
 	<table class="table table-condensed">
 		<tr>
