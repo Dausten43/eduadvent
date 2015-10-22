@@ -101,7 +101,37 @@ public class FinCalculoLista {
 		return lisCalculo;
 	}
 	
-	public HashMap<String,String> getListAlumnosPagos(Connection conn, String cicloId, String periodoId, String pagoId ) throws SQLException{
+	public ArrayList<String> listAlumnosEnPago(Connection conn, String cicloId, String periodoId, String pagoId, String estado, String orden ) throws SQLException{
+		ArrayList<String> lisCalculo 	= new ArrayList<String>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "	SELECT CODIGO_ID FROM FIN_CALCULO_PAGO A"+
+					  " WHERE CICLO_ID = '"+cicloId+"' "+
+					  " AND PERIODO_ID =  '"+periodoId+"' "+
+					  " AND PAGO_ID =  '"+pagoId+"' "+
+					  " AND ESTADO IN ("+estado+")"+
+					  " AND IMPORTE > '0'"+
+					  " AND ( SELECT INSCRITO FROM FIN_CALCULO WHERE CICLO_ID = A.CICLO_ID AND PERIODO_ID = A.PERIODO_ID AND CODIGO_ID = A.CODIGO_ID ) = 'P' GROUP BY CODIGO_ID "+ orden;			
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){				
+				lisCalculo.add(rs.getString("CODIGO_ID"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinCostoLista|listAlumnosEnPago|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisCalculo;
+	}
+	
+	public HashMap<String,String> mapAlumnosEnPago(Connection conn, String cicloId, String periodoId, String pagoId , String estado) throws SQLException{
 		
 		HashMap<String,String> map 	= new HashMap<String,String>();
 		Statement st 					= conn.createStatement();
@@ -113,7 +143,7 @@ public class FinCalculoLista {
 					  " WHERE CICLO_ID = '"+cicloId+"' "+
 					  " AND PERIODO_ID =  '"+periodoId+"' "+
 					  " AND PAGO_ID =  '"+pagoId+"' "+
-					  " AND ESTADO =  'P' "+
+					  " AND ESTADO IN ("+estado+")"+
 					  " AND IMPORTE > '0'"+
 					  " AND ( SELECT INSCRITO FROM FIN_CALCULO WHERE CICLO_ID = A.CICLO_ID AND PERIODO_ID = A.PERIODO_ID AND CODIGO_ID = A.CODIGO_ID ) = 'P' GROUP BY CODIGO_ID";
 			
