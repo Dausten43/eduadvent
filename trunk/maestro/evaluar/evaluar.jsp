@@ -767,7 +767,7 @@
 					cont++;					
 			%>
 					<tr>
-						<td class="text-center"><%=cont%></td>
+						<td class="text-center" style="width:100px;"><%=cont%></td>
 						<td>
 							<%if (aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, eval.getCicloGrupoId(), eval.getCursoId(), eval.getEvaluacionId())) {%>
 								<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
