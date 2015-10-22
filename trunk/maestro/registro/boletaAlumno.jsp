@@ -167,7 +167,7 @@
 			<td><%=kardex.getOrden() %></td>
 			<td><%=AlumPersonal.getNombre() %></td>
 			<td><%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %></td>
-			<td>2014-2015</td> 
+			<td><%= cicloId%></td> 
 			<td><%= content%></td>
 			<td><%=aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(Grupo.getGrado())) %></td>
 			<td><%=Grupo.getGrupo() %></td>
