@@ -163,7 +163,9 @@
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
 							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
 							FinMov.setFecha(aca.util.Fecha.getDateTime());
-							FinMov.setReciboId("0");
+							FinMov.setReciboId("0");						
+							FinMov.setCicloId(detalle.getCicloId());
+							FinMov.setPeriodoId(detalle.getPeriodoId());
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
@@ -187,6 +189,8 @@
 							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
 							FinMov.setFecha(aca.util.Fecha.getDateTime());
 							FinMov.setReciboId("0");
+							FinMov.setCicloId(detalle.getCicloId());
+							FinMov.setPeriodoId(detalle.getPeriodoId());
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
@@ -208,6 +212,8 @@
 							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
 							FinMov.setFecha(aca.util.Fecha.getDateTime());
 							FinMov.setReciboId("0");
+							FinMov.setCicloId(detalle.getCicloId());
+							FinMov.setPeriodoId(detalle.getPeriodoId());
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
@@ -300,6 +306,8 @@
 							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
 							FinMov.setFecha(aca.util.Fecha.getDateTime());
 							FinMov.setReciboId("0");
+							FinMov.setCicloId(pago.getCicloId());
+							FinMov.setPeriodoId(pago.getPeriodoId());
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
@@ -328,6 +336,8 @@
 							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
 							FinMov.setFecha(aca.util.Fecha.getDateTime());
 							FinMov.setReciboId("0");
+							FinMov.setCicloId(pago.getCicloId());
+							FinMov.setPeriodoId(pago.getPeriodoId());
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
