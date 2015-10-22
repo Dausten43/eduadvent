@@ -1,36 +1,70 @@
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
-<%@ include file= "../../idioma.jsp" %>
+<%@ include file= "../../head.jsp" %>
+<%@ include file= "../../menu.jsp" %>
 
 <jsp:useBean id="FinPagoLista" scope="page" class="aca.fin.FinCalculoPagoLista"/>
-
+<script>
+	function CancelarPago(ciclo, periodo, alumno, pago, cuenta, fecha){
+		if(confirm(' <fmt:message key='js.ConfirmaCancelar' /> ')){
+			document.location.href="pagodetalle.jsp?Accion=1&CicloId="+ciclo+"&PeriodoId="+periodo+"&Auxiliar="+alumno+"&PagoId="+pago+"&CuentaId="+cuenta+"&Fecha="+fecha;			
+		}
+	}	
+</script>
 <%	
-	String alumno 		= request.getParameter("alumno");
 	String escuelaId 	= (String) session.getAttribute("escuela");
-
-	ArrayList<aca.fin.FinCalculoPago> pagos 		= FinPagoLista.listPagosPendientes(conElias, alumno, "ORDER BY PAGO_ID");
-	System.out.println(pagos.size());
+	String ejercicioId 	= (String) session.getAttribute("EjercicioId");	
+	
+	String alumno 		= request.getParameter("Auxiliar");
+	String fecha 		= request.getParameter("Fecha");
+	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+	System.out.println("Accion:"+accion);
+	// Cancelar el pago
+	if (accion.equals("1")){
+		String cicloId 		= request.getParameter("CicloId");
+		String periodoId 	= request.getParameter("PeriodoId");
+		String pagoId 		= request.getParameter("PagoId");
+		String cuentaId 	= request.getParameter("CuentaId");
+		System.out.println("Cancelar..."+cicloId+":"+periodoId+":"+pagoId+":"+cuentaId);
+	}
+	ArrayList<aca.fin.FinCalculoPago> pagos 		= FinPagoLista.listPagosAlumnoPorFecha(conElias, alumno, fecha, " ORDER BY CUENTA_ID");
 %>
+<div id="content">	
+	<h2><fmt:message key="aca.Pago" /> <small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong> )</small></h2>
+	<div class="well">
+		<a href="movimientos.jsp?Auxiliar=<%= alumno %>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+	</div>
 	<table class="table table-condensed">
 		<tr>
 			<th>#</th>
+			<th>Op.</th>
 			<th>Fecha</th>
-			<th>Importe</th>
+			<th>Cuenta</th>			
+			<th style="text-align:right">Importe</th>
+			<th>Estado</th>
 		</tr>
 	<%
 			int row = 0;
 			for (aca.fin.FinCalculoPago pago: pagos){
 				row++;
+				String nombreCuenta = aca.fin.FinCuenta.getCuentaNombre(conElias, pago.getCuentaId());
 	%>
 		<tr>
 			<td><%=row%></td>
+			<td>
+				<a href="javascript:CancelarPago('<%=pago.getCicloId()%>','<%=pago.getPeriodoId()%>','<%=alumno%>','<%=pago.getPagoId()%>','<%=pago.getCuentaId()%>','<%=fecha%>')">
+					<i class="icon-remove-sign"></i>
+				</a>
+			</td>
 			<td><%= pago.getFecha() %></td>
-			<td><%= pago.getImporte() %></td>
+			<td>[<%= pago.getCuentaId() %>] <%= nombreCuenta %></td>
+			<td style="text-align:right"><%= pago.getImporte() %></td>
+			<td><%= pago.getEstado() %></td>
 		</tr>
 	<%			
 			}
 	%>
 	</table>	
-
+</div>
 <%@ include file= "../../cierra_elias.jsp" %>
