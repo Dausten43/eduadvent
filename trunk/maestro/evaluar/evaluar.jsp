@@ -760,10 +760,11 @@
 			</thead>
 			<%
 
-				for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
+			for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
+				
+				if (eval.getPromedioId().equals( promedio.getPromedioId())){
 					
-					cont++;
-					
+					cont++;					
 			%>
 					<tr>
 						<td class="text-center"><%=cont%></td>
@@ -814,7 +815,8 @@
 							<%} %> 	
 						</td>
 					</tr>
-			<%}%>
+			<%}%>		
+		<%}%>
 	</table>
 <%	} %>		
 <!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->
