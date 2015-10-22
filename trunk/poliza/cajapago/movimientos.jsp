@@ -144,9 +144,6 @@
 		conElias.setAutoCommit(true);
 		FinMov = new aca.fin.FinMovimientos();
 		movimientoId = "";
-	}else if (accion.equals("3")){
-		System.out.println("Entre a cancelar el pago:"+request.getParameter("PagoId"));	
-		
 	}
 	
 	pageContext.setAttribute("resultado", msj);

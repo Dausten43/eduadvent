@@ -1,3 +1,4 @@
+<%@page import="aca.fin.FinCalculoPago"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -19,15 +20,22 @@
 	String alumno 		= request.getParameter("Auxiliar");
 	String fecha 		= request.getParameter("Fecha");
 	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
-	System.out.println("Accion:"+accion);
+	
 	// Cancelar el pago
 	if (accion.equals("1")){
 		String cicloId 		= request.getParameter("CicloId");
 		String periodoId 	= request.getParameter("PeriodoId");
 		String pagoId 		= request.getParameter("PagoId");
 		String cuentaId 	= request.getParameter("CuentaId");
-		System.out.println("Cancelar..."+cicloId+":"+periodoId+":"+pagoId+":"+cuentaId);
+		//System.out.println("Cancelar..."+cicloId+":"+periodoId+":"+pagoId+":"+cuentaId);
+		
+		if ( FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno, pagoId, cuentaId, "C") ){
+			conElias.commit();
+		}
+		
 	}
+	
+	// Lista de pagos del alumno por fecha
 	ArrayList<aca.fin.FinCalculoPago> pagos 		= FinPagoLista.listPagosAlumnoPorFecha(conElias, alumno, fecha, " ORDER BY CUENTA_ID");
 %>
 <div id="content">	
