@@ -100,6 +100,8 @@
 		FinMov.setEstado("A"); /* Abierto o Creado */
 		FinMov.setFecha(aca.util.Fecha.getDateTime());
 		FinMov.setReciboId(FinFolio.getReciboActual());
+		FinMov.setCicloId("00000000");
+		FinMov.setPeriodoId("0");
 		
 		if(FinMov.existeReg(conElias)){
 			if(FinMov.updateReg(conElias)){
@@ -206,6 +208,8 @@
 				FinMov.setEstado("A"); /* Abierto o Creado */
 				FinMov.setFecha(aca.util.Fecha.getDateTime());
 				FinMov.setReciboId(FinFolio.getReciboActual());
+				FinMov.setCicloId(pagos.getCicloId());
+				FinMov.setPeriodoId(pagos.getPeriodoId());
 				
 				if(FinMov.insertReg(conElias)){
 					if (aca.fin.FinCalculoPago.updatePagado(conElias, alumnoCaja, pagos.getFecha(), pagos.getCuentaId(),"S")){
