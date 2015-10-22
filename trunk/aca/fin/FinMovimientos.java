@@ -20,6 +20,8 @@ public class FinMovimientos {
 	private String estado;
 	private String fecha;
 	private String reciboId;
+	private String cicloId;
+	private String periodoId;
 	
 	public FinMovimientos(){
 		ejercicioId 	= "";
@@ -34,6 +36,8 @@ public class FinMovimientos {
 		estado 			= "";
 		fecha 			= "";
 		reciboId		= "";
+		cicloId			= "00000000";
+		periodoId		= "0";
 	}
 	
 	public String getEjercicioId() {
@@ -107,17 +111,30 @@ public class FinMovimientos {
 	}
 	public void setReciboId(String reciboId) {
 		this.reciboId = reciboId;
+	}	
+	public String getCicloId() {
+		return cicloId;
+	}
+	public void setCicloId(String cicloId) {
+		this.cicloId = cicloId;
+	}
+	public String getPeriodoId() {
+		return periodoId;
+	}
+	public void setPeriodoId(String periodoId) {
+		this.periodoId = periodoId;
 	}
 
 	public boolean insertReg(Connection conn ) throws SQLException{
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("INSERT INTO FIN_MOVIMIENTOS" +
-					" (EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID," +
-					" AUXILIAR, DESCRIPCION, IMPORTE, NATURALEZA, REFERENCIA, ESTADO, FECHA, RECIBO_ID )" +
-					" VALUES(?, ?, TO_NUMBER(?, '9999'), ?," +
-					" ?, ?, TO_NUMBER(?, '999999.99'), ?, ?, ?, TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'), ? )");
+			ps = conn.prepareStatement("INSERT INTO FIN_MOVIMIENTOS"
+					+ " (EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION,"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID )"
+					+ " VALUES(?, ?, TO_NUMBER(?, '9999'), ?, ?, ?,"
+					+ " TO_NUMBER(?, '999999.99'), ?, ?, ?,"
+					+ " TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'), ?, ?, TO_NUMBER(?,'99') )");
 
 			ps.setString(1, ejercicioId);
 			ps.setString(2, polizaId);
@@ -131,6 +148,8 @@ public class FinMovimientos {
 			ps.setString(10, estado);
 			ps.setString(11, fecha);
 			ps.setString(12, reciboId);
+			ps.setString(12, cicloId);
+			ps.setString(12, periodoId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -151,17 +170,21 @@ public class FinMovimientos {
         boolean ok = false;
         PreparedStatement ps = null;
         try{
-            ps = conn.prepareStatement(
-                    " UPDATE FIN_MOVIMIENTOS" +
-                    " SET CUENTA_ID = ?," +
-                    " AUXILIAR = ?," +
-                    " DESCRIPCION = ?," +
-                    " IMPORTE = TO_NUMBER(?, '999999.99')," +
-                    " NATURALEZA = ?," +
-                    " REFERENCIA = ?, ESTADO = ?, FECHA = TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'), RECIBO_ID = ? " +
-                    " WHERE EJERCICIO_ID = ?" +
-                    " AND POLIZA_ID = ?" +
-                    " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
+            ps = conn.prepareStatement("UPDATE FIN_MOVIMIENTOS"
+                    + " SET CUENTA_ID = ?,"
+                    + " AUXILIAR = ?,"
+                    + " DESCRIPCION = ?,"
+                    + " IMPORTE = TO_NUMBER(?, '999999.99'),"
+                    + " NATURALEZA = ?,"
+                    + " REFERENCIA = ?,"
+                    + " ESTADO = ?,"
+                    + " FECHA = TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'),"
+                    + " RECIBO_ID = ?,"
+                    + " CICLO_ID = ?,"
+                    + " PERIODO_ID = TO_NUMBER(?,'99')"
+                    + " WHERE EJERCICIO_ID = ?"
+                    + " AND POLIZA_ID = ?"
+                    + " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
             
             ps.setString(1, cuentaId);
             ps.setString(2, auxiliar);
@@ -172,9 +195,11 @@ public class FinMovimientos {
             ps.setString(7, estado);
             ps.setString(8, fecha);
             ps.setString(9, reciboId);
-            ps.setString(10, ejercicioId);
-            ps.setString(11, polizaId);
-            ps.setString(12, movimientoId);
+            ps.setString(10, cicloId);
+            ps.setString(11, periodoId);
+            ps.setString(12, ejercicioId);
+            ps.setString(13, polizaId);
+            ps.setString(14, movimientoId);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -189,8 +214,7 @@ public class FinMovimientos {
         }
 
         return ok;
-    }
-	
+    }	
 
 	public boolean updateEstado(Connection conn) throws SQLException{
         boolean ok = false;
@@ -214,6 +238,38 @@ public class FinMovimientos {
             
         }catch (Exception ex){
             System.out.println("Error - aca.fin.FinMovimientos|updateReg|:" + ex);
+        }finally{
+        	if(ps != null){
+                ps.close();
+            }
+        }
+
+        return ok;
+    }
+	
+	public boolean updateCicloPeriodo(Connection conn) throws SQLException{
+        boolean ok = false;
+        PreparedStatement ps = null;
+        try{
+            ps = conn.prepareStatement(
+                    " UPDATE FIN_MOVIMIENTOS" +
+                    " SET CICLO_ID = ?, PERIODO_ID = ? " +
+                    " WHERE EJERCICIO_ID = ?" +
+                    " AND POLIZA_ID = ?" +
+                    " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
+            
+            ps.setString(1, cicloId);
+            ps.setString(2, periodoId);
+            ps.setString(3, ejercicioId);
+            ps.setString(4, polizaId);
+            ps.setString(5, movimientoId);
+
+            if(ps.executeUpdate() == 1){
+                ok = true;
+            }
+            
+        }catch (Exception ex){
+            System.out.println("Error - aca.fin.FinMovimientos|updateCicloPeriodo|:" + ex);
         }finally{
         	if(ps != null){
                 ps.close();
@@ -322,6 +378,8 @@ public class FinMovimientos {
         estado 			= rs.getString("ESTADO");
         fecha 			= rs.getString("FECHA");
         reciboId		= rs.getString("RECIBO_ID");
+        cicloId			= rs.getString("CICLO_ID");
+        periodoId		= rs.getString("PERIODO_ID");
     }
 
     public void mapeaRegId(Connection con, String ejercicioId, String polizaId, String movimientoId) throws SQLException{
@@ -329,7 +387,7 @@ public class FinMovimientos {
         PreparedStatement ps = null; 
         try{
 	        ps = con.prepareStatement(
-	                " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID " +
+	                " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID " +
 	                " FROM FIN_MOVIMIENTOS" +
 	                " WHERE EJERCICIO_ID = ?" +
 	                " AND POLIZA_ID = ?" +
