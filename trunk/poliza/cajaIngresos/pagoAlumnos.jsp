@@ -26,39 +26,51 @@
 	
 	// Lista de alumnos en el pago
 	java.util.ArrayList<String> lisAlumnos = FinCalculoLista.listAlumnosEnPago(conElias, cicloId, periodoId, pagoId, "'A'", " ORDER BY 1");
-	
+
 	// Map de importes del pago por cada alumno
 	java.util.HashMap<String, String> mapPago = FinCalculoLista.mapAlumnosEnPago(conElias, cicloId, periodoId, pagoId, "'A'");
+	
 %>
 
 <div id="content">
 	
 	<h2><fmt:message key="aca.Movimiento" /></h2>	
 	
-	<div class="well">
-			
-	</div>
+		<div class="well">
+			<a href="importarMovimientos.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		</div>
+		
 	<table class="table table-striped">
+	
 	<tr>
-		<th>#</td>
+		<th>#</th>
 		<th>Matricula</th>
 		<th>Nombre</th>
 		<th style="text-align:right">Importe</th>
 	</tr>
+
 <% 	
+
 	for(String alumno:lisAlumnos){
 		double importe = 0.0;
 		if (mapPago.containsKey(alumno)){
 			importe = Double.parseDouble(mapPago.get(alumno));
 		}
-%>		
-	<tr>
-		<td></td>
-		<td><%=alumno%></td>
-		<td>&nbsp;</td>
-		<td style="text-align:right"><%=formato.format(importe)%></td>
-	</tr>
-<%	
+		 String nombreAlumno = aca.alumno.AlumPersonal.getNombre(conElias, alumno, "NOMBRE");
+		 
+		 //For que pone los numeros que hay en la lista
+		 int num = 0;
+		 for(int i = 0; i <= lisAlumnos.size(); i ++){
+			num = i;
+		 }
+		%>		
+			<tr>
+				<td><%=num%></td>
+				<td><%=alumno%></td>
+				<td><%=nombreAlumno%></td>
+				<td style="text-align:right"><%=formato.format(importe)%></td>
+			</tr>
+		<%	
 	}
 
 %>		
