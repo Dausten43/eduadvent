@@ -364,7 +364,7 @@
 	%>
 					<tr>
 						<td><%= row %></td>
-						<td><a href="pagodetalle.jsp?Auxiliar=<%=alumnoCaja%>&Fecha=<%=fechaPagos%>"><i class="icon-list"></i></a></td>
+						<td><a href="pagodetalle.jsp?Auxiliar=<%=alumnoCaja%>&Fecha=<%=fechaPagos%>&Padre=<%=padreCaja%>"><i class="icon-list"></i></a></td>
 						<td><%= fechaPagos %></td>
 						<td><%= importe %></td>
 						<td><a class="btn btn-primary btn-small" onclick="javascript:EnviarPago('<%= fechaPagos %>');"><i class="icon-arrow-right icon-white"></i></a></td>
