@@ -176,6 +176,7 @@
 				finMovimiento.setImporte(finRecibo.getImporte());
 				finMovimiento.setNaturaleza("C");
 				finMovimiento.setReferencia(finRecibo.getReciboId());
+				
 				if(finMovimiento.insertReg(conElias)){
 					conElias.commit();
 %>
