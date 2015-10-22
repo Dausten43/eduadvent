@@ -144,6 +144,9 @@
 		conElias.setAutoCommit(true);
 		FinMov = new aca.fin.FinMovimientos();
 		movimientoId = "";
+	}else if (accion.equals("3")){
+		System.out.println("Entre a cancelar el pago:"+request.getParameter("PagoId"));
+		
 	}
 	
 	pageContext.setAttribute("resultado", msj);
@@ -345,6 +348,7 @@
 					<table class="table table-condensed">
 					<tr>
 						<th>#</th>
+						<th>Op.</th>
 						<th>Fecha</th>
 						<th>Importe</th>
 						<th>Enviar</th>
@@ -358,9 +362,11 @@
 						if (mapaPago.containsKey(fechaPagos) ){
 							importe = mapaPago.get(fechaPagos);
 						}
+						String pagoId = aca.fin.FinCalculoPago.getPagoDeFecha(conElias, alumnoCaja, fechaPagos);						
 	%>
 					<tr>
 						<td><%= row %></td>
+						<td><a href="movimientos.jsp?Auxiliar=<%=alumnoCaja%>&Accion=3&PagoId=<%=pagoId%>">Cancelar-<%=pagoId%></a></td>
 						<td><%= fechaPagos %></td>
 						<td><%= importe %></td>
 						<td><a class="btn btn-primary btn-small" onclick="javascript:EnviarPago('<%= fechaPagos %>');"><i class="icon-arrow-right icon-white"></i></a></td>
