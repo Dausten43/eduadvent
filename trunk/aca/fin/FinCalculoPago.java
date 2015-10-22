@@ -479,5 +479,33 @@ public class FinCalculoPago {
         return estado;
     }
     
+    public static String getPagoDeFecha(Connection conn, String codigoId, String fecha) throws SQLException {
+        
+        PreparedStatement ps	= null;
+        ResultSet rs 			= null;
+        String estado 			= "";
+
+        try {
+        	ps = conn.prepareStatement("SELECT PAGO_ID FROM FIN_CALCULO_PAGO" +
+            		" WHERE CODIGO_ID  = ?"+
+                    " AND FECHA = TO_DATE(?,'YYYY/MM/DD')");
+        	
+            ps.setString(1, codigoId);
+            ps.setString(2, fecha);            
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	estado = rs.getString("PAGO_ID");
+            }
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinCalculoPago|getPagoDeFecha|:" +ex);
+        }finally{
+        	if(rs != null){ rs.close(); }
+            if(ps != null){ ps.close(); }
+        }
+        
+        return estado;
+    }
+    
   
 }
