@@ -102,6 +102,8 @@
 		FinMovs.setEstado("R"); /* Recibo */
 		FinMovs.setFecha(aca.util.Fecha.getDateTime());
 		FinMovs.setReciboId("0");
+		FinMovs.setCicloId("00000000");
+		FinMovs.setPeriodoId("0");
 		
 		if( FinMovs.existeReg(conElias) ){
 			error = true;

@@ -87,6 +87,8 @@
 		FinMov.setEstado("A"); /* Abierto o Creado */
 		FinMov.setFecha(aca.util.Fecha.getDateTime());
 		FinMov.setReciboId(FinFolio.getReciboActual());
+		FinMov.setCicloId("00000000");
+		FinMov.setPeriodoId("0");
 		
 		if(FinMov.existeReg(conElias)){
 			if(FinMov.updateReg(conElias)){
