@@ -40,7 +40,7 @@
 		cicloId = aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
 	}
 	
-	ArrayList<aca.ciclo.Ciclo> lisCiclo = CicloLista.getListAll(conElias, escuelaId, "ORDER BY CICLO_ID");
+	ArrayList<aca.ciclo.Ciclo> lisCiclo = CicloLista.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID");
 
 	String accion = request.getParameter("Accion") == null ? "" : request.getParameter("Accion");
 	if(accion.equals("1")){

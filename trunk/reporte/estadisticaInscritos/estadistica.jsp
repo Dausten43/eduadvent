@@ -21,6 +21,7 @@
 
 	String escuela 		= (String)session.getAttribute("escuela");	
 	String ciclo 		= request.getParameter("ciclo")==null?(String)session.getAttribute("cicloId"):request.getParameter("ciclo");
+	System.out.println(ciclo);
 	
 	//String ciclo		= request.getParameter("ciclo")==null?Ciclo.getCargaActual(conElias,escuela):request.getParameter("ciclo");
 	
@@ -140,7 +141,7 @@
 						    <div id="nivel" style="width: 340px; height: 300px; margin: 0 auto"></div>					
 						</td>
 						<td  style="text-align:center;">			
-							<script  type="text/javascript">Pie('Genero','genero',[<%=serieGenero%>])</script>
+							<script  type="text/javascript">Pie('Género','genero',[<%=serieGenero%>])</script>
 						    <div id="genero" style="width: 340px; height: 300px; margin: 0 auto"></div>			
 						</td>
 						<td  style="text-align:center;">
