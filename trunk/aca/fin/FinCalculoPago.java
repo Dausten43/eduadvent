@@ -208,7 +208,7 @@ public class FinCalculoPago {
             ps.setString(6, cuentaId);
 
             if(ps.executeUpdate() >= 1){
-                ok = true;
+                ok = true;                
             }
 
             
