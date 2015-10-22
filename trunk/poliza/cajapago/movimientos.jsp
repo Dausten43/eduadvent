@@ -145,7 +145,7 @@
 		FinMov = new aca.fin.FinMovimientos();
 		movimientoId = "";
 	}else if (accion.equals("3")){
-		System.out.println("Entre a cancelar el pago:"+request.getParameter("PagoId"));
+		System.out.println("Entre a cancelar el pago:"+request.getParameter("PagoId"));	
 		
 	}
 	
