@@ -50,8 +50,9 @@
 	</tr>
 
 <% 	
-	int num = 0;
+	int numero = 0;
 	for(String alumno:lisAlumnos){
+		numero ++;
 		double importe = 0.0;
 		if (mapPago.containsKey(alumno)){
 			importe = Double.parseDouble(mapPago.get(alumno));
@@ -59,7 +60,7 @@
 		 String nombreAlumno = aca.alumno.AlumPersonal.getNombre(conElias, alumno, "NOMBRE");
 		%>		
 			<tr>
-				<td><%=++num%></td>
+				<td><%=numero%></td>
 				<td><%=alumno%></td>
 				<td><%=nombreAlumno%></td>
 				<td style="text-align:right"><%=formato.format(importe)%></td>
