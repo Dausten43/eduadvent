@@ -113,6 +113,10 @@
 		%>
 			</select>
 			
+			<a class="btn btn-success" href="traspaso.jsp?ciclo=<%=cicloId%>&periodo=<%=periodoId%>">
+				   <fmt:message key="aca.CopiarCobros" /><i class="icon-random icon-white"></i>
+			</a>
+			
 		</div>
 		
 		<table class="table table-bordered table-striped">
