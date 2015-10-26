@@ -40,6 +40,9 @@
 	
 	String mensaje		= "";	
 	
+	
+	
+	
 	// Ciclo escolar elegido o activo
 	if (!cicloElegido.equals("0")){
 		cicloId = cicloElegido;
@@ -60,17 +63,7 @@
 	
 	String numPagosIniciales	= aca.fin.FinPago.numPagosIniciales(conElias, cicloId, periodoId);
 	
-	if(accion.equals("1")){	//Eliminar
-		String pagoId	= request.getParameter("pago");
-		finPago.setCicloId(cicloId);
-		finPago.setPeriodoId(periodoId);
-		finPago.setPagoId(pagoId);
-		if(finPago.deleteReg(conElias)){
-			mensaje = "1";
-		}else{
-			mensaje = "2";
-		}
-	}
+
 	
 	/* LISTA DE CICLOS ESCOLARES DE LA ESCUELA */
 	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloL.getListAll(conElias, escuelaId, "ORDER BY CICLO_ID ");
@@ -78,6 +71,30 @@
 	
 	/* LISTA DE FECHAS DE COBRO*/
 	ArrayList<aca.fin.FinPago> lisFinPago = finPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
+	
+	
+	if(accion.equals("1")){
+		
+		for(int x=0; x< lisFinPago.size(); x++){
+			
+		finPago.setCicloId(cicloId);
+		finPago.setPeriodoId(periodoId);
+		finPago.setFecha(request.getParameter("fecha"));
+		finPago.setDescripcion(request.getParameter("descripcion"));
+		finPago.setTipo(request.getParameter("tipo"));
+		finPago.setOrden(request.getParameter("orden"));
+		
+			//Busca el siguiente folio 
+			finPago.setPagoId(finPago.maximoReg(conElias, cicloId, periodoId));			
+			// inserta el registro
+			if(finPago.insertReg(conElias)){
+				mensaje = "Guardado";
+			}else{
+				mensaje = "NoGuardo";
+			}
+		}
+	}
+
 %>
 
 <div id="content">
@@ -111,7 +128,7 @@
 		%>
 			</select>
 			
-			<a class="btn btn-primary" href="edita_cobro.jsp?ciclo=<%=cicloId%>&periodo=<%=periodoId%>">
+			<a class="btn btn-primary" href="traspaso.jsp?Accion=1">
 				  <i class="icon-plus icon-white"></i> <fmt:message key="boton.Copiar" />
 			</a>
 			
