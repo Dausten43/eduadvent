@@ -395,6 +395,36 @@ public class FinMovimientosLista {
 		return lisFinMovimientos;
 	}
 	
+	public ArrayList<FinMovimientos> getListAlumnoAll(Connection conn, String auxiliar, String fechaInicio, String fechaFinal, String estado, String orden ) throws SQLException{
+		ArrayList<FinMovimientos> lisFinMovimientos	= new ArrayList<FinMovimientos>();
+		Statement st 							= conn.createStatement();
+		ResultSet rs 							= null;
+		String comando							= "";
+		
+		try{
+			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION,"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " FROM FIN_MOVIMIENTOS"
+					+ " WHERE AUXILIAR = '"+auxiliar+"'"
+					+ " AND FECHA <= '"+fechaFinal+"' AND FECHA >= '"+fechaInicio+"'"
+					+ " AND ESTADO IN ("+ estado +" ) " + orden;
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				FinMovimientos fm = new FinMovimientos();
+				fm.mapeaReg(rs);
+				lisFinMovimientos.add(fm);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimientosLista|getListAlumno|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisFinMovimientos;
+	}
+	
 	public ArrayList<String> getListCuentas(Connection conn, String polizaId, String ejercicioId, String orden ) throws SQLException{
 		ArrayList<String> list		= new ArrayList<String>();
 		Statement st 				= conn.createStatement();
