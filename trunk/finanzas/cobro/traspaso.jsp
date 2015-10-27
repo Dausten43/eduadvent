@@ -17,16 +17,16 @@
 
 
 <%
-	String escuelaId 	= (String) session.getAttribute("escuela");
-	String cicloId		= (String) session.getAttribute("cicloId");
+	String escuelaId 			= (String) session.getAttribute("escuela");
+	String cicloId				= (String) session.getAttribute("cicloId");
 
-	String cicloIdAux	= request.getParameter("CicloAux");
-	String periodoIdAux	= request.getParameter("PeriodoAux");
-	String periodoId	= request.getParameter("Periodo")==null?"1":request.getParameter("Periodo");	
-	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
-	String cicloElegido	= request.getParameter("Ciclo")==null?"0":request.getParameter("Ciclo");
+	String cicloIdOriginal		= request.getParameter("ciclo");
+	String periodoIdOriginal	= request.getParameter("periodo");
+	String periodoId			= request.getParameter("Periodo")==null?"1":request.getParameter("Periodo");	
+	String accion				= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+	String cicloElegido			= request.getParameter("Ciclo")==null?"0":request.getParameter("Ciclo");
 	
-	String mensaje		= "";	
+	String mensaje				= "";	
 	
 	
 	
@@ -58,22 +58,25 @@
 	
 	
 	/* LISTA DE FECHAS DE COBRO*/
-	ArrayList<aca.fin.FinPago> lisFinPago = finPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
+	ArrayList<aca.fin.FinPago> lisFinPago = finPagoL.getListCicloPeriodo(conElias, cicloIdOriginal, periodoIdOriginal, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
+	
+	/* LISTA DE FECHAS DE COBRO COPIA*/
+	ArrayList<aca.fin.FinPago> lisFinPagoCopia = finPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
 	
 	
 	if(accion.equals("1")){
 		
 		for(int x=0; x< lisFinPago.size(); x++){
 			
-		finPago.setCicloId(cicloIdAux);
-		finPago.setPeriodoId(periodoIdAux);
-		finPago.setFecha(request.getParameter("fecha"));
-		finPago.setDescripcion(request.getParameter("descripcion"));
-		finPago.setTipo(request.getParameter("tipo"));
-		finPago.setOrden(request.getParameter("orden"));
+		finPago.setCicloId(cicloId);
+		finPago.setPeriodoId(periodoId);
+		finPago.setFecha(lisFinPago.get(x).getFecha());
+		finPago.setDescripcion(lisFinPago.get(x).getDescripcion());
+		finPago.setTipo(lisFinPago.get(x).getTipo());
+		finPago.setOrden(lisFinPago.get(x).getOrden());
 		
 			//Busca el siguiente folio 
-			finPago.setPagoId(finPago.maximoReg(conElias, cicloIdAux, periodoIdAux));			
+			finPago.setPagoId(finPago.maximoReg(conElias, cicloId, periodoId));			
 			// inserta el registro
 			if(finPago.insertReg(conElias)){
 				mensaje = "Guardado";
@@ -94,18 +97,18 @@
 			
 
 			&nbsp;&nbsp;<fmt:message key="aca.Ciclo" />:&nbsp;&nbsp;
-			<select id="CicloAux" name="CicloAux" onchange="document.location = 'cobro.jsp?Ciclo='+this.options[this.selectedIndex].value;" style="width:360px;margin-bottom:0px;">
+			<select id="Ciclo" name="Ciclo" onchange="document.location = 'traspaso.jsp?Ciclo='+this.options[this.selectedIndex].value+'&ciclo=<%=cicloIdOriginal%>&periodo=<%=periodoIdOriginal%>';" style="width:360px;margin-bottom:0px;">
 		<%
 			for(int i = 0; i < lisCiclo.size(); i++){
 				ciclo = (Ciclo) lisCiclo.get(i);
 		%>
-				<option value="<%=ciclo.getCicloId() %>"<%=cicloId.equals(ciclo.getCicloId())?" hidden":"" %>><%=ciclo.getCicloId()%> | <%=ciclo.getCicloNombre()%></option>
+				<option value="<%=ciclo.getCicloId() %>" <%=cicloIdOriginal.equals(ciclo.getCicloId())?"hidden":"" %> <%=cicloId.equals(ciclo.getCicloId())&&!cicloIdOriginal.equals(ciclo.getCicloId())?"selected":"" %>><%=ciclo.getCicloId()%> | <%=ciclo.getCicloNombre()%></option>
 		<%
 			}
 		%>
 			</select>
 			&nbsp;&nbsp;<fmt:message key="aca.Periodo" />:&nbsp;&nbsp;				
-			<select id="PeriodoAux" name="PeriodoAux" onchange="document.forma.submit();" >
+			<select id="Periodo" name="Periodo" onchange="document.forma.submit();" >
 		<%		
 			for(int i = 0; i < lisCicloPeriodo.size(); i++){
 				cicloPeriodo = (CicloPeriodo) lisCicloPeriodo.get(i);
