@@ -26,7 +26,7 @@
 %>
 <body>
 <div id="content">
-	<h2>Cierre de Caja ( <small><%=asociacion %> - <%=nombre%></small> )</h2>
+	<h2>Cierre de Caja <small>( <%=asociacion %> - <%=nombre%> )</small></h2>
 	<form name="frmCierre" id="frmCierre" method="post" action="cierre_caja.jsp">
 	<div class="well">
 		<a href="menu.jsp" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
