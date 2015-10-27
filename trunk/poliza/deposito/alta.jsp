@@ -47,7 +47,7 @@
 %>
 </head>
 <div id="content">
-	<h2>Dep&oacute;sitos de caja</h2>
+	<h2>Dep&oacute;sitos de caja <small>(<%= aca.catalogo.CatEscuela.getNombre(conElias,escuelaId)%>)</small></h2>
 	<form action="alta.jsp" method="post" name="frmDeposito" target="_self" style="max-width:50%;display:inline;">
 	<div class="well">		
 		<fmt:message key="aca.FechaInicio" />:&nbsp;&nbsp;
