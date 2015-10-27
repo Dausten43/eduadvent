@@ -476,5 +476,32 @@ public class FinMovimientosLista {
 		return map;
 	}
 	
+	public ArrayList<FinMovimientos> getMovimientosBecaFecha(Connection conn, String ejercicioId, String fechaInicio, String fechaFinal, String orden ) throws SQLException{
+		ArrayList<FinMovimientos> lisFinMovimientos	= new ArrayList<FinMovimientos>();
+		Statement st 							= conn.createStatement();
+		ResultSet rs 							= null;
+		String comando							= "";
+		
+		try{
+			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION," +
+					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"+
+					  " FROM FIN_MOVIMIENTOS" +
+					  " WHERE EJERCICIO_ID = '"+ejercicioId+"' AND FECHA <= '"+fechaFinal+"' AND FECHA >= '"+fechaInicio+"' "+orden;
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				FinMovimientos fm = new FinMovimientos();
+				fm.mapeaReg(rs);
+				lisFinMovimientos.add(fm);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimientosLista|getMovimientosBecaFecha|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisFinMovimientos;
+	}
 	
 }
