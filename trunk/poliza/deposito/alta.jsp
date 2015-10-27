@@ -68,7 +68,7 @@
 			<th><fmt:message key="aca.Responsable" /></th>
 		</tr>		
 <%	
-	double totalCaja 		= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, "'C','T','A'", "'C','G','I'", fechaIni, fechaFin, "C");
+	double totalCaja 		= aca.fin.FinMovimientos.saldoPolizas(conElias, escuelaId, "'C','T','A'", "'C','G'", fechaIni, fechaFin, "C");
 	double totalDeposito 	= 0;
 	
 	int row = 0;
