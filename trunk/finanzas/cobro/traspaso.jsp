@@ -16,24 +16,12 @@
 <jsp:useBean id="finPagoL" scope="page" class="aca.fin.FinPagoLista"/>
 
 
-<script>
-	function nuevo(){
-		document.forma.action = "edita_cobro.jsp";
-		document.forma.submit();
-	}
-	
-	function elimina(ciclo, periodo, pago){
-		if(confirm("<fmt:message key='js.Confirma' />")){
-			document.forma.action = document.forma.action + "?Accion=1&ciclo="+ciclo+"&periodo="+periodo+"&pago="+pago;
-			document.forma.submit();
-		}
-	}
-</script>
-
 <%
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String cicloId		= (String) session.getAttribute("cicloId");
-	
+
+	String cicloIdAux	= request.getParameter("CicloAux");
+	String periodoIdAux	= request.getParameter("PeriodoAux");
 	String periodoId	= request.getParameter("Periodo")==null?"1":request.getParameter("Periodo");	
 	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String cicloElegido	= request.getParameter("Ciclo")==null?"0":request.getParameter("Ciclo");
@@ -77,15 +65,15 @@
 		
 		for(int x=0; x< lisFinPago.size(); x++){
 			
-		finPago.setCicloId(cicloId);
-		finPago.setPeriodoId(periodoId);
+		finPago.setCicloId(cicloIdAux);
+		finPago.setPeriodoId(periodoIdAux);
 		finPago.setFecha(request.getParameter("fecha"));
 		finPago.setDescripcion(request.getParameter("descripcion"));
 		finPago.setTipo(request.getParameter("tipo"));
 		finPago.setOrden(request.getParameter("orden"));
 		
 			//Busca el siguiente folio 
-			finPago.setPagoId(finPago.maximoReg(conElias, cicloId, periodoId));			
+			finPago.setPagoId(finPago.maximoReg(conElias, cicloIdAux, periodoIdAux));			
 			// inserta el registro
 			if(finPago.insertReg(conElias)){
 				mensaje = "Guardado";
@@ -106,7 +94,7 @@
 			
 
 			&nbsp;&nbsp;<fmt:message key="aca.Ciclo" />:&nbsp;&nbsp;
-			<select id="Ciclo" name="Ciclo" onchange="document.location = 'cobro.jsp?Ciclo='+this.options[this.selectedIndex].value;" style="width:360px;margin-bottom:0px;">
+			<select id="CicloAux" name="CicloAux" onchange="document.location = 'cobro.jsp?Ciclo='+this.options[this.selectedIndex].value;" style="width:360px;margin-bottom:0px;">
 		<%
 			for(int i = 0; i < lisCiclo.size(); i++){
 				ciclo = (Ciclo) lisCiclo.get(i);
@@ -117,7 +105,7 @@
 		%>
 			</select>
 			&nbsp;&nbsp;<fmt:message key="aca.Periodo" />:&nbsp;&nbsp;				
-			<select id="Periodo" name="Periodo" onchange="document.forma.submit();" >
+			<select id="PeriodoAux" name="PeriodoAux" onchange="document.forma.submit();" >
 		<%		
 			for(int i = 0; i < lisCicloPeriodo.size(); i++){
 				cicloPeriodo = (CicloPeriodo) lisCicloPeriodo.get(i);
@@ -138,7 +126,6 @@
 			<%if(lisFinPago.size() > 0){%>
 				<thead>
 					<tr>
-						<th><fmt:message key="aca.Accion" /></th>
 						<th>#</th>
 						<th><fmt:message key="aca.Descripcion" /></th>
 						<th><fmt:message key="aca.Fecha" /></th>
@@ -155,12 +142,6 @@
 						finPago = (FinPago) lisFinPago.get(i);					 
 			%>
 						<tr>
-							<td>					
-								<a href="edita_cobro.jsp?ciclo=<%=cicloId %>&periodo=<%=periodoId %>&pago=<%=finPago.getPagoId() %>"><i class="icon-pencil"></i></a>
-								<%if(elimina){%>
-									<a href="javascript:elimina('<%=finPago.getCicloId()%>','<%=finPago.getPeriodoId()%>','<%=finPago.getPagoId()%>');"><i class="icon-remove"></i></a>
-								<%}%>
-							</td>
 							<td>
 								<%=i+1 %>
 							</td>
