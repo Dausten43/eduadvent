@@ -46,10 +46,20 @@
 <%
 	if(accion.equals("1")){
 %>
-	<table>
+	<table class="table table-striped">
 		<tr>
 			<th>#</th>
 			<th>Ejercicio Id</th>
+			<th>Poliza Id</th>
+			<th>Mov Id</th>
+			<th>Fecha</th>
+			<th>Cuenta Id</th>
+			<th>Auxiliar</th>
+			<th>Descripcion</th>
+			<th>Naturaleza</th>
+			<th>Referencia</th>
+			<th>Estado</th>
+			<th style="text-align:right">Importe</th>
 		</tr>
 <%	
 	int cont = 1;
@@ -58,6 +68,16 @@
 	<tr>
 		<td><%=cont %></td>
 		<td><%=becas.getEjercicioId() %></td>
+		<td><%=becas.getPolizaId() %></td>
+		<td><%=becas.getMovimientoId() %></td>
+		<td><%=becas.getFecha() %></td>
+		<td><%=becas.getCuentaId() %></td>
+		<td><%=becas.getAuxiliar() %></td>
+		<td><%=becas.getDescripcion() %></td>
+		<td><%=becas.getNaturaleza() %></td>
+		<td><%=becas.getReferencia() %></td>
+		<td><%=becas.getEstado() %></td>
+		<td style="text-align:right"><%=becas.getImporte() %></td>
 	</tr>
 <%		cont++;
 	} 
