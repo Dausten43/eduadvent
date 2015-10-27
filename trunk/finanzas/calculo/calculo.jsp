@@ -1,85 +1,86 @@
-<%@ include file= "../../con_elias.jsp" %>
-<%@ include file= "id.jsp" %>
-<%@ include file= "../../seguro.jsp" %>
-<%@ include file= "../../head.jsp" %>
-<%@ include file= "../../menu.jsp" %>
+<%@ include file="../../con_elias.jsp"%>
+<%@ include file="id.jsp"%>
+<%@ include file="../../seguro.jsp"%>
+<%@ include file="../../head.jsp"%>
+<%@ include file="../../menu.jsp"%>
 
-<jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonal"/>
-<jsp:useBean id="AlumPlan" scope="page" class="aca.alumno.AlumPlan"/>
-<jsp:useBean id="CicloLista" scope="page" class="aca.ciclo.CicloLista"/>
-<jsp:useBean id="CicloPeriodoL" scope="page" class="aca.ciclo.CicloPeriodoLista"/>
-<jsp:useBean id="Calculo" scope="page" class="aca.fin.FinCalculo"/>
-<jsp:useBean id="FinCostoL" scope="page" class="aca.fin.FinCostoLista"/>
-<jsp:useBean id="FinCuentaL" scope="page" class="aca.fin.FinCuentaLista"/>
-<jsp:useBean id="DetalleL" scope="page" class="aca.fin.FinCalculoDetLista"/>
-<jsp:useBean id="FinCalculo" scope="page" class="aca.fin.FinCalculo"/>
-<jsp:useBean id="FinCalculoDet" scope="page" class="aca.fin.FinCalculoDet"/>
-<jsp:useBean id="FinCalculoPago" scope="page" class="aca.fin.FinCalculoPago"/>
-<jsp:useBean id="FinPago" scope="page" class="aca.fin.FinPago"/>
-<jsp:useBean id="FinPagoL" scope="page" class="aca.fin.FinPagoLista"/>
-<jsp:useBean id="FinCalculoPagoL" scope="page" class="aca.fin.FinCalculoPagoLista"/>
+<jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonal" />
+<jsp:useBean id="AlumPlan" scope="page" class="aca.alumno.AlumPlan" />
+<jsp:useBean id="CicloLista" scope="page" class="aca.ciclo.CicloLista" />
+<jsp:useBean id="CicloPeriodoL" scope="page" class="aca.ciclo.CicloPeriodoLista" />
+<jsp:useBean id="Calculo" scope="page" class="aca.fin.FinCalculo" />
+<jsp:useBean id="FinCostoL" scope="page" class="aca.fin.FinCostoLista" />
+<jsp:useBean id="FinCuentaL" scope="page" class="aca.fin.FinCuentaLista" />
+<jsp:useBean id="DetalleL" scope="page" class="aca.fin.FinCalculoDetLista" />
+<jsp:useBean id="FinCalculo" scope="page" class="aca.fin.FinCalculo" />
+<jsp:useBean id="FinCalculoDet" scope="page" class="aca.fin.FinCalculoDet" />
+<jsp:useBean id="FinCalculoPago" scope="page" class="aca.fin.FinCalculoPago" />
+<jsp:useBean id="FinPago" scope="page" class="aca.fin.FinPago" />
+<jsp:useBean id="FinPagoL" scope="page" class="aca.fin.FinPagoLista" />
+<jsp:useBean id="FinCalculoPagoL" scope="page" class="aca.fin.FinCalculoPagoLista" />
 
-<script>	
-	function cambiaCiclo( ){
+<script>
+	function cambiaCiclo() {
 		document.forma.Accion.value = "1";
 		document.forma.submit();
 	}
-	
-	function cambiaPeriodo( ){
+
+	function cambiaPeriodo() {
 		document.forma.Accion.value = "1";
 		document.forma.submit();
 	}
-	
-	function cambiaPago( ){
+
+	function cambiaPago() {
 		document.forma.Accion.value = "7";
 		document.forma.submit();
 	}
-	
-	function Grabar(){
-		document.forma.Accion.value	= "2";
+
+	function Grabar() {
+		document.forma.Accion.value = "2";
 		document.forma.submit();
 	}
-	
-	function Calcular(){
-		if( $('.checkbox-pagos:checked').length > 0 || $('#TipoPago').val() == 'C' ){
-			document.forma.Accion.value	= "4";
+
+	function Calcular() {
+		if ($('.checkbox-pagos:checked').length > 0
+				|| $('#TipoPago').val() == 'C') {
+			document.forma.Accion.value = "4";
 			document.forma.submit();
-		}else{
+		} else {
 			alert("<fmt:message key='js.SeleccionarAlMenosUnPago' />");
 		}
 	}
-	
-	function Formato( periodoId ){
-		document.location.href = "formato.jsp?PeriodoId="+periodoId;
+
+	function Formato(periodoId) {
+		document.location.href = "formato.jsp?PeriodoId=" + periodoId;
 	}
-	
-	function CerrarCalculo( ){
-		if (confirm("<fmt:message key='js.SeguroDeCerrarCalculoCobro' />")){
-			document.forma.Accion.value	= "5";
+
+	function CerrarCalculo() {
+		if (confirm("<fmt:message key='js.SeguroDeCerrarCalculoCobro' />")) {
+			document.forma.Accion.value = "5";
 			document.forma.submit();
 		}
 	}
-	
-	function AbrirCalculo( ){
-		if (confirm("<fmt:message key='js.CancelarCalculoCobro' />")){
-			document.forma.Accion.value	= "6";
+
+	function AbrirCalculo() {
+		if (confirm("<fmt:message key='js.CancelarCalculoCobro' />")) {
+			document.forma.Accion.value = "6";
 			document.forma.submit();
-		}	
+		}
 	}
-	
-	function Todos(){		
-		$(".checkbox-pagos").prop('checked',true);
+
+	function Todos() {
+		$(".checkbox-pagos").prop('checked', true);
 	}
-		
-	function Ninguno(){		
-		$(".checkbox-pagos").prop('checked',false);
+
+	function Ninguno() {
+		$(".checkbox-pagos").prop('checked', false);
 	}
 </script>
 
 <%! 
    
 	/* CLASE PARA TRAER LA BECA EN PORCENTAJE, CANTIDAD E IMPORTE TOTAL */
-   public class Beca{
+	public class Beca{
 		
 		public BigDecimal importeBeca;
 		public BigDecimal becaPorcentaje;
@@ -100,27 +101,25 @@
 				}
 			}
 			
-			/* VERIFICAR QUE LA BECA NO SEA MAYOR QUE EL COSTO */
-			
+			/* VERIFICAR QUE LA BECA NO SEA MAYOR QUE EL COSTO */			
 			if(importeBeca.compareTo(importeTotal) == 1){ // Si importeBeca > importeTotal
 				importeBeca = importeTotal;
 			}
 			
-			if(becaPorcentaje.compareTo(new BigDecimal("100")) == 1){ // Si becaPorcentaje > 100
+			if(becaPorcentaje.compareTo(new BigDecimal("100")) == 1){ 
+				// Si becaPorcentaje > 100
 				becaPorcentaje = new BigDecimal("100");
 			}
 			
 			if(becaCantidad.compareTo(importeTotal) == 1){ // Si becaCantidad > importeTotal
 				becaCantidad = importeTotal;
-			}
-			
+			}			
 		}
-   }
+	}
 
 	public BigDecimal PIpagos(BigDecimal importe, BigDecimal importeBeca, BigDecimal porcentajePagoInicial){
 		return importe.subtract(importeBeca).multiply(porcentajePagoInicial).divide(new BigDecimal("100"), 2, RoundingMode.DOWN);
 	}
-
 %>
 
 <%
@@ -210,7 +209,7 @@
 	FinCalculo.setCodigoId(codigoAlumno);						
 	if (FinCalculo.existeReg(conElias)){
 		FinCalculo.mapeaRegId(conElias, cicloId, periodoId, codigoAlumno);
-		if (!accion.equals("4") && !accion.equals("5") && !accion.equals("7")){ /* SI NO SE VA HA REALIZAR EL CALCULO DE COBRO, Y SI SI ENTONCES PONER EL QUE ESTA SELECCIONADO */
+		if (!accion.equals("4") && !accion.equals("5") && !accion.equals("7")){ /* SI NO SE VA HA REALIZAR EL CALCULO DE COBRO, Y SI ENTONCES PONER EL QUE ESTA SELECCIONADO */
 			tipoPago = FinCalculo.getTipoPago();
 		}
 		existeCalculo = true;
@@ -325,7 +324,7 @@
 	if (accion.equals("3")){
 		
 		conElias.setAutoCommit(false);
-		boolean error	= false;		
+		boolean error	= false;
 		
 		FinCalculoDet.setCicloId(cicloId);
 		FinCalculoDet.setPeriodoId(periodoId);
@@ -334,11 +333,22 @@
 		
 		if (FinCalculoDet.existeReg(conElias)){
 			if(FinCalculoDet.deleteReg(conElias)){
+				System.out.println("Antes de verificar los pagos:"+aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno));
+				// Si tiene pagos
+				if (aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno) > 0){
+					if (aca.fin.FinCalculoPago.deletePagosAlumno(conElias, cicloId, periodoId, codigoAlumno)){
+						// Se borran los pagos cuando se quita algun costo del calculo del alumno
+						System.out.println("Borre los pagos");
+					}else{
+						error = true;
+					}			
+				}
 				
 			}else{
 				error = true;
 			}								
 		}
+		
 		if (error == false){
 			aca.fin.FinCalculo.updateInscrito(conElias, cicloId, periodoId, codigoAlumno, "N");			
 			if (aca.fin.FinCalculoDet.getNumDetalles(conElias, cicloId, periodoId, codigoAlumno)==0){
@@ -353,8 +363,7 @@
 					}
 				}
 			}
-		}
-		
+		}		
 		
 		if(error == false){
 			conElias.commit();
@@ -376,9 +385,11 @@
 	/* ========== CORRER CALCULO DE COBRO ========== */
 	if (accion.equals("4") || accion.equals("5")){
 		
-		String importe 								= request.getParameter("Importe")==null?"0":request.getParameter("Importe");
-		String pagoInicial 							= tipoPago.equals("P") ? inicialPagos : inicialContado;
-		BigDecimal numeroPagos 						= new BigDecimal("0");
+		// Borrar los pagos 
+		
+		String importe 						= request.getParameter("Importe")==null?"0":request.getParameter("Importe");
+		String pagoInicial 					= tipoPago.equals("P") ? inicialPagos : inicialContado;
+		BigDecimal numeroPagos 				= new BigDecimal("0");
 		
 		if (tipoPago.equals("P")){
 			for (aca.fin.FinPago pago : lisPagos){
@@ -386,7 +397,7 @@
 					numeroPagos = numeroPagos.add(new BigDecimal("1")); /* numeroPagos++ */
 				}
 			}
-		}		
+		}
 		
 		/* EMPEZAR CALCULO DE COBRO */
 		conElias.setAutoCommit(false);
@@ -394,9 +405,9 @@
 				
 		FinCalculo.setCicloId(cicloId);
 		FinCalculo.setPeriodoId(periodoId);
-		FinCalculo.setCodigoId(codigoAlumno);		
+		FinCalculo.setCodigoId(codigoAlumno);
 		
-		if (FinCalculo.existeReg(conElias)){			
+		if (FinCalculo.existeReg(conElias)){
 			
 			FinCalculo.mapeaRegId(conElias, cicloId, periodoId, codigoAlumno);
 			FinCalculo.setInscrito("C");
@@ -409,15 +420,13 @@
 			
 			if (FinCalculo.updateReg(conElias)){
 				
-				
 				// Borra los pagos que tenga el alumno en la tabla Fin_Calculo_Pagos
 				aca.fin.FinCalculoPago.deletePagosAlumno(conElias, cicloId, periodoId, codigoAlumno);	
 				if (aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno) != 0){
 					error = true;
 				}				
 				
-				// ======> DE CONTADO
-						
+				// ======> DE CONTADO						
 				if (tipoPago.equals("C")){
 					
 					// Modifica el pago inicial y el importe de las cuentas
@@ -650,69 +659,96 @@
 	} 
 	
 %>
-<div id="content">	
+<div id="content">
 
-<%if(!Alumno.existeReg(conElias, codigoAlumno)){ %>
+	<%if(!Alumno.existeReg(conElias, codigoAlumno)){ %>
 	<div class="alert">
 		<fmt:message key="aca.NoAlumnoSeleccionado" />
 	</div>
-<%}else{ %>
-	
-	<h2><fmt:message key="aca.CalculoDeCobro" /> <small><%=codigoAlumno%> | <%=nombreAlumno%></small></h2>
-	
+	<%}else{ %>
+
+	<h2>
+		<fmt:message key="aca.CalculoDeCobro" />
+		<small><%=codigoAlumno%> | <%=nombreAlumno%></small>
+	</h2>
+
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
-   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
-  	<% }else if(!msj.equals("")){%>
-  		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
-  	<%} %>
-	
-	<form id="forma" name="forma" action="calculo.jsp" method="post">	
+	<div class='alert alert-success'>
+		<fmt:message key="aca.${resultado}" />
+	</div>
+	<% }else if(!msj.equals("")){%>
+	<div class='alert alert-danger'>
+		<fmt:message key="aca.${resultado}" />
+	</div>
+	<%} %>
+
+	<form id="forma" name="forma" action="calculo.jsp" method="post">
 		<input type="hidden" name="Accion">
-	
+
 		<div class="well">
-			<fmt:message key="aca.Ciclo" />:&nbsp;
-			<select name="Ciclo" id="Ciclo" onchange="javascript:cambiaCiclo()" class="input-xlarge">
+			<fmt:message key="aca.Ciclo" />
+			:&nbsp; <select name="Ciclo" id="Ciclo"
+				onchange="javascript:cambiaCiclo()" class="input-xlarge">
 				<%for(aca.ciclo.Ciclo ciclo : lisCiclo){%>
-					<option value="<%=ciclo.getCicloId() %>" <%if(ciclo.getCicloId().equals(cicloId)){out.print("selected");} %>><%=ciclo.getCicloId()%> | <%=ciclo.getCicloNombre()%></option>
+				<option value="<%=ciclo.getCicloId() %>"
+					<%if(ciclo.getCicloId().equals(cicloId)){out.print("selected");} %>><%=ciclo.getCicloId()%>
+					|
+					<%=ciclo.getCicloNombre()%></option>
 				<%} %>
-			</select>
-			&nbsp;&nbsp;<fmt:message key="aca.Periodo" />:&nbsp;
-			<select name="PeriodoId" id="PeriodoId" onchange="javascript:cambiaPeriodo()">
+			</select> &nbsp;&nbsp;
+			<fmt:message key="aca.Periodo" />
+			:&nbsp; <select name="PeriodoId" id="PeriodoId"
+				onchange="javascript:cambiaPeriodo()">
 				<%for(aca.ciclo.CicloPeriodo periodo : lisPeriodo){%>
-					<option value="<%=periodo.getPeriodoId() %>" <%if(periodo.getPeriodoId().equals(periodoId)){out.print("selected");} %>><%=periodo.getPeriodoNombre() %></option>
+				<option value="<%=periodo.getPeriodoId() %>"
+					<%if(periodo.getPeriodoId().equals(periodoId)){out.print("selected");} %>><%=periodo.getPeriodoNombre() %></option>
 				<%}%>
-			</select>			
-			&nbsp;&nbsp;<fmt:message key="aca.Fecha" />:&nbsp; 
-			<input name="Fecha" class="input-medium" type="text" id="Fecha" value="<%=fecha%>" style="margin:0;">
+			</select> &nbsp;&nbsp;
+			<fmt:message key="aca.Fecha" />
+			:&nbsp; <input name="Fecha" class="input-medium" type="text"
+				id="Fecha" value="<%=fecha%>" style="margin: 0;">
 		</div>
-		
+
 		<div class="alert alert-info">
-			<fmt:message key="aca.Plan" />: [<strong><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></strong>] &nbsp;
-			<fmt:message key="aca.Grado" />: [<strong><%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(grado))%> "<%=grupo%>"</strong>] &nbsp; 
-			<fmt:message key="aca.ClasificacionFin" />: [<strong><%=aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, clasFin)  %></strong>] &nbsp;
-			<fmt:message key="aca.Saldo" />: [<strong><%=formato.format(aca.fin.FinMovimiento.saldoAlumno(conElias, codigoAlumno, aca.util.Fecha.getHoy()))%></strong>] &nbsp;
+			<fmt:message key="aca.Plan" />
+			: [<strong><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></strong>]
+			&nbsp;
+			<fmt:message key="aca.Grado" />
+			: [<strong><%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(grado))%>
+				"<%=grupo%>"</strong>] &nbsp;
+			<fmt:message key="aca.ClasificacionFin" />
+			: [<strong><%=aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, clasFin)  %></strong>]
+			&nbsp;
+			<fmt:message key="aca.Saldo" />
+			: [<strong><%=formato.format(aca.fin.FinMovimiento.saldoAlumno(conElias, codigoAlumno, aca.util.Fecha.getHoy()))%></strong>]
+			&nbsp;
 		</div>
-				
-		<div>		
+
+		<div>
 			<div class="alert alert-success">
 				<h4>
-					<fmt:message key="aca.CostoDisponibles" />&nbsp;&nbsp;&nbsp;&nbsp;
-				<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>				
-					<a class="btn btn-primary" href="javascript:Grabar();"><fmt:message key="boton.Aplicar" /> <i class="icon-arrow-right icon-white"></i></a>&nbsp;&nbsp;
-				<%} %>
+					<fmt:message key="aca.CostoDisponibles" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
+					<a class="btn btn-primary" href="javascript:Grabar();"><fmt:message
+							key="boton.Aplicar" /> <i class="icon-arrow-right icon-white"></i></a>&nbsp;&nbsp;
+					<%} %>
 				</h4>
-			</div>	
-		
+			</div>
+
 			<table class="table table-bordered table-striped table-condensed">
 				<thead>
 					<tr>
 						<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
-							<th rowspan="2">&nbsp;</th>
+						<th rowspan="2">&nbsp;</th>
 						<%} %>
 						<th rowspan="2"><fmt:message key="aca.Cuenta" /></th>
-						<th class="text-right" rowspan="2"><fmt:message key="aca.Costo" /></th>
-						<th colspan="3" class="text-center alert"><fmt:message key="aca.BecaDescuentoAlumno" /></th>
-						<th class="text-right" rowspan="2"><fmt:message key="aca.Total" /></th>
+						<th class="text-right" rowspan="2"><fmt:message
+								key="aca.Costo" /></th>
+						<th colspan="3" class="text-center alert"><fmt:message
+								key="aca.BecaDescuentoAlumno" /></th>
+						<th class="text-right" rowspan="2"><fmt:message
+								key="aca.Total" /></th>
 					</tr>
 					<tr>
 						<th class="text-right"><fmt:message key="aca.Porcentaje" /></th>
@@ -739,45 +775,50 @@
 						BigDecimal becaPorcentaje 	= objBeca.becaPorcentaje;
 						BigDecimal becaCantidad 	= objBeca.becaCantidad;
 				%>
-						<tr>
-							<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){ %>
-								<td>
-									<input type="Checkbox" id="COSTO-<%=costo.getCostoId()%>" name="COSTO-<%=costo.getCostoId()%>" value="S" />
-								</td>
-							<%} %>
-							<td><%=nombreCuenta%></td>
-							<td class="text-right"><%=formato.format(importeTotal)%></td>
-							<td class="text-right"><%=becaPorcentaje%>%</td>
-							<td class="text-right"><%=formato.format(becaCantidad)%></td>
-							<td class="text-right"><%=formato.format(importeBeca)%></td>
-							<td class="text-right"><%=formato.format(importeTotal.subtract(importeBeca))%></td>
-						</tr>
+				<tr>
+					<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){ %>
+					<td><input type="Checkbox" id="COSTO-<%=costo.getCostoId()%>"
+						name="COSTO-<%=costo.getCostoId()%>" value="S" /></td>
+					<%} %>
+					<td><%=nombreCuenta%></td>
+					<td class="text-right"><%=formato.format(importeTotal)%></td>
+					<td class="text-right"><%=becaPorcentaje%>%</td>
+					<td class="text-right"><%=formato.format(becaCantidad)%></td>
+					<td class="text-right"><%=formato.format(importeBeca)%></td>
+					<td class="text-right"><%=formato.format(importeTotal.subtract(importeBeca))%></td>
+				</tr>
 				<%				
 					}
-				%>	
-			</table>			
-		</div>		
-		<div >
-		
+				%>
+			</table>
+		</div>
+		<div>
+
 			<div class="alert alert-success">
 				<h4>
-					<fmt:message key="aca.CostoAplicados" />&nbsp;&nbsp;&nbsp;&nbsp;
-			<%	
+					<fmt:message key="aca.CostoAplicados" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<%	
 				if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){				
-			%>					
-					<select id="TipoPago" name="TipoPago" class="TipoPago input-medium" onchange="javascript:cambiaPago()">
-						<option value="C" <%if (tipoPago.equals("C")) out.print("Selected");%>><fmt:message key="aca.DeContado" /></option>
-						<option value="P" <%if (tipoPago.equals("P")) out.print("Selected");%>><fmt:message key="aca.PorPagos" /></option>
+			%>
+					<select id="TipoPago" name="TipoPago" class="TipoPago input-medium"
+						onchange="javascript:cambiaPago()">
+						<option value="C"
+							<%if (tipoPago.equals("C")) out.print("Selected");%>><fmt:message
+								key="aca.DeContado" /></option>
+						<option value="P"
+							<%if (tipoPago.equals("P")) out.print("Selected");%>><fmt:message
+								key="aca.PorPagos" /></option>
 					</select>
-			<%	} %>		
+					<%	} %>
 				</h4>
 			</div>
-		
+
 			<table class="table table-bordered table-striped table-condensed">
 				<thead>
 					<tr>
 						<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
-							<th rowspan="2" ><fmt:message key="aca.Accion" /></th>					
+						<th rowspan="2"><fmt:message key="aca.Accion" /></th>
 						<%} %>
 						<th><fmt:message key="aca.Cuenta" /></th>
 						<th class="text-right"><fmt:message key="aca.Costo" /></th>
@@ -787,7 +828,7 @@
 						<th class="text-right"><fmt:message key="aca.PorPagos" /></th>
 					</tr>
 				</thead>
-			 
+
 				<%
 				 	
 				 	BigDecimal totalImporte 		= new BigDecimal("0");
@@ -824,58 +865,61 @@
 						totalPagoInicial 	= totalPagoInicial.add(pagoInicial);
 						totalEnPagos 		= totalEnPagos.add(enPagos);								 
 				%>
-						<tr>
-							<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
-								<td>
-							  		<a href="calculo.jsp?cicloId=<%=cicloId%>&PeriodoId=<%=periodoId%>&CuentaId=<%=detalle.getCuentaId()%>&Accion=3"><i class="icon-remove icon-black"></i></a>
-								</td>
-							<%} %>
-							<td><%=nombreCuenta%></td>
-							<td class="text-right"><%=formato.format(importe) %></td>
-							<td class="text-right"><%=formato.format(importeBeca) %></td>
-							<td class="text-right"><%=formato.format(importeTotal) %></td>
-							<td class="text-right"><%=formato.format(pagoInicial) %></td>
-							<td class="text-right"><%=formato.format(enPagos) %></td>
-						</tr>
+				<tr>
+					<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
+					<td><a
+						href="calculo.jsp?cicloId=<%=cicloId%>&PeriodoId=<%=periodoId%>&CuentaId=<%=detalle.getCuentaId()%>&Accion=3"><i
+							class="icon-remove icon-black"></i></a></td>
+					<%} %>
+					<td><%=nombreCuenta%></td>
+					<td class="text-right"><%=formato.format(importe) %></td>
+					<td class="text-right"><%=formato.format(importeBeca) %></td>
+					<td class="text-right"><%=formato.format(importeTotal) %></td>
+					<td class="text-right"><%=formato.format(pagoInicial) %></td>
+					<td class="text-right"><%=formato.format(enPagos) %></td>
+				</tr>
 				<%				
 					}
-				%>	
+				%>
 				<tr>
-					<th <%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>colspan="2"<%} %>>
-						<fmt:message key="aca.Total"/>
-					</th>
+					<th
+						<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
+						colspan="2" <%} %>><fmt:message key="aca.Total" /></th>
 					<th class="text-right"><%=formato.format(totalImporte) %></th>
 					<th class="text-right"><%=formato.format(totalImporteBeca) %></th>
 					<th class="text-right"><%=formato.format(totalImporteTotal) %></th>
 					<th class="text-right"><%=formato.format(totalPagoInicial) %></th>
-					<th class="text-right"><%=formato.format(totalEnPagos) %></th>					
+					<th class="text-right"><%=formato.format(totalEnPagos) %></th>
 				</tr>
 			</table>
-						
+
 		</div>
-	<input name="InicialPagos" type="hidden" id="InicialPagos" value="<%=totalPagoInicial%>">
-	<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
-	<input name="Importe" type="hidden" id="Importe" value="<%=totalImporteTotal%>">
-	
-<%	if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
-		
-	<div class="alert alert-success">
-		<h4>
-			<fmt:message key="aca.FechasPagos" />&nbsp;&nbsp;
-			<a id ="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
-			<a id ="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
-		</h4>	
-	</div>	
-	<table class="table table-bordered table-striped table-condensed">
-		<tr>
-			<th>#</th>
-			<th></th>
-			<th>Fecha</th>
-			<th>Descripcion</th>
-			<th>Tipo de Pago</th>
-			<th>Importe</th>
-		</tr>
-		<%
+		<input name="InicialPagos" type="hidden" id="InicialPagos"
+			value="<%=totalPagoInicial%>"> <input name="InicialContado"
+			type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
+		<input name="Importe" type="hidden" id="Importe"
+			value="<%=totalImporteTotal%>">
+
+		<%	if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
+
+		<div class="alert alert-success">
+			<h4>
+				<fmt:message key="aca.FechasPagos" />
+				&nbsp;&nbsp; <a id="Todos" onclick="javascript:Todos();"
+					class="btn btn-mini">Todos</a>&nbsp; <a id="Ninguno"
+					onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
+			</h4>
+		</div>
+		<table class="table table-bordered table-striped table-condensed">
+			<tr>
+				<th>#</th>
+				<th></th>
+				<th>Fecha</th>
+				<th>Descripcion</th>
+				<th>Tipo de Pago</th>
+				<th>Importe</th>
+			</tr>
+			<%
 		int row = 0;
 		int cont = 1;
 		for(aca.fin.FinPago pago : lisPagos){
@@ -889,48 +933,55 @@
 		    	}			    	
 		    }
 		%>
-		<tr>
-			<td><%=cont %></td>
-			<td><input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" <%=checked%>></td>
-			<td><%=pago.getFecha() %></td>
-			<td><%=pago.getDescripcion() %></td>
-			<td><%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%> </td>
-			<td><%=importe %></td>
-		</tr>
-<%			cont++;
+			<tr>
+				<td><%=cont %></td>
+				<td><input class="checkbox-pagos" type="checkbox"
+					name="fechaCobro<%=pago.getPagoId() %>"
+					value="<%=pago.getPagoId() %>" <%=checked%>></td>
+				<td><%=pago.getFecha() %></td>
+				<td><%=pago.getDescripcion() %></td>
+				<td><%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%></td>
+				<td><%=importe %></td>
+			</tr>
+			<%			cont++;
 		} 
 %>
-	</table>			
-<%	
+		</table>
+		<%	
 	}
-%>	
-	<div class="well">
-	<%	
+%>
+		<div class="well">
+			<%	
 		if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){
-	%>						
-			<a href="javascript:Calcular()" class="btn btn-primary"><i class="icon-refresh icon-white"></i> <fmt:message key="aca.CalcularCobro" /></a>
+	%>
+			<a href="javascript:Calcular()" class="btn btn-primary"><i
+				class="icon-refresh icon-white"></i> <fmt:message
+					key="aca.CalcularCobro" /></a>
 			<%if (FinCalculo.getInscrito().equals("C")){%>
-			<a href="javascript:CerrarCalculo()" class="btn btn-success"><i class="icon-ok icon-white"></i> <fmt:message key="aca.CerrarCobro" /></a>
+			<a href="javascript:CerrarCalculo()" class="btn btn-success"><i
+				class="icon-ok icon-white"></i> <fmt:message key="aca.CerrarCobro" /></a>
 			<%}%>
-			
-	<%	}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){ %>	   	
-	   	
-	   		<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')"><i class="icon-print icon-white"></i> <fmt:message key="boton.Imprimir" /></a>
-	   	
-	<%		if ( (esContable||esAdmin) && (!FinCalculo.getInscrito().equals("")) && FinCalculo.getInscrito().equals("P")==false){%>
-			<a class="btn btn-primary" href="javascript:AbrirCalculo()"><i class="icon-eye-open icon-white"></i> <fmt:message key="boton.Abrir" /></a>
-	<%		}
+
+			<%	}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){ %>
+
+			<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')"><i
+				class="icon-print icon-white"></i> <fmt:message key="boton.Imprimir" /></a>
+
+			<%		if ( (esContable||esAdmin) && (!FinCalculo.getInscrito().equals("")) && FinCalculo.getInscrito().equals("P")==false){%>
+			<a class="btn btn-primary" href="javascript:AbrirCalculo()"><i
+				class="icon-eye-open icon-white"></i> <fmt:message key="boton.Abrir" /></a>
+			<%		}
 		}
-	%>				    	
-			
-	</div>
-</form>
-<%}%>
+	%>
+
+		</div>
+	</form>
+	<%}%>
 </div>
 <link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 <script>
 	$('#Fecha').datepicker();
-	$('.fechaCobro').datepicker();	
+	$('.fechaCobro').datepicker();
 </script>
-<%@ include file= "../../cierra_elias.jsp" %>
+<%@ include file="../../cierra_elias.jsp"%>
