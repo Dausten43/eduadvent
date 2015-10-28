@@ -146,7 +146,7 @@
 					  	<td><%=i+1%></td>
 					 	<td><%= aca.beca.BecEntidad.getEntidadNombre(conElias, beca.getEntidadId())%></td>		 	
 					  	<td><%= aca.fin.FinCuenta.getCuentaNombre(conElias, beca.getCuentaId())%></td>	
-					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%> - <%=beca.getCodigoId() %></td>	  	
+					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>	  	
 					  	<td><%=beca.getTipo() %></td>
 					  	<td><%= beca.getBeca()%><%if(beca.getTipo().equals("PORCENTAJE")){out.print("%");} %></td>
 					  	<td><%=beca.getUsuario()%> | <%=nombreEmpleado%></td>
