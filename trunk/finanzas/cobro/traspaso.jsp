@@ -65,9 +65,8 @@
 	
 	
 	if(accion.equals("1")){
-		
-		for(int x=0; x< lisFinPago.size(); x++){
-			
+		for(int x=0; x<lisFinPago.size(); x++){
+			System.out.println("for");
 		finPago.setCicloId(cicloId);
 		finPago.setPeriodoId(periodoId);
 		finPago.setFecha(lisFinPago.get(x).getFecha());
@@ -78,23 +77,29 @@
 			//Busca el siguiente folio 
 			finPago.setPagoId(finPago.maximoReg(conElias, cicloId, periodoId));			
 			// inserta el registro
-			if(finPago.insertReg(conElias)){
+			if(finPago.insertReg(conElias)&&finPago.existeReg(conElias)){
 				mensaje = "Guardado";
 			}else{
 				mensaje = "NoGuardo";
 			}
 		}
+%>		
+		<meta http-equiv="refresh" content="0; URL='traspaso.jsp?ciclo=<%=cicloId%>&periodo=<%=periodoId %>'" />
+<%
+
 	}
 
 %>
 
+
+
 <div id="content">
 	
-	<h2><fmt:message key="aca.CopiarCobrosDe" /><small> ( <%=cicloId%> - <%= cicloPeriodo.periodoNombre(conElias, cicloId, periodoId) %> )</small></h2>
+	<h2><fmt:message key="aca.CopiarCobrosDe" /><small> ( <%=cicloId%> - <%= cicloPeriodo.periodoNombre(conElias, cicloIdOriginal, periodoIdOriginal) %> )</small></h2>
 	
 	<form id="forma" name="forma" action="cobro.jsp" method="post">
 		<div class="well">
-			
+ 		<a class="btn btn-primary"href="cobro.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 
 			&nbsp;&nbsp;<fmt:message key="aca.Ciclo" />:&nbsp;&nbsp;
 			<select id="Ciclo" name="Ciclo" onchange="document.location = 'traspaso.jsp?Ciclo='+this.options[this.selectedIndex].value+'&ciclo=<%=cicloIdOriginal%>&periodo=<%=periodoIdOriginal%>';" style="width:360px;margin-bottom:0px;">
@@ -119,14 +124,14 @@
 		%>
 			</select>
 			
-			<a class="btn btn-primary" href="traspaso.jsp?Accion=1">
+			<a class="btn btn-primary" href="traspaso.jsp?Accion=1&ciclo=<%=cicloIdOriginal%>&periodo=<%=periodoIdOriginal%>">
 				  <i class="icon-plus icon-white"></i> <fmt:message key="boton.Copiar" />
 			</a>
 			
 		</div>
 		
 		<table class="table table-bordered table-striped">
-			<%if(lisFinPago.size() > 0){%>
+			<%if(lisFinPagoCopia.size() > 0){%>
 				<thead>
 					<tr>
 						<th>#</th>
@@ -141,8 +146,8 @@
 				if(!FinPago.tieneDatos(conElias, cicloId, periodoId))
 					elimina = true;
 					
-					for(int i = 0; i < lisFinPago.size(); i++){
-						finPago = (FinPago) lisFinPago.get(i);					 
+					for(int i = 0; i < lisFinPagoCopia.size(); i++){
+						finPago = (FinPago) lisFinPagoCopia.get(i);					 
 			%>
 						<tr>
 							<td>
