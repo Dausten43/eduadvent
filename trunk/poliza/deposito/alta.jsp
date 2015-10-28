@@ -73,7 +73,7 @@
 	
 	int row = 0;
 	for (aca.fin.FinDeposito deposito : lisDepositos){
-		totalDeposito	= Double.parseDouble( deposito.getImporte() );
+		totalDeposito	+= Double.parseDouble( deposito.getImporte() );
 		row++;
 %>
 		<tr>				
