@@ -30,7 +30,7 @@
 %>
 <body>
 <div id="content">
-	<h2>Tipos de Becas </h2>
+	<h2>Becas Otorgadas</h2>
 	<form name="forma" id="forma" method="post" action="becaTipo.jsp">
 	<input type="hidden" name="Accion" />
 	<div class="well">
