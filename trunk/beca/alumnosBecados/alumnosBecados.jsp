@@ -12,6 +12,8 @@
 <jsp:useBean id="BecCuentaL" scope="page" class="aca.fin.FinCuentaLista"/>
 <jsp:useBean id="BecCuentaN" scope="page" class="aca.fin.FinCuenta"/>
 <jsp:useBean id="EmpPersonalL" scope="page" class="aca.empleado.EmpPersonalLista"/>
+<jsp:useBean id="FinCalculoDetL" scope="page" class="aca.fin.FinCalculoDetLista"/>
+
 
 
 <script>  
@@ -71,6 +73,9 @@
 	/* MAP DE USUARIOS */
 	java.util.HashMap<String,String> mapEmpleado		= EmpPersonalL.mapEmpleados(conElias, escuelaId, "NOMBRE");
 	
+	/* MAP DE IMPORTE DE BECA*/
+	java.util.HashMap<String, String> mapFinCalculoDet 	= FinCalculoDetL.mapImporte(conElias, cicloId);
+	
 	
 	if(periodoId == null||periodoId.equals("")){
 		if(lisCicloPeriodo.size() > 0){
@@ -120,6 +125,7 @@
 					<th><fmt:message key="aca.Tipo" /></th>
 					<th><fmt:message key="aca.Beca" /></th>
 					<th><fmt:message key="aca.Usuario" /></th>
+					<th>Importe</th>
 				</tr>
 			</thead>		
 			<%		
@@ -131,15 +137,20 @@
 					if (mapEmpleado.containsKey(beca.getUsuario())){ 
 						nombreEmpleado = mapEmpleado.get(beca.getUsuario());
 					}
+					String importe = "-";
+					if(mapFinCalculoDet.containsKey(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId())){
+						importe = mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId());
+					}
 			%>	
 					<tr>
 					  	<td><%=i+1%></td>
 					 	<td><%= aca.beca.BecEntidad.getEntidadNombre(conElias, beca.getEntidadId())%></td>		 	
 					  	<td><%= aca.fin.FinCuenta.getCuentaNombre(conElias, beca.getCuentaId())%></td>	
-					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>	  	
+					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%> - <%=beca.getCodigoId() %></td>	  	
 					  	<td><%=beca.getTipo() %></td>
 					  	<td><%= beca.getBeca()%><%if(beca.getTipo().equals("PORCENTAJE")){out.print("%");} %></td>
 					  	<td><%=beca.getUsuario()%> | <%=nombreEmpleado%></td>
+					  	<td><%=importe %></td>
 					</tr>		
 			<% 
 				} 
