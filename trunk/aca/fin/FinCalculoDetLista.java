@@ -76,12 +76,12 @@ public class FinCalculoDetLista {
 		
 		try{
 			
-			comando = " SELECT CICLO_ID || PERIODO_ID || CODIGO_ID || CUENTA_ID AS KEY, BECA_CANTIDAD FROM FIN_CALCULO_DET"
+			comando = " SELECT CICLO_ID || PERIODO_ID || CODIGO_ID || CUENTA_ID AS KEY, IMPORTE_BECA FROM FIN_CALCULO_DET"
 					+ " WHERE CICLO_ID= '"+cicloId+"'";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
-				map.put(rs.getString("KEY"), rs.getString("IMPORTE"));
+				map.put(rs.getString("KEY"), rs.getString("IMPORTE_BECA"));
 			}
 			
 		}catch(Exception ex){
