@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FinCalculoDetLista {
 	
@@ -64,6 +65,33 @@ public class FinCalculoDetLista {
 		}	
 		
 		return lisCalculoDet;
-	}	
+	}
+	
+	public HashMap<String,String> mapImporte(Connection conn, String cicloId) throws SQLException{
+		
+		HashMap<String,String> map 		= new HashMap<String,String>();
+		Statement st 					= conn.createStatement();
+		ResultSet rs 					= null;
+		String comando					= "";		
+		
+		try{
+			
+			comando = " SELECT CICLO_ID || PERIODO_ID || CODIGO_ID || CUENTA_ID AS KEY, IMPORTE FROM FIN_CALCULO_DET"
+					+ " WHERE CICLO_ID= '"+cicloId+"'";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				map.put(rs.getString("KEY"), rs.getString("IMPORTE"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinCalculoDetLista|mapImporte|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
 	
 }
