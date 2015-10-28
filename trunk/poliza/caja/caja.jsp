@@ -21,9 +21,9 @@
 </script>	
 	
 <%
-	String escuelaId 	= (String) session.getAttribute("escuela");
-	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
-	String usuario 		= (String)session.getAttribute("codigoId");
+	String escuelaId 		= (String) session.getAttribute("escuela");
+	String ejercicioId 		= (String) session.getAttribute("EjercicioId");
+	String usuario 			= (String) session.getAttribute("codigoId");
 	
 	/* ACCIONES */
 	
