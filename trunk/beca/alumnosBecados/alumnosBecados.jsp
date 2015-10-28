@@ -123,9 +123,9 @@
 					<th><fmt:message key="aca.Cuenta" /></th>
 					<th><fmt:message key="aca.Alumno" /></th>
 					<th><fmt:message key="aca.Tipo" /></th>
-					<th><fmt:message key="aca.Beca" /></th>
+					<th style="text-align:right"><fmt:message key="aca.Beca" /></th>
+					<th style="text-align:right">Importe</th>
 					<th><fmt:message key="aca.Usuario" /></th>
-					<th>Importe</th>
 				</tr>
 			</thead>		
 			<%		
@@ -137,7 +137,7 @@
 					if (mapEmpleado.containsKey(beca.getUsuario())){ 
 						nombreEmpleado = mapEmpleado.get(beca.getUsuario());
 					}
-					String importe = "-";
+					String importe = "0.00";
 					if(mapFinCalculoDet.containsKey(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId())){
 						importe = mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId());
 					}
@@ -148,9 +148,9 @@
 					  	<td><%= aca.fin.FinCuenta.getCuentaNombre(conElias, beca.getCuentaId())%></td>	
 					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>	  	
 					  	<td><%=beca.getTipo() %></td>
-					  	<td><%= beca.getBeca()%><%if(beca.getTipo().equals("PORCENTAJE")){out.print("%");} %></td>
+					  	<td style="text-align:right"><%= beca.getBeca()%><%if(beca.getTipo().equals("PORCENTAJE")){out.print("%");} %></td>
+					  	<td style="text-align:right"><%=importe %></td>
 					  	<td><%=beca.getUsuario()%> | <%=nombreEmpleado%></td>
-					  	<td><%=importe %></td>
 					</tr>		
 			<% 
 				} 
