@@ -61,7 +61,7 @@
 	ArrayList<aca.fin.FinPago> lisFinPago = finPagoL.getListCicloPeriodo(conElias, cicloIdOriginal, periodoIdOriginal, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
 	
 	/* LISTA DE FECHAS DE COBRO COPIA*/
-	ArrayList<aca.fin.FinPago> lisFinPagoCopia = finPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
+	ArrayList<aca.fin.FinPago> lisFinPagoCopia = finPagoL.getListCicloPeriodo(conElias, cicloElegido, periodoId, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
 	
 	
 	if(accion.equals("1")){
@@ -95,7 +95,7 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.CopiarCobrosDe" /><small> ( <%=cicloId%> - <%= cicloPeriodo.periodoNombre(conElias, cicloIdOriginal, periodoIdOriginal) %> )</small></h2>
+	<h2><fmt:message key="aca.CopiarCobrosDe" /><small> ( <%=cicloIdOriginal%> - <%= cicloPeriodo.periodoNombre(conElias, cicloIdOriginal, periodoIdOriginal) %> )</small></h2>
 	
 	<form id="forma" name="forma" action="cobro.jsp" method="post">
 		<div class="well">
