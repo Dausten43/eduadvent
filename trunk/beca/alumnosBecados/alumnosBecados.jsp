@@ -96,7 +96,7 @@
 		<div class="well" >	
 			<select id="Ciclo" name="Ciclo" onchange="javascript:cambiaCiclo()" class="input-xlarge">
 				<%for(aca.ciclo.Ciclo ciclo : lisCiclo){%>
-					<option value="<%=ciclo.getCicloId()%>"<%=cicloId.equals(ciclo.getCicloId())? " Selected":"" %>><%=ciclo.getCicloId()%> | <%=ciclo.getCicloNombre()%></option>
+					<option value="<%=ciclo.getCicloId()%>"<%=cicloId.equals(ciclo.getCicloId())?" Selected":"" %>><%=ciclo.getCicloId()%> | <%=ciclo.getCicloNombre()%></option>
 				<%}%>
 			</select>
 			
@@ -112,7 +112,8 @@
 				<%for(aca.beca.BecEntidad entidad : lisEntidad){%>			
 					<option value="<%=entidad.getEntidadId()%>" <%=entidadId.equals(entidad.getEntidadId())?"Selected":"" %>><%=entidad.getEntidadNombre()%></option>
 				<%}%>
-			</select>		
+			</select>
+			<a id = boton class="btn btn-primary btn-medium">Mostrar</a>
 		</div>	
 		
 		<table class="table table-condensed table-bordered table-striped">		
@@ -122,35 +123,30 @@
 					<th><fmt:message key="aca.Entidad" /></th>
 					<th><fmt:message key="aca.Cuenta" /></th>
 					<th><fmt:message key="aca.Alumno" /></th>
+					<th>Inscrito</th>
 					<th><fmt:message key="aca.Tipo" /></th>
 					<th style="text-align:right"><fmt:message key="aca.Beca" /></th>
 					<th style="text-align:right">Importe</th>
-					<th><fmt:message key="aca.Usuario" /></th>
 				</tr>
 			</thead>		
 			<%		
+				java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 				for(int i = 0; i < lisBeca.size(); i++){
-					aca.beca.BecAlumno beca = (aca.beca.BecAlumno) lisBeca.get(i);
-				
-					// Busca el nombre del empleado 
-					String nombreEmpleado = "";
-					if (mapEmpleado.containsKey(beca.getUsuario())){ 
-						nombreEmpleado = mapEmpleado.get(beca.getUsuario());
-					}
-					String importe = "0.00";
-					if(mapFinCalculoDet.containsKey(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId())){
-						importe = mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId());
+					aca.beca.BecAlumno beca = (aca.beca.BecAlumno) lisBeca.get(i);					
+					float importe = 0.00f;
+	 				if(mapFinCalculoDet.containsKey(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId())){
+						importe = Float.parseFloat(mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId()));
 					}
 			%>	
 					<tr>
 					  	<td><%=i+1%></td>
 					 	<td><%= aca.beca.BecEntidad.getEntidadNombre(conElias, beca.getEntidadId())%></td>		 	
 					  	<td><%= aca.fin.FinCuenta.getCuentaNombre(conElias, beca.getCuentaId())%></td>	
-					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>	  	
+					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>
+					  	<td>&nbsp;</td>	  	
 					  	<td><%=beca.getTipo() %></td>
-					  	<td style="text-align:right"><%= beca.getBeca()%><%if(beca.getTipo().equals("PORCENTAJE")){out.print("%");} %></td>
-					  	<td style="text-align:right"><%=importe %></td>
-					  	<td><%=beca.getUsuario()%> | <%=nombreEmpleado%></td>
+					  	<td style="text-align:right"><%=beca.getBeca()%><%if(beca.getTipo().equals("PORCENTAJE")){out.print("%");} %></td>
+					  	<td style="text-align:right"><%=formato.format(importe)%></td>
 					</tr>		
 			<% 
 				} 
