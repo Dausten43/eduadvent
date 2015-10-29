@@ -28,8 +28,7 @@
 	java.util.ArrayList<String> lisAlumnos = FinCalculoLista.listAlumnosEnPago(conElias, cicloId, periodoId, pagoId, "'A'", " ORDER BY 1");
 
 	// Map de importes del pago por cada alumno
-	java.util.HashMap<String, String> mapPago = FinCalculoLista.mapAlumnosEnPago(conElias, cicloId, periodoId, pagoId, "'A'");
-	
+	java.util.HashMap<String, String> mapPago = FinCalculoLista.mapAlumnosEnPago(conElias, cicloId, periodoId, pagoId, "'A'");	
 %>
 
 <div id="content">
@@ -45,8 +44,9 @@
 	<tr>
 		<th>#</th>
 		<th>Matricula</th>
-		<th>Nombre</th>
+		<th>Nombre</th>		
 		<th style="text-align:right">Importe</th>
+		
 	</tr>
 
 <% 	
@@ -62,7 +62,7 @@
 			<tr>
 				<td><%=numero%></td>
 				<td><%=alumno%></td>
-				<td><%=nombreAlumno%></td>
+				<td><%=nombreAlumno%></td>				
 				<td style="text-align:right"><%=formato.format(importe)%></td>
 			</tr>
 		<%	

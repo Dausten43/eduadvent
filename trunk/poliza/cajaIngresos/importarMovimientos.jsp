@@ -113,12 +113,12 @@
 		/* ************ PAGO INICIAL ************ */
 		
 		if( esPagoIni ){
-			
+			System.out.println("Es Inicial..");
 			/*DETALLES FIN CALCULO */
 			ArrayList<aca.fin.FinCalculoDet> lisDetalles	= DetalleL.getListCalDetTodosAlumnos(conElias, cicloId, periodoId, "ORDER BY CODIGO_ID, CUENTA_ID");
 			
 			// Lista de alumnos sin pago inicial
-			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G'","");
+			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G','P'","");
 			
 			/* BEGIN TRANSACTION */
 			conElias.setAutoCommit(false);
@@ -126,7 +126,8 @@
 			
 			String nombreAlumno = "";
 			
-			for(aca.fin.FinCalculo alumno : alumnos){			
+			for(aca.fin.FinCalculo alumno : alumnos){
+				System.out.println("Alumno:"+alumno);
 				 
 				if(mapAlum.containsKey(alumno.getCodigoId())){
 					nombreAlumno = mapAlum.get(alumno.getCodigoId()).toString();
@@ -135,21 +136,26 @@
 				}
 				
 				for(aca.fin.FinCalculoDet detalle : lisDetalles){
+					
+					System.out.println("Detalle:"+detalle.getCuentaId());
+					
 					 /* Solo los detalles del alumno actual */
 					if(detalle.getCodigoId().equals(alumno.getCodigoId()) == false ){
 						continue;
 					}
 						
 					float importeInicial = Float.parseFloat( detalle.getImporteInicial() );
-					if(importeInicial > 0){/* Si el importe es mayor que cero entonces guarda el movimiento */
+					/* Si el importe es mayor que cero entonces guarda el movimiento */
+					if(importeInicial > 0){
 						
 						String cuentaNombre = detalle.getCuentaId();
 						if(mapCuenta.containsKey(detalle.getCuentaId())){
 							cuentaNombre = mapCuenta.get(detalle.getCuentaId()).getCuentaNombre();
 						}
 						
-						if(alumno.getTipoPago().equals("P")){// Si es por pagaré no hay beca en el Pago Inicial, asi que solo se guarda el importe ya calculado de Pago Inicial
-							
+						// Si es por pagaré no hay beca en el Pago Inicial, asi que solo se guarda el importe ya calculado de Pago Inicial
+						if(alumno.getTipoPago().equals("P")){
+								
 							FinMov.setEjercicioId(ejercicioId);
 							FinMov.setPolizaId(polizaId);
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
@@ -164,17 +170,20 @@
 							FinMov.setReciboId("0");						
 							FinMov.setCicloId(detalle.getCicloId());
 							FinMov.setPeriodoId(detalle.getPeriodoId());
-							
+								
 							if(!FinMov.existeReg(conElias)){
-								if(FinMov.insertReg(conElias)){
-									//Guardado
+								if(FinMov.insertReg(conElias)){								
+									// Actualizar el estado del pago a Contabilizado ("C")
+									if(aca.fin.FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, detalle.getCuentaId(), "C") ){
+										System.out.println("1. Estado actualizado en:"+cicloId+":"+periodoId+":"+alumno.getCodigoId()+":"+pagoId+":"+detalle.getCuentaId());
+									}
 								}else{
 									error = true;
 								}
 							}
-							
-						}else{// Si es de contado la beca y el costo total se guardan en el Pago Inicial
-							
+								
+						}else{ // Si es de contado la beca y el costo total se guardan en el Pago Inicial
+								
 							FinMov.setEjercicioId(ejercicioId);
 							FinMov.setPolizaId(polizaId);
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
@@ -192,12 +201,12 @@
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
-									//Guardado
+									// Insert de movimiento
 								}else{
 									error = true;
 								}
 							}
-							
+								
 							FinMov.setEjercicioId(ejercicioId);
 							FinMov.setPolizaId(polizaId);
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
@@ -214,11 +223,19 @@
 							FinMov.setPeriodoId(detalle.getPeriodoId());
 							
 							if(!FinMov.existeReg(conElias)){
-								if(FinMov.insertReg(conElias)){
-									//Guardado
+								if(FinMov.insertReg(conElias)){																	
+									// Insert de movimiento
 								}else{
 									error = true;
 								}
+							}
+							
+							// Actualizar el estado del pago a Contabilizado ("C")
+							if(aca.fin.FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, detalle.getCuentaId(), "C") ){
+								// Actualizado
+								System.out.println("3.Estado actualizado en:"+cicloId+":"+periodoId+":"+alumno.getCodigoId()+":"+pagoId+":"+detalle.getCuentaId());
+							}else{
+								error = true;
 							}
 							
 						}
@@ -227,6 +244,7 @@
 						
 				}
 				
+				// Actualizar el estado del calculo de cobro (Estado anterior "G" se cambia a "P" )
 				if(aca.fin.FinCalculo.updateInscrito(conElias, cicloId, periodoId, alumno.getCodigoId(), "P")){
 					//Estado actualizado
 				}else{
@@ -382,7 +400,7 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.Ingresos" /></h2>
+	<h2><fmt:message key="aca.PolizasIngreso" /></h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){ %>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
@@ -444,18 +462,17 @@
 								<th>#</th>
 								<th><fmt:message key="aca.Pago" /></th>
 								<th><fmt:message key="aca.Alumnos" /></th>
-							</tr>							
+							</tr>
 							<%int cont = 0; %>
 							<%for(aca.fin.FinPago pago : lisFinPago){%>
 								<%cont++;%>
-								<tr>
-									<td><%=cont %></td>
-									<td><a href="pagoAlumnos.jsp?pagoId=<%=pago.getPagoId()%>&cicloId=<%=cicloId%>&periodoId=<%=periodoId%>"><%=pago.getDescripcion() %></a></td>
-									<td><%=aca.fin.FinCalculo.pendientesPago(conElias, cicloId, periodoId, pago.getPagoId()) %></td>
-								</tr>
+							<tr>
+								<td><%=cont %></td>
+								<td><a href="pagoAlumnos.jsp?pagoId=<%=pago.getPagoId()%>&cicloId=<%=cicloId%>&periodoId=<%=periodoId%>"><%=pago.getDescripcion() %></a></td>
+								<td><%=aca.fin.FinCalculo.pendientesPago(conElias, cicloId, periodoId, pago.getPagoId()) %></td>
+							</tr>
 							<%}%>	
-						</table>
-						
+						</table>						
 					</div>
 				</div>
 				
