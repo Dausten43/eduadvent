@@ -24,19 +24,38 @@
 	String periodoId	= request.getParameter("periodoId")==null?"":request.getParameter("periodoId");
 	String pagoId		= request.getParameter("pagoId")==null?"":request.getParameter("pagoId");
 	
+	String view			= request.getParameter("View")==null?"3":request.getParameter("View");;
+	String opcion = "'A', 'C'";
+	System.out.println(view+" "+opcion);
+	if(view.equals("1")){
+		opcion="'A'";
+	}else if(view.equals("2")){
+		opcion="'C'";		
+	}else{
+		opcion="'A', 'C'";
+	}
+	System.out.println(view+" "+opcion);
 	// Lista de alumnos en el pago
-	java.util.ArrayList<String> lisAlumnos = FinCalculoLista.listAlumnosEnPago(conElias, cicloId, periodoId, pagoId, "'A'", " ORDER BY 1");
+	java.util.ArrayList<String> lisAlumnos = FinCalculoLista.listAlumnosEnPago(conElias, cicloId, periodoId, pagoId, opcion, " ORDER BY 1");
 
 	// Map de importes del pago por cada alumno
-	java.util.HashMap<String, String> mapPago = FinCalculoLista.mapAlumnosEnPago(conElias, cicloId, periodoId, pagoId, "'A'");	
+	java.util.HashMap<String, String> mapPago = FinCalculoLista.mapAlumnosEnPago(conElias, cicloId, periodoId, pagoId, opcion);	
 %>
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.Movimiento" /></h2>	
+	<h2><fmt:message key="aca.Movimiento" /><small>( Ciclo: <%=cicloId%>&nbsp Periodo: <%=periodoId%>&nbsp Pago: <%=pagoId%>&nbsp)</small></h2>	
 	
 		<div class="well">
 			<a href="importarMovimientos.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		
+		<form name="forma" action="pagoAlumnos.jsp?cicloId=<%=cicloId%>&periodoId=<%=periodoId%>&pagoId=<%=pagoId%>" method="post" style="display:inline;">
+			<select name="View" id="View" onchange="this.form.submit();">
+				<option value="1" <%if(view.equals("1")){out.print("selected");}%>>Pendientes</option>
+				<option value="2" <%if(view.equals("2")){out.print("selected");}%>>Contabilizados</option>
+				<option value="3" <%if(view.equals("3")){out.print("selected");}%>>Total</option>	
+			</select>
+		</form>
 		</div>
 		
 	<table class="table table-striped">
