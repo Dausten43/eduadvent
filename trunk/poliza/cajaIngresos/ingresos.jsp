@@ -4,12 +4,10 @@
 <%@ include file="../../head.jsp"%>
 <%@ include file="../../menu.jsp"%>
 
-<jsp:useBean id="FinPolizaLista" scope="page"
-	class="aca.fin.FinPolizaLista" />
+<jsp:useBean id="FinPolizaLista" scope="page" class="aca.fin.FinPolizaLista" />
 <jsp:useBean id="FinPoliza" scope="page" class="aca.fin.FinPoliza" />
 <jsp:useBean id="FinMovs" scope="page" class="aca.fin.FinMovimientos" />
-<jsp:useBean id="FinMovLista" scope="page"
-	class="aca.fin.FinMovimientosLista" />
+<jsp:useBean id="FinMovLista" scope="page" class="aca.fin.FinMovimientosLista" />
 <jsp:useBean id="FinCuentaL" scope="page" class="aca.fin.FinCuentaLista" />
 
 <script>
@@ -22,98 +20,95 @@
 	}
 </script>
 
-
 <%
-		String escuelaId = (String) session.getAttribute("escuela");
-		String ejercicioId = (String) session.getAttribute("EjercicioId");
-		String usuario = (String) session.getAttribute("codigoId");
+	String escuelaId = (String) session.getAttribute("escuela");
+	String ejercicioId = (String) session.getAttribute("EjercicioId");
+	String usuario = (String) session.getAttribute("codigoId");
 
-		/* MAP DE CUENTAS DE LA ESCUELA */
-		java.util.HashMap<String, aca.fin.FinCuenta> mapCuenta = FinCuentaL.mapCuentasEscuela(conElias, escuelaId);
+	/* MAP DE CUENTAS DE LA ESCUELA */
+	java.util.HashMap<String, aca.fin.FinCuenta> mapCuenta = FinCuentaL.mapCuentasEscuela(conElias, escuelaId);
 
-		/* ACCIONES */
+	/* ACCIONES */
 
-		String accion = request.getParameter("Accion") == null ? "" : request.getParameter("Accion");
-		String msj = "";
+	String accion = request.getParameter("Accion") == null ? "" : request.getParameter("Accion");
+	String msj = "";
 
-		/* CERRAR POLIZA */
-		if (accion.equals("1")) {
+	/* CERRAR POLIZA */
+	if (accion.equals("1")) {
 
-			/* **** BEGIN TRANSACTION **** */
-			conElias.setAutoCommit(false);
-			boolean error = false;
+		/* **** BEGIN TRANSACTION **** */
+		conElias.setAutoCommit(false);
+		boolean error = false;
 
-			String polizaId = request.getParameter("polizaId");
+		String polizaId = request.getParameter("polizaId");
 
-			/* ==== CAMBIAR ESTADO DE LA POLIZA ==== */
-			FinPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
-			if (!FinPoliza.getEstado().equals("A")) {
-				error = true;
-			}
-			FinPoliza.setEstado("T");//Transicion, cerrada temporalmente hasta que se mande al SunPlus
+		/* ==== CAMBIAR ESTADO DE LA POLIZA ==== */
+		FinPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
+		if (!FinPoliza.getEstado().equals("A")) {
+			error = true;
+		}
+		FinPoliza.setEstado("T");//Transicion, cerrada temporalmente hasta que se mande al SunPlus
 
-			if (FinPoliza.updateEstado(conElias)) {
-				//Actualizado
-			} else {
-				error = true;
-			}
-
-			/* ==== GENERAR UN MOVIMIENTO PARA CUADRAR POR CADA MOVIMIENTO ==== */
-
-			ArrayList<aca.fin.FinMovimientos> movs = FinMovLista.getAllMovimientosPoliza(conElias, ejercicioId, polizaId, "");
-
-			for (aca.fin.FinMovimientos mov : movs) {
-
-				String nombreCuenta = mov.getCuentaId();
-				if (mapCuenta.containsKey(mov.getCuentaId())) {
-					nombreCuenta = mapCuenta.get(mov.getCuentaId()).getCuentaNombre();
-				}
-
-				/* ==== GUARDAR MOVIMIENTO PARA CUADRAR LA POLIZA ==== */
-				FinMovs.setEjercicioId(ejercicioId);
-				FinMovs.setPolizaId(polizaId);
-				FinMovs.setMovimientoId(FinMovs.maxReg(conElias, ejercicioId, polizaId));
-				FinMovs.setCuentaId(mov.getCuentaId());
-				FinMovs.setAuxiliar("-");
-				FinMovs.setDescripcion("ACUMULADO EN: " + nombreCuenta);
-				FinMovs.setImporte(mov.getImporte());
-				FinMovs.setNaturaleza("C"); /* Credito */
-				FinMovs.setReferencia("-");
-				FinMovs.setEstado("R");
-				FinMovs.setFecha(aca.util.Fecha.getDateTime());
-				FinMovs.setReciboId("0");
-				FinMovs.setCicloId("00000000");
-				FinMovs.setPeriodoId("0");
-
-				if (FinMovs.existeReg(conElias)) {
-					error = true;
-				} else {
-					if (FinMovs.insertReg(conElias)) {
-						//Guardado
-					} else {
-						error = true;
-					}
-				}
-
-			}
-
-			if (error == true) {
-				conElias.rollback();
-				msj = "NoGuardo";
-			} else {
-				conElias.commit();
-				msj = "Guardado";
-			}
-
-			conElias.setAutoCommit(true);
-			/* **** END TRANSACTION **** */
+		if (FinPoliza.updateEstado(conElias)) {
+			//Actualizado
+		} else {
+			error = true;
 		}
 
-		pageContext.setAttribute("resultado", msj);
+		/* ==== GENERAR UN MOVIMIENTO PARA CUADRAR POR CADA MOVIMIENTO ==== */
 
-		ArrayList<aca.fin.FinPoliza> listaPoliza = FinPolizaLista
-				.getPolizaPorUsuarioDeIngreso(conElias, usuario,
-						ejercicioId, " ORDER BY FECHA ");
+		ArrayList<aca.fin.FinMovimientos> movs = FinMovLista.getAllMovimientosPoliza(conElias, ejercicioId, polizaId, "");
+
+		for (aca.fin.FinMovimientos mov : movs) {
+
+			String nombreCuenta = mov.getCuentaId();
+			if (mapCuenta.containsKey(mov.getCuentaId())) {
+				nombreCuenta = mapCuenta.get(mov.getCuentaId()).getCuentaNombre();
+			}
+
+			/* ==== GUARDAR MOVIMIENTO PARA CUADRAR LA POLIZA ==== */
+			FinMovs.setEjercicioId(ejercicioId);
+			FinMovs.setPolizaId(polizaId);
+			FinMovs.setMovimientoId(FinMovs.maxReg(conElias, ejercicioId, polizaId));
+			FinMovs.setCuentaId(mov.getCuentaId());
+			FinMovs.setAuxiliar("-");
+			FinMovs.setDescripcion("ACUMULADO EN: " + nombreCuenta);
+			FinMovs.setImporte(mov.getImporte());
+			FinMovs.setNaturaleza("C"); /* Credito */
+			FinMovs.setReferencia("-");
+			FinMovs.setEstado("R");
+			FinMovs.setFecha(aca.util.Fecha.getDateTime());
+			FinMovs.setReciboId("0");
+			FinMovs.setCicloId("00000000");
+			FinMovs.setPeriodoId("0");
+
+			if (FinMovs.existeReg(conElias)) {
+				error = true;
+			} else {
+				if (FinMovs.insertReg(conElias)) {
+					//Guardado
+				} else {
+					error = true;
+				}
+			}
+
+		}
+
+		if (error == true) {
+			conElias.rollback();
+			msj = "NoGuardo";
+		} else {
+			conElias.commit();
+			msj = "Guardado";
+		}
+
+		conElias.setAutoCommit(true);
+		/* **** END TRANSACTION **** */
+	}
+
+	pageContext.setAttribute("resultado", msj);
+
+	ArrayList<aca.fin.FinPoliza> listaPoliza = FinPolizaLista.getPolizaPorUsuarioDeIngreso(conElias, usuario, ejercicioId, " ORDER BY FECHA ");
 %>
 
 <div id="content">
