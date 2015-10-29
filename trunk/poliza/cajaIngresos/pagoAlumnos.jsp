@@ -24,17 +24,16 @@
 	String periodoId	= request.getParameter("periodoId")==null?"":request.getParameter("periodoId");
 	String pagoId		= request.getParameter("pagoId")==null?"":request.getParameter("pagoId");
 	
-	String view			= request.getParameter("View")==null?"3":request.getParameter("View");;
-	String opcion = "'A', 'C'";
-	System.out.println(view+" "+opcion);
+	String view			= request.getParameter("View")==null?"3":request.getParameter("View");
+	String opcion 		= "'A', 'C'";
+	
 	if(view.equals("1")){
 		opcion="'A'";
 	}else if(view.equals("2")){
 		opcion="'C'";		
 	}else{
 		opcion="'A', 'C'";
-	}
-	System.out.println(view+" "+opcion);
+	}	
 	// Lista de alumnos en el pago
 	java.util.ArrayList<String> lisAlumnos = FinCalculoLista.listAlumnosEnPago(conElias, cicloId, periodoId, pagoId, opcion, " ORDER BY 1");
 
