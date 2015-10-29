@@ -147,7 +147,7 @@
 						<a href="javascript:if(confirm('<fmt:message key="js.Confirma" /> ')){location.href='accion.jsp?Accion=2&polizaId=<%=poliza.getPolizaId()%>';}"><i class="icon-remove"></i></a> 
 					<%}%>
 				</td>
-				<td><%=poliza.getPolizaId().substring(2)%></td>
+				<td><%=poliza.getPolizaId()%></td>
 				<td><a href="importarMovimientos.jsp?polizaId=<%=poliza.getPolizaId()%>"><%=poliza.getDescripcion()%></a></td>
 				<td><%=poliza.getFecha()%></td>
 				<td>
