@@ -37,9 +37,6 @@
 	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId"); 
 	
-	
-
-	
 	/* INFORMACION DE LA POLIZA */
 	
 	if(request.getParameter("polizaId") != null){
@@ -77,7 +74,7 @@
 	/* ******** PERIODO ******** */
 	ArrayList<aca.ciclo.CicloPeriodo> lisPeriodo 	= CicloPeriodoL.getListCiclo(conElias, cicloId, "ORDER BY CICLO_PERIODO.F_INICIO");
 	
-	String periodoId		= (String) session.getAttribute("periodoId")==null?"":(String) session.getAttribute("periodoId");
+	String periodoId		= (String) session.getAttribute("periodoId")==null?"0":(String) session.getAttribute("periodoId");
 	
 	if(request.getParameter("periodoId")!=null){
 		periodoId = request.getParameter("periodoId");
@@ -101,9 +98,10 @@
 	
 	/* ******** ACCIONES ******** */
 	
-	String accion 	= request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	String msj 		= "";
-	String pagoId 	= request.getParameter("pagoId")==null?"":request.getParameter("pagoId");
+	String accion 		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String msj 			= "";
+	String pagoId 		= request.getParameter("pagoId")==null?"0":request.getParameter("pagoId");
+	boolean esPagoIni	= aca.fin.FinPago.esPagoInicial(conElias, cicloId, periodoId, pagoId);
 	
 	// GUARDAR LOS MOVIMIENTOS	
 	if(accion.equals("1")){
@@ -114,7 +112,7 @@
 					
 		/* ************ PAGO INICIAL ************ */
 		
-		if( pagoId.equals("PI") ){
+		if( esPagoIni ){
 			
 			/*DETALLES FIN CALCULO */
 			ArrayList<aca.fin.FinCalculoDet> lisDetalles	= DetalleL.getListCalDetTodosAlumnos(conElias, cicloId, periodoId, "ORDER BY CODIGO_ID, CUENTA_ID");
@@ -250,7 +248,7 @@
 		/* ************ O T R O S   P A G O S ************ */
 		
 		// Si se selecciono alguno de los pagos (por lo tanto no el pago inicial)
-		if( !pagoId.equals("PI") ){ 
+		if( !esPagoIni ){ 
 			
 			/*DETALLES FIN CALCULO */
 			ArrayList<aca.fin.FinCalculoPago> pagosAlumno	= CalculoPagoL.getListPagos(conElias, cicloId, periodoId, pagoId, "'A'","ORDER BY CODIGO_ID, CUENTA_ID");
@@ -384,9 +382,9 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.Movimiento" /></h2>
+	<h2><fmt:message key="aca.Ingresos" /></h2>
 	
-	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
+	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){ %>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
@@ -394,11 +392,11 @@
 	
 	<div class="alert alert-info">
 		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong>
-		<br>
+		&nbsp;&nbsp;&nbsp;
 		<fmt:message key="aca.Poliza" />: <strong><%=polizaId %> | <%=FinPoliza.getDescripcion() %></strong>
 	</div>
 
-	<%if( !FinPoliza.getEstado().equals("A") ){ %>
+<%		if( !FinPoliza.getEstado().equals("A") ){ %>
 		
 		<div class="well">
 			<a href="ingresos.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
@@ -408,7 +406,7 @@
 			<fmt:message key="aca.PolizaCerrada" />
 		</div>
 		
-	<%}else{ %>
+<%		}else{ %>
 			
 		<form action="" name="forma" method="post">
 			<input type="hidden" name="Accion" />
@@ -431,26 +429,23 @@
 				</select>	
 				
 			</div>
-			
+<% 			
+			int numPagosIni = Integer.parseInt(aca.fin.FinPago.numPagosIniciales(conElias, cicloId, periodoId)); 
+			if ( numPagosIni > 0){ 
+%>			
 			<div class="row">
 			
 				<div class="span4">
 					<div class="alert">
 						<h5><fmt:message key="aca.AlumnosPendientes" /></h5>
 						
-						
 						<table class="table table-condensed table-bordered">
 							<tr>
 								<th>#</th>
 								<th><fmt:message key="aca.Pago" /></th>
 								<th><fmt:message key="aca.Alumnos" /></th>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>Pago inicial</td>
-								<td><%=aca.fin.FinCalculo.pendientesPagoInicial(conElias, cicloId, periodoId) %></td>
-							</tr>
-							<%int cont = 1; %>
+							</tr>							
+							<%int cont = 0; %>
 							<%for(aca.fin.FinPago pago : lisFinPago){%>
 								<%cont++;%>
 								<tr>
@@ -469,8 +464,7 @@
 						<label for="pagoId">
 							<fmt:message key="aca.Pago" />
 						</label>
-						<select name="pagoId" id="pagoId">
-							<option value="PI" <%if(pagoId.equals("PI")){out.print("selected");} %>>Pago Inicial</option>
+						<select name="pagoId" id="pagoId">							
 							<%for(aca.fin.FinPago pago : lisFinPago){%>
 								<option value="<%=pago.getPagoId() %>" <%if(pago.getPagoId().equals(pagoId)){out.print("selected");} %>><%=pago.getDescripcion() %></option>
 							<%} %>
@@ -483,7 +477,10 @@
 				</div>
 			
 			</div>			
-			
+<%			}else{ %>
+				<div class="alert alert-danger">¡Debes registrar un pago inicial en la opción de "Fechas de Cobro"!</div>
+<%			}
+%>			
 		</form>
 					
 	<%} %>
