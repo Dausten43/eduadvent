@@ -37,8 +37,7 @@
 	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId"); 
 	
-	/* INFORMACION DE LA POLIZA */
-	
+	/* INFORMACION DE LA POLIZA */	
 	if(request.getParameter("polizaId") != null){
 		session.setAttribute("polizaId", request.getParameter("polizaId"));
 	}
@@ -113,7 +112,7 @@
 		/* ************ PAGO INICIAL ************ */
 		
 		if( esPagoIni ){
-			System.out.println("Es Inicial..");
+			
 			/*DETALLES FIN CALCULO */
 			ArrayList<aca.fin.FinCalculoDet> lisDetalles	= DetalleL.getListCalDetTodosAlumnos(conElias, cicloId, periodoId, "ORDER BY CODIGO_ID, CUENTA_ID");
 			
@@ -126,8 +125,7 @@
 			
 			String nombreAlumno = "";
 			
-			for(aca.fin.FinCalculo alumno : alumnos){
-				System.out.println("Alumno:"+alumno);
+			for(aca.fin.FinCalculo alumno : alumnos){				
 				 
 				if(mapAlum.containsKey(alumno.getCodigoId())){
 					nombreAlumno = mapAlum.get(alumno.getCodigoId()).toString();
@@ -135,9 +133,7 @@
 					nombreAlumno = "-";
 				}
 				
-				for(aca.fin.FinCalculoDet detalle : lisDetalles){
-					
-					System.out.println("Detalle:"+detalle.getCuentaId());
+				for(aca.fin.FinCalculoDet detalle : lisDetalles){					
 					
 					 /* Solo los detalles del alumno actual */
 					if(detalle.getCodigoId().equals(alumno.getCodigoId()) == false ){
@@ -175,7 +171,7 @@
 								if(FinMov.insertReg(conElias)){								
 									// Actualizar el estado del pago a Contabilizado ("C")
 									if(aca.fin.FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, detalle.getCuentaId(), "C") ){
-										System.out.println("1. Estado actualizado en:"+cicloId+":"+periodoId+":"+alumno.getCodigoId()+":"+pagoId+":"+detalle.getCuentaId());
+										//System.out.println("1. Estado actualizado en:"+cicloId+":"+periodoId+":"+alumno.getCodigoId()+":"+pagoId+":"+detalle.getCuentaId());
 									}
 								}else{
 									error = true;
@@ -233,7 +229,7 @@
 							// Actualizar el estado del pago a Contabilizado ("C")
 							if(aca.fin.FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, detalle.getCuentaId(), "C") ){
 								// Actualizado
-								System.out.println("3.Estado actualizado en:"+cicloId+":"+periodoId+":"+alumno.getCodigoId()+":"+pagoId+":"+detalle.getCuentaId());
+								//System.out.println("3.Estado actualizado en:"+cicloId+":"+periodoId+":"+alumno.getCodigoId()+":"+pagoId+":"+detalle.getCuentaId());
 							}else{
 								error = true;
 							}
@@ -248,7 +244,7 @@
 				if(aca.fin.FinCalculo.updateInscrito(conElias, cicloId, periodoId, alumno.getCodigoId(), "P")){
 					//Estado actualizado
 				}else{
-					error = true;
+					//error = true;
 				}
 			}
 			
@@ -266,13 +262,13 @@
 		/* ************ O T R O S   P A G O S ************ */
 		
 		// Si se selecciono alguno de los pagos (por lo tanto no el pago inicial)
-		if( !esPagoIni ){ 
+		if( !esPagoIni ){			
 			
 			/*DETALLES FIN CALCULO */
 			ArrayList<aca.fin.FinCalculoPago> pagosAlumno	= CalculoPagoL.getListPagos(conElias, cicloId, periodoId, pagoId, "'A'","ORDER BY CODIGO_ID, CUENTA_ID");
 				
 			// Lista de alumnos con pago inicial
-			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'P'","");
+			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G','P'","");
 			
 			/* BEGIN TRANSACTION */
 			conElias.setAutoCommit(false);
@@ -280,7 +276,7 @@
 			
 			String nombreAlumno = "-"  ;
 			for(aca.fin.FinCalculo alumno : alumnos){
-				//System.out.println("Datos:"+alumno.getCodigoId()+":"+pagoId+":"+alumno.getNumPagos()+":"+pagosAlumno.size());
+				// System.out.println("Datos:"+alumno.getCodigoId()+":"+pagoId+":"+alumno.getNumPagos()+":"+pagosAlumno.size());
 				
 				for(aca.fin.FinCalculoPago pago : pagosAlumno){
 					
