@@ -396,6 +396,39 @@ public class FinPago {
         return numPagoInicial;
     }
     
+    public static boolean esPagoInicial(Connection conn, String cicloId, String periodoId, String pagoId) throws SQLException {       
+        
+        PreparedStatement ps1 	= null;
+        ResultSet rs1 			= null;
+        boolean ok 				= false; 
+
+        try {
+            ps1 = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM FIN_PAGO"
+            		+ " WHERE CICLO_ID = ?"
+            		+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
+            		+ " AND PAGO_ID = ?"
+            		+ " AND TIPO = 'I'");
+            
+            ps1.setString(1, cicloId);
+            ps1.setString(2, periodoId);
+            ps1.setString(3, pagoId);
+            
+            rs1 = ps1.executeQuery();
+            if(rs1.next()){
+            	ok = true;
+            }
+            
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinPago|esPagoInicial|:" +ex);
+        }finally{
+
+	        if(rs1 != null) rs1.close();
+	        if(ps1 != null) ps1.close();
+        }
+        
+        return ok;
+    }
+    
     public static String numPagos(Connection conn, String cicloId, String periodoId, String tipo) throws SQLException {
     	
         PreparedStatement ps1 	= null;

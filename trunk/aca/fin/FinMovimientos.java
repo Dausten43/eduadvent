@@ -148,8 +148,8 @@ public class FinMovimientos {
 			ps.setString(10, estado);
 			ps.setString(11, fecha);
 			ps.setString(12, reciboId);
-			ps.setString(12, cicloId);
-			ps.setString(12, periodoId);
+			ps.setString(13, cicloId);
+			ps.setString(14, periodoId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
