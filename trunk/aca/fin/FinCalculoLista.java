@@ -145,7 +145,7 @@ public class FinCalculoLista {
 					  " AND PAGO_ID =  '"+pagoId+"' "+
 					  " AND ESTADO IN ("+estado+")"+
 					  " AND IMPORTE > '0'"+
-					  " AND ( SELECT INSCRITO FROM FIN_CALCULO WHERE CICLO_ID = A.CICLO_ID AND PERIODO_ID = A.PERIODO_ID AND CODIGO_ID = A.CODIGO_ID ) = 'P' GROUP BY CODIGO_ID";
+					  " GROUP BY CODIGO_ID";
 			
 			
 			rs = st.executeQuery(comando);

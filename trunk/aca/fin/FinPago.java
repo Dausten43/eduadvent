@@ -403,7 +403,7 @@ public class FinPago {
         boolean ok 				= false; 
 
         try {
-            ps1 = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM FIN_PAGO"
+            ps1 = conn.prepareStatement("SELECT * FROM FIN_PAGO"
             		+ " WHERE CICLO_ID = ?"
             		+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
             		+ " AND PAGO_ID = ?"
