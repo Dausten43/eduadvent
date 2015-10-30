@@ -1,3 +1,4 @@
+<%@page import="aca.alumno.AlumCicloLista"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -13,7 +14,6 @@
 <jsp:useBean id="BecCuentaN" scope="page" class="aca.fin.FinCuenta"/>
 <jsp:useBean id="EmpPersonalL" scope="page" class="aca.empleado.EmpPersonalLista"/>
 <jsp:useBean id="FinCalculoDetL" scope="page" class="aca.fin.FinCalculoDetLista"/>
-
 
 
 <script>  
@@ -68,9 +68,9 @@
 	/* LISTA DE BECAS */
 	ArrayList<aca.beca.BecAlumno> lisBeca;
 	if(!entidadId.equals("T")){
-		lisBeca 				= BecaL.getListPorEntidad(conElias, cicloId, periodoId, entidadId, "");
+		lisBeca 										= BecaL.getListPorEntidad(conElias, cicloId, periodoId, entidadId, "");
 	}else{
-		lisBeca 				= BecaL.getListTodo(conElias, cicloId, periodoId, "");	
+		lisBeca 										= BecaL.getListTodo(conElias, cicloId, periodoId, "");	
 	}
 	/* MAP DE USUARIOS */
 	java.util.HashMap<String,String> mapEmpleado		= EmpPersonalL.mapEmpleados(conElias, escuelaId, "NOMBRE");
@@ -78,6 +78,8 @@
 	/* MAP DE IMPORTE DE BECA*/
 	java.util.HashMap<String, String> mapFinCalculoDet 	= FinCalculoDetL.mapImporte(conElias, cicloId);
 	
+	/*Inscritos*/
+	java.util.HashMap<String, String> mapInscritos		= aca.alumno.AlumCicloLista.mapInscritos(conElias, cicloId);	
 	
 	if(periodoId == null||periodoId.equals("")){
 		if(lisCicloPeriodo.size() > 0){
@@ -136,21 +138,26 @@
 			</thead>		
 			<%		
 				
-				String importe = "-";
-				String becaCantidad = "-";
-			
+				String importe;
+				String becaCantidad = "0";
+				String inscrito = "-";
 				for(int i = 0; i < lisBeca.size(); i++){
-					aca.beca.BecAlumno beca = (aca.beca.BecAlumno) lisBeca.get(i);					
+					aca.beca.BecAlumno beca = (aca.beca.BecAlumno) lisBeca.get(i);	
+					importe = "0";
 	 				if(mapFinCalculoDet.containsKey(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId())){
-						importe =mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId());
+	 					importe =mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId());
 					}
+	 				
+	 				if(mapInscritos.containsKey(beca.getCodigoId())){
+	 					inscrito = mapInscritos.get(beca.getCodigoId());
+	 				}
 			%>	
 					<tr>
 					  	<td><%=i+1%></td>
 					 	<td><%= aca.beca.BecEntidad.getEntidadNombre(conElias, beca.getEntidadId())%></td>		 	
 					  	<td><%= aca.fin.FinCuenta.getCuentaNombre(conElias, beca.getCuentaId())%></td>	
 					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>
-					  	<td>&nbsp;</td>	  	
+					  	<td><%=inscrito.equals("I")?"Si":"No" %></td>	  	
 					  	<td><%=beca.getTipo() %></td>
 					  	<td style="text-align:right"><%=beca.getTipo().equals("CANTIDAD")?formato.format(Float.parseFloat(beca.getBeca())):beca.getBeca().replaceAll("(?<=^\\d+)\\.0*$", "").concat("%") %></td>
 					  	<td style="text-align:right"><%=formato.format(Float.parseFloat(importe))%></td>
