@@ -1,3 +1,4 @@
+<%@page import="aca.alumno.AlumPersonalLista"%>
 <%@page import="aca.alumno.AlumCicloLista"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
@@ -14,6 +15,7 @@
 <jsp:useBean id="BecCuentaN" scope="page" class="aca.fin.FinCuenta"/>
 <jsp:useBean id="EmpPersonalL" scope="page" class="aca.empleado.EmpPersonalLista"/>
 <jsp:useBean id="FinCalculoDetL" scope="page" class="aca.fin.FinCalculoDetLista"/>
+<jsp:useBean id="AlumPersonalL" scope="page" class="aca.alumno.AlumPersonalLista"/>
 
 
 <script>  
@@ -79,7 +81,10 @@
 	java.util.HashMap<String, String> mapFinCalculoDet 	= FinCalculoDetL.mapImporte(conElias, cicloId);
 	
 	/*Inscritos*/
-	java.util.HashMap<String, String> mapInscritos		= aca.alumno.AlumCicloLista.mapInscritos(conElias, cicloId);	
+	java.util.HashMap<String, String> mapInscritos		= aca.alumno.AlumCicloLista.mapInscritos(conElias, cicloId, periodoId);	
+	
+	/*Nombre de Alumnos*/
+	java.util.HashMap<String, String> mapAlumnos 		= AlumPersonalL.mapNombreLargo(conElias, escuelaId, "NOMBRE");
 	
 	if(periodoId == null||periodoId.equals("")){
 		if(lisCicloPeriodo.size() > 0){
@@ -141,6 +146,7 @@
 				String importe;
 				String becaCantidad = "0";
 				String inscrito = "-";
+				String nombre = "-";
 				for(int i = 0; i < lisBeca.size(); i++){
 					aca.beca.BecAlumno beca = (aca.beca.BecAlumno) lisBeca.get(i);	
 					importe = "0";
@@ -151,16 +157,20 @@
 	 				if(mapInscritos.containsKey(beca.getCodigoId())){
 	 					inscrito = mapInscritos.get(beca.getCodigoId());
 	 				}
+	 				
+	 				if(mapAlumnos.containsKey(beca.getCicloId())){
+	 					nombre = mapAlumnos.get(beca.getCicloId());
+	 				}
 			%>	
 					<tr>
 					  	<td><%=i+1%></td>
 					 	<td><%= aca.beca.BecEntidad.getEntidadNombre(conElias, beca.getEntidadId())%></td>		 	
 					  	<td><%= aca.fin.FinCuenta.getCuentaNombre(conElias, beca.getCuentaId())%></td>	
-					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>
-					  	<td><%=inscrito.equals("I")?"Si":"No" %></td>	  	
-					  	<td><%=beca.getTipo() %></td>
-					  	<td style="text-align:right"><%=beca.getTipo().equals("CANTIDAD")?formato.format(Float.parseFloat(beca.getBeca())):beca.getBeca().replaceAll("(?<=^\\d+)\\.0*$", "").concat("%") %></td>
-					  	<td style="text-align:right"><%=formato.format(Float.parseFloat(importe))%></td>
+					  	<td><%= nombre%></td>
+					  	<td><%= inscrito.equals("I")?"Si":"No" %></td>	  	
+					  	<td><%= beca.getTipo() %></td>
+					  	<td style="text-align:right"><%= beca.getTipo().equals("CANTIDAD")?formato.format(Float.parseFloat(beca.getBeca())):beca.getBeca().replaceAll("(?<=^\\d+)\\.0*$", "").concat("%") %></td>
+					  	<td style="text-align:right"><%= formato.format(Float.parseFloat(importe))%></td>
 					</tr>		
 			<% 
 				} 
