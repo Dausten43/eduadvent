@@ -47,6 +47,8 @@
 	String entidadId		= request.getParameter("EntidadId")==null?"0":request.getParameter("EntidadId");
 	String accion			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	
+	java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	
 	/* Actualiza el cicloId */
 	if(cicloId.equals("0")){
 		cicloId = (String) session.getAttribute("cicloId");
@@ -133,7 +135,7 @@
 				</tr>
 			</thead>		
 			<%		
-				java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+				
 				String importe = "-";
 				String becaCantidad = "-";
 			
@@ -142,13 +144,6 @@
 	 				if(mapFinCalculoDet.containsKey(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId())){
 						importe =mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId());
 					}
-	 				if(beca.getTipo().equals("CANTIDAD")){
-	 					becaCantidad = formato.format(beca.getBeca());
-	 					System.out.print("\n" + becaCantidad);
-	 				}/*else{
-	 					out.print(beca.getBeca() + "%");
-	 					System.out.print("\n" + becaCantidad);
-	 				}*/
 			%>	
 					<tr>
 					  	<td><%=i+1%></td>
@@ -157,8 +152,8 @@
 					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>
 					  	<td>&nbsp;</td>	  	
 					  	<td><%=beca.getTipo() %></td>
-					  	<td style="text-align:right"><%=becaCantidad %></td>
-					  	<td style="text-align:right"><%=formato.format(importe)%></td>
+					  	<td style="text-align:right"><%=beca.getTipo().equals("CANTIDAD")?formato.format(Float.parseFloat(beca.getBeca())):beca.getBeca().replaceAll("(?<=^\\d+)\\.0*$", "").concat("%") %></td>
+					  	<td style="text-align:right"><%=formato.format(Float.parseFloat(importe))%></td>
 					</tr>		
 			<% 
 				} 
