@@ -116,6 +116,9 @@
 			<a id = boton class="btn btn-primary btn-medium">Mostrar</a>
 		</div>	
 		
+	</form>
+	
+	
 		<table class="table table-condensed table-bordered table-striped">		
 			<thead>
 				<tr>
@@ -131,12 +134,21 @@
 			</thead>		
 			<%		
 				java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+				String importe = "-";
+				String becaCantidad = "-";
+			
 				for(int i = 0; i < lisBeca.size(); i++){
 					aca.beca.BecAlumno beca = (aca.beca.BecAlumno) lisBeca.get(i);					
-					float importe = 0.00f;
 	 				if(mapFinCalculoDet.containsKey(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId())){
-						importe = Float.parseFloat(mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId()));
+						importe =mapFinCalculoDet.get(beca.getCicloId() + beca.getPeriodoId() + beca.getCodigoId() + beca.getCuentaId());
 					}
+	 				if(beca.getTipo().equals("CANTIDAD")){
+	 					becaCantidad = formato.format(beca.getBeca());
+	 					System.out.print("\n" + becaCantidad);
+	 				}/*else{
+	 					out.print(beca.getBeca() + "%");
+	 					System.out.print("\n" + becaCantidad);
+	 				}*/
 			%>	
 					<tr>
 					  	<td><%=i+1%></td>
@@ -145,13 +157,12 @@
 					  	<td><%= aca.alumno.AlumPersonal.getNombre(conElias, beca.getCodigoId(), "NOMBRE")%></td>
 					  	<td>&nbsp;</td>	  	
 					  	<td><%=beca.getTipo() %></td>
-					  	<td style="text-align:right"><%=beca.getBeca()%><%if(beca.getTipo().equals("PORCENTAJE")){out.print("%");} %></td>
+					  	<td style="text-align:right"><%=becaCantidad %></td>
 					  	<td style="text-align:right"><%=formato.format(importe)%></td>
 					</tr>		
 			<% 
 				} 
 			%>					  
 		</table>
-	</form>
 </div>
 <%@ include file= "../../cierra_elias.jsp" %>
