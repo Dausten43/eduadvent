@@ -262,5 +262,34 @@ public class AlumCicloLista{
 		return mapa;
 	}
 	
+	public static HashMap<String,String> mapInscritos(Connection conn, String cicloId) throws SQLException{
+			
+			HashMap<String,String> mapa = new HashMap<String,String>();
+			Statement st 				= conn.createStatement();
+			ResultSet rs 				= null;
+			String comando				= "";
+			String llave				= "";
+			
+			try{
+				comando = "SELECT * " +
+						"FROM ALUM_CICLO "+
+						"WHERE CICLO_ID = '"+cicloId+"'";
+				
+				rs = st.executeQuery(comando);
+				while (rs.next()){				
+					llave = rs.getString("CODIGO_ID");
+					mapa.put(llave, rs.getString("ESTADO"));
+				}
+				
+			}catch(Exception ex){
+				System.out.println("Error - aca.ciclo.AlumCiclo|mapCuentaClasificacion|:"+ex);
+			}finally{
+				if (rs!=null) rs.close();
+				if (st!=null) st.close();
+			}
+			
+			return mapa;
+		}
+	
 }
 
