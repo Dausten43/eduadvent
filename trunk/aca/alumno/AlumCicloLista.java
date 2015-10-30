@@ -262,7 +262,7 @@ public class AlumCicloLista{
 		return mapa;
 	}
 	
-	public static HashMap<String,String> mapInscritos(Connection conn, String cicloId) throws SQLException{
+	public static HashMap<String,String> mapInscritos(Connection conn, String cicloId, String periodoId) throws SQLException{
 			
 			HashMap<String,String> mapa = new HashMap<String,String>();
 			Statement st 				= conn.createStatement();
@@ -271,10 +271,11 @@ public class AlumCicloLista{
 			String llave				= "";
 			
 			try{
-				comando = "SELECT * " +
-						"FROM ALUM_CICLO "+
-						"WHERE CICLO_ID = '"+cicloId+"'";
-				
+				comando = "SELECT *" 
+							+" FROM ALUM_CICLO"
+							+" WHERE CICLO_ID = '"+cicloId+"'"
+							+" AND PERIODO_ID = '"+periodoId+"'";
+					
 				rs = st.executeQuery(comando);
 				while (rs.next()){				
 					llave = rs.getString("CODIGO_ID");
