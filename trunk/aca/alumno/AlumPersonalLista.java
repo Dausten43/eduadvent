@@ -1041,5 +1041,37 @@ public class AlumPersonalLista{
 		return mapPais;
 	}
 	
+	public HashMap<String,String> mapNombreLargo(Connection conn,String escuelaId, String Opcion) throws SQLException{
+			
+			HashMap<String,String> map 	= new HashMap<String,String>();
+			Statement st 					= conn.createStatement();
+			ResultSet rs 					= null;
+			String comando					= "";
+			String nombre					= "-";
+			
+			try{
+				if ( Opcion.equals("NOMBRE")){
+					comando = "SELECT NOMBRE||' '||APATERNO||' '||AMATERNO AS NOMBRE, CODIGO_ID "+
+						"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"'";
+				}else{
+					comando = "SELECT APATERNO||' '||AMATERNO||' '||NOMBRE AS NOMBRE, CODIGO_ID "+
+						"FROM ALUM_PERSONAL WHERE ESCUELA_ID = '"+escuelaId+"'";
+				}	
+				rs = st.executeQuery(comando);
+				
+				while (rs.next()){				
+					map.put(rs.getString("CODIGO_ID"), rs.getString("NOMBRE"));
+				}
+				
+			}catch(Exception ex){
+				System.out.println("Error - aca.alumno.AlumPersonalLista|mapaNombreLargo|:"+ex);
+			}finally{
+				if (rs!=null) rs.close();
+				if (st!=null) st.close();
+			}
+			
+			return map;
+		}
+	
 }
 
