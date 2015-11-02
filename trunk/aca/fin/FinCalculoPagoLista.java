@@ -194,12 +194,12 @@ public class FinCalculoPagoLista {
 		}	
 		
 		return lisCalculo;
-	}
+	}	
 	
 	/*
 	 * Lista detallada de pagos pendientes
 	 * */
-	public ArrayList<FinCalculoPago> lisPagos(Connection conn, String codigoId, String pagado, String orden ) throws SQLException{
+	public ArrayList<FinCalculoPago> lisPagos(Connection conn, String codigoId, String pagado, String estado, String orden ) throws SQLException{
 		ArrayList<FinCalculoPago> lisCalculo 	= new ArrayList<FinCalculoPago>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
@@ -210,7 +210,8 @@ public class FinCalculoPagoLista {
 					+ " FROM FIN_CALCULO_PAGO"
 					+ " WHERE CODIGO_ID = '"+codigoId+"'"
 					+ " AND IMPORTE > 0"
-					+ " AND PAGADO IN("+pagado+") "+orden;
+					+ " AND PAGADO IN("+pagado+")"
+					+ " AND ESTADO IN ("+estado+") "+orden;
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -232,7 +233,7 @@ public class FinCalculoPagoLista {
 	/*
 	 * Lista de Fechas de pagos
 	 * */
-	public ArrayList<String> lisFechasPagos(Connection conn, String codigoId, String pagado ) throws SQLException{
+	public ArrayList<String> lisFechasPagos(Connection conn, String codigoId, String pagado, String estado ) throws SQLException{
 		ArrayList<String> lista 	= new ArrayList<String>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
@@ -242,6 +243,7 @@ public class FinCalculoPagoLista {
 			comando = " SELECT DISTINCT(TO_CHAR(FECHA,'YYYY/MM/DD')) AS FECHA FROM FIN_CALCULO_PAGO"
 					+ " WHERE CODIGO_ID = '"+codigoId+"'"
 					+ " AND PAGADO IN ("+pagado+")"
+					+ " AND ESTADO IN ("+estado+")"							
 					+ " AND IMPORTE > 0"
 					+ " ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')";
 			
@@ -319,8 +321,6 @@ public class FinCalculoPagoLista {
 		
 		return map;
 	}
-	
-	
 
 
 }
