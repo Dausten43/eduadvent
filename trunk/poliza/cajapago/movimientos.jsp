@@ -163,7 +163,7 @@
 	ArrayList<aca.fin.FinCuenta> lisCuentas 			= FinCuentaLista.getListCuentas(conElias, escuelaId, " ORDER BY CUENTA_ID");
 	
 	/* LISTA DETALLADA DE PAGOS PENDIENTES DEL ALUMNO*/
-	ArrayList<aca.fin.FinCalculoPago> lisPagos 			= FinPagoLista.lisPagos(conElias, alumnoCaja, "'N'","ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
+	ArrayList<aca.fin.FinCalculoPago> lisPagos 			= FinPagoLista.lisPagos(conElias, alumnoCaja, "'N'","'A'","ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
 	
 	/* LISTA DE FECHAS DE PAGO (DISTINCT FECHAS) */
 	ArrayList<String> lisFechas 						= FinPagoLista.lisFechasPagos(conElias, alumnoCaja,"'N'");
