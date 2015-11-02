@@ -103,26 +103,26 @@
 		<input type="hidden" name="Accion" />
 		
 		<div class="well" >	
-			<select id="Ciclo" name="Ciclo" onchange="javascript:cambiaCiclo()" class="input-xlarge">
+			<select id="Ciclo" name="Ciclo"  class="input-xlarge">
 				<%for(aca.ciclo.Ciclo ciclo : lisCiclo){%>
 					<option value="<%=ciclo.getCicloId()%>"<%=cicloId.equals(ciclo.getCicloId())?" Selected":"" %>><%=ciclo.getCicloId()%> | <%=ciclo.getCicloNombre()%></option>
 				<%}%>
 			</select>
 			
-			<select id="Periodo" name="Periodo" onchange="javascript:cambiaCiclo()" >
+			<select id="Periodo" name="Periodo" >
 				<%for(aca.ciclo.CicloPeriodo cicloPeriodo : lisCicloPeriodo){%>
 					<option value="<%=cicloPeriodo.getPeriodoId() %>"<%=periodoId.equals(cicloPeriodo.getPeriodoId())? " Selected":"" %>><%=cicloPeriodo.getPeriodoNombre() %></option>
 				<%}%>
 			</select>			
 			
 			<fmt:message key="aca.Entidad" />
-			<select id="EntidadId" name="EntidadId" onchange="javascript:document.frmBeca.submit();">	
+			<select id="EntidadId" name="EntidadId" >	
 				<option value="T"><fmt:message key="boton.Todos" /></option>			
 				<%for(aca.beca.BecEntidad entidad : lisEntidad){%>			
 					<option value="<%=entidad.getEntidadId()%>" <%=entidadId.equals(entidad.getEntidadId())?"Selected":"" %>><%=entidad.getEntidadNombre()%></option>
 				<%}%>
 			</select>
-			<a id = boton class="btn btn-primary btn-medium">Mostrar</a>
+			<a id = boton class="btn btn-primary btn-medium" onclick="javascript:document.frmBeca.submit();" onclick="javascript:cambiaCiclo()" onclick="javascript:cambiaCiclo()">Mostrar</a>
 		</div>	
 		
 	</form>
@@ -158,8 +158,8 @@
 	 					inscrito = mapInscritos.get(beca.getCodigoId());
 	 				}
 	 				
-	 				if(mapAlumnos.containsKey(beca.getCicloId())){
-	 					nombre = mapAlumnos.get(beca.getCicloId());
+	 				if(mapAlumnos.containsKey(beca.getCodigoId())){
+	 					nombre = mapAlumnos.get(beca.getCodigoId());
 	 				}
 			%>	
 					<tr>
