@@ -166,7 +166,7 @@
 	ArrayList<aca.fin.FinCalculoPago> lisPagos 			= FinPagoLista.lisPagos(conElias, alumnoCaja, "'N'","'A'","ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
 	
 	/* LISTA DE FECHAS DE PAGO (DISTINCT FECHAS) */
-	ArrayList<String> lisFechas 						= FinPagoLista.lisFechasPagos(conElias, alumnoCaja,"'N'");
+	ArrayList<String> lisFechas 						= FinPagoLista.lisFechasPagos(conElias, alumnoCaja,"'N'","'A'");
 	
 	/* MOVIMIENTOS DEL RECIBO ACTUAL */
 	ArrayList<aca.fin.FinMovimientos> lisMovimientos 	= FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
@@ -229,9 +229,9 @@
 		// Actualizar la lista movimientos
 		lisMovimientos 		= FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
 		// Actualizar la lista de pagos
-		lisPagos 			= FinPagoLista.lisPagos(conElias, alumnoCaja, "'N'","ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
+		lisPagos 			= FinPagoLista.lisPagos(conElias, alumnoCaja, "'N'","'A'","ORDER BY TO_CHAR(FECHA,'YYYY/MM/DD')");
 		// Actualizar la lista de fechas
-		lisFechas 			= FinPagoLista.lisFechasPagos(conElias, alumnoCaja,"'N'");
+		lisFechas 			= FinPagoLista.lisFechasPagos(conElias, alumnoCaja,"'N'","'A'");
 	}
 	
 %>
