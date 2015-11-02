@@ -11,7 +11,7 @@ public class RolOpcion {
 		
 	public RolOpcion(){		
 		rolId 		= "0";
-		rolNombre	= " ";
+		opcionId	= " ";
 	}
 	
 	/**
@@ -29,17 +29,17 @@ public class RolOpcion {
 	}
 
 	/**
-	 * @return the rolNombre
+	 * @return the opcionId
 	 */
-	public String getRolNombre() {
-		return rolNombre;
+	public String getopcionId() {
+		return opcionId;
 	}
 
 	/**
-	 * @param rolNombre the rolNombre to set
+	 * @param opcionId the opcionId to set
 	 */
-	public void setRolNombre(String rolNombre) {
-		this.rolNombre = rolNombre;
+	public void setopcionId(String opcionId) {
+		this.opcionId = opcionId;
 	}
 
 	public boolean insertReg(Connection conn ) throws Exception{
@@ -49,7 +49,7 @@ public class RolOpcion {
 			ps = conn.prepareStatement("INSERT INTO ROL( ROL_ID, ROL_NOMBRE)"
 					+ " VALUES(TO_NUMBER(?, '999'), ?) ");
 			ps.setString(1, rolId);
-			ps.setString(2, rolNombre);
+			ps.setString(2, opcionId);
 			
 			if (ps.executeUpdate()== 1)
 				ok = true;
@@ -71,7 +71,7 @@ public class RolOpcion {
 			ps = conn.prepareStatement("UPDATE ROL "+ 
 				" SET ROL_NOMBRE = ? "+
 				"WHERE ROL_ID = TO_NUMBER(?, '999') ");
-			ps.setString(1, rolNombre);			
+			ps.setString(1, opcionId);			
 			ps.setString(2, rolId);
 			
 			
@@ -111,7 +111,7 @@ public class RolOpcion {
 	
 	public void mapeaReg(ResultSet rs ) throws SQLException{
 		rolId 		= rs.getString("ROL_ID");
-		rolNombre	= rs.getString("ROL_NOMBRE");
+		opcionId	= rs.getString("ROL_NOMBRE");
 	}
 	
 	public void mapeaRegId( Connection conn, String distritoId) throws SQLException{
