@@ -1047,7 +1047,6 @@ public class AlumPersonalLista{
 			Statement st 					= conn.createStatement();
 			ResultSet rs 					= null;
 			String comando					= "";
-			String nombre					= "";
 			
 			try{
 				if ( Opcion.equals("NOMBRE")){
