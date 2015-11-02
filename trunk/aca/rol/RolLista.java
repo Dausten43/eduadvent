@@ -2,7 +2,6 @@ package aca.rol;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RolLista {
 	
