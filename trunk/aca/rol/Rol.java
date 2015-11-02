@@ -5,10 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Rol {
-	private String paisId;
-	private String regionId;
-	private String regionNombre;
+public class Rol {	
+	private String rolId;
+	private String rolNombre;
 		
 	public Rol(){
 		paisId			= "";
