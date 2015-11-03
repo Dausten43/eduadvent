@@ -23,7 +23,8 @@
 	
 
 	ArrayList<aca.catalogo.CatNivelEscuela> listEscuelaNivel = CatNivelEscuelaLista.getListEscuela(conElias, escuelaId, "");
-	java.util.HashMap <String, String> mapFinCalculoPago = FinCalculoPagoLista.mapNivelPago(conElias, escuelaId, fechaIni, fechaFin); 
+	java.util.HashMap <String, String> mapFinCalculoPago	 = FinCalculoPagoLista.mapNivelPago(conElias, escuelaId, fechaIni, fechaFin); 
+	java.util.HashMap <String, String> mapFinCalculoPagoCaja = FinCalculoPagoLista.mapNivelPagoCaja(conElias, escuelaId, fechaIni, fechaFin, "C"); 
 %>
 <body>
 <div id="content">
@@ -49,8 +50,8 @@
 	float sum = 0;
 	for(int x=0; x<listEscuelaNivel.size(); x++){
 		if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
-		sum += Float.valueOf(mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId()));		
-	}
+			sum += Float.valueOf(mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId()));		
+		}
 	}
 %>	
 		<tr>
@@ -83,8 +84,8 @@
 <% 
 	sum = 0;
 	for(int x=0; x<listEscuelaNivel.size(); x++){
-		if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
-		sum += Float.valueOf(mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId()));		
+		if(mapFinCalculoPagoCaja.containsKey(listEscuelaNivel.get(x).getNivelId())){
+		sum += Float.valueOf(mapFinCalculoPagoCaja.get(listEscuelaNivel.get(x).getNivelId()));		
 	}
 	}
 %>	
@@ -96,11 +97,11 @@
 				
 <%	for(int x=0; x<listEscuelaNivel.size(); x++){%>
 	<tr>
-<%	if(mapFinCalculoPago.containsKey(listEscuelaNivel.get(x).getNivelId())){
+<%	if(mapFinCalculoPagoCaja.containsKey(listEscuelaNivel.get(x).getNivelId())){
 			%>
 			<td style="text-align:left"><%=listEscuelaNivel.get(x).getNivelNombre()%></td>
 			<td style="text-align:right"></td>
-			<td style="text-align:right"><%=mapFinCalculoPago.get(listEscuelaNivel.get(x).getNivelId())%></td>
+			<td style="text-align:right"><%=mapFinCalculoPagoCaja.get(listEscuelaNivel.get(x).getNivelId())%></td>
 <%}
 %>	
 	</tr>
