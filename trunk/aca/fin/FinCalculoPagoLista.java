@@ -321,6 +321,39 @@ public class FinCalculoPagoLista {
 		
 		return map;
 	}
+	
+	public HashMap<String,String> mapNivelPagoCaja(Connection conn, String escuelaId, String fechaInicio, String fechaFinal, String tipoMovimiento ) throws SQLException{
+		
+		HashMap<String,String> map 	= new HashMap<String,String>();
+		Statement st 					= conn.createStatement();
+		ResultSet rs 					= null;
+		String comando					= "";		
+		
+		try{
+			comando = "SELECT AC.NIVEL AS NIVEL, SUM(FM.IMPORTE) FROM FIN_MOVIMIENTOS AS FM, ALUM_CICLO AS AC" 
+					+ " WHERE  SUBSTR( FM.CICLO_ID,1,3) = '"+escuelaId+"' AND FM.FECHA BETWEEN TO_DATE('"+fechaInicio+"','DD/MM/YYYY') AND TO_DATE('"+fechaInicio+"','DD/MM/YYYY')"
+					+ " AND AC.CICLO_ID = FM.CICLO_ID"
+					+ " AND AC.CODIGO_ID = FM.AUXILIAR"
+					+ " AND AC.PERIODO_ID = FM.PERIODO_ID"
+					+ " AND NATURALEZA = '"+tipoMovimiento+"'"
+					+ " GROUP BY AC.NIVEL";
+			
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				map.put(rs.getString("NIVEL"), rs.getString("TOTAL"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinCalculoPagoLista|mapNivelPago|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+
 
 
 }
