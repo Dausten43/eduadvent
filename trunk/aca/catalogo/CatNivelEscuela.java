@@ -119,7 +119,7 @@ public class CatNivelEscuela {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_NIVEL_ESCUELA " +
-					" (ESCUELA_ID, NIVEL_ID, NOTAMINIMA, GRADO_INI, GRADO_FIN, NIVEL_NOMBRE, TITULO, PESO, FUNCION_ID)" +
+					" (ESCUELA_ID, NIVEL_ID, NOTAMINIMA, GRADO_INI, GRADO_FIN, NIVEL_NOMBRE, TITULO, PESO, FUNCION_ID, DIRECTOR)" +
 					" VALUES(?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, ?, TO_NUMBER(?, '99'), ?, ?)");
 			
 			ps.setString(1, escuelaId);
