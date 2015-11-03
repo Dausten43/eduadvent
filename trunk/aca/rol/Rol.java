@@ -160,7 +160,7 @@ public class Rol {
 		return ok;
 	}
 	
-	public String maximoReg(Connection conn, String paisId) throws SQLException{
+	public String maximoReg(Connection conn) throws SQLException{
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
