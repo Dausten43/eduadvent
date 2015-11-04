@@ -13,7 +13,6 @@
 	String rolId 	= request.getParameter("RolId")==null?"-":request.getParameter("RolId");
 	String accion 	= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
 	
-	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
 %>
 
 	<script>
@@ -22,9 +21,13 @@
 			document.frmrol.RolId.value=id;
 			document.frmrol.submit();
 		}
+		
+		function Modificar(){
+			document.frmrol.Accion.value="3";
+			document.frmrol.RolId.value=id;
+			document.frmrol.submit();
+		}
 	</script>
-
-
 
 <%	
 	if(accion.equals("1") && !nombre.equals("-")){
@@ -32,9 +35,6 @@
 		rol.setRolNombre(nombre);
 		if(rol.insertReg(conElias)){
 			conElias.commit();
-%>
-		<meta http-equiv="refresh" content="0;URL='roles.jsp'" />			
-<%
 		}else{
 			System.out.print("hola");
 		}
@@ -44,12 +44,11 @@
 		if(rol.deleteReg(conElias)){
 			conElias.commit();
 		}
-%>
-		<meta http-equiv="refresh" content="0;URL='roles.jsp'" />			
-<%
 	}else {
-		System.out.println(accion);
+		System.out.println(accion + " hola");
 	}
+	
+	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
 %>
 
 <div id="content">
@@ -69,8 +68,8 @@
 				      </div>
 				      <div class="modal-body">
 				      <form action="roles.jsp" id = "frmrol" name="frmrol" method="post" >
-				        <input type = "text" name = "rolNombre" required="required" oninvalid="this.setCustomValidity('<fmt:message key="aca.CamposRequeridos"/>')"/>
-				        <input type="hidden" name="Accion" id="Accion" />
+				        <input type = "text" name = "rolNombre" id="rolNombre" required="required" oninvalid="this.setCustomValidity('<fmt:message key="aca.CamposRequeridos"/>')"/>
+				        <input type="hidden" name="Accion" id="Accion" value='1'/>
 				        <input type="hidden" name="RolId" id="RolId" value="<%=rol.getRolId()%>"/>
 				      </form>  
 				      </div>
@@ -96,7 +95,7 @@
 		<tr>
 			<td><%= i + 1 %></td>
 			<td>
-				<a class="icon-pencil" href="roles.jsp?Accion=2&"> </a> 
+				<a id="modificar" class="icon-pencil" data-toggle="modal" data-target="#myModal" href=""> </a> 
 				<a href="javascript:Borrar(<%= roles.get(i).getRolId()%>)" class="icon-remove"></a> 
 			</td>
 			<td><%= roles.get(i).getRolNombre() %></td>
@@ -106,5 +105,10 @@
 %>
 	</tbody>
 	</table>
+	<script>
+		$('#modificar').click(function(){
+			$('#rolNombre').value('Anthony');
+		});
+	</script>
 </div>
 <%@ include file= "../../cierra_elias.jsp" %>
