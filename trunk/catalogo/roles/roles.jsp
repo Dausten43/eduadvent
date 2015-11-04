@@ -7,25 +7,26 @@
 <jsp:useBean id="rolL" scope="page" class="aca.rol.RolLista"/>
 <jsp:useBean id="rol" scope="page" class="aca.rol.Rol"/>
 
-<script>
-		function Borrar(){
-			alert("feo");
-			document.frmrol.Accion.value="2";
-			alert(document.frmrol.Accion.value);
-			document.frmrol.submit;
-		}
-</script>
 
 <%
-	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
-	System.out.println(request.getParameter("Accion"));
 	String nombre 	= request.getParameter("rolNombre")==null?"-":request.getParameter("rolNombre");
 	String rolId 	= request.getParameter("RolId")==null?"-":request.getParameter("RolId");
 	String accion 	= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
+	
+	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
 %>
 
+	<script>
+		function Borrar(){
+			document.frmrol.Accion.value="2";
+			document.frmrol.submit();
+		}
+	</script>
+
+
+
 <%	
-	if(accion.equals("1") && !rol.equals("-")){
+	if(accion.equals("1") && !nombre.equals("-")){
 		rol.setRolId(rol.maximoReg(conElias));
 		rol.setRolNombre(nombre);
 		if(rol.insertReg(conElias)){
