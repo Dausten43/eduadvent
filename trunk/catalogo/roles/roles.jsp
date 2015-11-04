@@ -56,7 +56,7 @@
 	<div class="row-fluid">
           <div class="well well-small">  
 		<!-- Trigger the modal with a button -->
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /> </button>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="javascript:changeValue('')"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /> </button>
 		<!-- Modal -->
 				<div id="myModal" class="modal fade" role="dialog">
 				  <div class="modal-dialog">
@@ -95,7 +95,7 @@
 		<tr>
 			<td><%= i + 1 %></td>
 			<td>
-				<a id="modificar" class="icon-pencil" data-toggle="modal" data-target="#myModal" href=""> </a> 
+				<a id="modificar" onclick="javascript:changeValue('<%= roles.get(i).getRolNombre()%>')" class="icon-pencil" data-toggle="modal" data-target="#myModal" href=""> </a> 
 				<a href="javascript:Borrar(<%= roles.get(i).getRolId()%>)" class="icon-remove"></a> 
 			</td>
 			<td><%= roles.get(i).getRolNombre() %></td>
@@ -105,10 +105,11 @@
 %>
 	</tbody>
 	</table>
+
 	<script>
-		$('#modificar').click(function(){
-			$('#rolNombre').value('Anthony');
-		});
+	   function changeValue(rolNombre){
+	     document.getElementById('rolNombre').value=rolNombre;
+	    }
 	</script>
 </div>
 <%@ include file= "../../cierra_elias.jsp" %>
