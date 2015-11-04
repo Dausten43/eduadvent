@@ -8,19 +8,23 @@
 <jsp:useBean id="rol" scope="page" class="aca.rol.Rol"/>
 
 <script>
-		function borrar(){
+		function Borrar(){
+			alert("feo");
 			document.frmrol.Accion.value="2";
+			alert(document.frmrol.Accion.value);
 			document.frmrol.submit;
 		}
 </script>
 
 <%
 	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
-	
-	String nombre = request.getParameter("rolNombre")==null?"-":request.getParameter("rolNombre");
-	
-	String accion = request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
+	System.out.println(request.getParameter("Accion"));
+	String nombre 	= request.getParameter("rolNombre")==null?"-":request.getParameter("rolNombre");
+	String rolId 	= request.getParameter("RolId")==null?"-":request.getParameter("RolId");
+	String accion 	= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
+%>
 
+<%	
 	if(accion.equals("1") && !rol.equals("-")){
 		rol.setRolId(rol.maximoReg(conElias));
 		rol.setRolNombre(nombre);
@@ -32,9 +36,10 @@
 		}else{
 			System.out.print("hola");
 		}
-	}
-	if(accion.equals("2")){
-		
+	}else if(accion.equals("2")){
+		System.out.print(rolId + "feo");
+	}else {
+		System.out.println(accion);
 	}
 %>
 
@@ -51,16 +56,17 @@
 				    <div class="modal-content">
 				      <div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal">&times;</button>
-				        <h4 class="modal-title">Rol</h4>
+				        <h4 class="modal-title">Nuevo Rol a Añadir</h4>
 				      </div>
 				      <div class="modal-body">
-				      <form action="roles.jsp" id = "rol" name="frmrol" method="post" >
+				      <form action="roles.jsp" id = "frmrol" name="frmrol" method="post" >
 				        <input type = "text" name = "rolNombre" required="required" oninvalid="this.setCustomValidity('<fmt:message key="aca.CamposRequeridos"/>')"/>
-				        <input type="hidden" name="Accion" id="Accion" value="1"/>
+				        <input type="hidden" name="Accion" id="Accion" />
+				        <input type="hidden" name="RolId" id="RolId" value="<%=rol.getRolId()%>"/>
 				      </form>  
 				      </div>
 				      <div class="modal-footer">
-				      	<button type="submit" form = "rol" class="btn btn-default" value="submit" >Guardar</button>
+				      	<button type="submit" form = "frmrol" class="btn btn-default" value="submit" >Guardar</button>
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 				      </div>
 				    </div>
@@ -82,7 +88,7 @@
 			<td><%= i + 1 %></td>
 			<td>
 				<a class="icon-pencil" href="roles.jsp?Accion=2&"> </a> 
-				<a href="javascript:Borrar('2')" class="icon-remove"></a> 
+				<a href="javascript:Borrar()" class="icon-remove"></a> 
 			</td>
 			<td><%= roles.get(i).getRolNombre() %></td>
 		</tr>
