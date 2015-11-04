@@ -17,8 +17,9 @@
 %>
 
 	<script>
-		function Borrar(){
+		function Borrar(id){
 			document.frmrol.Accion.value="2";
+			document.frmrol.RolId.value=id;
 			document.frmrol.submit();
 		}
 	</script>
@@ -38,7 +39,14 @@
 			System.out.print("hola");
 		}
 	}else if(accion.equals("2")){
-		System.out.print(rolId + "feo");
+		rol.setRolId(rolId);
+		rol.mapeaRegId(conElias);
+		if(rol.deleteReg(conElias)){
+			conElias.commit();
+		}
+%>
+		<meta http-equiv="refresh" content="0;URL='roles.jsp'" />			
+<%
 	}else {
 		System.out.println(accion);
 	}
@@ -89,7 +97,7 @@
 			<td><%= i + 1 %></td>
 			<td>
 				<a class="icon-pencil" href="roles.jsp?Accion=2&"> </a> 
-				<a href="javascript:Borrar()" class="icon-remove"></a> 
+				<a href="javascript:Borrar(<%= roles.get(i).getRolId()%>)" class="icon-remove"></a> 
 			</td>
 			<td><%= roles.get(i).getRolNombre() %></td>
 		</tr>
