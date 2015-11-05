@@ -26,7 +26,7 @@
 		if(confirm("<fmt:message key='js.Confirma' />")){
 			document.forma.action = document.forma.action + "?Accion=1&ciclo="+ciclo+"&periodo="+periodo+"&pago="+pago;
 			document.forma.submit();
-		}
+		} 
 	}
 </script>
 
