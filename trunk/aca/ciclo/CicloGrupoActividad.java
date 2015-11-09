@@ -437,6 +437,38 @@ public class CicloGrupoActividad {
 		return ok;
 	}
 	
+	/*
+	 * Determina si se puede borrar una actividad
+	 * */
+	public static boolean tieneNotas(Connection conn, String cicloGrupoId, String evaluacionId, String actividadId) throws SQLException{
+		boolean ok 				= false;
+		ResultSet rs 			= null;
+		PreparedStatement ps	= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM KRDX_ALUM_ACTIV" +
+					" WHERE CICLO_GRUPO_ID LIKE ?||'%'" +					
+					" AND EVALUACION_ID = TO_NUMBER(?, '99')" +
+					" AND ACTIVIDAD_ID = TO_NUMBER(?, '99')");
+			
+			ps.setString(1, cicloGrupoId);			
+			ps.setString(2, evaluacionId);
+			ps.setString(3, actividadId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				ok = true;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloGrupoActividad|tieneNotas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return ok;
+	}
+	
 	/*public static String getPromedio(Connection conn, String cicloGrupoId, String cursoId, String evaluacionId, String actividadId) throws SQLException{
 		String promedio			= "X";
 		ResultSet rs 			= null;
