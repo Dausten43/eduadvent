@@ -45,7 +45,7 @@
 	  			<th width="12%"><fmt:message key="aca.Fecha" /></th> 
 	  			<th width="12%"><fmt:message key="aca.Valor" /></th> 
 	  			<th width="12%"><fmt:message key="aca.Tipo" /></th> 
-	  			<th width="12%"><fmt:message key="aca.Etiqueta" /></th> 
+	  			<th width="12%"><fmt:message key="aca.Etiqueta" /></th>
 			</tr>
 		</thead>
 		<%
