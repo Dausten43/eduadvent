@@ -20,7 +20,6 @@
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String cicloId 			= session.getAttribute("cicloId").toString();
 	String bloqueId 		= request.getParameter("bloqueId")==null?"0":request.getParameter("bloqueId");	
-	int numMaterias			= aca.ciclo.CicloGrupoCurso.numMatCiclo(conElias,cicloId);
 	
 	ArrayList<aca.ciclo.CicloBloqueActividad> lisAct = BloqueActividadLista.getListBloque(conElias, cicloId, bloqueId, "ORDER BY ACTIVIDAD_ID");	
 %>
@@ -52,11 +51,14 @@
 		<%
 			float total = 0;
 		%>
-		<%for (aca.ciclo.CicloBloqueActividad act : lisAct){%>				
+		<%
+			for (aca.ciclo.CicloBloqueActividad act : lisAct){
+				boolean tieneNotas 		= aca.ciclo.CicloGrupoActividad.tieneNotas(conElias, cicloId, act.getBloqueId(), act.getActividadId());
+		%>				
 			<tr>
   				<td>  
 					<a class="icon-pencil" href="accionActividad.jsp?Accion=5&BloqueId=<%=bloqueId%>&ActividadId=<%=act.getActividadId() %>"></a>
-					<%if (numMaterias == 0){ // Verifica que no existan materias para poder borrar el ciclo. %>
+					<%if (!tieneNotas){ // Verifica que no existan materias para poder borrar el ciclo. %>
 						<a class="icon-remove" href="javascript:Borrar('<%=act.getBloqueId()%>','<%=act.getActividadId() %>')"></a>
 					<%}%>
   				</td>    
