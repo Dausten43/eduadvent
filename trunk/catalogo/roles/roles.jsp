@@ -17,6 +17,11 @@
 	ArrayList<aca.menu.ModuloOpcion>lisModuloOpcion = moduloOpcionLista.getListaActivosSuper(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
 	
 	String opcionesUsuario	= "";
+	String temp 			= "X";
+	String nombreModulo		= "X";
+	String strCheckOpcion	= "";
+	String strCheck			= "";
+	int numCont				= 0;
 %>
 
 	<script>
@@ -81,26 +86,29 @@
 							<input type="hidden" name="RolId" id="RolId" value="<%=rol.getRolId()%>"/>
 							<h5>Elija los privilegios por categoria a asignar</h5>
 							<input name="Accion" type="hidden">
-  
-							<%	
-								// Privilegios del usuario
-								opcionesUsuario = aca.usuario.UsuarioMenu.getUsuarioOpcion(conElias, strCodigoId);
-							
-								for (i=0; i<lisModuloOpcion.size(); i++){ 
-									aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
-							
-									if(opcionesUsuario.indexOf("-"+op.getOpcionId()+"-") != -1) strCheckOpcion = "checked"; else strCheckOpcion = " ";
-									usuarioMenu.setCodigoId(strCodigoId);
-									usuarioMenu.setOpcionId(op.getOpcionId());
-									if (usuarioMenu.existeReg(conElias)){
-										usuarioMenu.mapeaRegId(conElias,strCodigoId,op.getOpcionId());
-									}
-									if (!op.getModuloId().equals(temp)){ 
-									    nombreModulo= aca.menu.Modulo.getModuloNombre(conElias, op.getModuloId() );
-									    temp 		= op.getModuloId();
-									    
-									    if(i>0)out.print("</table></div>");
-							%>
+
+
+
+
+							<%
+  								// Privilegios del usuario
+
+  									for (int i = 0; i < lisModuloOpcion.size(); i++) {
+  										aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
+
+  										/*if(opcionesUsuario.indexOf("-"+op.getOpcionId()+"-") != -1) strCheckOpcion = "checked"; else strCheckOpcion = " ";
+  										usuarioMenu.setCodigoId(strCodigoId);
+  										usuarioMenu.setOpcionId(op.getOpcionId());
+  										if (usuarioMenu.existeReg(conElias)){
+  											usuarioMenu.mapeaRegId(conElias,strCodigoId,op.getOpcionId());
+  										}*/
+  										if (!op.getModuloId().equals(temp)) {
+  											nombreModulo = aca.menu.Modulo.getModuloNombre(conElias, op.getModuloId());
+  											temp = op.getModuloId();
+
+  											if (i > 0)
+  												out.print("</table></div>");
+  							%>
 							  			<div class="alert alert-info" style="background:white;">
 												  
 										  	<h5><%=nombreModulo%></h5>
