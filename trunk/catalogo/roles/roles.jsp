@@ -1,3 +1,4 @@
+<%@page import="aca.menu.Modulo"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -6,13 +7,16 @@
 
 <jsp:useBean id="rolL" scope="page" class="aca.rol.RolLista"/>
 <jsp:useBean id="rol" scope="page" class="aca.rol.Rol"/>
-
+<jsp:useBean id="moduloOpcionLista" scope="page" class="aca.menu.ModuloOpcionLista"/>
 
 <%
 	String nombre 	= request.getParameter("rolNombre")==null?"-":request.getParameter("rolNombre");
 	String rolId 	= request.getParameter("RolId")==null?"-":request.getParameter("RolId");
 	String accion 	= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
 	
+	ArrayList<aca.menu.ModuloOpcion>lisModuloOpcion = moduloOpcionLista.getListaActivosSuper(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
+	
+	String opcionesUsuario	= "";
 %>
 
 	<script>
@@ -21,7 +25,6 @@
 		}
 		
 		function Borrar(id){
-			document.frmrol.Accion.value="2";
 			document.frmrol.RolId.value=id;
 			document.frmrol.submit();
 		}
@@ -77,14 +80,53 @@
 							<input type="hidden" name="Accion" id="Accion"/>
 							<input type="hidden" name="RolId" id="RolId" value="<%=rol.getRolId()%>"/>
 							<h5>Elija los privilegios por categoria a asignar</h5>
-							<div class="alert alert-info" style="background:white;">
-								<h5>Alumnos</h5>
-								<table class="table table-condensed">
-									<tbody>
-										<tr><td><input name="Opcion0" type="checkbox" value="">hola1</td></tr>
-									</tbody>
-								</table>
-							</div>							
+							<input name="Accion" type="hidden">
+  
+							<%	
+								// Privilegios del usuario
+								opcionesUsuario = aca.usuario.UsuarioMenu.getUsuarioOpcion(conElias, strCodigoId);
+							
+								for (i=0; i<lisModuloOpcion.size(); i++){ 
+									aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
+							
+									if(opcionesUsuario.indexOf("-"+op.getOpcionId()+"-") != -1) strCheckOpcion = "checked"; else strCheckOpcion = " ";
+									usuarioMenu.setCodigoId(strCodigoId);
+									usuarioMenu.setOpcionId(op.getOpcionId());
+									if (usuarioMenu.existeReg(conElias)){
+										usuarioMenu.mapeaRegId(conElias,strCodigoId,op.getOpcionId());
+									}
+									if (!op.getModuloId().equals(temp)){ 
+									    nombreModulo= aca.menu.Modulo.getModuloNombre(conElias, op.getModuloId() );
+									    temp 		= op.getModuloId();
+									    
+									    if(i>0)out.print("</table></div>");
+							%>
+							  			<div class="alert alert-info" style="background:white;">
+												  
+										  	<h5><%=nombreModulo%></h5>
+										  	
+										  	<table class="table table-condensed">
+							<%		} 	%>	
+												  <tr>	
+												    <td align="left"> 
+													  <input name="Opcion<%=i%>" type="checkbox" value="S" <%=strCheckOpcion%>>
+														<%=op.getNombreOpcion()%> - [<%=op.getOpcionId()%>]
+													  <input name="ModuloId<%=i%>" type="hidden" id="ModuloId<%=i%>" value="<%=op.getModuloId()%>">
+													  <input name="OpcionId<%=i%>" type="hidden" id="OpcionId<%=i%>" value="<%=op.getOpcionId()%>">
+													</td>
+												</tr>		
+							<%		numCont++;
+								} //fin del for opciones
+							%>
+											</table>
+										</div>
+							
+							  
+								  <input name="NumOpciones" type="hidden" value="<%=numCont%>">
+								  
+								<div class="well">
+									<a class="btn btn-primary btn-large" name="Aceptar" id="Aceptar"onClick="javascript:Menu()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
+								</div>						
 						</form>  
 					</div>
 					<div class="modal-footer">
@@ -130,7 +172,11 @@
 		   }
 	   }
 	   function confirmDelete(){
-			alert("Seguro que desea eliminar el Rol?");
+		    if (confirm("Seguro que quiere eliminar el rol?") == true) {
+		    	document.frmrol.Accion.value="2";
+		    } else {
+		    	document.frmrol.Accion.value="";
+		    }
 	   }
 	</script>
 </div>
