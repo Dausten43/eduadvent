@@ -84,61 +84,49 @@
 							<input type = "text" placeholder="Nombre del nuevo rol" name = "rolNombre" id="rolNombre" required="required" oninvalid="this.setCustomValidity('<fmt:message key="aca.CamposRequeridos"/>')"/>
 							<input type="hidden" name="Accion" id="Accion"/>
 							<input type="hidden" name="RolId" id="RolId" value="<%=rol.getRolId()%>"/>
-							<h5>Elija los privilegios por categoria a asignar</h5>
-							<input name="Accion" type="hidden">
-
-
-
-
-							<%
-  								// Privilegios del usuario
-
-  									for (int i = 0; i < lisModuloOpcion.size(); i++) {
-  										aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
-
-  										/*if(opcionesUsuario.indexOf("-"+op.getOpcionId()+"-") != -1) strCheckOpcion = "checked"; else strCheckOpcion = " ";
-  										usuarioMenu.setCodigoId(strCodigoId);
-  										usuarioMenu.setOpcionId(op.getOpcionId());
-  										if (usuarioMenu.existeReg(conElias)){
-  											usuarioMenu.mapeaRegId(conElias,strCodigoId,op.getOpcionId());
-  										}*/
-  										if (!op.getModuloId().equals(temp)) {
-  											nombreModulo = aca.menu.Modulo.getModuloNombre(conElias, op.getModuloId());
-  											temp = op.getModuloId();
-
-  											if (i > 0)
-  												out.print("</table></div>");
-  							%>
-							  			<div class="alert alert-info" style="background:white;">
-												  
-										  	<h5><%=nombreModulo%></h5>
-										  	
-										  	<table class="table table-condensed">
-							<%		} 	%>	
-												  <tr>	
-												    <td align="left"> 
-													  <input name="Opcion<%=i%>" type="checkbox" value="S" <%=strCheckOpcion%>>
-														<%=op.getNombreOpcion()%> - [<%=op.getOpcionId()%>]
-													  <input name="ModuloId<%=i%>" type="hidden" id="ModuloId<%=i%>" value="<%=op.getModuloId()%>">
-													  <input name="OpcionId<%=i%>" type="hidden" id="OpcionId<%=i%>" value="<%=op.getOpcionId()%>">
-													</td>
-												</tr>		
-							<%		numCont++;
-								} //fin del for opciones
-							%>
-											</table>
-										</div>
-							
-							  
-								  <input name="NumOpciones" type="hidden" value="<%=numCont%>">
-								  
-								<div class="well">
-									<a class="btn btn-primary btn-large" name="Aceptar" id="Aceptar"onClick="javascript:Menu()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
-								</div>						
+								<h5>Elija los privilegios por categoria a asiganar</h5>
+								<%
+									for (int i = 0; i < lisModuloOpcion.size(); i++) {
+										aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
+										
+										/*if(opcionesUsuario.indexOf("-"+op.getOpcionId()+"-") != -1) strCheckOpcion = "checked"; else strCheckOpcion = " ";
+										usuarioMenu.setCodigoId(strCodigoId);
+										usuarioMenu.setOpcionId(op.getOpcionId());
+										if (usuarioMenu.existeReg(conElias)){
+											usuarioMenu.mapeaRegId(conElias,strCodigoId,op.getOpcionId());
+										}*/
+										
+										if(!op.getModuloId().equals(temp)){
+											nombreModulo = aca.menu.Modulo.getModuloNombre(conElias, op.getModuloId());
+											temp = op.getModuloId();
+											
+											if(i > 0)
+												out.print("</table></div>");
+								%>
+									<div class="alert alert-info" style="background:white">
+										<h5><%=nombreModulo %></h5>
+										<table class="table table-condensed">	
+								<%
+										}
+								%>
+										<tr>
+											<td align="left">
+											<input name="Opcion<%=i %>" type="checkbox" value="S" <%=strCheckOpcion %>>
+											<%=op.getNombreOpcion() %> - [<%=op.getOpcionId() %>]
+											<input name="ModuloId<%=i%>" type="hidden" id="ModuloId<%=i%>" value="<%=op.getModuloId()%>">
+											<input name="OpcionId<%=i%>" type="hidden" id="OpcionId<%=i%>" value="<%=op.getOpcionId()%>">
+											</td>
+										</tr>
+								<%
+										numCont ++;
+									}
+								%>
+										</table>
+									</div>
 						</form>  
 					</div>
 					<div class="modal-footer">
-						 <button type="submit" form = "frmrol" class="btn btn-default" value="submit" ><fmt:message key="boton.Guardar"/> </button>
+						 <button type="submit" form = "frmrol" class="btn btn-default" value="submit" onclick="javascript:Agregar()"><fmt:message key="boton.Guardar"/> </button>
 					</div>
 				</div>	
 			</div>
@@ -151,14 +139,14 @@
 	<th width="2%">#</th>
 	<th width="4%"><fmt:message key="aca.Operacion"/> </th>
 	<th>Nombre</th>
-	<%
+<%
 	for(int i = 0; i < roles.size(); i ++){
 %>
 		<tr>
 			<td><%= i + 1 %></td>
 			<td>
 				<a id="modificar" onclick="javascript:changeValue('<%= roles.get(i).getRolNombre()%>'); javascript:Modificar('<%= roles.get(i).getRolId() %>'); javascript:changetitulo(2)" class="icon-pencil" data-toggle="modal" data-target="#myModal" href=""> </a> 
-				<a id="eliminar" href="javascript:Borrar(<%= roles.get(i).getRolId()%>)" class="icon-remove" onclick="javascript:confirmDelete()"></a> 
+				<a id="eliminar" href="javascript:Borrar(<%= roles.get(i).getRolId()%>)" onclick="javascript:confirmDelete()" class="icon-remove"></a> 
 			</td>
 			<td><%= roles.get(i).getRolNombre() %></td>
 		</tr>
@@ -179,7 +167,7 @@
 			   document.getElementById('titulo').innerHTML='<fmt:message key="boton.Modificar"/>';
 		   }
 	   }
-	   function confirmDelete(){
+	   function confirmDelete(x){
 		    if (confirm("Seguro que quiere eliminar el rol?") == true) {
 		    	document.frmrol.Accion.value="2";
 		    } else {
