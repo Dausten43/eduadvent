@@ -78,9 +78,39 @@
 		}
 	}else if(accion.equals("3")){
 		rol.setRolId(rolId);
-		rol.setRolNombre(nombre);
-		if(rol.updateReg(conElias)){
-			conElias.commit();
+		rol.mapeaRegId(conElias);
+		
+		String checkOpcion	= "N";
+		if(!rol.existeReg(conElias)){
+			if(rol.updateReg(conElias)){
+				for(int i = 0; i < lisModuloOpcion.size(); i++){
+					aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
+					checkOpcion 	= request.getParameter("Opcion"+i)==null?"N":request.getParameter("Opcion"+i);
+					if(checkOpcion.equals("S")){
+						rolOp.setRolId(rol.getRolId());
+						rolOp.setopcionId(op.getOpcionId());
+						
+						if (!rolOp.existeReg(conElias)){
+							if (rolOp.insertReg(conElias)){
+								//conElias.commit();
+							}else{
+								conElias.rollback();
+							}
+						}
+					}else{
+						rolOp.setRolId(rol.getRolId());
+						rolOp.setopcionId(op.getOpcionId());
+						
+						if (rolOp.existeReg(conElias)){
+							if (rolOp.deleteReg(conElias)){
+								//conElias.commit();
+							}else{
+								conElias.rollback();
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 	
