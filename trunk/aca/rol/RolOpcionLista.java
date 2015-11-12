@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class RolOpcionLista {
 	
-	public ArrayList<Rol> getListAll(Connection conn, String orden ) throws SQLException{
-		ArrayList<Rol> list 	= new ArrayList<Rol>();
+	public ArrayList<RolOpcion> getListAll(Connection conn, String orden ) throws SQLException{
+		ArrayList<RolOpcion> list 	= new ArrayList<RolOpcion>();
 		Statement st 				= conn.createStatement();
 		ResultSet rs 				= null;
 		String comando				= "";
@@ -16,7 +16,7 @@ public class RolOpcionLista {
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
-				Rol obj = new Rol();
+				RolOpcion obj = new RolOpcion();
 				obj.mapeaReg(rs);
 				list.add(obj);
 			}
@@ -31,8 +31,8 @@ public class RolOpcionLista {
 		return list;
 	}
 	
-	public ArrayList<Rol> getList(Connection conn, String rolId, String orden ) throws SQLException{
-		ArrayList<Rol> list 	= new ArrayList<Rol>();
+	public ArrayList<RolOpcion> getList(Connection conn, String rolId, String orden ) throws SQLException{
+		ArrayList<RolOpcion> list 	= new ArrayList<RolOpcion>();
 		Statement st 				= conn.createStatement();
 		ResultSet rs 				= null;
 		String comando				= "";
@@ -42,7 +42,7 @@ public class RolOpcionLista {
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
-				Rol obj = new Rol();
+				RolOpcion obj = new RolOpcion();
 				obj.mapeaReg(rs);
 				list.add(obj);
 			}
