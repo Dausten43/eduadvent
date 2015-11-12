@@ -46,8 +46,8 @@ public class RolOpcion {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("INSERT INTO ROL( ROL_ID, ROL_NOMBRE)"
-					+ " VALUES(TO_NUMBER(?, '999'), ?) ");
+			ps = conn.prepareStatement("INSERT INTO ROL_OPCION( ROL_ID, OPCION_ID)"
+					+ " VALUES(TO_NUMBER(?, '999'), TO_NUMBER(?, '999')) ");
 			ps.setString(1, rolId);
 			ps.setString(2, opcionId);
 			
@@ -56,7 +56,7 @@ public class RolOpcion {
 			else
 				ok = false;
 		}catch(Exception ex){
-			System.out.println("Error - aca.rol.Rol|insertReg|:"+ex);
+			System.out.println("Error - aca.rol.RolOpcion|insertReg|:"+ex);
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -68,8 +68,8 @@ public class RolOpcion {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("UPDATE ROL "+ 
-				" SET ROL_NOMBRE = ? "+
+			ps = conn.prepareStatement("UPDATE ROL_OPCION "+ 
+				" SET ROL_OPCION = ? "+
 				"WHERE ROL_ID = TO_NUMBER(?, '999') ");
 			ps.setString(1, opcionId);			
 			ps.setString(2, rolId);
@@ -80,7 +80,7 @@ public class RolOpcion {
 			else
 				ok = false;
 		}catch(Exception ex){
-			System.out.println("Error - aca.rol.Rol|updateReg|:"+ex);		
+			System.out.println("Error - aca.rol.RolOpcion|updateReg|:"+ex);		
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -93,7 +93,7 @@ public class RolOpcion {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("DELETE FROM ROL "+ 
+			ps = conn.prepareStatement("DELETE FROM ROL_OPCION "+ 
 				"WHERE ROL_ID = TO_NUMBER(?, '999') ");			
 			ps.setString(1, rolId);
 			
@@ -102,7 +102,7 @@ public class RolOpcion {
 			else
 				ok = false;
 		}catch(Exception ex){
-			System.out.println("Error - aca.rol.Rol|deleteReg|:"+ex);			
+			System.out.println("Error - aca.rol.RolOpcion|deleteReg|:"+ex);			
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -111,14 +111,14 @@ public class RolOpcion {
 	
 	public void mapeaReg(ResultSet rs ) throws SQLException{
 		rolId 		= rs.getString("ROL_ID");
-		opcionId	= rs.getString("ROL_NOMBRE");
+		opcionId	= rs.getString("OPCION_ID");
 	}
 	
 	public void mapeaRegId( Connection conn, String distritoId) throws SQLException{
 		ResultSet rs = null;
 		PreparedStatement ps = null; 
 		try{
-			ps = conn.prepareStatement("SELECT ROL_ID, ROL_NOMBRE FROM ROL"
+			ps = conn.prepareStatement("SELECT ROL_ID, OPCION_ID FROM ROL_OPCION"
 					+ " WHERE ROL_ID = TO_NUMBER(?, '999') ");
 			ps.setString(1,rolId);
 			
@@ -127,7 +127,7 @@ public class RolOpcion {
 				mapeaReg(rs);
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.rol.Rol|mapeaRegId|:"+ex);
+			System.out.println("Error - aca.rol.RolOpcion|mapeaRegId|:"+ex);
 			ex.printStackTrace();
 		}finally{
 			if (rs!=null) rs.close();
@@ -141,7 +141,7 @@ public class RolOpcion {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM ROL WHERE ROL_ID = TO_NUMBER(?, '999')");			
+			ps = conn.prepareStatement("SELECT * FROM ROL_OPCION WHERE ROL_ID = TO_NUMBER(?, '999')");			
 			ps.setString(1,rolId);
 			
 			rs = ps.executeQuery();
@@ -151,7 +151,7 @@ public class RolOpcion {
 				ok = false;
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.rol.Rol|existeReg|:"+ex);
+			System.out.println("Error - aca.rolOpcion.RolOpcion|existeReg|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
@@ -167,13 +167,13 @@ public class RolOpcion {
 		String maximo 			= "1";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(MAX(ROL_ID)+1,'1') AS MAXIMO FROM ROL");
+			ps = conn.prepareStatement("SELECT COALESCE(MAX(ROL_ID)+1,'1') AS MAXIMO FROM ROL_OPCION");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.rol.Rol|maximoReg|:"+ex);
+			System.out.println("Error - aca.rol.RolOpcion|maximoReg|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
