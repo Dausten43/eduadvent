@@ -23,6 +23,7 @@
 	String strCheckOpcion	= "";
 	String strCheck			= "";
 	int numCont				= 0;
+	System.out.println(accion);
 %>
 
 	<script>
@@ -180,7 +181,7 @@
 						</form>  
 					</div>
 					<div class="modal-footer">
-						 <button type="submit" form = "frmrol" class="btn btn-default" value="submit" onclick="javascript:Agregar()"><fmt:message key="boton.Guardar"/> </button>
+						 <button type="submit" form = "frmrol" class="btn btn-default" value="submit"><fmt:message key="boton.Guardar"/> </button>
 					</div>
 				</div>	
 			</div>
