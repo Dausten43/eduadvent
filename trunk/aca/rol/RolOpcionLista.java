@@ -38,7 +38,7 @@ public class RolOpcionLista {
 		String comando				= "";
 		
 		try{
-			comando = "SELECT * FROM ROL_OPCION WHERE ROL_ID='"+rolId+"'"+ orden;
+			comando = "SELECT * FROM ROL_OPCION WHERE ROL_ID=TO_NUMBER('"+rolId+"', '999')"+ orden;
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -48,7 +48,7 @@ public class RolOpcionLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.rol.RolOpciones|getListAll|:"+ex);
+			System.out.println("Error - aca.rol.RolOpciones|getList|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
