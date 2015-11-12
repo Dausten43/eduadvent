@@ -23,7 +23,7 @@
 	String strCheckOpcion	= "";
 	String strCheck			= "";
 	int numCont				= 0;
-	System.out.println(accion);
+
 %>
 
 	<script>
@@ -80,9 +80,9 @@
 	}else if(accion.equals("3")){
 		rol.setRolId(rolId);
 		rol.mapeaRegId(conElias);
-		
+
 		String checkOpcion	= "N";
-		if(!rol.existeReg(conElias)){
+		if(rol.existeReg(conElias)){
 			if(rol.updateReg(conElias)){
 				for(int i = 0; i < lisModuloOpcion.size(); i++){
 					aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
@@ -93,7 +93,7 @@
 						
 						if (!rolOp.existeReg(conElias)){
 							if (rolOp.insertReg(conElias)){
-								//conElias.commit();
+								conElias.commit();
 							}else{
 								conElias.rollback();
 							}
@@ -104,7 +104,7 @@
 						
 						if (rolOp.existeReg(conElias)){
 							if (rolOp.deleteReg(conElias)){
-								//conElias.commit();
+								conElias.commit();
 							}else{
 								conElias.rollback();
 							}
