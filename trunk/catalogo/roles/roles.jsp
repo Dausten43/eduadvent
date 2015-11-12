@@ -8,6 +8,7 @@
 <jsp:useBean id="rolL" scope="page" class="aca.rol.RolLista"/>
 <jsp:useBean id="rol" scope="page" class="aca.rol.Rol"/>
 <jsp:useBean id="rolOp" scope="page" class="aca.rol.RolOpcion"/>
+<jsp:useBean id="rolOpL" scope="page" class="aca.rol.RolOpcionLista"/>
 <jsp:useBean id="moduloOpcionLista" scope="page" class="aca.menu.ModuloOpcionLista"/>
 
 <%
@@ -16,7 +17,10 @@
 	String accion 	= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
 	
 	ArrayList<aca.menu.ModuloOpcion>lisModuloOpcion = moduloOpcionLista.getListaActivosSuper(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
-	
+	ArrayList<aca.rol.RolOpcion> rolOpLista = rolOpL.getList(conElias, rolId, "");
+	for(int i = 0; i < rolOpLista.size(); i++){
+		System.out.println(rolOpLista.get(i).getopcionId());
+	}
 	String opcionesUsuario	= "";
 	String temp 			= "X";
 	String nombreModulo		= "X";
