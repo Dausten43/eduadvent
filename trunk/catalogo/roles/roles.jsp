@@ -7,6 +7,7 @@
 
 <jsp:useBean id="rolL" scope="page" class="aca.rol.RolLista"/>
 <jsp:useBean id="rol" scope="page" class="aca.rol.Rol"/>
+<jsp:useBean id="rolOp" scope="page" class="aca.rol.RolOpcion"/>
 <jsp:useBean id="moduloOpcionLista" scope="page" class="aca.menu.ModuloOpcionLista"/>
 
 <%
@@ -44,9 +45,31 @@
 	if(accion.equals("1") && !nombre.equals("-")){
 		rol.setRolId(rol.maximoReg(conElias));
 		rol.setRolNombre(nombre);
-		if(rol.insertReg(conElias)){
-			conElias.commit();
+
+		String checkOpcion 	= "N";
+		if (!rol.existeReg(conElias)){
+			if (rol.insertReg(conElias)){
+				for (int i=0; i<lisModuloOpcion.size(); i++){
+					aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
+					checkOpcion 	= request.getParameter("Opcion"+i)==null?"N":request.getParameter("Opcion"+i);
+					if (checkOpcion.equals("S")){
+						rolOp.setRolId(rol.getRolId());
+						rolOp.setopcionId(op.getOpcionId());
+						
+						if (!rolOp.existeReg(conElias)){
+							if (rolOp.insertReg(conElias)){
+								conElias.commit();
+							}else{
+								conElias.rollback();
+							}
+						}
+					}
+				}
+			}else{
+				conElias.rollback();
+			}
 		}
+
 	}else if(accion.equals("2")){
 		rol.setRolId(rolId);
 		rol.mapeaRegId(conElias);
@@ -62,6 +85,7 @@
 	}
 	
 	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
+
 %>
 
 <div id="content">
