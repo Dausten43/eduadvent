@@ -20,18 +20,15 @@
 	ArrayList<aca.menu.ModuloOpcion>lisModuloOpcion = moduloOpcionLista.getListaActivosSuper(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
 	ArrayList<aca.rol.RolOpcion> rolOpLista = rolOpL.getList(conElias, rolId, "");
 	
-	java.util.HashMap<String, String> mapRolOpcion = rolOpL. mapOpUsuarios(conElias, rolId);
+	
 
 	
 	String opcionesUsuario	= "";
 	String temp 			= "X";
 	String nombreModulo		= "X";
 	String strCheckOpcion	= "";
-	String strCheck			= "";
+	String strCheck			= "-";
 	int numCont				= 0;
-
-	System.out.println(accion);
-
 %>
 
 	<script>
@@ -43,18 +40,13 @@
 			document.frmrol.RolId.value=id;
 			document.frmrol.submit();
 		}
-		
-		function Modificar(id){
-			
-			document.frmrol.Accion.value="3";
-			document.frmrol.RolId.value=id;
-		}
 	</script>
 
 <%	
 	if(accion.equals("1") && !nombre.equals("")){
 		rol.setRolId(rol.maximoReg(conElias));
 		rol.setRolNombre(nombre);
+
 		String checkOpcion 	= "N";
 		if (!rol.existeReg(conElias)){
 			if (rol.insertReg(conElias)){
@@ -80,7 +72,6 @@
 		}
 
 	}else if(accion.equals("2")){
-		System.out.println("delete");
 		rol.setRolId(rolId);
 		rol.mapeaRegId(conElias);
 		if(rol.deleteReg(conElias)){
@@ -126,48 +117,60 @@
 	}
 	
 	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
+	java.util.HashMap<String, String> mapRolOpcion = rolOpL. mapOpUsuarios(conElias, rolId);
 
 %>
 
 <div id="content">
-	<h1>Roles</h1>
-	<div class="well">
+	<h1>Roles <small>( <%=aca.rol.Rol.getNombre(conElias, rolId)%> )</small></h1>
 		
-	 	<form action="roles.jsp" id = "frmrol" name="frmrol" method="post">
-	 	
-	 		  <div class="form-group">
-			    <label for="nombre">Nombre Rol</label>
-			    <input type="text" class="form-control" id="rolNombre" name="rolNombre">
+	 	<form action="rolesOpcion.jsp?RolId=<%=rolId %>" id = "frmrol" name="frmrol" method="post">
+	 		  <div class="well">
+	 		  		<a class="btn btn-primary" href="roles.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+	 		  <div class="form-group" style="display:inline-block;">
+			    <label for="nombre" style="display:inline-block;">&nbsp;Nombre Rol: </label>
+			    <input type="text" class="form-control" id="rolNombre" name="rolNombre" required value="<%=aca.rol.Rol.getNombre(conElias, rolId)==null?"":aca.rol.Rol.getNombre(conElias, rolId)%>">
+			  	<button type="submit" form = "frmrol" class="btn btn-primary btn-lg" value="submit"><fmt:message key="boton.Guardar"/> </button>
 			  </div>
-	 		<button type="submit" form = "frmrol" class="btn btn-default" value="submit"><fmt:message key="boton.Guardar"/> </button>
-	 		<input type="hidden" name="Accion" id="Accion" value="1"/>
-	 		<input type="hidden" name="RolId" id="RolId" value="<%=rolId%>"/>
+			  </div>
+		<input type="hidden" name="Accion" id="Accion" value="3"/>
+<% 		for (int i = 0; i < lisModuloOpcion.size(); i++) {
+		aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
+		
+		if(!op.getModuloId().equals(temp)){
+			nombreModulo = aca.menu.Modulo.getModuloNombre(conElias, op.getModuloId());
+			temp = op.getModuloId();
 			
-		</form>
-	</div>
-
-	 	
-	<table class="table table-striped table-bordered">
-	<tbody>
-	<th width="2%">#</th>
-	<th width="4%"><fmt:message key="aca.Operacion"/> </th>
-	<th>Nombre</th>
+			if(i > 0)
+				out.print("</table></div>");
+%>
+		<div class="alert alert-info" style="background:white">
+		<h5><%=nombreModulo %></h5>
+		<table class="table table-condensed">	
 <%
-	for(int i = 0; i < roles.size(); i ++){
+		}
+		
+		if(mapRolOpcion.containsKey(rolId+op.getOpcionId())){
+			strCheckOpcion = mapRolOpcion.get(rolId+op.getOpcionId());
+		}
 %>
 		<tr>
-			<td><%= i + 1 %></td>
-			<td>
-				<a id="modificar" class="icon-pencil" href="rolesOpcion.jsp?RolId=<%=roles.get(i).getRolId()%>"> </a> 
-				<a id="eliminar" href="roles.jsp?Accion=2&RolId=<%=roles.get(i).getRolId()%>"" class="icon-remove"></a> 
+			<td align="left">
+			<input name="Opcion<%=i %>" type="checkbox" value="S" <%=strCheckOpcion.equals(op.getOpcionId())?"checked":"" %>>
+			<%=op.getNombreOpcion() %> - [<%=op.getOpcionId() %>]
+			<input name="ModuloId<%=i%>" type="hidden" id="ModuloId<%=i%>" value="<%=op.getModuloId()%>">
+			<input name="OpcionId<%=i%>" type="hidden" id="OpcionId<%=i%>" value="<%=op.getOpcionId()%>">
+
 			</td>
-			<td><%= roles.get(i).getRolNombre() %></td>
 		</tr>
-<%	
+<%
+		numCont ++;
 	}
 %>
-	</tbody>
-	</table>
-
-</div>
+		</table>
+		</form>
+		</div>
+		<div class="well">
+	 		<button type="submit" form = "frmrol" class="btn btn-default" value="submit"><fmt:message key="boton.Guardar"/> </button>
+		</div>
 <%@ include file= "../../cierra_elias.jsp" %>
