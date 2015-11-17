@@ -79,6 +79,8 @@
 		}
 
 	}else if(accion.equals("2")){
+		
+		System.out.println("entro");
 		rol.setRolId(rolId);
 		rol.mapeaRegId(conElias);
 		if(rol.deleteReg(conElias)){
@@ -166,7 +168,7 @@
 			<td><%= i + 1 %></td>
 			<td>
 				<a id="modificar" class="icon-pencil" href="rolesOpcion.jsp?RolId=<%=roles.get(i).getRolId()%>"> </a> 
-				<a id="eliminar" href="roles.jsp?Accion=2&RolId=<%=roles.get(i).getRolId()%>"" class="icon-remove"></a> 
+				<a id="eliminar" class="icon-remove" href="roles.jsp?RolId=<%=roles.get(i).getRolId()%>" onclick="confirmDelete()"></a> 
 			</td>
 			<td><%= roles.get(i).getRolNombre() %></td>
 		</tr>
@@ -175,6 +177,16 @@
 %>
 	</tbody>
 	</table>
-
+	<script>
+	function confirmDelete(){
+		if(confirm("¿Seguro que desea eliminar el rol?") == true){
+			document.frmrol.Accion.value="2";
+			document.frmrol.submit();
+			
+		}else{
+			document.frmrol.Accion.value="";
+		}
+   }
+	</script>
 </div>
 <%@ include file= "../../cierra_elias.jsp" %>
