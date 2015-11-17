@@ -30,7 +30,6 @@
 	String strCheck			= "";
 	int numCont				= 0;
 
-	System.out.println(accion);
 
 %>
 
@@ -80,11 +79,19 @@
 		}
 
 	}else if(accion.equals("2")){
-		System.out.println("delete");
 		rol.setRolId(rolId);
 		rol.mapeaRegId(conElias);
 		if(rol.deleteReg(conElias)){
-			conElias.commit();
+			
+			for(int i=0; i<rolOpLista.size(); i++){
+				rolOp.setRolId(rolOpLista.get(i).getRolId());
+				rolOp.mapeaRegId(conElias);
+				if(rolOp.deleteReg(conElias)){
+				}else{
+					conElias.rollback();
+				}
+			}
+			
 		}
 	}else if(accion.equals("3")){
 		rol.setRolId(rolId);
