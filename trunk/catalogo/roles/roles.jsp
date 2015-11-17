@@ -79,12 +79,9 @@
 		}
 
 	}else if(accion.equals("2")){
-		
-		System.out.println("entro");
 		rol.setRolId(rolId);
 		rol.mapeaRegId(conElias);
 		if(rol.deleteReg(conElias)){
-			System.out.println("entro");
 			for(int i=0; i<rolOpLista.size(); i++){
 				rolOp.setRolId(rolOpLista.get(i).getRolId());
 				rolOp.mapeaRegId(conElias);
