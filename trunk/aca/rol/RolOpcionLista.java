@@ -2,6 +2,9 @@ package aca.rol;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import aca.plan.PlanCurso;
 
 public class RolOpcionLista {
 	
@@ -56,5 +59,33 @@ public class RolOpcionLista {
 		
 		return list;
 	}
+	
+	
+	public HashMap<String,String> mapOpUsuarios(Connection conn, String roldId ) throws SQLException{
+		
+		HashMap<String,String> mapa = new HashMap<String,String>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";		
+		
+		try{
+			comando = " SELECT ROL_ID, OPCION_ID FROM ROL_OPCION"
+					+ " WHERE ROL_ID = '"+roldId+"'";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				mapa.put(rs.getString("ROL_ID")+rs.getString("OPCION_ID"), rs.getString("OPCION_ID"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.plan.PlanCursoLista|mapPlanCursos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return mapa;
+	}
+	
 
 }

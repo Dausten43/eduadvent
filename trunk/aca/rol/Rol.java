@@ -180,4 +180,25 @@ public class Rol {
 		}
 		return maximo;
 	}
+	
+	public static String getNombre(Connection conn, String rolId ) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String nombre 			= "-";
+		
+		try{
+			ps = conn.prepareStatement("SELECT ROL_NOMBRE FROM ROL WHERE ROL_ID='"+rolId+"'");
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				nombre = rs.getString("ROL_NOMBRE");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.rol.Rol|getNombre|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return nombre;
+	}
 }

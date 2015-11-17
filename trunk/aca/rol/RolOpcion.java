@@ -114,7 +114,7 @@ public class RolOpcion {
 		opcionId	= rs.getString("OPCION_ID");
 	}
 	
-	public void mapeaRegId( Connection conn, String distritoId) throws SQLException{
+	public void mapeaRegId( Connection conn) throws SQLException{
 		ResultSet rs = null;
 		PreparedStatement ps = null; 
 		try{
