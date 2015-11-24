@@ -37,7 +37,7 @@
 		</tr>
 <%
 		for(aca.fin.FinEjercicio ejer : listaEjercicios){
-			Strin numPolizas = aca.fin.FinPoliza.numPolizas(conElias, ejer.getEjercicioId());  
+			String numPolizas = aca.fin.FinPoliza.numPolizas(conElias, ejer.getEjercicioId());  
 %>
 		<tr>
 			<td>
