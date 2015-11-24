@@ -10,6 +10,8 @@ public class FinEjercicio {
 	private String ejercicioId;	
 	private String escuelaId;
 	private String year;
+	private String fechaIni;
+	private String fechaFin;
 	
 	public String getEjercicioId() {
 		return ejercicioId;
@@ -38,18 +40,44 @@ public class FinEjercicio {
 		this.year = year;
 	}
 	
+	/**
+	 * @return the fechaIni
+	 */
+	public String getFechaIni() {
+		return fechaIni;
+	}
+	/**
+	 * @param fechaIni the fechaIni to set
+	 */
+	public void setFechaIni(String fechaIni) {
+		this.fechaIni = fechaIni;
+	}
+	/**
+	 * @return the fechaFin
+	 */
+	public String getFechaFin() {
+		return fechaFin;
+	}
 	
+	/**
+	 * @param fechaFin the fechaFin to set
+	 */
+	public void setFechaFin(String fechaFin) {
+		this.fechaFin = fechaFin;
+	}
 	public boolean insertReg(Connection conn) throws SQLException{
         boolean ok = false;
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement(
-                    "INSERT INTO FIN_EJERCICIO(EJERCICIO_ID, ESCUELA_ID, YEAR)" +
-                    " VALUES(?, ?, TO_NUMBER(?, '9999'))");
+                    "INSERT INTO FIN_EJERCICIO(EJERCICIO_ID, ESCUELA_ID, YEAR, FECHA_INI, FECHA_FIN)" +
+                    " VALUES(?, ?, TO_NUMBER(?, '9999'), TO_DATE(?,'DD/MM/YYYY'), TO_DATE(?,'DD/MM/YYYY'))");
             
             ps.setString(1, ejercicioId);            
             ps.setString(2, escuelaId);
             ps.setString(3, year);
+            ps.setString(4, fechaIni);
+            ps.setString(5, fechaFin);
             
             if(ps.executeUpdate()==1){
                 ok = true;
@@ -94,6 +122,8 @@ public class FinEjercicio {
         ejercicioId		= rs.getString("EJERCICIO_ID");		
 		escuelaId   	= rs.getString("ESCUELA_ID");
 		year   			= rs.getString("YEAR");
+		fechaIni		= rs.getString("FECHA_INI");
+		fechaFin		= rs.getString("FECHA_FIN");
     }
 
     public void mapeaRegId(Connection con, String ejercicioId) throws SQLException{
@@ -101,7 +131,7 @@ public class FinEjercicio {
         PreparedStatement ps = null; 
         try{
 	        ps = con.prepareStatement(
-	                " SELECT EJERCICIO_ID, ESCUELA_ID, YEAR" +
+	                " SELECT EJERCICIO_ID, ESCUELA_ID, YEAR, TO_CHAR(FECHA_INI,'DD/MM/YYYY') AS FECHA_INI, TO_CHAR(FECHA_FIN,'DD/MM/YYYY') AS FECHA_FIN" +
 	                " FROM FIN_EJERCICIO" +
 	                " WHERE EJERCICIO_ID = ?");
 	        ps.setString(1, ejercicioId);	        
