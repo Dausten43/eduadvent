@@ -72,7 +72,18 @@
 		<fieldset>
 			<label for="Year"><fmt:message key="aca.Ano" /></label>
 			<input type="text" size="4" maxlength="4" name="Year" id="Year">
+		</fieldset>	
+		
+		<fieldset>
+			<label for="FechaIni"><fmt:message key="aca.FechaInicio" /></label>
+			<input type="text" size="4" maxlength="4" name="FechaIni" id="FechaIni">
+		</fieldset>	
+		
+		<fieldset>
+			<label for="FechaFin"><fmt:message key="aca.FechaFinal" /></label>
+			<input type="text" size="4" maxlength="4" name="FechaFin" id="FechaFin">
 		</fieldset>
+		
 					
 	</form>
 	
@@ -83,5 +94,11 @@
 	</div>
 		
 </div>
+<link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
+<script src="../../js-plugins/datepicker/datepicker.js"></script>
+<script>
+	$('#FechaIni').datepicker();
+	$('#FechaFin').datepicker();
+</script>
 
 <%@ include file="../../cierra_elias.jsp"%>
