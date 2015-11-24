@@ -17,7 +17,7 @@
 <%
 	String escuelaId 	= (String) session.getAttribute("escuela");
 
-	ArrayList<aca.fin.FinEjercicio> listaEjercicios = ejercicioL.getListPorEscuela(conElias, escuelaId, "ORDER BY YEAR");
+	ArrayList<aca.fin.FinEjercicio> listaEjercicios = ejercicioL.getListPorEscuela(conElias, escuelaId, "ORDER BY YEAR");	
 %>
 
 <div id="content">
@@ -35,17 +35,20 @@
 			<th><fmt:message key="aca.Id" /></th>
 			<th><fmt:message key="aca.Ano" /></th>
 		</tr>
-		<%for(aca.fin.FinEjercicio ejer : listaEjercicios){%>
-			<tr>
-				<td>
-					<a href="javascript:Borrar('<%=ejer.getEjercicioId()%>')">
-						<i class="icon-remove"></i>
-					</a> 
-				</td>
-				<td><%=ejer.getEjercicioId()%></td>
-				<td><%=ejer.getYear()%></td>
-			</tr>
-		<%}%>
+<%
+		for(aca.fin.FinEjercicio ejer : listaEjercicios){
+			Strin numPolizas = aca.fin.FinPoliza.numPolizas(conElias, ejer.getEjercicioId());  
+%>
+		<tr>
+			<td>
+			<%	if (numPolizas.equals("0")){%>
+				<a href="javascript:Borrar('<%=ejer.getEjercicioId()%>')"><i class="icon-remove"></i></a>
+			<% 	}%>	 
+			</td>
+			<td><%=ejer.getEjercicioId()%></td>
+			<td><%=ejer.getYear()%></td>
+		</tr>
+<%		}%>
 	</table>
 
 </div>
