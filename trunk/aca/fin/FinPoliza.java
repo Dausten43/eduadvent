@@ -345,4 +345,25 @@ public class FinPoliza {
 		}
 		return maximo;
 	}
+    
+    public static String numPolizas(Connection conn, String ejercicioId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String total 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT COALESCE(COUNT(POLIZA_ID),0) AS TOTAL FROM FIN_POLIZA WHERE EJERCICIO_ID = '"+ejercicioId+"' ");
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				total = rs.getString("TOTAL");				
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinPoliza|numPolizas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return total;
+	}
 }
