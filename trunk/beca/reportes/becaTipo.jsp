@@ -19,7 +19,7 @@
 	java.text.DecimalFormat formato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
-	String ejercicioId 		= (String) session.getAttribute("EjercicioId");
+	String ejercicioId 		= (String) session.getAttribute("ejercicioId");
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String fechaHoy 		= aca.util.Fecha.getHoy();
 	String fechaIni 		= request.getParameter("FechaIni")==null?fechaHoy:request.getParameter("FechaIni");
