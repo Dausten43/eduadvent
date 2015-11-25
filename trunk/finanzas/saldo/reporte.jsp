@@ -14,7 +14,7 @@
 <%@page import="java.util.HashMap"%>
 <% 
 	String escuelaId		= (String) session.getAttribute("escuela");
-	String ejercicioId		= (String) session.getAttribute("EjercicioId");
+	String ejercicioId		= (String) session.getAttribute("ejercicioId");
 	String ciclo			= request.getParameter("ciclo")==null?aca.ciclo.Ciclo.getCargaActual(conElias,escuelaId):request.getParameter("ciclo");
 	
 	String strBgcolor		= "";

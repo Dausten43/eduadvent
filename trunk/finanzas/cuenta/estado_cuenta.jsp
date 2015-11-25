@@ -17,7 +17,7 @@
 	
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String codigoId 	= (String) session.getAttribute("codigoAlumno");
-	String ejercicioId	= (String) session.getAttribute("EjercicioId");
+	String ejercicioId	= (String) session.getAttribute("ejercicioId");
 	
 	String accion 		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String resultado	= "";
