@@ -16,6 +16,7 @@ public class FinEjercicio {
 	public String getEjercicioId() {
 		return ejercicioId;
 	}
+	
 	public void setEjercicioId(String ejercicioId) {
 		this.ejercicioId = ejercicioId;
 	}
@@ -23,6 +24,7 @@ public class FinEjercicio {
 	public String getEscuelaId() {
 		return escuelaId;
 	}
+	
 	public void setEscuelaId(String escuelaId) {
 		this.escuelaId = escuelaId;
 	}	
@@ -190,6 +192,27 @@ public class FinEjercicio {
 	        if(ps != null) ps.close();
         }
         return ok;
+    }
+    
+    public static String getEjercicioActual(Connection conn, String escuelaId) throws SQLException {
+    	
+    	PreparedStatement ps 	= null;
+        ResultSet rs 			= null;        
+        String ejercicioId 		= escuelaId+"-"+String.valueOf(aca.util.Fecha.getYearNum());
+
+        try {
+            ps = conn.prepareStatement("SELECT EJERCICIO_ID FROM FIN_EJERCICIO WHERE ESCUELA_ID = ? AND NOW() BETWEEN FECHA_INI AND FECHA_FIN");
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	ejercicioId = rs.getString("EJERCICIO_ID");
+            }
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinEjercicio|getEjercicioActual|:" +ex);
+        }finally{
+	        if(rs != null) rs.close();
+	        if(ps != null) ps.close();
+        }
+        return ejercicioId;
     }
     
 }
