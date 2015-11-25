@@ -24,7 +24,7 @@
 		session.setAttribute("EjercicioId", request.getParameter("ejerId"));
 	}
 
-	ejerc.mapeaRegId(conElias, (String) session.getAttribute("EjercicioId"));
+	ejerc.mapeaRegId(conElias, (String) session.getAttribute("ejercicioId"));
 %>
 
 <div id="content">

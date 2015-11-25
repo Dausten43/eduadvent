@@ -43,7 +43,7 @@
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;(##0.00)");
 
 	String escuelaId 	= (String) session.getAttribute("escuela");
-	String ejercicioId 	= (String) session.getAttribute("EjercicioId");
+	String ejercicioId 	= (String) session.getAttribute("ejercicioId");
 	String usuario 		= (String) session.getAttribute("codigoId"); 
 	
 	String padreCaja 	= request.getParameter("Padre")==null?"0":request.getParameter("Padre");

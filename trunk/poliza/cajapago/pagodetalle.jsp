@@ -15,7 +15,7 @@
 </script>
 <%	
 	String escuelaId 	= (String) session.getAttribute("escuela");
-	String ejercicioId 	= (String) session.getAttribute("EjercicioId");	
+	String ejercicioId 	= (String) session.getAttribute("ejercicioId");	
 	
 	String alumno 		= request.getParameter("Auxiliar");
 	String fecha 		= request.getParameter("Fecha");

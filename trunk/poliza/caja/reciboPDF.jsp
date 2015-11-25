@@ -17,7 +17,7 @@
 <%
 	String codigoEmpleado 	= (String) session.getAttribute("codigoEmpleado");
 	String recibo 			= request.getParameter("Recibo");	
-	String ejercicioId 		= (String)session.getAttribute("EjercicioId");	
+	String ejercicioId 		= (String)session.getAttribute("ejercicioId");	
 	String polizaId 		= request.getParameter("polizaId");	
 	String day				= "";
 	String month			= "";

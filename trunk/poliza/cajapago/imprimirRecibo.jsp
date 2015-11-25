@@ -14,7 +14,7 @@
 	String from = request.getParameter("from");
 
 	String escuelaId 	= (String) session.getAttribute("escuela");
-	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
+	String ejercicioId 	= (String)session.getAttribute("ejercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId");
 	
 	String recibo 		= request.getParameter("reciboId");

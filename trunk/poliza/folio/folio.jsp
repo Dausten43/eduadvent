@@ -64,7 +64,7 @@
 		String escuelaId 		= (String) session.getAttribute("escuela");
 		String accion 			= request.getParameter("Accion") == null ? "" : request.getParameter("Accion");
 		String usuario 			= (String) session.getAttribute("codigoId");
-		String ejercicioId 	 	= (String) session.getAttribute("EjercicioId");
+		String ejercicioId 	 	= (String) session.getAttribute("ejercicioId");
 
 		String resultado = "";
 

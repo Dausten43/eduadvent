@@ -21,7 +21,7 @@
 <%
 	
 	String escuelaId 	= (String) session.getAttribute("escuela");
-	String ejercicioId 	= (String)session.getAttribute("EjercicioId");
+	String ejercicioId 	= (String)session.getAttribute("ejercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId");
 	
 	/* ACCIONES */
