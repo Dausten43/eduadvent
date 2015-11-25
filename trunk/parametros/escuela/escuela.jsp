@@ -53,14 +53,9 @@
 			session.setAttribute("cicloId",aca.ciclo.Ciclo.getMejorCargaEscuela(conElias, escuelaId));
 			resultado = "RegistradoentuSesion";
 			
-			// Cambiar a String la clave de la escuela en la tabla FIN_EJERCICIO
-			ArrayList<aca.fin.FinEjercicio> listaEjercicios = ejercicioL.getListPorEscuela(conElias, escuelaId, "ORDER BY YEAR");
-			String EjercicioId = "";
-			if(listaEjercicios.size()>0){
-				EjercicioId = listaEjercicios.get(listaEjercicios.size()-1).getEjercicioId();
-			}
-			session.setAttribute("EjercicioId", EjercicioId);
-			
+			// Subir a sesion el ejercicio actual de la escuela			
+			String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conElias, escuelaId);			
+			session.setAttribute("ejercicioId", EjercicioId);			
 			
 			response.sendRedirect("../../general/inicio/index.jsp");
 			
