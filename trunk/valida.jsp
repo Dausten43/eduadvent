@@ -49,11 +49,8 @@
 	String ciclo				= "";		
 	boolean esAdmin				= false;	
 	boolean error 				= false;	
-	boolean entrar 				= false;
-	
-%>
+	boolean entrar 				= false;	
 
-<%
 	//Coneccion a Oracle
 	try{
 		conn = c.conEliasPostgres();
@@ -107,13 +104,9 @@
 				
 				session.setAttribute("escuelaNombre", aca.catalogo.CatEscuela.getNombre(conn, strEscuela ));
 				
-				// Cambiar a String la clave de la escuela en la tabla FIN_EJERCICIO
-				ArrayList<aca.fin.FinEjercicio> listaEjercicios = ejercicioL.getListPorEscuela(conn, strEscuela, "ORDER BY YEAR");
-				String EjercicioId = "";
-				if(listaEjercicios.size()>0){
-					EjercicioId = listaEjercicios.get(listaEjercicios.size()-1).getEjercicioId();
-				}
-				session.setAttribute("EjercicioId", EjercicioId);
+				// Registrar en sesion el ejercicio actual			
+				String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conn, strEscuelaId);
+				session.setAttribute("EjercicioId", ejercicioId);
 				
 				if(aca.usuario.Usuario.esSuper(conn, strCodigoId)){
 				
