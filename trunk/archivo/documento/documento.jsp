@@ -40,7 +40,7 @@
 %>  
 		<tr> 
 			<td>
-				<a href="accion.jsp?Accion=5&DocumentoId=<%=doc.getDocumentoId() %>" class="icon-pencil">*</a>
+				<a href="accion.jsp?Accion=5&DocumentoId=<%=doc.getDocumentoId() %>" class="icon-pencil"></a>
 				<a href="javascript:Borrar('<%=doc.getDocumentoId() %>')" class="icon-remove"></a>
 			</td>
 			<td><%=doc.getDocumentoNombre() %></td>
