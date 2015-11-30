@@ -179,9 +179,10 @@ public class CatNivelEscuela {
 			ps.setString(6, peso);
 			ps.setString(7, funcionId);
 			ps.setString(8,director);
-			ps.setString(9, escuelaId);
-			ps.setString(10, nivelId);
-			ps.setString(11, registro);
+			ps.setString(9, registro);
+			ps.setString(10, escuelaId);
+			ps.setString(11, nivelId);
+			
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
