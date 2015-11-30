@@ -102,7 +102,7 @@ public class EmpPersonalLista{
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.empleado.EmpPersonalLista|getListEscuela|:"+ex);
+			System.out.println("Error - aca.empleado.EmpPersonalLista|getListEmp|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
