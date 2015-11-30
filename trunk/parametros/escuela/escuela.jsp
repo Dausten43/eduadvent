@@ -54,8 +54,8 @@
 			resultado = "RegistradoentuSesion";
 			
 			// Subir a sesion el ejercicio actual de la escuela			
-			String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conElias, escuelaId);			
-			session.setAttribute("ejercicioId", EjercicioId);			
+			String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conElias, escuelaId);	
+			session.setAttribute("ejercicioId", ejercicioId);
 			
 			response.sendRedirect("../../general/inicio/index.jsp");
 			
