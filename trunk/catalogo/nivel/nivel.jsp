@@ -68,7 +68,7 @@
 				<td><%=nivel.getGradoFin() %></td>
 				<td><%=nivel.getNotaminima() %></td>
 				<td><%=nivel.getFuncionId() %></td>
-				<td><%=aca.empleado.EmpPersonal.getNombre(conElias, nivel.getDirector(), "")%></td>
+				<td><%=aca.empleado.EmpPersonal.getNombre(conElias, nivel.getDirector(), "NOMBRE")%></td>
 				<td><%=nivel.getRegistro()%></td>
 			</tr>
 			<%

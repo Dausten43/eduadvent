@@ -60,7 +60,7 @@
 	pageContext.setAttribute("resultado", msj);
 	
 	ArrayList<aca.catalogo.CatNivel> niveles = nivelU.getListAll(conElias," WHERE NIVEL_ID NOT IN(SELECT NIVEL_ID FROM CAT_NIVEL_ESCUELA WHERE ESCUELA_ID='"+escuela+"')  ORDER BY NIVEL_ID");
-	ArrayList<aca.empleado.EmpPersonal> empleados = empleadoU.getListEmp(conElias, escuela,"");
+	ArrayList<aca.empleado.EmpPersonal> lisEmpleados = empleadoU.getListEmp(conElias, escuela,"");
 %>
 
 <div id="content">
@@ -165,9 +165,11 @@
 		    <label for="director">
 		       	<fmt:message key="aca.Director" /> 
 		    </label>
-		    <select name="director" id="director" class="input-medium">	    			
-				<%for(aca.empleado.EmpPersonal lvl: empleados){%>
-					<option value="<%=lvl.getNombre()%>"><%=lvl.getNombre()+" "+lvl.getApaterno()+" "+lvl.getAmaterno() %></option>
+		    <select name="director" id="director" class="input input-xlarge"> 			
+				<%for(aca.empleado.EmpPersonal empleado: lisEmpleados){%>
+					<option value="<%=empleado.getCodigoId()%>" <%if(nivel.getDirector().equals(empleado.getCodigoId())){out.print("selected");} %>>
+						<%=empleado.getNombre()+" "+empleado.getApaterno()+" "+empleado.getAmaterno() %>
+					</option>
 				<%} %>
 			</select>
 		</fieldset>
