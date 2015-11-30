@@ -202,6 +202,8 @@ public class FinEjercicio {
 
         try {
             ps = conn.prepareStatement("SELECT EJERCICIO_ID FROM FIN_EJERCICIO WHERE ESCUELA_ID = ? AND NOW() BETWEEN FECHA_INI AND FECHA_FIN");
+            ps.setString(1, escuelaId);
+            
             rs = ps.executeQuery();
             if(rs.next()){
             	ejercicioId = rs.getString("EJERCICIO_ID");
