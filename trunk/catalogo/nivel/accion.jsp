@@ -6,6 +6,7 @@
 
 <jsp:useBean id="nivelU" scope="page" class="aca.catalogo.CatNivelLista"/>
 <jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
+<jsp:useBean id="empleadoU" scope="page" class="aca.empleado.EmpPersonalLista"/>
 
 <script>
 	function grabar(){
@@ -33,6 +34,7 @@
 		nivel.setPeso("1");
 		nivel.setFuncionId(request.getParameter("funcionId"));
 		nivel.setDirector(request.getParameter("director"));
+		nivel.setRegistro(request.getParameter("registro"));
 		
 		if(nivel.existeReg(conElias)){
 			if(nivel.updateReg(conElias)){
@@ -58,6 +60,7 @@
 	pageContext.setAttribute("resultado", msj);
 	
 	ArrayList<aca.catalogo.CatNivel> niveles = nivelU.getListAll(conElias," WHERE NIVEL_ID NOT IN(SELECT NIVEL_ID FROM CAT_NIVEL_ESCUELA WHERE ESCUELA_ID='"+escuela+"')  ORDER BY NIVEL_ID");
+	ArrayList<aca.empleado.EmpPersonal> empleados = empleadoU.getListEmp(conElias, escuela,"");
 %>
 
 <div id="content">
@@ -158,11 +161,22 @@
 		    <input value="<%=nivel.getFuncionId() %>" name="funcionId" id="funcionId" type="text" maxlength="10" />
 		</fieldset>
 		
-   		<fieldset>
+		<fieldset>
 		    <label for="director">
-		       	<fmt:message key="aca.Director" />
+		       	<fmt:message key="aca.Director" /> 
 		    </label>
-		    <input value="<%=nivel.getDirector()%>" name="director" id="director" type="text" maxlength="10" />
+		    <select name="director" id="director" class="input-medium">	    			
+				<%for(aca.empleado.EmpPersonal lvl: empleados){%>
+					<option value="<%=lvl.getNombre()%>"><%=lvl.getNombre()+" "+lvl.getApaterno()+" "+lvl.getAmaterno() %></option>
+				<%} %>
+			</select>
+		</fieldset>
+		
+		<fieldset>
+		    <label for="registro">
+		       	<fmt:message key="aca.Registro" />
+		    </label>
+		    <input value="<%=nivel.getRegistro()%>" name="registro" id="registro" type="text" maxlength="30" />
 		</fieldset>
 		
 		<div class="well">

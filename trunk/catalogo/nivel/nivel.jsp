@@ -47,6 +47,7 @@
 				<th><fmt:message key="aca.NotaMin" /></th>
 				<th><fmt:message key="aca.Funcion" /></th>
 				<th><fmt:message key="aca.Director" /></th>
+				<th><fmt:message key="aca.Registro" /></th>
 			</tr>
 			<%
 	int cont = 0;
@@ -68,6 +69,7 @@
 				<td><%=nivel.getNotaminima() %></td>
 				<td><%=nivel.getFuncionId() %></td>
 				<td><%=aca.empleado.EmpPersonal.getNombre(conElias, nivel.getDirector(), "")%></td>
+				<td><%=nivel.getRegistro()%></td>
 			</tr>
 			<%
 	}
