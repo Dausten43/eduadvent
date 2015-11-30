@@ -42,7 +42,7 @@
 	String cicloId 				= (String) session.getAttribute("cicloId");
 	String cicloGrupoId 		= (String) request.getParameter("CicloGrupoId");
 	
-	String promedioId			= request.getParameter("PromedioId")==null?"1":request.getParameter("PromedioId");
+	String promedioId			= request.getParameter("Promedio")==null?"1":request.getParameter("Promedio");
 	String bloque 				= request.getParameter("bloque")==null?"0":request.getParameter("bloque");
 	String bloque2 				= request.getParameter("bloque2")==null?"0":request.getParameter("bloque2");
 	String strBgcolor 			= "";
@@ -85,7 +85,7 @@
 			NIvel 1:
 			<select name="Promedio" id="Promedio" onchange='javascript:cambiaBloque()'>
 				<%for (aca.ciclo.CicloPromedio prom : lisPromedio){%>
-					<option value="<%=prom.getPromedioId() %>" <%if(prom.getPromedioId().equals(bloque)){out.print("selected");} %>><%=prom.getNombre() %></option>
+					<option value="<%=prom.getPromedioId() %>" <%if(prom.getPromedioId().equals(promedioId)){out.print("selected");} %>><%=prom.getNombre() %></option>
 				<%}%>
 			</select>&nbsp;&nbsp;
 			Nivel 2:			
