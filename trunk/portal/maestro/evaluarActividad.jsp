@@ -242,8 +242,7 @@
 						}
 					}
 					
-				}
-					
+				}					
 					
 			}//End for alumnos
 		}
@@ -318,7 +317,7 @@
 					</td>
 					<td><%=cicloGrupoActividad.getFecha() %></td>
 					<td><%=cicloGrupoActividad.getValor() %></td>
-					<td><%=aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, evaluacionId) %></td>
+					<td>0</td>
 				</tr>
 		<%
 			}
