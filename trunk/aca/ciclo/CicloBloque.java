@@ -450,4 +450,31 @@ public class CicloBloque {
 		return numBloques;
 	}
 	
+	public static String getDecimales(Connection conn, String cicloId, String bloqueId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String decimales		= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT COALESCE(DECIMALES,0) AS DECIMALES FROM CICLO_BLOQUE" +
+					" WHERE CICLO_ID = ? AND BLOQUE_ID = ?");
+			ps.setString(1, cicloId);
+			ps.setString(2, bloqueId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				decimales = rs.getString("DECIMALES");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloBloque|getDecimales|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return decimales;
+	}
+	
 }
