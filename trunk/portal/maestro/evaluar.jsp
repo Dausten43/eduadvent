@@ -757,6 +757,7 @@
 					<th><fmt:message key="aca.Descripcion" /></th>
 					<th class="text-center"><fmt:message key="aca.Fecha" /></th>
 					<th class="text-center"><fmt:message key="aca.Valor" /></th>
+					<th class="text-center"><fmt:message key="aca.Decimal" /></th>
 					<th class="text-center"><fmt:message key="aca.Estado" /></th>
 					<th style="width:1%;"></th>
 				</tr>
@@ -785,6 +786,7 @@
 						</td>
 						<td class="text-center"><%=eval.getFecha()%></td>
 						<td class="text-center"><%=eval.getValor()%>%</td>
+						<td class="text-center"><%=aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, eval.getEvaluacionId())%></td>
 						<td class="text-center">
 							<%if (eval.getEstado().equals("A")) {%>
 								<span class="label label-success"><fmt:message key="aca.Abierto" /></span>								

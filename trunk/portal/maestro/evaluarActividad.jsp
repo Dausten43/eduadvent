@@ -298,6 +298,7 @@
 			<th><fmt:message key="aca.Descripcion"/></th>
 			<th><fmt:message key="aca.Fecha"/></th>
 			<th><fmt:message key="aca.Valor"/></th>
+			<th><fmt:message key="aca.Decimal"/></th>
 		</tr>
 		<%
 			int cont = 0;
@@ -317,6 +318,7 @@
 					</td>
 					<td><%=cicloGrupoActividad.getFecha() %></td>
 					<td><%=cicloGrupoActividad.getValor() %></td>
+					<td><%=aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, evaluacionId) %></td>
 				</tr>
 		<%
 			}
