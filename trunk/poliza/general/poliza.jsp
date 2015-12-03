@@ -86,7 +86,7 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.PolizasIngreso" />
+		<fmt:message key="aca.PolizasAjuste" />
 	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>

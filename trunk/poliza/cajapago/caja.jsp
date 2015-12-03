@@ -145,7 +145,7 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.PolizasCaja" /><small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> ) </small>
+		<fmt:message key="aca.PolizasCajaCobros" /><small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> ) </small>
 	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
