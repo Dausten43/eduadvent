@@ -170,7 +170,6 @@
 							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 								promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 1, RoundingMode.DOWN) );
-							System.out.println("MUESTRA : "+promedioActividades);
 							}
 						}
 					}
@@ -178,12 +177,10 @@
 				
 				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
 				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) ); 
-				System.out.println("DEPUES : "+promedioActividades);
 				
 				//--------COMPROBAR SI LA ESCALA ES 10----------
-				System.out.println("ESCALA ORIGINAL : "+escala);
+				
 				if( escala == 10 ){
-					System.out.println("ESCALA ES 10");
 					/* Convirtiendo la escala de 100 a 10 (ya que las actividades se evaluan de 0 a 100) */
 					promedioActividades = promedioActividades.divide(new BigDecimal("10"), 1, RoundingMode.DOWN);
 				}
