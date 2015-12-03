@@ -61,7 +61,7 @@
 				strEscuelaId 		= strCodigoId.substring(0,3);				
 			    strEstadoEscuela 	= aca.catalogo.CatEscuela.getEstadoEscuela(conn, strEscuelaId);			    
 			}
-						
+	
 			// Si es usuario				
 			if(!strCodigoId.equals("x") && strEstadoEscuela.equals("A")){
 				
@@ -78,9 +78,13 @@
 				session.setAttribute("certificado", "true");
 				session.setAttribute("codigoId", strCodigoId );
 				session.setAttribute("codigoReciente", strCodigoId );
-				session.setAttribute("ejercicioId", fecha.getYear(aca.util.Fecha.getHoy()));
 				session.setAttribute("lenguaje", aca.usuario.Usuario.getIdioma(conn, strCodigoId));
 				
+				// Registrar en sesion el ejercicio actual
+				String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conn, strEscuelaId);
+				session.setAttribute("ejercicioId", ejercicioId);
+				
+				// Agregar opciones de acuerdo al tipo de usuario
 				intTipoUsuario	= aca.usuario.Usuario.getTipo(conn, strCodigoId);
 				if (intTipoUsuario ==1){
 					strNombreUsuario = aca.alumno.AlumPersonal.getNombre(conn,strCodigoId,"NOMBRE");
@@ -97,16 +101,10 @@
 				session.setAttribute("nombreUsuario",strNombreUsuario);
 				
 				// Busca a que escuela pertenece el usuario y crea una clave de 2 caracteres ejmplo "01"
-				strEscuela = strCodigoId.substring(0,3);
-				
-				
+				strEscuela = strCodigoId.substring(0,3);				
 				session.setAttribute("escuela", strEscuela);		
 				
-				session.setAttribute("escuelaNombre", aca.catalogo.CatEscuela.getNombre(conn, strEscuela ));
-				
-				// Registrar en sesion el ejercicio actual			
-				String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conn, strEscuelaId);
-				session.setAttribute("EjercicioId", ejercicioId);
+				session.setAttribute("escuelaNombre", aca.catalogo.CatEscuela.getNombre(conn, strEscuela ));				
 				
 				if(aca.usuario.Usuario.esSuper(conn, strCodigoId)){
 				
