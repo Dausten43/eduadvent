@@ -18,7 +18,7 @@
 		}
 		
 	}
-</script>	
+</script>
 	
 <%
 	String escuelaId 		= (String) session.getAttribute("escuela");
@@ -27,8 +27,8 @@
 	
 	/* ACCIONES */
 	
-	String accion 		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	String msj 			= "";
+	String accion 			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String msj 				= "";
 	
 	/* CERRAR POLIZA */
 	if(accion.equals("1")){
@@ -48,8 +48,6 @@
 		conElias.setAutoCommit(false);
 		boolean error = false;
 		boolean seHaSolicitadoUnaCancelacion = false;
-		
-		
 		
 		/* ==== CAMBIAR ESTADO DE LA POLIZA ==== */
 		FinPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
@@ -145,7 +143,7 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.PolizasGenerales"/><small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> ) </small>
+		<fmt:message key="aca.PolizasCajaGeneral"/><small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> ) </small>
 	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
@@ -184,7 +182,7 @@
 					</a>
 					<%} %>
 				</td>
-				<td><%=poliza.getPolizaId().substring(3) %></td>
+				<td><%= poliza.getPolizaId() %></td>
 				<td>
 					<a href="movimientos.jsp?polizaId=<%=poliza.getPolizaId() %>"><%=poliza.getDescripcion() %></a>
 				</td>
