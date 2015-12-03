@@ -88,9 +88,10 @@
 		<thead>
 			<tr>
 				<th>Poliza</th>
-				<th>#</th>
+				<th>#</th>				
 				<th>Fecha</th>
 				<th>Cuenta</th>
+				<th>Recibo</th>
 				<th>Descripción</th>
 				<th>Referencia</th>						
 				<th class="text-right">Cargo</th>
@@ -112,14 +113,15 @@
 			out.print("<td align='center'>0</td>");
 			out.print("<td align='center'>-</td>");			
 			out.print("<td align='center'>-</td>");
+			out.print("<td align='center'>-</td>");
 			out.print("<td align='center'><b>Saldo Anterior</b></td>");
 			out.print("<td align='center'>-</td>");
 			if (saldoNum>0){
-				out.print("<td align='center'>-</td>");
+				out.print("<td>&nbsp;</td>");
 				out.print("<td align='center' class='text-right'>"+formato.format(saldoNum)+"</td>");
 			}else{
 				out.print("<td align='center' class='text-right'>"+formato.format(saldoNum)+"</td>");
-				out.print("<td align='center'>-</td>");				
+				out.print("<td>&nbsp;</td>");
 			}
 			out.println("<td align='center' class='text-right'>"+formato.format(saldoNum)+"</td>");
 			out.println("</tr>");
@@ -144,6 +146,7 @@
 			<td><%=i+1 %></td>
 			<td><%=movto.getFecha() %></td>
 			<td><%=movto.getCuentaId() %>
+			<td><%=movto.getReciboId() %>
 			<td><%=movto.getDescripcion() %></td>
 			<td><%=movto.getReferencia() %></td>						
 			<td class="text-right"><%=movto.getNaturaleza().equals("D")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
