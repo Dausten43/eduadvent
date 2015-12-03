@@ -136,7 +136,7 @@
 		</thead>
 		<%for(aca.fin.FinPoliza poliza : listaPoliza){%>
 			<tr>
-				<td><%=poliza.getPolizaId().substring(2) %></td>
+				<td><%=poliza.getPolizaId() %></td>
 				<td><%=poliza.getDescripcion() %></td>
 				<td><%=aca.empleado.EmpPersonal.getNombre(conElias, poliza.getUsuario(), "NOMBRE") %></td>
 				<td><%=poliza.getFecha() %></td>
