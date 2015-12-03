@@ -40,6 +40,8 @@
 		<tr>
 			<th style="width:12%;"><fmt:message key="aca.Id" /></th>
 			<th><fmt:message key="aca.Ano" /></th>
+			<th><fmt:message key="aca.FechaInicio" /></th>
+			<th><fmt:message key="aca.FechaFinal" /></th>
 		</tr>
 		<%for (aca.fin.FinEjercicio ejer : listaEjercicios){%>
 			<tr>
@@ -47,6 +49,8 @@
 					<a href="javascript:cambiar('<%=ejer.getEjercicioId()%>');"><%=ejer.getEjercicioId()%></a>
 				</td>
 				<td><%=ejer.getYear()%></td>
+				<td><%=ejer.getFechaIni()%></td>
+				<td><%=ejer.getFechaFin()%></td>
 			</tr>
 		<%}%>
 	</table>
