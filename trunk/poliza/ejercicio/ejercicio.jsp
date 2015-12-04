@@ -31,6 +31,7 @@
 
 	<table class="table table-condensed table-bordered table-striped table-fontsmall">
 		<tr>
+			<th style="width:3%;"><fmt:message key="aca.Editar" /></th>
 			<th style="width:3%;"><fmt:message key="aca.Borrar" /></th>
 			<th><fmt:message key="aca.Id" /></th>
 			<th><fmt:message key="aca.Ano" /></th>
@@ -42,6 +43,9 @@
 			String numPolizas = aca.fin.FinPoliza.numPolizas(conElias, ejer.getEjercicioId());  
 %>
 		<tr>
+			<td>
+				<a class="icon-pencil" href="editarEjercicio.jsp?Accion=5&EjercicioId=<%=ejer.getEjercicioId()%>"></a>
+			</td>
 			<td>
 			<%	if (numPolizas.equals("0")){%>
 				<a href="javascript:Borrar('<%=ejer.getEjercicioId()%>')"><i class="icon-remove"></i></a>

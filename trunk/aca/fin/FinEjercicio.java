@@ -96,6 +96,39 @@ public class FinEjercicio {
         return ok;
     }	
 	
+	 public boolean updateReg(Connection conn) throws SQLException {
+	    	PreparedStatement ps = null;
+	    	boolean ok = false;
+
+	        try {
+	           ps = conn.prepareStatement(
+	                    " UPDATE FIN_EJERCICIO SET FECHA_INI = TO_DATE(?,'DD/MM/YYYY'),"
+	                    + " FECHA_FIN = TO_DATE(?,'DD/MM/YYYY'),"
+	                    + " WHERE EJERCICIO_ID = ?");
+	            
+	            ps.setString(1, fechaIni);
+	            ps.setString(2, fechaFin);
+	            ps.setString(3, ejercicioId);
+
+	            if (ps.executeUpdate() == 1) {
+	                ok = true;
+	                conn.commit();
+	            } else {
+	                ok = false;
+	            }
+
+	            
+	        } catch (Exception ex) {
+	            System.out.println("Error - aca.fin.FinEjercicio|updateReg|:" + ex);
+	        }finally{
+	        	if (ps != null) {
+	                ps.close();
+	            }
+	        }
+
+	        return ok;
+	    }
+	
 	public boolean deleteReg(Connection conn) throws SQLException{
         boolean ok = false;
         PreparedStatement ps = null;
