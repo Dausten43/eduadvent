@@ -14,14 +14,14 @@
 </script>
 
 <%
-	String escuelaId = (String) session.getAttribute("escuela");
+	String escuelaId 		= (String) session.getAttribute("escuela");
 
 	ArrayList<aca.fin.FinEjercicio> listaEjercicios = ejercicioL.getListPorEscuela(conElias, escuelaId, "ORDER BY YEAR");
 
-	String accion = request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String accion 			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
 	if (accion.equals("1")) {
-		session.setAttribute("EjercicioId", request.getParameter("ejerId"));
+		session.setAttribute("ejercicioId", request.getParameter("ejerId"));
 	}
 
 	ejerc.mapeaRegId(conElias, (String) session.getAttribute("ejercicioId"));
