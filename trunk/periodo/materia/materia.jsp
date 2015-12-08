@@ -42,6 +42,7 @@
 
 <%
 	String escuelaId		= (String) session.getAttribute("escuela");
+
 	String cicloId			= (String) session.getAttribute("cicloId");
 	String planId			= (String) session.getAttribute("planId");
 	String grado 			= (String) session.getAttribute("grado")==null?"0":(String) session.getAttribute("grado");
@@ -49,7 +50,7 @@
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
 	int numAccion 			= Integer.parseInt(accion);	
 	String nivelId 			= aca.plan.Plan.getNivel(conElias,planId);
-	
+
 	Nivel.mapeaRegId(conElias, nivelId, escuelaId);	
 	
 	String titulo 			= aca.plan.Plan.getTitulo(conElias, planId);
@@ -182,7 +183,7 @@
 			break;
 		}
 	}
-		
+		System.out.println("planID"+cicloId);
 %>
 <div id="content">
 	<h2><%= aca.plan.Plan.getNombrePlan(conElias, planId) %></h2>
@@ -245,7 +246,10 @@
 		 		</div> 
 <%	
 				for(aca.plan.PlanCurso curso: lisCurso){
+					System.out.println(curso.getGrado()+".."+grupo.getGrado());
+					
 					if (curso.getGrado().equals(grupo.getGrado())){
+						System.out.println("entre");
 						if (encabezado){ 
 							encabezado = false;
 %>
