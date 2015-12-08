@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -129,5 +130,37 @@ public class AlumnoPromLista {
 		
 		return treeProm;
 	}
+	
+	
+	public HashMap<String,AlumnoProm> mapAlumProm(Connection conn, String codigoId, String orden ) throws SQLException{
+		HashMap<String,AlumnoProm> mapAlumProm 	= new HashMap<String,AlumnoProm>();
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		String llave		= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO, PUNTOS_EVAL, PUNTOS_ALUM, PUNTOS_AJUSTE" +
+				" FROM ALUMNO_PROM" +
+				" WHERE CODIGO_ID = '"+codigoId+"' " +orden;
+			rs = st.executeQuery(comando);			
+			while (rs.next()){				 
+				AlumnoProm ac = new AlumnoProm();		
+				ac.mapeaReg(rs);
+				llave = ac.getCursoId()+ac.getCodigoId();
+				mapAlumProm.put(llave, ac);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.vista.AlumnoPromLista|getTreeAlumno|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return mapAlumProm;
+	}
+	
+	
 	
 }
