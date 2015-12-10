@@ -330,9 +330,9 @@ public class KrdxCursoAct {
 					" F_NOTA = TO_DATE(?, 'DD/MM/YYYY')," +
 					" TIPOCAL_ID = TO_NUMBER(?, '99')," +
 					" COMENTARIO = ?," +
-					" NOTA_EXTRA = ?," +
+					" NOTA_EXTRA = TO_NUMBER(?, '999.9)," +
 					" F_EXTRA = TO_DATE(?, 'DD/MM/YYYY')," +
-					" NOTA_EXTRA2 = ?," +
+					" NOTA_EXTRA2 = TO_NUMBER(?, '999.9')," +
 					" F_EXTRA2 = TO_DATE(?, 'DD/MM/YYYY')"+
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
