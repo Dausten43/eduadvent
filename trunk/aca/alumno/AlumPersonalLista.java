@@ -510,7 +510,7 @@ public class AlumPersonalLista{
 				" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO" +
 					" WHERE CICLO_ID IN (SELECT CICLO_ID FROM CICLO WHERE 'now'::text::date >= ciclo.f_inicial AND 'now'::text::date <= ciclo.f_final)" +
 					" AND ESTADO = 'I')"+
-				"AND SUBSTR(TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY'),4,2)= '"+mes+"' ";				
+				"AND SUBSTR(TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY'),4,2)= '"+mes+"' ";
 			if (!dia.equals("0")){
 				comando = comando + "AND SUBSTR(TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY'),1,2)= '"+dia+"' ";
 			}	
