@@ -101,10 +101,10 @@ public class FinEjercicio {
 	    	boolean ok = false;
 
 	        try {
-	           ps = conn.prepareStatement(
-	                    " UPDATE FIN_EJERCICIO SET FECHA_INI = TO_DATE(?,'DD/MM/YYYY'),"
-	                    + " FECHA_FIN = TO_DATE(?,'DD/MM/YYYY'),"
-	                    + " WHERE EJERCICIO_ID = ?");
+	           ps = conn.prepareStatement("UPDATE FIN_EJERCICIO"
+	           		+ " SET FECHA_INI = TO_DATE(?,'DD/MM/YYYY'),"
+	           		+ " FECHA_FIN = TO_DATE(?,'DD/MM/YYYY')"
+	           		+ " WHERE EJERCICIO_ID = ?");
 	            
 	            ps.setString(1, fechaIni);
 	            ps.setString(2, fechaFin);
@@ -112,7 +112,6 @@ public class FinEjercicio {
 
 	            if (ps.executeUpdate() == 1) {
 	                ok = true;
-	                conn.commit();
 	            } else {
 	                ok = false;
 	            }
