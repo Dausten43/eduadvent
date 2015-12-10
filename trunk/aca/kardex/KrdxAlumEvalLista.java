@@ -209,7 +209,7 @@ public class KrdxAlumEvalLista {
 			comando = " SELECT CICLO_GRUPO_ID, " +
 					" (SUM(NOTA)/COUNT(NOTA)) AS PROMEDIO " +
 					" FROM KRDX_ALUM_EVAL WHERE SUBSTR(CICLO_GRUPO_ID,1,8) = '"+cicloId+"' " +
-					" AND EVALUACION_ID = '"+evaluacionId+"' " +
+					" AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') " +
 					" GROUP BY CICLO_GRUPO_ID  "+ orden;
 			
 			rs = st.executeQuery(comando);
@@ -241,7 +241,7 @@ public class KrdxAlumEvalLista {
 					" (SELECT (SUM(NOTA)/COUNT(NOTA)) " +
 					"   FROM KRDX_ALUM_EVAL WHERE CICLO_GRUPO_ID = KRDX_CURSO_ACT.CICLO_GRUPO_ID " +
 					"   AND CODIGO_ID = KRDX_CURSO_ACT.CODIGO_ID " +
-					"   AND EVALUACION_ID = '"+evaluacionId+"') AS PROM " +
+					"   AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99')) AS PROM " +
 					" FROM KRDX_CURSO_ACT WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY 3 DESC ";
 			
 			rs = st.executeQuery(comando);
@@ -275,7 +275,7 @@ public class KrdxAlumEvalLista {
 					" ( COALESCE(SUM(NOTA),1) / ( CASE COUNT(NOTA) WHEN 0 THEN 1 ELSE COUNT(NOTA) END) )" +
 					" FROM KRDX_ALUM_EVAL  " +
 					" WHERE SUBSTR(CICLO_GRUPO_ID,1,8) = '"+cicloId+"'" +
-					" AND EVALUACION_ID = '"+evaluacionId+"' " +
+					" AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') " +
 					" AND CICLO_GRUPO_ID || CURSO_ID IN (SELECT CICLO_GRUPO_ID||CURSO_ID " +
 					"   FROM CICLO_GRUPO_CURSO WHERE EMPLEADO_ID = EMP_PERSONAL.CODIGO_ID)) AS PROMEDIO" +
 					" FROM EMP_PERSONAL " +
@@ -309,7 +309,7 @@ public class KrdxAlumEvalLista {
 		try{
 			comando = " SELECT EMPLEADO_ID, CICLO_GRUPO_ID, CURSO_ID, " +
 					"   (SELECT (COALESCE(SUM(NOTA),1) / ( CASE COUNT(NOTA) WHEN 0 THEN 1 ELSE COUNT(NOTA) END) ) " +
-					"		FROM KRDX_ALUM_EVAL WHERE CICLO_GRUPO_ID = CGC.CICLO_GRUPO_ID AND CURSO_ID = CGC.CURSO_ID AND EVALUACION_ID = '"+evaluacionId+"') AS PROMEDIO" +
+					"		FROM KRDX_ALUM_EVAL WHERE CICLO_GRUPO_ID = CGC.CICLO_GRUPO_ID AND CURSO_ID = CGC.CURSO_ID AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99')) AS PROMEDIO" +
 					" 	FROM CICLO_GRUPO_CURSO AS CGC " +
 					" 	WHERE SUBSTR(CICLO_GRUPO_ID,1,8) = '"+cicloId+"' " + orden;
 			
@@ -340,7 +340,7 @@ public class KrdxAlumEvalLista {
 					" FROM KRDX_ALUM_EVAL " +
 					" WHERE CURSO_ID = '"+cursoId+"'" +
 					" AND CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
-					" AND EVALUACION_ID = "+evaluacionId+" " +
+					" AND EVALUACION_ID = TO_NUMBER("+evaluacionId+", '99') " +
 					" AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_ALUM_EVAL.CURSO_ID) "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -371,7 +371,7 @@ public class KrdxAlumEvalLista {
 			comando = " SELECT CICLO_GRUPO_ID, COUNT( DISTINCT(CODIGO_ID) ) AS CANTIDAD"
 					+ " FROM KRDX_ALUM_EVAL"
 					+ " WHERE CICLO_GRUPO_ID LIKE '"+cicloId+"%'"
-					+ " AND EVALUACION_ID = "+evaluacionId+" "
+					+ " AND EVALUACION_ID = TO_NUMBER("+evaluacionId+", '99') "
 					+ " AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_ALUM_EVAL.CURSO_ID)"
 					+ " GROUP BY CICLO_GRUPO_ID ";
 			rs = st.executeQuery(comando);			
