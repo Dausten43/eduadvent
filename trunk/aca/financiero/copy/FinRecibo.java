@@ -201,7 +201,7 @@ public class FinRecibo {
                     "INSERT INTO FIN_RECIBO(RECIBO_ID, IMPORTE, FECHA, CLIENTE," +
                     " DOMICILIO, CHEQUE, BANCO, OBSERVACIONES, USUARIO, RFC, TIPO)" +
                     " VALUES(TO_NUMBER(?, '9999999')," +
-                    " TO_NUMBER(?, '99999.99')," +
+                    " TO_NUMBER(?, '999999.99')," +
                     " TO_DATE(?, 'DD/MM/YYYY')," +
                     " ?, ?, ?, ?, ?, ?, ?, ?)");
             
@@ -235,7 +235,7 @@ public class FinRecibo {
         try{
             ps = conn.prepareStatement(
                     "UPDATE FIN_RECIBO" +
-                    " SET IMPORTE = TO_NUMBER(?, '99999.99')," +
+                    " SET IMPORTE = TO_NUMBER(?, '999999.99')," +
                     " FECHA = TO_DATE(?, 'DD/MM/YYYY')," +
                     " CLIENTE = ?," +
                     " DOMICILIO = ?," +
@@ -277,7 +277,7 @@ public class FinRecibo {
         try{
             ps = conn.prepareStatement(
                     "UPDATE FIN_RECIBO" +
-                    " SET IMPORTE = TO_NUMBER(?, '99999.99')" +   
+                    " SET IMPORTE = TO_NUMBER(?, '999999.99')" +   
                     " WHERE RECIBO_ID = TO_NUMBER(?, '9999999')");
             
             ps.setString(1, importe);            
@@ -339,7 +339,7 @@ public class FinRecibo {
 	                "SELECT RECIBO_ID, IMPORTE, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, CLIENTE," +
 	                " DOMICILIO, CHEQUE, BANCO, OBSERVACIONES, USUARIO, RFC, TIPO" +
 	                " FROM FIN_RECIBO" +
-	                " WHERE RECIBO_ID = TO_NUMBER(?, '99999.99')");        
+	                " WHERE RECIBO_ID = TO_NUMBER(?, '999999.99')");        
 	        ps.setString(1, reciboId);
 	        
 	        rs = ps.executeQuery();
