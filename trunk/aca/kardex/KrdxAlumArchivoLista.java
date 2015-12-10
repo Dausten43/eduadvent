@@ -55,7 +55,7 @@ public class KrdxAlumArchivoLista {
 				" FROM KRDX_ALUM_ARCHIVO "+ 
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
 				" AND CURSO_ID = '"+cursoId+"'" +
-				" AND EVALUACION_ID = '"+evaluacionId+"'" + orden;
+				" AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99')" + orden;
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
@@ -86,8 +86,8 @@ public class KrdxAlumArchivoLista {
 				" FROM KRDX_ALUM_ARCHIVO "+ 
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
 				" AND CURSO_ID = '"+cursoId+"'" +
-				" AND EVALUACION_ID = '"+evaluacionId+"'" +
-				" AND ACTIVIDAD_ID = '"+actividadId+"' " + orden;
+				" AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99')" +
+				" AND ACTIVIDAD_ID = TO_NUMBER('"+actividadId+"', '99') " + orden;
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){				
@@ -117,8 +117,8 @@ public class KrdxAlumArchivoLista {
 				" FROM KRDX_ALUM_ARCHIVO "+ 
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
 				" AND CURSO_ID = '"+cursoId+"'" +
-				" AND EVALUACION_ID = '"+evaluacionId+"'" +
-				" AND ACTIVIDAD_ID = '"+actividadId+"' " + orden;
+				" AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99')" +
+				" AND ACTIVIDAD_ID = TO_NUMBER('"+actividadId+"', '99') " + orden;
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -147,8 +147,8 @@ public class KrdxAlumArchivoLista {
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
 				" AND CURSO_ID = '"+cursoId+"'" +
 				" AND CODIGO_ID = '"+codigoId+"'" +
-				" AND EVALUACION_ID = '"+evaluacionId+"'" +
-				" AND ACTIVIDAD_ID = '"+actividadId+"' " + orden;
+				" AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99')" +
+				" AND ACTIVIDAD_ID = TO_NUMBER('"+actividadId+"', '99') " + orden;
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
@@ -179,8 +179,8 @@ public class KrdxAlumArchivoLista {
 				" FROM KRDX_ALUM_ARCHIVO "+ 
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
 				" AND CURSO_ID = '"+cursoId+"'" +
-				" AND EVALUACION_ID = '"+evaluacionId+"'" +
-				" AND ACTIVIDAD_ID = '"+actividadId+"' " + orden;
+				" AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99')" +
+				" AND ACTIVIDAD_ID = TO_NUMBER('"+actividadId+"', '99') " + orden;
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
