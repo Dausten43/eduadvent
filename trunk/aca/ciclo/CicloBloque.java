@@ -352,7 +352,7 @@ public class CicloBloque {
 		boolean ok 				= false;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM CICLO_BLOQUE WHERE CICLO_ID = ? AND PROMEDIO_ID = ?");
+			ps = conn.prepareStatement("SELECT * FROM CICLO_BLOQUE WHERE CICLO_ID = ? AND PROMEDIO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, cicloId);
 			ps.setString(2, promedioId);
 			
@@ -458,7 +458,7 @@ public class CicloBloque {
 		
 		try{
 			ps = conn.prepareStatement("SELECT COALESCE(DECIMALES,0) AS DECIMALES FROM CICLO_BLOQUE" +
-					" WHERE CICLO_ID = ? AND BLOQUE_ID = ?");
+					" WHERE CICLO_ID = ? AND BLOQUE_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, cicloId);
 			ps.setString(2, bloqueId);
 			
