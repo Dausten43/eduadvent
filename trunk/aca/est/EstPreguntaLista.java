@@ -42,7 +42,7 @@ public class EstPreguntaLista{
 		
 		try{
 			comando = "SELECT ENCUESTA_ID, PREGUNTA_NOMBRE, PREGUNTA_ID, "+
-					  " TIPO FROM EST_PREGUNTA WHERE ENCUESTA_ID = '"+encuestaId+"' "+orden;	 
+					  " TIPO FROM EST_PREGUNTA WHERE ENCUESTA_ID = TO_NUMBER('"+encuestaId+"', '99999') "+orden;	 
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				

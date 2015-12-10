@@ -58,7 +58,7 @@ public class EstPregunta{
 		try{
 			ps = conn.prepareStatement("INSERT INTO EST_PREGUNTA"+ 
 				"(ENCUESTA_ID, PREGUNTA_NOMBRE, PREGUNTA_ID, TIPO) "+
-				"VALUES( TO_NUMBER(?,'99999'),TO_NUMBER(?,'999'), ?, ?)");
+				"VALUES( TO_NUMBER(?,'99999'), ?, TO_NUMBER(?,'999'), ?)");
 			ps.setString(1, encuestaId);
 			ps.setString(2, preguntaNombre);			
 			ps.setString(3, preguntaId);

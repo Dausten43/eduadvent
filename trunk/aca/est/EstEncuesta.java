@@ -219,7 +219,7 @@ public class EstEncuesta{
 		String maximo			= "1";
 		
 		try{
-			ps = conn.prepareStatement("SELECT TO_CHAR((MAX(TO_NUMBER(ENCUESTA_ID,'99999')+1))) AS MAXIMO FROM EST_ENCUESTA WHERE ENCUESTA_ID = TO_NUMBER(?,99) "  ); 
+			ps = conn.prepareStatement("SELECT TO_CHAR((MAX(TO_NUMBER(ENCUESTA_ID,'99999')+1))) AS MAXIMO FROM EST_ENCUESTA WHERE ENCUESTA_ID = TO_NUMBER(?, '99999') "  ); 
 			ps.setString(1, encuestaId);
 			
 			rs = ps.executeQuery();
