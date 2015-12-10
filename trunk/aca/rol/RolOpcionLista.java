@@ -70,7 +70,7 @@ public class RolOpcionLista {
 		
 		try{
 			comando = " SELECT ROL_ID, OPCION_ID FROM ROL_OPCION"
-					+ " WHERE ROL_ID = '"+roldId+"'";
+					+ " WHERE ROL_ID = TO_NUMBER('"+roldId+"', '999')";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
