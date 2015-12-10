@@ -18,7 +18,7 @@ public class FinCalculoDetLista {
 			comando = "SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, CUENTA_ID, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, IMPORTE, BECA" +
 					" FROM FIN_CALCULO_DET" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = '"+periodoId+"'" +
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')" +
 					" AND CODIGO_ID = '"+codigoId+"' "+orden;			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
