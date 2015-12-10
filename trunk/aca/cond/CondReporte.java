@@ -166,7 +166,7 @@ public class CondReporte {
 		try{
 			ps = conn.prepareStatement("INSERT INTO COND_REPORTE (CODIGO_ID, TIPO_ID, " +
 					" FECHA, COMENTARIO, ESTADO, FOLIO, CICLO_ID, EMPLEADO_ID, COMPROMISO) " +
-					" VALUES(?,TO_NUMBER(?,'99'),TO_DATE(?, 'DD/MM/YYYY'),?,?,TO_NUMBER(?,'99999'),?, ?,?)");
+					" VALUES(?,TO_NUMBER(?,'9999999'),TO_DATE(?, 'DD/MM/YYYY'),?,?,TO_NUMBER(?,'99999'),?, ?,?)");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, tipoId);
