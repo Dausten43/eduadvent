@@ -188,7 +188,7 @@ public class Rol {
 		String nombre 			= "-";
 		
 		try{
-			ps = conn.prepareStatement("SELECT ROL_NOMBRE FROM ROL WHERE ROL_ID='"+rolId+"'");
+			ps = conn.prepareStatement("SELECT ROL_NOMBRE FROM ROL WHERE ROL_ID = TO_NUMBER('"+rolId+"', '999')");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				nombre = rs.getString("ROL_NOMBRE");
