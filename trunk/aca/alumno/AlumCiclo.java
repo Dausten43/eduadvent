@@ -347,7 +347,7 @@ public class AlumCiclo{
 					" ALUM_CICLO" +
 					" WHERE CODIGO_ID = '"+codigoId+"'" +
 					" AND CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = '"+periodoId+"'" +
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')" +
 					" AND ESTADO = 'I'";
 			
 			rs = st.executeQuery(comando);
@@ -378,10 +378,10 @@ public class AlumCiclo{
 					" ALUM_CICLO" +
 					" WHERE CODIGO_ID = '"+codigoId+"'" +
 					" AND CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = '"+periodoId+"'" +
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')" +
 					" AND PLAN_ID = '"+planId+"'" +
-					" AND NIVEL = '"+nivel+"'" +
-					" AND GRADO = '"+grado+"'" +
+					" AND NIVEL = TO_NUMBER('"+nivel+"', '99')" +
+					" AND GRADO = TO_NUMBER('"+grado+"', '99')" +
 					" AND GRUPO = '"+grupo+"'" +
 					" AND ESTADO = 'I'";
 			
@@ -413,10 +413,10 @@ public class AlumCiclo{
 					" ALUM_CICLO" +
 					" WHERE CODIGO_ID = '"+codigoId+"'" +
 					" AND CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = '"+periodoId+"'" +
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')" +
 					" AND (PLAN_ID != '"+planId+"'" +
-					" OR NIVEL != '"+nivel+"'" +
-					" OR GRADO != '"+grado+"'" +
+					" OR NIVEL != TO_NUMBER('"+nivel+"', '99')" +
+					" OR GRADO != TO_NUMBER('"+grado+"', '99')" +
 					" OR GRUPO != '"+grupo+"') " +
 					" AND ESTADO = 'I'";
 			
