@@ -6,8 +6,6 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/itext-2.0.0.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/iText-5.0.2.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jmf.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/pgjdbc2.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/servlet-2_3-fcs-classfiles.zip"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/twain.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jstl-1.2.jar"/>
@@ -20,5 +18,8 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/poi-ooxml-3.10-FINAL-20140208.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/poi-ooxml-schemas-3.10-FINAL-20140208.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/xmlbeans-2.3.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/com.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/postgresql-9.4-1206-jdbc42.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
