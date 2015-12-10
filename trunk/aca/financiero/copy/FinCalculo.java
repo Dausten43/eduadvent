@@ -258,7 +258,7 @@ public class FinCalculo {
             ps = conn.prepareStatement(
                     "UPDATE FIN_CALCULO " + 
                     " SET PLAN_ID = ?," +
-                    " CLASFIN_ID = ?," +
+                    " CLASFIN_ID = TO_NUMBER(?, '99')," +
                     " TIPO_PAGO = ?," +
                     " IMPORTE = TO_NUMBER(?, '99999.99')," +                   
                     " INSCRITO = ?, " +
