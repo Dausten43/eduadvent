@@ -79,7 +79,7 @@ public class CicloBloqueLista {
 					+ " TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES"
 					+ " FROM CICLO_BLOQUE"
 					+ " WHERE CICLO_ID = '"+cicloId+"'"
-					+ " AND PROMEDIO_ID = '"+promedioId+"' "+orden;
+					+ " AND PROMEDIO_ID = TO_NUMBER('"+promedioId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -110,7 +110,7 @@ public class CicloBloqueLista {
 					" TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO," +
 					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES" +
 					" FROM CICLO_BLOQUE " +
-					" WHERE PROMEDIO_ID = '"+promedioId+"' AND CICLO_ID='"+cicloId+"' "+orden;
+					" WHERE PROMEDIO_ID = TO_NUMBER('"+promedioId+"', '99') AND CICLO_ID='"+cicloId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
