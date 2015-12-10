@@ -153,7 +153,7 @@ public class CondTipoReporte {
 		boolean ok = false;
 		try{
 			 ps = conn.prepareStatement("DELETE FROM COND_TIPOREPORTE" +
-					" WHERE TIPO_ID = ?");
+					" WHERE TIPO_ID = TO_NUMBER(?, '9999999')");
 			ps.setString(1, tipoId);
 			
 			if ( ps.executeUpdate()== 1){
@@ -178,7 +178,7 @@ public class CondTipoReporte {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM COND_TIPOREPORTE" +
-					" WHERE TIPO_ID = ?");
+					" WHERE TIPO_ID = TO_NUMBER(?, '9999999')");
 			ps.setString(1, tipoId);
 			
 			rs= ps.executeQuery();		
