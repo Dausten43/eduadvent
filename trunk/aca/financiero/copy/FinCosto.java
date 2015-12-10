@@ -159,7 +159,7 @@ public class FinCosto {
             ps = conn.prepareStatement(
                     "INSERT INTO FIN_COSTO( CICLO_ID, COSTO_ID, PERIODO_ID, PLAN_ID, CLASFIN_ID, CUENTA_ID, FECHA, IMPORTE )" +
                     " VALUES(?," +
-                    " TO_NUMBER(?, '99')," +
+                    " TO_NUMBER(?, '999')," +
                     " TO_NUMBER(?, '99'), ?," +
                     " TO_NUMBER(?,'99'), ?," +
                     " TO_DATE(?,'DD/MM/YYYY')," +
@@ -202,7 +202,7 @@ public class FinCosto {
                     " FECHA = TO_DATE(?,'DD/MM/YYYY')," +
                     " IMPORTE = TO_NUMBER(?, '99999.99')" +
                     " WHERE CICLO_ID = ? " +
-                    " AND COSTO_ID = TO_NUMBER(?, '99')");
+                    " AND COSTO_ID = TO_NUMBER(?, '999')");
             
             ps.setString(1, periodoId);
             ps.setString(2, planId);
@@ -233,7 +233,7 @@ public class FinCosto {
         PreparedStatement ps = null;
         try {
             ps = conn.prepareStatement(
-                    "DELETE FROM FIN_COSTO WHERE CICLO_ID = ? AND COSTO_ID = TO_NUMBER(?, '99')");
+                    "DELETE FROM FIN_COSTO WHERE CICLO_ID = ? AND COSTO_ID = TO_NUMBER(?, '999')");
             
             ps.setString(1, cicloId);
             ps.setString(2, costoId);
@@ -271,7 +271,7 @@ public class FinCosto {
 	                " CLASFIN_ID, CUENTA_ID, FECHA, IMPORTE" +
 	                " FROM FIN_COSTO" +
 	                " WHERE CICLO_ID = ? " +
-	                " AND COSTO_ID = TO_NUMBER(?, '99')");
+	                " AND COSTO_ID = TO_NUMBER(?, '999')");
 	        
 	        ps.setString(1, cicloId);
 	        ps.setString(2, costoId);
@@ -327,7 +327,7 @@ public class FinCosto {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_COSTO WHERE CICLO_ID = ? AND COSTO_ID = TO_NUMBER(?, '99')");
+            ps = conn.prepareStatement("SELECT * FROM FIN_COSTO WHERE CICLO_ID = ? AND COSTO_ID = TO_NUMBER(?, '999')");
             ps.setString(1, cicloId);
             ps.setString(2, costoId);
             
@@ -355,7 +355,7 @@ public class FinCosto {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_COSTO WHERE CICLO_ID = ? AND PERIODO_ID = ? AND CLASFIN_ID = ? AND PLAN_ID = ? AND CUENTA_ID = ?");
+            ps = conn.prepareStatement("SELECT * FROM FIN_COSTO WHERE CICLO_ID = ? AND PERIODO_ID = TO_NUMBER(?, '99') AND CLASFIN_ID = ? AND PLAN_ID = ? AND CUENTA_ID = ?");
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
             ps.setString(3, clasFinId);
@@ -498,7 +498,7 @@ public class FinCosto {
             		" WHERE CICLO_ID||PERIODO_ID||PLAN_ID||CLASFIN_ID IN " +
             		"	(SELECT CICLO_ID||PERIODO_ID||PLAN_ID||CLASFIN_ID" +
             		" 	FROM FIN_COSTO" +
-            		"	WHERE CICLO_ID = ? AND COSTO_ID = TO_NUMBER(?, '99'))");            
+            		"	WHERE CICLO_ID = ? AND COSTO_ID = TO_NUMBER(?, '999'))");            
             ps.setString(1, cicloId);
             ps.setString(2, costoId);
             
