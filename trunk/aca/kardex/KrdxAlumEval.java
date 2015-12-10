@@ -75,7 +75,7 @@ public class KrdxAlumEval {
 					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, NOTA)" +
 					" VALUES(?, ?, ?," +
 					" TO_NUMBER(?, '99')," +
-					" TO_NUMBER(?, '999.9') )");
+					" TO_NUMBER(?, '999.99') )");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
@@ -103,7 +103,7 @@ public class KrdxAlumEval {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("UPDATE KRDX_ALUM_EVAL" +
-					" SET NOTA = TO_NUMBER(?, '999.9')" +
+					" SET NOTA = TO_NUMBER(?, '999.99')" +
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
@@ -167,7 +167,7 @@ public class KrdxAlumEval {
 			ps = conn.prepareStatement("DELETE FROM KRDX_ALUM_EVAL" +
 					" WHERE CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
-					" AND EVALUACION_ID = ?");
+					" AND EVALUACION_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, cicloGrupoId);
 			ps.setString(2, cursoId);
 			ps.setString(3, evaluacionId);
@@ -383,7 +383,7 @@ public class KrdxAlumEval {
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
-					" AND EVALUACION_ID = ?");	
+					" AND EVALUACION_ID = TO_NUMBER(?, '99')");	
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
@@ -414,7 +414,7 @@ public class KrdxAlumEval {
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
-					" AND EVALUACION_ID = ?");	
+					" AND EVALUACION_ID = TO_NUMBER(?, '99')");	
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
@@ -445,7 +445,7 @@ public class KrdxAlumEval {
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
-					" AND EVALUACION_ID = ?");	
+					" AND EVALUACION_ID = TO_NUMBER(?, '99')");	
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
@@ -559,7 +559,7 @@ public class KrdxAlumEval {
 				" FROM KRDX_ALUM_ACTIV" +
 				" WHERE CICLO_GRUPO_ID = ?" +
 				" AND CURSO_ID = ?" +
-				" AND EVALUACION_ID = ?" +
+				" AND EVALUACION_ID = TO_NUMBER(?, '99')" +
 				" AND CODIGO_ID = ?" +
 				" AND NOTA != 0");
 			ps.setString(1, cicloGrupoId);
