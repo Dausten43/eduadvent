@@ -71,7 +71,7 @@ public class AlumGrupo {
 		try{			
 			ps = conn.prepareStatement("INSERT INTO ALUM_GRUPO"+
 					" ( CODIGO_ID, CICLO_GRUPO_ID, ORDEN) "+
-					" VALUES( ?, ?, ? )");
+					" VALUES( ?, ?, TO_NUMBER(?, '999'))");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
@@ -98,7 +98,7 @@ public class AlumGrupo {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("UPDATE ALUM_GRUPO "+
-				" SET ORDEN = ?, " +
+				" SET ORDEN = TO_NUMBER(?, '999'), " +
 				" WHERE  CODIGO_ID= ? "+
 				" AND CICLO_GRUPO_ID = ? ");		
 			
