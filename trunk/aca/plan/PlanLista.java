@@ -98,7 +98,7 @@ public class PlanLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT PLAN_ID, PLAN_NOMBRE, NIVEL_ID, ESCUELA_ID, ESTADO, VALIDA_HORARIO, TITULO FROM PLAN WHERE NIVEL_ID = '"+nivelId+"' "+orden;
+			comando = "SELECT PLAN_ID, PLAN_NOMBRE, NIVEL_ID, ESCUELA_ID, ESTADO, VALIDA_HORARIO, TITULO FROM PLAN WHERE NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
