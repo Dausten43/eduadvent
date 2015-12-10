@@ -274,7 +274,7 @@ public class AlumCicloLista{
 				comando = "SELECT *" 
 							+" FROM ALUM_CICLO"
 							+" WHERE CICLO_ID = '"+cicloId+"'"
-							+" AND PERIODO_ID = '"+periodoId+"'";
+							+" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')";
 					
 				rs = st.executeQuery(comando);
 				while (rs.next()){				
