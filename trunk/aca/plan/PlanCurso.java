@@ -515,7 +515,7 @@ public class PlanCurso{
 		try{				
 			ps = conn.prepareStatement("SELECT COUNT(CURSO_ID) AS NUMMAT" +
 					" FROM PLAN_CURSO" +
-					" WHERE PLAN_ID = ? AND GRADO = ?");
+					" WHERE PLAN_ID = ? AND GRADO = TO_NUMBER(?, '99')");
 			ps.setString(1, planId);	
 			ps.setInt(2, grado);
 			rs = ps.executeQuery();
