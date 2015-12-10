@@ -43,7 +43,7 @@ public class Menu{
 		try{
 			ps = conn.prepareStatement("INSERT INTO MENU" +
 					" (MENU_ID, MENU_NOMBRE)" +
-					" VALUES(?, ?)");
+					" VALUES(TO_NUMBER(?, '99'), ?)");
 			
 			ps.setString(1, menu_id);
 			ps.setString(2, menu_nombre);
@@ -69,7 +69,7 @@ public class Menu{
 		try{
 			ps = conn.prepareStatement("UPDATE MENU" +
 					" SET MENU_NOMBRE = ?" +
-					" WHERE MENU_ID = ?");
+					" WHERE MENU_ID = TO_NUMBER(?, '99')");
 			
 			ps.setString(1, menu_id);
 			ps.setString(2, menu_nombre);
@@ -93,7 +93,7 @@ public class Menu{
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("DELETE FROM MENU" +
-					" WHERE MENU_ID = ?");
+					" WHERE MENU_ID = TO_NUMBER(?, '99')");
 			
 			ps.setString(1, menu_id);
 			ps.setString(2, menu_nombre);
@@ -125,7 +125,7 @@ public class Menu{
 		try{
 			ps = con.prepareStatement("SELECT *" +
 					" FROM MENU" +
-					" WHERE MENU_ID = ?");
+					" WHERE MENU_ID = TO_NUMBER(?, '99')");
 				
 			ps.setString(1, menu_id);
 			ps.setString(2, menu_nombre);
@@ -151,7 +151,7 @@ public class Menu{
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM MENU" +
-					" WHERE MENU_ID = ?");
+					" WHERE MENU_ID = TO_NUMBER(?, '99')");
 			
 			ps.setString(1, menu_id);
 			ps.setString(2, menu_nombre);
