@@ -69,7 +69,7 @@ public class RolOpcion {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("UPDATE ROL_OPCION "+ 
-				" SET ROL_OPCION = ? "+
+				" SET ROL_OPCION = TO_NUMBER(?, '999') "+
 				"WHERE ROL_ID = TO_NUMBER(?, '999') ");
 			ps.setString(1, opcionId);			
 			ps.setString(2, rolId);
