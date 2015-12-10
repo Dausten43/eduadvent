@@ -113,7 +113,7 @@ public class ModuloOpcion  implements java.io.Serializable{
 		try{
 			ps = conn.prepareStatement("INSERT INTO MODULO_OPCION (MODULO_ID,"+
 										" OPCION_ID, NOMBRE_OPCION, URL, ORDEN, ACCESO, ESTADO) "+
-										" VALUES(?,?,?,?,?,?,?)");
+										" VALUES(?,TO_NUMBER(?, '999'),?,?,TO_NUMBER(?, '99'),?,?)");
 			ps.setString(1, moduloId);
 			ps.setString(2, opcionId);
 			ps.setString(3, nombreOpcion);
@@ -142,7 +142,7 @@ public class ModuloOpcion  implements java.io.Serializable{
 		try{
 			ps = conn.prepareStatement("UPDATE MODULO_OPCION"+
 				" SET NOMBRE_OPCION = ?, URL= ?, ORDEN = TO_NUMBER(?,'99'), ACCESO = ?, ESTADO = ? "+
-				" WHERE MODULO_ID = ? AND OPCION_ID = ?");
+				" WHERE MODULO_ID = ? AND OPCION_ID = TO_NUMBER(?, '999')");
 			ps.setString(1, nombreOpcion);
 			ps.setString(2, url);
 			ps.setString(3, orden);
@@ -169,7 +169,7 @@ public class ModuloOpcion  implements java.io.Serializable{
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("DELETE FROM MODULO_OPCION WHERE MODULO_ID = ? AND OPCION_ID = ?");
+			ps = conn.prepareStatement("DELETE FROM MODULO_OPCION WHERE MODULO_ID = ? AND OPCION_ID = TO_NUMBER(?, '999')");
 			ps.setString(1, moduloId);
 			ps.setString(2, opcionId);
 			if ( ps.executeUpdate()== 1){
@@ -201,7 +201,7 @@ public class ModuloOpcion  implements java.io.Serializable{
 		PreparedStatement ps = null; 
 		try{
 			ps = conn.prepareStatement("SELECT MODULO_ID, OPCION_ID, NOMBRE_OPCION, URL,"+
-							" ORDEN, ACCESO, ESTADO FROM MODULO_OPCION WHERE MODULO_ID = ? AND OPCION_ID = ? ");
+							" ORDEN, ACCESO, ESTADO FROM MODULO_OPCION WHERE MODULO_ID = ? AND OPCION_ID = TO_NUMBER(?, '999') ");
 			ps.setString(1, moduloId);
 			ps.setString(2, opcionId);
 			rs = ps.executeQuery();
@@ -223,7 +223,7 @@ public class ModuloOpcion  implements java.io.Serializable{
 		PreparedStatement ps = null; 
 		try{	
 			ps = conn.prepareStatement("SELECT MODULO_ID, OPCION_ID, NOMBRE_OPCION, URL,"+
-							" ORDEN, ACCESO, ESTADO FROM MODULO_OPCION WHERE OPCION_ID = ? ");
+							" ORDEN, ACCESO, ESTADO FROM MODULO_OPCION WHERE OPCION_ID = TO_NUMBER(?, '999') ");
 			ps.setString(1, opcionId);
 			rs = ps.executeQuery();
 			
@@ -246,7 +246,7 @@ public class ModuloOpcion  implements java.io.Serializable{
 		boolean ok 				= false;
 		
 		try{			
-			ps = conn.prepareStatement("SELECT * FROM MODULO_OPCION WHERE OPCION_ID = ?");			
+			ps = conn.prepareStatement("SELECT * FROM MODULO_OPCION WHERE OPCION_ID = TO_NUMBER(?, '999')");			
 			ps.setString(1, opcionId);
 			rs= ps.executeQuery();		
 			if(rs.next()){
@@ -271,7 +271,7 @@ public class ModuloOpcion  implements java.io.Serializable{
 		boolean ok 				= false;
 		
 		try{			
-			ps = conn.prepareStatement("SELECT * FROM MODULO_OPCION WHERE MODULO_ID = ? AND OPCION_ID = ?");
+			ps = conn.prepareStatement("SELECT * FROM MODULO_OPCION WHERE MODULO_ID = ? AND OPCION_ID = TO_NUMBER(?, '999')");
 			ps.setString(1, moduloId);
 			ps.setString(2, opcionId);
 			rs= ps.executeQuery();		
@@ -298,7 +298,7 @@ public class ModuloOpcion  implements java.io.Serializable{
 	
 		try{			
 			ps = conn.prepareStatement("SELECT NOMBRE_OPCION FROM MODULO_OPCION " +
-					"WHERE OPCION_ID = ?");
+					"WHERE OPCION_ID = TO_NUMBER(?, '999')");
 			ps.setString(1, opcionId);
 			rs= ps.executeQuery();		
 			if(rs.next()){
