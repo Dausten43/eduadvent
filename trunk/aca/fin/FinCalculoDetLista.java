@@ -19,7 +19,7 @@ public class FinCalculoDetLista {
 			comando = "SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, CUENTA_ID, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, IMPORTE, BECA_PORCENTAJE, BECA_CANTIDAD, IMPORTE_BECA, PAGO_INICIAL_PORCENTAJE, IMPORTE_INICIAL" +
 					" FROM FIN_CALCULO_DET" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = '"+periodoId+"'" +
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')" +
 					" AND CODIGO_ID = '"+codigoId+"' "+orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -48,7 +48,7 @@ public class FinCalculoDetLista {
 			comando = "SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, CUENTA_ID, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, IMPORTE, BECA_PORCENTAJE, BECA_CANTIDAD, IMPORTE_BECA, PAGO_INICIAL_PORCENTAJE, IMPORTE_INICIAL" +
 					" FROM FIN_CALCULO_DET A " +
 					" WHERE CICLO_ID = '"+cicloId+"' " +
-					" AND PERIODO_ID = '"+periodoId+"'" +
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"'. '99')" +
 					" AND ( SELECT INSCRITO FROM FIN_CALCULO WHERE CICLO_ID = A.CICLO_ID AND PERIODO_ID = A.PERIODO_ID AND CODIGO_ID = A.CODIGO_ID ) IN ('G','P') "+orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){

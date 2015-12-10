@@ -132,9 +132,9 @@ public class FinMovimientos {
 			ps = conn.prepareStatement("INSERT INTO FIN_MOVIMIENTOS"
 					+ " (EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION,"
 					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID )"
-					+ " VALUES(?, ?, TO_NUMBER(?, '9999'), ?, ?, ?,"
+					+ " VALUES(?, ?, TO_NUMBER(?, '99999'), ?, ?, ?,"
 					+ " TO_NUMBER(?, '999999.99'), ?, ?, ?,"
-					+ " TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'), ?, ?, TO_NUMBER(?,'99') )");
+					+ " TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'), TO_NUMBER(?, '9999999'), ?, TO_NUMBER(?,'99') )");
 
 			ps.setString(1, ejercicioId);
 			ps.setString(2, polizaId);
@@ -179,12 +179,12 @@ public class FinMovimientos {
                     + " REFERENCIA = ?,"
                     + " ESTADO = ?,"
                     + " FECHA = TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'),"
-                    + " RECIBO_ID = ?,"
+                    + " RECIBO_ID = TO_NUMBER(, '9999999'),"
                     + " CICLO_ID = ?,"
                     + " PERIODO_ID = TO_NUMBER(?,'99')"
                     + " WHERE EJERCICIO_ID = ?"
                     + " AND POLIZA_ID = ?"
-                    + " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
+                    + " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')");
             
             ps.setString(1, cuentaId);
             ps.setString(2, auxiliar);
@@ -225,7 +225,7 @@ public class FinMovimientos {
                     " SET ESTADO = ? " +
                     " WHERE EJERCICIO_ID = ?" +
                     " AND POLIZA_ID = ?" +
-                    " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
+                    " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')");
             
             ps.setString(1, estado);
             ps.setString(2, ejercicioId);
@@ -256,7 +256,7 @@ public class FinMovimientos {
                     " SET CICLO_ID = ?, PERIODO_ID = ? " +
                     " WHERE EJERCICIO_ID = ?" +
                     " AND POLIZA_ID = ?" +
-                    " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
+                    " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')");
             
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
@@ -288,7 +288,7 @@ public class FinMovimientos {
                     " DELETE FROM FIN_MOVIMIENTOS " +
                     " WHERE EJERCICIO_ID = ?" +
                     " AND POLIZA_ID = ?" +
-                    " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
+                    " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')");
             
             ps.setString(1, ejercicioId);
             ps.setString(2, polizaId);
@@ -391,7 +391,7 @@ public class FinMovimientos {
 	                " FROM FIN_MOVIMIENTOS" +
 	                " WHERE EJERCICIO_ID = ?" +
 	                " AND POLIZA_ID = ?" +
-	                " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
+	                " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')");
 	        
 	        ps.setString(1, ejercicioId);
 	        ps.setString(2, polizaId);
@@ -443,7 +443,7 @@ public class FinMovimientos {
             ps = conn.prepareStatement("SELECT * FROM FIN_MOVIMIENTOS" +
             		" WHERE EJERCICIO_ID = ?" +
             		" AND POLIZA_ID = ?" +
-	                " AND MOVIMIENTO_ID = TO_NUMBER(?, '9999')");
+	                " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')");
             
 	        ps.setString(1, ejercicioId);
 	        ps.setString(2, polizaId);
@@ -597,7 +597,7 @@ public class FinMovimientos {
         String saldo 			= "0";
 
         try {
-            ps = conn.prepareStatement("SELECT POLIZA_ID FROM FIN_MOVIMIENTOS WHERE EJERCICIO_ID = ? AND RECIBO = ?");
+            ps = conn.prepareStatement("SELECT POLIZA_ID FROM FIN_MOVIMIENTOS WHERE EJERCICIO_ID = ? AND RECIBO = TO_NUMBER(?, '9999999')");
             
             ps.setString(1, ejercicio);
 	        ps.setString(2, recibo);

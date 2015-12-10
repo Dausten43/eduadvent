@@ -23,7 +23,7 @@ public class FinCalculoPagoLista {
 			comando = "SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, ESTADO, CUENTA_ID, BECA, PAGADO" +
 					" FROM FIN_CALCULO_PAGO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = '"+periodoId+"' "+orden;
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -52,8 +52,8 @@ public class FinCalculoPagoLista {
 			comando = "SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, ESTADO, CUENTA_ID, BECA, PAGADO"
 					+ " FROM FIN_CALCULO_PAGO"
 					+ " WHERE CICLO_ID = '"+cicloId+"'"
-					+ " AND PERIODO_ID = '"+periodoId+"'"
-					+ " AND PAGO_ID = '"+pagoId+"'"
+					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')"
+					+ " AND PAGO_ID = TO_NUMBER('"+pagoId+"', '99')"
 					+ "	AND ESTADO IN ("+estados+") "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -83,7 +83,7 @@ public class FinCalculoPagoLista {
 			comando = "SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, ESTADO, CUENTA_ID, BECA, PAGADO" +
 					" FROM FIN_CALCULO_PAGO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = '"+periodoId+"' " +
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') " +
 					" AND CODIGO_ID = '"+codigoId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -142,7 +142,7 @@ public class FinCalculoPagoLista {
 			comando = "SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, SUM(IMPORTE) AS IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, ESTADO, COUNT(CUENTA_ID) AS CUENTA_ID, SUM(BECA) AS BECA, PAGADO "
 					+ " FROM FIN_CALCULO_PAGO"
 					+ " WHERE CICLO_ID = '"+cicloId+"'"
-					+ " AND PERIODO_ID = '"+periodoId+"'"
+					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')"
 					+ " AND CODIGO_ID = '"+codigoId+"'"
 					+ " GROUP BY CICLO_ID, PERIODO_ID, CODIGO_ID, PAGO_ID, FECHA, ESTADO, PAGADO "+orden;
 			

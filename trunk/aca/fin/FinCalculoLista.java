@@ -23,7 +23,7 @@ public class FinCalculoLista {
 					" CLASFIN_ID, CONCEPTO, IMPORTE, NUMPAGOS, PAGOINICIAL, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA" +
 					" FROM FIN_COSTO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = '"+periodoId+"' "+orden;
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -52,7 +52,7 @@ public class FinCalculoLista {
 		try{
 			comando = "SELECT * FROM FIN_CALCULO"
 					+ " WHERE CICLO_ID = '"+cicloId+"' "
-					+ " AND PERIODO_ID = '"+periodoId+"' "
+					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "
 					+ " AND INSCRITO IN ('G','P') "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -81,7 +81,7 @@ public class FinCalculoLista {
 		try{
 			comando = "SELECT * FROM FIN_CALCULO"
 					+ " WHERE CICLO_ID = '"+cicloId+"' "
-					+ " AND PERIODO_ID = '"+periodoId+"' "
+					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "
 					+ " AND INSCRITO IN ("+inscrito+") "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -110,7 +110,7 @@ public class FinCalculoLista {
 		try{
 			comando = "	SELECT CODIGO_ID FROM FIN_CALCULO_PAGO A"+
 					  " WHERE CICLO_ID = '"+cicloId+"' "+
-					  " AND PERIODO_ID =  '"+periodoId+"' "+
+					  " AND PERIODO_ID =  TO_NUMBER('"+periodoId+"', '99') "+
 					  " AND PAGO_ID =  '"+pagoId+"' "+
 					  " AND ESTADO IN ("+estado+")"+
 					  " AND IMPORTE > '0'"+
@@ -141,7 +141,7 @@ public class FinCalculoLista {
 		try{
 			comando = "	SELECT CODIGO_ID, SUM(IMPORTE-BECA) AS TOTAL FROM FIN_CALCULO_PAGO A"+
 					  " WHERE CICLO_ID = '"+cicloId+"' "+
-					  " AND PERIODO_ID =  '"+periodoId+"' "+
+					  " AND PERIODO_ID =  TO_NUMBER('"+periodoId+"', '99') "+
 					  " AND PAGO_ID =  '"+pagoId+"' "+
 					  " AND ESTADO IN ("+estado+")"+
 					  " AND IMPORTE > '0'"+

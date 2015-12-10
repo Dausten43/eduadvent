@@ -25,7 +25,7 @@ public class FinCostoLista {
 					" CLASFIN_ID, CUENTA_ID, FECHA, IMPORTE " +
 					" FROM FIN_COSTO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = "+periodoId+" "+orden;
+					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -54,7 +54,7 @@ public class FinCostoLista {
 			comando = "SELECT COSTO_ID, CICLO_ID, PERIODO_ID, PLAN_ID, CLASFIN_ID, CUENTA_ID, FECHA, IMPORTE " +
 					" FROM FIN_COSTO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = "+periodoId+
+					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99')" +
 					" AND PLAN_ID = '"+planId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -84,12 +84,12 @@ public class FinCostoLista {
 			comando = "SELECT COSTO_ID, CICLO_ID, PERIODO_ID, PLAN_ID, CLASFIN_ID, CUENTA_ID, FECHA, IMPORTE " +
 					" FROM FIN_COSTO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = "+periodoId+
+					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99')" +
 					" AND PLAN_ID = '"+planId+"' " +
 					" AND CUENTA_ID NOT IN " +
 					"	(SELECT CUENTA_ID FROM FIN_CALCULO_DET " +
 					"	WHERE CICLO_ID = '"+cicloId+"' " +
-					"	AND PERIODO_ID='"+periodoId+"' " +
+					"	AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') " +
 					"	AND CODIGO_ID = '"+codigoId+"') " + orden;
 			
 			rs = st.executeQuery(comando);			

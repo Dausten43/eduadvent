@@ -250,7 +250,7 @@ public class FinPolizaLista {
 		try{			
 			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, USUARIO, ESTADO, TIPO "
 					+ " FROM FIN_POLIZA "
-					+ " WHERE DESCARGA_ID = '"+descargaId+"' "+orden;
+					+ " WHERE DESCARGA_ID = TO_NUMBER('"+descargaId+"', '9999') "+orden;
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				FinPoliza folio = new FinPoliza();

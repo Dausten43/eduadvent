@@ -103,7 +103,7 @@ public class FinDescargaSunplus {
         
 			        
         try {
-            ps = conn.prepareStatement("DELETE FROM FIN_DESCARGA_SUNPLUS WHERE DESCARGA_ID = ?");            
+            ps = conn.prepareStatement("DELETE FROM FIN_DESCARGA_SUNPLUS WHERE DESCARGA_ID = TO_NUMBER(?, '999999999')");            
             ps.setString(1, descargaId);
           
             if(ps.executeUpdate() == 1){
@@ -126,7 +126,7 @@ public class FinDescargaSunplus {
         
         try{
 			ResultSet rs = null;
-			ps = conn.prepareStatement("SELECT LO_UNLINK(ARCHIVO) AS RESULTADO FROM FIN_DESCARGA_SUNPLUS WHERE DESCARGA_ID  = ?" );
+			ps = conn.prepareStatement("SELECT LO_UNLINK(ARCHIVO) AS RESULTADO FROM FIN_DESCARGA_SUNPLUS WHERE DESCARGA_ID  = TO_NUMBER(?, '999999999')" );
 			ps.setString(1, descargaId);		
 			
 			rs = ps.executeQuery();
@@ -145,7 +145,7 @@ public class FinDescargaSunplus {
 			ps = null;
         
 	        try {
-	            ps = conn.prepareStatement("DELETE FROM FIN_DESCARGA_SUNPLUS WHERE DESCARGA_ID = ?");            
+	            ps = conn.prepareStatement("DELETE FROM FIN_DESCARGA_SUNPLUS WHERE DESCARGA_ID = TO_NUMBER(?, '999999999')");            
 	            ps.setString(1, descargaId);
 	          
 	            if(ps.executeUpdate() == 1){
@@ -177,7 +177,7 @@ public class FinDescargaSunplus {
 	        ps = con.prepareStatement(
 	                "SELECT DESCARGA_ID, CODIGO_ID, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, TIPO_POLIZA, ARCHIVO" +
 	                " FROM FIN_DESCARGA_SUNPLUS" +
-	                " WHERE DESCARGA_ID = ? ");
+	                " WHERE DESCARGA_ID = TO_NUMBER(?, '999999999') ");
 	        
 	        ps.setString(1, descargaId);
 	        

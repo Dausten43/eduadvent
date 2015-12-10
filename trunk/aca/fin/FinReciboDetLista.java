@@ -40,7 +40,7 @@ public class FinReciboDetLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT RECIBO_ID, FOLIO, CODIGO_ID, NOMBRE, CONCEPTO, IMPORTE FROM FIN_RECIBODET WHERE RECIBO_ID = '"+reciboId+"' "+orden;			
+			comando = "SELECT RECIBO_ID, FOLIO, CODIGO_ID, NOMBRE, CONCEPTO, IMPORTE FROM FIN_RECIBODET WHERE RECIBO_ID = TO_NUMBER('"+reciboId+"', '9999999') "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
 				FinReciboDet recibo = new FinReciboDet();	

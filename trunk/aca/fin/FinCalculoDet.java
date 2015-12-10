@@ -240,7 +240,7 @@ public class FinCalculoDet {
         	ps = conn.prepareStatement(
                     "UPDATE FIN_CALCULO_DET" +                    
                     " SET PAGO_INICIAL_PORCENTAJE = ?," +
-                    " IMPORTE_INICIAL = ? " +
+                    " IMPORTE_INICIAL = TO_NUMBER(', '99999.99) " +
                     " WHERE CICLO_ID = ? " +
                     " AND PERIODO_ID = TO_NUMBER(?, '99')" +
                     " AND CODIGO_ID = ?"+

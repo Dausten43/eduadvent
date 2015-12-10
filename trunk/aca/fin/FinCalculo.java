@@ -506,7 +506,7 @@ public class FinCalculo {
         try {
         	ps = conn.prepareStatement("SELECT COUNT(*) AS CANTIDAD FROM FIN_CALCULO "
         			+ " WHERE CICLO_ID = ? "
-        			+ " AND PERIODO_ID = ? "
+        			+ " AND PERIODO_ID = TO_NUMBER(?, '99') "
         			+ " AND INSCRITO = 'G' ");
         	
             ps.setString(1, cicloId);
@@ -535,7 +535,7 @@ public class FinCalculo {
         try {
         	ps = conn.prepareStatement("SELECT COUNT(DISTINCT(CODIGO_ID)) AS CANTIDAD FROM FIN_CALCULO_PAGO A"
         			+ " WHERE CICLO_ID = ? "
-        			+ " AND PERIODO_ID = ? "
+        			+ " AND PERIODO_ID = TO_NUMBER(?, '99') "
         			+ " AND PAGO_ID = ? "
         			+ " AND ESTADO = 'A'" /* Que no se hayan tomado en cuenta en alguna poliza (que no hayan sido Contabilizado) */
         			+ " AND IMPORTE > 0"); 

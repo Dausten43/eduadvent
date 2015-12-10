@@ -199,7 +199,7 @@ public class FinPago {
         PreparedStatement ps = null;
         try {
         	
-            ps = conn.prepareStatement("DELETE FROM FIN_PAGO WHERE CICLO_ID = ? AND PERIODO_ID = ? AND PAGO_ID = TO_NUMBER(?, '99')");
+            ps = conn.prepareStatement("DELETE FROM FIN_PAGO WHERE CICLO_ID = ? AND PERIODO_ID = TO_NUMBER(?, '99') AND PAGO_ID = TO_NUMBER(?, '99')");
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
             ps.setString(3, pagoId);
@@ -234,7 +234,7 @@ public class FinPago {
 	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
 	                + " FROM FIN_PAGO"
 	                + " WHERE CICLO_ID = ?"
-	                + " AND PERIODO_ID = ?"
+	                + " AND PERIODO_ID = TO_NUMBER(?; '99')"
 	                + " AND PAGO_ID = TO_NUMBER(?, '99')");
 	        
 	        ps.setString(1, cicloId);
@@ -259,7 +259,7 @@ public class FinPago {
 	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
 	                + " FROM FIN_PAGO"
 	                + " WHERE CICLO_ID = ?"
-	                + " AND PERIODO_ID = ?"
+	                + " AND PERIODO_ID = TO_NUMBER(?, '99')"
 	                + " AND TIPO = 'I'");
 	        
 	        ps.setString(1, cicloId);
@@ -282,7 +282,7 @@ public class FinPago {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_PAGO WHERE CICLO_ID = ?, AND PERIODO_ID = ? AND PAGO_ID = ?");
+            ps = conn.prepareStatement("SELECT * FROM FIN_PAGO WHERE CICLO_ID = ?, AND PERIODO_ID = TO_NUMBER(?; '99') AND PAGO_ID = TO_NUMBER(?; '99')");
             
             ps.setString(1, cicloId);
 	        ps.setString(2, periodoId);
@@ -406,7 +406,7 @@ public class FinPago {
             ps1 = conn.prepareStatement("SELECT * FROM FIN_PAGO"
             		+ " WHERE CICLO_ID = ?"
             		+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
-            		+ " AND PAGO_ID = ?"
+            		+ " AND PAGO_ID = TO_NUMBER(?; '99')"
             		+ " AND TIPO = 'I'");
             
             ps1.setString(1, cicloId);

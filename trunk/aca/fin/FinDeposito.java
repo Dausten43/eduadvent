@@ -125,10 +125,10 @@ public class FinDeposito {
                     "UPDATE FIN_DEPOSITO" +
                     " SET FECHA = TO_DATE(?,'DD/MM/YYYY')," +
                     " FECHA_DEPOSITO = TO_DATE(?,'DD/MM/YYYY')," +
-                    " IMPORTE = ?," +
+                    " IMPORTE = TO_NUMBER(?, '99999.99')," +
                     " RESPONSABLE = ?" +
                     " WHERE ESCUELA_ID = ?" +
-                    " AND FOLIO = TO_NUMBER(?, '99')");
+                    " AND FOLIO = TO_NUMBER(?, '999999')");
             ps.setString(1, fecha);
             ps.setString(2, fechaDeposito);
             ps.setString(3, importe);
@@ -196,7 +196,7 @@ public class FinDeposito {
 	                " SELECT ESCUELA_ID, FOLIO, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, TO_CHAR(FECHA_DEPOSITO,'DD/MM/YYYY') AS FECHA_DEPOSITO, IMPORTE, RESPONSABLE" +
 	                " FROM FIN_DEPOSITO" +
 	                " WHERE ESCUELA_ID = ?" +
-	                " AND FOLIO = TO_NUMBER(?, '9999999')");
+	                " AND FOLIO = TO_NUMBER(?, '99999')");
 	        ps.setString(1, escuelaId);
 	        ps.setString(2, folio);
 	        

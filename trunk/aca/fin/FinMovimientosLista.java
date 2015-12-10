@@ -80,7 +80,7 @@ public class FinMovimientosLista {
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
 					+ " AND POLIZA_ID = '"+polizaId+"'"
-					+ " AND RECIBO_ID = "+reciboId+" "+orden;
+					+ " AND RECIBO_ID = TO_NUMBER("+reciboId+", '9999999') "+orden;
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				FinMovimientos fm = new FinMovimientos();
@@ -109,7 +109,7 @@ public class FinMovimientosLista {
 					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
-					+ " AND RECIBO_ID = "+reciboId+" "+orden;
+					+ " AND RECIBO_ID = TO_NUMBER("+reciboId+", '9999999') "+orden;
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				FinMovimientos fm = new FinMovimientos();				
