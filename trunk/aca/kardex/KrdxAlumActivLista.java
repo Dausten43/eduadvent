@@ -27,7 +27,7 @@ public class KrdxAlumActivLista {
                 " FROM KRDX_ALUM_ACTIV" +
                 " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
                 " AND CURSO_ID = '"+cursoId+"'" +
-                " AND EVALUACION_ID = "+evaluacionId+" "+orden;
+                " AND EVALUACION_ID = TO_NUMBER("+evaluacionId+", '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -59,7 +59,7 @@ public class KrdxAlumActivLista {
                 " FROM KRDX_ALUM_ACTIV" +
                 " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
                 " AND CURSO_ID = '"+cursoId+"'" +
-                " AND EVALUACION_ID = '"+evaluacionId+"'" +
+                " AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99')" +
                 " AND CODIGO_ID = '"+codigoId+"'" +orden;
 			
 			rs = st.executeQuery(comando);			
@@ -93,7 +93,7 @@ public class KrdxAlumActivLista {
                 " FROM KRDX_ALUM_ACTIV" +
                 " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
                 " AND CURSO_ID = '"+cursoId+"'" +
-                " AND EVALUACION_ID = "+evaluacionId+" "+orden;
+                " AND EVALUACION_ID = TO_NUMBER("+evaluacionId+", '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){				
