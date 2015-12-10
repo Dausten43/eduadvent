@@ -25,32 +25,20 @@
 	String accion 		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String resultado 	= "";
 	
-	System.out.println("************"+ejercicioId+"*************");
-	
-
 	if(accion.equals("3")){
 		//ejercicio.setEjercicioId(ejercicioId);
 		ejercicio.setEjercicioId(request.getParameter("EjercicioId"));
 		ejercicio.setFechaIni(request.getParameter("FechaIni"));
-		ejercicio.setFechaFin(request.getParameter("FechaFin"));
+		ejercicio.setFechaFin(request.getParameter("FechaFin"));		
 		
-		System.out.println(" ");
-		System.out.println("EJERCICIO ID ACCION 3 : "+ejercicioId);
-		System.out.println("AÑO ACCION 3 : "+ejercicio.getYear());
-		System.out.println("INICIO ACCION 3 : "+ejercicio.getFechaIni());
-		System.out.println("FIN ACCION 3 : "+ejercicio.getFechaFin());
-		
-		if (ejercicio.existeReg(conElias) == true){
-			System.out.println("EXISTE REGISTRO");
+		if (ejercicio.existeReg(conElias) == true){			
 			if (ejercicio.updateReg(conElias)){
 				resultado = "Modificado";
-				response.sendRedirect("ejercicio.jsp");
 			}else{
 				resultado = "Nocambio";
 				accion = "5";
 			}
-		}else{
-			System.out.println("NO EXISTE");
+		}else{			
 			resultado = "NoExiste";
 			accion = "5";
 		}
@@ -59,11 +47,7 @@
 	else if( accion.equals("5") ){ // Consultar	
 		ejercicio.setEjercicioId(ejercicioId);
 		if (ejercicio.existeReg(conElias) == true){
-			ejercicio.mapeaRegId(conElias, ejercicioId);
-			System.out.println("EJERCICIO ID ACCION 5 : "+ejercicioId);
-			System.out.println("AÑO ACCION 5 : "+ejercicio.getYear());
-			System.out.println("INICIO ACCION 5 : "+ejercicio.getFechaIni());
-			System.out.println("FIN ACCION 5 : "+ejercicio.getFechaFin());
+			ejercicio.mapeaRegId(conElias, ejercicioId);			
 		}else{
 			resultado = "NoExiste";
 		}		
@@ -90,7 +74,7 @@
 	
 	<form action="editarEjercicio.jsp" method="post" name="forma" target="_self">
 		<input type="hidden" name="Accion">
-		<input type="hidden" name="EjercicioId" id="EjercicioId" value="<%=ejercicio.getEjercicioId()%>">
+		<input type="hidden" name="EjercicioId" value="<%=ejercicio.getEjercicioId()%>">
 		
 		<fieldset>
 			<label for="Year"><fmt:message key="aca.Ano" /></label>
@@ -109,7 +93,7 @@
 		
 		<div class="well">
 			<%if( accion.equals("5") ){%>
-					<button class="btn btn-primary btn-large" onclick="javascript:Modificar()"><i class="icon-edit icon-white"></i> <fmt:message key="boton.Modificar" /></button>
+					<a href="javascript:Modificar()" class="btn btn-primary btn-large" ><i class="icon-edit icon-white"></i> <fmt:message key="boton.Modificar" /></a>
 	        <%}%>
 		</div>
 					
