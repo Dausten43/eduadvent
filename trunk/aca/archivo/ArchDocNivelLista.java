@@ -43,7 +43,7 @@ public class ArchDocNivelLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT ESCUELA_ID, NIVEL_ID, DOCUMENTO_ID FROM ARCH_DOCNIVEL WHERE NIVEL_ID = '"+nivelId+"' and ESCUELA_ID='"+escuelaId+"'"+orden;	
+			comando = "SELECT ESCUELA_ID, NIVEL_ID, DOCUMENTO_ID FROM ARCH_DOCNIVEL WHERE NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') and ESCUELA_ID='"+escuelaId+"'"+orden;	
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
