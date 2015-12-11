@@ -217,7 +217,7 @@ public class ArchDocumento {
 		String nombre			= "X";		
 		
 		try{
-			ps = conn.prepareStatement("SELECT DOCUMENTO_NOMBRE FROM ARCH_DOCUMENTO WHERE DOCUMENTO_ID = ? AND ESCUELA_ID = ? ");
+			ps = conn.prepareStatement("SELECT DOCUMENTO_NOMBRE FROM ARCH_DOCUMENTO WHERE DOCUMENTO_ID = TO_NUMBER(?, '99') AND ESCUELA_ID = ? ");
 			ps.setString(1, documentoId);
 			ps.setString(2, escuelaId);
 			
