@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import aca.alumno.AlumPersonal;
+
 
 public class EmpPersonalLista{
 		
@@ -688,6 +690,45 @@ public class EmpPersonalLista{
 		}				
 		
 		return map;
+	}
+	
+public ArrayList<EmpPersonal> getListCumpleEmpleados(Connection conn, String escuelaId, String mes, String dia, String orden ) throws SQLException{
+		
+		ArrayList<EmpPersonal> lisEmpleadosPersonal		= new ArrayList<EmpPersonal>();
+		Statement st 			= conn.createStatement();
+		ResultSet rs 			= null;
+		String comando			= "";
+		
+		try{	
+			comando = "SELECT CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO, " +
+					" GENERO, TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY') AS F_NACIMIENTO," +
+					" PAIS_ID, ESTADO_ID, CIUDAD_ID, EMAIL, COLONIA, DIRECCION, TELEFONO," +
+					" ESTADO, ESTADO_CIVIL, TIPO_ID, OCUPACION, RFC, SSOCIAL, PUBLICAR" +
+					" FROM EMP_PERSONAL" +
+					" WHERE ESCUELA_ID = '"+escuelaId+"' AND ESTADO = 'A'" +
+					" AND SUBSTR(TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY'),4,2)= '"+mes+"'";
+			
+			
+			if (!dia.equals("0")){
+				comando = comando + "AND SUBSTR(TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY'),1,2)= '"+dia+"' ";
+			}	
+			comando = comando + " "+orden;
+			//System.out.println(comando);
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				EmpPersonal empleado = new EmpPersonal();
+				empleado.mapeaReg(rs);
+				lisEmpleadosPersonal.add(empleado);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.empleado.EmpPersonalLista|getListCumpleEmpleados|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisEmpleadosPersonal;
 	}
 	
 }
