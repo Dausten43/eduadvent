@@ -70,7 +70,7 @@ public class ArchDocAlumLista {
 		String comando	        = "";
 		
 		try{
-			comando = "SELECT DOCUMENTO_NOMBRE FROM ARCH_DOCUMENTO WHERE DOCUMENTO_ID='"+id+"' AND ESCUELA_ID = '"+escuelaId+"' ";
+			comando = "SELECT DOCUMENTO_NOMBRE FROM ARCH_DOCUMENTO WHERE DOCUMENTO_ID = TO_NUMBER('"+id+"', '99') AND ESCUELA_ID = '"+escuelaId+"' ";
 			
 			rs = st.executeQuery(comando);
 			if (rs.next()){
