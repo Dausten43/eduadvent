@@ -333,8 +333,8 @@ public class CicloGrupo {
 		PreparedStatement ps = con.prepareStatement("SELECT CICLO_GRUPO_ID, CICLO_ID, GRUPO_NOMBRE," +
 				" EMPLEADO_ID, HORARIO_ID, SALON_ID, NIVEL_ID, GRADO, GRUPO, PLAN_ID" +
 				" FROM CICLO_GRUPO" +
-				" WHERE NIVEL_ID = ?" +
-				" AND GRADO = ?" +
+				" WHERE NIVEL_ID = TO_NUMBER(?, '99')" +
+				" AND GRADO = TO_NUMBER(?, '99')" +
 				" AND GRUPO = ?" +
 				" AND CICLO_ID = ?" +
 				" AND PLAN_ID = ?");
@@ -386,7 +386,7 @@ public class CicloGrupo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CICLO_GRUPO" +
-					" WHERE GRADO = ? AND GRUPO = ? AND CICLO_ID = ? AND NIVEL_ID = ? AND PLAN_ID = ? ");
+					" WHERE GRADO = ? AND GRUPO = ? AND CICLO_ID = ? AND NIVEL_ID = TO_NUMBER(?, '99') AND PLAN_ID = ? ");
 			ps.setString(1, grado);
 			ps.setString(2, grupo);
 			ps.setString(3, cicloId);
@@ -441,8 +441,8 @@ public class CicloGrupo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT CICLO_GRUPO_ID FROM CICLO_GRUPO" +
-					" WHERE NIVEL_ID = ?" +
-					" AND GRADO = ?" +
+					" WHERE NIVEL_ID = TO_NUMBER(?, '99')" +
+					" AND GRADO = TO_NUMBER(?, '99')" +
 					" AND GRUPO = ?" +
 					" AND CICLO_ID = ?" +
 					" AND PLAN_ID = ?");
@@ -473,8 +473,8 @@ public class CicloGrupo {
 		
 		try{			
 			ps = conn.prepareStatement("SELECT * FROM CICLO_GRUPO" +
-					" WHERE NIVEL_ID = ?" +
-					" AND GRADO = ?" +
+					" WHERE NIVEL_ID = TO_NUMBER(?, '99')" +
+					" AND GRADO = TO_NUMBER(?, '99')" +
 					" AND GRUPO = ?" +
 					" AND CICLO_ID = ?" +
 					" AND PLAN_ID = ?");
@@ -706,7 +706,7 @@ public class CicloGrupo {
 			ps = conn.prepareStatement("SELECT CICLO_GRUPO_ID FROM CICLO_GRUPO " +
 					" WHERE CICLO_ID = ?" +
 					" AND PLAN_ID = ?" +
-					" AND GRADO = ?" +
+					" AND GRADO = TO_NUMBER(?, '99')" +
 					" AND GRUPO = ?");
 			ps.setString(1, cicloId);
 			ps.setString(2, planId);
@@ -781,7 +781,7 @@ public class CicloGrupo {
 		boolean ok 				= false;		
 		try{						
 			ps = conn.prepareStatement("SELECT * FROM CICLO_GRUPO " +
-					"WHERE GRADO = ? AND GRUPO = ? AND (SELECT ESCUELA_ID FROM PLAN WHERE PLAN_ID = CICLO_GRUPO.PLAN_ID) = ? ");
+					"WHERE GRADO = TO_NUMBER(?, '99') AND GRUPO = ? AND (SELECT ESCUELA_ID FROM PLAN WHERE PLAN_ID = CICLO_GRUPO.PLAN_ID) = ? ");
 			
 			ps.setString(1, grado);
 			ps.setString(2, grupo);
