@@ -5,7 +5,7 @@
 <%@ include file="../../menu.jsp"%>
 
 <%@ page import="aca.alumno.AlumPersonal"%>
-<%@ page import="aca.alumno.AlumPersonalLista;"%>
+<%@ page import="aca.alumno.AlumPersonalLista"%>
 
 <script>
 	function Buscar() {
