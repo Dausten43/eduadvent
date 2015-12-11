@@ -183,7 +183,7 @@ public class AlumPersonalLista{
 					" AND CODIGO_ID IN " +
 					"	(SELECT CODIGO_ID FROM ALUM_CICLO" +
 						" WHERE CICLO_ID = '"+cicloId+"'" +													
-						" AND ESTADO = 'I') AND NIVEL_ID = '"+nivelId+"'" +orden;
+						" AND ESTADO = 'I') AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99')" +orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -220,7 +220,7 @@ public class AlumPersonalLista{
 					" AND CODIGO_ID IN " +
 					"	(SELECT CODIGO_ID FROM ALUM_CICLO" +
 						" WHERE CICLO_ID IN ("+cicloId+") " +
-						" AND ESTADO = 'I') AND NIVEL_ID = '"+nivelId+"'" +orden;
+						" AND ESTADO = 'I') AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99')" +orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -256,7 +256,7 @@ public class AlumPersonalLista{
 							" AND CICLO_ID IN " +
 								"(SELECT CICLO_ID FROM CICLO WHERE TO_DATE('"+fecha+"' , 'DD/MM/YYYY') BETWEEN F_INICIAL AND F_FINAL)" +
 							" ) " +
-						"AND NIVEL_ID = '"+nivelId+"'" +orden;
+						"AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99')" +orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -293,7 +293,7 @@ public class AlumPersonalLista{
 					" AND CODIGO_ID IN " +
 					"	(SELECT CODIGO_ID FROM ALUM_CICLO" +
 						" WHERE CICLO_ID = '"+cicloId+"'" +													
-						" AND ESTADO = 'I') AND NIVEL_ID = '"+nivelId+"' AND GRADO = '"+grado+"' AND GENERO IN ("+genero+") " +orden;
+						" AND ESTADO = 'I') AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') AND GRADO = TO_NUMBER('"+grado+"', '99') AND GENERO IN ("+genero+") " +orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -395,7 +395,7 @@ public class AlumPersonalLista{
 					"NIVEL_ID, GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO " +
 					"FROM ALUM_PERSONAL " +
 					"WHERE ESCUELA_ID = "+escuela+" "+
-					"NIVEL_ID = "+nivel+" "+orden;		
+					"NIVEL_ID = TO_NUMBER("+nivel+", '99') "+orden;		
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -429,8 +429,8 @@ public class AlumPersonalLista{
 					"NIVEL_ID, GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO " +
 					"FROM ALUM_PERSONAL " +
 					"WHERE ESCUELA_ID = "+escuela+" "+
-					"AND NIVEL_ID = "+nivel+" "+
-					"AND GRUPO = '"+grupo+"' "+orden;		
+					"AND NIVEL_ID = TO_NUMBER("+nivel+", '99') "+
+					"AND GRUPO = TO_NUMBER('"+grupo+"', '99') "+orden;		
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -548,7 +548,7 @@ public class AlumPersonalLista{
 					" NIVEL_ID, GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO " +
 					" FROM ALUM_PERSONAL " +
 					" WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND NIVEL_ID = "+nivelId+" AND GRADO = "+grado+
+					" AND NIVEL_ID = TO_NUMBER("+nivelId+", '99') AND GRADO = TO_NUMBER("+grado+", '99')" +
 							" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO" +
 															" WHERE CICLO_ID = '"+cicloId+"'" +															
 															" AND ESTADO = 'I')" +orden;
@@ -585,7 +585,7 @@ public class AlumPersonalLista{
 					" NIVEL_ID, GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO " +
 					" FROM ALUM_PERSONAL " +
 					" WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND NIVEL_ID = "+nivelId+" AND GRADO = '"+grado+"' "+orden;
+					" AND NIVEL_ID = TO_NUMBER("+nivelId+", '99') AND GRADO = TO_NUMBER('"+grado+"', '99') "+orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -613,7 +613,7 @@ public class AlumPersonalLista{
 		
 		try{
 			comando = "SELECT DISTINCT(GRUPO) FROM ALUM_PERSONAL " +
-					"WHERE NIVEL_ID = '"+nivelId+"' AND GRADO = '"+grado+"' ORDER BY GRUPO";
+					"WHERE NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') AND GRADO = TO_NUMBER('"+grado+"', '99') ORDER BY GRUPO";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -638,7 +638,7 @@ public class AlumPersonalLista{
 		
 		try{
 			comando = "SELECT * FROM ALUM_PERSONAL "+ 
-					"WHERE GRADO = '"+grado+"' AND GRUPO = '"+grupo+"' AND ESCUELA_ID = '"+escuela+"' "+
+					"WHERE GRADO = TO_NUMBER('"+grado+"', '99') AND GRUPO = '"+grupo+"' AND ESCUELA_ID = '"+escuela+"' "+
 					"AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_PLAN WHERE PLAN_ID = '"+planId+"' AND ESTADO = '1') "+
 					"AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+ciclo+"' AND ESTADO = 'I')"+orden;		
 			rs = st.executeQuery(comando);
