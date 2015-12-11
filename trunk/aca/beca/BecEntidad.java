@@ -302,7 +302,7 @@ public class BecEntidad {
 
 	    try{
 			ps = conn.prepareStatement("SELECT ENTIDAD_NOMBRE FROM BEC_ENTIDAD" +
-					" WHERE ENTIDAD_ID = ?");
+					" WHERE ENTIDAD_ID = TO_NUMBER(?, '99999')");
 			ps.setString(1, entidadId);
 	        rs = ps.executeQuery();
 	        if(rs.next()){
