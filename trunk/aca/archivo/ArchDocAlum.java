@@ -113,7 +113,7 @@ public class ArchDocAlum {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("INSERT INTO ARCH_DOCALUM " +
-					"(CODIGO_ID, ESCUELA_ID, DOCUMENTO_ID, FECHA, USUARIO, COMENTARIO ) VALUES(?, ?, ?, TO_DATE(?,'DD/MM/YYYY'), ?,?)");
+					"(CODIGO_ID, ESCUELA_ID, DOCUMENTO_ID, FECHA, USUARIO, COMENTARIO ) VALUES(?, ?, TO_NUMBER(?, '99'), TO_DATE(?,'DD/MM/YYYY'), ?,?)");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
@@ -208,7 +208,7 @@ public class ArchDocAlum {
 		PreparedStatement ps = null; 
 		try{
 			ps = con.prepareStatement("SELECT CODIGO_ID, ESCUELA_ID, DOCUMENTO_ID, FECHA, USUARIO, COMENTARIO " +
-					" FROM ARCH_DOCALUM WHERE CODIGO_ID = ?  AND ESCUELA_ID = ? AND DOCUMENTO_ID = ?");
+					" FROM ARCH_DOCALUM WHERE CODIGO_ID = ?  AND ESCUELA_ID = ? AND DOCUMENTO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
 			ps.setString(3, documentoId);
