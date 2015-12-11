@@ -359,7 +359,7 @@ public class ArchImagen {
 			ps = conn.prepareStatement("SELECT COALESCE(COUNT(*),0) AS NUMARCHIVOS FROM ARCH_IMAGEN " +
 					" WHERE CODIGO_ID = ?" +
 					" AND ESCUELA_ID = ?" +
-					" AND DOCUMENTO_ID = TO_NUMBER(?)");
+					" AND DOCUMENTO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
 			ps.setString(3, documentoId);
