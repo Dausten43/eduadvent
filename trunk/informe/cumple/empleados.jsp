@@ -4,13 +4,13 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-<jsp:useBean id="alumnoLista" scope="page" class="aca.alumno.AlumPersonalLista"/>
+<jsp:useBean id="empleadoLista" scope="page" class="aca.empleado.EmpPersonalLista"/>
 <%	
 	String codigoPersonal	= (String) session.getAttribute("codigoPersonal");
 	String escuelaId 		= (String) session.getAttribute("escuela");	
 	String cicloId			= aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
 	
-	ArrayList lisAlumno		= new ArrayList();
+	ArrayList lisEmpleado		= new ArrayList();
 	
 	aca.util.Fecha fecha	= new aca.util.Fecha();
 
@@ -36,8 +36,8 @@
 		case 2: { // Listado
 			//sResultado = "Cumpleanos";
 			if (sDia.length()==1 && !sDia.equals("0")) sDia = "0"+sDia;
-			lisAlumno = alumnoLista.getListCumpleTodosInscritos(conElias, escuelaId, sMes, sDia, "ORDER BY F_NACIMIENTO, NIVEL_ID, APATERNO");
-			if(lisAlumno.size()==0){
+			lisEmpleado = empleadoLista.getListCumpleEmpleados(conElias, escuelaId, sMes, sDia, "ORDER BY F_NACIMIENTO, APATERNO");
+			if(lisEmpleado.size()==0){
 				sResultado = "NoCumpleanos";				
 			}
 			break;
@@ -76,10 +76,10 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="informes.CumpleanosAlumno" /> <small>( <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%> )</small>
+		<fmt:message key="informes.CumpleanosEmpleado" /> <small>( <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%> )</small>
 	</h2>
 	
-	<form action="alumnos.jsp" method="post" name="frmcumple">
+	<form action="empleados.jsp" method="post" name="frmcumple">
 		<div class="well">
 			<input type="hidden" name="Accion" value="2">
 			
@@ -161,37 +161,31 @@
 		<tr>     
 		<th>#</th>
 		<th><fmt:message key="aca.FechadeNacimiento" /></th>
-		<th><fmt:message key="aca.Matricula" /></th>
+		<th><fmt:message key="aca.Codigo" /></th>
 	    <th><fmt:message key="aca.Nombre" /></th>
-	    <th><fmt:message key="catalogo.Nivel" /></th>
-	    <th><fmt:message key="aca.Grado" /></th>
-	    <th><fmt:message key="aca.Grupo" /></th>
 	    <th> <fmt:message key="aca.Foto" /></th>
 	  </tr>
 	  	
 <%	
 	
 		sDia = "x";
-		for (i=0; i< lisAlumno.size(); i++){
-			aca.alumno.AlumPersonal alumno = (aca.alumno.AlumPersonal) lisAlumno.get(i);
+		for (i=0; i< lisEmpleado.size(); i++){
+			aca.empleado.EmpPersonal empleado = (aca.empleado.EmpPersonal) lisEmpleado.get(i);
 		
 		
-			if ( !alumno.getCodigoId().equals(sMatTemp) ){ 
-				String grado = aca.catalogo.CatEsquemaLista.getGradoYGrupo(conElias, escuelaId, alumno.getNivelId(), alumno.getGrado());
+			if ( !empleado.getCodigoId().equals(sMatTemp) ){ 
+				//String grado = aca.catalogo.CatEsquemaLista.getGradoYGrupo(conElias, escuelaId, empleado.getNivelId(), empleado.getGrado());
 %>  
 				  <tr> 
 				    <td><%=i+1%></td>
-				    <td><%=alumno.getFNacimiento() %></td>
-				    <td><%=alumno.getCodigoId()%></td>
-				    <td><%=alumno.getNombre()+" "+alumno.getApaterno()+" "+alumno.getAmaterno()%></td>
-				    <td><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, alumno.getNivelId() )%></td>
-				    <td><%=grado%></td>
-				    <td>"<%=alumno.getGrupo()%>"</td>
-				    <td><img src="../../parametros/foto/foto.jsp?mat=<%=alumno.getCodigoId()%>" width="70"></td>
+				    <td><%=empleado.getFNacimiento() %></td>
+				    <td><%=empleado.getCodigoId()%></td>
+				    <td><%=empleado.getNombre()+" "+empleado.getApaterno()+" "+empleado.getAmaterno()%></td>
+				    <td><img src="../../parametros/foto/foto.jsp?mat=<%=empleado.getCodigoId()%>" width="70"></td>
 				  </tr>
 <%		
 			}
-			sMatTemp = alumno.getCodigoId();
+			sMatTemp = empleado.getCodigoId();
 		}
 %>
 	</table>
