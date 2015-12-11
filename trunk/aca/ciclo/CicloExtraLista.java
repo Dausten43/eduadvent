@@ -49,7 +49,7 @@ public class CicloExtraLista {
 					" VALOR_EXTRA, " +
 					" OPORTUNIDAD_NOMBRE" +
 					" FROM CICLO_EXTRA " +
-					" WHERE CICLO_ID = '"+cicloId+"' AND OPORTUNIDAD = '"+oportunidad+"' "+orden;
+					" WHERE CICLO_ID = '"+cicloId+"' AND OPORTUNIDAD = TO_NUMBER('"+oportunidad+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
