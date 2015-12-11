@@ -50,7 +50,7 @@ public class CicloBloqueActividadLista {
 					" ACTIVIDAD_NOMBRE, " +
 					" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPOACT_ID, ETIQUETA_ID " +
 					" FROM CICLO_BLOQUE_ACTIVIDAD " +
-					" WHERE CICLO_ID = '"+cicloId+"' AND BLOQUE_ID = '"+bloqueId+"' "+orden;
+					" WHERE CICLO_ID = '"+cicloId+"' AND BLOQUE_ID = TO_NUMBER('"+bloqueId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
