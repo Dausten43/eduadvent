@@ -117,7 +117,7 @@ public class AlumCiclo{
 		boolean ok 				= false;		 
 		
 		try{			
-			//comando = "INSERT INTO ALUM_CICLO (CODIGO_ID, CICLO_ID, PERIODO_ID, ESTADO) VALUES( '"+codigoId+"', '"+cicloId+"', TO_NUMBER("+periodoId+", '99'),'"+estado+"' )";			
+			//comando = "INSERT INTO ALUM_CICLO (CODIGO_ID, CICLO_ID, PERIODO_ID, ESTADO) VALUES( '"+codigoId+"', '"+cicloId+"', TO_NUMBER('"+periodoId+"', '99'),'"+estado+"' )";			
 			ps = conn.prepareStatement("INSERT INTO ALUM_CICLO"+
 					"(CODIGO_ID, CICLO_ID, ESTADO, PERIODO_ID, CLASFIN_ID, PLAN_ID, FECHA, NIVEL, GRADO, GRUPO) "+
 			"VALUES( ?, ?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, localtimestamp, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?)");
