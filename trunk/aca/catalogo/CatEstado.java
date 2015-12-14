@@ -259,7 +259,7 @@ public class CatEstado {
 		
 		try{
 			ps = conn.prepareStatement("SELECT ESTADO_NOMBRE FROM CAT_ESTADO " +
-					"WHERE PAIS_ID = TO_NUMBER(?,'999') AND ESTADO_ID = TO_NUMBER(?,'99') ");
+					"WHERE PAIS_ID = TO_NUMBER(?,'999') AND ESTADO_ID = TO_NUMBER(?,'999') ");
 			ps.setString(1, paisId);
 			ps.setString(2, estadoId);
 			rs= ps.executeQuery();		
