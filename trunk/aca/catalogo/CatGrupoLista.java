@@ -73,7 +73,7 @@ public class CatGrupoLista {
 		
 		try{
 			comando = "SELECT FOLIO, NIVEL_ID, GRADO, GRUPO, ESCUELA_ID, TURNO " +
-					" FROM CAT_GRUPO WHERE NIVEL_ID = "+nivelId+" "+orden;
+					" FROM CAT_GRUPO WHERE NIVEL_ID = TO_NUMBER("+nivelId+", '99') "+orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -102,7 +102,7 @@ public class CatGrupoLista {
 		try{
 			comando = "SELECT FOLIO, NIVEL_ID, GRADO, GRUPO, ESCUELA_ID, TURNO" +
 					" FROM CAT_GRUPO WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND NIVEL_ID = "+nivelId+" "+orden;
+					" AND NIVEL_ID = TO _NUMBER("+nivelId+", '99') "+orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -131,7 +131,7 @@ public class CatGrupoLista {
 		try{
 			comando = "SELECT FOLIO, NIVEL_ID, GRADO, GRUPO, ESCUELA_ID, TURNO FROM CAT_GRUPO" +
 					" WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND NIVEL_ID = '"+nivelId+"' " +
+					" AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') " +
 					" AND TO_CHAR(NIVEL_ID,'99')||GRADO||GRUPO NOT IN" +
 					"	(SELECT TO_CHAR(NIVEL_ID,'99')||GRADO||GRUPO FROM CICLO_GRUPO " +
 					"	WHERE CICLO_ID = '"+cicloId+"'" +
@@ -162,7 +162,7 @@ public class CatGrupoLista {
 		try{
 			comando = "SELECT FOLIO, NIVEL_ID, GRADO, GRUPO, ESCUELA_ID, TURNO FROM CAT_GRUPO" +
 				" WHERE ESCUELA_ID = '"+escuelaId+"'"+
-				" AND NIVEL_ID = '"+nivelId+"' " +					
+				" AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') " +					
 				" AND TO_CHAR(NIVEL_ID,'99')||GRADO||GRUPO IN" +
 				"	(SELECT TO_CHAR(NIVEL_ID,'99')||GRADO||GRUPO FROM CICLO_GRUPO " +
 				"	WHERE CICLO_ID = '"+cicloId+"'" +
@@ -222,7 +222,7 @@ public class CatGrupoLista {
 		try{
 			comando = "SELECT GRADO||GRUPO AS GRUPOS FROM CAT_GRUPO" +
 					" WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND NIVEL_ID = "+nivelId+" ";
+					" AND NIVEL_ID = TO_NUMBER("+nivelId+", '99') ";
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
 				grupos+= rs.getString("GRUPOS")+"-";
