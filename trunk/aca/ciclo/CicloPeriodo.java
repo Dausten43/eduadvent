@@ -380,7 +380,7 @@ public class CicloPeriodo {
         try {
             ps = conn.prepareStatement("SELECT PERIODO_NOMBRE FROM CICLO_PERIODO" + 		
                     " WHERE CICLO_ID = ?" +
-                    " AND PERIODO_ID = TO_NUMBER(?, '99)");            
+                    " AND PERIODO_ID = TO_NUMBER(?, '99')");            
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
             

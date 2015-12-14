@@ -282,6 +282,7 @@ public class FinPago {
         PreparedStatement ps = null;
 
         try {
+            ps = conn.prepareStatement("SELECT * FROM FIN_PAGO WHERE CICLO_ID = ?, AND PERIODO_ID = TO_NUMBER(?, '99') AND PAGO_ID = TO_NUMBER(?, '99')");
             ps = conn.prepareStatement("SELECT * FROM FIN_PAGO WHERE CICLO_ID = ?, AND PERIODO_ID = TO_NUMBER(?,'99') AND PAGO_ID = TO_NUMBER(?,'99')");
             
             ps.setString(1, cicloId);
