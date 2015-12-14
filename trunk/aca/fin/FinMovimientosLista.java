@@ -492,7 +492,7 @@ public class FinMovimientosLista {
 					+ " AND NATURALEZA = '"+naturaleza+"'"
 					+ " GROUP BY CUENTA_ID";		
 			rs= st.executeQuery(comando);		
-			if(rs.next()){
+			while(rs.next()){
 				map.put(rs.getString("CUENTA_ID"), rs.getString("SALDO"));
 			}			
 			
