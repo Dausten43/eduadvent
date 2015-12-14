@@ -395,7 +395,7 @@ public class AlumPersonalLista{
 					"NIVEL_ID, GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO " +
 					"FROM ALUM_PERSONAL " +
 					"WHERE ESCUELA_ID = "+escuela+" "+
-					"NIVEL_ID = TO_NUMBER("+nivel+", '99') "+orden;		
+					"NIVEL_ID = TO_NUMBER('"+nivel+"', '99') "+orden;		
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -429,7 +429,7 @@ public class AlumPersonalLista{
 					"NIVEL_ID, GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO " +
 					"FROM ALUM_PERSONAL " +
 					"WHERE ESCUELA_ID = "+escuela+" "+
-					"AND NIVEL_ID = TO_NUMBER("+nivel+", '99') "+
+					"AND NIVEL_ID = TO_NUMBER('"+nivel+"', '99') "+
 					"AND GRUPO = TO_NUMBER('"+grupo+"', '99') "+orden;		
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -548,7 +548,7 @@ public class AlumPersonalLista{
 					" NIVEL_ID, GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO " +
 					" FROM ALUM_PERSONAL " +
 					" WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND NIVEL_ID = TO_NUMBER("+nivelId+", '99') AND GRADO = TO_NUMBER("+grado+", '99')" +
+					" AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') AND GRADO = TO_NUMBER("+grado+", '99')" +
 							" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO" +
 															" WHERE CICLO_ID = '"+cicloId+"'" +															
 															" AND ESTADO = 'I')" +orden;
@@ -585,7 +585,7 @@ public class AlumPersonalLista{
 					" NIVEL_ID, GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO " +
 					" FROM ALUM_PERSONAL " +
 					" WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND NIVEL_ID = TO_NUMBER("+nivelId+", '99') AND GRADO = TO_NUMBER('"+grado+"', '99') "+orden;
+					" AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') AND GRADO = TO_NUMBER('"+grado+"', '99') "+orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
