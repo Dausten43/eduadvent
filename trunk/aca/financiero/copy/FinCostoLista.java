@@ -25,7 +25,7 @@ public class FinCostoLista {
 					" CLASFIN_ID, CUENTA_ID, FECHA, IMPORTE" +
 					" FROM FIN_COSTO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99') "+orden;
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
