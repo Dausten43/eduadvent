@@ -406,7 +406,7 @@ public class FinPago {
             ps1 = conn.prepareStatement("SELECT * FROM FIN_PAGO"
             		+ " WHERE CICLO_ID = ?"
             		+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
-            		+ " AND PAGO_ID = TO_NUMBER(?; '99')"
+            		+ " AND PAGO_ID = TO_NUMBER(?,'99')"
             		+ " AND TIPO = 'I'");
             
             ps1.setString(1, cicloId);
