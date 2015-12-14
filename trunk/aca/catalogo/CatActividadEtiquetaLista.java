@@ -16,7 +16,7 @@ public class CatActividadEtiquetaLista {
 		
 		try{
 			comando = "SELECT * " +
-					"FROM CAT_ACTIVIDAD_ETIQUETA WHERE UNION_ID = '"+unionId+"' "+orden;		
+					"FROM CAT_ACTIVIDAD_ETIQUETA WHERE UNION_ID = TO_NUMBER('"+unionId+"', '99') "+orden;		
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -44,7 +44,7 @@ public class CatActividadEtiquetaLista {
 		
 		try{
 			comando = "SELECT * FROM CAT_ACTIVIDAD_ETIQUETA"
-					+ " WHERE UNION_ID = '"+unionId+"'"
+					+ " WHERE UNION_ID = TO_NUMBER('"+unionId+"', '99')"
 					+ " AND ETIQUETA_ID "
 					+ "    IN (SELECT ETIQUETA_ID FROM CICLO_BLOQUE_ACTIVIDAD WHERE CICLO_ID = '"+cicloId+"' AND BLOQUE_ID = '"+bloqueId+"' )"+orden;		
 			
