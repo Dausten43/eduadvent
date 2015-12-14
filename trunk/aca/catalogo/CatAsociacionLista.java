@@ -45,7 +45,7 @@ public class CatAsociacionLista {
 		try{
 			comando = "SELECT ASOCIACION_ID, ASOCIACION_NOMBRE, UNION_ID, FONDO_ID, ASOCIACION_CORTO" +
 					" FROM CAT_ASOCIACION" +
-					" WHERE UNION_ID = '"+unionId+"' "+orden;		
+					" WHERE UNION_ID = TO_NUMBER('"+unionId+"', '99') "+orden;		
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
