@@ -39,34 +39,37 @@
 	</form>		
 	<table class="table  table-bordered">
 		<tr>
-			<th>&nbsp;</th>
+			<th>Clave</th>
+			<th>Cuenta</th>
 			<th style="text-align:right">D&eacute;bito</th>
 			<th style="text-align:right">Cr&eacute;dito</th>
 		</tr>
 		<tr>
-			<td>CAJA GENERAL</td>
+			<td>&nbsp;</td>
+			<td>CAJA GENERAL</td>			
 			<td style="text-align:right"><%=formato.format(saldo)%></td>
 			<td style="text-align:right"></td>
 		</tr>
 <%
 	ArrayList<aca.fin.FinCuenta> lisCuenta = FinCuentaLista.getListCuentas(conElias, escuelaId, "ORDER BY CUENTA_ID");
-	HashMap<String, String> mapSaldos = aca.fin.FinMovimientosLista.saldoPolizasPorCuentas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "C");
+	HashMap<String, String> mapSaldos = aca.fin.FinMovimientosLista.saldoPolizasPorCuentas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "C");	
 	double totSaldos = 0.0;
 	for(aca.fin.FinCuenta cuentas : lisCuenta){
-		String saldos = "0";
+		String saldos = "0";		
 		if(mapSaldos.containsKey(cuentas.getCuentaId())){
-			saldos = mapSaldos.get(cuentas.getCuentaId());
+			saldos = mapSaldos.get(cuentas.getCuentaId());			
 			totSaldos += Double.parseDouble(saldos);
 		}
 %>
 	<tr>
+		<td><%=cuentas.getCuentaId()%></td>
 		<td><%=cuentas.getCuentaNombre() %></td>
 		<td style="text-align:right">&nbsp;</td>
 		<td style="text-align:right"><%=formato.format(Double.parseDouble(saldos)) %></td>
 	</tr>
 <%} %>
 	<tr>
-		<td>Totales</td>
+		<td colspan="2">T o t a l e s</td>
 		<td style="text-align:right"><%=formato.format(saldo) %></td>
 		<td style="text-align:right"><%=formato.format(totSaldos) %></td>
 	</tr>
