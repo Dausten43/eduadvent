@@ -172,7 +172,7 @@ public class CatTipoact {
 		String nombre			= "X";
 		
 		try{
-			ps = conn.prepareStatement("SELECT TIPOACT_NOMBRE FROM CAT_TIPOACT WHERE TIPOACT_ID = ?"); 
+			ps = conn.prepareStatement("SELECT TIPOACT_NOMBRE FROM CAT_TIPOACT WHERE TIPOACT_ID = TO_NUMBER(?, '99')"); 
 			ps.setString(1, tipoactId);			
 			rs = ps.executeQuery();
 			if (rs.next())
