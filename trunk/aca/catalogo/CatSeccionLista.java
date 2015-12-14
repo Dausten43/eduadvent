@@ -44,7 +44,7 @@ public class CatSeccionLista {
 		String comando				= "";
 		
 		try{
-			comando = "SELECT SECCION_ID, SECCION_NOMBRE, TIPO, UNION_ID FROM CAT_SECCION WHERE TIPO = '"+tipo+"' AND UNION_ID = '"+unionId+"'"+ orden; 
+			comando = "SELECT SECCION_ID, SECCION_NOMBRE, TIPO, UNION_ID FROM CAT_SECCION WHERE TIPO = '"+tipo+"' AND UNION_ID = TO_NUMBER('"+unionId+"', '99')"+ orden; 
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -72,7 +72,7 @@ public class CatSeccionLista {
 		String comando				= "";
 		
 		try{
-			comando = "SELECT SECCION_ID, SECCION_NOMBRE, TIPO, UNION_ID FROM CAT_SECCION WHERE UNION_ID = '"+unionId+"'"+ orden; 
+			comando = "SELECT SECCION_ID, SECCION_NOMBRE, TIPO, UNION_ID FROM CAT_SECCION WHERE UNION_ID = TO_NUMBER('"+unionId+"', '99')"+ orden; 
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
