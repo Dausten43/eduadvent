@@ -56,7 +56,7 @@ public class CicloGrupoActividadLista {
 		try{
 			comando = "SELECT * FROM CICLO_GRUPO_ACTIVIDAD"
 					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "
-					+ " AND EVALUACION_ID = TO_NUMBER("+evaluacionId+", '99') "
+					+ " AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') "
 					+ " ORDER BY CURSO_ID, ACTIVIDAD_ID, ETIQUETA_ID "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -254,7 +254,7 @@ public class CicloGrupoActividadLista {
 		/* *** MATERIA CON EL MAYOR NUMBERO DE ETIQUETAS *** */
 			comando = " SELECT CURSO_ID, COUNT( DISTINCT(CURSO_ID||'@@'||ETIQUETA_ID) ) AS CANTIDAD FROM CICLO_GRUPO_ACTIVIDAD"
 					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "
-					+ " AND EVALUACION_ID =  TO_NUMBER("+evaluacionId+", '99') "
+					+ " AND EVALUACION_ID =  TO_NUMBER('"+evaluacionId+"', '99') "
 					+ " AND ETIQUETA_ID != 0 "
 					+ " AND ETIQUETA_ID IS NOT NULL "
 					+ " GROUP BY CURSO_ID";			
@@ -279,7 +279,7 @@ public class CicloGrupoActividadLista {
 		/* *** ETIQUETAS DE LA MATERIA CON EL MAYOR NUMERO *** */	
 			comando = " SELECT DISTINCT(ETIQUETA_ID) AS ETIQUETA_ID FROM CICLO_GRUPO_ACTIVIDAD"
 					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "
-					+ " AND EVALUACION_ID =  TO_NUMBER("+evaluacionId+", '99') "
+					+ " AND EVALUACION_ID =  TO_NUMBER('"+evaluacionId+"', '99') "
 					+ " AND ETIQUETA_ID != 0 "
 					+ " AND ETIQUETA_ID IS NOT NULL "
 					+ " AND CURSO_ID = '"+materiaConMasEtiquetas+"' ";
