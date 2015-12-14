@@ -13,8 +13,9 @@
 	java.text.DecimalFormat formato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
-	String fechaHoy 		= aca.util.Fecha.getHoy();
-	String fechaIni 		= request.getParameter("FechaIni")==null?fechaHoy:request.getParameter("FechaIni");
+	String fechaInicioMes	= aca.util.Fecha.getInicioMes();
+	String fechaHoy 		= aca.util.Fecha.getHoy();	
+	String fechaIni 		= request.getParameter("FechaIni")==null?fechaInicioMes:request.getParameter("FechaIni");
 	String fechaFin 		= request.getParameter("FechaFin")==null?fechaHoy:request.getParameter("FechaFin");
 	
 	String nombre			= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId);
