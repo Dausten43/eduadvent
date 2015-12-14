@@ -70,7 +70,7 @@ public class CatHorarioCicloLista {
 		String nombre			= "X";		
 		
 		try{
-			ps = conn.prepareStatement("SELECT CICLOS FROM CAT_HORARIO_CICLO WHERE ESCUELA_ID = '"+escuelaId+"' AND FOLIO = '"+folio+"' ");
+			ps = conn.prepareStatement("SELECT CICLOS FROM CAT_HORARIO_CICLO WHERE ESCUELA_ID = '"+escuelaId+"' AND FOLIO = TO_NUMBER('"+folio+"', '999') ");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				nombre = rs.getString("CICLOS");
