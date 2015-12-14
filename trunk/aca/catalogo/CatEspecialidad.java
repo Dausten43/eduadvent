@@ -197,7 +197,7 @@ public class CatEspecialidad {
 		
 		try{
 			ps = conn.prepareStatement("SELECT ESPECIALIDAD_NOMBRE " +
-					" FROM CAT_ESPECIALIDAD WHERE ESPECIALIDAD_ID = ? ");
+					" FROM CAT_ESPECIALIDAD WHERE ESPECIALIDAD_ID = TO_NUMBER(?, '99') ");
 			ps.setInt(1, especialidadId);
 			rs= ps.executeQuery();		
 			if(rs.next()){
