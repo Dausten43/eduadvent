@@ -198,7 +198,7 @@ public class CatReligion {
 		
 		try{
 			ps = conn.prepareStatement("SELECT RELIGION_NOMBRE FROM CAT_RELIGION " +
-					"WHERE RELIGION_ID = ?");
+					"WHERE RELIGION_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, religionId);
 			
 			rs= ps.executeQuery();		
