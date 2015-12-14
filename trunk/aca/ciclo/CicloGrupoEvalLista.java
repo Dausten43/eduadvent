@@ -83,7 +83,7 @@ public class CicloGrupoEvalLista {
 				" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN, PROMEDIO_ID"+
 				" FROM CICLO_GRUPO_EVAL"+
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+
-				" AND CURSO_ID = '"+cursoId+"' AND PROMEDIO_ID = '"+promedioId+"' "+orden;
+				" AND CURSO_ID = '"+cursoId+"' AND PROMEDIO_ID = TO_NUMBER('"+promedioId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
