@@ -45,7 +45,7 @@ public class BecAlumnoLista {
 					" FROM BEC_ALUMNO" +
 					" WHERE CODIGO_ID = '"+codigoId+"'" +
 					" AND CICLO_ID = '"+cicloId+"'"+
-					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99') "+orden;
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -76,7 +76,7 @@ public class BecAlumnoLista {
 					" FROM BEC_ALUMNO" +
 					" WHERE ENTIDAD_ID = '"+entidadId+"' " +
 					" AND CICLO_ID = '"+cicloId+"'"+
-					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99') "+orden;
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -105,7 +105,7 @@ public class BecAlumnoLista {
 		try{
 			comando = "SELECT * FROM BEC_ALUMNO" +
 						" WHERE CICLO_ID = '"+cicloId+"' " +
-						" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99') " +
+						" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') " +
 						" AND CODIGO_ID = '"+codigoId+"' " +					
 						" AND CUENTA_ID = '"+cuentaId+"' "+orden;
 			
@@ -137,7 +137,7 @@ public class BecAlumnoLista {
 			comando = "SELECT *" +
 					" FROM BEC_ALUMNO" +
 					" WHERE CICLO_ID = '"+cicloId+"'"+
-					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99') "+orden;
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -166,7 +166,7 @@ public class BecAlumnoLista {
 		try{
 			comando = "SELECT ENTIDAD_ID FROM BEC_ALUMNO" +
 					" WHERE CICLO_ID = '"+cicloId+"'"+
-					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99') "+orden;
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
