@@ -68,7 +68,7 @@ public class CatModalidadLista {
 		
 		try{
 			comando = "SELECT MODALIDAD_ID, MODALIDAD_NOMBRE FROM CAT_MODALIDAD "+
-				" WHERE MODALIDAD_ID = TO_NUMBER('"+modalidadId+"','2')"+orden;
+				" WHERE MODALIDAD_ID = TO_NUMBER('"+modalidadId+"','99')"+orden;
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
