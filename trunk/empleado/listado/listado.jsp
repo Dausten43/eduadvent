@@ -25,10 +25,11 @@ String escuelaId		= (String) session.getAttribute("escuela");
 				  <tr>
 					<th width="3%">#</th>
 					<th width="10%"><fmt:message key="aca.Codigo" /></th>
-					<th width="30%"><fmt:message key="aca.Nombre" /></th>
-					<th width="30%"><fmt:message key="aca.Direccion" /></th>		
-					<th width="15%"><fmt:message key="aca.Telefono" /></th>					
-					<th width="15%"><fmt:message key="aca.Estado" /></th>					
+					<th width="24%"><fmt:message key="aca.Nombre" /></th>
+					<th width="24%"><fmt:message key="aca.Direccion" /></th>		
+					<th width="12%"><fmt:message key="aca.Telefono" /></th>					
+					<th width="13%"><fmt:message key="aca.Estado" /></th>	
+					<th width="17%"><fmt:message key="aca.Iglesia" /></th>				
 				  </tr>
 			 </thead>
 <%	if(lisEmp.size() > 0){
@@ -48,7 +49,8 @@ String escuelaId		= (String) session.getAttribute("escuela");
 				<td><%=emp.getApaterno()%> <%=emp.getAmaterno()%>, <%=emp.getNombre()%> </td>
 				<td><%=emp.getDireccion()==null?"-":emp.getDireccion()%> <b><fmt:message key="aca.Col" /> <%=emp.getColonia()==null?"-":emp.getColonia() %></b></td>
 				<td><%=emp.getTelefono()==null?"-":emp.getTelefono()%></td>				
-				<td><%=emp.getEstado().equals("A")?"Activo":"Inactivo"%></td>							
+				<td><%=emp.getEstado().equals("A")?"Activo":"Inactivo"%></td>	
+				<td><%=emp.getIglesia()==null?"-":emp.getIglesia()%></td>						
 			  </tr>
 			<%cont++; 
 				} //fin del for%>
