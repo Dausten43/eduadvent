@@ -35,6 +35,7 @@ public class EmpPersonal {
 	private String rfc;
 	private String ssocial;
 	private String publicar;
+	private String iglesia;
 	
 	public EmpPersonal(){
 		codigoId	= "";
@@ -58,6 +59,7 @@ public class EmpPersonal {
 		rfc			= "";
 		ssocial		= "";
 		publicar	= "";
+		iglesia 	= "";
 	}
 
 	
@@ -384,6 +386,21 @@ public class EmpPersonal {
 	public void setPublicar(String publicar) {
 		this.publicar = publicar;
 	}
+	
+	/**
+	 * @return Returns the iglesia.
+	 */
+	public String getIglesia() {
+		return iglesia;
+	}
+	
+
+	/**
+	 * @param nombre The iglesia to set.
+	 */
+	public void setIglesia(String iglesia) {
+		this.iglesia = iglesia;
+	}
 
 
 	public boolean insertReg(Connection conn ) throws SQLException{
@@ -396,14 +413,14 @@ public class EmpPersonal {
 					" APATERNO, AMATERNO, GENERO, F_NACIMIENTO," +
 					" PAIS_ID, ESTADO_ID, CIUDAD_ID," +
 					" EMAIL, COLONIA, DIRECCION, TELEFONO," +
-					" ESTADO, ESTADO_CIVIL, TIPO_ID, OCUPACION, RFC, SSOCIAL, PUBLICAR)" +
+					" ESTADO, ESTADO_CIVIL, TIPO_ID, OCUPACION, RFC, SSOCIAL, PUBLICAR, IGLESIA)" +
 					" VALUES(?, ?, UPPER(?)," +
 					" UPPER(?), UPPER(?), ?," +
 					" TO_DATE(?, 'DD/MM/YYYY')," +
 					" TO_NUMBER(?,'999')," +
 					" TO_NUMBER(?,'999')," +
 					" TO_NUMBER(?,'999')," +
-					" ?,?,?,?,?,?, TO_NUMBER(?, '99'), ?,?,?,?,?)");
+					" ?,?,?,?,?,?, TO_NUMBER(?, '99'), ?,?,?,?,?,?)");
 			
 			ps.setString( 1, codigoId);
 			ps.setString( 2, escuelaId);
@@ -426,6 +443,7 @@ public class EmpPersonal {
 			ps.setString(19, rfc);
 			ps.setString(20, ssocial);
 			ps.setString(21, publicar);
+			ps.setString(22, iglesia);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -579,6 +597,7 @@ public class EmpPersonal {
 					" OCUPACION = ?," +
 					" RFC = ?," +
 					" SSOCIAL = ?, PUBLICAR = ? " +
+					" IGLESIA = ? " +
 					" WHERE CODIGO_ID = ?");
 			
 			ps.setString( 1, escuelaId);
@@ -601,7 +620,8 @@ public class EmpPersonal {
 			ps.setString(18, rfc);
 			ps.setString(19, ssocial);
 			ps.setString(20, publicar);
-			ps.setString(21, codigoId);
+			ps.setString(21, iglesia);
+			ps.setString(22, codigoId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -664,6 +684,7 @@ public class EmpPersonal {
 		rfc			= rs.getString("RFC");
 		ssocial		= rs.getString("SSOCIAL");
 		publicar	= rs.getString("PUBLICAR");
+		iglesia 	= rs.getString("IGLESIA");
 	}
 	
 	public void mapeaRegId(Connection con, String codigoId) throws SQLException{
@@ -673,7 +694,7 @@ public class EmpPersonal {
 			ps = con.prepareStatement("SELECT CODIGO_ID, ESCUELA_ID, NOMBRE," +
 					" APATERNO, AMATERNO, GENERO, TO_CHAR(F_NACIMIENTO, 'DD/MM/YYYY') AS F_NACIMIENTO," +
 					" PAIS_ID, ESTADO_ID, CIUDAD_ID, EMAIL, COLONIA, DIRECCION," +
-					" TELEFONO, ESTADO, ESTADO_CIVIL, TIPO_ID, OCUPACION, RFC, SSOCIAL, PUBLICAR" +
+					" TELEFONO, ESTADO, ESTADO_CIVIL, TIPO_ID, OCUPACION, RFC, SSOCIAL, PUBLICAR, IGLESIA" +
 					" FROM EMP_PERSONAL" +
 					" WHERE CODIGO_ID = ?");
 			

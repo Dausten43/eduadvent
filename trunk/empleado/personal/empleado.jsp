@@ -478,6 +478,11 @@
 							<%}%>
 						</p>
 						
+						<p>
+							<label><fmt:message key="aca.Iglesia"/></label>
+							<input name="Iglesia" type="text" id="Iglesia" maxlength="70" value="<%=Personal.getIglesia()%>">
+						</p>
+						
 						
 					</div>
 				</div>

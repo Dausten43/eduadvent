@@ -5,6 +5,7 @@
 <%@ include file= "../../menu.jsp" %>
 
 <jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
+<jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="CicloLista" scope="page" class="aca.alumno.AlumCicloLista"/>
@@ -17,7 +18,7 @@
 	String strBgcolor		= "";
 	String nivelTemp        = "0";
 	String grado = "", grupo = "", nombre = "", apaterno = "", amaterno ="", nacimiento = "", genero = "", curp="", pais = "", 
-			estado = "", ciudad = "", colonia = "", direccion = "", telefono = "", religion = "", tutor = "";
+			estado = "", ciudad = "", colonia = "", direccion = "", telefono = "", religion = "", iglesia = "", tutor = "";
 	int cont				= 1;
 	int hombres				= 0;
 	int mujeres				= 0;
@@ -83,6 +84,7 @@
 				direccion	= historia.getDireccion();  
 				telefono 	= historia.getTelefono();  
 				religion 	= historia.getReligion();  
+				iglesia 	= historia.getIglesia();
 				tutor 		= historia.getTutor(); 
 								
 			}else{
@@ -139,6 +141,7 @@
 					    <th>Teléfono</th>
 					    <th>Clas. Fin</th>
 					    <th>Religi&oacute;n</th>
+					    <th>Iglesia</th>
 					    <th>Tutor</th>    
 					  </tr>
 		<%	} %>
@@ -159,6 +162,7 @@
 			  <td align="left"><%= telefono%></td>
 			  <td align="left"><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, inscrito.getClasfinId())%></td>
 			  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,religion)%></td>
+			  <td align="left"><%= iglesia%></td>
 			  <td align="left"><%= tutor%></td>  
 			  
 			  <%String gen 		= genero;

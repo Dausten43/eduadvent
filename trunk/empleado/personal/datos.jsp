@@ -5,7 +5,7 @@
 <%@ include file= "../../menu.jsp" %>
 
 <%@ page import= "aca.empleado.EmpPersonal"%>
-<%@ page import= "aca.empleado.EmpPersonalLista;"%>
+<%@ page import= "aca.empleado.EmpPersonalLista"%>
 
 <%
 	String escuelaId 		= (String) session.getAttribute("escuela");

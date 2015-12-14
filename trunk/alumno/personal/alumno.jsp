@@ -197,7 +197,8 @@
 			Personal.setTransporte(request.getParameter("transporte"));
 			Personal.setCelular(request.getParameter("Celular"));
 			Personal.setTutor(request.getParameter("Tutor"));			
-			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));			
+			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));		
+			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
 			conElias.setAutoCommit(false);
 			
 			if (Personal.existeReg(conElias) == false){
@@ -258,6 +259,7 @@
 			Personal.setCelular(request.getParameter("Celular"));
 			Personal.setTutor(request.getParameter("Tutor"));
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));
+			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
 			Personal.setDiscapacidad("-");
 			
 			conElias.setAutoCommit(false);
@@ -651,7 +653,16 @@
 						<%}%>
 	              	</select>
 	            </p>
-				
+				<p>
+					<label for=""><fmt:message key="aca.Iglesia"/></label>
+					<% if(!Personal.getCotejado().equals("S")){ %>
+		            	<input name="Iglesia" type="text" id="Iglesia" maxlength="70" value="<%=Personal.getIglesia()%>"> 
+	              	<% }else{
+						out.println(Personal.getIglesia());
+					%>
+		            	<input name="Iglesia" type="hidden" value="<%=Personal.getIglesia()%>" /> 
+	              	<% } %>
+				</p>
 			</div>
 		</div>
 		

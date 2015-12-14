@@ -45,6 +45,7 @@ public class AlumPersonal {
 	private String discapacidad;
 	private String enfermedad;
 	private String correo;
+	private String iglesia;
 	
 	public AlumPersonal(){
 		codigoId	= "";
@@ -76,6 +77,7 @@ public class AlumPersonal {
 		discapacidad= "N";
 		enfermedad 	= "-";
 		correo 		= "-";
+		iglesia		= "-";
 	}
 
 	
@@ -562,6 +564,21 @@ public class AlumPersonal {
 	public void setTutor(String tutor) {
 		this.tutor = tutor;
 	}
+	
+	/**
+	 * @return the iglesia
+	 */
+	public String getIglesia() {
+		return iglesia;
+	}
+
+
+	/**
+	 * @param nombre the iglesia to set
+	 */
+	public void setIglesia(String iglesia) {
+		this.iglesia = iglesia;
+	}
 
 
 	public boolean insertReg(Connection conn ) throws SQLException{
@@ -574,15 +591,15 @@ public class AlumPersonal {
 					" CURP, F_NACIMIENTO, PAIS_ID," +
 					" ESTADO_ID, CIUDAD_ID, CLASFIN_ID," +
 					" EMAIL, COLONIA, DIRECCION," +
-					" TELEFONO, COTEJADO, NIVEL_ID," +
-					" GRADO, GRUPO, ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO)" +
+					" TELEFONO, COTEJADO, NIVEL_ID, GRADO, GRUPO, ESTADO," +
+					" ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA)" +
 					" VALUES(?, ?, UPPER(RTRIM(LTRIM(?)))," +
 					" UPPER(RTRIM(LTRIM(?))), UPPER(RTRIM(LTRIM(?))), ?," +
 					" ?, TO_DATE(?, 'DD/MM/YYYY'), TO_NUMBER(?, '999')," +
 					" TO_NUMBER(?, '999'), TO_NUMBER(?, '999'), TO_NUMBER(?, '99')," +
 					" ?, ?, ?," +
 					" ?, ?, TO_NUMBER(?, '99')," +
-					" TO_NUMBER(?, '99'), ?, ?, ?, ?, TO_NUMBER(?, '99'), ?, ?, ?, ?,?,?,?)");
+					" TO_NUMBER(?, '99'), ?, ?, ?, ?, TO_NUMBER(?, '99'), ?, ?, ?, ?,?,?,?,?)");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
@@ -615,6 +632,7 @@ public class AlumPersonal {
 			ps.setString(29, discapacidad);
 			ps.setString(30, enfermedad);
 			ps.setString(31, correo);
+			ps.setString(32, iglesia);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -766,6 +784,7 @@ public class AlumPersonal {
 					" DISCAPACIDAD = ? ," +
 					" ENFERMEDAD = ?, " +
 					" CORREO = ? " +
+					" IGLESIA = ? " +
 					" WHERE CODIGO_ID = ? ");			
 			
 			ps.setString(1, escuelaId);
@@ -798,7 +817,8 @@ public class AlumPersonal {
 			ps.setString(28, discapacidad);
 			ps.setString(29, enfermedad);
 			ps.setString(30, correo);
-			ps.setString(31, codigoId);
+			ps.setString(31, iglesia);
+			ps.setString(32, codigoId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -934,6 +954,7 @@ public class AlumPersonal {
 		discapacidad= rs.getString("DISCAPACIDAD");
 		enfermedad	= rs.getString("ENFERMEDAD");
 		correo		= rs.getString("CORREO");
+		iglesia		= rs.getString("IGLESIA");
 		
 	}
 	
@@ -957,7 +978,8 @@ public class AlumPersonal {
 					" COALESCE(TELEFONO,'-') AS TELEFONO, COALESCE(COTEJADO,'-') AS COTEJADO, NIVEL_ID," +
 					" GRADO, GRUPO, ESTADO, COALESCE(ACTA,'-') AS ACTA, COALESCE(CRIP,'-') AS CRIP," +
 					" RELIGION, COALESCE(TRANSPORTE,'-') AS TRANSPORTE, COALESCE(CELULAR,'-') AS CELULAR," +
-					" COALESCE(TUTOR,'-') AS TUTOR, MATRICULA, DISCAPACIDAD, COALESCE(ENFERMEDAD,'-') AS ENFERMEDAD, COALESCE(CORREO,'-') AS CORREO " +
+					" COALESCE(TUTOR,'-') AS TUTOR, MATRICULA, DISCAPACIDAD, COALESCE(ENFERMEDAD,'-') AS ENFERMEDAD, COALESCE(CORREO,'-') AS CORREO, " +
+					" COALESCE(IGLESIA,'-') AS IGLESIA " +
 					" FROM ALUM_PERSONAL" +
 					" WHERE CODIGO_ID = ?");
 			
