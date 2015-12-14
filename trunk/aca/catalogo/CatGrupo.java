@@ -275,7 +275,7 @@ public class CatGrupo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CAT_GRUPO" +
-					" WHERE ESCUELA_ID = ? AND NIVEL_ID = ? AND GRADO = ? AND GRUPO = ?");
+					" WHERE ESCUELA_ID = ? AND NIVEL_ID = TO_NUMBER(?, '99') AND GRADO = TO_NUMBER(?, '99') AND GRUPO = ?");
 			ps.setString(1, escuelaId);
 			ps.setString(2, nivel);
 			ps.setString(3, grado);
@@ -304,7 +304,7 @@ public class CatGrupo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CAT_GRUPO" +
-					" WHERE ESCUELA_ID = ? AND NIVEL_ID = ? ");
+					" WHERE ESCUELA_ID = ? AND NIVEL_ID = TO_NUMBER(?, '99') ");
 			ps.setString(1, escuelaId);
 			ps.setString(2, nivelId);
 			
@@ -331,7 +331,7 @@ public class CatGrupo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT FOLIO FROM CAT_GRUPO" +
-					" WHERE ESCUELA_ID = ? AND NIVEL_ID = ? AND GRADO = ? AND GRUPO = ? ");
+					" WHERE ESCUELA_ID = ? AND NIVEL_ID = TO_NUMBER(?, '99') AND GRADO = TO_NUMBER(?, '99') AND GRUPO = ? ");
 			ps.setString(1, escuelaId);
 			ps.setString(2, nivel);
 			ps.setString(3, grado);
