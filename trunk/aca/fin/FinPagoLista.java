@@ -24,7 +24,7 @@ public class FinPagoLista {
 			comando = "SELECT PAGO_ID, CICLO_ID, PERIODO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN" +
 					" FROM FIN_PAGO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = TO_NUMBER("+periodoId+", '99') "+orden;
+					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
