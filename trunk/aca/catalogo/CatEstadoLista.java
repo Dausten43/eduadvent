@@ -100,8 +100,8 @@ public class CatEstadoLista {
 		
 		try{
 			comando = " SELECT PAIS_ID, ESTADO_ID, ESTADO_NOMBRE, CLAVE FROM CAT_ESTADO" +
-					  " WHERE PAIS_ID = '"+paisId+"' AND ESTADO_ID IN (SELECT ESTADO_ID FROM " +
-					  " CAT_ESCUELA WHERE PAIS_ID = '"+paisId+"')"+ orden;
+					  " WHERE PAIS_ID = TO_NUMBER('"+paisId+"', '999') AND ESTADO_ID IN (SELECT ESTADO_ID FROM " +
+					  " CAT_ESCUELA WHERE PAIS_ID = TO_NUMBER('"+paisId+"', '999'))"+ orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
@@ -128,7 +128,7 @@ public HashMap<String,String> getMapEstTotEsc(Connection conn, String paisId) th
 		String comando					= "";		
 		
 		try{
-			comando = "SELECT ESTADO_ID, COUNT(ESCUELA_ID) AS TOTAL FROM CAT_ESCUELA WHERE PAIS_ID = '"+paisId+"' GROUP BY ESTADO_ID";
+			comando = "SELECT ESTADO_ID, COUNT(ESCUELA_ID) AS TOTAL FROM CAT_ESCUELA WHERE PAIS_ID = TO_NUMBER('"+paisId+"', '999') GROUP BY ESTADO_ID";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
