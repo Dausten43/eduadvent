@@ -156,7 +156,7 @@ public class CatNivel {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_NIVEL " +
 					"(NIVEL_ID, NIVEL_NOMBRE, GRADO_INI, GRADO_FIN, METODO, TITULO, NOTAMINIMA, NOMBRE_CORTO) " +
-					"VALUES(TO_NUMBER(?, '99'), ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?,?,?,?)");
+					"VALUES(TO_NUMBER(?, '99'), ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?,?,TO_NUMBER(?, '99'),?)");
 			
 			ps.setString(1, nivelId);
 			ps.setString(2, nivelNombre);
@@ -191,7 +191,7 @@ public class CatNivel {
 					"SET NIVEL_NOMBRE = ?, " +
 					"GRADO_INI = TO_NUMBER(?, '99'), " +
 					"GRADO_FIN = TO_NUMBER(?, '99'), " +
-					"METODO = ?, TITULO=?, NOTAMINIMA=?, " +
+					"METODO = ?, TITULO = ?, NOTAMINIMA = TO_NUMBER(?, '99'), " +
 					"NOMBRE_CORTO = ?  "+
 					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, nivelNombre);
@@ -329,7 +329,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT NIVEL_NOMBRE FROM CAT_NIVEL " +
-					"WHERE NIVEL_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
 			ps.setInt(1, nivelId);
 			
 			rs= ps.executeQuery();		
@@ -353,7 +353,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT NIVEL_NOMBRE FROM CAT_NIVEL " +
-					"WHERE NIVEL_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, nivelId);
 			
 			rs= ps.executeQuery();		
@@ -377,7 +377,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT NOMBRE_CORTO FROM CAT_NIVEL " +
-					"WHERE NIVEL_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
 			ps.setInt(1, nivelId);
 			
 			rs= ps.executeQuery();		
@@ -401,7 +401,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT NOMBRE_CORTO FROM CAT_NIVEL " +
-					"WHERE NIVEL_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, nivelId);
 			
 			rs= ps.executeQuery();		
@@ -522,7 +522,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT METODO FROM CAT_NIVEL " +
-					"WHERE NIVEL_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
 			ps.setInt(1, nivelId);
 			
 			rs= ps.executeQuery();		
@@ -547,7 +547,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT PLAN_ID "+
-					"FROM PLAN WHERE NIVEL_ID = ? AND ESCUELA_ID = ? "); 
+					"FROM PLAN WHERE NIVEL_ID = TO_NUMBER(?, '99') AND ESCUELA_ID = ? "); 
 			
 			ps.setString(1, nivelId);
 			ps.setString(2, escuelaId);
@@ -573,7 +573,7 @@ public class CatNivel {
 		String minima			= "5";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(NOTAMINIMA,5) AS MINIMA FROM CAT_NIVEL WHERE NIVEL_ID = ?");			
+			ps = conn.prepareStatement("SELECT COALESCE(NOTAMINIMA,5) AS MINIMA FROM CAT_NIVEL WHERE NIVEL_ID = TO_NUMBER(?, '99')");			
 			ps.setString(1, nivelId);
 			
 			rs = ps.executeQuery();
