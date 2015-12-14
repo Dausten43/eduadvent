@@ -46,7 +46,7 @@ public class CatEsquemaLista {
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "
 					+ " AND NIVEL_ID = (SELECT DISTINCT(NIVEL_ID) FROM PLAN "
 					+ " WHERE PLAN_ID = (SELECT DISTINCT(PLAN_ID) FROM PLAN_CURSO WHERE CURSO_ID = '"+cursoId+"')) "
-					+ " AND GRADO = '"+grado+"'");	
+					+ " AND GRADO = TO_NUMBER('"+grado+"', '99')");	
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
@@ -73,8 +73,8 @@ public class CatEsquemaLista {
 			ps = conn.prepareStatement("SELECT ESQUEMA_EVALUACION "
 					+ " FROM CAT_ESQUEMA "
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "
-					+ " AND NIVEL_ID =  '"+nivelId+"' "
-					+ " AND GRADO = '"+gradoId+"' ");	
+					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"', '99') "
+					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99') ");	
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
@@ -102,8 +102,8 @@ public class CatEsquemaLista {
 			ps = conn.prepareStatement("SELECT SUB_NIVEL "
 					+ " FROM CAT_ESQUEMA "
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "
-					+ " AND NIVEL_ID =  '"+nivelId+"' "
-					+ " AND GRADO = '"+gradoId+"' ");	
+					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"', '99') "
+					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99') ");	
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
@@ -134,8 +134,8 @@ public class CatEsquemaLista {
 			ps = conn.prepareStatement("SELECT GRADO_NOMBRE "
 					+ " FROM CAT_ESQUEMA "
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "
-					+ " AND NIVEL_ID =  '"+nivelId+"' "
-					+ " AND GRADO = '"+gradoId+"' ");	
+					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"', '99') "
+					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99') ");	
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
@@ -170,8 +170,8 @@ public class CatEsquemaLista {
 			ps = conn.prepareStatement("SELECT SEMESTRE_NOMBRE "
 					+ " FROM CAT_ESQUEMA "
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "
-					+ " AND NIVEL_ID =  '"+nivelId+"' "
-					+ " AND GRADO = '"+gradoId+"' ");	
+					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"', '99') "
+					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99) ");	
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
