@@ -58,7 +58,7 @@ public class CatModalidad {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_MODALIDAD" +
 					" (MODALIDAD_ID, MODALIDAD_NOMBRE)" +
-					" VALUES(TO_NUMBER(?, '2'),?)");
+					" VALUES(TO_NUMBER(?, '99'),?)");
 			
 			ps.setString(1, modalidadId);
 			ps.setString(2, modalidadNombre);
@@ -84,7 +84,7 @@ public class CatModalidad {
 		boolean ok = false;
 		try{			
 			ps = conn.prepareStatement("UPDATE CAT_MODALIDAD" +
-					" SET MODALIDAD_NOMBRE = ? WHERE MODALIDAD_ID = TO_NUMBER(?, '2')");			
+					" SET MODALIDAD_NOMBRE = ? WHERE MODALIDAD_ID = TO_NUMBER(?, '99')");			
 			ps.setString(1, modalidadNombre);			
 			ps.setString(2, modalidadId);						
 			if ( ps.executeUpdate()== 1){			
@@ -108,7 +108,7 @@ public class CatModalidad {
 		
 		try{			
 			ps = conn.prepareStatement("DELETE FROM CAT_MODALIDAD" +
-					" WHERE MODALIDAD_ID = TO_NUMBER(?, '2')");			
+					" WHERE MODALIDAD_ID = TO_NUMBER(?, '99')");			
 			ps.setString(1,modalidadId);					
 			if ( ps.executeUpdate()== 1){			
 				ok = true;
@@ -136,7 +136,7 @@ public class CatModalidad {
 		ResultSet rs = null;
 		try{
 			ps = con.prepareStatement("SELECT MODALIDAD_ID, MODALIDAD_NOMBRE FROM CAT_MODALIDAD" +
-					" WHERE MODALIDAD_ID = TO_NUMBER(?, '2')");
+					" WHERE MODALIDAD_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, modalidadId);			
 			rs = ps.executeQuery();
 			
@@ -160,7 +160,7 @@ public class CatModalidad {
 		
 		try{			
 			ps = conn.prepareStatement("SELECT * FROM CAT_MODALIDAD" +
-					" WHERE MODALIDAD_ID = TO_NUMBER(?, '2')");			
+					" WHERE MODALIDAD_ID = TO_NUMBER(?, '99')");			
 			ps.setString(1, modalidadId);			
 			rs= ps.executeQuery();					
 			if(rs.next()){
