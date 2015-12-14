@@ -340,7 +340,7 @@ public class KrdxAlumEvalLista {
 					" FROM KRDX_ALUM_EVAL " +
 					" WHERE CURSO_ID = '"+cursoId+"'" +
 					" AND CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
-					" AND EVALUACION_ID = TO_NUMBER("+evaluacionId+", '99') " +
+					" AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') " +
 					" AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_ALUM_EVAL.CURSO_ID) "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -371,7 +371,7 @@ public class KrdxAlumEvalLista {
 			comando = " SELECT CICLO_GRUPO_ID, COUNT( DISTINCT(CODIGO_ID) ) AS CANTIDAD"
 					+ " FROM KRDX_ALUM_EVAL"
 					+ " WHERE CICLO_GRUPO_ID LIKE '"+cicloId+"%'"
-					+ " AND EVALUACION_ID = TO_NUMBER("+evaluacionId+", '99') "
+					+ " AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') "
 					+ " AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_ALUM_EVAL.CURSO_ID)"
 					+ " GROUP BY CICLO_GRUPO_ID ";
 			rs = st.executeQuery(comando);			
