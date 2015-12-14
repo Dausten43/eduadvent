@@ -234,7 +234,7 @@ public class FinPago {
 	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
 	                + " FROM FIN_PAGO"
 	                + " WHERE CICLO_ID = ?"
-	                + " AND PERIODO_ID = TO_NUMBER(?; '99')"
+	                + " AND PERIODO_ID = TO_NUMBER(?,'99')"
 	                + " AND PAGO_ID = TO_NUMBER(?, '99')");
 	        
 	        ps.setString(1, cicloId);
