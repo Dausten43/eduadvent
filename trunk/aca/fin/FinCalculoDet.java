@@ -238,9 +238,9 @@ public class FinCalculoDet {
         PreparedStatement ps = null;
         try{
         	ps = conn.prepareStatement(
-                    "UPDATE FIN_CALCULO_DET" +                    
-                    " SET PAGO_INICIAL_PORCENTAJE = ?," +
-                    " IMPORTE_INICIAL = TO_NUMBER(', '99999.99) " +
+                    " UPDATE FIN_CALCULO_DET" +                    
+                    " SET PAGO_INICIAL_PORCENTAJE = TO_NUMBER(?,'999.99')," +
+                    " IMPORTE_INICIAL = TO_NUMBER(?, '99999.99')" +
                     " WHERE CICLO_ID = ? " +
                     " AND PERIODO_ID = TO_NUMBER(?, '99')" +
                     " AND CODIGO_ID = ?"+
@@ -259,7 +259,7 @@ public class FinCalculoDet {
 
             
         }catch (Exception ex){
-            System.out.println("Error - aca.fin.FinCalculoDet|updatePagos|:" + ex);
+            System.out.println("Error - aca.fin.FinCalculoDet|updatePago|:" + ex);
         }finally{
         	if(ps != null){ ps.close(); }
         }
