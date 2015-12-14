@@ -68,7 +68,7 @@ public class CatTipoAlumno {
 		try{
 			ps = con.prepareStatement("SELECT ESCUELA_ID, TIPOALUMNO_ID, NOMBRE, ESTADO" +
 					" FROM CAT_TIPOALUMNO" +
-					" WHERE ESCUELA_ID = ? AND TIPOALUMNO_ID TO_NUMBER(?, '999')");
+					" WHERE ESCUELA_ID = ? AND TIPOALUMNO_ID = TO_NUMBER(?, '999')");
 					
 			ps.setString(1, escuelaId);
 			ps.setString(2, tipoAlumnoId);
