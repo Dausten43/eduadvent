@@ -220,14 +220,14 @@ public class FinCalculo {
         boolean ok = false;
         PreparedStatement ps = null;
         try{
-            ps = conn.prepareStatement(
-                    " INSERT INTO FIN_CALCULO(CICLO_ID, PERIODO_ID, CODIGO_ID, PLAN_ID," +
-                    " CLASFIN_ID, TIPO_PAGO, IMPORTE, INSCRITO, NUMPAGOS, PAGOINICIAL, FECHA)" +
-                    " VALUES(?, TO_NUMBER(?, '99'), ?, ?, ?, ?," +
-                    " TO_NUMBER(?, '99999.99'), ?," +
-                    " TO_NUMBER(?, '99')," +
-                    " TO_NUMBER(?, '99999.99')," +
-                    " TO_DATE(?,'DD/MM/YYYY'))");
+            ps = conn.prepareStatement("INSERT INTO FIN_CALCULO(CICLO_ID, PERIODO_ID, CODIGO_ID, PLAN_ID,"
+                    + " CLASFIN_ID, TIPO_PAGO, IMPORTE, INSCRITO, NUMPAGOS, PAGOINICIAL, FECHA)"
+                    + " VALUES(?, TO_NUMBER(?, '99'), ?, ?,"
+                    + " TO_NUMBER(?,'99'), ?,"
+                    + " TO_NUMBER(?, '99999.99'), ?,"
+                    + " TO_NUMBER(?, '99'),"
+                    + " TO_NUMBER(?, '99999.99'),"
+                    + " TO_DATE(?,'DD/MM/YYYY'))");
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
             ps.setString(3, codigoId);
@@ -263,7 +263,7 @@ public class FinCalculo {
             ps = conn.prepareStatement(
                     "UPDATE FIN_CALCULO " + 
                     " SET PLAN_ID = ?," +
-                    " CLASFIN_ID = ?," +
+                    " CLASFIN_ID = TO_NUMBER(?,'99')," +
                     " TIPO_PAGO = ?," +
                     " IMPORTE = TO_NUMBER(?, '99999.99')," +                   
                     " INSCRITO = ?, " +
