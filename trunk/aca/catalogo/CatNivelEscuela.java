@@ -292,7 +292,7 @@ public class CatNivelEscuela {
 		String minima			= "5";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(NOTAMINIMA,5) AS MINIMA FROM CAT_NIVEL_ESCUELA WHERE NIVEL_ID = ? AND ESCUELA_ID = ? ");	
+			ps = conn.prepareStatement("SELECT COALESCE(NOTAMINIMA,5) AS MINIMA FROM CAT_NIVEL_ESCUELA WHERE NIVEL_ID = TO_NUMBER(?, '99') AND ESCUELA_ID = ? ");	
 			ps.setString(1, nivelId);
 			ps.setString(2, escuelaId);
 			
@@ -322,7 +322,7 @@ public class CatNivelEscuela {
 		
 		try{
 			ps = conn.prepareStatement("SELECT NIVEL_NOMBRE FROM CAT_NIVEL_ESCUELA " +
-					"WHERE NIVEL_ID = '"+nivelId+"' AND ESCUELA_ID = '"+escuelaId+"' ");
+					"WHERE NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') AND ESCUELA_ID = '"+escuelaId+"' ");
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
@@ -346,7 +346,7 @@ public class CatNivelEscuela {
 		
 		try{
 			ps = conn.prepareStatement("SELECT TITULO FROM CAT_NIVEL_ESCUELA " +
-					"WHERE NIVEL_ID = ? AND ESCUELA_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99') AND ESCUELA_ID = ?");
 			ps.setString(1, nivelId);
 			ps.setString(2, escuelaId);
 			
@@ -371,7 +371,7 @@ public class CatNivelEscuela {
 		
 		try{
 			ps = conn.prepareStatement("SELECT PESO FROM CAT_NIVEL_ESCUELA " +
-					"WHERE NIVEL_ID = ? AND ESCUELA_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMER(?, '99') AND ESCUELA_ID = ?");
 			ps.setString(1, nivelId);
 			ps.setString(2, escuelaId);
 			
@@ -396,7 +396,7 @@ public class CatNivelEscuela {
 		
 		try{
 			ps = conn.prepareStatement("SELECT FUNCION_ID FROM CAT_NIVEL_ESCUELA " +
-					"WHERE NIVEL_ID = ? AND ESCUELA_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99') AND ESCUELA_ID = ?");
 			ps.setString(1, nivelId);
 			ps.setString(2, escuelaId);
 			
@@ -422,7 +422,7 @@ public class CatNivelEscuela {
 		
 		try{
 			ps = conn.prepareStatement("SELECT DIRECTOR FROM CAT_NIVEL_ESCUELA " +
-					"WHERE NIVEL_ID = ? AND ESCUELA_ID = ?");
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99') AND ESCUELA_ID = ?");
 			ps.setString(1, nivelId);
 			ps.setString(2, escuelaId);
 			
