@@ -162,7 +162,19 @@ public class Fecha{
 		s_fecha = dia+"/"+mes+"/"+Integer.toString(fecha.get(Calendar.YEAR));
 		
 		return s_fecha;
-	}	
+	}
+	
+	public static String getInicioMes( ){
+		String s_fecha = "";
+		Calendar fecha = new GregorianCalendar();
+		String dia = "01";
+		String mes = Integer.toString(fecha.get(Calendar.MONTH)+1);
+		if (mes.length() == 1) mes = "0" + mes;
+		
+		s_fecha = dia+"/"+mes+"/"+Integer.toString(fecha.get(Calendar.YEAR));
+		
+		return s_fecha;
+	}
 	
 	public static int getYearNum(){
 		Calendar fecha = new GregorianCalendar();
