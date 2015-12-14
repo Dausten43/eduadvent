@@ -393,7 +393,7 @@ public class CatEscuela {
 					" DIRECCION = ?," +
 					" TELEFONO = ?," +
 					" FAX = ?, " +
-					" ASOCIACION_ID = ?, " +
+					" ASOCIACION_ID = TO_NUMBER(?, '99'), " +
 					" LOGO = ?, " +
 					" ESTADO = ?," +
 					" FIRMA = ?, " +
@@ -401,7 +401,7 @@ public class CatEscuela {
 					" UNION_ID = TO_NUMBER(?,'99'),"+
 					" ORG_ID = ?,"+
 					" DISTRITO = ?," +
-					" REGION_ID = ?," +
+					" REGION_ID = TO_NUMBER(?, '99')," +
 					" ESLOGAN = ?," +
 					" SECTOR = ?," +
 					" ZONA = ?" +
