@@ -141,7 +141,7 @@ public class CatHorarioCiclo {
 			ps = con.prepareStatement("SELECT ESCUELA_ID, FOLIO," +
 					" CICLOS " +
 					" FROM CAT_HORARIO_CICLO" +
-					" WHERE ESCUELA_ID = ? AND FOLIO = ? ");
+					" WHERE ESCUELA_ID = ? AND FOLIO = TO_NUMBER(?, '999') ");
 			
 			ps.setString(1, escuelaId);
 			ps.setString(2, folio);
@@ -194,7 +194,7 @@ public class CatHorarioCiclo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CAT_HORARIO_CICLO" +
-					" WHERE ESCUELA_ID = '"+escuelaId+"' AND FOLIO = '"+folio+"' " );
+					" WHERE ESCUELA_ID = '"+escuelaId+"' AND FOLIO = TO_NUMBER('"+folio+"', '999') " );
 			
 			
 			rs= ps.executeQuery();		
