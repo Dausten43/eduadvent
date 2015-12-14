@@ -1218,7 +1218,7 @@ public class AlumPersonal {
 		
 		try{
 			comando = "SELECT COUNT(CODIGO_ID) AS RESULTADO FROM ALUM_PERSONAL" +
-					" WHERE NIVEL_ID = TO_NUMBER("+nivel+", '99') AND GRADO = TO_NUMBER("+grado+", '99')"+
+					" WHERE NIVEL_ID = TO_NUMBER('"+nivel+"', '99') AND GRADO = TO_NUMBER('"+grado+"', '99')"+
 					" AND GRUPO = '"+grupo+"'" +
 					" AND CODIGO_ID IN " +
 					" 	(SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"' AND ESTADO = 'I')" ;
