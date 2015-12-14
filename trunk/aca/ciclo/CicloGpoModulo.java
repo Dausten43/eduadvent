@@ -77,7 +77,7 @@ public class CicloGpoModulo {
 			try{
 				ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_MODULO" +
 						" (CICLO_GRUPO_ID, MODULO_ID, MODULO_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN)" +
-						" VALUES(?, ?, ?, ? , ?, ?)");
+						" VALUES(?, ?, ?, ? , ?, TO_NUMBER(?, '99.99'))");
 				
 				ps.setString(1, cicloGrupoId);
 				ps.setString(2, moduloId);
@@ -108,7 +108,7 @@ public class CicloGpoModulo {
 			try{
 				ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_MODULO" +
 						" (CICLO_GRUPO_ID, MODULO_ID, MODULO_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN)" +
-						" VALUES(?, ?, ?, ? , ?, ?)");
+						" VALUES(?, ?, ?, ? , ?, TO_NUMBER(?, '99.99'))");
 				
 				ps.setString(1, cicloGrupoId);
 				ps.setString(2, moduloId);
@@ -138,7 +138,7 @@ public class CicloGpoModulo {
 			try{
 				ps = conn.prepareStatement("UPDATE CICLO_GRUPO_MODULO" +
 						" SET MODULO_NOMBRE = ?," +
-						" DESCRIPCION = ?, ORDEN = ? " +
+						" DESCRIPCION = ?, ORDEN = TO_NUMBER(?, '99.99') " +
 						" WHERE CICLO_GRUPO_ID = ?" +
 						" AND MODULO_ID = ?  " +
 						" AND CURSO_ID = ?");			
