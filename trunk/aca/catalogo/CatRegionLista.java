@@ -13,7 +13,7 @@ public class CatRegionLista {
 		String comando				= "";
 		
 		try{
-			comando = "SELECT * FROM CAT_REGION WHERE PAIS_ID = '"+paisId+"' "+orden;
+			comando = "SELECT * FROM CAT_REGION WHERE PAIS_ID = TO_NUMBER('"+paisId+"', '999') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -72,7 +72,7 @@ public class CatRegionLista {
 		
 		try{
 			comando = " SELECT COUNT(REGION_NOMBRE) TOTAL" +
-					  " FROM CAT_REGION WHERE PAIS_ID = '"+paisId+"'";
+					  " FROM CAT_REGION WHERE PAIS_ID = TO_NUMBER('"+paisId+"', '999')";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
