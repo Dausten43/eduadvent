@@ -8,9 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import aca.alumno.AlumPersonal;
-
-
 public class EmpPersonalLista{
 		
 	public ArrayList<EmpPersonal> getListAll(Connection Conn, String escuelaId, String orden ) throws SQLException{
