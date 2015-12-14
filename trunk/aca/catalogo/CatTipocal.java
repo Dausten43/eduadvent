@@ -77,7 +77,7 @@ public class CatTipocal {
 		try{
 			ps = con.prepareStatement("SELECT TIPOCAL_ID, TIPOCAL_NOMBRE, TIPOCAL_CORTO" +
 					" FROM CAT_TIPOCAL" +
-					" WHERE TIPOCAL_ID = ?");
+					" WHERE TIPOCAL_ID = TO_NUMBER(?, '99')");
 					
 			ps.setString(1, tipocalId);			
 			
@@ -102,7 +102,7 @@ public class CatTipocal {
 		try{
 			ps = con.prepareStatement("SELECT TIPOCAL_CORTO" +
 					" FROM CAT_TIPOCAL" +
-					" WHERE TIPOCAL_ID = ?");				
+					" WHERE TIPOCAL_ID = TO_NUMBER(?, '99')");				
 			ps.setString(1, tipocalId);		
 			
 			rs = ps.executeQuery();		
@@ -127,7 +127,7 @@ public class CatTipocal {
 		try{
 			ps = con.prepareStatement("SELECT TIPOCAL_NOMBRE" +
 					" FROM CAT_TIPOCAL" +
-					" WHERE TIPOCAL_ID = ?");				
+					" WHERE TIPOCAL_ID = TO_NUMBER(?, '99')");				
 			ps.setString(1, tipocalId);		
 			
 			rs = ps.executeQuery();		
