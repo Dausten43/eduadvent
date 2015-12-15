@@ -658,14 +658,14 @@ public class AlumPersonal {
 					" (CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO, GENERO, CURP, F_NACIMIENTO, " +
 					" EMAIL, DIRECCION, COLONIA, TELEFONO, MATRICULA," +
 					" ACTA, CRIP, CELULAR, TUTOR," +
-					" NIVEL_ID, CLASFIN_ID, DISCAPACIDAD, CORREO, TRANSPORTE )" +
+					" NIVEL_ID, CLASFIN_ID, DISCAPACIDAD, CORREO, TRANSPORTE)" +
 					" VALUES(?, ?," +
 					" UPPER(RTRIM(LTRIM(?)))," +
 					" UPPER(RTRIM(LTRIM(?)))," +
 					" UPPER(RTRIM(LTRIM(?))), ?," +
 					" ?, TO_DATE(?, 'DD/MM/YYYY')," +
 					" ?,?,?,?,?,?,?,?,?," +
-					" TO_NUMBER(?, '99'),TO_NUMBER(?, '99'),?,?,?)");
+					" ?,?,?,?,?)");
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
 			ps.setString(3, nombre);
@@ -783,7 +783,7 @@ public class AlumPersonal {
 					" MATRICULA = ?, " +
 					" DISCAPACIDAD = ? ," +
 					" ENFERMEDAD = ?, " +
-					" CORREO = ? " +
+					" CORREO = ?, " +
 					" IGLESIA = ? " +
 					" WHERE CODIGO_ID = ? ");			
 			
