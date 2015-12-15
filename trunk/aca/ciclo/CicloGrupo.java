@@ -441,8 +441,8 @@ public class CicloGrupo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT CICLO_GRUPO_ID FROM CICLO_GRUPO" +
-					" WHERE NIVEL_ID = TO_NUMBER(?, '99')" +
-					" AND GRADO = TO_NUMBER(?, '99')" +
+					" WHERE NIVEL_ID = ?" +
+					" AND GRADO = ?" +
 					" AND GRUPO = ?" +
 					" AND CICLO_ID = ?" +
 					" AND PLAN_ID = ?");
