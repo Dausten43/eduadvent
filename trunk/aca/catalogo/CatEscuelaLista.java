@@ -159,7 +159,7 @@ public class CatEscuelaLista {
 			comando = "SELECT " +
 					"ESCUELA_ID, ESCUELA_NOMBRE, NOMBRE_CORTO, " +
 					"PAIS_ID, ESTADO_ID, CIUDAD_ID, COLONIA, DIRECCION, TELEFONO, FAX, ASOCIACION_ID, LOGO, ESTADO, FIRMA, SECCION_ID, UNION_ID, ORG_ID, DISTRITO, REGION_ID, ESLOGAN, SECTOR, ZONA  " +
-					"FROM CAT_ESCUELA WHERE ASOCIACION_ID = TO_NUMBER("+asociacionId+", '99') "+orden;		
+					"FROM CAT_ESCUELA WHERE ASOCIACION_ID = TO_NUMBER('"+asociacionId+"', '99') "+orden;		
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
