@@ -8,7 +8,7 @@
 <jsp:useBean id="usuarioMenu" scope="page" class="aca.usuario.UsuarioMenu"/>
 <jsp:useBean id="moduloOpcionLista" scope="page" class="aca.menu.ModuloOpcionLista"/>
 <head>
-	<script language="javascript">
+	<script type="javascript">
 	
 		function Menu(){
 			document.frmMenu.Accion.value="1";
@@ -22,8 +22,8 @@
 	String strCodigoId		= (String) session.getAttribute("codigoReciente");
 	String tipo				= "";
 	String nombreUsuario 	= "";
-	ArrayList lisModuloOpcion	= new ArrayList();
-	if(usuario.esSuper(conElias, strCodigoId)){
+	ArrayList<aca.menu.ModuloOpcion> lisModuloOpcion	= new ArrayList<aca.menu.ModuloOpcion>();
+	if(aca.usuario.Usuario.esSuper(conElias, strCodigoId)){
 		lisModuloOpcion		= moduloOpcionLista.getListaActivosSuper(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
 	}else{
 		lisModuloOpcion		= moduloOpcionLista.getListaActivosAdmin(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
