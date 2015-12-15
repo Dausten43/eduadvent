@@ -105,44 +105,45 @@
 			
 	</form>
 		
-	<%if (accion.equals("1")) {%>
+<%
+	if (accion.equals("1")) {%>
 	
-		<form action="datos.jsp" name="frmLista" method="post" target="_self">
-			
-			<div class="alert"><fmt:message key="aca.AlumnosParecidos"/></div>
+	<form action="datos.jsp" name="frmLista" method="post" target="_self">
 		
-			<table  class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th width="30%"><fmt:message key="aca.Nombre"/></th>
-						<th width="20%"><fmt:message key="aca.Matricula"/></th>
-					</tr>
-				</thead>
-				<%
-					for (int i = 0; i < lisLista.size(); i++) {
-								AlumPersonal alumno = (AlumPersonal) lisLista.get(i);
-				%>
-				<tr>
-					<td><a href="javascript:Select('<%=alumno.getCodigoId()%>')"
-						title="<fmt:message key="aca.SelecAlumno"/>"><%=alumno.getNombre()%>&nbsp;<%=alumno.getApaterno()%>&nbsp;<%=alumno.getAmaterno()%></a>
-					</td>
-					<td align="center"><%=alumno.getCodigoId()%>&nbsp;</td>
-				</tr>
-				<%
-					}
-				%>
-				<tr>
-					<td colspan="2">
-						<fmt:message key="aca.CreaRegistro"/>
-						<a class="btn btn-primary btn-mini" href="nuevoAlumno.jsp?Accion=7&Escuela=<%=escuelaId%>&Nombre=<%=nombre%>&APaterno=<%=aPaterno%>&AMaterno=<%=aMaterno%>&FNacimiento=01/01/2000&Genero=<%="M"%>&Curp=<%="S"%>">
-							<i class="icon-plus icon-white"></i> <fmt:message key="aca.NuevoAlumno"/>
-						</a>
-					</td>
-				</tr>
-			</table>
-		</form>
+		<div class="alert"><fmt:message key="aca.AlumnosParecidos"/></div>
 		
-	<%}%>
+		<table  class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th width="30%"><fmt:message key="aca.Nombre"/></th>
+				<th width="20%"><fmt:message key="aca.Matricula"/></th>
+			</tr>
+		</thead>
+		<%
+			for (int i = 0; i < lisLista.size(); i++) {
+				AlumPersonal alumno = (AlumPersonal) lisLista.get(i);
+		%>
+		<tr>
+			<td><a href="javascript:Select('<%=alumno.getCodigoId()%>')"
+				title="<fmt:message key="aca.SelecAlumno"/>"><%=alumno.getNombre()%>&nbsp;<%=alumno.getApaterno()%>&nbsp;<%=alumno.getAmaterno()%></a>
+			</td>
+			<td align="center"><%=alumno.getCodigoId()%>&nbsp;</td>
+		</tr>
+		<%
+			}
+		%>
+		<tr>
+			<td colspan="2">
+				<fmt:message key="aca.CreaRegistro"/>
+				<a class="btn btn-primary btn-mini" href="nuevoAlumno.jsp?Accion=7&Escuela=<%=escuelaId%>&Nombre=<%=nombre%>&APaterno=<%=aPaterno%>&AMaterno=<%=aMaterno%>&FNacimiento=01/01/2000&Genero=<%="M"%>&Curp=<%="S"%>">
+					<i class="icon-plus icon-white"></i> <fmt:message key="aca.NuevoAlumno"/>
+				</a>
+			</td>
+		</tr>
+		</table>
+	</form>
+		
+<%	}%>
 	
 </div>
 
