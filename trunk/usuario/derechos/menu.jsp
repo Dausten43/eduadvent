@@ -127,13 +127,13 @@
 %>
   			<div class="alert alert-info" style="background:white;">
 					  
-			  	<h5><%=nombreModulo%></h5>
+			  	<h5><%=nombreModulo%> <a onclick="jQuery('.selecciona').attr('checked','checked')" class="btn btn-mini">Seleccionar todos</a>&nbsp;</h5>
 			  	
 			  	<table class="table table-condensed">
 <%		} 	%>	
-					  <tr>	
+					  <tr>						    
 					    <td align="left"> 
-						  <input name="Opcion<%=i%>" type="checkbox" value="S" <%=strCheckOpcion%>>
+						  <input class="selecciona" name="Opcion<%=i%>" type="checkbox" value="S" <%=strCheckOpcion%>>
 							<%=op.getNombreOpcion()%> - [<%=op.getOpcionId()%>]
 						  <input name="ModuloId<%=i%>" type="hidden" id="ModuloId<%=i%>" value="<%=op.getModuloId()%>">
 						  <input name="OpcionId<%=i%>" type="hidden" id="OpcionId<%=i%>" value="<%=op.getOpcionId()%>">
