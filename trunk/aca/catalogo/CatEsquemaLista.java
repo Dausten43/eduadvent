@@ -200,7 +200,7 @@ public class CatEsquemaLista {
 			grado 	= getNombreGrado(conn, escuelaId, nivelId, gradoId, sem.equals("")?true:false);
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatNivelEscuela|getNombreSemestre|:"+ex);
+			System.out.println("Error - aca.catalogo.CatEsquemaLista|getNombreSemestre|:"+ex);
 		}finally{
 		}
 		
