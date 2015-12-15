@@ -103,7 +103,7 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.CopiarCobrosDe" /><small> ( <%=cicloIdOriginal%> - <%= cicloPeriodo.periodoNombre(conElias, cicloIdOriginal, periodoIdOriginal) %> )</small></h2>
+	<h2><fmt:message key="aca.CopiarCobrosA" /><small> ( <%=cicloIdOriginal%> - <%= cicloPeriodo.periodoNombre(conElias, cicloIdOriginal, periodoIdOriginal) %> )</small></h2>
 	<form id="forma" name="forma" action="traspaso.jsp" method="post">
 		<div class="well">
 	 		<a class="btn btn-primary"href="cobro.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
@@ -113,6 +113,7 @@
 	<input type="hidden" name="periodo" value="<%=periodoIdOriginal%>">
 	<div class="row">
 		<div class="span5">
+			<h3><fmt:message key="aca.Recibe" /></h3>
 			<label><fmt:message key="aca.Ciclo" />:</label>
 			<select id="ciclo" name="ciclo" style="width:360px;margin-bottom:0px;" disabled>
 		<%
@@ -175,8 +176,11 @@
 			%>
 		</table>	
 		</div>
-		<div class="span2">&nbsp;&nbsp;<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;</div>
+		
+		<div class="span2"><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success"><i class="icon-arrow-left icon-white"></i></a></i></div>
+		
 		<div class="span5">
+				<h3><fmt:message key="aca.Envia" /></h3>
 				<label><fmt:message key="aca.Ciclo" />:</label>
 			<select id="cicloId" name="cicloId" onchange="document.location = 'traspaso.jsp?cicloId='+this.options[this.selectedIndex].value+'&ciclo=<%=cicloIdOriginal%>&periodo=<%=periodoIdOriginal%>';" style="width:360px;margin-bottom:0px;">
 		<%
