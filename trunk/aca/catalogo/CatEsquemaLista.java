@@ -54,7 +54,7 @@ public class CatEsquemaLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatNivelEscuela|getEsquemaEvaluacion|:"+ex);
+			System.out.println("Error - aca.catalogo.CatEsquemaLista|getEsquemaEvaluacion|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
@@ -82,7 +82,7 @@ public class CatEsquemaLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatNivelEscuela|getEsquemaEvaluacionNivel|:"+ex);
+			System.out.println("Error - aca.catalogo.CatEsquemaLista|getEsquemaEvaluacionNivel|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
@@ -114,7 +114,7 @@ public class CatEsquemaLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatNivelEscuela|getSubNivel|:"+ex);
+			System.out.println("Error - aca.catalogo.CatEsquemaLista|getSubNivel|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
@@ -131,11 +131,10 @@ public class CatEsquemaLista {
 		String grado			= "";
 		
 		try{
-			ps = conn.prepareStatement("SELECT GRADO_NOMBRE "
-					+ " FROM CAT_ESQUEMA "
-					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "
-					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"', '99') "
-					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99') ");	
+			ps = conn.prepareStatement("SELECT GRADO_NOMBRE FROM CAT_ESQUEMA"
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
+					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"','99')"
+					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99')");	
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
@@ -143,7 +142,7 @@ public class CatEsquemaLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatNivelEscuela|getNombreGrado|:"+ex);
+			System.out.println("Error - aca.catalogo.CatEsquemaLista|getNombreGrado|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
@@ -167,11 +166,10 @@ public class CatEsquemaLista {
 		String semestre			= "";
 		
 		try{
-			ps = conn.prepareStatement("SELECT SEMESTRE_NOMBRE "
-					+ " FROM CAT_ESQUEMA "
-					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "
-					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"', '99') "
-					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99) ");	
+			ps = conn.prepareStatement("SELECT SEMESTRE_NOMBRE FROM CAT_ESQUEMA"
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
+					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"', '99')"
+					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99)");	
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
@@ -182,7 +180,7 @@ public class CatEsquemaLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatNivelEscuela|getNombreSemestre|:"+ex);
+			System.out.println("Error - aca.catalogo.CatEsquemaLista|getNombreSemestre|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
