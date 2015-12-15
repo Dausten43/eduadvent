@@ -183,7 +183,6 @@
 			break;
 		}
 	}
-		System.out.println("planID"+cicloId);
 %>
 <div id="content">
 	<h2><%= aca.plan.Plan.getNombrePlan(conElias, planId) %></h2>
@@ -192,7 +191,7 @@
 		<%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivelId)%> |
 		<%= aca.ciclo.Ciclo.getCicloNombre(conElias, cicloId) %>
 	</div>
-  	  
+	
 	<div class="well">
 		<a class="btn btn-primary" href="seleccionaPlan.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		<a class="btn btn-primary" href="grupo.jsp"><i class="icon-plus icon-white"></i> <fmt:message key="boton.AnadirQuitar" /></a> 
@@ -246,18 +245,21 @@
 		 		</div> 
 <%	
 				for(aca.plan.PlanCurso curso: lisCurso){
-					System.out.println(curso.getGrado()+".."+grupo.getGrado());
-					
 					if (curso.getGrado().equals(grupo.getGrado())){
-						System.out.println("entre");
 						if (encabezado){ 
 							encabezado = false;
 %>
 							<table class="table table-striped table-bordered">
 								<tr>
-									<th style="width:10%;">
+									<th style="width:12%;">
+										<fmt:message key="aca.Seleccionar" />
+										<a href="materia.jsp?CicloGrupoId=<%=grupo.getCicloGrupoId()%>"> <i class="icon-check"></i> </a>
+									<%if (cambiaGrupo){%>
+										<a onclick="jQuery('.selecciona<%=grupo.getCicloGrupoId()%>').attr('checked','checked')" class="btn btn-mini">Todos</a>&nbsp;
+									<%}%>
+									</th>
+									<th style="width:8%;">
 										<fmt:message key="aca.Estado" />
-										<a href="materia.jsp?CicloGrupoId=<%=grupo.getCicloGrupoId()%>"> <i class="icon-pencil"></i> </a>
 									</th>
 									<th style="width:3%;">#</th>
 									<th style="width:10%;"><fmt:message key="aca.Clave" /></th>
@@ -288,24 +290,22 @@
 							maestro = "-";
 						}				
 %>
-		  				<tr>
+		  				<tr>	  				    
 		    				<td>
 <%								
-								if (cambiaGrupo){
 									if(numAlumnos.equals("0")){%>					   				
-		      							<input type="checkbox" name="<%=grupo.getCicloGrupoId()+curso.getCursoId()%>" value="S" <%= existeMat?"checked":" "%> >
+		      							<input class="selecciona<%=grupo.getCicloGrupoId()%>" type="checkbox" name="<%=grupo.getCicloGrupoId()+curso.getCursoId()%>" value="S" <%= existeMat?"checked":" "%> >
 		      						<%}else{ %>
 		      							<input title="<fmt:message key="aca.ErrorCambiarEstado" />" type="checkbox" value="S" <%= existeMat?"checked":" "%> onclick="return false">
 <%									  } 
-
-								}else{
-									if (existeMat){%>
-										<span class="label label-success"><fmt:message key="aca.Activo" /></span>
-									<%}else{%>
-										<span class="label"><fmt:message key="aca.Inactivo" /></span>
-									<%}
-								}
 %>
+							<td>									  
+								<%if (existeMat){%>
+									<span class="label label-success"><fmt:message key="aca.Activo" /></span>
+								<%}else{%>
+									<span class="label"><fmt:message key="aca.Inactivo" /></span>
+								<%} %>
+		    				</td>
 		    				</td>
 		    				<td><%= curso.getOrden() %></td>
 		    				<td><%= curso.getCursoId() %></td>
