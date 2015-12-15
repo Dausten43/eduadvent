@@ -688,7 +688,7 @@ public class CicloGrupoEval{
 			ps = conn.prepareStatement("SELECT ESTADO FROM CICLO_GRUPO_EVAL"+
 				" WHERE CICLO_GRUPO_ID = ?"+
 				" AND CURSO_ID = ?" +
-				" AND EVALUACION_ID = TO_NUMBER(?, '99')");
+				" AND EVALUACION_ID = ?");
 			ps.setString(1, cicloGrupoId);
 			ps.setString(2, cursoId);
 			ps.setInt(3, evaluacionId);
