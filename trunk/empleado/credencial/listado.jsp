@@ -52,13 +52,13 @@
 		}
 		
 		
-		function check(){
+		function check(){			
 			var chksboxs = jQuery('.chkbx');
 			
-			if(chksboxs.attr('checked')  === undefined ){
-				chksboxs.attr('checked', 'checked');
+			if(chksboxs.prop('checked')  === false ){
+				chksboxs.prop('checked', true);
 			}else{
-				chksboxs.removeAttr('checked');
+				chksboxs.prop('checked', false);				
 			}
 		}
 	</script>
