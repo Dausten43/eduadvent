@@ -62,14 +62,12 @@
 		}	
 	}
 	
-	function Todos(){
-		alert("entre a todos");
-		$(".checkbox-pagos").attr('checked',true);
+	function Todos(){		
+		$(".checkbox-pagos").prop('checked',true);
 	}
 		
-	function Ninguno(){
-		alert("entre a ninguno");
-		$(".checkbox-pagos").attr('checked',false);
+	function Ninguno(){		
+		$(".checkbox-pagos").prop('checked',false);
 	}
 </script>
 
