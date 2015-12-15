@@ -184,7 +184,7 @@ public class UsuarioTipo {
 		String nombreTipo		= "";
 		
 		try{
-			ps = conn.prepareStatement("SELECT TIPO_NOMBRE FROM USUARIO_TIPO WHERE TIPO_ID = TO_NUMBER(?, '99')");
+			ps = conn.prepareStatement("SELECT TIPO_NOMBRE FROM USUARIO_TIPO WHERE TIPO_ID = ?");
 			ps.setInt(1, tipoId);
 			
 			rs= ps.executeQuery();		
