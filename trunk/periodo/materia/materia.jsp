@@ -255,7 +255,7 @@
 							<fmt:message key="aca.Estado" />&nbsp;&nbsp;
 							<a href="materia.jsp?CicloGrupoId=<%=grupo.getCicloGrupoId()%>"> <i class="icon-check"></i> </a>
 							<%if (cambiaGrupo){%>
-							<a onclick="jQuery('.selecciona<%=grupo.getCicloGrupoId()%>').attr('checked','checked')" class="btn btn-mini">Todos</a>&nbsp;
+							<a onclick="jQuery('.selecciona<%=grupo.getCicloGrupoId()%>').prop('checked',true)" class="btn btn-mini">Todos</a>&nbsp;
 							<%}%>
 						</th>
 						<th style="width:3%;">#</th>
