@@ -105,7 +105,7 @@ public class CatHorarioPeriodo {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_HORARIO_PERIODO" +
 					"( HORARIO_ID, PERIODO_ID, HORA_INICIO, MINUTO_INICIO, HORA_FINAL, MINUTO_FINAL )" +
-					" VALUES( ?,TO_NUMBER(?, '99'), ?, ?, ?, ? )");
+					" VALUES( TO_NUMBER(?,'99999'),TO_NUMBER(?, '99'), ?, ?, ?, ? )");
 			
 			ps.setString(1, horarioId);
 			ps.setString(2, periodoId);
@@ -124,7 +124,7 @@ public class CatHorarioPeriodo {
 			
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatHorario|insertReg|:"+ex);
+			System.out.println("Error - aca.catalogo.CatHorarioPeriodo|insertReg|:"+ex);
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -140,7 +140,7 @@ public class CatHorarioPeriodo {
 					" MINUTO_INICIO = ? ," +
 					" HORA_FINAL = ?, " +
 					" MINUTO_FINAL = ? " +
-					" WHERE HORARIO_ID = ? " +
+					" WHERE HORARIO_ID = TO_NUMBER(?,'99999') " +
 					" AND PERIODO_ID = TO_NUMBER(?, '99')");			
 			
 			ps.setString(1, horaInicio);
@@ -158,7 +158,7 @@ public class CatHorarioPeriodo {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatHorario|updateReg|:"+ex);
+			System.out.println("Error - aca.catalogo.CatHorarioPeriodo|updateReg|:"+ex);
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -170,7 +170,7 @@ public class CatHorarioPeriodo {
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("DELETE FROM CAT_HORARIO_PERIODO" +
-					" WHERE HORARIO_ID =  ? " +
+					" WHERE HORARIO_ID =  TO_NUMBER(?,'99999') " +
 					" AND PERIODO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, horarioId);
 			ps.setString(2, periodoId);
@@ -184,7 +184,7 @@ public class CatHorarioPeriodo {
 			
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatHorario|deleteReg|:"+ex);
+			System.out.println("Error - aca.catalogo.CatHorarioPeriodo|deleteReg|:"+ex);
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -208,7 +208,7 @@ public class CatHorarioPeriodo {
 					" HORA_INICIO, MINUTO_INICIO,  " +
 					" HORA_FINAL, MINUTO_FINAL " +
 					" FROM CAT_HORARIO_PERIODO " +
-					" WHERE HORARIO_ID = ? " +
+					" WHERE HORARIO_ID = TO_NUMBER(?,'99999')" +
 					" AND PERIODO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, horarioId);
 			ps.setString(2, periodoId);
@@ -219,7 +219,7 @@ public class CatHorarioPeriodo {
 				mapeaReg(rs);
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatHorario|mapeaRegId|:"+ex);
+			System.out.println("Error - aca.catalogo.CatHorarioPeriodo|mapeaRegId|:"+ex);
 			ex.printStackTrace();
 		}finally{
 			if (rs!=null) rs.close();
@@ -234,7 +234,7 @@ public class CatHorarioPeriodo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CAT_HORARIO_PERIODO" +
-					" WHERE HORARIO_ID = ?" +
+					" WHERE HORARIO_ID = TO_NUMBER(?,'99999')" +
 					" AND PERIODO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, horarioId);
 			ps.setString(2, periodoId);
@@ -246,7 +246,7 @@ public class CatHorarioPeriodo {
 				ok = false;
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatHorario|existeReg|:"+ex);
+			System.out.println("Error - aca.catalogo.CatHorarioPeriodo|existeReg|:"+ex);
 		}
 		if (rs!=null) rs.close();
 		if (ps!=null) ps.close();
@@ -261,7 +261,7 @@ public class CatHorarioPeriodo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CAT_HORARIO_PERIODO" +
-					" WHERE HORARIO_ID = ? ");
+					" WHERE HORARIO_ID = TO_NUMBER(?,'99999')");
 			ps.setString(1, horarioId);
 			
 			rs= ps.executeQuery();		
@@ -271,7 +271,7 @@ public class CatHorarioPeriodo {
 				ok = false;
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatHorario|existeHorario|:"+ex);
+			System.out.println("Error - aca.catalogo.CatHorarioPeriodo|existeHorario|:"+ex);
 		}
 		if (rs!=null) rs.close();
 		if (ps!=null) ps.close();
