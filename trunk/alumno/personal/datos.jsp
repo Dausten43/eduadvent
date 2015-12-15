@@ -63,10 +63,8 @@
 	
 	<form action="datos.jsp" name="frmDatos" method="post" target="_self">
 		<input type="hidden" name="Accion">
-
-		<h2><fmt:message key="alumnos.VerificaciondeInformacion"/></h2>
 		
-		
+		<h2><fmt:message key="alumnos.VerificaciondeInformacion"/></h2>	
 
 		<div class="well">
 			<a class="btn btn-primary" href="alumno.jsp">
