@@ -329,7 +329,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT NIVEL_NOMBRE FROM CAT_NIVEL " +
-					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
+					"WHERE NIVEL_ID = ?");
 			ps.setInt(1, nivelId);
 			
 			rs= ps.executeQuery();		
@@ -361,7 +361,7 @@ public class CatNivel {
 				nombre = rs.getString("NIVEL_NOMBRE");
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatNivel|getNombre|:"+ex);
+			System.out.println("Error - aca.catalogo.CatNivel|getNivelNombre|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
@@ -377,7 +377,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT NOMBRE_CORTO FROM CAT_NIVEL " +
-					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
+					"WHERE NIVEL_ID = ?");
 			ps.setInt(1, nivelId);
 			
 			rs= ps.executeQuery();		
@@ -522,7 +522,7 @@ public class CatNivel {
 		
 		try{
 			ps = conn.prepareStatement("SELECT METODO FROM CAT_NIVEL " +
-					"WHERE NIVEL_ID = TO_NUMBER(?, '99')");
+					"WHERE NIVEL_ID = ?");
 			ps.setInt(1, nivelId);
 			
 			rs= ps.executeQuery();		
