@@ -702,8 +702,7 @@ public ArrayList<EmpPersonal> getListCumpleEmpleados(Connection conn, String esc
 			if (!dia.equals("0")){
 				comando = comando + "AND SUBSTR(TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY'),1,2)= '"+dia+"' ";
 			}	
-			comando = comando + " "+orden;
-			//System.out.println(comando);
+			comando = comando + " "+orden;			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
 				EmpPersonal empleado = new EmpPersonal();
