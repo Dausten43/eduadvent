@@ -249,30 +249,27 @@
 						if (encabezado){ 
 							encabezado = false;
 %>
-							<table class="table table-striped table-bordered">
-								<tr>
-									<th style="width:12%;">
-										<fmt:message key="aca.Seleccionar" />
-										<a href="materia.jsp?CicloGrupoId=<%=grupo.getCicloGrupoId()%>"> <i class="icon-check"></i> </a>
-									<%if (cambiaGrupo){%>
-										<a onclick="jQuery('.selecciona<%=grupo.getCicloGrupoId()%>').attr('checked','checked')" class="btn btn-mini">Todos</a>&nbsp;
-									<%}%>
-									</th>
-									<th style="width:8%;">
-										<fmt:message key="aca.Estado" />
-									</th>
-									<th style="width:3%;">#</th>
-									<th style="width:10%;"><fmt:message key="aca.Clave" /></th>
-									<th style="width:25%;"><fmt:message key="aca.Materia" /></th>
-									<th style="width:4%;"><fmt:message key="aca.Cred" /></th>
-									<th style="width:4%;"><fmt:message key="aca.Horas" /></th>
-									<th style="width:25%;"><fmt:message key="aca.Maestro" /></th> 
-									<th style="width:7%;"><fmt:message key="aca.Estrategias" /></th>
-									<th style="width:7%;"><fmt:message key="aca.Evaluaciones" /></th>
-									<th style="width:7%;"><fmt:message key="aca.Actividades" /></th>
-									<th style="width:7%;"><fmt:message key="aca.Alumnos" /></th>
-									<th style="width:7%;"><fmt:message key="aca.Borrar" /></th>
-								</tr>
+				<table class="table table-striped table-bordered">
+					<tr>									
+						<th style="width:8%;">
+							<fmt:message key="aca.Estado" />&nbsp;&nbsp;
+							<a href="materia.jsp?CicloGrupoId=<%=grupo.getCicloGrupoId()%>"> <i class="icon-check"></i> </a>
+							<%if (cambiaGrupo){%>
+							<a onclick="jQuery('.selecciona<%=grupo.getCicloGrupoId()%>').attr('checked','checked')" class="btn btn-mini">Todos</a>&nbsp;
+							<%}%>
+						</th>
+						<th style="width:3%;">#</th>
+						<th style="width:10%;"><fmt:message key="aca.Clave" /></th>
+						<th style="width:25%;"><fmt:message key="aca.Materia" /></th>
+						<th style="width:4%;"><fmt:message key="aca.Cred" /></th>
+						<th style="width:4%;"><fmt:message key="aca.Horas" /></th>
+						<th style="width:25%;"><fmt:message key="aca.Maestro" /></th> 
+						<th style="width:7%;"><fmt:message key="aca.Estrategias" /></th>
+						<th style="width:7%;"><fmt:message key="aca.Evaluaciones" /></th>
+						<th style="width:7%;"><fmt:message key="aca.Actividades" /></th>
+						<th style="width:7%;"><fmt:message key="aca.Alumnos" /></th>
+						<th style="width:7%;"><fmt:message key="aca.Borrar" /></th>
+					</tr>
 <%					
 						}
 						existeMat = false; 
@@ -281,7 +278,6 @@
 							aca.ciclo.CicloGrupoCurso grupoCurso = (aca.ciclo.CicloGrupoCurso) treeGrupoCurso.get(grupo.getCicloGrupoId()+curso.getCursoId());
 							existeMat 		= true;
 							maestro 		= grupoCurso.getEmpleadoId();
-							//numAlumnos 		= aca.kardex.KrdxCursoAct.cantidadAlumnos(conElias, grupo.getCicloGrupoId(), curso.getCursoId());
 							
 							if(treeAlumnos.containsKey(grupo.getCicloGrupoId()+"@@"+curso.getCursoId())){
 								numAlumnos = treeAlumnos.get(grupo.getCicloGrupoId()+"@@"+curso.getCursoId());
@@ -290,38 +286,44 @@
 							maestro = "-";
 						}				
 %>
-		  				<tr>	  				    
-		    				<td>
-<%								
-									if(numAlumnos.equals("0")){%>					   				
-		      							<input class="selecciona<%=grupo.getCicloGrupoId()%>" type="checkbox" name="<%=grupo.getCicloGrupoId()+curso.getCursoId()%>" value="S" <%= existeMat?"checked":" "%> >
-		      						<%}else{ %>
-		      							<input title="<fmt:message key="aca.ErrorCambiarEstado" />" type="checkbox" value="S" <%= existeMat?"checked":" "%> onclick="return false">
-<%									  } 
+		  			<tr>	  				    
+		    			<td>
+<%						if (cambiaGrupo){							
+							if(numAlumnos.equals("0")){
 %>
-							<td>									  
-								<%if (existeMat){%>
-									<span class="label label-success"><fmt:message key="aca.Activo" /></span>
-								<%}else{%>
-									<span class="label"><fmt:message key="aca.Inactivo" /></span>
-								<%} %>
-		    				</td>
-		    				</td>
-		    				<td><%= curso.getOrden() %></td>
-		    				<td><%= curso.getCursoId() %></td>
-		    				<td>
-		    					<%= curso.getCursoNombre() %> 
-		    					<a style="float:right;" href="horario.jsp?CicloGrupoId=<%= grupo.getCicloGrupoId()%>&CursoId=<%=curso.getCursoId().replace("&","$") %>" class="btn btn-mini btn-success" title="<fmt:message key="aca.Horario" />"><i class="icon-calendar icon-white"></i></a>
-		    				</td>
-		    				<td><%= curso.getCreditos() %></td>
-		    				<td><%= curso.getHoras() %></td>
-		    				<td>
+		      				<input class="selecciona<%=grupo.getCicloGrupoId()%>" type="checkbox" name="<%=grupo.getCicloGrupoId()+curso.getCursoId()%>" value="S" <%= existeMat?"checked":" "%> >
+<%							}else{
+%>
+		      				<input title="<fmt:message key="aca.ErrorCambiarEstado" />" type="checkbox" value="S" <%= existeMat?"checked":" "%> onclick="return false">
+<%							}
+						}else{
+							if (existeMat){
+%>								
+								<span class="label label-success"><fmt:message key="aca.Activo" /></span>
+<%								
+							}else{
+%>								
+								<span class="label"><fmt:message key="aca.Inactivo"/></span>
+<%								
+							}
+						}	
+%>
+						</td>		    				
+		    			<td><%= curso.getOrden() %></td>
+		    			<td><%= curso.getCursoId() %></td>
+		    			<td>
+		    				<%= curso.getCursoNombre() %> 
+		    				<a style="float:right;" href="horario.jsp?CicloGrupoId=<%= grupo.getCicloGrupoId()%>&CursoId=<%=curso.getCursoId().replace("&","$") %>" class="btn btn-mini btn-success" title="<fmt:message key="aca.Horario" />"><i class="icon-calendar icon-white"></i></a>
+		    			</td>
+		    			<td><%= curso.getCreditos() %></td>
+		    			<td><%= curso.getHoras() %></td>
+		    			<td>
 <% 							
 							if (existeMat){
 %>    
-								<a href="maestro.jsp?CicloGrupoId=<%= grupo.getCicloGrupoId()%>&CursoId=<%=curso.getCursoId().replace("&","$") %>&Parametro=<%="Materias" %>">
-					       			<i class="icon-user"></i>
-					      		</a>      
+							<a href="maestro.jsp?CicloGrupoId=<%= grupo.getCicloGrupoId()%>&CursoId=<%=curso.getCursoId().replace("&","$") %>&Parametro=<%="Materias" %>">
+					    		<i class="icon-user"></i>
+					    	</a>      
 					      		<%= aca.empleado.EmpPersonal.getNombre(conElias,maestro,"NOMBRE") %>
 <%							}else{
 								out.println("-");
@@ -331,30 +333,30 @@
 							int numEval 	= aca.ciclo.CicloGrupoEval.getNumEval(conElias, grupo.getCicloGrupoId(), curso.getCursoId());
 							int numAct  	= aca.ciclo.CicloGrupoActividad.getNumActividades(conElias, grupo.getCicloGrupoId(), curso.getCursoId());
 %>      
-		    				</td>
-		    				<td><%=numProm%></td>
-		    				<td>
+		    			</td>
+		    			<td><%=numProm%></td>
+		    			<td>
 <% 							if (numEval==0){ %>
-		    					<a href="javascript:llenarEvaluaciones('<%=curso.getCursoId()%>','<%=grupo.getCicloGrupoId()%>')"><%=numEval%></a>
+		    				<a href="javascript:llenarEvaluaciones('<%=curso.getCursoId()%>','<%=grupo.getCicloGrupoId()%>')"><%=numEval%></a>
 <%							}else{
 								out.print(numEval);
 							}	
 %>
-		    				</td>
-		    				<td><%=numAct%></td>
-							<td><%= numAlumnos %></td>
-							<td>
+		    			</td>
+		    			<td><%=numAct%></td>
+						<td><%= numAlumnos %></td>
+						<td>
 <%	 						if(existeMat){ 
 %>	
-								<a href="borrar.jsp?CicloGrupoId=<%= grupo.getCicloGrupoId()%>&CursoId=<%=curso.getCursoId()%>">
-				    				<i class="icon-remove"></i>
-				  				</a>
+							<a href="borrar.jsp?CicloGrupoId=<%= grupo.getCicloGrupoId()%>&CursoId=<%=curso.getCursoId()%>">
+				    			<i class="icon-remove"></i>
+				  			</a>
 <%			 				}else{
 								out.println("-");
 							}
 %>	  
-							</td>
-		  				</tr>			
+						</td>
+		  			</tr>			
 <%				
 					}
 				}

@@ -19,15 +19,12 @@
 </script>
 
 <%
-	String escuelaId		= (String) session.getAttribute("escuela");
-	System.out.println("ciclo "+session.getAttribute("cicloId"));
+	String escuelaId		= (String) session.getAttribute("escuela");	
 	if(request.getParameter("Ciclo")!=null){
 		session.setAttribute("cicloId", request.getParameter("Ciclo"));	
-	}
-	
-	
+	}		
 	String cicloId			= (String) session.getAttribute("cicloId");
-	System.out.println("cicloId"+cicloId);
+	
 	ArrayList<aca.ciclo.Ciclo> lisCiclo		= CicloLista.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID DESC");	
 	
 	String strPlanId		= request.getParameter("PlanId");
@@ -35,18 +32,13 @@
 	
 	
 	ArrayList<aca.plan.Plan> lisPlan				= PlanLista.getListEscuela(conElias, escuelaId, "AND ESTADO = 'A' ORDER BY NIVEL_ID");
-	ArrayList<aca.ciclo.CicloPermiso> lisPermiso	= PermisoLista.getListConPermiso(conElias, cicloId, "ORDER BY CICLO_ID, NIVEL_ID");
-	
-	System.out.println(escuelaId+".. "+strPlanId+".. "+accion+"..");
+	ArrayList<aca.ciclo.CicloPermiso> lisPermiso	= PermisoLista.getListConPermiso(conElias, cicloId, "ORDER BY CICLO_ID, NIVEL_ID");	
 		
 	if(accion.equals("1")){ //Carga en session el planId
 		session.setAttribute("planId", strPlanId);
 		response.sendRedirect("materia.jsp");
 	}
-	
-	
 %>
-
 
 <div id="content">
 
@@ -104,7 +96,4 @@
 		%>
 	</form>
 </div>
-
-
-
 <%@ include file= "../../cierra_elias.jsp" %> 
