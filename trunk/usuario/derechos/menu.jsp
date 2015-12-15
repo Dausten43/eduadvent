@@ -127,7 +127,7 @@
 %>
   			<div class="alert alert-info" style="background:white;">
 					  
-			  	<h5><%=nombreModulo%> <a onclick="jQuery('.selecciona').attr('checked','checked')" class="btn btn-mini">Seleccionar todos</a>&nbsp;</h5>
+			  	<h5><%=nombreModulo%></h5><a onclick="jQuery('.selecciona').prop('checked',true)" class="btn btn-mini">Seleccionar todos</a>&nbsp;
 			  	
 			  	<table class="table table-condensed">
 <%		} 	%>	
