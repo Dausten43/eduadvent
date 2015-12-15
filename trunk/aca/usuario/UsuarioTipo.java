@@ -193,7 +193,7 @@ public class UsuarioTipo {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.usuario.UsuarioTipo|existeReg|:"+ex);
+			System.out.println("Error - aca.usuario.UsuarioTipo|getTipoNombre|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
