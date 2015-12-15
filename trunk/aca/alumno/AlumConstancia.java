@@ -69,8 +69,8 @@ public class AlumConstancia {
 		
 		try{			
 			ps = conn.prepareStatement("INSERT INTO ALUM_CONSTANCIA"+
-					" ( CONSTANCIA_ID, ESCUELA_ID, CONSTANCIA_NOMBRE, CONSTANCIA, CODIGO_ID ) "+
-					" VALUES( TO_NUMBER(?, '999'), ?, ?, ?, ? )");
+					" (CONSTANCIA_ID, ESCUELA_ID, CONSTANCIA_NOMBRE, CONSTANCIA, CODIGO_ID ) "+
+					" VALUES(TO_NUMBER(?, '999'), ?, ?, ?, ? )");
 			
 			ps.setString(1, constanciaId);
 			ps.setString(2, escuelaId);
