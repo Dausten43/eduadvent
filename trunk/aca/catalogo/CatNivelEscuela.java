@@ -440,5 +440,30 @@ public class CatNivelEscuela {
 		return funcion;
 	}
 	
+	public static String getRegistro(Connection conn, String escuelaId, String nivelId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String funcion			= "";
+		
+		try{
+			ps = conn.prepareStatement("SELECT REGISTRO FROM CAT_NIVEL_ESCUELA " +
+					"WHERE NIVEL_ID = TO_NUMBER(?, '99') AND ESCUELA_ID = ?");
+			ps.setString(1, nivelId);
+			ps.setString(2, escuelaId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				funcion = rs.getString("REGISTRO");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatNivelEscuela|getRegistro|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return funcion;
+	}
+	
 	
 }

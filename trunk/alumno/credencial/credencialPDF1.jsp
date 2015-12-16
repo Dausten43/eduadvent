@@ -183,6 +183,24 @@
 	        
 			dataTable.writeSelectedRows(0, -1, 141, 648+extra, pdf.getDirectContent());
 			
+			float[] registroSize = { 100F };
+			PdfPTable registro = new PdfPTable(registroSize);
+			registro.getDefaultCell().setBorder(0);
+			registro.setHorizontalAlignment(0);
+			registro.setTotalWidth(238);
+			registro.setLockedWidth(true);
+			registro.setSpacingAfter(10F);
+			
+			frase = new Phrase(aca.catalogo.CatNivelEscuela.getRegistro(conElias, escuelaId, Integer.toString(AlumPlan.getNivelAlumno(conElias, codigoAlumno))), 
+					FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new Color(0,0,0)));
+			celda = new PdfPCell(frase);
+			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+			celda.setBorder(0);
+			registro.addCell(celda);
+			
+			registro.writeSelectedRows(0, -1, 468,610+extra, pdf.getDirectContent());
+			
+			
 			float[] DatacolumnSize = { 100F };
 			PdfPTable cicloTable = new PdfPTable(DatacolumnSize);
 			cicloTable.getDefaultCell().setBorder(0);
