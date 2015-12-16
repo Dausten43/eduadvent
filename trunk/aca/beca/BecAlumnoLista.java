@@ -74,7 +74,7 @@ public class BecAlumnoLista {
 		try{
 			comando = "SELECT *" +
 					" FROM BEC_ALUMNO" +
-					" WHERE ENTIDAD_ID = '"+entidadId+"' " +
+					" WHERE ENTIDAD_ID = TO_NUMBER('"+entidadId+"', '99999') " +
 					" AND CICLO_ID = '"+cicloId+"'"+
 					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
