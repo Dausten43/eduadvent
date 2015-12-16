@@ -189,7 +189,7 @@ public class KrdxAlumExtra {
 		oportunidad		= rs.getString("OPORTUNIDAD");
 		notaAnterior	= rs.getString("NOTA_ANTERIOR");
 		notaExtra		= rs.getString("NOTA_EXTRA");
-		promedio			= rs.getString("PROMEDIO");
+		promedio		= rs.getString("PROMEDIO");
 	}
 	
 	public void mapeaRegId(Connection con, String codigoId, String cicloGrupoId, String cursoId, String evaluacionId) throws SQLException{
@@ -203,7 +203,7 @@ public class KrdxAlumExtra {
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?"+
-					" AND OPOTUNIDAD = TO_NUMBER(?,'99')");
+					" AND OPORTUNIDAD = TO_NUMBER(?,'99')");
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
