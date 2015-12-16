@@ -62,7 +62,7 @@ public class ArchDocAlumLista {
 		return lisArchDocAlum;
 	}
 	
-	public static String getNombreDocumento(Connection conn, String id, String escuelaId ) throws SQLException{
+	public static String getNombreDocumento(Connection conn, String documentoid, String escuelaId ) throws SQLException{
 		
 		String nombre           = "";
 		Statement st 			= conn.createStatement();
@@ -70,7 +70,7 @@ public class ArchDocAlumLista {
 		String comando	        = "";
 		
 		try{
-			comando = "SELECT DOCUMENTO_NOMBRE FROM ARCH_DOCUMENTO WHERE DOCUMENTO_ID = TO_NUMBER('"+id+"', '99') AND ESCUELA_ID = '"+escuelaId+"' ";
+			comando = "SELECT DOCUMENTO_NOMBRE FROM ARCH_DOCUMENTO WHERE DOCUMENTO_ID = TO_NUMBER('"+documentoid+"', '99') AND ESCUELA_ID = '"+escuelaId+"' ";
 			
 			rs = st.executeQuery(comando);
 			if (rs.next()){
