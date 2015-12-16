@@ -420,7 +420,7 @@ public class EmpPersonal {
 					" TO_NUMBER(?,'999')," +
 					" TO_NUMBER(?,'999')," +
 					" TO_NUMBER(?,'999')," +
-					" ?,?,?,?,?,?, TO_NUMBER(?, '99'), ?,?,?,?,?,?)");
+					" ?,?,?,?,?,?, TO_NUMBER(?, '99'),?,?,?,?,?)");
 			
 			ps.setString( 1, codigoId);
 			ps.setString( 2, escuelaId);
