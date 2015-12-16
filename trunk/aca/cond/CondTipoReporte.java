@@ -281,7 +281,7 @@ public String maximoReg(Connection conn) throws SQLException{
 		String tipoNombre		= "0";
 			
 	    try{
-			ps = conn.prepareStatement("SELECT TIPO_NOMBRE FROM COND_TIPOREPORTE WHERE TIPO_ID = TO_NUMBER("+tipoId+", '9999999') ");
+			ps = conn.prepareStatement("SELECT TIPO_NOMBRE FROM COND_TIPOREPORTE WHERE TIPO_ID = TO_NUMBER('"+tipoId+"', '9999999') ");
 			
 	        rs = ps.executeQuery();
 	        if (rs.next()) {
