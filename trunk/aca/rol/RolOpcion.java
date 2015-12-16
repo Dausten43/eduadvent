@@ -141,7 +141,7 @@ public class RolOpcion {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM ROL_OPCION WHERE ROL_ID = TO_NUMBER(?, '999') AND OPCION_ID=TO_NUMBER(?, '999')");			
+			ps = conn.prepareStatement("SELECT * FROM ROL_OPCION WHERE ROL_ID = TO_NUMBER(?, '999') AND OPCION_ID = TO_NUMBER(?, '999')");			
 			ps.setString(1,rolId);
 			ps.setString(2,opcionId);
 			
