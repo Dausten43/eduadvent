@@ -161,10 +161,9 @@ public class AlumConstancia {
 		ResultSet rs 			= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT *" +
-				" FROM ALUM_CONSTANCIA"+
-				"WHERE CONSTANCIA_ID = TO_NUMBER(?, '999') "+
-				" AND ESCUELA_ID = ?");
+			ps = conn.prepareStatement("SELECT * FROM ALUM_CONSTANCIA"
+					+ " WHERE CONSTANCIA_ID = TO_NUMBER(?, '999')"
+					+ " AND ESCUELA_ID = ?");
 			ps.setString(1, constanciaId);
 			ps.setString(2, escuelaId);
 		
@@ -189,9 +188,9 @@ public class AlumConstancia {
 		boolean 		ok 		= false;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM ALUM_CONSTANCIA "+
-				"WHERE CONSTANCIA_ID = TO_NUMBER(?, '999') "+
-				"AND ESCUELA_ID = ?");
+			ps = conn.prepareStatement("SELECT * FROM ALUM_CONSTANCIA"
+					+ " WHERE CONSTANCIA_ID = TO_NUMBER(?, '999')"
+					+ " AND ESCUELA_ID = ?");
 			ps.setString(1, constanciaId);
 			ps.setString(2, escuelaId);
 			
