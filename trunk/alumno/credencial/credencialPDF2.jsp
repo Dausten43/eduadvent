@@ -88,7 +88,7 @@
 				jpg = Image.getInstance(dirAlumnos+"/nofoto.jpg");
 			}			
 		    jpg.scaleAbsolute(50f, 65f);
-			jpg.setAbsolutePosition(60, 583+extra);
+			jpg.setAbsolutePosition(45, 600+extra);
 			document.add(jpg);
 			
 			String dirLogos=application.getRealPath("/imagenes/logos/");
@@ -117,7 +117,7 @@
 			}
 			//System.out.println("Despues de firma");
 			jpg.scaleAbsolute(50f, 30f);			
-			jpg.setAbsolutePosition(485, 625+extra);
+			jpg.setAbsolutePosition(475, 650+extra);
 			document.add(jpg);
 			
 			
@@ -148,28 +148,22 @@
 			dataTable.setSpacingAfter(10F);
 			
 			
-			Phrase frase = new Phrase(alumPersonal.getNombre()
+			Phrase frase = new Phrase(alumPersonal.getNombre()+" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno()
 					, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
 	        celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 			celda.setBorder(0);
-			celda.setPaddingBottom(3f);
+			celda.setPaddingBottom(19f);
 			dataTable.addCell(celda);
 			
-			frase = new Phrase(alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno()
-					, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
-	        celda = new PdfPCell(frase);
-			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-			celda.setBorder(0);
-			celda.setPaddingBottom(10f);
-			dataTable.addCell(celda);
+			
 			
 			frase = new Phrase(codigoAlumno, 
 					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
 			celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 			celda.setBorder(0);
-			celda.setPaddingBottom(9f);
+			celda.setPaddingBottom(19f);
 			dataTable.addCell(celda);
 			
 			frase = new Phrase(alumPersonal.getGrado()+"° "+
@@ -180,7 +174,7 @@
 			celda.setBorder(0);
 			dataTable.addCell(celda);
 	        
-			dataTable.writeSelectedRows(0, -1, 141, 648+extra, pdf.getDirectContent());
+			dataTable.writeSelectedRows(0, -1, 113, 665+extra, pdf.getDirectContent());
 			
 			float[] DatacolumnSize = { 100F };
 			PdfPTable cicloTable = new PdfPTable(DatacolumnSize);
@@ -211,7 +205,7 @@
 			celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 			celda.setBorder(0);
-			celda.setPaddingBottom(11f);
+			celda.setPaddingBottom(19f);
 			cicloTable.addCell(celda);
 			
 			
@@ -243,7 +237,7 @@
 			celda.setBorder(0);
 			cicloTable.addCell(celda);
 			
-			cicloTable.writeSelectedRows(0, -1, 322,657+extra, pdf.getDirectContent());
+			cicloTable.writeSelectedRows(0, -1, 322,700+extra, pdf.getDirectContent());
 			
 			if(tieneFirma == false){
 			float[] ColumnSize = { 100F };
