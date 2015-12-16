@@ -69,7 +69,7 @@ public boolean insertReg(Connection conn ) throws Exception{
 		try{
 			ps = conn.prepareStatement("UPDATE PLAN_GRADO" + 
 				" SET NOMBRE = ?" +
-				" WHERE PLAN_ID = ? AND GRADO = TO_NUMBER(?,99)");
+				" WHERE PLAN_ID = ? AND GRADO = TO_NUMBER(?, '99')");
 			
 			ps.setString(1, nombre);
 			ps.setString(2, planId);			
@@ -93,7 +93,7 @@ public boolean insertReg(Connection conn ) throws Exception{
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
-			ps = conn.prepareStatement("DELETE FROM PLAN_GRADO WHERE PLAN_ID = ? AND GRUPO = TO_NUMBER(?,'99') ");
+			ps = conn.prepareStatement("DELETE FROM PLAN_GRADO WHERE PLAN_ID = ? AND GRUPO = ? ");
 			ps.setString(1,planId);
 			ps.setString(2,grado);
 			
@@ -124,7 +124,7 @@ public boolean insertReg(Connection conn ) throws Exception{
 		PreparedStatement ps = null; 
 		try{
 			ps = conn.prepareStatement("SELECT PLAN_ID, GRADO, NOMBRE FROM PLAN_GRADO" +
-					" WHERE PLAN_ID = ? AND GRUPO = TO_NUMBER(?,'99')");
+					" WHERE PLAN_ID = ? AND GRUPO = ?");
 			
 			ps.setString(1,planId);
 			ps.setString(2,grado);
@@ -148,7 +148,7 @@ public boolean insertReg(Connection conn ) throws Exception{
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM PLAN_GRADO WHERE PLAN_ID = ? AND GRUPO = TO_NUMBER(?,'99')");
+			ps = conn.prepareStatement("SELECT * FROM PLAN_GRADO WHERE PLAN_ID = ? AND GRUPO = ?");
 			
 			ps.setString(1,planId);
 			ps.setString(2,grado);
