@@ -190,7 +190,7 @@
 			celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 			celda.setBorder(0);
-			celda.setPaddingBottom(14f);
+			celda.setPaddingBottom(20f);
 			cicloTable.addCell(celda);
 			
 			frase = new Phrase(cicloEscolar, 
@@ -203,7 +203,7 @@
 			
 			String direccion = "";
 			String direccion2 = "";
-			if(CatEscuela.getDireccion().length()<= 27){
+			if(CatEscuela.getDireccion().length()<= 40){
 				direccion = CatEscuela.getDireccion();
 			}else{
 				String dirEscuela[] = CatEscuela.getDireccion().split(" ");
@@ -226,7 +226,7 @@
 			String estado 	= aca.catalogo.CatEstado.getEstado(conElias, CatEscuela.getPaisId(), CatEscuela.getEstadoId());
 			String telefono = CatEscuela.getTelefono();
 			
-			frase = new Phrase(direccion+"\n"+(!direccion2.equals("")?direccion2:"")+colonia+"\n"+ciudad+"\n"+estado+"\n"+telefono  , 
+			frase = new Phrase(direccion+"\n"+(!direccion2.equals("")?direccion2:"")+colonia+"\n"+ciudad+", "+estado+"\n"+telefono, 
 					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
 			celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
