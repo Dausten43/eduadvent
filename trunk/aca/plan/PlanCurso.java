@@ -227,7 +227,7 @@ public class PlanCurso{
 			ps = conn.prepareStatement("INSERT INTO PLAN_CURSO"+
 				" (PLAN_ID, CURSO_ID, CURSO_NOMBRE, CURSO_CORTO, GRADO, NOTA_AC, TIPOCURSO_ID, FALTA, CONDUCTA, ORDEN, PUNTO, HORAS, CREDITOS, ESTADO, "+
 				"TIPO_EVALUACION)" +
-				" VALUES( ?, UPPER(?), ?, ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'99')," +
+				" VALUES( ?, UPPER(?), ?, ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'999')," +
 				" TO_NUMBER(?, '99'), ?, ?, " +
 				" TO_NUMBER(?, '99'), ?," +
 				" TO_NUMBER(?, '99.9')," +
@@ -271,7 +271,7 @@ public class PlanCurso{
 				" CURSO_NOMBRE = ?," +
 				" CURSO_CORTO = ?," +
 				" GRADO = TO_NUMBER(?,'99')," +
-				" NOTA_AC = TO_NUMBER(?,'99')," +
+				" NOTA_AC = TO_NUMBER(?,'999')," +
 				" TIPOCURSO_ID = TO_NUMBER(?,'99')," +
 				" FALTA = ?," +
 				" CONDUCTA = ?," +
