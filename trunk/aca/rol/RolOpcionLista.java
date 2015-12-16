@@ -41,7 +41,7 @@ public class RolOpcionLista {
 		String comando				= "";
 		
 		try{
-			comando = "SELECT * FROM ROL_OPCION WHERE ROL_ID=TO_NUMBER('"+rolId+"', '999')"+ orden;
+			comando = "SELECT * FROM ROL_OPCION WHERE ROL_ID = TO_NUMBER('"+rolId+"', '999')"+ orden;
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
