@@ -665,7 +665,7 @@ public class AlumPersonal {
 					" UPPER(RTRIM(LTRIM(?))), ?," +
 					" ?, TO_DATE(?, 'DD/MM/YYYY')," +
 					" ?,?,?,?,?,?,?,?,?," +
-					" ?,?,?,?,?)");
+					" TO_NUMBER(?, '99'),?,?,?,?)");
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
 			ps.setString(3, nombre);
@@ -1240,7 +1240,7 @@ public class AlumPersonal {
 		
 		try{
 			comando = "SELECT COUNT(CODIGO_ID) AS RESULTADO FROM ALUM_PERSONAL" +
-					" WHERE NIVEL_ID = TO_NUMBER('"+nivel+"', '99') AND GRADO = TO_NUMBER('"+grado+"', '99')"+
+					" WHERE NIVEL_ID = '"+nivel+"' AND GRADO = '"+grado+"' "+
 					" AND GRUPO = '"+grupo+"'" +
 					" AND CODIGO_ID IN " +
 					" 	(SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"' AND ESTADO = 'I')" ;
@@ -1268,7 +1268,7 @@ public class AlumPersonal {
 		
 		try{
 			comando = "SELECT COUNT(CODIGO_ID) AS RESULTADO FROM ALUM_PERSONAL " +
-					"WHERE NIVEL_ID = TO_NUMBER('"+nivel+"', '99') AND GRADO = TO_NUMBER('"+grado+"', '99') "+
+					"WHERE NIVEL_ID = '"+nivel+"' AND GRADO = '"+grado+"' "+
 					"AND GRUPO = '"+grupo+"'" +
 					" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO" +
 															" WHERE CICLO_ID = '"+cicloId+"'" +
@@ -1380,7 +1380,7 @@ public class AlumPersonal {
 		
 		try{
 			comando = "SELECT COUNT(CODIGO_ID) AS RESULTADO FROM ALUM_PERSONAL " +
-					"WHERE ESCUELA_ID = '"+escuelaId+"' AND NIVEL_ID = TO_NUMBER('"+nivel+"', '99') AND GRADO = TO_NUMBER('"+grado+"', '99') "+
+					"WHERE ESCUELA_ID = '"+escuelaId+"' AND NIVEL_ID = '"+nivel+"' AND GRADO = '"+grado+"' "+
 					"AND GRUPO = '"+grupo+"'" ;			
 			rs = st.executeQuery(comando);
 			if (rs.next()){
