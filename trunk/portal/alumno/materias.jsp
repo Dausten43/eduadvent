@@ -30,7 +30,7 @@
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoId");
 	String cicloId 			= (String) session.getAttribute("cicloId");
-	
+
 	ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, codigoId, "ORDER BY CICLO_ID");
 	
 	//Verifica que el ciclo este en la lista de ciclo
@@ -53,20 +53,21 @@
 		cicloId = request.getParameter("ciclo");
 		session.setAttribute("cicloId", cicloId);
 	}
-	
+
 	alumPersonal.mapeaRegId(conElias, codigoId);
 	alumPlan.mapeaRegActual(conElias, codigoId);
-	
+
 	cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,codigoId,cicloId));
 	String plan			= aca.kardex.KrdxCursoAct.getAlumPlan(conElias,codigoId,cicloId);
 	int nivelId 		= -1;
-	
+
 	if (cicloGrupo.getNivelId()!=null && cicloGrupo.getNivelId()!="" && cicloGrupo.getNivelId()!=" "){
 		nivelId = Integer.parseInt(cicloGrupo.getNivelId());
 	} 
 	
 	//TreeMap de los promedios del alumno en la materia
-	TreeMap<String, aca.vista.AlumnoProm> treeProm 	= AlumPromLista.getTreeAlumno(conElias, codigoId,"");		
+	TreeMap<String, aca.vista.AlumnoProm> treeProm 	= AlumPromLista.getTreeAlumno(conElias, codigoId,"");
+	
 %>
 	
 <link href="../../css/tarjeta.css" rel="STYLESHEET" type="text/css" >
@@ -98,6 +99,7 @@
 		
 		<table class="table table-hover">   
 <%
+
 		cicloGrupo.mapeaRegId(conElias, alumPersonal.getNivelId(), alumPersonal.getGrado(), alumPersonal.getGrupo(), cicloId, alumPlan.getPlanId());
 		ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupo.getCicloGrupoId()+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");
  		
@@ -121,6 +123,7 @@
 			}else{
 				notaMateria = frmDecimal.format(Double.valueOf(krdxCursoAct.getNota()));
 			}
+			  
 %>
 				<tr>
 					<td style="padding:20px;">
