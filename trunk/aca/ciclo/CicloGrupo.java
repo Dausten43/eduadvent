@@ -338,8 +338,8 @@ public class CicloGrupo {
 				" AND GRUPO = ?" +
 				" AND CICLO_ID = ?" +
 				" AND PLAN_ID = ?");
-		ps.setInt(1, Integer.parseInt(nivelId));
-		ps.setInt(2, Integer.parseInt(grado));
+		ps.setString(1, nivelId);
+		ps.setString(2, grado);
 		ps.setString(3, grupo);
 		ps.setString(4, cicloId);
 		ps.setString(5, planId);
@@ -478,8 +478,8 @@ public class CicloGrupo {
 					" AND GRUPO = ?" +
 					" AND CICLO_ID = ?" +
 					" AND PLAN_ID = ?");
-			ps.setInt(1, Integer.parseInt(nivelId));
-			ps.setInt(2, Integer.parseInt(grado));
+			ps.setString(1, nivelId);
+			ps.setString(2, grado);
 			ps.setString(3, grupo);
 			ps.setString(4, cicloId);
 			ps.setString(5, planId);
