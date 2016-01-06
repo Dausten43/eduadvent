@@ -56,24 +56,23 @@
 
 	String estadoNombre = aca.catalogo.CatEstado.getEstado(conElias, Escuela.getPaisId(), Escuela.getEstadoId());
 	String ciudadNombre = aca.catalogo.CatCiudad.getCiudad(conElias, Escuela.getPaisId(), Escuela.getEstadoId(), Escuela.getCiudadId());
-	float notaAC 				= Float.parseFloat(aca.plan.PlanCurso.getNotaAC(conElias, cursoId)); /* La nota con la que se acredita el cursoId */
+	float notaAC 		= Float.parseFloat(aca.plan.PlanCurso.getNotaAC(conElias, cursoId)); /* La nota con la que se acredita el cursoId */
 
-	ArrayList<aca.ciclo.CicloBloque> listBloques = ciclo.getListCiclo(conElias, cicloId,"ORDER BY BLOQUE_ID");
-	
+
 	// Lista de promedios en el ciclo
-	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
+	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 			= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
 	
 	// Lista de evaluaciones o bloques en el ciclo
-	ArrayList<aca.ciclo.CicloBloque> lisBloque 			= CicloBloqueL.getListCiclo(conElias, cicloId, " ORDER BY BLOQUE_ID");
+	ArrayList<aca.ciclo.CicloBloque> lisBloque 				= CicloBloqueL.getListCiclo(conElias, cicloId, " ORDER BY BLOQUE_ID");
 
 	// TreeMap para verificar si el alumno lleva la materia
-	TreeMap<String, aca.kardex.KrdxCursoAct> treeAlumCurso = krdxCursoActLista.getTreeAlumnoCurso(conElias, cicloGrupoId, "");
+	TreeMap<String, aca.kardex.KrdxCursoAct> treeAlumCurso 	= krdxCursoActLista.getTreeAlumnoCurso(conElias, cicloGrupoId, "");
 
 	// TreeMap para obtener la nota de un alumno en la materia
 	TreeMap<String, aca.kardex.KrdxAlumEval> treeNota = kardexLista.getTreeMateria(conElias, cicloGrupoId, "");
 	
 	//LISTA DE ALUMNOS
-	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos			= krdxCursoActL.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
+	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos		= krdxCursoActL.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
 	
 	// Map de evaluaciones del alumno en Ciclo_Grupo_Eval
 	java.util.HashMap<String, aca.ciclo.CicloGrupoEval> mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalCurso(conElias, cicloGrupoId, cursoId);
