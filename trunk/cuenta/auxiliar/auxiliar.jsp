@@ -22,7 +22,7 @@
 	String codigoId		= (String) session.getAttribute("codigoId");
 	
 	if(escuelaId == null)
-		escuelaId = (String) session.getAttribute("escuela");
+		escuelaId 		= (String) session.getAttribute("escuela");
 	
 	int accion			= request.getParameter("Accion")==null?0:Integer.parseInt(request.getParameter("Accion"));
 
