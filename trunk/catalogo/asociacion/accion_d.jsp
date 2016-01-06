@@ -27,8 +27,6 @@
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String asociacionId 	= request.getParameter("asociacionId");
 	ArrayList lisAsociacion	= new ArrayList();
-	//String añadir 			= request.getParameter("añadir");
-	
 
 	if(accion.equals("1")){//Nuevo
 		java.util.HashMap<String, aca.catalogo.CatDistrito> dist = DistritoU.getMapAll(conElias, "");
