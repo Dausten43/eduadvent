@@ -127,7 +127,9 @@
 %>
   			<div class="alert alert-info" style="background:white;">
 					  
-			  	<h5><%=nombreModulo%></h5><a onclick="jQuery('.selecciona<%=op.getModuloId()%>').prop('checked',true)" class="btn btn-mini">Seleccionar todos</a>&nbsp;
+			  	<h5><%=nombreModulo%></h5>
+			  	<a onclick="jQuery('.selecciona<%=op.getModuloId()%>').prop('checked',true)" class="btn btn-mini">Todos</a>&nbsp;&nbsp;
+			  	<a onclick="jQuery('.selecciona<%=op.getModuloId()%>').prop('checked',false)" class="btn btn-mini">Ninguno</a>
 			  	
 			  	<table class="table table-condensed">
 <%		} 	%>	
