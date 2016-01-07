@@ -6,7 +6,7 @@
 
 <%@ page import= "java.security.MessageDigest" %>
 <%@ page import= "sun.misc.BASE64Encoder"%>
-<%@page import="aca.catalogo.CatEscuela"%>
+<%@ page import="aca.catalogo.CatEscuela"%>
 
 <jsp:useBean id="usuarioLogin" scope="page" class="aca.usuario.Usuario"/>
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario"/>
@@ -92,7 +92,7 @@
 	</div>
 	
 	<div class="row">
-	  <div class="span5">
+		<div class="span5">
 	  
 	  		<h4><fmt:message key="aca.MenuUsuario" /></h4>	
 	  		<%if (usuarioLogin.getAdministrador().equals("S")){ %>
@@ -116,60 +116,54 @@
 						if(i>0)out.print("</table></div>");
 			%>
 						
-					  <div class="alert alert-info" style="background:white;">
+			<div class="alert alert-info" style="background:white;">
 					  
-					  	<h5><%=nombreModulo%></h5>
-					  	
-					  	<table class="table table-condensed">
+				<h5><%=nombreModulo%></h5>					  	
+				<table class="table table-condensed">
 					  	
 					    
 			<%		} %>
-					  <tr>
-					    <td width="2%"><i class="icon-bookmark"></i></td>
+					<tr>
+						<td width="2%"><i class="icon-bookmark"></i></td>
 					    <td width="59%" align="left"><%=nombreOpcion%></td>
-					  </tr>
+					</tr>
 			<%	}%>
-			 </table>
-		  	</div>
-		  	
-	  </div>
-	  <div class="span5">
-	  
-		  	<h4><fmt:message key="aca.PrivilegiosInformacion" /></h4>	
-		  	<%if (admin){ %>
-		  		<div class="well">
-		  			<a href="perfil.jsp?NombreUsuario=<%=nombreUsuario%>" class="btn btn-primary"><i class="icon-pencil icon-white"></i> <fmt:message key="boton.Editar" /></a>
-		  		</div>
+			 	</table>
+		  	</div>		  	
+		</div>
+	  	<div class="span5">	  
+			<h4><fmt:message key="aca.PrivilegiosInformacion" /></h4>	
+		 	<%if (admin){ %>
+			<div class="well">
+				<a href="perfil.jsp?NombreUsuario=<%=nombreUsuario%>" class="btn btn-primary"><i class="icon-pencil icon-white"></i> <fmt:message key="boton.Editar" /></a>
+			</div>
 		  	<%} %>    
 			
 			<div class="alert alert-info" style="background:white;">
 					  
-					  	<h5><fmt:message key="aca.Privilegios" /></h5>
-					  	
-					  	<table class="table table-condensed">
+				<h5><fmt:message key="aca.Privilegios" /></h5>
+						  	
+				<table class="table table-condensed">
 					  		
-					  		<tr>
-					  			<td><fmt:message key="aca.EsAdministrador" /></td>
-					  			<td><%=usuario.getAdministrador().equals("S")?"Si":"No" %></td>
-					  		</tr>
-					  		<tr>
-					  			<td><fmt:message key="aca.Cotejador" /></td>
-					  			<td><%=usuario.getCotejador().equals("S")?"Si":"No" %></td>
-					  		</tr>
-					  		<tr>
-					  			<td><fmt:message key="aca.EsUsuarioContable" /></td>
-					  			<td><%=usuario.getContable().equals("S")?"Si":"No" %></td>
-					  		</tr>
-					  	
-					  	</table>
-					  	
-			</div>
-			
+					<tr>
+						<td><fmt:message key="aca.EsAdministrador" /></td>
+						<td><%=usuario.getAdministrador().equals("S")?"Si":"No" %></td>
+					</tr>
+					<tr>
+						<td><fmt:message key="aca.Cotejador" /></td>
+						<td><%=usuario.getCotejador().equals("S")?"Si":"No" %></td>
+					</tr>
+					<tr>
+						<td><fmt:message key="aca.EsUsuarioContable" /></td>
+						<td><%=usuario.getContable().equals("S")?"Si":"No" %></td>
+					</tr>
+				</table>					  	
+			</div>			
 			
 			<div class="alert alert-info" style="background:white;">
-					<h5><fmt:message key="catalogo.Niveles" /></h5>
-					
-					<table class="table table-condensed">
+				<h5><fmt:message key="catalogo.Niveles" /></h5>
+				
+				<table class="table table-condensed">
 				                     	
 				<%
 						if (existeUsuario){		
@@ -186,31 +180,24 @@
 									if(!niveles[i].equals("")){
 										pageContext.setAttribute("nivel",nivel);
 					%>			
-									<tr>
-									  <td width="10%" >
-									  	<%=niveles[i]%>
-									  </td>	  
-									  <td>
-									    <label><fmt:message key="aca.${nivel}" /></label>
-									  </td>
-									</tr>
+					<tr>
+					  <td width="10%" >
+					  	<%=niveles[i]%>
+					  </td>	  
+					  <td>
+					    <label><fmt:message key="aca.${nivel}" /></label>
+					  </td>
+					</tr>
 					<%			
 									}
 								}
 							}
 						}		
 				%> 		  
-			 		</table>
-			  </div>
-			
-			  
-	  </div>
+				</table>
+			</div>	  
+		</div>
 	</div>
-	
-   
-    
-    
-
 </div>
 
 </body>

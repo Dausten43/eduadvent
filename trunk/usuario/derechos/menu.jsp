@@ -10,8 +10,7 @@
 <head>
 	<script>
 	
-		function GrabarMenu(){
-			//alert("Entre a grabar");
+		function GrabarMenu(){			
 			document.frmMenu.Accion.value="1";
 			document.frmMenu.submit();
 		}
