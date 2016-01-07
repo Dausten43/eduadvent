@@ -665,7 +665,7 @@ public class AlumPersonal {
 					" UPPER(RTRIM(LTRIM(?))), ?," +
 					" ?, TO_DATE(?, 'DD/MM/YYYY')," +
 					" ?,?,?,?,?,?,?,?,?," +
-					" TO_NUMBER(?, '99'),?,?,?,?)");
+					" ?,?,?,?,?)");
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
 			ps.setString(3, nombre);
