@@ -14,8 +14,8 @@
 
 <script>
 		function CambiarClave(){
-			document.frmCuenta.Accion.value="1";
-			document.frmCuenta.Cambiar.value = "si";
+			document.frmCuenta.Accion.value		= "1";
+			document.frmCuenta.Cambiar.value 	= "si";
 			document.frmCuenta.submit();
 		}
 		

@@ -8,9 +8,10 @@
 <jsp:useBean id="usuarioMenu" scope="page" class="aca.usuario.UsuarioMenu"/>
 <jsp:useBean id="moduloOpcionLista" scope="page" class="aca.menu.ModuloOpcionLista"/>
 <head>
-	<script type="javascript">
+	<script>
 	
-		function Menu(){
+		function GrabarMenu(){
+			//alert("Entre a grabar");
 			document.frmMenu.Accion.value="1";
 			document.frmMenu.submit();
 		}
@@ -18,18 +19,18 @@
 	</script>
 </head>
 <%
-	String strAccion 		= request.getParameter("Accion");
+	String strAccion 		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String strCodigoId		= (String) session.getAttribute("codigoReciente");
 	String tipo				= "";
 	String nombreUsuario 	= "";
+	
 	ArrayList<aca.menu.ModuloOpcion> lisModuloOpcion	= new ArrayList<aca.menu.ModuloOpcion>();
 	if(aca.usuario.Usuario.esSuper(conElias, strCodigoId)){
 		lisModuloOpcion		= moduloOpcionLista.getListaActivosSuper(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
 	}else{
 		lisModuloOpcion		= moduloOpcionLista.getListaActivosAdmin(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
-	}
-	String strBgcolor		= "";
-	
+	}	
+		
 	String opcionesUsuario	= "";
 	String nombreOpcion		= "";
 	String nombreModulo		= "X";
@@ -54,10 +55,10 @@
 			tipo = "Padre";
 			nombreUsuario = "Padre";
 		}
-	}
+	}	 
 	
-	if (strAccion==null||strAccion.equals("")) strAccion="0"; 
-	numAccion = Integer.parseInt(strAccion);
+	
+	numAccion 	= Integer.parseInt(strAccion);
 	
 	switch (numAccion){
 		case 1: { // Graba el password
@@ -144,12 +145,11 @@
 %>
 				</table>
 			</div>
-
   
 	  <input name="NumOpciones" type="hidden" value="<%=numCont%>">
 	  
 	<div class="well">
-		<a class="btn btn-primary btn-large" name="Aceptar" id="Aceptar"onClick="javascript:Menu()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
+		<a href="javascript:GrabarMenu()" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
 	</div>
 	
 </form>
