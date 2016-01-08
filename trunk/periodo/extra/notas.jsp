@@ -62,7 +62,7 @@
 			<a class="btn btn-primary btn-mobile" href="accion.jsp?ciclo=<%=cicloId%>"><i class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a>
 			<select id="ciclo" name="ciclo" onchange="document.forma.submit();" class="input-xxlarge pull-right">
 				<%for ( aca.ciclo.Ciclo Ciclo : lisCiclo ) {%>
-					<option value="<%=Ciclo.getCicloId()%>" <%=cicloId.equals(Ciclo.getCicloId())?"selected":""%>><%=Ciclo.getCicloNombre()%></option>
+					<option value="<%=Ciclo.getCicloId()%>" <%=cicloId.equals(Ciclo.getCicloId())?"selected":""%>><%=Ciclo.getCicloNombre()+"  "+Ciclo.getCicloId()%></option>
 				<%}%>
 			</select>
 		</div>
