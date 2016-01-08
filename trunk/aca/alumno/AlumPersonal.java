@@ -636,7 +636,6 @@ public class AlumPersonal {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -822,7 +821,6 @@ public class AlumPersonal {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -861,7 +859,6 @@ public class AlumPersonal {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -887,7 +884,6 @@ public class AlumPersonal {
 			ps.setString(4, codigoId);
 			if ( ps.executeUpdate()== 1){			
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -909,7 +905,6 @@ public class AlumPersonal {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
