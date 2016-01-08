@@ -308,7 +308,4 @@ public class KrdxAlumExtra {
 		return lisAlumnoExtra;
 	}
 	
-	
-
-	
 }
