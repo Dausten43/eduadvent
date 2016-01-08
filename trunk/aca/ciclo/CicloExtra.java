@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import aca.kardex.KrdxAlumExtra;
 
 public class CicloExtra {
 	private String cicloId;
@@ -234,6 +238,35 @@ public class CicloExtra {
 		}		
 		
 		return maximo;
+	}
+	
+	public ArrayList<CicloExtra> getCicloExtra(Connection con, String cicloId, String oportunidad) throws SQLException{
+		ArrayList<CicloExtra> lisCicloExtra = new ArrayList<CicloExtra>();
+		Statement st 		= con.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		
+		try{
+			comando = "SELECT * FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID ='" + cicloId +"'"+
+					" AND OPORTUNIDAD ="+oportunidad;
+			
+			rs = st.executeQuery(comando);		
+			while (rs.next()){
+				
+				CicloExtra ciclo = new CicloExtra();				
+				ciclo.mapeaReg(rs);
+				lisCicloExtra.add(ciclo);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloExtra|getCicloExtra:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisCicloExtra;
 	}
 		
 }
