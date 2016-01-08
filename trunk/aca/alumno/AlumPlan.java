@@ -158,7 +158,6 @@ public class AlumPlan{
 			
 			if ( ps.executeUpdate()== 1){			
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -179,7 +178,6 @@ public class AlumPlan{
 			ps.setString(1, codigoId);						
 			if ( ps.executeUpdate()== 1){			
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -224,7 +222,6 @@ public class AlumPlan{
 			ps = conn.prepareStatement("UPDATE ALUM_PLAN SET ESTADO = '0' WHERE CODIGO_ID=? ");
 			ps.setString(1, codigoId);
 			ps.executeUpdate();
-			conn.commit();		
 			if (this.existeReg(conn)){				
 				this.mapeaRegId(conn, codigoId, planId);
 				estado = "1";
@@ -233,8 +230,7 @@ public class AlumPlan{
 				fInicio = Fecha.getHoy();
 				estado 	= "1";
 				if (this.insertReg(conn)) ok=true;
-			}
-			conn.commit();									
+			}									
 						
 		}catch(Exception ex){
 			System.out.println("Error - aca.alumno.AlumPlan|grabaPlanActual|:"+ex);		
@@ -264,8 +260,7 @@ public class AlumPlan{
 				this.grado = grado;
 				this.grupo = grupo;
 				if (this.insertReg(conn)) ok=true;
-			}
-			conn.commit();					
+			}			
 						
 		}catch(Exception ex){
 			System.out.println("Error - aca.alumno.AlumPlan|updateGradoGrupo|:"+ex);		
