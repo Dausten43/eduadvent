@@ -131,7 +131,7 @@
 	/*
 	 * GUARDA LAS NOTAS QUE SE MODIFICARON EN LOS EXTRAORDINARIOS
 	 */
-	function guardarExtra(cantidadAlumnos){
+	function guardarExtra( ){
 		document.forma.Accion.value = "5";
 		document.forma.submit();
 	}
@@ -139,7 +139,7 @@
 	/*
 	 * GUARDA LAS NOTAS QUE SE MODIFICARON EN LOS EXTRAORDINARIOS 2
 	 */
-	function guardarExtra2(cantidadAlumnos){
+	function guardarExtra2(){
 		document.forma.Accion.value = "8";
 		document.forma.submit();
 	}
@@ -147,7 +147,7 @@
 	/*
 	 * GUARDA LAS NOTAS QUE SE MODIFICARON EN LOS EXTRAORDINARIOS 3
 	 */
-	function guardarExtra3(cantidadAlumnos){
+	function guardarExtra3( ){
 		document.forma.Accion.value = "8";
 		document.forma.submit();
 	}
@@ -529,17 +529,15 @@
 	else if (accion.equals("5")) { //Guardar Extraordinarios
 		
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
-		boolean error = false;
-		
+		boolean error = false;		
 		int cont = 0;
 		
-		System.out.println("TAMAÑO : "+lisKardexAlumnos.size());
-		
-		for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) { 
-			String notaExtra = request.getParameter("notaExtra" + cont);
-			System.out.println("NOTA EXTRA : "+notaExtra);
+		for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
+			System.out.println("Alumno:"+kardex.getCodigoId()+":"+cont);
 			
-			if (notaExtra != null) {
+			String notaExtra = request.getParameter("notaExtra"+cont)==null?"0":request.getParameter("notaExtra"+cont);
+			
+			if (Double.parseDouble(notaExtra) >= 0) {
 					
 				if(notaExtra.equals("")){//Regresalo a "No Acredita Ordinario"		
 					notaExtra = "0";
@@ -561,10 +559,9 @@
 					
 					System.out.println("VALOR PROMEDIO : "+valorPromedio);
 					System.out.println("VALOR EXTRA : "+valorExtra);
-					System.out.println("PROMEDIO : "+promedio);
-					
+					System.out.println("PROMEDIO : "+promedio);					
 				}
-				 
+				
 				kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
 				kardexAlumnoExtra.setCodigoId(codigoId);
 				kardexAlumnoExtra.setCursoId(cursoId);
@@ -581,7 +578,7 @@
 						System.out.println("ACTUALIZACION EXITOSA");
 						//Actualizado correctamente
 					}else{
-						error = true; break;
+						//error = true; break;
 					}
 					
 				}else {
@@ -594,9 +591,7 @@
 // 				}else{
 // 					error = true; break;
 // 				}
-			}
-			
-			
+			}			
 			cont++;
 		}
 			
@@ -1172,19 +1167,21 @@
  								} else {
  									strExtra = "-";
  								}
-							}
-							
+							}							
 						%>
 							<td class="text-center">
 								<div id="extra<%=i%>"><%=strExtra %></div>
 								
 								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
-								<%if ( !strExtra.equals("") ) {%>
+								<%if ( !strExtra.equals("") ){
+									System.out.println("Datos del input:"+"notaExtra"+i);
+								
+								%>
 									<div class="editarExtra" style="display:none;">
 										<input 
 											style="margin-bottom:0;text-align:center;" 
 											class="input-mini onlyNumbers" 
-											data-max-num="<%=escala %>"
+											data-max-num="<%=escala%>"
 											type="text" 
 											tabindex="<%=i+1%>" 
 											name="notaExtra<%=i%>"
@@ -1282,16 +1279,10 @@
 								
 								} else if ( strExtra != "-" ) {%>
 									<div id="extra<%=i%>"><%="EXTRA "+kardex.getNota() %></div>
-								<%} %>
-								
-								
-								
+								<%} %>								
 							
 								</td>
-							<%} %>
-							
-
-							
+							<%} %>						
 							
 				</tr>
 				<%
