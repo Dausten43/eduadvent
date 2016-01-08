@@ -27,7 +27,7 @@
 	String tipoNombre		= tipo.equals("R")?"Recibo":"Factura";
 	
 	double total			= 0;
-	
+	// Lista
 	ArrayList lisDoctos		= ReciboU.getListRecibos(conElias, codigoId, tipo, fecha, "ORDER BY RECIBO_ID");
 %>
 <body>
