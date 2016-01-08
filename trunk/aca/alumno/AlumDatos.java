@@ -387,8 +387,7 @@ public class AlumDatos {
 			ps.setString(32, emailEscuela);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -475,7 +474,6 @@ public class AlumDatos {
 
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -499,7 +497,6 @@ public class AlumDatos {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
