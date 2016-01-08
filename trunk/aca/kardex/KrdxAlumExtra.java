@@ -7,6 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import aca.ciclo.CicloGrupoEval;
 
 public class KrdxAlumExtra {
 	
@@ -17,6 +21,7 @@ public class KrdxAlumExtra {
 	private String notaAnterior;
 	private String notaExtra;
 	private String promedio;
+	private String fecha;
 	
 	public KrdxAlumExtra(){
 		codigoId		= "";
@@ -26,8 +31,17 @@ public class KrdxAlumExtra {
 		notaAnterior	= "";
 		notaExtra		= "";
 		promedio		= "";
+		fecha			= "";
 	}
 		
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
 	public String getCodigoId() {
 		return codigoId;
 	}
@@ -89,17 +103,18 @@ public class KrdxAlumExtra {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_EXTRA " +
-					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO)" +
+					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO, FECHA)" +
 					" VALUES(?, ?, ?," +
-					" TO_NUMBER(?, '99'), TO_NUMBER(?, '999.99'),TO_NUMBER(?, '999.99'), TO_NUMBER(?, '999.99'))");
+					" TO_NUMBER(?, '99'), TO_NUMBER(?, '999.99'),TO_NUMBER(?, '999.99'), TO_NUMBER(?, '999.99'), TO_DATE(?, 'DD/MM/YYYY'))");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
 			ps.setString(4, oportunidad);
 			ps.setString(5, notaAnterior);
-			ps.setString(5, notaExtra);
-			ps.setString(5, promedio);
+			ps.setString(6, notaExtra);
+			ps.setString(7, promedio);
+			ps.setString(8, fecha);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -125,6 +140,7 @@ public class KrdxAlumExtra {
 					" NOTA_ANTERIOR = TO_NUMBER(?,'999.99')," +
 					" NOTA_EXTRA = TO_NUMBER(?,'999.99'), "+
 					" PROMEDIO = TO_NUMBER(?,'999.99'),"+
+					" FECHA    = TO_DATE(?, 'DD/MM/YYYY')"+
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
@@ -132,11 +148,12 @@ public class KrdxAlumExtra {
 			
 			ps.setString(1, notaAnterior);
 			ps.setString(2, notaExtra);	
-			ps.setString(2, promedio);
+			ps.setString(3, promedio);
 			ps.setString(4, codigoId);
 			ps.setString(5, cicloGrupoId);
 			ps.setString(6, cursoId);
 			ps.setString(7, oportunidad);
+			ps.setString(8, fecha);
 						
 			
 			if ( ps.executeUpdate()== 1){
@@ -150,6 +167,7 @@ public class KrdxAlumExtra {
 		}finally{
 			if (ps!=null) ps.close();
 		}
+		System.out.println("REGRESA : "+ok);
 		return ok;
 	}
 	
@@ -190,6 +208,7 @@ public class KrdxAlumExtra {
 		notaAnterior	= rs.getString("NOTA_ANTERIOR");
 		notaExtra		= rs.getString("NOTA_EXTRA");
 		promedio		= rs.getString("PROMEDIO");
+		fecha    		= rs.getString("FECHA");
 	}
 	
 	public void mapeaRegId(Connection con, String codigoId, String cicloGrupoId, String cursoId, String evaluacionId) throws SQLException{
@@ -198,7 +217,7 @@ public class KrdxAlumExtra {
 		PreparedStatement ps = null; 
 		try{
 			ps = con.prepareStatement("SELECT CODIGO_ID, CICLO_GRUPO_ID," +
-					" CURSO_ID, OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO " +
+					" CURSO_ID, OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO, FECHA " +
 					" FROM KRDX_ALUM_EXTRA" +
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
@@ -254,5 +273,42 @@ public class KrdxAlumExtra {
 		
 		return ok;
 	}
+	
+	
+	
+	public ArrayList<KrdxAlumExtra> getAlumnoExtra(Connection con, String codigoId, String cicloGrupoId, String cursoId) throws SQLException{
+		ArrayList<KrdxAlumExtra> lisAlumnoExtra = new ArrayList<KrdxAlumExtra>();
+		Statement st 		= con.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID," +
+					" CURSO_ID, OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO, FECHA " +
+					" FROM KRDX_ALUM_EXTRA" +
+					" WHERE CODIGO_ID ='"+codigoId+"'"+
+					" AND CICLO_GRUPO_ID ='"+cicloGrupoId+"'"+
+					" AND CURSO_ID = '"+cursoId+"'";
+			
+			rs = st.executeQuery(comando);		
+			while (rs.next()){
+				
+				KrdxAlumExtra alumno = new KrdxAlumExtra();				
+				alumno.mapeaReg(rs);
+				lisAlumnoExtra.add(alumno);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.krdxAlumextra|getAlumnoExtra:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisAlumnoExtra;
+	}
+	
+	
+
 	
 }
