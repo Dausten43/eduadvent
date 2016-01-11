@@ -596,7 +596,7 @@ public class EmpPersonal {
 					" TIPO_ID = TO_NUMBER(?, '99')," +
 					" OCUPACION = ?," +
 					" RFC = ?," +
-					" SSOCIAL = ?, PUBLICAR = ? " +
+					" SSOCIAL = ?, PUBLICAR = ?, " +
 					" IGLESIA = ? " +
 					" WHERE CODIGO_ID = ?");
 			
