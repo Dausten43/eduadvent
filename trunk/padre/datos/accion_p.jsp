@@ -181,8 +181,7 @@
 						
 						if(Clave.existeReg(conElias) == false){
 							Clave.insertReg(conElias);	
-						}
-						conElias.commit();
+						}						
 						
 						nAccion = 5;
 						strTipo = "Consulta";
@@ -215,8 +214,7 @@
 				if (Personal.existeReg(conElias)){
 					if (Personal.updateReg(conElias)){
 						Personal.mapeaRegId(conElias, codigoPadre);
-						sResultado = "Modificado";
-						conElias.commit();
+						sResultado = "Modificado";						
 					}else{
 						sResultado = "Nocambio";
 					}
