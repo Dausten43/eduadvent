@@ -422,10 +422,7 @@
 			//NO TIENE ACTIVIDADES
 		}
 				
-		//**************** END RECALCULAR EL PROMEDIO DE LAS ACTIVIDADES DE LA EVALUACION QUE SE VA A CERRAR (SI ES QUE TIENE) ****************
-		
-		
-		
+		//**************** END RECALCULAR EL PROMEDIO DE LAS ACTIVIDADES DE LA EVALUACION QUE SE VA A CERRAR (SI ES QUE TIENE) ****************		
 		
 		//**************** CERRAR EVALUACION ****************
 		if(error == false){
