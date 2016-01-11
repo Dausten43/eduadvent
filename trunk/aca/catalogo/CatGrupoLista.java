@@ -102,7 +102,7 @@ public class CatGrupoLista {
 		try{
 			comando = "SELECT FOLIO, NIVEL_ID, GRADO, GRUPO, ESCUELA_ID, TURNO" +
 					" FROM CAT_GRUPO WHERE ESCUELA_ID = '"+escuelaId+"'" +
-					" AND NIVEL_ID = TO_NUMBER("+nivelId+", '99') "+orden;
+					" AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') "+orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
