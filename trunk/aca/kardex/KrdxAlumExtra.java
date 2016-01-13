@@ -147,16 +147,15 @@ public class KrdxAlumExtra {
 			ps.setString(1, notaAnterior);
 			ps.setString(2, notaExtra);	
 			ps.setString(3, promedio);
-			ps.setString(4, codigoId);
-			ps.setString(5, cicloGrupoId);
-			ps.setString(6, cursoId);
-			ps.setString(7, oportunidad);
-			ps.setString(8, fecha);
+			ps.setString(4, fecha);
+			ps.setString(5, codigoId);
+			ps.setString(6, cicloGrupoId);
+			ps.setString(7, cursoId);
+			ps.setString(8, oportunidad);
 						
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -165,7 +164,6 @@ public class KrdxAlumExtra {
 		}finally{
 			if (ps!=null) ps.close();
 		}
-		System.out.println("REGRESA : "+ok);
 		return ok;
 	}
 	
@@ -209,7 +207,7 @@ public class KrdxAlumExtra {
 		fecha    		= rs.getString("FECHA");
 	}
 	
-	public void mapeaRegId(Connection con, String codigoId, String cicloGrupoId, String cursoId, String evaluacionId) throws SQLException{
+	public void mapeaRegId(Connection con, String codigoId, String cicloGrupoId, String cursoId, String oportunidad) throws SQLException{
 		
 		ResultSet rs = null;		
 		PreparedStatement ps = null; 
