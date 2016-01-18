@@ -330,7 +330,7 @@ public class KrdxCursoAct {
 					" F_NOTA = TO_DATE(?, 'DD/MM/YYYY')," +
 					" TIPOCAL_ID = TO_NUMBER(?, '99')," +
 					" COMENTARIO = ?," +
-					" NOTA_EXTRA = TO_NUMBER(?, '999.9)," +
+					" NOTA_EXTRA = TO_NUMBER(?, '999.9')," +
 					" F_EXTRA = TO_DATE(?, 'DD/MM/YYYY')," +
 					" NOTA_EXTRA2 = TO_NUMBER(?, '999.9')," +
 					" F_EXTRA2 = TO_DATE(?, 'DD/MM/YYYY')"+
@@ -351,7 +351,6 @@ public class KrdxCursoAct {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -376,8 +375,7 @@ public class KrdxCursoAct {
 			ps.setString(3, cursoId);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
