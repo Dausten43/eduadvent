@@ -17,13 +17,14 @@
 
 <script>
 	function Refrescar(){
- 		document.form.Accion.value = "0";
- 		document.form.submit();
+		alert("Llegue a refrescar");
+ 		document.forma.Accion.value = "0";
+ 		document.forma.submit();
 	}
 	
 	function Guardar(){
- 		document.form.Accion.value = "1";
- 		document.form.submit();
+ 		document.forma.Accion.value = "1";
+ 		document.forma.submit();
 	}
 </script>
 
@@ -108,7 +109,6 @@
 			<div class="well">
 		 		<a class="btn btn-primary" href="cobro.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 			</div>
-<%-- 			<input type="hidden" name="Accion" value="<%=accion%>"> --%>
 			<input type="hidden" id="Accion" name="Accion" >
 			
 			<div class="row">
@@ -127,12 +127,12 @@
 					</select>
 					<br><br>
 					<label><fmt:message key="aca.Periodo" />:</label>				
-					<select id="periodo" name="periodo" >
+					<select id="PeriodoEnvia" name="PeriodoEnvia" >
 				<%		
 					for(int i = 0; i < lisPeriodoEnvia.size(); i++){
 						cicloPeriodo = (CicloPeriodo) lisPeriodoEnvia.get(i);
 				%>
-						<option value="<%=cicloPeriodo.getPeriodoId() %>" <%if (cicloPeriodo.equals(cicloPeriodo.getPeriodoId())) out.print("selected");%>><%=cicloPeriodo.getPeriodoNombre() %></option>
+						<option value="<%=cicloPeriodo.getPeriodoId() %>" <%if (periodoEnvia.equals(cicloPeriodo.getPeriodoId())) out.print("selected");%>><%=cicloPeriodo.getPeriodoNombre() %></option>
 				<%
 					}
 				%>					
@@ -183,7 +183,7 @@
 				<div class="span5">					
 					<h3><fmt:message key="aca.Recibe" /></h3>
 					<label><fmt:message key="aca.Ciclo" />:</label>
-					<select id="CicloRecibe" name="CicloRecibe">
+					<select id="CicloRecibe" name="CicloRecibe" onchange="javascript:Refrescar();">
 				<%
 					for(int i = 0; i < lisCiclo.size(); i++){
 						ciclo = (Ciclo) lisCiclo.get(i);
@@ -195,12 +195,12 @@
 					</select>
 					<br><br>
 					<label><fmt:message key="aca.Periodo" />:</label>				
-					<select id="periodo" name="periodo" >
+					<select id="PeriodoRecibe" name="PeriodoRecibe" >
 				<%		
 					for(int i = 0; i < lisPeriodoRecibe.size(); i++){
 						cicloPeriodo = (CicloPeriodo) lisPeriodoRecibe.get(i);
 				%>
-						<option value="<%=cicloPeriodo.getPeriodoId() %>" <%if (cicloPeriodo.equals(cicloPeriodo.getPeriodoId())) out.print("selected");%>><%=cicloPeriodo.getPeriodoNombre() %></option>
+						<option value="<%=cicloPeriodo.getPeriodoId() %>" <%if (periodoRecibe.equals(cicloPeriodo.getPeriodoId())) out.print("selected");%>><%=cicloPeriodo.getPeriodoNombre() %></option>
 				<%
 					}
 				%>					
