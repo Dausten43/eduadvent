@@ -477,7 +477,7 @@ public class FinMovimientosLista {
 		return map;
 	}
 	
-	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String estado, String tipo,  String fechaIni, String fechaFin, String naturaleza ) throws SQLException{
+	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String estado, String tipo, String fechaIni, String fechaFin, String naturaleza, String tipoMov) throws SQLException{
 		
 		Statement st			= conn.createStatement();
 		ResultSet rs 			= null;
@@ -490,6 +490,7 @@ public class FinMovimientosLista {
 					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estado+") AND TIPO IN ("+tipo+") "
 					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
 					+ " AND NATURALEZA = '"+naturaleza+"'"
+					+ " AND ESTADO = '"+tipoMov+"'"
 					+ " GROUP BY CUENTA_ID";		
 			rs= st.executeQuery(comando);		
 			while(rs.next()){
