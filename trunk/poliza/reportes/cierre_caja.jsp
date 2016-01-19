@@ -53,7 +53,7 @@
 		</tr>
 <%
 	ArrayList<aca.fin.FinCuenta> lisCuenta = FinCuentaLista.getListCuentas(conElias, escuelaId, "ORDER BY CUENTA_ID");
-	HashMap<String, String> mapSaldos = aca.fin.FinMovimientosLista.saldoPolizasPorCuentas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "C");	
+	HashMap<String, String> mapSaldos = aca.fin.FinMovimientosLista.saldoPolizasPorCuentas(conElias, escuelaId, estado, tipo, fechaIni, fechaFin, "C", "R");	
 	double totSaldos = 0.0;
 	for(aca.fin.FinCuenta cuentas : lisCuenta){
 		String saldos = "0";		
