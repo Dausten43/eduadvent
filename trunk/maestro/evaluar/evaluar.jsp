@@ -213,7 +213,7 @@
 	}
 	
 	// Escala para la columna de puntos
-	int escalaEval 			= 100;
+	int escalaEval 			= escala;
 	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
@@ -1083,7 +1083,7 @@
 			
 			<thead>
 				<tr>
-					<td colspan="20" class="text-center alert">
+					<td colspan="27" class="text-center alert">
 						<span title="<%=aca.ciclo.Ciclo.getCicloNombre(conElias, cicloId) %>">
 							<fmt:message key="aca.SeEvalua" /> <strong><%=frmEntero.format(notaMinima)%> <fmt:message key="aca.RangoA" /> <%=escala%></strong>
 						</span>  
@@ -1130,19 +1130,30 @@
 <%					
 					}
 %>					
-				
+
 					<%if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />
 							</a>
 						</th>
+					<%}else{ %>
+						<th class="text-center" style="width:4%;">
+							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
+								<fmt:message key="aca.Extra" />
+							</a>
+						</th>
 					<%} %>
-					
 					
 					<%if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra2(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
+								<fmt:message key="aca.Extra" />&nbsp;2
+							</a>
+						</th>
+					<%}else{ %>
+						<th class="text-center" style="width:4%;">
+							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />&nbsp;2
 							</a>
 						</th>
@@ -1151,6 +1162,12 @@
 					<%if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra3(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
+								<fmt:message key="aca.Extra" />&nbsp;3
+							</a>
+						</th>
+					<%}else{ %>
+						<th class="text-center" style="width:4%;">
+							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />&nbsp;3
 							</a>
 						</th>
@@ -1203,6 +1220,8 @@
 							<!-- --------- RECORRE LAS EVALUACIONES --------- -->
 						<%
 						int evalCerradas =0;
+						
+						double promedioFinal = 0;
 						
 						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 							
@@ -1267,6 +1286,7 @@
 							// Formato del promedio y los puntos (decimales usados)
 							String promFormato		= formato1.format(promEval);
 							String puntosFormato	= formato1.format(puntosEval);
+							
 							if (cicloPromedio.getDecimales().equals("0")){
 								promFormato 		= formato0.format(promEval);
 								puntosFormato 		= formato0.format(puntosEval);
@@ -1281,9 +1301,12 @@
 							// Inserta columna de los puntos
 							out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
 							
+							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
+						
+							
 						}//End for de promedio
 						if (lisPromedio.size() > 1){
-							out.print("<td class='text-center' width='2%'>"+kardex.getNota()+"</td>");
+							out.print("<td class='text-center' width='2%'>"+promedioFinal+"</td>");
 						}
 %>											
 						<!-- --------- EXTRAORDINARIO --------- -->
@@ -1441,6 +1464,14 @@
 				%>
 				
 				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>

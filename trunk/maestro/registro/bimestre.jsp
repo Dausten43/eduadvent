@@ -82,7 +82,7 @@
 				<i class="icon-arrow-left icon-white"></i> 
 				<fmt:message key="boton.Regresar" />
 			</a>&nbsp;&nbsp;
-			NIvel 1:
+			Nivel 1:
 			<select name="Promedio" id="Promedio" onchange='javascript:cambiaBloque()'>
 				<%for (aca.ciclo.CicloPromedio prom : lisPromedio){%>
 					<option value="<%=prom.getPromedioId() %>" <%if(prom.getPromedioId().equals(promedioId)){out.print("selected");} %>><%=prom.getNombre() %></option>
@@ -117,8 +117,11 @@
 			<th>#</th>
 			<th><fmt:message key="aca.Matricula" /></th>
 			<th><fmt:message key="aca.NombreDelAlumno" /></th>
-			<%for (int j = 0; j < lisGrupoCurso.size(); j++) {%>
-				<th class="text-center"><%=j + 1%></th>
+			<%
+			for (int j = 0; j < lisGrupoCurso.size(); j++) {
+				aca.ciclo.CicloGrupoCurso grupoCurso = (aca.ciclo.CicloGrupoCurso) lisGrupoCurso.get(j);
+			%>
+				<th class="text-center" title='<%= aca.plan.PlanCurso.getCursoNombre(conElias,	grupoCurso.getCursoId()) %>'><%=j + 1%></th>
 			<%}%>
 			<th class="text-center"><fmt:message key="aca.Promedio" /></th>
 		</tr>
@@ -213,8 +216,7 @@
 							
 							// Calcula el promedio del alumno
 							promAlum += nota;
-							
-							
+														
 							
 						} else {
 							strNota = "-";
@@ -226,7 +228,7 @@
 						if(strNota.equals("-")){
 		%>
 						<td class="text-center"><%=strNota%></td>
-		<%				}else{ %>
+		<%				}else{%>
 						<td class="text-center"><%=frmDecimal.format(Double.parseDouble(strNota))%></td>
 		<%
 						 }	
@@ -235,30 +237,29 @@
 					if(numMaterias!=0){
 					promAlum = promAlum / numMaterias;
 					promAlum = new BigDecimal(promAlum).setScale(2,RoundingMode.HALF_DOWN).doubleValue();
+
 					}
-					
 		%>
 					<td class="text-center"><%=(numMaterias!=0)?frmDecimal.format(promAlum):"-"%></td>
 				</tr>
 		<%
 			} //fin de for
 		%>
-		<tr>
-			<th colspan="3"><fmt:message key="maestros.PromediosPorMateria" /></th>
-			<%
-				double promGral = 0;
-				for (int j = 0; j < lisGrupoCurso.size(); j++) {
-					double prom = promedio[j] / numAlum[j];
-					promGral += prom;
-			%>
-					<th class="text-center"><%=frmDecimal.format(prom)%></th>
-			<%
-				}
-				promGral = promGral / lisGrupoCurso.size();
-			    
-			%>
-			<th class="text-center"><%=frmDecimal.format(promGral)%></th>
-		</tr>
+ 		<tr> 
+ 			<th colspan="3"><fmt:message key="maestros.PromediosPorMateria" /></th> 
+ 			<% 
+ 				double promGral = 0;
+ 				for (int j = 0; j < lisGrupoCurso.size(); j++) {
+ 					double prom = promedio[j] / numAlum[j];
+ 					promGral += prom;
+ 			%> 
+ 					<th class="text-center"><%=frmDecimal.format(prom)%></th> 
+ 			<% 
+ 				}
+ 				promGral = promGral / lisGrupoCurso.size();
+ 			%> 
+ 			<th class="text-center"><%=frmDecimal.format(promGral)%></th> 
+ 		</tr> 
 	</table>
 	
 	<br>
