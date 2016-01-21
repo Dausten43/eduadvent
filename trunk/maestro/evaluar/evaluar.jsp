@@ -1173,7 +1173,7 @@
 						</th>
 					<%} %>
 					
-					<%if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+					<%if(cicloGrupoCurso.getEstado().equals("3")){ %>
 						<th class="text-center" style="width:10%;">
 								Promedio <fmt:message key="aca.Extra" />&nbsp;
 						</th>
@@ -1303,7 +1303,7 @@
 							
 							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
 						
-							
+						
 						}//End for de promedio
 						if (lisPromedio.size() > 1){
 							out.print("<td class='text-center' width='2%'>"+promedioFinal+"</td>");
