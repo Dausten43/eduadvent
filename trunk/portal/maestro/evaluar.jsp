@@ -185,7 +185,7 @@
 	}
 	
 	// Escala para la columna de puntos
-	int escalaEval 			= 100;	
+	int escalaEval 			= escala;	
 	
 	//LISTA DE OPORTUNIDADES
 	ArrayList <aca.ciclo.CicloExtra> listCiclo = CicloExtraL.getListAll(conElias, cicloId, "ORDER BY OPORTUNIDAD");
@@ -887,7 +887,7 @@
 			
 			<thead>
 				<tr>
-					<td colspan="20" class="text-center alert">
+					<td colspan="24" class="text-center alert">
 						<span title="<%=aca.ciclo.Ciclo.getCicloNombre(conElias, cicloId) %>">
 							<fmt:message key="aca.SeEvalua" /> <strong><%=frmEntero.format(notaMinima)%> <fmt:message key="aca.RangoA" /> <%=escala%></strong>
 						</span>  
@@ -926,7 +926,12 @@
 %>				
 						<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th>
 <%
-					}						
+					}
+					if (lisPromedio.size() > 1){
+%>				
+						<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>
+<%					
+					}
 %>					
 <% 					int x=0;
 					for(aca.ciclo.CicloExtra listExtra : listCiclo){
@@ -996,7 +1001,10 @@
 						
 							<!-- --------- RECORRE LAS EVALUACIONES --------- -->
 						<%
-						int evalCerradas =0;						
+						int evalCerradas =0;	
+						
+						double promedioFinal = 0;
+						
 						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 							
 							for(aca.ciclo.CicloBloque cicloBloque : lisBloque){					
@@ -1074,7 +1082,12 @@
 							// Inserta columna de los puntos
 							out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
 							
+							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
+							
 						} //End for Promedios
+						if (lisPromedio.size() > 1){
+							out.print("<td class='text-center' width='2%'>"+promedioFinal+"</td>");
+						}
 						%>				
 							<!-- --------- EXTRAORDINARIO --------- -->
 							
