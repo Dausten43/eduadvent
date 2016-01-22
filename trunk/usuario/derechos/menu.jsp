@@ -97,8 +97,7 @@
 
 <div id="content">
 
-	<h2><fmt:message key="privilegios.PrivilegiosAplicaciones" /> ( <small><%=nombreUsuario%> | <%=strCodigoId%></small> )</h2>
-	
+	<h2><fmt:message key="privilegios.PrivilegiosAplicaciones" /> ( <small><%=nombreUsuario%> | <%=strCodigoId%></small> )</h2>	
 	<div class="well">
 		<a href="usuario.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
@@ -125,8 +124,7 @@
 		    
 		    if(i>0)out.print("</table></div>");
 %>
-  			<div class="alert alert-info" style="background:white;">
-					  
+  			<div class="alert alert-info" style="background:white;">					  
 			  	<h5><%=nombreModulo%></h5>
 			  	<a onclick="jQuery('.selecciona<%=op.getModuloId()%>').prop('checked',true)" class="btn btn-mini">Todos</a>&nbsp;&nbsp;
 			  	<a onclick="jQuery('.selecciona<%=op.getModuloId()%>').prop('checked',false)" class="btn btn-mini">Ninguno</a>
