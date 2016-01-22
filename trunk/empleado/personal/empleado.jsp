@@ -158,8 +158,10 @@
 		Personal.setTipoId(request.getParameter("tipoId"));
 		Personal.setRfc(request.getParameter("Rfc"));
 		Personal.setSsocial(request.getParameter("Ssocial"));
+		Personal.setSsocial(request.getParameter("Ssocial"));
 		//Personal.setEstado("A");
 		Personal.setEstado(request.getParameter("Estado"));
+		Personal.setIglesia(request.getParameter("Iglesia"));
 
 		
 		if (Personal.existeReg(conElias)){
