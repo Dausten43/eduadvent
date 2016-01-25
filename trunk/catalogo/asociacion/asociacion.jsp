@@ -69,8 +69,8 @@
 					      <a href="javascript:Borrar('<%=asoc.getAsociacionId()%>')" class="icon-remove"></a> 
 					    </td>
 					    <td><%=asoc.getAsociacionId() %></td>
-					    <td><a href="distrito.jsp?nombre=<%=nombre%>&asociacionId=<%=asoc.getAsociacionId()%>&unionId=<%=unionId%>"><%=nombre%></a></td>
-					    <td><a href="distrito.jsp?nombre=<%=nombreCorto%>&asociacionId=<%=asoc.getAsociacionId()%>&unionId=<%=unionId%>"><%=nombreCorto%></a></td>
+					    <td><%=nombre%></td>
+					    <td><%=nombreCorto%></td>
 					    <td><%=asoc.getFondoId() %></td>
     				</tr>
   			<%
