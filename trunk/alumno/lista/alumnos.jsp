@@ -34,7 +34,6 @@
 				<th><fmt:message key="aca.Direccion" /></th>
 				<th><fmt:message key="aca.Telefono" /></th>
 				<th><fmt:message key="aca.Tutor" /></th>
-				<th><fmt:message key="aca.Iglesia" /></th>
 			</tr>
 		</thead>
 		<%int cont=0; %>
@@ -49,7 +48,6 @@
 				<td><%=alumno.getDireccion() %></td>
 				<td><%=alumno.getTelefono() %></td>
 				<td><%=alumno.getTutor() %></td>
-				<td><%=alumno.getIglesia() %></td>
 			</tr>
 		<%} %>
 	</table>
