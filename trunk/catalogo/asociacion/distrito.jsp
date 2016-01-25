@@ -4,7 +4,6 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-
 <jsp:useBean id="asocL" scope="page" class="aca.catalogo.CatAsociacionLista"/>
 <jsp:useBean id="CatUnionU" scope="page" class="aca.catalogo.CatUnionLista"/>
 <jsp:useBean id="CatDistU" scope="page" class="aca.catalogo.CatDistritoLista"/>
@@ -20,12 +19,13 @@
 	</script>
 </head>
 <%
-	
 	String nomAsoc					= request.getParameter("nombre");
 	String asociacionId				= request.getParameter("asociacionId");
 	String unionId					= request.getParameter("unionId");
-	ArrayList<aca.catalogo.CatUnion> uniones = CatUnionU.getListAll(conElias, "ORDER BY UNION_ID");
-	ArrayList<aca.catalogo.CatDistrito> distritos = CatDistU.getListAsociacion(conElias, asociacionId, "ORDER BY DISTRITO_ID");
+	
+	ArrayList<aca.catalogo.CatUnion> uniones 		= CatUnionU.getListAll(conElias, "ORDER BY UNION_ID");
+	ArrayList<aca.catalogo.CatDistrito> distritos 	= CatDistU.getListAsociacion(conElias, asociacionId, "ORDER BY DISTRITO_ID");
+	
 	int cont = 1;
 %>
 <body>
