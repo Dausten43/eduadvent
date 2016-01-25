@@ -132,7 +132,7 @@
 				out.print("<th class='text-center' width='2%' title='Puntos'>Puntos</th>");				
 			}
 			if (lisPromedio.size() > 1){
-				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
+				out.print("<th class='text-center' width='2%' title='Nota'>Nota</th>");	
 			}
 %>						
 				<th class="text-center" width="5%"><fmt:message key="aca.FechaNota"/></th>
@@ -200,6 +200,8 @@
 		    <td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
 		    <td width="20%"><%=curso.getCursoNombre()%></td>
 <%
+					double promedioFinal = 0;
+
 					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 						int evalCerradas = 0;
 						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
@@ -270,9 +272,15 @@
 						
 						// Inserta columna de los puntos
 						//out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
+						
+						promedioFinal = promedioFinal + puntosEval;
+						
 					}
+					
+					String muestraPromedioFinal = formato2.format(promedioFinal);
+					
 					if (lisPromedio.size() > 1){
-						out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
+						out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
 					}
 %>
 			<td class="text-center" width="5%"><%if(alumCurso.getFNota() == null) out.print("-"); else out.print(alumCurso.getFNota()); %></td>
