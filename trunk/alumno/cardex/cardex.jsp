@@ -135,7 +135,7 @@
 				out.print("<th class='text-center' width='2%' title='Puntos'>Puntos</th>");				
 			}
 			if (lisPromedio.size() > 1){
-				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");	
+				out.print("<th class='text-center' width='2%' title='Nota' >Nota</th>");	
 			}
 %>						
 				<th class="text-center" width="5%"><fmt:message key="aca.FechaNota"/></th>
@@ -203,6 +203,8 @@
 		    <td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
 		    <td width="20%"><%=curso.getCursoNombre()%></td>
 <%
+				double promedioFinal = 0;
+				
 					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 						int evalCerradas = 0;
 						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
@@ -272,9 +274,15 @@
 						
 						// Inserta columna de los puntos
 						//out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
+					
+						promedioFinal = promedioFinal + (Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval);
+					
 					}
+					
+					String muestraPromedioFinal = Double.toString(promedioFinal);
+
 					if (lisPromedio.size() > 1){
-						out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
+						out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
 					}
 %>
 			<td class="text-center" width="5%"><%if(alumCurso.getFNota() == null) out.print("-"); else out.print(alumCurso.getFNota()); %></td>
@@ -290,6 +298,9 @@
 			
 			double promCiclo 	= 0;
 			int numProm 		= 0;
+			
+			double promedioFinal = 0;
+			
 			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 				
 				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
@@ -310,9 +321,9 @@
 						}								
 						// Inserta columnas de evaluaciones
 						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
-					}
+					}	
 				}
-				
+					
 				if (numProm > 0) promCiclo = promCiclo / numProm;
 				// Inserta columna del promedio de las evaluaciones
 				out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
