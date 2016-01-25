@@ -137,7 +137,8 @@
 		    <th><fmt:message key="aca.Religion" /></th>
 		    <th><fmt:message key="aca.Tutor" /></th>    
 	     	<th><fmt:message key="aca.Celular" /></th> 
-	     	<th><fmt:message key="aca.Correo" /></th>    
+	     	<th><fmt:message key="aca.Correo" /></th>   
+	     	<th><fmt:message key="aca.Iglesia" /></th> 
 		  </tr>
 <%  		}
 			if (mapaGradoGrupo.containsKey(inscrito.getCodigoId()+ciclo+"1")){
@@ -170,6 +171,7 @@
 		  <td align="left"><%= inscrito.getTutor()%></td> 
 		  <td align="left"><%= inscrito.getCelular()%></td> 
 		  <td align="left"><%= AlumP.getEmail()%></td> 
+		  <td align="left"><%= inscrito.getIglesia()%></td>
 		  
 	</tr> 
 	  
