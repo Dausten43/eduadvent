@@ -86,7 +86,7 @@
 	    </div>
 	    <div class="control-group ">
 	    	<label for="SunPlus">
-	        	<fmt:message key="aca.sunplus" />:
+	        	<fmt:message key="aca.SunPlus" />:
 	        </label>
 	       <select id="SunPlus" name="SunPlus">
 				<option value="N"<%=CatParametro.getSunPlus().equals("N")?" Selected":""%>><fmt:message key="aca.Negacion" /></option>
@@ -96,28 +96,28 @@
 	    
 	    <div class="control-group ">
 	    	<label for="IpServer">
-	        	<fmt:message key="aca.servidor" />:
+	        	<fmt:message key="aca.Servidor" />:
 	        </label>
 	       <input type="text" id="IpServer" name="IpServer" value="<%=CatParametro.getIpServer()%>" maxlength="15" />		
 	    </div>	        
 	    
 	    <div class="control-group ">
 	    	<label for="BaseDatos">
-	        	<fmt:message key="aca.basedatos" />:
+	        	<fmt:message key="aca.BaseDatos" />:
 	        </label>
 	       <input type="text" id="BaseDatos" name="BaseDatos" value="<%=CatParametro.getBaseDatos()%>" maxlength="20" />		
 	    </div>	    
 	    
 	    <div class="control-group ">
 	    	<label for="Puerto">
-	        	<fmt:message key="aca.puerto" />:
+	        	<fmt:message key="aca.Puerto" />:
 	        </label>
 	       <input type="text" id="Puerto" name="Puerto" value="<%=CatParametro.getPuerto()%>" maxlength="4" />	       	
 	    </div>
 	    
 	    <div class="control-group ">
 	    	<label for="Caja">
-	        	<fmt:message key="aca.caja" />:
+	        	<fmt:message key="aca.Caja" />:
 	        </label>
 	       <input type="text" id="Caja" name="Caja" value="<%=CatParametro.getCaja()%>" maxlength="10" />    	
 	    </div>
@@ -129,7 +129,7 @@
 	        <select id="boleta" name="tipoBoleta">
 				<option value="1"<%=CatParametro.getTipoBoleta().equals("1")?" Selected":""%>><fmt:message key="aca.BoletaMex" /></option>
 				<option value="2"<%=CatParametro.getTipoBoleta().equals("2")?" Selected":""%>><fmt:message key="aca.BoletaDom" /></option>	
-				<option value="3"<%=CatParametro.getTipoBoleta().equals("3")?" Selected":""%>><fmt:message key="aca.BoletaPanama" /></option>					  
+				<option value="3"<%=CatParametro.getTipoBoleta().equals("3")?" Selected":""%>><fmt:message key="aca.BoletaPan" /></option>					  
 		   </select>
 	    </div>
 	    
