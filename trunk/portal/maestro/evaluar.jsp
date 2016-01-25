@@ -1004,6 +1004,7 @@
 						int evalCerradas =0;	
 						
 						double promedioFinal = 0;
+						String muestraPromedioFinal = "";
 						
 						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 							
@@ -1084,9 +1085,11 @@
 							
 							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
 							
+							muestraPromedioFinal = formato1.format(promedioFinal);
+							
 						} //End for Promedios
 						if (lisPromedio.size() > 1){
-							out.print("<td class='text-center' width='2%'>"+promedioFinal+"</td>");
+							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
 						}
 						%>				
 							<!-- --------- EXTRAORDINARIO --------- -->
