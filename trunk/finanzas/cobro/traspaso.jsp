@@ -14,7 +14,7 @@
 <jsp:useBean id="cicloPeriodoL" scope="page" class="aca.ciclo.CicloPeriodoLista"/>
 <jsp:useBean id="finPago" scope="page" class="aca.fin.FinPago"/>
 <jsp:useBean id="finPagoL" scope="page" class="aca.fin.FinPagoLista"/>
-
+ 
 <script>
 	function Refrescar(){
  		document.forma.Accion.value = "0";
