@@ -162,7 +162,8 @@
 					    	<!-- SOLO PARA ADMINISTRADORES -->
 					    	<a class="btn suplantar"><i class="icon-user"></i></a>
 					    <%}%>
-					    <% if(!menuUSER.contains("P") || session.getAttribute("admin").equals("B01P0002")){ %>
+					    <% 
+					    if(menuUSER.contains("E") && menuUSER.equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){ %>
 					    <input type="text" class="span2 search-query" placeholder="Buscar" style="border-radius:0;">
 					    <button class="btn" style="border-radius: 0 14px 14px 0;border-left:0;"><i class="icon-search"></i></button>
 					    <%} %>
