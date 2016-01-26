@@ -15,16 +15,19 @@
 	String tipoGuardado = "";
 	
 	
-	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String msj 			= "";
 	String cicloId 		= request.getParameter("ciclo")==null?"":request.getParameter("ciclo");	
 	String oportunidad 	= request.getParameter("oportunidad")==null?"0":request.getParameter("oportunidad");
+	
 	cicloExtra.setCicloId(cicloId);
 	String max 			= cicloExtra.maximoReg(conElias, cicloId);
+	
 	if(oportunidad.equals("0")){
 		cicloExtra.setOportunidad(max);
 		oportunidad=max;
 	}
+
 	
 	if(accion.equals("2")){
 		cicloExtra.setCicloId(cicloId);
@@ -32,19 +35,27 @@
 		cicloExtra.setValorAnterior(request.getParameter("ValorAnterior"));
 		cicloExtra.setValorExtra(request.getParameter("ValorExtra"));
 		cicloExtra.setOportunidadNombre(request.getParameter("OportunidadNombre"));
-		if(!cicloExtra.existeReg(conElias)){
-			if(cicloExtra.insertReg(conElias)){
-				msj = "Guardado";
+
+		int total = Integer.parseInt(cicloExtra.getValorAnterior())+Integer.parseInt(cicloExtra.getValorExtra());
+		
+		if(total == 100){
+			if(!cicloExtra.existeReg(conElias)){
+				if(cicloExtra.insertReg(conElias)){
+					msj = "Guardado";
+				}else{
+					msj = "NoGuardado";
+				}
 			}else{
-				msj = "NoGuardado";
+				if(cicloExtra.updateReg(conElias)){
+					msj = "Modificado";
+				}else{
+					msj = "NoModificado";
+				}
 			}
 		}else{
-			if(cicloExtra.updateReg(conElias)){
-				msj = "Modificado";
-			}else{
-				msj = "NoModificado";
-			}
+			msj = "La suma de Los porcentajes de Calificacion anterior y Oportunidad debe ser 100";
 		}
+		
 	}
 	
 	pageContext.setAttribute("resultado", msj);
@@ -68,7 +79,7 @@
 		<a class="btn btn-primary btn-mobile" href="notas.jsp?ciclo=<%=cicloId %>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
 	
-	<form id="forma" name="forma" action="accion.jsp?Accion=2&ciclo=<%=cicloId %>" method="post">
+	<form name="forma" action="accion.jsp?Accion=2&ciclo=<%=cicloId %>" method="post">
 	<input type="hidden" name="Accion">
 		<fieldset>
 			<label for="ciclo"><fmt:message key="aca.Ciclo" /></label>
@@ -81,12 +92,12 @@
 		</fieldset>
 		
 		<fieldset>
-				<label for="ValorAnterior"><fmt:message key="aca.ValorAnterior" /></label>
+				<label for="ValorAnterior"><fmt:message key="aca.ValorAnteriorCalificacionPorcentaje"/> % </label>
 	        	<input type="text" id="ValorAnterior" name="ValorAnterior" value="<%=cicloExtra.getValorAnterior() %>" size="8" maxlength="10" />
 		</fieldset>
 		
 		<fieldset>
-				<label for="ValorExtra"><fmt:message key="aca.ValorExtra" /></label>
+				<label for="ValorExtra"><fmt:message key="aca.ValorOportunidadPorcentaje" /> % </label>
 	        	<input type="text" id="ValorExtra" name="ValorExtra" value="<%=cicloExtra.getValorExtra()%>" size="8" maxlength="10" />
 		</fieldset>
 		
