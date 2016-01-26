@@ -414,7 +414,7 @@ public class KrdxAlumEval {
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
-					" AND EVALUACION_ID = TO_NUMBER(?, '99')");	
+					" AND EVALUACION_ID = ?");	
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
