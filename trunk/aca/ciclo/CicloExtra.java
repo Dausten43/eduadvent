@@ -266,5 +266,33 @@ public class CicloExtra {
 		
 		return lisCicloExtra;
 	}
+	
+	public ArrayList<CicloExtra> getTodosLosCiclosExtras(Connection con, String cicloId) throws SQLException{
+		ArrayList<CicloExtra> lisCicloExtra = new ArrayList<CicloExtra>();
+		Statement st 		= con.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		
+		try{
+			comando = "SELECT * FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID ='" + cicloId +"'";
+			
+			rs = st.executeQuery(comando);		
+			while (rs.next()){
+				
+				CicloExtra ciclo = new CicloExtra();				
+				ciclo.mapeaReg(rs);
+				lisCicloExtra.add(ciclo);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloExtra|getCicloExtra:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisCicloExtra;
+	}
 		
 }
