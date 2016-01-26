@@ -31,7 +31,7 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="periodos.ListaCicloAcademico" /></h2>
+	<h2><fmt:message key="periodos.ListaPromedios" /></h2>
 	
 	<div class="well">
 		<a class="btn btn-primary" href="ciclo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
