@@ -31,7 +31,7 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="periodos.ListaPromedios" /></h2>
+	<h2><fmt:message key="aca.Promedios" />&nbsp;<small>( <%=cicloId%> | <%=aca.ciclo.Ciclo.nombreCiclo(conElias, cicloId)%> )</small></h2>
 	
 	<div class="well">
 		<a class="btn btn-primary" href="ciclo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
@@ -44,7 +44,7 @@
 		  		<th><fmt:message key="aca.Accion" /></th>
 		  		<th>#</th>
 		  		<th><fmt:message key="aca.Ciclo" /></th>
-		  		<th><fmt:message key="aca.PromedioId" /></th>
+		  		<th><fmt:message key="aca.Clave" /></th>
 		  		<th><fmt:message key="aca.Nombre" /></th>
 		    	<th><fmt:message key="aca.NombreCorto" /></th>
 		    	<th><fmt:message key="aca.Calculo" /></th>

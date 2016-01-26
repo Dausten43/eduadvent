@@ -27,8 +27,8 @@
 <div id="content">
 	
 	<h2>
-		<fmt:message key="aca.Actividades" /> 
-		<small><%=cicloId%> | <%=aca.ciclo.Ciclo.nombreCiclo(conElias, cicloId)%></small>
+		<fmt:message key="aca.Actividades" />
+		<small>( <%=cicloId%> | <%=aca.ciclo.Ciclo.nombreCiclo(conElias, cicloId)%> )</small>
 	</h2>
 	
 	<div class="well">

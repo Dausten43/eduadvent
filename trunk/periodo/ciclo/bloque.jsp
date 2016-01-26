@@ -40,8 +40,8 @@
 <div id="content">
 	
 	<h2>
-		<fmt:message key="aca.Evaluaciones" /> 
-		<small><%=cicloId%> | <%=aca.ciclo.Ciclo.nombreCiclo(conElias, cicloId)%></small>
+		<fmt:message key="aca.Evaluaciones" />&nbsp;
+		<small>( <%=cicloId%> | <%=aca.ciclo.Ciclo.nombreCiclo(conElias, cicloId)%> )</small>
 	</h2>
 	
 	<div class="well">
