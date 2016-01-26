@@ -27,8 +27,7 @@
 		CatParametro.setTipoBoleta(request.getParameter("tipoBoleta"));
 		
 		if(!CatParametro.existeReg(conElias)){
-			if(CatParametro.insertReg(conElias)){
-				conElias.commit();				
+			if(CatParametro.insertReg(conElias)){						
 				resultado = "Grabado";
 			}
 			else{			
@@ -36,8 +35,7 @@
 			}
 		}
 		else{
-			if(CatParametro.updateReg(conElias)){
-				conElias.commit();
+			if(CatParametro.updateReg(conElias)){				
 				resultado = "Modificado";
 			}
 			else{				

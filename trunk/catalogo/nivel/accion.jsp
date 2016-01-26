@@ -123,6 +123,8 @@
 		    <label for="gradoIni">
 		    	<span class="grado"><fmt:message key="aca.GradoIni" /></span>
 		    	<span class="semestre"><fmt:message key="aca.SemestreIni" /></span>
+		    	<span class="trimestre"><fmt:message key="aca.Trimestre" /></span>
+		    	<span class="cuatrimestre"><fmt:message key="aca.Cuatrimestre" /></span>
 		    </label>
 		    <select name="gradoIni" id="gradoIni" class="input-mini">
 		    	<%for(int i = 1; i<=12; i++){ %>
@@ -135,6 +137,8 @@
 		    <label for="gradoFin">
 		       	<span class="grado"><fmt:message key="aca.GradoFin" /></span>
 		    	<span class="semestre"><fmt:message key="aca.SemestreFin" /></span>
+		    	<span class="trimestre"><fmt:message key="aca.Trimestre" /></span>
+		    	<span class="cuatrimestre"><fmt:message key="aca.Cuatrimestre" /></span>
 		    </label>
 		    <select name="gradoFin" id="gradoFin" class="input-mini">
 		    	<%for(int i = 1; i<=12; i++){ %>
@@ -234,14 +238,31 @@
 		var tipo = $('#titulo');
 		var grado = $('.grado');
 		var semestre = $('.semestre').hide();
+		var trimestre = $('.trimestre').hide();
+		var cuatrimestre = $('.cuatrimestre').hide();
+		
 		function cambiarTipo(){
 			
 			if(tipo.val() == 'Grado'){
-				grado.show();
+				grado.show();				
 				semestre.hide();
-			}else{
+				trimestre.hide();
+				cuatrimestre.hide();
+			}else if (tipo.val() == 'Semestre'){
 				grado.hide();
 				semestre.show();
+				trimestre.hide();
+				cuatrimestre.hide();
+			}else if (tipo.val() == 'Semestre'){
+				grado.hide();
+				semestre.hide();
+				trimestre.show();
+				cuatrimestre.hide();
+			}else{
+				grado.hide();
+				semestre.hide();
+				trimestre.hide();
+				cuatrimestre.show();
 			}
 		}
 		
