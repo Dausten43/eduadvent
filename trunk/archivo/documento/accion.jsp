@@ -51,6 +51,7 @@
 	switch (nAccion){
 		
 		case 2: { // Grabar
+			conElias.setAutoCommit(false);
 			Doc.setDocumentoId(request.getParameter("DocumentoId"));
 			Doc.setDocumentoNombre(request.getParameter("Documento"));
 			Doc.setEscuelaId(escuelaId);
@@ -70,10 +71,11 @@
 					sResultado = "NoModifico";
 				}
 			}
-			
+			conElias.setAutoCommit(true);
 			break;
 		}
 		case 4: { // Borrar
+			conElias.setAutoCommit(false);
 			Doc.setDocumentoId(request.getParameter("DocumentoId"));
 			Doc.setEscuelaId(escuelaId);
 
@@ -88,6 +90,7 @@
 			}else{
 				sResultado = "NoExiste";
 			}
+			conElias.setAutoCommit(true);
 			break;
 		}
 		case 5: { // Consultar	
