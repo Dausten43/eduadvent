@@ -19,13 +19,18 @@
 	 * ABRIR INPUTS PARA EDITAR LAS NOTAS
 	 */
 	function muestraInput(actividadId){
-		var editar = $('.editar'+actividadId);//Busca los inputs
+		
+		//Busca los inputs
+		var editar = $('.editar'+actividadId);
 		
 		editar.each(function(){
 			var $this = $(this);
 			
-			$this.siblings('div').hide();//Esconde la calificacion
-			$this.fadeIn(300);//Muestra el input con la calificacion
+			//Esconde la calificación
+			$this.siblings('div').hide();
+			
+			//Muestra el input con la calificación
+			$this.fadeIn(300);
 		});
 	}
 	
@@ -144,7 +149,6 @@
 			i++;
 		}
 		
-		
 		if(error == false){//Si no hay error entonces grabar el promedio de las actividades en las evaluaciones
 			
 			lisKrdxActiv = krdxAlumActivL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacionId, "ORDER BY ALUM_APELLIDO(CODIGO_ID), ACTIVIDAD_ID");
@@ -166,10 +170,10 @@
 				BigDecimal promedioActividades = new BigDecimal("0");
 				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
 					for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
+						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){				
 							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
-								promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 1, RoundingMode.DOWN) );
+								promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );
 							}
 						}
 					}
@@ -182,7 +186,7 @@
 				
 				if( escala == 10 ){
 					/* Convirtiendo la escala de 100 a 10 (ya que las actividades se evaluan de 0 a 100) */
-					promedioActividades = promedioActividades.divide(new BigDecimal("10"), 1, RoundingMode.DOWN);
+					promedioActividades = promedioActividades.divide(new BigDecimal("10"), 2, RoundingMode.DOWN);
 				}
 				
 				//--------COMPROBAR SI TIENEN PUNTO DECIMAL----------
@@ -360,9 +364,9 @@
 						String txtEscala=notaMinima+" a "+escala+", "+(evaluaConPunto.equals("S")?"Evaluación con punto decimal":"Evaluación con enteros");
 					%>
 					<th class="text-center" title="<fmt:message key='aca.MensajePromedioActividades' />">
-						<fmt:message key="aca.Promedio"/>
+						<fmt:message key="aca.PA"/>
 					</th>
-					<th class="text-center" title="<%=txtEscala%>"><fmt:message key="aca.PromedioEvaluacion"/></th>
+					<th class="text-center" title="<%=txtEscala%>"><fmt:message key="aca.Promedio"/></th>
 				</tr>
 			</thead>
 			
@@ -440,7 +444,7 @@
 									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
 										//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 										if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
-											promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 1, RoundingMode.DOWN) );
+											promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );
 										}
 									}
 								}
