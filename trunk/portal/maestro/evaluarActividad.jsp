@@ -169,7 +169,7 @@
 						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
 							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
-								promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 1, RoundingMode.DOWN) );
+								promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );
 							}
 						}
 					}
@@ -441,7 +441,7 @@
 									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
 										//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 										if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
-											promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 1, RoundingMode.DOWN) );
+											promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );
 										}
 									}
 								}
