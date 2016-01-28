@@ -24,7 +24,7 @@ public class FinMovimientoLista {
 		
 		try{
 			comando = "SELECT CODIGO_ID, FOLIO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION," +
-				" IMPORTE, NATURALEZA, REFERENCIA" +
+				" IMPORTE, NATURALEZA, REFERENCIA, TIPOMOV_ID" +
 				" FROM FIN_MOVIMIENTO" +
 				" WHERE CODIGO_ID = '"+codigoId+"' "+orden;
 
@@ -53,7 +53,7 @@ public class FinMovimientoLista {
 		
 		try{
 			comando = "SELECT CODIGO_ID, FOLIO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION," +
-				" IMPORTE, NATURALEZA, REFERENCIA" +
+				" IMPORTE, NATURALEZA, REFERENCIA, TIPOMOV_ID" +
 				" FROM FIN_MOVIMIENTO" +
 				" WHERE CODIGO_ID = '"+codigoId+"' " +
 				" AND FECHA <= TO_DATE('"+fecha+"','DD/MM/YYYY') "+orden;
