@@ -36,9 +36,9 @@
 			if (FinDeposito.deleteReg(conElias)){
 				conElias.commit();
 			}			
-		}else{			
-		}
-		
+		}else{
+			
+		}		
 	}
 	
 	// Lista de depositos en el rango de fechas
