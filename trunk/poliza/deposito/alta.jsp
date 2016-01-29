@@ -102,7 +102,7 @@
 		<tr>	
 			<th colspan="3">CAJA GENERAL</th>
 			<th style="text-align:right">&nbsp;</th>
-			<th style="text-align:right"><%=formato.format(totalCaja)%></th>
+			<th style="text-align:right"><a href="lista.jsp"><%=formato.format(totalCaja)%></th>
 			<th>&nbsp;</th>			
 		</tr>
 		<tr>	
