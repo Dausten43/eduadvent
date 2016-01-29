@@ -76,6 +76,7 @@
 		FinMov.setReciboId("0");
 		FinMov.setCicloId("00000000");
 		FinMov.setPeriodoId("0");
+		FinMov.setTipoMovId("0");
 		
 		if(FinMov.existeReg(conElias)){
 			if(FinMov.updateReg(conElias)){
