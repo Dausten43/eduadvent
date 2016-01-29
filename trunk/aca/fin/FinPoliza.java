@@ -368,7 +368,7 @@ public class FinPoliza {
 	}
     
     /* Saldo de una póliza de acuerdo a una */
-    public static String numPolizas(Connection conn, String ejercicioId, String polizaId, String naturaleza, String estadoMov) throws SQLException{
+    public static String importePoliza(Connection conn, String ejercicioId, String polizaId, String naturaleza, String estadoMov) throws SQLException{
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
