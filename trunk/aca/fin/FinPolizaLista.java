@@ -43,7 +43,7 @@ public class FinPolizaLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, USUARIO, ESTADO, TIPO "
+			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, USUARIO, ESTADO, TIPO"
 					+ " FROM FIN_POLIZA"
 					+ " WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuelaId+"'"
 					+ " AND ESTADO IN ("+estadoPoliza+")"
