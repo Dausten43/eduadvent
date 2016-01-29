@@ -104,6 +104,7 @@
 		FinMovs.setReciboId("0");
 		FinMovs.setCicloId("00000000");
 		FinMovs.setPeriodoId("0");
+		FinMovs.setTipoMovId("0");
 		
 		if( FinMovs.existeReg(conElias) ){
 			error = true;
