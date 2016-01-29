@@ -48,7 +48,8 @@
 	ArrayList<aca.fin.FinDeposito> lisDepositos 	= FinDepositoLista.getListEntre(conElias, fechaIni, fechaFin, escuelaId);
 	
 	// Lista de depositos en el rango de fechas
-	ArrayList<aca.fin.FinPoliza> lisPolizas 		= FinPolizaLista.getPolizas(conElias, ejercicioId, escuelaId, "'T','A'", "'C','G'", fechaIni, fechaFin, " ORDER BY ");
+	ArrayList<aca.fin.FinPoliza> lisPolizas 		= FinPolizaLista.getPolizas(conElias, ejercicioId, escuelaId, "'T','A'", "'C','G'", fechaIni, fechaFin, " ORDER BY FECHA");
+	System.out.println("Size:"+lisPolizas.size());
 	
 %>
 </head>
