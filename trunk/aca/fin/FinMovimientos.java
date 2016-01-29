@@ -400,8 +400,8 @@ public class FinMovimientos {
         ResultSet rs = null;
         PreparedStatement ps = null; 
         try{
-	        ps = con.prepareStatement(
-	                " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID "
+	        ps = con.prepareStatement(""
+	        		+ " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 	                + " FROM FIN_MOVIMIENTOS"
 	                + " WHERE EJERCICIO_ID = ?"
 	                + " AND POLIZA_ID = ?"
