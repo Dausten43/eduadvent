@@ -8,6 +8,7 @@
 <jsp:useBean id="FinDeposito" scope="page" class="aca.fin.FinDeposito" />
 <jsp:useBean id="FinPolizaLista" scope="page" class="aca.fin.FinPolizaLista" />
 
+
 <head>
 	
 <script>
@@ -68,49 +69,28 @@
 	<table class="table">
 		<tr>
 			<th>#</th>
-			<th><fmt:message key="aca.Opcion" /></th>
+			<th><fmt:message key="aca.Ejercicio" /></th>
+			<th><fmt:message key="aca.Poliza" /></th>
 			<th><fmt:message key="aca.Fecha" /></th>
-			<th style="text-align:right"><fmt:message key="aca.Debito" /></th>
-			<th style="text-align:right"><fmt:message key="aca.Credito" /></th>
-			<th><fmt:message key="aca.Responsable" /></th>
+			<th><fmt:message key="aca.Descripcion" /></th>
+			<th><fmt:message key="aca.Usuario" /></th>
+			<th><fmt:message key="aca.Cantidad" /></th>
 		</tr>		
 <%	
-	double totalCaja 		= aca.fin.FinMovimientos.saldoCaja(conElias, escuelaId, "'T','A'", "'C','G'", fechaIni, fechaFin, "C", "'A','R'");
-	double totalDeposito 	= 0;
-	
 	int row = 0;
-	for (aca.fin.FinDeposito deposito : lisDepositos){
-		totalDeposito	+= Double.parseDouble( deposito.getImporte() );
-		row++;
+	for (aca.fin.FinPoliza poliza : lisPolizas){
 %>
 		<tr>				
-			<td><%=row%></td>
-			<td>
-				<a href="javascript:EditarDeposito('<%=deposito.getFolio()%>','<%=fechaIni%>','<%=fechaFin%>','<%=deposito.getResponsable() %>')" class="btn btn-mini btn-success">
-					<i class="icon-pencil icon-white"></i>
-				</a>
-				<a href="javascript:BorrarDeposito('<%=deposito.getFolio()%>','<%=fechaIni%>','<%=fechaFin%>')" class="btn btn-mini btn-danger">
-					<i class="icon-remove icon-white"></i>
-				</a>
-			</td>
-			<td><%=deposito.getFechaDeposito()%></td>
-			<td style="text-align:right"><%=formato.format(Double.parseDouble(deposito.getImporte())) %></td>
-			<td style="text-align:right">&nbsp;</td>
-			<td><%=deposito.getResponsable() %></td>		
+			<td><%=++row%></td>
+			<td><%=poliza.getEjercicioId()%></td>
+			<td><%=poliza.getPolizaId()%></td>
+			<td><%=poliza.getFecha()%></td>
+			<td><%=poliza.getDescripcion()%></td>
+			<td><%=poliza.getUsuario()%></td>
+			<td><%out.print("Variables");//FinPolizaLista.saldoPolizasPorCuentas(conElias, escuelaId, "T, A", "C,G", fechaIni, fechaFin, naturaleza, poliza.getTipo())%></td>
+	
 		</tr>
-<%	} %>
-		<tr>	
-			<th colspan="3">CAJA GENERAL</th>
-			<th style="text-align:right">&nbsp;</th>
-			<th style="text-align:right"><%=formato.format(totalCaja)%></th>
-			<th>&nbsp;</th>			
-		</tr>
-		<tr>	
-			<th colspan="3">T O T A L E S &nbsp; </th>
-			<th style="text-align:right"><%=formato.format(totalDeposito)%></th>
-			<th style="text-align:right"><%=formato.format(totalCaja)%></th>
-			<th>&nbsp;</th>			
-		</tr>		
+<%	} %>	
 	</table>
 </div>
 	
