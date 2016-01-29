@@ -53,5 +53,11 @@
 		}
 	}
 </script>
+
+<script type="text/javascript">
+function clicked(address) {
+	document.getElementById('copy_img').value = address.src;
+}
+</script>
 </body>
 <%@ include file= "../../cierra_elias.jsp" %> 
