@@ -670,8 +670,7 @@ public class FinMovimientos {
 					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estadoPoliza+") AND TIPO IN ("+tipoPoliza+") "
 					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
 					+ " AND NATURALEZA = '"+naturaleza+"'"
-					+ " AND ESTADO = '"+estadoMov+"'"
-					+ " AND RECIBO_ID != 0";
+					+ " AND ESTADO IN("+estadoMov+")";
 			
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
@@ -700,7 +699,8 @@ public class FinMovimientos {
 					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estadoPoliza+") AND TIPO IN ("+tipoPoliza+")"
 					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
 					+ " AND NATURALEZA = '"+naturaleza+"'"
-					+ " AND ESTADO IN("+estadoMov+")";
+					+ " AND ESTADO IN("+estadoMov+")"
+					+ " AND RECIBO_ID != 0";
 			
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
