@@ -717,4 +717,33 @@ public class FinMovimientos {
 		return saldo;
 	}
     
+    public static double saldoCajaDiario( Connection conn, String escuela, String estadoPoliza, String tipoPoliza, String fechaIni, String fechaFin, String naturaleza, String estadoMov ) throws SQLException{
+    	Statement st		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando 		= "";		
+		double saldo			= 0;
+		
+		try{
+			comando = " SELECT COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
+					+ " WHERE POLIZA_ID IN "
+					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estadoPoliza+") AND TIPO IN ("+tipoPoliza+")"
+					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
+					+ " AND NATURALEZA = '"+naturaleza+"'"
+					+ " AND ESTADO IN("+estadoMov+")";
+			
+			rs = st.executeQuery(comando);					
+			if(rs.next()){
+				saldo = rs.getDouble("SALDO");
+			}			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimiento|saldoCaja|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return saldo;
+	}
+    
 }
