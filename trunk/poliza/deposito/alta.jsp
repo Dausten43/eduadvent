@@ -6,6 +6,8 @@
 
 <jsp:useBean id="FinDepositoLista" scope="page" class="aca.fin.FinDepositoLista" />
 <jsp:useBean id="FinDeposito" scope="page" class="aca.fin.FinDeposito" />
+<jsp:useBean id="FinPolizaLista" scope="page" class="aca.fin.FinPolizaLista" />
+
 <head>
 	
 <script>
@@ -23,6 +25,7 @@
 	java.text.DecimalFormat formato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
+	String ejercicioId 		= (String) session.getAttribute("ejercicioId");
 	String fechaIni			= request.getParameter("FechaIni")==null?aca.util.Fecha.getHoy():request.getParameter("FechaIni");
 	String fechaFin			= request.getParameter("FechaFin")==null?aca.util.Fecha.getHoy():request.getParameter("FechaFin");
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
@@ -43,6 +46,9 @@
 	
 	// Lista de depositos en el rango de fechas
 	ArrayList<aca.fin.FinDeposito> lisDepositos 	= FinDepositoLista.getListEntre(conElias, fechaIni, fechaFin, escuelaId);
+	
+	// Lista de depositos en el rango de fechas
+	ArrayList<aca.fin.FinPoliza> lisPolizas 		= FinPolizaLista.getPolizas(conElias, ejercicioId, escuelaId, "'T','A'", "'C','G'", fechaIni, fechaFin, " ORDER BY ");
 	
 %>
 </head>
