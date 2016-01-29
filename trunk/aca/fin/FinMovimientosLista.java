@@ -18,7 +18,8 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA,"
+					+ " RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE AUXILIAR = '"+auxiliar+"' AND CUENTA_ID IN (SELECT CUENTA_ID FROM FIN_CUENTA WHERE TIPO LIKE '%-ALUMNO%') "
 					+ " AND ESTADO = 'R' " + orden;
@@ -47,7 +48,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID "
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE AUXILIAR IN ("+auxiliares+") AND CUENTA_ID IN (SELECT CUENTA_ID FROM FIN_CUENTA WHERE TIPO LIKE '%-ALUMNO%')"
 					+ " AND ESTADO = 'R' " + orden;
@@ -76,7 +77,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID "
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID "
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
 					+ " AND POLIZA_ID = '"+polizaId+"'"
@@ -106,7 +107,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
 					+ " AND RECIBO_ID = TO_NUMBER('"+reciboId+"', '9999999') "+orden;
@@ -135,7 +136,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION,"
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE ESTADO IN ('R') " /* QUE EL ESTADO SEA 'RECIBO', OSEA QUE NO SEA CREADO O CANCELADO */
 					+ " AND NATURALEZA = '"+naturaleza+"' "
@@ -167,7 +168,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
 					+ " AND POLIZA_ID = '"+polizaId+"'"
@@ -197,7 +198,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
 					+ " AND POLIZA_ID = '"+polizaId+"'"
@@ -227,7 +228,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE SUBSTR(EJERCICIO_ID, 1, 3) = '"+escuelaId+"' "
 					+ " AND POLIZA_ID = '"+polizaId+"'"
@@ -257,7 +258,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
 					+ " AND POLIZA_ID = '"+polizaId+"'"
@@ -287,7 +288,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
 					+ " AND POLIZA_ID = '"+polizaId+"'"
@@ -317,7 +318,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "
 					+ " AND POLIZA_ID = '"+polizaId+"' "+orden;
@@ -346,7 +347,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION," +
-					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"+
+					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"+
 					  " FROM FIN_MOVIMIENTOS" +
 					  " WHERE AUXILIAR = '"+auxiliar+"' AND EJERCICIO_ID = '"+ejercicioId+"' AND FECHA <= '"+fechaFinal+"' AND FECHA >= '"+fechaInicio+"' "+orden;
 			rs = st.executeQuery(comando);
@@ -375,7 +376,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION," +
-					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"+
+					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"+
 					  " FROM FIN_MOVIMIENTOS" +
 					  " WHERE AUXILIAR = '"+auxiliar+"' AND FECHA <= '"+fechaFinal+"' AND FECHA >= '"+fechaInicio+"' "+orden;
 			rs = st.executeQuery(comando);
@@ -403,7 +404,7 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION,"
-					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS"
 					+ " WHERE AUXILIAR = '"+auxiliar+"'"
 					+ " AND FECHA <= '"+fechaFinal+"' AND FECHA >= '"+fechaInicio+"'"
@@ -533,6 +534,37 @@ public class FinMovimientosLista {
 		}		
 		
 		return lisFinMovimientos;
+	}
+	
+	/* SALDO DE UNA POLIZA */
+	public static HashMap<String, String> saldoEnPolizas( Connection conn, String escuela, String estado, String tipo, String fechaIni, String fechaFin, String naturaleza, String tipoMov) throws SQLException{
+		
+		Statement st			= conn.createStatement();
+		ResultSet rs 			= null;
+		String comando 			= "";
+		HashMap<String,String> map 	= new HashMap<String,String>();
+		
+		try{
+			comando = "SELECT CUENTA_ID, COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
+					+ " WHERE POLIZA_ID IN "
+					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estado+") AND TIPO IN ("+tipo+") "
+					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
+					+ " AND NATURALEZA = '"+naturaleza+"'"
+					+ " AND ESTADO = '"+tipoMov+"'"
+					+ " GROUP BY CUENTA_ID";		
+			rs= st.executeQuery(comando);		
+			while(rs.next()){
+				map.put(rs.getString("CUENTA_ID"), rs.getString("SALDO"));
+			}			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimientoLista|saldoPolizasPorCuentas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
 	}
 	
 }

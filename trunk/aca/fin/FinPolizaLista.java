@@ -35,6 +35,36 @@ public class FinPolizaLista {
 		return lisPoliza;
 	}
 	
+	/* Lista de polizas */
+	public ArrayList<FinPoliza> getPolizas(Connection conn, String ejercicioId, String escuelaId, String estadoPoliza, String tipoPoliza, String fechaIni, String fechaFin, String orden) throws SQLException{
+		ArrayList<FinPoliza> lisPoliza 	= new ArrayList<FinPoliza>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{			
+			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, USUARIO, ESTADO, TIPO "
+					+ " FROM FIN_POLIZA"
+					+ " WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuelaId+"'"
+					+ " AND ESTADO IN ("+estadoPoliza+")"
+					+ " AND TIPO IN ("+tipoPoliza+")"
+					+ " AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY') "+ orden;
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				FinPoliza poliza = new FinPoliza();
+				poliza.mapeaReg(rs);
+				lisPoliza.add(poliza);
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinPolizaLista|getPolizas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		return lisPoliza;
+	}
+	
+	/* Lista de polizas en una escuela */
 	public ArrayList<FinPoliza> getPolizasEscuela(Connection conn, String escuelaId, String orden) throws SQLException{
 		ArrayList<FinPoliza> lisPoliza 	= new ArrayList<FinPoliza>();
 		Statement st 	= conn.createStatement();
@@ -264,5 +294,36 @@ public class FinPolizaLista {
 			if (st!=null) st.close();
 		}
 		return lisPoliza;
+	}
+	
+	/**/
+	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String estado, String tipo, String fechaIni, String fechaFin, String naturaleza, String tipoMov) throws SQLException{
+		
+		Statement st			= conn.createStatement();
+		ResultSet rs 			= null;
+		String comando 			= "";
+		HashMap<String,String> map 	= new HashMap<String,String>();
+		
+		try{
+			comando = "SELECT CUENTA_ID, COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
+					+ " WHERE POLIZA_ID IN "
+					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estado+") AND TIPO IN ("+tipo+") "
+					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
+					+ " AND NATURALEZA = '"+naturaleza+"'"
+					+ " AND ESTADO = '"+tipoMov+"'"
+					+ " GROUP BY CUENTA_ID";		
+			rs= st.executeQuery(comando);		
+			while(rs.next()){
+				map.put(rs.getString("CUENTA_ID"), rs.getString("SALDO"));
+			}			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimientoLista|saldoPolizasPorCuentas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
 	}
 }

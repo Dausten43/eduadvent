@@ -192,11 +192,11 @@ public class FinMovimientos {
                     + " FECHA = TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'),"
                     + " RECIBO_ID = TO_NUMBER(, '9999999'),"
                     + " CICLO_ID = ?,"
-                    + " PERIODO_ID = TO_NUMBER(?,'99')"
+                    + " PERIODO_ID = TO_NUMBER(?,'99'),"
+                    + " TIPOMOV_ID = TO_NUMBER(?,99)"
                     + " WHERE EJERCICIO_ID = ?"
                     + " AND POLIZA_ID = ?"
-                    + " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')"
-                    + " AND TIPOMOV_ID = TO_NUMBER(?,99)");
+                    + " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')");
             
             ps.setString(1, cuentaId);
             ps.setString(2, auxiliar);
@@ -209,10 +209,11 @@ public class FinMovimientos {
             ps.setString(9, reciboId);
             ps.setString(10, cicloId);
             ps.setString(11, periodoId);
-            ps.setString(12, ejercicioId);
-            ps.setString(13, polizaId);
-            ps.setString(14, movimientoId);
-            ps.setString(15, tipoMovId);
+            ps.setString(12, tipoMovId);
+            ps.setString(13, ejercicioId);
+            ps.setString(14, polizaId);
+            ps.setString(15, movimientoId);
+            
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -701,35 +702,6 @@ public class FinMovimientos {
 					+ " AND NATURALEZA = '"+naturaleza+"'"
 					+ " AND ESTADO IN("+estadoMov+")"
 					+ " AND RECIBO_ID != 0";
-			
-			rs = st.executeQuery(comando);					
-			if(rs.next()){
-				saldo = rs.getDouble("SALDO");
-			}			
-			
-		}catch(Exception ex){
-			System.out.println("Error - aca.fin.FinMovimiento|saldoCaja|:"+ex);
-		}finally{
-			if (rs!=null) rs.close();
-			if (st!=null) st.close();
-		}
-		
-		return saldo;
-	}
-    
-    public static double saldoCajaDiario( Connection conn, String escuela, String estadoPoliza, String tipoPoliza, String fechaIni, String fechaFin, String naturaleza, String estadoMov ) throws SQLException{
-    	Statement st		= conn.createStatement();
-		ResultSet rs 		= null;
-		String comando 		= "";		
-		double saldo			= 0;
-		
-		try{
-			comando = " SELECT COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
-					+ " WHERE POLIZA_ID IN "
-					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estadoPoliza+") AND TIPO IN ("+tipoPoliza+")"
-					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
-					+ " AND NATURALEZA = '"+naturaleza+"'"
-					+ " AND ESTADO IN("+estadoMov+")";
 			
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
