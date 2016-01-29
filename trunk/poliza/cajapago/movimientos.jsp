@@ -102,6 +102,7 @@
 		FinMov.setReciboId(FinFolio.getReciboActual());
 		FinMov.setCicloId("00000000");
 		FinMov.setPeriodoId("0");
+		FinMov.setTipoMovId("5");
 		
 		if(FinMov.existeReg(conElias)){
 			if(FinMov.updateReg(conElias)){
@@ -210,6 +211,7 @@
 				FinMov.setReciboId(FinFolio.getReciboActual());
 				FinMov.setCicloId(pagos.getCicloId());
 				FinMov.setPeriodoId(pagos.getPeriodoId());
+				FinMov.setTipoMovId("5");
 				
 				if(FinMov.insertReg(conElias)){
 					if (aca.fin.FinCalculoPago.updatePagado(conElias, alumnoCaja, pagos.getFecha(), pagos.getCuentaId(),"S")){
