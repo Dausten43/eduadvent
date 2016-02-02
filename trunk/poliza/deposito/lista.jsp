@@ -47,7 +47,10 @@
 <div id="content">
 	<h2>Dep&oacute;sitos de caja <small>(<%= aca.catalogo.CatEscuela.getNombre(conElias,escuelaId)%>)</small></h2>
 	<form action="lista.jsp" method="post" name="frmDeposito" target="_self" style="max-width:50%;display:inline;">
-	<div class="well">		
+	<div class="well">	
+		<a class="btn btn-primary" href="alta.jsp?FechaIni=<%=fechaIni%>&FechaFin=<%=fechaFin%>">
+			<i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" />
+		</a>	
 		<fmt:message key="aca.FechaInicio" />:&nbsp;&nbsp;
 		<input name="FechaIni" type="text" id="FechaIni" size="10" maxlength="10" value="<%=fechaIni%>" class="input-medium datepicker" >		
 		<fmt:message key="aca.FechaFinal" />:&nbsp;&nbsp;
@@ -63,7 +66,7 @@
 			<th><fmt:message key="aca.Fecha" /></th>
 			<th><fmt:message key="aca.Descripcion" /></th>
 			<th><fmt:message key="aca.Usuario" /></th>
-			<th><fmt:message key="aca.Cantidad" /></th>
+			<th style="text-align:right;"><fmt:message key="aca.Cantidad" /></th>
 		</tr>		
 <%	
 	int row = 0;
@@ -77,7 +80,7 @@
 			<td><%=poliza.getFecha()%></td>
 			<td><%=poliza.getDescripcion()%></td>
 			<td><%=poliza.getUsuario()%></td>
-			<td><%=aca.fin.FinPoliza.importePoliza(conElias, poliza.getEjercicioId(), poliza.getPolizaId(), "C", "'R'")%></td>
+			<td style="text-align:right;"><%=formato.format(Double.parseDouble(aca.fin.FinPoliza.importePoliza(conElias, poliza.getEjercicioId(), poliza.getPolizaId(), "C", "'R'")))%></td>
 	
 		</tr>
 <%	} %>	
