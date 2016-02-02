@@ -32,22 +32,12 @@
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String folio 			= request.getParameter("Folio")==null?"0":request.getParameter("Folio");
 	
-	if (accion.equals("1")){
-		// Borrar deposito
-		FinDeposito.setEscuelaId(escuelaId);
-		FinDeposito.setFolio(folio);
-		if (FinDeposito.existeReg(conElias)){
-			if (FinDeposito.deleteReg(conElias)){
-				conElias.commit();
-			}			
-		}else{
-			
-		}		
-	}
 	
 	// Lista de depositos en el rango de fechas
 	ArrayList<aca.fin.FinDeposito> lisDepositos 	= FinDepositoLista.getListEntre(conElias, fechaIni, fechaFin, escuelaId);
 	
+	
+	System.out.println(escuelaId+" fechaini: "+fechaIni+ " fechaFIn: "+fechaFin);
 	// Lista de depositos en el rango de fechas
 	ArrayList<aca.fin.FinPoliza> lisPolizas 		= FinPolizaLista.getPolizas(conElias, ejercicioId, escuelaId, "'T','A'", "'C','G'", fechaIni, fechaFin, " ORDER BY FECHA");
 	System.out.println("Size:"+lisPolizas.size());
@@ -56,14 +46,13 @@
 </head>
 <div id="content">
 	<h2>Dep&oacute;sitos de caja <small>(<%= aca.catalogo.CatEscuela.getNombre(conElias,escuelaId)%>)</small></h2>
-	<form action="alta.jsp" method="post" name="frmDeposito" target="_self" style="max-width:50%;display:inline;">
+	<form action="lista.jsp" method="post" name="frmDeposito" target="_self" style="max-width:50%;display:inline;">
 	<div class="well">		
 		<fmt:message key="aca.FechaInicio" />:&nbsp;&nbsp;
 		<input name="FechaIni" type="text" id="FechaIni" size="10" maxlength="10" value="<%=fechaIni%>" class="input-medium datepicker" >		
 		<fmt:message key="aca.FechaFinal" />:&nbsp;&nbsp;
 		<input name="FechaFin" type="text" id="FechaFin" size="10" maxlength="10" value="<%=fechaFin%>" class="input-medium datepicker">&nbsp;&nbsp;
 		<button class="btn btn-primary" type=submit><i class="icon-refresh icon-white"></i> <fmt:message key="aca.Mostrar"/></button>&nbsp;&nbsp;		
-		<a href="agregar.jsp?FechaIni=<%=fechaIni%>&FechaFin=<%=fechaFin%>&accion=4" class="btn btn-primary" id="agregar"><i class="icon-ok icon-white"></i> <fmt:message key="aca.Agregar" /></a>
 	</div>
 	</form>				
 	<table class="table">
@@ -78,6 +67,7 @@
 		</tr>		
 <%	
 	int row = 0;
+	System.out.println(lisPolizas.size());
 	for (aca.fin.FinPoliza poliza : lisPolizas){
 %>
 		<tr>				
@@ -87,7 +77,7 @@
 			<td><%=poliza.getFecha()%></td>
 			<td><%=poliza.getDescripcion()%></td>
 			<td><%=poliza.getUsuario()%></td>
-			<td><%out.print("Variables");//FinPolizaLista.saldoPolizasPorCuentas(conElias, escuelaId, "T, A", "C,G", fechaIni, fechaFin, naturaleza, poliza.getTipo())%></td>
+			<td><%=aca.fin.FinPoliza.importePoliza(conElias, poliza.getEjercicioId(), poliza.getPolizaId(), "C", "'R'")%></td>
 	
 		</tr>
 <%	} %>	
