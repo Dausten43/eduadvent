@@ -70,8 +70,9 @@
 		</tr>		
 <%	
 	int row = 0;
-	System.out.println(lisPolizas.size());
+	double totalCaja = 0;
 	for (aca.fin.FinPoliza poliza : lisPolizas){
+		totalCaja += Double.parseDouble(aca.fin.FinPoliza.importePoliza(conElias, poliza.getEjercicioId(), poliza.getPolizaId(), "C", "'R'"));
 %>
 		<tr>				
 			<td><%=++row%></td>
@@ -84,6 +85,12 @@
 	
 		</tr>
 <%	} %>	
+
+		<tr>	
+			<th colspan="5"></th>
+			<th>T O T A L  &nbsp; </th>
+			<th style="text-align:right"><%=formato.format(totalCaja)%></th>
+		</tr>	
 	</table>
 </div>
 	
