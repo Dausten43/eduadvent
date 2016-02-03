@@ -115,7 +115,7 @@ public class CatTipoMovimiento {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
+//				conn.commit();
 			}else{
 				ok = false;
 			}
