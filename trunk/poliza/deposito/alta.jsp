@@ -94,9 +94,10 @@
 			<td><%=aca.vista.UsuariosLista.getNombreCorto(conElias, deposito.getResponsable()) %></td>		
 		</tr>
 <%	} %>
-		<tr>	
-			<th colspan="3">CAJA GENERAL</th>
+		<tr>
+			<th style="text-align:right">&nbsp;</th>	
 			<th style="text-align:right">&nbsp;</th>
+			<th colspan="2">C A J A &nbsp;( Importe de los recibos )</th>			
 			<th style="text-align:right"><a href="lista.jsp?FechaIni=<%=fechaIni%>&FechaFin=<%=fechaFin%>"><%=formato.format(totalCaja)%></th>
 			<th>&nbsp;</th>			
 		</tr>
