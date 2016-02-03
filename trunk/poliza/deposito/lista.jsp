@@ -69,7 +69,7 @@
 	int row = 0;
 	double totalCaja = 0;
 	for (aca.fin.FinPoliza poliza : lisPolizas){
-		double importe = Double.parseDouble(aca.fin.FinPoliza.importePolizaMovimientosDeCaja(conElias, poliza.getEjercicioId(), poliza.getPolizaId(), "C", "'R'")); 
+		double importe = Double.parseDouble(aca.fin.FinPoliza.importePolizaMovimientosDeCaja(conElias, poliza.getEjercicioId(), poliza.getPolizaId(), "C", "'R','A'")); 
 		totalCaja += importe;
 %>
 		<tr>				
@@ -79,8 +79,7 @@
 			<td><%=poliza.getFecha()%></td>
 			<td><%=poliza.getDescripcion()%></td>
 			<td><%=aca.vista.UsuariosLista.getNombreCorto(conElias, poliza.getUsuario())%></td>
-			<td style="text-align:right;"><%=importe%></td>
-	
+			<td style="text-align:right;"><%=formato.format( importe )%></td>	
 		</tr>
 <%	} %>	
 
