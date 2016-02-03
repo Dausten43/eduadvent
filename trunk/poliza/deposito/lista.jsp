@@ -31,18 +31,14 @@
 	String fechaIni			= request.getParameter("FechaIni")==null?aca.util.Fecha.getHoy():request.getParameter("FechaIni");
 	String fechaFin			= request.getParameter("FechaFin")==null?aca.util.Fecha.getHoy():request.getParameter("FechaFin");
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
-	String folio 			= request.getParameter("Folio")==null?"0":request.getParameter("Folio");
-	
+	String folio 			= request.getParameter("Folio")==null?"0":request.getParameter("Folio");	
 	
 	// Lista de depositos en el rango de fechas
 	ArrayList<aca.fin.FinDeposito> lisDepositos 	= FinDepositoLista.getListEntre(conElias, fechaIni, fechaFin, escuelaId);
 	
-	
-	System.out.println(escuelaId+" fechaini: "+fechaIni+ " fechaFIn: "+fechaFin);
 	// Lista de depositos en el rango de fechas
 	ArrayList<aca.fin.FinPoliza> lisPolizas 		= FinPolizaLista.getPolizas(conElias, ejercicioId, escuelaId, "'T','A'", "'C','G'", fechaIni, fechaFin, " ORDER BY FECHA");
-	System.out.println("Size:"+lisPolizas.size());
-	
+		
 %>
 </head>
 <div id="content">
