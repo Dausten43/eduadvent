@@ -187,7 +187,7 @@ public class CatTipoMovimiento {
 		String maximo 			= "1";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(MAX(TIPOMOV_ID)+1,'1') AS MAXIMO FROM CAT_TIPOMOV");
+			ps = conn.prepareStatement("SELECT COALESCE(MAX(TIPOMOV_ID)+1,1) AS MAXIMO FROM CAT_TIPOMOV");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");
