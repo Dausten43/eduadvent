@@ -8,8 +8,6 @@
 <jsp:useBean id="FinDeposito" scope="page" class="aca.fin.FinDeposito" />
 <jsp:useBean id="FinPolizaLista" scope="page" class="aca.fin.FinPolizaLista" />
 
-
-
 <head>
 	
 <script>
@@ -23,6 +21,7 @@
 		document.location.href="agregar.jsp?Folio="+folio+"&Accion=3"+"&FechaIni="+fechaIni+"&FechaFin="+fechaFin+"&Responsable="+responsable;		
 	}
 </script>
+</head>
 <%
 	java.text.DecimalFormat formato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
@@ -40,7 +39,7 @@
 	ArrayList<aca.fin.FinPoliza> lisPolizas 		= FinPolizaLista.getPolizas(conElias, ejercicioId, escuelaId, "'T','A'", "'C','G'", fechaIni, fechaFin, " ORDER BY FECHA");
 		
 %>
-</head>
+
 <div id="content">
 	<h2>Dep&oacute;sitos de caja <small>(<%= aca.catalogo.CatEscuela.getNombre(conElias,escuelaId)%>)</small></h2>
 	<form action="lista.jsp" method="post" name="frmDeposito" target="_self" style="max-width:50%;display:inline;">
