@@ -144,7 +144,7 @@ public class FinMovimientos {
 					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID )"
 					+ " VALUES(?, ?, TO_NUMBER(?, '99999'), ?, ?, ?,"
 					+ " TO_NUMBER(?, '999999.99'), ?, ?, ?,"
-					+ " TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'), TO_NUMBER(?, '9999999'), ?, TO_NUMBER(?,'99'), TO_NUMBER(?,99) )");
+					+ " TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'), TO_NUMBER(?, '9999999'), ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'99') )");
 
 			ps.setString(1, ejercicioId);
 			ps.setString(2, polizaId);
@@ -193,7 +193,7 @@ public class FinMovimientos {
                     + " RECIBO_ID = TO_NUMBER(, '9999999'),"
                     + " CICLO_ID = ?,"
                     + " PERIODO_ID = TO_NUMBER(?,'99'),"
-                    + " TIPOMOV_ID = TO_NUMBER(?,99)"
+                    + " TIPOMOV_ID = TO_NUMBER(?,'99')"
                     + " WHERE EJERCICIO_ID = ?"
                     + " AND POLIZA_ID = ?"
                     + " AND MOVIMIENTO_ID = TO_NUMBER(?, '99999')");
