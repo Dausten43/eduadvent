@@ -96,7 +96,7 @@
 			<td><%=deposito.getFechaDeposito()%></td>
 			<td style="text-align:right"><%=formato.format(Double.parseDouble(deposito.getImporte())) %></td>
 			<td style="text-align:right">&nbsp;</td>
-			<td><%=deposito.getResponsable() %></td>		
+			<td><%=aca.vista.UsuariosLista.getNombreCorto(conElias, deposito.getResponsable()) %></td>		
 		</tr>
 <%	} %>
 		<tr>	
