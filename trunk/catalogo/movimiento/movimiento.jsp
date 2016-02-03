@@ -5,184 +5,92 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-<jsp:useBean id="rolL" scope="page" class="aca.rol.RolLista"/>
-<jsp:useBean id="rol" scope="page" class="aca.rol.Rol"/>
-<jsp:useBean id="rolOp" scope="page" class="aca.rol.RolOpcion"/>
-<jsp:useBean id="rolOpL" scope="page" class="aca.rol.RolOpcionLista"/>
-<jsp:useBean id="moduloOpcionLista" scope="page" class="aca.menu.ModuloOpcionLista"/>
+<jsp:useBean id="TipoMovimientoL" scope="page" class="aca.catalogo.CatTipoMovimientoList"/>
+<jsp:useBean id="TipoMovimiento" scope="page" class="aca.catalogo.CatTipoMovimiento"/>
 
+<script>
+		function eliminar(tipoMovId) {
+			if (confirm("<fmt:message key="js.Confirma" />") == true) {
+				location = "movimiento.jsp?Accion=1&tipoMovId=" + tipoMovId;
+			}
+		}
+</script>
 
 <%
-	String nombre 	= request.getParameter("rolNombre")==null?"":request.getParameter("rolNombre");
-	String rolId 	= request.getParameter("RolId")==null?"0":request.getParameter("RolId");
-	String accion 	= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
+	String nombre 			= request.getParameter("nombre")==null?"":request.getParameter("nombre");
+	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
+	String tipoMovId		= request.getParameter("tipoMovId")==null?"0":request.getParameter("tipoMovId");
+	String mensaje  		= "";
+
+	ArrayList<aca.catalogo.CatTipoMovimiento> movimientos		= TipoMovimientoL.getListAll(conElias, "");
 	
-	ArrayList<aca.menu.ModuloOpcion>lisModuloOpcion = moduloOpcionLista.getListaActivosSuper(conElias, "ORDER BY MODULO_OPCION, MODULO_NOMBRE(MODULO_ID), NOMBRE_OPCION");
-	ArrayList<aca.rol.RolOpcion> rolOpLista = rolOpL.getList(conElias, rolId, "");
-	
-	java.util.HashMap<String, String> mapRolOpcion = rolOpL. mapOpUsuarios(conElias, rolId);
-
-	
-	String opcionesUsuario	= "";
-	String temp 			= "X";
-	String nombreModulo		= "X";
-	String strCheckOpcion	= "";
-	String strCheck			= "";
-	int numCont				= 0;
-
-
-%>
-
-	<script>
-		function Agregar(){
-			document.frmrol.Accion.value="1";
-		}
-		
-		function Borrar(id){
-			document.frmrol.RolId.value=id;
-			document.frmrol.submit();
-		}
-		
-		function Modificar(id){
+	if (accion.equals("1")) {
+		TipoMovimiento.mapeaRegId(conElias, tipoMovId);
 			
-			document.frmrol.Accion.value="3";
-			document.frmrol.RolId.value=id;
-		}
-	</script>
-
-<%	
-	if(accion.equals("1") && !nombre.equals("")){
-		rol.setRolId(rol.maximoReg(conElias));
-		rol.setRolNombre(nombre);
-		String checkOpcion 	= "N";
-		if (!rol.existeReg(conElias)){
-			if (rol.insertReg(conElias)){
-				for (int i=0; i<lisModuloOpcion.size(); i++){
-					aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
-					checkOpcion 	= request.getParameter("Opcion"+i)==null?"N":request.getParameter("Opcion"+i);
-					if (checkOpcion.equals("S")){
-						rolOp.setRolId(rol.getRolId());
-						rolOp.setopcionId(op.getOpcionId());
-						
-						if (!rolOp.existeReg(conElias)){
-							if (rolOp.insertReg(conElias)){
-								conElias.commit();
-							}else{
-								conElias.rollback();
-							}
-						}
-					}
-				}
-			}else{
-				conElias.rollback();
-			}
-		}
-
-	}else if(accion.equals("2")){
-		rol.setRolId(rolId);
-		rol.mapeaRegId(conElias);
-		if(rol.deleteReg(conElias)){
-			for(int i=0; i<rolOpLista.size(); i++){
-				rolOp.setRolId(rolOpLista.get(i).getRolId());
-				rolOp.mapeaRegId(conElias);
-				if(rolOp.deleteReg(conElias)){
-				}else{
-					conElias.rollback();
-				}
-			}
-			
-		}
-	}else if(accion.equals("3")){
-		rol.setRolId(rolId);
-		
-		rol.mapeaRegId(conElias);
-		rol.setRolNombre(nombre);
-		String checkOpcion	= "N";
-		if(rol.existeReg(conElias)){
-			if(rol.updateReg(conElias)){
-				for(int i = 0; i < lisModuloOpcion.size(); i++){
-					aca.menu.ModuloOpcion op = (aca.menu.ModuloOpcion) lisModuloOpcion.get(i);
-					checkOpcion 	= request.getParameter("Opcion"+i)==null?"N":request.getParameter("Opcion"+i);
-					if(checkOpcion.equals("S")){
-						rolOp.setRolId(rol.getRolId());
-						rolOp.setopcionId(op.getOpcionId());
-						
-						if (!rolOp.existeReg(conElias)){
-							if (rolOp.insertReg(conElias)){
-								conElias.commit();
-							}else{
-								conElias.rollback();
-							}
-						}
-					}else{
-						rolOp.setRolId(rol.getRolId());
-						rolOp.setopcionId(op.getOpcionId());
-						
-						if (rolOp.existeReg(conElias)){
-							if (rolOp.deleteReg(conElias)){
-								conElias.commit();
-							}else{
-								conElias.rollback();
-							}
-						}
-					}
-				}
-			}
+		if (TipoMovimiento.deleteReg(conElias)) {
+			mensaje = "Eliminado";
+			response.sendRedirect("notas.jsp");
+		} else {
+			mensaje = "NoElimino";
+			response.sendRedirect("movimientos.jsp");
 		}
 	}
+
+	if( accion.equals("2") ){ // Grabar
+		TipoMovimiento.setNombre(request.getParameter("nombre"));
 	
-	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
+		if (TipoMovimiento.existeReg(conElias) == false){
+			if (TipoMovimiento.insertReg(conElias)){
+				mensaje = "Grabado";
+				response.sendRedirect("movimiento.jsp");
+			}else{
+				mensaje = "NoGrabó";
+				accion = "1";
+			}
+		}else{
+			mensaje = "Existe";
+			accion = "1";
+		}
+		
+	}
 
 %>
 
 <div id="content">
-	<h1>Roles</h1>
-	<div class="well">
+	<h1>Tipo movimientos</h1>
 		
-	 	<form action="roles.jsp" id = "frmrol" name="frmrol" method="post">
-	 	
-	 		  <div class="form-group">
-			    <label for="nombre">Nombre Rol</label>
-			    <input type="text" class="form-control" id="rolNombre" name="rolNombre">
-			  </div>
-	 		<button type="submit" form = "frmrol" class="btn btn-default" value="submit"><fmt:message key="boton.Guardar"/> </button>
-	 		<input type="hidden" name="Accion" id="Accion" value="1"/>
-	 		<input type="hidden" name="RolId" id="RolId" value="<%=rolId%>"/>
-			
-		</form>
-	</div>
+	 <form id="forma" name="forma" action="movimiento.jsp" method="post">
+	 	<div class="well">
+			<a class="btn btn-primary btn-mobile" href="accion.jsp"><i class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a>
+		</div>
+	</form>
 
 	 	
 	<table class="table table-striped table-bordered">
-	<tbody>
-	<th width="2%">#</th>
-	<th width="4%"><fmt:message key="aca.Operacion"/> </th>
-	<th>Nombre</th>
+		<th width="5%"><fmt:message key="aca.Accion" /></th>
+		<th width="2%">#</th>
+		<th>Nombre</th>
+		<th>Tipo</th>
 <%
-	
-	for(int i = 0; i < roles.size(); i ++){
+	for(int i = 0; i < movimientos.size(); i ++){
 %>
 		<tr>
-			<td><%= i + 1 %></td>
 			<td>
-				<a id="modificar" class="icon-pencil" href="rolesOpcion.jsp?RolId=<%=roles.get(i).getRolId()%>"> </a> 
-				<a id="eliminar" class="icon-remove" href="javascript:confirmDelete('<%=roles.get(i).getRolId()%>')" ></a> 
+				<a href="accion.jsp?tipoMovId=<%=movimientos.get(i).getTipoMovId()%>"><i class="icon-pencil"></i></a>
+				<a id="tipoMovId" name="tipoMovId" onclick="eliminar('<%=movimientos.get(i).getTipoMovId()%>');"><i class="icon-remove"></i></a>
 			</td>
-			<td><%= roles.get(i).getRolNombre() %></td>
+			<td><%= i + 1 %></td>
+			<td><%=movimientos.get(i).getNombre()%></td>
+			<%if(movimientos.get(i).getTipo().equals("C")){%>
+			<td><%="Caja"%></td>
+			<%}else {%>
+			<td><%="Sistema"%></td>
+			<%}%>
+			
 		</tr>
 <%	
 	}
 %>
-	</tbody>
 	</table>
-	<script>
-	function confirmDelete(rolId){
-		if(confirm("¿Seguro que desea eliminar el rol?") == true){
-			document.location = "roles.jsp?Accion=2&RolId=" + rolId;
-		}else{
-			document.frmrol.Accion.value="";
-		}
-   }
-	</script>
 </div>
 <%@ include file= "../../cierra_elias.jsp" %>
