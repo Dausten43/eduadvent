@@ -163,8 +163,7 @@ public class FinMovimientos {
 			ps.setString(15, tipoMovId);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -212,8 +211,7 @@ public class FinMovimientos {
             ps.setString(12, tipoMovId);
             ps.setString(13, ejercicioId);
             ps.setString(14, polizaId);
-            ps.setString(15, movimientoId);
-            
+            ps.setString(15, movimientoId);            
 
             if(ps.executeUpdate() == 1){
                 ok = true;
