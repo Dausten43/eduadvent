@@ -9,6 +9,7 @@
 <jsp:useBean id="FinPolizaLista" scope="page" class="aca.fin.FinPolizaLista" />
 
 
+
 <head>
 	
 <script>
@@ -80,7 +81,7 @@
 			<td><%=poliza.getPolizaId()%></td>
 			<td><%=poliza.getFecha()%></td>
 			<td><%=poliza.getDescripcion()%></td>
-			<td><%=poliza.getUsuario()%></td>
+			<td><%=aca.vista.UsuariosLista.getNombreCorto(conElias, poliza.getUsuario())%></td>
 			<td style="text-align:right;"><%=formato.format(Double.parseDouble(aca.fin.FinPoliza.importePoliza(conElias, poliza.getEjercicioId(), poliza.getPolizaId(), "C", "'R'")))%></td>
 	
 		</tr>
