@@ -379,8 +379,36 @@ public class FinPoliza {
 					+ " SELECT COALESCE(SUM(IMPORTE),0) AS TOTAL FROM FIN_MOVIMIENTOS"
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"'"
 					+ " AND POLIZA_ID = '"+polizaId+"'"
-					+ " AND NATURALEZA = '"+naturaleza+"'"
+					+ " AND NATURALEZA = '"+naturaleza+"'"					
 					+ " AND ESTADO IN("+estadoMov+")");
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				total = rs.getString("TOTAL");				
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinPoliza|numPolizas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return total;
+	}
+    
+    /* Saldo de una póliza de acuerdo a una */
+    public static String importePolizaMovimientosDeCaja(Connection conn, String ejercicioId, String polizaId, String naturaleza, String estadoMov) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String total 			= "0";
+		
+		try{
+			ps = conn.prepareStatement(""
+					+ " SELECT COALESCE(SUM(IMPORTE),0) AS TOTAL FROM FIN_MOVIMIENTOS"
+					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"'"
+					+ " AND POLIZA_ID = '"+polizaId+"'"
+					+ " AND NATURALEZA = '"+naturaleza+"'"					
+					+ " AND ESTADO IN("+estadoMov+")"
+					+ " AND RECIBO_ID != 0");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				total = rs.getString("TOTAL");				
