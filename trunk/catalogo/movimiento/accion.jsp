@@ -15,11 +15,11 @@
 </script>
 
 <%
-	String nombre		= request.getParameter("nombre")==null?"":request.getParameter("nombre");
-	String tipo			= request.getParameter("tipos")==null?"":request.getParameter("tipos");
-	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
-	String tipoMovId	= request.getParameter("tipoMovId")==null?"99":request.getParameter("tipoMovId");
-	String msj 			= "";
+	String nombre			= request.getParameter("Nombre")==null?"":request.getParameter("Nombre");
+	String tipo				= request.getParameter("Tipo")==null?"":request.getParameter("Tipo");
+	String accion			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+	String tipoMovId		= request.getParameter("tipoMovId")==null?"99":request.getParameter("tipoMovId");
+	String msj 				= "";
 	
 	if(tipoMovId != "99"){
 		TipoMovimiento.mapeaRegId(conElias, tipoMovId);	
@@ -31,6 +31,7 @@
 		
 		System.out.println("ANTES ID : "+tipoMovId);
 		
+		TipoMovimiento.setTipoMovId(tipoMovId);
 		if(!TipoMovimiento.existeReg(conElias)){
 			
 			System.out.println("ID : "+TipoMovimiento.maximoReg(conElias));
@@ -48,11 +49,9 @@
 			if(TipoMovimiento.insertReg(conElias)){
 				msj = "Guardado";
 			}else{
-				msj = "NoGuardado";
+				msj = "NoGuardo";
 			}
-		}else{
-			
-			System.out.println("ID : "+TipoMovimiento.maximoReg(conElias));
+		}else{		
 			
 			tipo = (tipo.equals("Caja")) ? "C" : "S";
 			
@@ -65,20 +64,17 @@
 				msj = "NoModificado";
 			}
 		}
-	}
-	
+	}	
 %>
-
-
 
 <div id=content>
 
 	<h2>Tipo movimientos</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
-   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
+   		<div class='alert alert-success'><fmt:message key="aca.${msj}" /></div>
   	<% }else if(!msj.equals("")){%>
-  		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
+  		<div class='alert alert-danger'><fmt:message key="aca.${msj}" /></div>
   	<%} %>
   	
 	<div class="well">
@@ -86,16 +82,15 @@
 	</div>
 	
 	<form name="forma" action="accion.jsp?tipoMovId=<%=tipoMovId%>" method="post">
-	<input type="hidden" name="Accion">
-	
+	<input type="hidden" name="Accion">	
 		<fieldset>
 				<label for="NombreTipoMovimiento">Nombre tipo movimiento</label>
-	        	<input type="text" id="nombre" name="nombre" value="<%out.print(TipoMovimiento.getNombre());%>"/>
+	        	<input type="text" id="Nombre" name="Nombre" value="<%out.print(TipoMovimiento.getNombre());%>"/>
 		</fieldset>
 		
 		<fieldset>
 				<label for="TipoMovimiento">Tipo movimiento</label>
-	        	<select id="tipos" name="tipos">
+	        	<select id="Tipo" name="Tipo">
 					<option name="caja" <%if(TipoMovimiento.getTipo().equals("C")){out.print("selected");} %>><%="Caja"%></option>
 					<option name="sistema" <%if(TipoMovimiento.getTipo().equals("S")){out.print("selected");} %>><%="Sistema"%></option>
 	        	</select>
