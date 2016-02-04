@@ -11,7 +11,7 @@
 <script>
 		function eliminar(tipoMovId) {
 			if (confirm("<fmt:message key="js.Confirma" />") == true) {
-				location = "movimiento.jsp?Accion=1&tipoMovId=" + tipoMovId;
+ 				location = "movimiento.jsp?Accion=1&tipoMovId=" + tipoMovId;
 			}
 		}
 </script>
@@ -25,39 +25,30 @@
 	ArrayList<aca.catalogo.CatTipoMovimiento> movimientos		= TipoMovimientoL.getListAll(conElias, "");
 	
 	if (accion.equals("1")) {
+		
 		TipoMovimiento.mapeaRegId(conElias, tipoMovId);
+		
+		TipoMovimiento.setTipoMovId(tipoMovId);
 			
 		if (TipoMovimiento.deleteReg(conElias)) {
 			mensaje = "Eliminado";
-			response.sendRedirect("notas.jsp");
+			response.sendRedirect("movimiento.jsp");
 		} else {
 			mensaje = "NoElimino";
-			response.sendRedirect("movimientos.jsp");
 		}
-	}
-
-	if( accion.equals("2") ){ // Grabar
-		TipoMovimiento.setNombre(request.getParameter("nombre"));
-	
-		if (TipoMovimiento.existeReg(conElias) == false){
-			if (TipoMovimiento.insertReg(conElias)){
-				mensaje = "Grabado";
-				response.sendRedirect("movimiento.jsp");
-			}else{
-				mensaje = "NoGrabó";
-				accion = "1";
-			}
-		}else{
-			mensaje = "Existe";
-			accion = "1";
-		}
-		
 	}
 
 %>
 
 <div id="content">
 	<h1>Tipo movimientos</h1>
+	
+	<% 
+	if (mensaje.equals("Eliminado") || mensaje.equals("Modificado") || mensaje.equals("Guardado")){%>
+   		<div class='alert alert-success'><fmt:message key="aca.${mensaje}" /></div>
+  	<% }else if(!mensaje.equals("")){%>
+  		<div class='alert alert-danger'><fmt:message key="aca.${mensaje}" /></div>
+  	<%} %>
 		
 	 <form id="forma" name="forma" action="movimiento.jsp" method="post">
 	 	<div class="well">
@@ -77,7 +68,7 @@
 		<tr>
 			<td>
 				<a href="accion.jsp?tipoMovId=<%=movimientos.get(i).getTipoMovId()%>"><i class="icon-pencil"></i></a>
-				<a id="tipoMovId" name="tipoMovId" onclick="eliminar('<%=movimientos.get(i).getTipoMovId()%>');"><i class="icon-remove"></i></a>
+				<a id="borrar" name="borrar" onclick="eliminar('<%=movimientos.get(i).getTipoMovId()%>');"><i class="icon-remove"></i></a>
 			</td>
 			<td><%= i + 1 %></td>
 			<td><%=movimientos.get(i).getNombre()%></td>

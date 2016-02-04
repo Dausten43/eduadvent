@@ -1,3 +1,4 @@
+<%@page import="aca.menu.Modulo"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -29,12 +30,8 @@
 		
 		conElias.setAutoCommit(false);
 		
-		System.out.println("ANTES ID : "+tipoMovId);
-		
 		TipoMovimiento.setTipoMovId(tipoMovId);
 		if(!TipoMovimiento.existeReg(conElias)){
-			
-			System.out.println("ID : "+TipoMovimiento.maximoReg(conElias));
 			
 			tipo = (tipo.equals("Caja")) ? "C" : "S";
 			
@@ -42,10 +39,6 @@
 			TipoMovimiento.setTipo(tipo);
 			TipoMovimiento.setTipoMovId(TipoMovimiento.maximoReg(conElias));
 			
-			
-			System.out.println("NOMBRE : "+nombre);
-			System.out.println("TIPO : "+tipo);
-						
 			if(TipoMovimiento.insertReg(conElias)){
 				msj = "Guardado";
 			}else{
@@ -72,7 +65,7 @@
 	<h2>Tipo movimientos</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
-   		<div class='alert alert-success'><fmt:message key="aca.${msj}" /></div>
+   		<div class='alert alert-success'><fmt:message key="aca.${msj}"/></div>
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${msj}" /></div>
   	<%} %>
