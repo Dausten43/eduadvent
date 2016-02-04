@@ -32,6 +32,11 @@
 <body>
 <div id="content">
    <h2><fmt:message key="disciplina.ReportesdelAlumno" /></h2>
+   
+   <div class="well" style="overflow:hidden;">
+	 	<input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">
+	</div>
+   
    <div class="well" style="overflow:hidden;">
 		<%	if(existeAlumno){ %>
         <a href="accion.jsp?Accion=1" class="btn btn-primary"><i class="icon-plus icon-white"></i> A&ntilde;adir</a>
@@ -48,7 +53,7 @@
  	  </strong>
 	</td>
   
-  <table width="110%" class="table table-bordered" align="center">
+  <table width="110%" class="table table-bordered" align="center" id="table">
   <tr> 
     <th width="5%"><fmt:message key="aca.Operacion" /></th>
     <th width="3%">#</th>
@@ -100,5 +105,19 @@
 			document.location.href = "accion.jsp?Accion=4&CodigoId="+codigoId+"&Folio="+folio+"&CicloId="+cicloId+"";
 		}
 	}
+</script>
+
+<link rel="stylesheet" href="../../js-plugins/tablesorter/themes/blue/style.css" />
+<script src="../../js-plugins/tablesorter/jquery.tablesorter.js"></script>
+
+
+<script src="../../js/search.js"></script>
+
+<script>
+	$('#table').tablesorter();
+
+	$('#buscar').search({
+		table:$("#table")}
+	);
 </script>
 <%@ include file= "../../cierra_elias.jsp" %> 
