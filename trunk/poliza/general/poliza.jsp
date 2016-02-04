@@ -89,6 +89,10 @@
 		<fmt:message key="aca.PolizasAjuste" />
 	</h2>
 	
+	<div class="well" style="overflow:hidden;">
+	 	<input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">
+	</div>	
+	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
@@ -105,7 +109,7 @@
 		</a>
 	</div>
 	 	
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered" id="table">
 		<tr>
 			<th style="width:5%;"><fmt:message key="aca.Operacion" /></th>
 			<th style="width:5%;"><fmt:message key="aca.Poliza" /></th>			
@@ -162,5 +166,19 @@
 </div>
 <%} %>
 </div>	
+
+<link rel="stylesheet" href="../../js-plugins/tablesorter/themes/blue/style.css" />
+<script src="../../js-plugins/tablesorter/jquery.tablesorter.js"></script>
+
+
+<script src="../../js/search.js"></script>
+
+<script>
+	$('#table').tablesorter();
+
+	$('#buscar').search({
+		table:$("#table")}
+	);
+</script>
 	
 <%@ include file= "../../cierra_elias.jsp" %>
