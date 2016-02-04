@@ -147,6 +147,10 @@
 		<fmt:message key="aca.PolizasCajaGeneral"/><small> ( <fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong> ) </small>
 	</h2>
 	
+	<div class="well" style="overflow:hidden;">
+	 	<input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">
+	</div>	 
+	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
