@@ -78,10 +78,11 @@
 				session.setAttribute("certificado", "true");
 				session.setAttribute("codigoId", strCodigoId );
 				session.setAttribute("codigoReciente", strCodigoId );
-				session.setAttribute("lenguaje", aca.usuario.Usuario.getIdioma(conn, strCodigoId));
+				session.setAttribute("lenguaje", aca.usuario.Usuario.getIdioma(conn, strCodigoId));				
 				
 				// Registrar en sesion el ejercicio actual
 				String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conn, strEscuelaId);
+				
 				session.setAttribute("ejercicioId", ejercicioId);
 				
 				// Agregar opciones de acuerdo al tipo de usuario
