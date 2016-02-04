@@ -165,7 +165,7 @@
 		</a>
 	</div>
 	 	
-	<table class="table table-striped table-bordered">
+	<table class="table table-striped table-bordered" id="table">
 		<tr>
 			<th style="width:5%;"><fmt:message key="aca.Operacion" /></th>
 			<th style="width:5%;"><fmt:message key="aca.Poliza" /></th>			
@@ -224,6 +224,20 @@
 		<h3><fmt:message key="aca.EjercicioNoValido" /></h3>
 </div>
 <%} %>
-</div>	
+</div>
+
+<link rel="stylesheet" href="../../js-plugins/tablesorter/themes/blue/style.css" />
+<script src="../../js-plugins/tablesorter/jquery.tablesorter.js"></script>
+
+
+<script src="../../js/search.js"></script>
+
+<script>
+	$('#table').tablesorter();
+
+	$('#buscar').search({
+		table:$("#table")}
+	);
+</script>	
 	
 <%@ include file= "../../cierra_elias.jsp" %>
