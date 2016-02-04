@@ -22,8 +22,7 @@
 		<tr>
 			<th width="4%"><fmt:message key="aca.AbreviaNum" /></th>
 			<th width="4%">Op.</th>			
-			<th>Imagen</th>
-			<th>Ruta</th>		
+			<th>Imagen <small>Dar click sobre la imagen para obtener liga</small></th>
 		</tr>
 <%	
 	java.io.File file = new java.io.File(dir);
@@ -35,8 +34,7 @@
 		<tr>
 			<td width="4%"><%=x+1%></td>			
 			<td width="4%"><a href="javascript: borrar('<%=lisArchivos[x].getName()%>');"><i class="icon icon-remove"></i></a></td>
-			<td><img src="imagen.jsp?NombreArchivo=<%=lisArchivos[x].getName()%>&id=<%=new java.util.Date().getTime()%>" width="300px;"></td>
-			<td><%=dir%></td>
+			<td><img src="imagen.jsp?NombreArchivo=<%=lisArchivos[x].getName()%>&id=<%=new java.util.Date().getTime()%>" onclick="clicked(this,<%=x %>);"  width="300px;"></td>
 		</tr>
 <%
 		}	
@@ -55,8 +53,12 @@
 </script>
 
 <script type="text/javascript">
-function clicked(address) {
-	document.getElementById('copy_img').value = address.src;
+function clicked(address, id) {
+	var youtubeimgsrc = address.src;
+	window.prompt("Copiar al portapapeles: Ctrl+C, Enter", youtubeimgsrc);
+    //document.execCommand("copy");
+
+
 }
 </script>
 </body>
