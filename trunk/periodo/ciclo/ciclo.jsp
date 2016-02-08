@@ -35,8 +35,8 @@
 	<form name="frmCiclo" action="ciclo.jsp">
 	<div class="well">
 		<a class="btn btn-primary" href="accion.jsp?Accion=1"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
-
-		<select id="Periodo" name="Periodo" onchange="document.frmCiclo.submit();" style="width:360px;margin-bottom:0px;">
+		Ciclo escolar
+		<select id="Periodo" name="Periodo" onchange="document.frmCiclo.submit();" style="width:100px;margin-bottom:0px;">
 			<%for ( String periodo : lisPeriodos ) {%>
 				<option value="<%=periodo%>" <%=periodoId.equals(periodo)?"Selected":""%>><%=periodo%></option>
 			<%}%>
@@ -63,7 +63,7 @@
 		
 <%		int cont = 0; %>
 <%		for (aca.ciclo.Ciclo ciclo : lisCiclo){
-			
+			if(ciclo.getCicloEscolar().equals(periodoId)){
 %>
 			<%cont++; %>				
 	  		<tr>
@@ -95,8 +95,10 @@
 				<td><%=ciclo.getCicloEscolar()%></td>
 				<td><%=ciclo.getDecimales()%></td>
 	  		</tr>  
-		<%
-		}%>  
+<%
+			}
+	   }
+%>  
 	</table>
 	
 	
