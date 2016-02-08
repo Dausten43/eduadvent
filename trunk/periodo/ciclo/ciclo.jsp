@@ -18,6 +18,11 @@
 	String escuelaId		= (String) session.getAttribute("escuela");
 	
 	ArrayList<aca.ciclo.Ciclo>  lisCiclo	= cicloL.getListAll(conElias,escuelaId,"ORDER BY CICLO_ID");
+	
+	String cicloId			= request.getParameter("Ciclo")==null?lisCiclo.get(lisCiclo.size()-1).getCicloId():request.getParameter("Ciclo");
+	
+	System.out.println("IMPRIME : "+cicloId);
+
 %>
 
 <div id="content">
@@ -26,6 +31,14 @@
 	
 	<div class="well">
 		<a class="btn btn-primary" href="accion.jsp?Accion=1"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
+<!-- 		<select id="Ciclo" name="Ciclo" onchange="document.forma.submit();" class="input-xxlarge pull-right"> -->
+		<select id="Ciclo" name="Ciclo" onchange="document.location = 'ciclo.jsp?Ciclo='+this.options[this.selectedIndex].value;" class="input-xxlarge pull-right">
+<!-- 		<select id="Ciclo" name="Ciclo" onchange="document.location = 'cobro.jsp?Ciclo='+this.options[this.selectedIndex].value;" style="width:360px;margin-bottom:0px;">	 -->
+			<%for ( aca.ciclo.Ciclo Ciclo : lisCiclo ) {%>
+<%-- 				<option value="<%=Ciclo.getCicloId()%>" <%=Ciclo.equals(Ciclo.getCicloId())?"selected":""%>><%=Ciclo.getCicloNombre()%></option> --%>
+				<option value="<%=lisCiclo.get(lisCiclo.size()-1).getCicloId()%>" <%=Ciclo.equals(lisCiclo.get(lisCiclo.size()-1).getCicloId())?"Selected":""%>><%=Ciclo.getCicloNombre()%></option>
+			<%}%>
+		</select>
 	</div>
 	
 	<table class="table table-condensed table-striped table-bordered">
@@ -45,39 +58,70 @@
 				<th><fmt:message key="aca.Decimal" /></th>
 			</tr>
 		</thead>
-		<%int cont = 0; %>
-		<%for (aca.ciclo.Ciclo ciclo : lisCiclo){%>
-			<%cont++; %>				
-	  		<tr>
-	  			<td>
-		  			<a class="icon-pencil" href="accion.jsp?Accion=5&CicloId=<%=ciclo.getCicloId()%>"></a>
-		  			<%if( aca.ciclo.CicloPermiso.existeCiclo(conElias, ciclo.getCicloId()) == false && aca.ciclo.CicloPromedio.existeEvaluaciones(conElias, ciclo.getCicloId()) == false ){%>
-		  				<a class="icon-remove" href="javascript:Borrar('<%=ciclo.getCicloId()%>')"></a>
-		  			<%}%>
-				</td>
-	    		<td><%=cont %></td>
-	    		<td><%=ciclo.getCicloId() %></td>
-	    		<td>
-					<a href="promedio.jsp?Accion=1&cicloId=<%=ciclo.getCicloId()%>">
-		  				<%=ciclo.getCicloNombre() %>
-		  			</a>
-				</td>
-				<td><%=ciclo.getFCreada() %></td>
-				<td><%=ciclo.getFInicial() %></td>
-				<td><%=ciclo.getFFinal() %></td>
-				<td>
-					<%if (ciclo.getEstado().equals("A")){%>
-						<fmt:message key="aca.Activa" />
-					<%}else{%> 
-						<fmt:message key="aca.Cerrada" />
-					<%}%>
-				</td>
-				<td><%=ciclo.getEscala()%></td>
-				<td><%=ciclo.getModulos()%></td>
-				<td><%=ciclo.getCicloEscolar()%></td>
-				<td><%=ciclo.getDecimales()%></td>
-	  		</tr>  
-		<%}%>  
+		
+<!-- 			<tr>  -->
+<!-- 	  			<td> -->
+<%-- 		  			<a class="icon-pencil" href="accion.jsp?Accion=5&CicloId=<%=ciclo.getCicloId()%>"></a> --%>
+<%-- 		  			<%if( aca.ciclo.CicloPermiso.existeCiclo(conElias, ciclo.getCicloId()) == false && aca.ciclo.CicloPromedio.existeEvaluaciones(conElias, ciclo.getCicloId()) == false ){%> --%>
+<%-- 		  				<a class="icon-remove" href="javascript:Borrar('<%=ciclo.getCicloId()%>')"></a> --%>
+<%-- 		  			<%}%> --%>
+<!-- 				</td> -->
+<%-- 	    		<td><%=cont %></td> --%>
+<%-- 	    		<td><%=ciclo.getCicloId() %></td> --%>
+<!-- 	    		<td> -->
+<%-- 					<a href="promedio.jsp?Accion=1&cicloId=<%=ciclo.getCicloId()%>"> --%>
+<%-- 		  				<%=ciclo.getCicloNombre() %> --%>
+<!-- 		  			</a> -->
+<!-- 				</td> -->
+<%-- 				<td><%=ciclo.getFCreada() %></td> --%>
+<%-- 				<td><%=ciclo.getFInicial() %></td> --%>
+<%-- 				<td><%=ciclo.getFFinal() %></td> --%>
+<!-- 				<td> -->
+<%-- 					<%if (ciclo.getEstado().equals("A")){%> --%>
+<%-- 						<fmt:message key="aca.Activa" /> --%>
+<%-- 					<%}else{%>  --%>
+<%-- 						<fmt:message key="aca.Cerrada" /> --%>
+<%-- 					<%}%> --%>
+<!-- 				</td> -->
+<%-- 				<td><%=ciclo.getEscala()%></td> --%>
+<%-- 				<td><%=ciclo.getModulos()%></td> --%>
+<%-- 				<td><%=ciclo.getCicloEscolar()%></td> --%>
+<%-- 				<td><%=ciclo.getDecimales()%></td> --%>
+<!-- 	  		</tr>   -->
+		
+<%-- 		<%int cont = 0; %> --%>
+<%-- 		<%for (aca.ciclo.Ciclo ciclo : lisCiclo){%> --%>
+<%-- 			<%cont++; %>				 --%>
+<!-- 	  		<tr> -->
+<!-- 	  			<td> -->
+<%-- 		  			<a class="icon-pencil" href="accion.jsp?Accion=5&CicloId=<%=ciclo.getCicloId()%>"></a> --%>
+<%-- 		  			<%if( aca.ciclo.CicloPermiso.existeCiclo(conElias, ciclo.getCicloId()) == false && aca.ciclo.CicloPromedio.existeEvaluaciones(conElias, ciclo.getCicloId()) == false ){%> --%>
+<%-- 		  				<a class="icon-remove" href="javascript:Borrar('<%=ciclo.getCicloId()%>')"></a> --%>
+<%-- 		  			<%}%> --%>
+<!-- 				</td> -->
+<%-- 	    		<td><%=cont %></td> --%>
+<%-- 	    		<td><%=ciclo.getCicloId() %></td> --%>
+<!-- 	    		<td> -->
+<%-- 					<a href="promedio.jsp?Accion=1&cicloId=<%=ciclo.getCicloId()%>"> --%>
+<%-- 		  				<%=ciclo.getCicloNombre() %> --%>
+<!-- 		  			</a> -->
+<!-- 				</td> -->
+<%-- 				<td><%=ciclo.getFCreada() %></td> --%>
+<%-- 				<td><%=ciclo.getFInicial() %></td> --%>
+<%-- 				<td><%=ciclo.getFFinal() %></td> --%>
+<!-- 				<td> -->
+<%-- 					<%if (ciclo.getEstado().equals("A")){%> --%>
+<%-- 						<fmt:message key="aca.Activa" /> --%>
+<%-- 					<%}else{%>  --%>
+<%-- 						<fmt:message key="aca.Cerrada" /> --%>
+<%-- 					<%}%> --%>
+<!-- 				</td> -->
+<%-- 				<td><%=ciclo.getEscala()%></td> --%>
+<%-- 				<td><%=ciclo.getModulos()%></td> --%>
+<%-- 				<td><%=ciclo.getCicloEscolar()%></td> --%>
+<%-- 				<td><%=ciclo.getDecimales()%></td> --%>
+<!-- 	  		</tr>   -->
+<%-- 		<%}%>   --%>
 	</table>
 	
 	
