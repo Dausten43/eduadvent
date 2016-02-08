@@ -239,6 +239,7 @@
 		<fieldset>
 			<label for="Escala"><fmt:message key="aca.Escala" /></label>
 			<select name="Escala" id="Escala" class="input-mini">
+				<option value="5" <%if(Ciclo.getEscala().equals("5")){out.print("selected");} %>>5</option>
 				<option value="10" <%if(Ciclo.getEscala().equals("10")){out.print("selected");} %>>10</option>
 				<option value="100" <%if(Ciclo.getEscala().equals("100")){out.print("selected");} %>>100</option>
 			</select>
