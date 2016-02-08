@@ -341,4 +341,30 @@ public class CicloLista {
 		return lisCiclo;
 	}	
 	
+	public ArrayList<String> getListCicloEscolar(Connection conn, String escuelaId, String estado, String orden ) throws SQLException{
+		ArrayList<String> lista 	= new ArrayList<String>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT DISTINCT(CICLO_ESCOLAR) AS CICLO_ESCOLAR FROM CICLO "
+					+ " WHERE SUBSTR(CICLO_ID,1,3) = '"+escuelaId+"'"					
+					+ " AND ESTADO IN("+estado+") "+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){				
+				lista.add(rs.getString("CICLO_ESCOLAR"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloLista|getListCicloEscolar|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}				
+		
+		return lista;
+	}
+	
 }
