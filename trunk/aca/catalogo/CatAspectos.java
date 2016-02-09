@@ -84,7 +84,7 @@ public class CatAspectos {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_ASPECTOS" +
-					" (ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA)" +
+					" (ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID)" +
 					" VALUES(TO_NUMBER(?, '99'), ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'99'),TO_NUMBER(?,'99'))");
 							
 			ps.setString(1, aspectosId);
@@ -114,7 +114,7 @@ public class CatAspectos {
 		
 		try{
 			ps = conn.prepareStatement("UPDATE CAT_ASPECTOS" +
-					" SET NOMBRE = ?, ORDER = TO_NUMBER(?, '99'), NIVEL = TO_NUMBER(?, '99'), AREA = TO_NUMBER(?, '99') " +
+					" SET NOMBRE = ?, ORDER = TO_NUMBER(?, '99'), NIVEL = TO_NUMBER(?, '99'), AREA_ID = TO_NUMBER(?, '99') " +
 					" WHERE ASPECTOS_ID = TO_NUMBER(?, '99')");
 			
 			ps.setString(1, nombre);
@@ -163,18 +163,18 @@ public class CatAspectos {
 	}
 	
 	public void mapeaReg(ResultSet rs ) throws SQLException{
-		aspectosId	= rs.getString("ASPECTO_ID");
+		aspectosId	= rs.getString("ASPECTOS_ID");
 		nombre	 	= rs.getString("NOMBRE");
 		orden		= rs.getString("ORDEN");	
 		nivel		= rs.getString("NIVEL");
-		area 		= rs.getString("AREA");
+		area 		= rs.getString("AREA_ID");
 	}
 	
-	public void mapeaRegId(Connection con, String aspectosId) throws SQLException{
+	public void mapeaRegId(Connection con) throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			ps = con.prepareStatement("SELECT ASPECTO_ID, NOMBRE, ORDEN, NIVEL, AREA " +
+			ps = con.prepareStatement("SELECT ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID " +
 					" FROM CAT_ASPECTOS WHERE ASPECTOS_ID = TO_NUMBER(?, '99') ");
 			ps.setString(1, aspectosId);
 			
@@ -221,7 +221,7 @@ public class CatAspectos {
 		String maximo 			= "1";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(MAX(ASOCIACION_ID)+1,'1') AS MAXIMO FROM CAT_ASPECTOS");
+			ps = conn.prepareStatement("SELECT COALESCE(MAX(ASPECTOS_ID)+1,'1') AS MAXIMO FROM CAT_ASPECTOS");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");
