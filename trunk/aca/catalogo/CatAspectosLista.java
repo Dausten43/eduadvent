@@ -15,7 +15,7 @@ public class CatAspectosLista {
 		
 		try{
 			comando = "SELECT " +
-					"ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA " +
+					"ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID " +
 					"FROM CAT_ASPECTOS "+orden;		
 			
 			rs = st.executeQuery(comando);			
@@ -43,7 +43,7 @@ public class CatAspectosLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT ASPECTO_ID, NOMBRE, ORDEN, NIVEL, AREA" +
+			comando = "SELECT ASPECTO_ID, NOMBRE, ORDEN, NIVEL, AREA_ID" +
 					" FROM CAT_ASPECTOS" +
 					" WHERE ASPECTO_ID = TO_NUMBER('"+aspectosId+"', '99') "+orden;		
 			
@@ -75,7 +75,7 @@ public class CatAspectosLista {
 		
 		try{
 			comando = "SELECT " +
-			"ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA " +
+			"ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID " +
 			"FROM CAT_ASPECTOS "+orden;
 			
 			rs = st.executeQuery(comando);
