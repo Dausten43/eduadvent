@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class CatAreaLista {
 	
-	public ArrayList<CatArea> getListAll(Connection conn, String areaId, String orden) throws SQLException{
+	public ArrayList<CatArea> getListAll(Connection conn, String orden) throws SQLException{
 		ArrayList<CatArea> list 	= new ArrayList<CatArea>();
 		Statement st 							= conn.createStatement();
 		ResultSet rs 							= null;
@@ -16,7 +16,7 @@ public class CatAreaLista {
 		
 		try{
 			comando = "SELECT * " +
-					  "FROM CAT_AREA WHERE AREA_ID = TO_NUMBER(?, '99') "+orden;		
+					  "FROM CAT_AREA"+orden;		
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
