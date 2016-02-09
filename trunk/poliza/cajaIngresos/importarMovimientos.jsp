@@ -166,7 +166,7 @@
 							FinMov.setReciboId("0");						
 							FinMov.setCicloId(detalle.getCicloId());
 							FinMov.setPeriodoId(detalle.getPeriodoId());
-							FinMov.setTipoMov("5");	
+							FinMov.setTipoMovId("5");
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){								
@@ -195,7 +195,7 @@
 							FinMov.setReciboId("0");
 							FinMov.setCicloId(detalle.getCicloId());
 							FinMov.setPeriodoId(detalle.getPeriodoId());
-							FinMov.setTipoMov("5");
+							FinMov.setTipoMovId("5");
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
@@ -219,7 +219,7 @@
 							FinMov.setReciboId("0");
 							FinMov.setCicloId(detalle.getCicloId());
 							FinMov.setPeriodoId(detalle.getPeriodoId());
-							FinMov.setTipoMov("5");
+							FinMov.setTipoMovId("5");
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){																	
@@ -323,7 +323,7 @@
 							FinMov.setReciboId("0");
 							FinMov.setCicloId(pago.getCicloId());
 							FinMov.setPeriodoId(pago.getPeriodoId());
-							FinMov.setTipoMov("5");	
+							FinMov.setTipoMovId("5");	
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
@@ -354,7 +354,7 @@
 							FinMov.setReciboId("0");
 							FinMov.setCicloId(pago.getCicloId());
 							FinMov.setPeriodoId(pago.getPeriodoId());
-							FinMov.setTipoMov("5");
+							FinMov.setTipoMovId("5");
 							
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
