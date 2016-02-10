@@ -17,7 +17,6 @@
 <%
 	
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	System.out.println("acccion"+accion);
 	String aspectosId		= request.getParameter("AspectoId")==null?"0":request.getParameter("AspectoId");
 	String escuela 			= (String)session.getAttribute("escuela");
 	
@@ -34,7 +33,7 @@
 		
 		conElias.setAutoCommit(false);
 		if(CatAspectos.insertReg(conElias)){
-
+			conElias.commit();
 		}else{
 			//System.out.println("No Grabo");
 		}
@@ -55,12 +54,13 @@
 			CatAspectos.setNivel(request.getParameter("nivel"));
 			CatAspectos.setArea(request.getParameter("area"));
 			
+			conElias.setAutoCommit(false);
 			if(CatAspectos.updateReg(conElias)){
 
 			}else{
 				//System.out.println("No Grabo");
 			}
-			
+			conElias.setAutoCommit(true);
 		}
 
 	}
