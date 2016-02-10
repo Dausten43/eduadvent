@@ -189,7 +189,7 @@
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloId 			= (String) session.getAttribute("cicloId");
 	String codigoId 		= (String) session.getAttribute("codigoEmpleado");//String codigoId 		= (String) session.getAttribute("codigoId");
-	boolean permitirCambiarElEstado = false; //boolean permitirCambiarElEstado = false;
+	boolean permitirCambiarElEstado = false; 
 	
 
 	String accion 			= request.getParameter("Accion") == null?"0":request.getParameter("Accion");
@@ -1005,7 +1005,7 @@
 								</a> 
 							<%} %>
 							
-							<%if (eval.getEstado().equals("C") && permitirCambiarElEstado ) {%>
+							<%if (eval.getEstado().equals("C") && permitirCambiarElEstado) {%>
 								<a title="<fmt:message key="boton.AbrirEvaluacion" />" class="btn btn-success btn-mini"  href="javascript:abrirEvaluacion('<%=eval.getEvaluacionId()%>');">
 									<i class="icon-pencil icon-white"></i>
 								</a>  
@@ -1268,7 +1268,7 @@
 						
 					//***************** TRES PORTUNIDADADES *********************//
 					} else if(lisTodosLosExtras.size() == 3){
-						
+							
 					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
@@ -1317,13 +1317,13 @@
 					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />
+								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
 							</a>
 						</th>
 					<%}else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />
+								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
 							</a>
 						</th>
 					<%} 
@@ -1331,36 +1331,36 @@
 					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra2(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
-								<fmt:message key="aca.Extra" />&nbsp;2
+								<%=lisTodosLosExtras.get(1).getOportunidadNombre() %>
 							</a>
 						</th>
 					<%}else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />&nbsp;2
+								<%=lisTodosLosExtras.get(1).getOportunidadNombre() %>
 							</a>
 						</th>
 					<%} 
 						
 					//***************** UNA PORTUNIDADAD *********************//
-					} else if(lisTodosLosExtras.size() == 1){
+					} else if(lisTodosLosExtras.size() == 1){	
 						
 					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />
+								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
 							</a>
 						</th>
 					<%}else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />
+								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
 							</a>
 						</th>
 					<%} 
 						
 					//***************** NO REGISTRRAON PORTUNIDADADES *********************//
-					} else {
+					} else {						
 						
 					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 						<th class="text-center" style="width:4%;">
@@ -1379,11 +1379,11 @@
 					}
 	%>
 					
-<%-- 					<%if(cicloGrupoCurso.getEstado().equals("3")){ %> --%>
+					<%if(cicloGrupoCurso.getEstado().equals("3")){ %>
 						<th class="text-center" style="width:10%;">
 								Promedio <fmt:message key="aca.Extra" />&nbsp;
 						</th>
-<%-- 					<%} %> --%>
+					<%} %>
 				</tr>
 			</thead>			
 			
