@@ -41,7 +41,7 @@
 <div id="content">
     <form action="" name="forma">
     
-    	<h2><fmt:message key="catalogo.ListadoDeAsoc" /></h2> 
+    	<h2><fmt:message key="aca.listadoDeAspectos" /></h2> 
    
 	    <div class="well">
 	    	<a class="btn btn-primary " href="accion.jsp"><i class="icon-plus icon-white"></i>&nbsp;<fmt:message key="boton.Anadir" /></a>
