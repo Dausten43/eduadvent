@@ -189,7 +189,7 @@
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloId 			= (String) session.getAttribute("cicloId");
 	String codigoId 		= (String) session.getAttribute("codigoEmpleado");//String codigoId 		= (String) session.getAttribute("codigoId");
-	boolean permitirCambiarElEstado = true; //boolean permitirCambiarElEstado = false;
+	boolean permitirCambiarElEstado = false; //boolean permitirCambiarElEstado = false;
 	
 
 	String accion 			= request.getParameter("Accion") == null?"0":request.getParameter("Accion");
@@ -1005,7 +1005,7 @@
 								</a> 
 							<%} %>
 							
-							<%if (eval.getEstado().equals("C") && permitirCambiarElEstado) {%>
+							<%if (eval.getEstado().equals("C") && permitirCambiarElEstado ) {%>
 								<a title="<fmt:message key="boton.AbrirEvaluacion" />" class="btn btn-success btn-mini"  href="javascript:abrirEvaluacion('<%=eval.getEvaluacionId()%>');">
 									<i class="icon-pencil icon-white"></i>
 								</a>  
