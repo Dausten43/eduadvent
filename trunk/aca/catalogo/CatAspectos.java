@@ -114,7 +114,7 @@ public class CatAspectos {
 		
 		try{
 			ps = conn.prepareStatement("UPDATE CAT_ASPECTOS" +
-					" SET NOMBRE = ?, ORDER = TO_NUMBER(?, '99'), NIVEL = TO_NUMBER(?, '99'), AREA_ID = TO_NUMBER(?, '99') " +
+					" SET NOMBRE = ?, ORDEN = TO_NUMBER(?, '99'), NIVEL = TO_NUMBER(?, '99'), AREA_ID = TO_NUMBER(?, '99') " +
 					" WHERE ASPECTOS_ID = TO_NUMBER(?, '99')");
 			
 			ps.setString(1, nombre);
