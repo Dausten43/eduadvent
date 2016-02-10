@@ -188,7 +188,7 @@
 	//VARIABLES ---------------------------->
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloId 			= (String) session.getAttribute("cicloId");
-	String codigoId 		= (String) session.getAttribute("codigoEmpleado");//String codigoId 		= (String) session.getAttribute("codigoId");
+	String codigoId 		= (String) session.getAttribute("codigoId");
 	boolean permitirCambiarElEstado = false; 
 	
 
