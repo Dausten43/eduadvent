@@ -36,8 +36,9 @@
 		if(CatAspectos.insertReg(conElias)){
 
 		}else{
-			System.out.println("No Grabo");
+			//System.out.println("No Grabo");
 		}
+		conElias.setAutoCommit(true);
 		
 	}else if(accion.equals("2")){
 		CatAspectos.setAspectosId(aspectosId);
@@ -57,7 +58,7 @@
 			if(CatAspectos.updateReg(conElias)){
 
 			}else{
-				System.out.println("No Grabo");
+				//System.out.println("No Grabo");
 			}
 			
 		}
