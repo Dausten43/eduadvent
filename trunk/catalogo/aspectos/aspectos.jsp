@@ -4,32 +4,37 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-
-<jsp:useBean id="asocL" scope="page" class="aca.catalogo.CatAsociacionLista"/>
-<jsp:useBean id="CatUnionU" scope="page" class="aca.catalogo.CatUnionLista"/>
-<jsp:useBean id="Union" scope="page" class="aca.catalogo.CatUnion"/>
+<jsp:useBean id="CatAspectos" scope="page" class="aca.catalogo.CatAspectos"/>
+<jsp:useBean id="CatAspectosU" scope="page" class="aca.catalogo.CatAspectosLista"/>
+<jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
+<jsp:useBean id="CatArea" scope="page" class="aca.catalogo.CatArea"/>
 
 <head>
 	<script>
-		function Borrar( AsocId ){
+		function Borrar(AspectosId){
 			if (confirm("<fmt:message key="js.Confirma" />") == true) {
-		  		document.location="accion.jsp?Accion=3&AsocId="+AsocId;
+		  		document.location="aspectos.jsp?Accion=4&AspectoId="+AspectosId;
 		  	}
 		}
 	</script>
 </head>
 <%
 	
-	String sColonia					="";
-	String sEmail					="";
-	ArrayList<aca.catalogo.CatUnion> uniones = CatUnionU.getListAll(conElias, "ORDER BY UNION_ID");
-	String unionId = request.getParameter("unionId");
-	if(unionId==null){
-		if(uniones.size()>0){
-			unionId = uniones.get(0).getUnionId();	
+	String sColonia		="";
+	String sEmail		="";
+	String escuelaId 			= (String)session.getAttribute("escuela");
+	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	
+	
+	
+	if(accion.equals("4")){
+		CatAspectos.setAspectosId(request.getParameter("AspectoId"));
+		if(CatAspectos.existeReg(conElias)){
+			CatAspectos.deleteReg(conElias);
 		}
+		
 	}
-	ArrayList<aca.catalogo.CatAsociacion> list					= asocL.getListAll(conElias,"WHERE UNION_ID = "+unionId+" ORDER BY ASOCIACION_ID");
+	ArrayList<aca.catalogo.CatAspectos> list	= CatAspectosU.getListAll(conElias, "");
 %>
 <body>
 
@@ -39,12 +44,7 @@
     	<h2><fmt:message key="catalogo.ListadoDeAsoc" /></h2> 
    
 	    <div class="well">
-	    	<a class="btn btn-primary " href="accion.jsp?Accion=1&anadir=1&unionId=<%=unionId%>"><i class="icon-plus icon-white"></i>&nbsp;<fmt:message key="boton.Anadir" /></a>
-	    	<select name="unionId" id="unionId" onchange="document.forma.submit()" style="float:right;">
-	    	<%for(aca.catalogo.CatUnion union : uniones){%>
-	    		<option value="<%=union.getUnionId() %>"  <%if(union.getUnionId().equals(unionId))out.print("selected"); %>><%=union.getUnionNombre() %></option>	
-	    	<%}%>
-	    	</select>
+	    	<a class="btn btn-primary " href="accion.jsp"><i class="icon-plus icon-white"></i>&nbsp;<fmt:message key="boton.Anadir" /></a>
 	    </div>
    
    		<table class="table tabe-condensed">
@@ -52,26 +52,27 @@
     			<th width="2%">#</th>
 			    <th width="5%"><fmt:message key="aca.Operacion" /></th>
 			    <th width="2%"><fmt:message key="aca.Id" /></th>
-			    <th width="30%"><fmt:message key="aca.Nombre" /></th>
-			    <th width="30%"><fmt:message key="aca.NombreCorto" /></th>
-			    <th width="30%"><fmt:message key="aca.Fondo" /></th>
+			    <th width="25%"><fmt:message key="aca.Nombre" />/<fmt:message key="aca.Descripcion" /></th>
+			    <th width="5%"><fmt:message key="aca.Orden" /></th>
+			    <th width="20%"><fmt:message key="aca.Nivel" /></th>
+			    <th width="20%"><fmt:message key="aca.Area" /></th>
 			</tr>
   			<%
 				for (int i=0; i< list.size(); i++){
-					aca.catalogo.CatAsociacion asoc = (aca.catalogo.CatAsociacion) list.get(i);
-					String nombre = asoc.getAsociacionNombre();
-					String nombreCorto = asoc.getAsociacionNombreCorto();
+					aca.catalogo.CatAspectos aspecto = (aca.catalogo.CatAspectos) list.get(i);
 			%>
   					<tr> 
     					<td><%=i+1%></td>
 					    <td> 
-					      <a class="icon-pencil" href="accion.jsp?Accion=4&AsocId=<%=asoc.getAsociacionId()%>&unionId=<%=unionId%>"> </a> 
-					      <a href="javascript:Borrar('<%=asoc.getAsociacionId()%>')" class="icon-remove"></a> 
+					      <a class="icon-pencil" href="accion.jsp?Accion=2&AspectoId=<%=aspecto.getAspectosId() %>"> </a> 
+					      <a href="javascript:Borrar('<%=aspecto.getAspectosId() %>')" class="icon-remove"></a> 
 					    </td>
-					    <td><%=asoc.getAsociacionId() %></td>
-					    <td><%=nombre%></td>
-					    <td><%=nombreCorto%></td>
-					    <td><%=asoc.getFondoId() %></td>
+					    <td><%=aspecto.getAspectosId() %></td>
+					    <td><%=aspecto.getNombre() %></td>
+					    <td><%=aspecto.getOrden()%></td>
+					    <td><%=Nivel.getNivelNombre(conElias, escuelaId, aspecto.getNivel())%></td>
+					    <td><%=CatArea.getNombre(conElias, aspecto.getArea()) %></td>
+					    
     				</tr>
   			<%
 				}	
