@@ -1126,11 +1126,11 @@
 						<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th>
 <%
 					}
-					if (lisPromedio.size() > 1){
+// 					if (lisPromedio.size() > 1){
 %>				
 						<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>
 <%					
-					}
+// 					}
 %>					
 
 <%
@@ -1514,12 +1514,17 @@
 							
 							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
 							
+							// Inserta columna de nota
+							out.print("<td class='text-center' width='2%'  >"+promedio+"</td>");
+							
 							muestraPromedioFinal = formato1.format(promedioFinal);
 							
 						} //End for Promedios
-						if (lisPromedio.size() > 1){
-							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
-						}
+						
+						
+// 						if (lisPromedio.size() > 1){
+// 							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
+// 						}
 %>				
 							<!-- --------- EXTRAORDINARIO --------- -->
 <%							
@@ -2049,7 +2054,7 @@ if(lisTodosLosExtras.size() == 5){
 	float numExtra 	= 0;
 	strExtra = "-";
 	if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && promedio < notaAC) {	
-
+		
 			kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
 			kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
 			kardexAlumnoExtra.setCursoId(cursoId);
@@ -2221,7 +2226,9 @@ if(lisTodosLosExtras.size() == 5){
 							<%
 							String promedioFinalExtra = "";
 							
-							if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+							if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ 
+								
+							%>
 								<td class="text-center">
 								<%if ( strExtra == "-") {%>
 									<div id="extra<%=i%>"><%="-"%></div>
@@ -2254,7 +2261,7 @@ if(lisTodosLosExtras.size() == 5){
 								<%} %>									
 							
 								</td>
-							<%} %>	
+							<%}%>	
 				</tr>
 				<%
 						i++;
