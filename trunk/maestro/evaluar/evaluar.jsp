@@ -1127,11 +1127,11 @@
 						<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th>
 <%
 					}
-					if (lisPromedio.size() > 1){
+// 					if (lisPromedio.size() > 1){
 %>				
 						<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>
 <%					
-					}
+// 					}
 %>		
 
 <%					
@@ -1511,11 +1511,14 @@
 							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
 						
 							muestraPromedioFinal = formato1.format(promedioFinal);
+							
+							// Inserta columna de la nota
+							out.print("<td class='text-center' width='2%'  >"+promedio+"</td>");
 						
 						}//End for de promedio
-						if (lisPromedio.size() > 1){
-							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
-						}
+// 						if (lisPromedio.size() > 1){
+// 							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
+// 						}
 %>											
 						
 <% 
@@ -1924,7 +1927,13 @@
 
 								if (kardexAlumnoExtra.existeReg(conElias)) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-									strExtra = kardexAlumnoExtra.getNotaExtra();
+									
+									if(kardexAlumnoExtra.getNotaExtra().equals("")){
+										strExtra = "-";
+									}else{
+										strExtra = kardexAlumnoExtra.getNotaExtra();
+									}
+									
  								} else {
  									strExtra = "-";
  								}																							
@@ -2139,7 +2148,9 @@
 
 								if (kardexAlumnoExtra.existeReg(conElias)) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
+									
 									strExtra = kardexAlumnoExtra.getNotaExtra();
+							
  								} else {
  									strExtra = "-";
  								}																							
@@ -2259,6 +2270,7 @@
 				%>
 				
 				<tr>
+					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
@@ -2392,8 +2404,19 @@
 						</div>
 					</td>
 					<%
-					}
+					} // if(lisTodosLosExtras.size() < 1){
 					%>
+					
+<!-- 					BOTON DE NOTA EXTRA -->
+<!-- 					<td class="text-center"> -->
+<!-- 						<div class="editarExtra" style="display:none;"> -->
+<%-- 							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	 --%>
+<!-- 						</div> -->
+<!-- 					</td> -->
+<!-- 					<td>&nbsp;</td> -->
+					<%
+ 					//}
+					%> 
 										
 					
 				</tr>
