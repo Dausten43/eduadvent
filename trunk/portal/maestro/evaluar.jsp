@@ -89,8 +89,10 @@
 	/*
 	 * ABRIR INPUTS PARA EDITAR LOS EXTRAORDINARIOS
 	 */
-	function muestraInputExtra(evaluacionId, id){
-		var editar = $('.editarExtra'+id);//Busca los inputs
+// 	function muestraInputExtra(evaluacionId, id){
+	function muestraInputExtra(evaluacionId){
+// 		var editar = $('.editarExtra'+id);//Busca los inputs
+		var editar = $('.editarExtra');//Busca los inputs
 		
 		editar.each(function(){
 			var $this = $(this);
@@ -114,25 +116,25 @@
 		});
 	}
 	
-    /*
-	 * GUARDA LAS NOTAS QUE SE MODIFICARON EN LOS EXTRAORDINARIOS 3
+	/*
+	 * ABRIR INPUTS PARA EDITAR LOS EXTRAORDINARIOS 3
 	 */
-	 function muestraInputExtra3(evaluacionId){
-			var editar = $('.editarExtra3');//Busca los inputs
+	function muestraInputExtra3(evaluacionId){
+		var editar = $('.editarExtra3');//Busca los inputs
+		
+		editar.each(function(){
+			var $this = $(this);
 			
-			editar.each(function(){
-				var $this = $(this);
-				
-				$this.siblings('div').hide();//Esconde la calificacion
-				$this.fadeIn(300);//Muestra el input con la calificacion
-			});
-		}
+			$this.siblings('div').hide();//Esconde la calificacion
+			$this.fadeIn(300);//Muestra el input con la calificacion
+		});
+	}
 	
 	/*
 	 * GUARDA LAS NOTAS QUE SE MODIFICARON EN LOS EXTRAORDINARIOS
 	 */
-	function guardarExtra2(cantidadAlumnos){
-		document.forma.Accion.value = "8";
+	function guardarExtra(){
+		document.forma.Accion.value = "5";
 		document.forma.submit();
 	}
 	
