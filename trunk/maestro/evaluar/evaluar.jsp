@@ -1127,11 +1127,11 @@
 						<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th>
 <%
 					}
-// 					if (lisPromedio.size() > 1){
+					if (lisPromedio.size() > 1){
 %>				
 						<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>
 <%					
-// 					}
+					}
 %>		
 
 <%					
@@ -1512,13 +1512,10 @@
 						
 							muestraPromedioFinal = formato1.format(promedioFinal);
 							
-							// Inserta columna de la nota
-							out.print("<td class='text-center' width='2%'  >"+promedio+"</td>");
-						
 						}//End for de promedio
-// 						if (lisPromedio.size() > 1){
-// 							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
-// 						}
+						if (lisPromedio.size() > 1){
+							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
+						}
 %>											
 						
 <% 
@@ -2261,6 +2258,10 @@
 								<%} %>									
 							
 								</td>
+							<%}else { %>	
+								<td class="text-center">
+									<div id="extra<%=i%>"><%="-"%></div>
+								</td>
 							<%} %>	
 													
 				</tr>
@@ -2270,7 +2271,6 @@
 				%>
 				
 				<tr>
-					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
@@ -2326,6 +2326,7 @@
 								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra5();"><fmt:message key="boton.Guardar" /></a> 
 							</div>
 						</td>
+						<td>&nbsp;</td>
 					<%	
 					}else if(lisTodosLosExtras.size() == 4){
 					%>	
@@ -2355,6 +2356,7 @@
 								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra4();"><fmt:message key="boton.Guardar" /></a> 
 							</div>
 						</td>
+						<td>&nbsp;</td>
 					<%
 					}if(lisTodosLosExtras.size() == 3){
 					%>	
@@ -2378,6 +2380,7 @@
 								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra3();"><fmt:message key="boton.Guardar" /></a> 
 							</div>
 						</td>
+						<td>&nbsp;</td>
 					<%
 					}if(lisTodosLosExtras.size() == 2){
 					%>
@@ -2394,6 +2397,7 @@
 								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra2();"><fmt:message key="boton.Guardar" /></a> 
 							</div>
 						</td>
+						<td>&nbsp;</td>
 					<%	
 					}if(lisTodosLosExtras.size() == 1){
 					%>
@@ -2403,19 +2407,19 @@
 							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
 						</div>
 					</td>
+					<td>&nbsp;</td>
 					<%
-					} // if(lisTodosLosExtras.size() < 1){
+					}  if(lisTodosLosExtras.size() < 1){
 					%>
-					
-<!-- 					BOTON DE NOTA EXTRA -->
-<!-- 					<td class="text-center"> -->
-<!-- 						<div class="editarExtra" style="display:none;"> -->
-<%-- 							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	 --%>
-<!-- 						</div> -->
-<!-- 					</td> -->
-<!-- 					<td>&nbsp;</td> -->
+					<!-- BOTON DE NOTA EXTRA  CUANDO NO ASIGNAN NINGUN EXTRA-->
+					<td class="text-center">
+						<div class="editarExtra" style="display:none;">
+							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
+						</div>
+					</td>
+					<td>&nbsp;</td>
 					<%
- 					//}
+ 					}
 					%> 
 										
 					
