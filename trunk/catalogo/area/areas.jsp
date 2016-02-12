@@ -4,10 +4,8 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-<jsp:useBean id="CatAspectos" scope="page" class="aca.catalogo.CatAspectos"/>
-<jsp:useBean id="CatAspectosU" scope="page" class="aca.catalogo.CatAspectosLista"/>
-<jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 <jsp:useBean id="CatArea" scope="page" class="aca.catalogo.CatArea"/>
+<jsp:useBean id="CatAreaL" scope="page" class="aca.catalogo.CatAreaLista"/>
 
 <head>
 	<script>
@@ -19,22 +17,16 @@
 	</script>
 </head>
 <%
-	
-	String sColonia		="";
-	String sEmail		="";
-	String escuelaId 			= (String)session.getAttribute("escuela");
-	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	
-	
+	String escuelaId 		= (String)session.getAttribute("escuela");
+	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
 	if(accion.equals("4")){
-		CatAspectos.setAspectosId(request.getParameter("AspectoId"));
-		if(CatAspectos.existeReg(conElias)){
-			CatAspectos.deleteReg(conElias);
-		}
-		
+		CatArea.setAreaId(request.getParameter("AreaId"));
+		if(CatArea.existeReg(conElias)){
+			CatArea.deleteReg(conElias);
+		}		
 	}
-	ArrayList<aca.catalogo.CatAspectos> list	= CatAspectosU.getListAll(conElias, "");
+	ArrayList<aca.catalogo.CatArea> list	= CatAreaL.getListAll(conElias, "");
 %>
 <body>
 
@@ -52,27 +44,20 @@
     			<th width="2%">#</th>
 			    <th width="5%"><fmt:message key="aca.Operacion" /></th>
 			    <th width="2%"><fmt:message key="aca.Id" /></th>
-			    <th width="25%"><fmt:message key="aca.Nombre" />/<fmt:message key="aca.Descripcion" /></th>
-			    <th width="5%"><fmt:message key="aca.Orden" /></th>
-			    <th width="20%"><fmt:message key="aca.Nivel" /></th>
-			    <th width="20%"><fmt:message key="aca.Area" /></th>
+			    <th width="25%"><fmt:message key="aca.Nombre" />/<fmt:message key="aca.Descripcion" /></th>			    
 			</tr>
   			<%
 				for (int i=0; i< list.size(); i++){
-					aca.catalogo.CatAspectos aspecto = (aca.catalogo.CatAspectos) list.get(i);
+					aca.catalogo.CatArea area = (aca.catalogo.CatArea) list.get(i);
 			%>
   					<tr> 
     					<td><%=i+1%></td>
 					    <td> 
-					      <a class="icon-pencil" href="accion.jsp?Accion=2&AspectoId=<%=aspecto.getAspectosId() %>"> </a> 
-					      <a href="javascript:Borrar('<%=aspecto.getAspectosId() %>')" class="icon-remove"></a> 
+					      <a class="icon-pencil" href="accion.jsp?Accion=2&AreaId=<%=area.getAreaId() %>"> </a> 
+					      <a href="javascript:Borrar('<%=area.getAreaId() %>')" class="icon-remove"></a> 
 					    </td>
-					    <td><%=aspecto.getAspectosId() %></td>
-					    <td><%=aspecto.getNombre() %></td>
-					    <td><%=aspecto.getOrden()%></td>
-					    <td><%=Nivel.getNivelNombre(conElias, escuelaId, aspecto.getNivel())%></td>
-					    <td><%=CatArea.getNombre(conElias, aspecto.getArea()) %></td>
-					    
+					    <td><%=area.getAreaId() %></td>
+					    <td><%=area.getNombre() %></td>					    
     				</tr>
   			<%
 				}	
@@ -81,4 +66,4 @@
 
 	</form>
 </div>
-<%@ include file= "../../cierra_elias.jsp" %> 
+<%@ include file= "../../cierra_elias.jsp" %>
