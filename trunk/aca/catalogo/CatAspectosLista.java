@@ -14,9 +14,8 @@ public class CatAspectosLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT " +
-					"ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID " +
-					"FROM CAT_ASPECTOS "+orden;		
+			comando = " SELECT ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID"
+					+ " FROM CAT_ASPECTOS "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -36,16 +35,16 @@ public class CatAspectosLista {
 		return list;
 	}
 	
-	public ArrayList<CatAspectos> getListAspectos(Connection conn, String aspectosId, String orden ) throws SQLException{
+	public ArrayList<CatAspectos> getListAspectos(Connection conn, String escuelaId, String orden ) throws SQLException{
 		ArrayList<CatAspectos> list 	= new ArrayList<CatAspectos>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
 		try{
-			comando = "SELECT ASPECTO_ID, NOMBRE, ORDEN, NIVEL, AREA_ID" +
-					" FROM CAT_ASPECTOS" +
-					" WHERE ASPECTO_ID = TO_NUMBER('"+aspectosId+"', '99') "+orden;		
+			comando = " SELECT ESCUELA_ID, ASPECTO_ID, NOMBRE, ORDEN, NIVEL, AREA_ID"
+					+ " FROM CAT_ASPECTOS"
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "+orden;		
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -65,7 +64,7 @@ public class CatAspectosLista {
 		return list;
 	}
 	
-	public HashMap<String,CatAspectos> getMapAll(Connection conn, String orden ) throws SQLException{
+	public HashMap<String,CatAspectos> getMapAll(Connection conn, String escuelaId, String orden ) throws SQLException{
 		
 		HashMap<String,CatAspectos> map = new HashMap<String,CatAspectos>();
 		Statement st 				= conn.createStatement();
@@ -74,9 +73,9 @@ public class CatAspectosLista {
 		String llave				= "";
 		
 		try{
-			comando = "SELECT " +
-			"ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID " +
-			"FROM CAT_ASPECTOS "+orden;
+			comando = " SELECT ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID"
+					+ " FROM CAT_ASPECTOS"
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "+orden;
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
