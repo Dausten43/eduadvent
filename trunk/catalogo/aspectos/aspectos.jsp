@@ -6,8 +6,7 @@
 
 <jsp:useBean id="CatAspectos" scope="page" class="aca.catalogo.CatAspectos"/>
 <jsp:useBean id="CatAspectosU" scope="page" class="aca.catalogo.CatAspectosLista"/>
-<jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
-<jsp:useBean id="CatArea" scope="page" class="aca.catalogo.CatArea"/>
+
 
 <head>
 	<script>
@@ -22,7 +21,7 @@
 	
 	String sColonia		="";
 	String sEmail		="";
-	String escuelaId 			= (String)session.getAttribute("escuela");
+	String escuelaId 	= (String)session.getAttribute("escuela");
 	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
 	
@@ -34,7 +33,7 @@
 		}
 		
 	}
-	ArrayList<aca.catalogo.CatAspectos> list	= CatAspectosU.getListAll(conElias, "");
+	ArrayList<aca.catalogo.CatAspectos> list	= CatAspectosU.getListAspectos(conElias, escuelaId, "");
 %>
 <body>
 
@@ -70,8 +69,8 @@
 					    <td><%=aspecto.getAspectosId() %></td>
 					    <td><%=aspecto.getNombre() %></td>
 					    <td><%=aspecto.getOrden()%></td>
-					    <td><%=Nivel.getNivelNombre(conElias, escuelaId, aspecto.getNivel())%></td>
-					    <td><%=CatArea.getNombre(conElias, aspecto.getArea()) %></td>
+					    <td><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, aspecto.getNivelId())%></td>
+					    <td><%=aca.catalogo.CatArea.getNombre(conElias, aspecto.getArea()) %></td>
 					    
     				</tr>
   			<%

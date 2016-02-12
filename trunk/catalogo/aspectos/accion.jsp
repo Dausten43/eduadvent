@@ -28,8 +28,9 @@
 		CatAspectos.setAspectosId(CatAspectos.maximoReg(conElias));
 		CatAspectos.setNombre(request.getParameter("descripcion"));
 		CatAspectos.setOrden(request.getParameter("orden"));
-		CatAspectos.setNivel(request.getParameter("nivel"));
+		CatAspectos.setNivelId(request.getParameter("nivel"));
 		CatAspectos.setArea(request.getParameter("area"));
+		CatAspectos.setEscuelaId(escuela);
 		
 		conElias.setAutoCommit(false);
 		if(CatAspectos.insertReg(conElias)){
@@ -41,17 +42,19 @@
 		
 	}else if(accion.equals("2")){
 		CatAspectos.setAspectosId(aspectosId);
+		CatAspectos.setEscuelaId(escuela);
 		if(CatAspectos.existeReg(conElias)){
 			CatAspectos.mapeaRegId(conElias);
 		}
 	}else if(accion.equals("3")){
 		CatAspectos.setAspectosId(aspectosId);
+		CatAspectos.setEscuelaId(escuela);
 		if(CatAspectos.existeReg(conElias)){
-			System.out.println(aspectosId);
+			//System.out.println(aspectosId);
 			CatAspectos.setAspectosId(aspectosId);
 			CatAspectos.setNombre(request.getParameter("descripcion"));
 			CatAspectos.setOrden(request.getParameter("orden"));
-			CatAspectos.setNivel(request.getParameter("nivel"));
+			CatAspectos.setNivelId(request.getParameter("nivel"));
 			CatAspectos.setArea(request.getParameter("area"));
 			
 			conElias.setAutoCommit(false);
@@ -85,7 +88,7 @@
 	    <option value="">Seleccione Nivel</option>
 <%		for(aca.catalogo.CatNivelEscuela nivel: niveles){
 %>
-	    	<option value="<%=nivel.getNivelId()%>" <% if (nivel.getNivelId().equals(CatAspectos.getNivel())){out.print("Selected");}%>><%=nivel.getNivelNombre()%></option>
+	    	<option value="<%=nivel.getNivelId()%>" <% if (nivel.getNivelId().equals(CatAspectos.getNivelId())){out.print("Selected");}%>><%=nivel.getNivelNombre()%></option>
 <%
 	    } %>
 	    </select>
