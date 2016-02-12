@@ -75,7 +75,7 @@
 					
 					if (usuarioMenu.existeReg(conElias)==false){						
 						if (usuarioMenu.insertReg(conElias)){
-							conElias.commit();
+							// Se grabó
 						}
 					}
 					
@@ -84,7 +84,7 @@
 					usuarioMenu.setOpcionId(op.getOpcionId());
 					if (usuarioMenu.existeReg(conElias)){						
 						if (usuarioMenu.deleteReg(conElias)){							
-							conElias.commit();
+							// Se borró
 						}
 					}
 				}
