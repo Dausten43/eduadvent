@@ -22,14 +22,28 @@ public class CatAspectos {
 	private String area;
 	
 	public CatAspectos(){
+		escuelaId	= "";
 		aspectosId	= "";
 		nombre		= "";
 		orden 		= "";
-		nivelId 		= "";
+		nivelId 	= "";
 		area 		= "";
 		
 	}
 	
+	
+	
+	public String getEscuelaId() {
+		return escuelaId;
+	}
+
+
+
+	public void setEscuelaId(String escuelaId) {
+		this.escuelaId = escuelaId;
+	}
+
+
 
 	public String getAspectosId() {
 		return aspectosId;
@@ -86,7 +100,7 @@ public class CatAspectos {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_ASPECTOS" +
-					" (ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID)" +
+					" (ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL_ID, AREA_ID)" +
 					" VALUES(?,TO_NUMBER(?, '99'), ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'99'),TO_NUMBER(?,'99'))");
 							
 			ps.setString(1, escuelaId);
@@ -117,7 +131,7 @@ public class CatAspectos {
 		
 		try{
 			ps = conn.prepareStatement("UPDATE CAT_ASPECTOS"
-					+ " SET NOMBRE = ?, ORDEN = TO_NUMBER(?, '99'), NIVEL = TO_NUMBER(?, '99'), AREA_ID = TO_NUMBER(?, '99')"
+					+ " SET NOMBRE = ?, ORDEN = TO_NUMBER(?, '99'), NIVEL_ID = TO_NUMBER(?, '99'), AREA_ID = TO_NUMBER(?, '99')"
 					+ " WHERE ESCUELA_ID = ?"
 					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99')");
 			
@@ -174,7 +188,7 @@ public class CatAspectos {
 		aspectosId	= rs.getString("ASPECTOS_ID");
 		nombre	 	= rs.getString("NOMBRE");
 		orden		= rs.getString("ORDEN");	
-		nivelId		= rs.getString("NIVEL");
+		nivelId		= rs.getString("NIVEL_ID");
 		area 		= rs.getString("AREA_ID");
 	}
 	
@@ -182,7 +196,7 @@ public class CatAspectos {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			ps = con.prepareStatement("SELECT ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID"
+			ps = con.prepareStatement("SELECT ASPECTOS_ID, NOMBRE, ORDEN, NIVEL_ID, AREA_ID, ESCUELA_ID"
 					+ " FROM CAT_ASPECTOS"
 					+ " WHERE ESCUELA_ID = ?"
 					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99') ");
