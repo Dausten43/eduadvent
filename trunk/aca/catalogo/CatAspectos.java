@@ -13,17 +13,19 @@ import java.sql.SQLException;
  *
  */
 public class CatAspectos {
+	
+	private String escuelaId;
 	private String aspectosId;
 	private String nombre;
 	private String orden;
-	private String nivel;
+	private String nivelId;
 	private String area;
 	
 	public CatAspectos(){
 		aspectosId	= "";
 		nombre		= "";
 		orden 		= "";
-		nivel 		= "";
+		nivelId 		= "";
 		area 		= "";
 		
 	}
@@ -59,13 +61,13 @@ public class CatAspectos {
 	}
 
 
-	public String getNivel() {
-		return nivel;
+	public String getNivelId() {
+		return nivelId;
 	}
 
 
-	public void setNivel(String nivel) {
-		this.nivel = nivel;
+	public void setNivelId(String nivelId) {
+		this.nivelId = nivelId;
 	}
 
 
@@ -84,14 +86,15 @@ public class CatAspectos {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_ASPECTOS" +
-					" (ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID)" +
-					" VALUES(TO_NUMBER(?, '99'), ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'99'),TO_NUMBER(?,'99'))");
+					" (ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID)" +
+					" VALUES(?,TO_NUMBER(?, '99'), ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'99'),TO_NUMBER(?,'99'))");
 							
-			ps.setString(1, aspectosId);
-			ps.setString(2, nombre);			
-			ps.setString(3, orden);
-			ps.setString(4, nivel);
-			ps.setString(5, area);
+			ps.setString(1, escuelaId);
+			ps.setString(2, aspectosId);
+			ps.setString(3, nombre);			
+			ps.setString(4, orden);
+			ps.setString(5, nivelId);
+			ps.setString(6, area);
 						
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -113,15 +116,17 @@ public class CatAspectos {
 		boolean ok = false;
 		
 		try{
-			ps = conn.prepareStatement("UPDATE CAT_ASPECTOS" +
-					" SET NOMBRE = ?, ORDEN = TO_NUMBER(?, '99'), NIVEL = TO_NUMBER(?, '99'), AREA_ID = TO_NUMBER(?, '99') " +
-					" WHERE ASPECTOS_ID = TO_NUMBER(?, '99')");
+			ps = conn.prepareStatement("UPDATE CAT_ASPECTOS"
+					+ " SET NOMBRE = ?, ORDEN = TO_NUMBER(?, '99'), NIVEL = TO_NUMBER(?, '99'), AREA_ID = TO_NUMBER(?, '99')"
+					+ " WHERE ESCUELA_ID = ?"
+					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99')");
 			
 			ps.setString(1, nombre);
 			ps.setString(2, orden);
-			ps.setString(3, nivel);	
+			ps.setString(3, nivelId);	
 			ps.setString(4, area);
-			ps.setString(5, aspectosId);
+			ps.setString(5, escuelaId);
+			ps.setString(6, aspectosId);
 				
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -142,9 +147,11 @@ public class CatAspectos {
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
-			ps = conn.prepareStatement("DELETE FROM CAT_ASPECTOS" +
-					" WHERE ASPECTOS_ID = TO_NUMBER(?, '99')");
-			ps.setString(1, aspectosId);
+			ps = conn.prepareStatement("DELETE FROM CAT_ASPECTOS"
+					+ " WHERE ESCUELA_ID = ?"
+					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99')");
+			ps.setString(1, escuelaId);
+			ps.setString(2, aspectosId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -163,10 +170,11 @@ public class CatAspectos {
 	}
 	
 	public void mapeaReg(ResultSet rs ) throws SQLException{
+		escuelaId	= rs.getString("ESCUELA_ID");
 		aspectosId	= rs.getString("ASPECTOS_ID");
 		nombre	 	= rs.getString("NOMBRE");
 		orden		= rs.getString("ORDEN");	
-		nivel		= rs.getString("NIVEL");
+		nivelId		= rs.getString("NIVEL");
 		area 		= rs.getString("AREA_ID");
 	}
 	
@@ -174,9 +182,12 @@ public class CatAspectos {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			ps = con.prepareStatement("SELECT ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID " +
-					" FROM CAT_ASPECTOS WHERE ASPECTOS_ID = TO_NUMBER(?, '99') ");
-			ps.setString(1, aspectosId);
+			ps = con.prepareStatement("SELECT ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID"
+					+ " FROM CAT_ASPECTOS"
+					+ " WHERE ESCUELA_ID = ?"
+					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99') ");
+			ps.setString(1, escuelaId);
+			ps.setString(2, aspectosId);
 			
 			rs = ps.executeQuery();			
 			if(rs.next()){
@@ -197,8 +208,11 @@ public class CatAspectos {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM CAT_ASPECTOS WHERE ASPECTOS_ID = TO_NUMBER(?, '99') ");
-			ps.setString(1, aspectosId);
+			ps = conn.prepareStatement("SELECT * FROM CAT_ASPECTOS"
+					+ " WHERE ESCUELA_ID = ?"
+					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99')");
+			ps.setString(1, escuelaId);
+			ps.setString(2, aspectosId);
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				ok = true;
@@ -221,7 +235,8 @@ public class CatAspectos {
 		String maximo 			= "1";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(MAX(ASPECTOS_ID)+1,'1') AS MAXIMO FROM CAT_ASPECTOS");
+			ps = conn.prepareStatement("SELECT COALESCE(MAX(ASPECTOS_ID)+1,'1') AS MAXIMO FROM CAT_ASPECTOS WHERE ESCUELA_ID = ?");
+			ps.setString(1, escuelaId);
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");
