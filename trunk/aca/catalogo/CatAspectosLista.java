@@ -14,7 +14,7 @@ public class CatAspectosLista {
 		String comando	= "";
 		
 		try{
-			comando = " SELECT ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID"
+			comando = " SELECT ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL_ID, AREA_ID"
 					+ " FROM CAT_ASPECTOS "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -42,7 +42,7 @@ public class CatAspectosLista {
 		String comando	= "";
 		
 		try{
-			comando = " SELECT ESCUELA_ID, ASPECTO_ID, NOMBRE, ORDEN, NIVEL, AREA_ID"
+			comando = " SELECT ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL_ID, AREA_ID"
 					+ " FROM CAT_ASPECTOS"
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "+orden;		
 			
@@ -73,7 +73,7 @@ public class CatAspectosLista {
 		String llave				= "";
 		
 		try{
-			comando = " SELECT ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL, AREA_ID"
+			comando = " SELECT ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL_ID, AREA_ID"
 					+ " FROM CAT_ASPECTOS"
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"' "+orden;
 			
