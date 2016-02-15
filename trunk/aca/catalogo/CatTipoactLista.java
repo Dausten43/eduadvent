@@ -45,7 +45,7 @@ public class CatTipoactLista {
 		String comando				= "";
 		
 		try{
-			comando = "SELECT TIPOACT_ID, TIPOACT_NOMBRE FROM CAT_TIPOACT WHERE UNION_ID ='"+unionId+"'"+ orden; 
+			comando = "SELECT TIPOACT_ID, TIPOACT_NOMBRE, UNION_ID FROM CAT_TIPOACT WHERE UNION_ID ='"+unionId+"'"+ orden; 
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -56,7 +56,7 @@ public class CatTipoactLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.getListUnion|getListAll|:"+ex);
+			System.out.println("Error - aca.catalogo.CatTipoactLista|getListUnion|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
