@@ -9,9 +9,9 @@
 
 <head>
 	<script>
-		function Borrar(AspectosId){
+		function Borrar(areaId){
 			if (confirm("<fmt:message key="js.Confirma" />") == true) {
-		  		document.location="aspectos.jsp?Accion=4&AspectoId="+AspectosId;
+		  		document.location="areas.jsp?Accion=4&AreaId="+areaId;
 		  	}
 		}
 	</script>
@@ -21,6 +21,7 @@
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
 	if(accion.equals("4")){
+		System.out.println("Test");
 		CatArea.setAreaId(request.getParameter("AreaId"));
 		if(CatArea.existeReg(conElias)){
 			CatArea.deleteReg(conElias);
