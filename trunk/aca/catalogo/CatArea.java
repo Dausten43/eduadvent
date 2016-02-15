@@ -171,7 +171,7 @@ public class CatArea {
 		String maximo 			= "1";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(MAX(ASOCIACION_ID)+1,'1') AS MAXIMO FROM CAT_AREA");
+			ps = conn.prepareStatement("SELECT COALESCE(MAX(AREA_ID)+1,'1') AS MAXIMO FROM CAT_AREA");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");
