@@ -148,8 +148,7 @@ public class CatNivelEscuela {
 			
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -185,8 +184,7 @@ public class CatNivelEscuela {
 			
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -209,8 +207,7 @@ public class CatNivelEscuela {
 			ps.setString(2, nivelId);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
