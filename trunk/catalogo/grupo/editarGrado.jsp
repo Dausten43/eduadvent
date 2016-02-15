@@ -27,6 +27,7 @@
 	String sResultado 		= "";
 	
 	if(accion.equals("1")){
+		conElias.setAutoCommit(false);
 		CatEsquema.setEscuelaId(escuelaId);
 		CatEsquema.setEsquemaEvaluacion(request.getParameter("esquema"));
 		CatEsquema.setNivelId(nivelId);
@@ -37,18 +38,21 @@
 		
 		if(CatEsquema.existeReg(conElias)==false){
 			if(CatEsquema.insertReg(conElias)){
+				conElias.commit();
 				sResultado = "Guardado";
 			}else{
 				sResultado = "NoGuardo";
 			}
 		}else{//Modifica
 			if(CatEsquema.updateReg(conElias)){
+				conElias.commit();
 				sResultado = "Modificado";
 			}else{
 				sResultado = "NoModifico";
 			}
 			
 		}
+		conElias.setAutoCommit(true);
 	}
 	
 	
