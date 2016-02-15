@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CatTipoact {
+	
+	private String unionId;
 	private String tipoactId;
 	private String tipoactNombre;
 		
@@ -13,16 +15,27 @@ public class CatTipoact {
 		tipoactId		= "";
 		tipoactNombre	= "";	
 	}
-		
+	
+	public String getUnionId() {
+		return unionId;
+	}
+
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
+	}
+
 	public String getTipoactId() {
 		return tipoactId;
 	}
+
 	public void setTipoactId(String tipoactId) {
 		this.tipoactId = tipoactId;
 	}
+
 	public String getTipoactNombre() {
 		return tipoactNombre;
 	}
+
 	public void setTipoactNombre(String tipoactNombre) {
 		this.tipoactNombre = tipoactNombre;
 	}
@@ -32,10 +45,11 @@ public class CatTipoact {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("INSERT INTO "+
-				"CAT_TIPOACT(TIPOACT_ID, TIPOACT_NOMBRE) "+
-				"VALUES( TO_NUMBER(?,'99'), ? ) ");
-			ps.setString(1, tipoactId);
-			ps.setString(2, tipoactNombre);			
+				"CAT_TIPOACT(UNION_ID, TIPOACT_ID, TIPOACT_NOMBRE) "+
+				"VALUES( TO_NUMBER(?,'99'), TO_NUMBER(?,'99'), ? ) ");
+			ps.setString(1, unionId);
+			ps.setString(2, tipoactId);
+			ps.setString(3, tipoactNombre);	
 			
 			if (ps.executeUpdate()== 1)
 				ok = true;				
@@ -56,9 +70,10 @@ public class CatTipoact {
 		try{
 			ps = conn.prepareStatement("UPDATE CAT_TIPOACT "+ 
 				"SET TIPOACT_NOMBRE = ? "+
-				"WHERE TIPOACT_ID = TO_NUMBER(?,'99')");
-			ps.setString(1, tipoactNombre);			
-			ps.setString(2, tipoactId);
+				"WHERE UNION_ID = TO_NUMBER(?,'99') AND TIPOACT_ID = TO_NUMBER(?,'99')");
+			ps.setString(1, tipoactNombre);
+			ps.setString(2, unionId);
+			ps.setString(3, tipoactId);
 			
 			if (ps.executeUpdate()== 1)
 				ok = true;	
@@ -79,8 +94,9 @@ public class CatTipoact {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("DELETE FROM CAT_TIPOACT "+ 
-				"WHERE TIPOACT_ID = TO_NUMBER(?,'99')");
-			ps.setString(1, tipoactId);
+				"WHERE UNION_ID = TO_NUMBER(?,'99') AND TIPOACT_ID = TO_NUMBER(?,'99')");
+			ps.setString(1, unionId);
+			ps.setString(2, tipoactId);
 			
 			if (ps.executeUpdate()== 1)
 				ok = true;
@@ -95,6 +111,7 @@ public class CatTipoact {
 	}
 	
 	public void mapeaReg(ResultSet rs ) throws SQLException{
+		unionId 		= rs.getString("UNION_ID");
 		tipoactId 		= rs.getString("TIPOACT_ID");
 		tipoactNombre 	= rs.getString("TIPOACT_NOMBRE");		
 	}
@@ -103,8 +120,8 @@ public class CatTipoact {
 		ResultSet rs = null;
 		PreparedStatement ps = null; 
 		try{
-			ps = conn.prepareStatement("SELECT TIPOACT_ID, TIPOACT_NOMBRE "+
-				"FROM CAT_TIPOACT WHERE TIPOACT_ID = TO_NUMBER(?,'99')"); 
+			ps = conn.prepareStatement("SELECT UNION_ID, TIPOACT_ID, TIPOACT_NOMBRE"
+					+ " FROM CAT_TIPOACT WHERE TIPOACT_ID = TO_NUMBER(?,'99')"); 
 			ps.setString(1,tipoactId);
 			
 			rs = ps.executeQuery();
@@ -126,7 +143,7 @@ public class CatTipoact {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM CAT_TIPOACT WHERE TIPOACT_ID = TO_NUMBER(?,'99') "); 
+			ps = conn.prepareStatement("SELECT * FROM CAT_TIPOACT WHERE UNION_ID = TO_NUMBER(?,'99') AND TIPOACT_ID = TO_NUMBER(?,'99')"); 
 			ps.setString(1,tipoactId);
 			rs = ps.executeQuery();
 			if (rs.next())
@@ -150,7 +167,9 @@ public class CatTipoact {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT MAX(TIPOACT_ID)+1 MAXIMO FROM CAT_TIPOACT"); 
+			ps = conn.prepareStatement("SELECT MAX(TIPOACT_ID)+1 MAXIMO FROM CAT_TIPOACT WHERE UNION_ID = TO_NUMBER(?,'99')");
+			ps.setString(1, unionId);
+			
 			rs = ps.executeQuery();
 			if (rs.next())
 				maximo = rs.getString("MAXIMO");
@@ -172,7 +191,7 @@ public class CatTipoact {
 		String nombre			= "X";
 		
 		try{
-			ps = conn.prepareStatement("SELECT TIPOACT_NOMBRE FROM CAT_TIPOACT WHERE TIPOACT_ID = TO_NUMBER(?, '99')"); 
+			ps = conn.prepareStatement("SELECT TIPOACT_NOMBRE FROM CAT_TIPOACT WHERE UNION_ID = TO_NUMBER(?,'99') AND TIPOACT_ID = TO_NUMBER(?, '99')"); 
 			ps.setString(1, tipoactId);			
 			rs = ps.executeQuery();
 			if (rs.next())
