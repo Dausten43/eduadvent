@@ -71,9 +71,9 @@ public class CatSalon {
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
-			ps = conn.prepareStatement("INSERT INTO CAT_SALON" +
-					" (SALON_CLAVE, EDIFICIO_ID, SALON_NOMBRE, LIMITE)" +
-					" VALUES( ?, TO_NUMBER(?,'99'), ?, TO_NUMBER(?,'99') )");
+			ps = conn.prepareStatement("INSERT INTO CAT_SALON"
+					+ " (SALON_CLAVE, EDIFICIO_ID, SALON_NOMBRE, LIMITE)"
+					+ " VALUES( ?, TO_NUMBER(?,'99'), ?, TO_NUMBER(?,'99'))");
 			
 			ps.setString(1, salonClave);
 			ps.setString(2, edificioId);
@@ -87,7 +87,6 @@ public class CatSalon {
 				ok = false;
 			}
 			
-			
 		}catch(Exception ex){
 			System.out.println("Error - aca.catalogo.CatSalon|insertReg|:"+ex);
 		}finally{
@@ -100,10 +99,12 @@ public class CatSalon {
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
-			ps = conn.prepareStatement("UPDATE CAT_SALON" +
-					" SET SALON_CLAVE = ?," +
-					" EDIFICIO_ID = ?, SALON_NOMBRE = ?, LIMITE = ? " +
-					" WHERE SALON_ID = ? ");			
+			ps = conn.prepareStatement("UPDATE CAT_SALON"
+					+ " SET SALON_CLAVE = ?,"
+					+ " EDIFICIO_ID = TO_NUMBER(?,'99'), "
+					+ " SALON_NOMBRE = ?, "
+					+ " LIMITE = TO_NUMBER(?,'99')"
+					+ " WHERE SALON_ID = ? ");			
 			ps.setString(1, salonClave);
 			ps.setString(2, edificioId);
 			ps.setString(3, salonNombre);
@@ -129,8 +130,8 @@ public class CatSalon {
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
-			ps = conn.prepareStatement("DELETE FROM CAT_SALON" +
-					" WHERE SALON_ID = ? ");
+			ps = conn.prepareStatement("DELETE FROM CAT_SALON"
+					+ " WHERE SALON_ID = TO_NUMBER(?,'99') ");
 			ps.setString(1, salonId);
 			
 			if ( ps.executeUpdate()== 1){
@@ -161,9 +162,8 @@ public class CatSalon {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			ps = con.prepareStatement("SELECT * " +
-					" FROM CAT_SALON" +
-					" WHERE SALON_ID = ? ");
+			ps = con.prepareStatement("SELECT * FROM CAT_SALON"
+					+ " WHERE SALON_ID = ? ");
 			ps.setString(1, salonId);
 			
 			rs = ps.executeQuery();
