@@ -28,6 +28,7 @@
 	
 	if(accion.equals("4")){
 		CatAspectos.setAspectosId(request.getParameter("AspectoId"));
+		CatAspectos.setEscuelaId(escuelaId);
 		if(CatAspectos.existeReg(conElias)){
 			CatAspectos.deleteReg(conElias);
 		}
