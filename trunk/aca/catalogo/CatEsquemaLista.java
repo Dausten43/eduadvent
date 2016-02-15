@@ -169,7 +169,7 @@ public class CatEsquemaLista {
 			ps = conn.prepareStatement("SELECT SEMESTRE_NOMBRE FROM CAT_ESQUEMA"
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
 					+ " AND NIVEL_ID =  TO_NUMBER('"+nivelId+"', '99')"
-					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99)");	
+					+ " AND GRADO = TO_NUMBER('"+gradoId+"', '99')");	
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
