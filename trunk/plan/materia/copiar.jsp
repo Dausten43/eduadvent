@@ -66,8 +66,7 @@
 				curso.setPlanId(planId);
 				curso.setCursoId(planId+claveCurso);
 				if (!curso.existeReg(conElias)){
-					if (curso.insertReg(conElias)){
-						conElias.commit();
+					if (curso.insertReg(conElias)){						
 					}else{
 						errorRow++;
 					}
