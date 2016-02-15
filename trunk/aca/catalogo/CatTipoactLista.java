@@ -37,6 +37,34 @@ public class CatTipoactLista {
 		return lis;
 	}
 	
+	public ArrayList<CatTipoact> getListUnion(Connection conn, String unionId, String orden) throws SQLException{
+		
+		ArrayList<CatTipoact> lis	= new ArrayList<CatTipoact>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+		
+		try{
+			comando = "SELECT TIPOACT_ID, TIPOACT_NOMBRE FROM CAT_TIPOACT WHERE UNION_ID ='"+unionId+"'"+ orden; 
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				
+				CatTipoact tipo = new CatTipoact();
+				tipo.mapeaReg(rs);
+				lis.add(tipo);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.getListUnion|getListAll|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return lis;
+	}
+	
 	public HashMap<String,CatTipoact> getMapAll(Connection conn, String orden ) throws SQLException{
 		
 		HashMap<String,CatTipoact> map = new HashMap<String,CatTipoact>();
