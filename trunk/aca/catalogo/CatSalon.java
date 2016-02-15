@@ -73,7 +73,7 @@ public class CatSalon {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_SALON"
 					+ " (SALON_CLAVE, EDIFICIO_ID, SALON_NOMBRE, LIMITE)"
-					+ " VALUES( ?, TO_NUMBER(?,'99'), ?, TO_NUMBER(?,'99'))");
+					+ " VALUES( ?, TO_NUMBER(?,'999'), ?, TO_NUMBER(?,'999'))");
 			
 			ps.setString(1, salonClave);
 			ps.setString(2, edificioId);
@@ -101,10 +101,10 @@ public class CatSalon {
 		try{
 			ps = conn.prepareStatement("UPDATE CAT_SALON"
 					+ " SET SALON_CLAVE = ?,"
-					+ " EDIFICIO_ID = TO_NUMBER(?,'99'), "
+					+ " EDIFICIO_ID = TO_NUMBER(?,'999'), "
 					+ " SALON_NOMBRE = ?, "
-					+ " LIMITE = TO_NUMBER(?,'99')"
-					+ " WHERE SALON_ID = ? ");			
+					+ " LIMITE = TO_NUMBER(?,'999')"
+					+ " WHERE SALON_ID = TO_NUMBER(?,'999') ");			
 			ps.setString(1, salonClave);
 			ps.setString(2, edificioId);
 			ps.setString(3, salonNombre);
@@ -131,7 +131,7 @@ public class CatSalon {
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("DELETE FROM CAT_SALON"
-					+ " WHERE SALON_ID = TO_NUMBER(?,'99') ");
+					+ " WHERE SALON_ID = TO_NUMBER(?,'999') ");
 			ps.setString(1, salonId);
 			
 			if ( ps.executeUpdate()== 1){
@@ -163,7 +163,7 @@ public class CatSalon {
 		ResultSet rs = null;
 		try{
 			ps = con.prepareStatement("SELECT * FROM CAT_SALON"
-					+ " WHERE SALON_ID = ? ");
+					+ " WHERE SALON_ID = TO_NUMBER(?,'999') ");
 			ps.setString(1, salonId);
 			
 			rs = ps.executeQuery();
@@ -186,8 +186,8 @@ public class CatSalon {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM CAT_SALON" +
-					" WHERE SALON_ID = ? ");
+			ps = conn.prepareStatement("SELECT * FROM CAT_SALON"
+					+ " WHERE SALON_ID = TO_NUMBER(?,'999')");
 			ps.setString(1, salonId);
 			
 			rs= ps.executeQuery();		
@@ -211,8 +211,8 @@ public class CatSalon {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM CAT_SALON" +
-					" WHERE EDIFICIO_ID = ? ");
+			ps = conn.prepareStatement("SELECT * FROM CAT_SALON"
+					+ " WHERE EDIFICIO_ID = TO_NUMBER(?,'999')");
 			ps.setString(1, edificioId);
 			
 			rs= ps.executeQuery();		
@@ -236,8 +236,8 @@ public class CatSalon {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT SALON_NOMBRE FROM CAT_SALON" +
-					" WHERE SALON_ID = ? ");
+			ps = conn.prepareStatement("SELECT SALON_NOMBRE FROM CAT_SALON"
+					+ " WHERE SALON_ID = TO_NUMBER(?,'999')");
 			ps.setString(1, salonId);
 			
 			rs= ps.executeQuery();		
@@ -259,8 +259,8 @@ public class CatSalon {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT EDIFICIO_NOMBRE FROM CAT_EDIFICIO" +
-					" WHERE EDIFICIO_ID = ( SELECT EDIFICIO_ID FROM CAT_SALON WHERE SALON_ID = ? ) ");
+			ps = conn.prepareStatement("SELECT EDIFICIO_NOMBRE FROM CAT_EDIFICIO"
+					+ " WHERE EDIFICIO_ID = ( SELECT EDIFICIO_ID FROM CAT_SALON WHERE SALON_ID = TO_NUMBER(?,'999') ) ");
 			ps.setString(1, salonId);
 			
 			rs= ps.executeQuery();		
