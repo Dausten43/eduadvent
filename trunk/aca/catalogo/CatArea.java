@@ -95,7 +95,7 @@ public class CatArea {
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
-			ps = conn.prepareStatement("DELETE FROM CAT_ASOCIACION" +
+			ps = conn.prepareStatement("DELETE FROM CAT_AREA" +
 					" WHERE AREA_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, areaId);
 			
