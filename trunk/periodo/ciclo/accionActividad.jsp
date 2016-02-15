@@ -7,6 +7,7 @@
 <jsp:useBean id="BloqueActividad" scope="page" class="aca.ciclo.CicloBloqueActividad"/>
 <jsp:useBean id="tipoactLista" scope="page" class="aca.catalogo.CatTipoactLista"/>
 <jsp:useBean id="ActEtiquetalista" scope="page" class="aca.catalogo.CatActividadEtiquetaLista"/>
+<jsp:useBean id="Escuela" scope="page" class="aca.catalogo.CatEscuela"/>
 
 <script>	
 	function Grabar(){
@@ -35,8 +36,9 @@
 	// Declaracion de variables	
 	String cicloId 		= session.getAttribute("cicloId").toString();
 	String bloqueId 	= request.getParameter("BloqueId");
-
-	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListAll(conElias, "ORDER BY 1");
+	String escuelaId	= session.getAttribute("escuela").toString();
+	
+	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListUnion(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId),"ORDER BY 1");
 	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")) , " ORDER BY ORDEN");	
 	
 	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
