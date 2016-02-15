@@ -137,8 +137,7 @@ public class CatGrupo {
 			ps.setString(6, turno);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -171,8 +170,7 @@ public class CatGrupo {
 			ps.setString(6, folio);		
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -194,8 +192,7 @@ public class CatGrupo {
 			ps.setString(1, folio);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
