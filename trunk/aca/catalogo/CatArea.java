@@ -120,7 +120,7 @@ public class CatArea {
 		nombre		= rs.getString("NOMBRE");
 	}
 	
-	public void mapeaRegId(Connection con, String areaId) throws SQLException{
+	public void mapeaRegId(Connection con) throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
