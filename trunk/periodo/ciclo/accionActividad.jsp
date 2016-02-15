@@ -38,7 +38,7 @@
 	String bloqueId 	= request.getParameter("BloqueId");
 	String escuelaId	= session.getAttribute("escuela").toString();
 	
-	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListUnion(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId),"ORDER BY 1");
+	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListUnion(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId),"ORDER BY TIPOACT_NOMBRE ASC");
 	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")) , " ORDER BY ORDEN");	
 	
 	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
