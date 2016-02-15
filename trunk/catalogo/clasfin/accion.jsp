@@ -66,7 +66,7 @@
 	switch (nAccion) {
 
 		case 2: { // Grabar
-			
+			conElias.setAutoCommit(false);			
 			clasificacion.setEscuelaId(escuelaId);
 			clasificacion.setClasfinId(request.getParameter("ClasfinId"));
 			clasificacion.setClasfinNombre(request.getParameter("ClasfinNombre"));	
@@ -74,34 +74,36 @@
 
 			if (clasificacion.existeReg(conElias) == false) {
 				if (clasificacion.insertReg(conElias)) {
-					sResultado = "Guardado" + clasificacion.getClasfinId();
+					sResultado = "Guardado";
 					conElias.commit();
 				} else {
-					sResultado = "NoGuardo" + clasificacion.getClasfinId();
+					sResultado = "NoGuardo";
 				}
 			} else {
 				if (clasificacion.updateReg(conElias)) {
-					sResultado = "Modificado"+ clasificacion.getClasfinId();
+					sResultado = "Modificado";
 					conElias.commit();
 				} else {
-					sResultado = "NoModifico"+ clasificacion.getClasfinId();
+					sResultado = "NoModifico";
 				}
 			}
+			conElias.setAutoCommit(true);
 			break;
 		}
 		case 4: { // Borrar
+			conElias.setAutoCommit(false);
 			if (clasificacion.existeReg(conElias) == true) {
 				if (clasificacion.deleteReg(conElias)) {
-					sResultado = "Eliminado"+ clasificacion.getClasfinId();
+					sResultado = "Eliminado";
 					conElias.commit();
 				} else {
-					sResultado = "NoElimino"+ clasificacion.getClasfinId();
+					sResultado = "NoElimino";
 				}
 
 			} else {
-				sResultado = "NoExiste"	+ clasificacion.getClasfinId();
+				sResultado = "NoExiste";
 			}
-
+			conElias.setAutoCommit(true);
 			break;
 		}
 		case 5: { // Consultar						
@@ -109,7 +111,7 @@
 				clasificacion.mapeaRegId(conElias,escuelaId, request.getParameter("ClasfinId"));
 				sResultado = "Consulta";
 			} else {
-				sResultado = "NoExiste"	+ clasificacion.getClasfinId();
+				sResultado = "NoExiste";
 			}
 			break;
 		}
