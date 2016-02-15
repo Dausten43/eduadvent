@@ -48,8 +48,7 @@
 				if(!strCheck.equals("X")){
 					Permiso.setCicloId(cicloId);
 					Permiso.setNivelId(request.getParameter("Nivel"+i));
-					if (Permiso.insertReg(conElias) == true){
-						conElias.commit();
+					if (Permiso.insertReg(conElias) == true){						
 					}
 				}
 			}
@@ -62,8 +61,7 @@
 				if(!strCheck.equals("X")){
 					Permiso.setCicloId(cicloId);
 					Permiso.setNivelId(request.getParameter("Nivel"+i));
-					if (Permiso.deleteReg(conElias) == true){
-						conElias.commit();
+					if (Permiso.deleteReg(conElias) == true){						
 					}
 				}
 			}
