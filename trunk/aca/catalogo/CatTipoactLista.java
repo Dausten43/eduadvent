@@ -17,7 +17,7 @@ public class CatTipoactLista {
 		String comando				= "";
 		
 		try{
-			comando = "SELECT TIPOACT_ID, TIPOACT_NOMBRE FROM CAT_TIPOACT "+ orden; 
+			comando = "SELECT TIPOACT_ID, TIPOACT_NOMBRE, UNION_ID FROM CAT_TIPOACT "+ orden; 
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -74,7 +74,7 @@ public class CatTipoactLista {
 		String llave				= "";
 		
 		try{
-			comando = "SELECT TIPOACT_ID, TIPOACT_NOMBRE FROM CAT_TIPOACT "+ orden;
+			comando = "SELECT TIPOACT_ID, TIPOACT_NOMBRE UNION_ID FROM CAT_TIPOACT "+ orden;
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
