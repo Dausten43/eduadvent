@@ -73,7 +73,7 @@ public class CatSalon {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_SALON" +
 					" (SALON_CLAVE, EDIFICIO_ID, SALON_NOMBRE, LIMITE)" +
-					" VALUES( ?, ?, ?, ? )");
+					" VALUES( ?, TO_NUMBER(?,'99'), ?, TO_NUMBER(?,'99') )");
 			
 			ps.setString(1, salonClave);
 			ps.setString(2, edificioId);
