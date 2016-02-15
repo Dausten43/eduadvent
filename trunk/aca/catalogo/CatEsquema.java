@@ -103,7 +103,6 @@ public class CatEsquema {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -136,7 +135,6 @@ public class CatEsquema {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -161,7 +159,6 @@ public class CatEsquema {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
