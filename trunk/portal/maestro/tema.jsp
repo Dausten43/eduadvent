@@ -48,15 +48,13 @@
 
 			if (Tema.existeReg(conElias) == false) {
 				if (Tema.insertReg(conElias)) {
-					resultado = "Guardado";
-					conElias.commit();
+					resultado = "Guardado";					
 				} else {
 					resultado = "NoGuardo";
 				}
 			} else {
 				if (Tema.updateReg(conElias)) {
-					resultado = "Modificado";
-					conElias.commit();
+					resultado = "Modificado";					
 				} else {
 					resultado = "NoModifico";
 				}
