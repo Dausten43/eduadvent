@@ -105,7 +105,6 @@ public class Conectar{
 	// Desconectar usuario Elias conexion directa
 	public void desJosueDir(Connection Conn){
 		try{			
-			Conn.commit();
 			Conn.close();
 		}catch(Exception ex){
 			System.out.println("Error - aca.conecta.Conectar|desEliasDir|:"+ex);
@@ -115,7 +114,6 @@ public class Conectar{
 	// Desconectar Postgres usuario Elias
 	public void desJosuePostgres(Connection Conn){
 		try{			
-			Conn.commit();
 			Conn.close();
 		}catch(Exception ex){
 			System.out.println("Error - aca.conecta.Conectar|desElias|:"+ex);
