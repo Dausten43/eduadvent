@@ -261,7 +261,7 @@ public class CicloPromedio {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			ps = con.prepareStatement("SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR"
+			ps = con.prepareStatement("SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR, REDONDEO"
 					+ " FROM CICLO_PROMEDIO"
 					+ " WHERE CICLO_ID = ?"
 					+ " AND PROMEDIO_ID = TO_NUMBER(?, '99')");
