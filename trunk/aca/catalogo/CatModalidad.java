@@ -65,7 +65,6 @@ public class CatModalidad {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -89,7 +88,6 @@ public class CatModalidad {
 			ps.setString(2, modalidadId);						
 			if ( ps.executeUpdate()== 1){			
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -112,7 +110,6 @@ public class CatModalidad {
 			ps.setString(1,modalidadId);					
 			if ( ps.executeUpdate()== 1){			
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}

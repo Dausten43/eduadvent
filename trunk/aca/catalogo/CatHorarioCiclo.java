@@ -60,7 +60,6 @@ public class CatHorarioCiclo {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -89,7 +88,6 @@ public class CatHorarioCiclo {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -114,7 +112,6 @@ public class CatHorarioCiclo {
 			
 			if ( ps.executeUpdate() == 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}

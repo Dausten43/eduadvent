@@ -58,7 +58,6 @@ public class CatReligion {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -82,7 +81,6 @@ public class CatReligion {
 			ps.setString(2, religionId);						
 			if ( ps.executeUpdate()== 1){			
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -104,7 +102,6 @@ public class CatReligion {
 			ps.setString(1,religionId);					
 			if ( ps.executeUpdate()== 1){			
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
