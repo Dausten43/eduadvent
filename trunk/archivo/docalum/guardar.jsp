@@ -49,8 +49,10 @@
 	   	}	
 	   	
 		if (fis!=null) fis.close();
-		if (fi!=null) fi.delete();		
-	    
+		if (fi!=null) fi.delete();
+		
+		//Termina la transacción
+		conEliasDir.setAutoCommit(false);   
 	}catch(Exception e){
 		System.out.println("Error al subir el archivo: "+e);
 %>
