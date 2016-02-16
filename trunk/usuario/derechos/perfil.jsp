@@ -108,8 +108,7 @@
 			if(!aca.usuario.Usuario.existeCuenta(conElias, usuario.getCuenta(), strCodigoId)){
 				if (usuario.existeReg(conElias) == true){
 					if (usuario.updateReg(conElias)){
-						strResultado = "Modificado";
-						conElias.commit();		
+						strResultado = "Modificado";								
 					}else{
 						strResultado = "NoModifico";
 					}
@@ -121,8 +120,7 @@
 					usuario.setPlan("N");
 					usuario.setEscuela("-"+escuela+"-");
 					if (usuario.insertReg(conElias)){
-						strResultado = "Guardado";
-						conElias.commit();		
+						strResultado = "Guardado";								
 					}else{
 						strResultado = "NoGuardo";
 					}
