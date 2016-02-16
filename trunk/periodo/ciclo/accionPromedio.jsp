@@ -173,7 +173,7 @@
 			<select name="decimales" class="input input-small">
            		<option value='0' <%if(Promedio.getDecimales().equals("0")){out.print("selected");}%>>0</option>
            		<option value='1' <%if(Promedio.getDecimales().equals("1")){out.print("selected");}%>>1</option>
-           		<!--  <option value='1' <%if(Promedio.getDecimales().equals("2")){out.print("selected");}%>>2</option>-->
+           		<option value='2' <%if(Promedio.getDecimales().equals("2")){out.print("selected");}%>>2</option>
           	</select>
 		</fieldset>
 		<fieldset>
