@@ -105,7 +105,6 @@ public class CondTipoReporte {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -135,7 +134,6 @@ public class CondTipoReporte {
 			if ( ps.executeUpdate()== 1){
 				System.out.println("despues del execute");
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -158,7 +156,6 @@ public class CondTipoReporte {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}	

@@ -180,7 +180,6 @@ public class CondReporte {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}		
@@ -218,7 +217,6 @@ public class CondReporte {
 			ps.setString(9, folio);
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -243,7 +241,6 @@ public class CondReporte {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}			
