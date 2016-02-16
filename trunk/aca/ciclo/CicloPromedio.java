@@ -15,16 +15,18 @@ public class CicloPromedio {
 	private String orden;
 	private String decimales;
 	private String valor;
+	private String redondeo;
 	
 	public CicloPromedio(){		
 		  cicloId		= "";
 		  promedioId 	= "";		  
 		  nombre 		= "";
 		  corto 		= "";
-		  calculo 		= "";
+		  calculo 		= "V";
 		  orden 		= "";
 		  decimales		= "";
 		  valor 		= "";
+		  redondeo		= "A";
 	}
 
 	/**
@@ -123,6 +125,14 @@ public class CicloPromedio {
 	 */
 	public void setDecimales(String decimales) {
 		this.decimales = decimales;
+	}	
+
+	public String getRedondeo() {
+		return redondeo;
+	}
+
+	public void setRedondeo(String redondeo) {
+		this.redondeo = redondeo;
 	}
 
 	/**
@@ -137,16 +147,15 @@ public class CicloPromedio {
 	 */
 	public void setValor(String valor) {
 		this.valor = valor;
-	}
-	
+	}	
 	
 	public boolean insertReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_PROMEDIO"
-					+ " (CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR)"
-					+ " VALUES(?, TO_NUMBER(?, '99'), ?, ?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '9'), TO_NUMBER(?, '999.99'))");
+					+ " (CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR, REDONDEO)"
+					+ " VALUES(?, TO_NUMBER(?, '99'), ?, ?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '9'), TO_NUMBER(?, '999.99'), ?)");
 			
 			ps.setString(1, cicloId);
 			ps.setString(2, promedioId);
@@ -156,6 +165,7 @@ public class CicloPromedio {
 			ps.setString(6, orden);
 			ps.setString(7, decimales);
 			ps.setString(8, valor);
+			ps.setString(9, redondeo);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -181,7 +191,8 @@ public class CicloPromedio {
 					+ " CALCULO = ?,"
 					+ " ORDEN = TO_NUMBER(?, '99'),"
 					+ " DECIMALES = TO_NUMBER(?, '9'),"
-					+ " VALOR = TO_NUMBER(?, '999.99')"
+					+ " VALOR = TO_NUMBER(?, '999.99'),"
+					+ " REDONDEO = ?"
 					+ " WHERE CICLO_ID = ?"
 					+ " AND PROMEDIO_ID = TO_NUMBER(?, '99')");			
 			ps.setString(1, nombre);
@@ -190,8 +201,9 @@ public class CicloPromedio {
 			ps.setString(4, orden);
 			ps.setString(5, decimales);
 			ps.setString(6, valor);
-			ps.setString(7, cicloId);
-			ps.setString(8, promedioId);
+			ps.setString(7, redondeo);
+			ps.setString(8, cicloId);
+			ps.setString(9, promedioId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -241,6 +253,8 @@ public class CicloPromedio {
 		orden			= rs.getString("ORDEN");
 		decimales		= rs.getString("DECIMALES");
 		valor			= rs.getString("VALOR");
+		redondeo		= rs.getString("REDONDEO");
+		
 	}
 	
 	public void mapeaRegId(Connection con, String cicloId, String promedioId) throws SQLException{
