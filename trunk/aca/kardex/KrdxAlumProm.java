@@ -76,11 +76,11 @@ public class KrdxAlumProm {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_PROM " +
-					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA, VALOR)" +
-					" VALUES(?, ?, ?," +
-					" TO_NUMBER(?, '99')," +
-					" TO_NUMBER(?, '999.99'),TO_NUMBER(?, '999.99'))");
+			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_PROM(CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA, VALOR)"
+					+ " VALUES(?, ?, ?,"
+					+ " TO_NUMBER(?, '99'),"
+					+ " TO_NUMBER(?, '999.999'),"
+					+ " TO_NUMBER(?, '999.99'))");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
@@ -109,7 +109,7 @@ public class KrdxAlumProm {
 		try{
 			ps = conn.prepareStatement("UPDATE KRDX_ALUM_PROM " +
 					" SET " +
-					" NOTA = TO_NUMBER(?,'999.99')," +
+					" NOTA = TO_NUMBER(?,'999.999')," +
 					" VALOR = TO_NUMBER(?,'999.99')"+
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
