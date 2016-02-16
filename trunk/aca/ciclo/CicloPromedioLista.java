@@ -13,7 +13,7 @@ public class CicloPromedioLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR" +
+			comando = "SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR, REDONDEO" +
 					"FROM CICLO_PROMEDIO " +
 					"WHERE SUBSTR(CICLO_ID,1,3)= '"+escuelaId+"' "+orden;
 			
@@ -42,7 +42,7 @@ public class CicloPromedioLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR"
+			comando = "SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR, REDONDEO"
 					+ " FROM CICLO_PROMEDIO"
 					+ " WHERE CICLO_ID = '"+cicloId+"' "+orden;
 			
@@ -71,7 +71,7 @@ public class CicloPromedioLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR"
+			comando = "SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR, REDONDEO"
 					+ " FROM CICLO_PROMEDIO"
 					+ " WHERE CICLO_ID = '"+cicloId+"' "+orden;
 			
