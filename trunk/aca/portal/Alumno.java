@@ -50,15 +50,16 @@ public class Alumno{
 			    ps = conn.prepareStatement("UPDATE ALUM_COLOR SET COLOR = ? WHERE CODIGO_PERSONAL = ?");
 			    ps.setString(1,color);
 			    ps.setString(2,matricula);
-			    if (ps.executeUpdate()==1)
-			    	conn.commit();
+			    if (ps.executeUpdate()==1){
+			    	
+			    }			    	
 			}else{
 			    ps = conn.prepareStatement("INSERT INTO ALUM_COLOR VALUES( ?, ?)");
 			    ps.setString(1,matricula);
 			    ps.setString(2,color);
-			    if (ps.executeUpdate()==1)
-			    	conn.commit();
-			    
+			    if (ps.executeUpdate()==1){
+			    	
+			    }		    
 			}			
 		}catch(Exception ex){
 			System.out.println("Error - aca.portal.Alumno|guardaColor|:"+ex);
