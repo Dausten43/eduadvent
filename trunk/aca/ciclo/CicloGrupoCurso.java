@@ -142,8 +142,7 @@ public class CicloGrupoCurso {
 			ps.setString(6, estado);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}			
@@ -176,8 +175,7 @@ public class CicloGrupoCurso {
 			ps.setString(6, cursoId);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -299,8 +297,7 @@ public class CicloGrupoCurso {
 			ps.setString(1, cicloGrupoId);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
