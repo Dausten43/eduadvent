@@ -92,7 +92,7 @@ public class CicloGrupoHorario {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_HORARIO" +
 					" (ESCUELA_ID, CURSO_ID, CICLO_GRUPO_ID, SALON_ID, HORARIO_ID, DIA, PERIODO_ID)" +
-					" VALUES(?, ?, ?, ?, ?, TO_NUMBER(?, '9'), TO_NUMBER(?, '99'))");
+					" VALUES(?, ?, ?, TO_NUMBER(?, '99999'), TO_NUMBER(?, '99999'), TO_NUMBER(?, '9'), TO_NUMBER(?, '99'))");
 			ps.setString(1,escuelaId);
 			ps.setString(2,cursoId);
 			ps.setString(3,cicloGrupoId);
@@ -122,8 +122,8 @@ public class CicloGrupoHorario {
 					" WHERE ESCUELA_ID = ?" +
 					" AND CURSO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
-					" AND SALON_ID = ?" +
-					" AND HORARIO_ID = ?" +
+					" AND SALON_ID = TO_NUMBER(?, '99999')" +
+					" AND HORARIO_ID = TO_NUMBER(?, '99999')" +
 					" AND DIA = TO_NUMBER(?, '9')" +
 					" AND PERIODO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1,escuelaId);
@@ -169,7 +169,7 @@ public class CicloGrupoHorario {
 					" CURSO_ID = ?," +
 					" CICLO_GRUPO_ID = ?," +
 					" SALON_ID = ?," +
-					" HORARIO_ID = ?," +
+					" HORARIO_ID = TO_NUMBER(?, '99999')," +
 					" DIA = TO_NUMBER(?, '9')," +
 					" PERIODO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1,escuelaId);
@@ -204,8 +204,8 @@ public class CicloGrupoHorario {
 					" WHERE ESCUELA_ID = ?" +
 					" AND CURSO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
-					" AND SALON_ID = ?" +
-					" AND HORARIO_ID = ?" +
+					" AND SALON_ID = TO_NUMBER(?, '99999')" +
+					" AND HORARIO_ID = TO_NUMBER(?, '99999') " +
 					" AND DIA = TO_NUMBER(?, '9')" +
 					" AND PERIODO_ID = TO_NUMBER(?, '99')");
 			ps.setString(1,escuelaId);
@@ -240,7 +240,7 @@ public class CicloGrupoHorario {
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CICLO_GRUPO_HORARIO" +
 					" WHERE ESCUELA_ID = ?" +
-					" AND HORARIO_ID = ? ");
+					" AND HORARIO_ID  = TO_NUMBER(?,'99999')");
 			
 			ps.setString(1,escuelaId);
 			ps.setString(2,horarioId);
@@ -268,8 +268,8 @@ public class CicloGrupoHorario {
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CICLO_GRUPO_HORARIO" +
 					" WHERE ESCUELA_ID = ?" +
-					" AND HORARIO_ID = ?" +
-					" AND PERIODO_ID = TO_NUMBER(?, '99') ");
+					" AND HORARIO_ID = TO_NUMBER(?, '99999') " +
+					" AND PERIODO_ID = TO_NUMBER(?,'99999')");
 			
 			ps.setString(1,escuelaId);
 			ps.setString(2,horarioId);
