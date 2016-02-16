@@ -62,8 +62,7 @@
 			CicloGrupo.setEmpleadoId(request.getParameter("CodigoPersonal"));
 			if (CicloGrupo.existeReg(conElias) == true){
 				if (CicloGrupo.updateReg(conElias)==true){
-					Resultado = "Modificado";
-					conElias.commit();
+					Resultado = "Modificado";					
 					response.sendRedirect("materia.jsp");
 				}else{
 					Resultado = "NoModifico";
@@ -77,8 +76,7 @@
 			CicloGrupoCurso.setEmpleadoId(request.getParameter("CodigoPersonal"));
 			if (CicloGrupoCurso.existeReg(conElias) == true){
 				if (CicloGrupoCurso.updateReg(conElias)==true){					
-					Resultado = "Modificado";
-					conElias.commit();
+					Resultado = "Modificado";					
 					response.sendRedirect("materia.jsp");
 				}else{
 					Resultado = "NoModifico";
