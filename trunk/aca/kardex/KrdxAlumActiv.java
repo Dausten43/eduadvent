@@ -132,7 +132,6 @@ public class KrdxAlumActiv {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -166,7 +165,6 @@ public class KrdxAlumActiv {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -197,7 +195,6 @@ public class KrdxAlumActiv {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -227,7 +224,6 @@ public class KrdxAlumActiv {
 			ps.setString(3, cursoId);			
 			if ( ps.executeUpdate() >= 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}			
@@ -254,7 +250,6 @@ public class KrdxAlumActiv {
 			ps.setString(2, cicloGrupoId);						
 			if ( ps.executeUpdate() >= 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}			
@@ -311,7 +306,6 @@ public class KrdxAlumActiv {
 			
 			if ( ps.executeUpdate() >= 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}			
