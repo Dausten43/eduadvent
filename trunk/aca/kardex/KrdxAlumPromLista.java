@@ -76,7 +76,7 @@ public class KrdxAlumPromLista {
 		String comando	= "";
 		
 		try{
-			comando = " SELECT CICLO_GRUPO_ID, CURSO_ID, COALESCE(TRIM(TO_CHAR(SUM(NOTA*VALOR)/100,'999.99')),'0') AS NOTA"
+			comando = " SELECT CICLO_GRUPO_ID, CURSO_ID, COALESCE(TRIM(TO_CHAR(SUM(NOTA*VALOR)/100,'999.999')),'0') AS NOTA"
 					+ " FROM KRDX_ALUM_PROM"
 					+ " WHERE CODIGO_ID = '"+codigoId+"'"
 					+ " GROUP BY CICLO_GRUPO_ID, CURSO_ID";
@@ -134,7 +134,7 @@ public class KrdxAlumPromLista {
 		String comando	= "";
 		
 		try{
-			comando = " SELECT CODIGO_ID, CURSO_ID, COALESCE(TRIM(TO_CHAR(SUM(NOTA*VALOR)/100,'999.99')),'0') AS NOTA"
+			comando = " SELECT CODIGO_ID, CURSO_ID, COALESCE(TRIM(TO_CHAR(SUM(NOTA*VALOR)/100,'999.999')),'0') AS NOTA"
 					+ " FROM KRDX_ALUM_PROM"
 					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'"
 					+ " GROUP BY CODIGO_ID, CURSO_ID";
