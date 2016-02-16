@@ -48,15 +48,13 @@
 
 			if (Modulo.existeReg(conElias) == false) {
 				if (Modulo.insertReg(conElias)) {
-					resultado = "Guardado";
-					conElias.commit();
+					resultado = "Guardado";					
 				} else {
 					resultado = "NoGuardo";
 				}
 			} else {
 				if (Modulo.updateReg(conElias)) {
-					resultado = "Modificado";
-					conElias.commit();
+					resultado = "Modificado";					
 				} else {
 					resultado = "NoModifico";
 				}
