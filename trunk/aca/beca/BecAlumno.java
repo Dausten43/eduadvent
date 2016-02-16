@@ -157,8 +157,7 @@ public class BecAlumno {
 			ps.setString(9, usuario);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -196,8 +195,7 @@ public class BecAlumno {
 			ps.setString(9, becaId);	
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
@@ -219,8 +217,7 @@ public class BecAlumno {
 			ps.setString(1, becaId);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
