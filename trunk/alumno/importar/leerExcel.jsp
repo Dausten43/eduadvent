@@ -300,7 +300,7 @@
 			// Insert del alumno
 			
 	    	if ( alumno.insertTraspaso(conElias) ){
-	    		conElias.commit();
+	    		//conElias.commit();
 	    	}
 			
 		}
