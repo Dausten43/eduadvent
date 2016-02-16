@@ -102,7 +102,6 @@ public class CicloGrupoHorario {
 			ps.setString(7,periodoId);
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -137,7 +136,6 @@ public class CicloGrupoHorario {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}

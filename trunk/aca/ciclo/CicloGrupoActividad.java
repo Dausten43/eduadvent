@@ -181,7 +181,6 @@ public class CicloGrupoActividad {
 			ps.setString(10, mostrar);
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}			
@@ -223,7 +222,6 @@ public class CicloGrupoActividad {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -254,7 +252,6 @@ public class CicloGrupoActividad {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -285,7 +282,6 @@ public class CicloGrupoActividad {
 			
 			if ( ps.executeUpdate() >= 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}

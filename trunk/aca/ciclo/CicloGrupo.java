@@ -211,7 +211,6 @@ public class CicloGrupo {
 			ps.setString(10, planId);
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -253,7 +252,6 @@ public class CicloGrupo {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -276,7 +274,6 @@ public class CicloGrupo {
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
