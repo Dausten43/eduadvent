@@ -53,15 +53,13 @@
 
 			if (docA.existeReg(conElias) == false) {
 				if (docA.insertReg(conElias)) {
-					Resultado = "Guardado";
-					conElias.commit();
+					Resultado = "Guardado";					
 				} else {
 					Resultado = "NoGuardo";
 				}
 			} else {
 				if (docA.updateReg(conElias)) {
-					Resultado = "Modificado";
-					conElias.commit();
+					Resultado = "Modificado";					
 				} else {
 					Resultado = "NoModifico";
 				}
@@ -77,8 +75,7 @@
 
 			if (docA.existeReg(conElias) == true) {
 				if (docA.deleteReg(conElias)) {
-					Resultado = "Eliminado";
-					conElias.commit();
+					Resultado = "Eliminado";					
 					response.sendRedirect("docalum.jsp");
 				} else {
 					Resultado = "NoElimino";
