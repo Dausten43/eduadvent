@@ -157,7 +157,7 @@ public class CatHorario {
 			ps = con.prepareStatement("SELECT HORARIO_ID, ESCUELA_ID," +
 					" HORARIO_NOMBRE, ESTADO " +
 					" FROM CAT_HORARIO" +
-					" WHERE HORARIO_ID = ? ");
+					" WHERE HORARIO_ID = TO_NUMBER(?,'99999')");
 			ps.setString(1, horarioId);
 			
 			rs = ps.executeQuery();
