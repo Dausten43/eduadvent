@@ -72,7 +72,6 @@ public class Modulo  implements java.io.Serializable{
 			ps.setString(4, menuId);
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -99,7 +98,6 @@ public class Modulo  implements java.io.Serializable{
 			ps.setString(3, moduloId);
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -119,7 +117,6 @@ public class Modulo  implements java.io.Serializable{
 			ps.setString(1, moduloId);			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}

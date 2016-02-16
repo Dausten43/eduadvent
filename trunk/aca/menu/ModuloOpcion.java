@@ -124,7 +124,6 @@ public class ModuloOpcion  implements java.io.Serializable{
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -153,7 +152,6 @@ public class ModuloOpcion  implements java.io.Serializable{
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -174,7 +172,6 @@ public class ModuloOpcion  implements java.io.Serializable{
 			ps.setString(2, opcionId);
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}

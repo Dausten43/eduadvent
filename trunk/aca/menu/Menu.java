@@ -50,7 +50,6 @@ public class Menu{
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -76,7 +75,6 @@ public class Menu{
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
@@ -100,7 +98,6 @@ public class Menu{
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
-				conn.commit();
 			}else{
 				ok = false;
 			}
