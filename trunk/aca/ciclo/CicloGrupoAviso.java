@@ -155,8 +155,7 @@ public class CicloGrupoAviso {
 			ps.setString(7, aviso);
 						
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;			
 			}else{
 				ok = false;
 			}
