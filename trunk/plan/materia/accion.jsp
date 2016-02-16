@@ -102,7 +102,6 @@
 				if (Curso.updateReg(conElias)) {
 					strResultado = "Modificado";
 					Curso.mapeaRegId(conElias, planId); // mapeamos el registro que actualizamos
-					conElias.commit();
 				} else {
 					strResultado = "NoModifico";
 				}
@@ -114,7 +113,6 @@
 					strResultado = "Existe";
 				} else if (Curso.insertReg(conElias)) {
 					strResultado = "Guardado";
-					conElias.commit();
 					cursoId = planId + request.getParameter("CursoId")+grado;
 				} else {
 						strResultado = "NoGuardo";
