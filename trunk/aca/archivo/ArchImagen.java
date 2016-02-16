@@ -130,8 +130,7 @@ public class ArchImagen {
 			ps.setString(6, nombre);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
