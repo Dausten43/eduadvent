@@ -34,7 +34,7 @@
 		int cont = 0;
 		for(aca.catalogo.CatHorario horario: horarios){
 			cont++;
-		
+			
 			HorarioPeriodo.setHorarioId(horario.getHorarioId());
 	%>
 		<tr>
