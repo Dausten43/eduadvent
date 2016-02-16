@@ -10,7 +10,6 @@
 <jsp:useBean id="CicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 <jsp:useBean id="CicloGrupoCurso" scope="page" class="aca.ciclo.CicloGrupoCurso"/>
 
-
 <script>
 	
 	function Modificar( CodigoPersonal ){
@@ -40,10 +39,8 @@
 	CicloGrupo.mapeaRegId(conElias, cicloGrupoId);
 	CicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);
 	
-	String Maestro  		= "";
-	
-	String grupo 			= CicloGrupo.getGrupoNombre();
-	
+	String Maestro  		= "";	
+	String grupo 			= CicloGrupo.getGrupoNombre();	
 	String Nombre  			= "";
 	String Resultado 		= "";
 	
