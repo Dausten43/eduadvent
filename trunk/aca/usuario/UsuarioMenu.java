@@ -90,8 +90,7 @@ public class UsuarioMenu {
 			ps.setString(2, opcionId);
 			
 			if ( ps.executeUpdate()== 1){
-				ok = true;
-				conn.commit();
+				ok = true;				
 			}else{
 				ok = false;
 			}
