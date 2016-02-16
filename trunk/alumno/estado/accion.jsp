@@ -65,8 +65,7 @@
 				alumCiclo.setEstado(request.getParameter("estado"));
 
 				if (alumCiclo.insertReg(conElias)) {
-					resultado = "Grabado: ";
-					conElias.commit();
+					resultado = "Grabado: ";					
 				} else {
 					resultado = "NoGrabo: " ;
 				}
@@ -74,8 +73,7 @@
 				alumCiclo.setEstado(request.getParameter("estado"));
 
 				if (alumCiclo.updateReg(conElias)) {
-					resultado = "Modificado"; 
-					conElias.commit();
+					resultado = "Modificado";					
 				} else {
 					resultado = "NoGrabo: ";
 				}
