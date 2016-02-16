@@ -32,8 +32,9 @@
 	if(accion.equals("2")){
 		cicloExtra.setCicloId(cicloId);
 		cicloExtra.setOportunidad(oportunidad);
-		cicloExtra.setValorAnterior(request.getParameter("ValorAnterior"));
-		cicloExtra.setValorExtra(request.getParameter("ValorExtra"));
+		
+		cicloExtra.setValorAnterior(request.getParameter("ValorAnterior").substring(0,2));
+		cicloExtra.setValorExtra(request.getParameter("ValorExtra").substring(0,2));
 		cicloExtra.setOportunidadNombre(request.getParameter("OportunidadNombre"));
 
 		int total = Integer.parseInt(cicloExtra.getValorAnterior())+Integer.parseInt(cicloExtra.getValorExtra());

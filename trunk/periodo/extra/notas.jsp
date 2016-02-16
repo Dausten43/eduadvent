@@ -22,7 +22,7 @@
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String cicloId 		= request.getParameter("ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("ciclo");
 
-	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloL.getListAll(conElias, escuelaId, "ORDER BY F_INICIAL");
+	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloL.getListActivos(conElias, escuelaId, "ORDER BY F_INICIAL");
 	ArrayList<aca.ciclo.CicloExtra> lisextras = cicloExtraL.getListCiclo(conElias, cicloId, "ORDER BY OPORTUNIDAD");
 
 	if (cicloId == null) {
@@ -62,7 +62,7 @@
 			<a class="btn btn-primary btn-mobile" href="accion.jsp?ciclo=<%=cicloId%>"><i class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a>
 			<select id="ciclo" name="ciclo" onchange="document.forma.submit();" class="input-xxlarge pull-right">
 				<%for ( aca.ciclo.Ciclo Ciclo : lisCiclo ) {%>
-					<option value="<%=Ciclo.getCicloId()%>" <%=cicloId.equals(Ciclo.getCicloId())?"selected":""%>><%=Ciclo.getCicloNombre()+"  "+Ciclo.getCicloId()%></option>
+					<option value="<%=Ciclo.getCicloId()%>" <%=cicloId.equals(Ciclo.getCicloId())?"selected":""%>><%=Ciclo.getCicloId()+" - "+Ciclo.getCicloNombre()%></option>
 				<%}%>
 			</select>
 		</div>
