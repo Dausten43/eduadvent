@@ -2152,7 +2152,8 @@
  									strExtra = "-";
  								}																							
 								
-							}							
+							}
+							
 						%>
 							<td class="text-center">
 								<div id="extra<%=i%>"><%=strExtra %></div>
@@ -2262,7 +2263,8 @@
 								<td class="text-center">
 									<div id="extra<%=i%>"><%="-"%></div>
 								</td>
-							<%} %>	
+							<%} %>		
+							
 													
 				</tr>
 				<%
