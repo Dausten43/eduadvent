@@ -49,8 +49,9 @@
 		    	<th><fmt:message key="aca.NombreCorto" /></th>
 		    	<th><fmt:message key="aca.Calculo" /></th>
 		    	<th><fmt:message key="aca.Orden" /></th>
-				<th><fmt:message key="aca.Decimal" /></th>
 				<th><fmt:message key="aca.Valor" /></th>
+				<th><fmt:message key="aca.Decimal" /></th>
+				<th><fmt:message key="aca.Redondeo" /></th>
 			</tr>
 		</thead>
 		<%int cont = 0; %>
@@ -74,8 +75,9 @@
 				<td><%=promedio.getCorto() %></td>
 				<td><%=promedio.getCalculo() %></td>
 				<td><%=promedio.getOrden() %></td>
-				<td><%=promedio.getDecimales()%></td>
 				<td><%=promedio.getValor()%></td>
+				<td><%=promedio.getDecimales()%></td>
+				<td><%=promedio.getRedondeo()%></td>
 	  		</tr>  
 		<%}%>  
 	</table>

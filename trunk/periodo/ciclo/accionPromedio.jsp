@@ -84,6 +84,7 @@
 		Promedio.setOrden(request.getParameter("orden"));
 		Promedio.setPromedioId(request.getParameter("promedioId"));
 		Promedio.setValor(request.getParameter("valor"));
+		Promedio.setRedondeo(request.getParameter("redondeo"));
 		if (Promedio.existeReg(conElias) == true){
 			if (Promedio.updateReg(conElias)){
 				sResultado = "Modificado";
@@ -169,6 +170,10 @@
 			<input name="orden" type="text" id="orden" value="<%=Promedio.getOrden()%>" class="input-small">
 		</fieldset>
 		<fieldset>
+			<label for="valor"><fmt:message key="aca.Valor" /></label>
+			<input name="valor" type="text" id="valor" value="<%=Promedio.getValor()%>" class="input input-small">
+		</fieldset>
+		<fieldset>
 			<label for="decimales"><fmt:message key="aca.Decimal" /></label>
 			<select name="decimales" class="input input-small">
            		<option value='0' <%if(Promedio.getDecimales().equals("0")){out.print("selected");}%>>0</option>
@@ -177,8 +182,11 @@
           	</select>
 		</fieldset>
 		<fieldset>
-			<label for="valor"><fmt:message key="aca.Valor" /></label>
-			<input name="valor" type="text" id="valor" value="<%=Promedio.getValor()%>" class="input input-small">
+			<label for="redondeo"><fmt:message key="aca.Redondeo" /></label>
+			<select name="redondeo" class="input input-small">
+           		<option value='A' <%if(Promedio.getRedondeo().equals("A")){out.print("selected");}%>>A</option>
+           		<option value='T' <%if(Promedio.getRedondeo().equals("T")){out.print("selected");}%>>T</option>
+          	</select>
 		</fieldset>
 	</form>
 	                  
