@@ -46,7 +46,7 @@
 	if(accion.equals("1") && !nombre.equals("")){
 		rol.setRolId(rol.maximoReg(conElias));
 		rol.setRolNombre(nombre);
-
+		conElias.setAutoCommit(false);
 		String checkOpcion 	= "N";
 		if (!rol.existeReg(conElias)){
 			if (rol.insertReg(conElias)){
@@ -70,16 +70,17 @@
 				conElias.rollback();
 			}
 		}
-
+		conElias.setAutoCommit(true);
+		
 	}else if(accion.equals("2")){
 		rol.setRolId(rolId);
 		rol.mapeaRegId(conElias);
 		if(rol.deleteReg(conElias)){
-			conElias.commit();
+			//
 		}
 	}else if(accion.equals("3")){
 		rol.setRolId(rolId);
-		
+		conElias.setAutoCommit(false);
 		rol.mapeaRegId(conElias);
 		rol.setRolNombre(nombre);
 		String checkOpcion	= "N";
@@ -114,6 +115,7 @@
 				}
 			}
 		}
+		conElias.setAutoCommit(true);
 	}
 	
 	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
