@@ -90,6 +90,7 @@
 	 * ABRIR INPUTS PARA EDITAR LOS EXTRAORDINARIOS
 	 */
 	function muestraInputExtra(evaluacionId){
+		
 		var editar = $('.editarExtra');//Busca los inputs
 		
 		editar.each(function(){
@@ -1345,13 +1346,15 @@
 					//***************** UNA PORTUNIDADAD *********************//
 					} else if(lisTodosLosExtras.size() == 1){
 						
+					System.out.println("IMPRIME : "+lisKardexAlumnosExtra.size());
+						
 					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%}else{ %>
+							<th class="text-center" style="width:4%;">
+								<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
+									<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
+								</a>
+							</th>
+					<% }else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
@@ -1934,13 +1937,13 @@
  								} else {
  									strExtra = "-";
  								}																							
-								
+						
 							}							
 						%>
 							<td class="text-center">
 								<div id="extra<%=i%>"><%=strExtra %></div>
 								
-								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
+								INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT)
 								<%if ( !strExtra.equals("") ){%>
 									<div class="editarExtra" style="display:none;">
 										<input 
@@ -2277,8 +2280,7 @@
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<!-- BOTONES PARA EDITAR LAS NOTAS (ESCONDIDOS POR DEFAULT) -->
+				<!-- BOTONES PARA EDITAR LAS NOTAS (ESCONDIDOS POR DEFAULT) -->
 					<%
 					for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
 					%>
@@ -2425,7 +2427,7 @@
  					}
 					%> 
 										
-					
+					<td>&nbsp;</td>
 				</tr>
 		</table>
 	</form>
