@@ -184,8 +184,8 @@
 		<fieldset>
 			<label for="redondeo"><fmt:message key="aca.Redondeo" /></label>
 			<select name="redondeo" class="input input-small">
-           		<option value='A' <%if(Promedio.getRedondeo().equals("A")){out.print("selected");}%>>A</option>
-           		<option value='T' <%if(Promedio.getRedondeo().equals("T")){out.print("selected");}%>>T</option>
+           		<option value='A' <%if(Promedio.getRedondeo().equals("A")){out.print("selected");}%>>Arriba</option>
+           		<option value='T' <%if(Promedio.getRedondeo().equals("T")){out.print("selected");}%>>Truncado</option>
           	</select>
 		</fieldset>
 	</form>

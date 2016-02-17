@@ -77,7 +77,11 @@
 				<td><%=promedio.getOrden() %></td>
 				<td><%=promedio.getValor()%></td>
 				<td><%=promedio.getDecimales()%></td>
-				<td><%=promedio.getRedondeo()%></td>
+				<%if(promedio.getRedondeo().equals("A")){%>
+				<td>Arriba</td>
+				<%}else {%>
+				<td>Truncado</td>
+				<%}%>
 	  		</tr>  
 		<%}%>  
 	</table>
