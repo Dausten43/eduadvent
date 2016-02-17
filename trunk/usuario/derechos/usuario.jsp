@@ -15,6 +15,7 @@
 
 <jsp:useBean id="Modulo" scope="page" class="aca.menu.Modulo"/>
 <jsp:useBean id="ModuloOpcion" scope="page" class="aca.menu.ModuloOpcion"/>
+<jsp:useBean id="rolL" scope="page" class="aca.rol.RolLista"/>
 
 <%
 	String strCodigo		= (String)session.getAttribute("codigoId");
@@ -68,8 +69,7 @@
 		usuario.setTipoId(tipoId);
 		usuario.setNivel("-");
 		usuario.setAsociacion("-");
-		if (usuario.insertReg(conElias)){
-			conElias.commit();
+		if (usuario.insertReg(conElias)){		
 			existeUsuario = true;
 		}
 	}else{
@@ -78,6 +78,8 @@
 	
 	// Verifica si es administrador
 	boolean admin = aca.usuario.Usuario.esAdministrador(conElias, strCodigo);
+	
+	ArrayList<aca.rol.Rol> lisRoles 		= rolL.getListAll(conElias, " ORDER BY 1");
 %>
 <body>
 
@@ -98,6 +100,17 @@
 	  		<%if (usuarioLogin.getAdministrador().equals("S")){ %>
 	  		<div class="well">
 	  			<a href="menu.jsp" class="btn btn-primary"><i class="icon-pencil icon-white"></i> <fmt:message key="boton.Editar" /></a>
+	  			&nbsp;&nbsp;
+	  			<select name="Rol">
+<%
+			for (aca.rol.Rol rol : lisRoles){
+%>
+					<option value="<%=rol.getRolId()%>"><%=rol.getRolNombre()%></option>				
+<%					
+			}
+%>	  			
+	  			</select>
+	  			<a href="javascript:Aplicar() class="btn btn-primary">Aplicar</a>
 	  		</div>
 	  		<%} %>          
 			        
