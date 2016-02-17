@@ -8,18 +8,22 @@
 <%@ page import= "sun.misc.BASE64Encoder"%>
 <%@ page import="aca.catalogo.CatEscuela"%>
 
-<jsp:useBean id="usuarioLogin" scope="page" class="aca.usuario.Usuario"/>
-<jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario"/>
-<jsp:useBean id="usuarioMenuLista" scope="page" class="aca.usuario.UsuarioMenuLista"/>
+<jsp:useBean id="UsuarioLogin" scope="page" class="aca.usuario.Usuario"/>
+<jsp:useBean id="Usuario" scope="page" class="aca.usuario.Usuario"/>
+<jsp:useBean id="UsuarioMenu" scope="page" class="aca.usuario.UsuarioMenu"/>
+<jsp:useBean id="UsuarioMenuLista" scope="page" class="aca.usuario.UsuarioMenuLista"/>
 <jsp:useBean id="EscuelaLista" scope="page" class="aca.catalogo.CatEscuelaLista"/>
 
 <jsp:useBean id="Modulo" scope="page" class="aca.menu.Modulo"/>
 <jsp:useBean id="ModuloOpcion" scope="page" class="aca.menu.ModuloOpcion"/>
-<jsp:useBean id="rolL" scope="page" class="aca.rol.RolLista"/>
+<jsp:useBean id="RolL" scope="page" class="aca.rol.RolLista"/>
+<jsp:useBean id="RolOpcionL" scope="page" class="aca.rol.RolOpcionLista"/>
 
 <%
 	String strCodigo		= (String)session.getAttribute("codigoId");
 	String strCodigoId 		= (String)session.getAttribute("codigoReciente");
+	
+	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion"); 
 	
 	String tipo				= "";
 	String tipoId			= "";
@@ -31,16 +35,16 @@
 	
 	boolean existeUsuario	= false;
 	
-	usuarioLogin.setCodigoId(strCodigo);
-	if (usuarioLogin.existeReg(conElias)){
-		usuarioLogin.mapeaRegId(conElias, strCodigo);
+	UsuarioLogin.setCodigoId(strCodigo);
+	if (UsuarioLogin.existeReg(conElias)){
+		UsuarioLogin.mapeaRegId(conElias, strCodigo);
 	}
 	
-	usuario.setCodigoId(strCodigoId);
-	if (usuario.existeReg(conElias)){		
+	Usuario.setCodigoId(strCodigoId);
+	if (Usuario.existeReg(conElias)){		
 		existeUsuario = true;
-		usuario.mapeaRegId(conElias, strCodigoId);
-		tipo = aca.usuario.UsuarioTipo.getTipoNombre(conElias, Integer.parseInt(usuario.getTipoId() ) );
+		Usuario.mapeaRegId(conElias, strCodigoId);
+		tipo = aca.usuario.UsuarioTipo.getTipoNombre(conElias, Integer.parseInt(Usuario.getTipoId() ) );
 	}else{		
 		if (strCodigoId.substring(3,4).equals("E"))
 			tipo = "EMPLEADO";
@@ -59,27 +63,47 @@
 	}	
 	// Graba los datos iniciales del usuario cuando no existe
 	if ( existeUsuario==false ){
-		usuario.setClave(strCodigoId);
-		usuario.setAdministrador("N");
-		usuario.setContable("N");
-		usuario.setCotejador("N");
-		usuario.setEscuela( "-"+String.valueOf( strCodigoId.substring(0,3))+"-");
-		usuario.setPlan("N");
-		usuario.setCuenta(strCodigoId);
-		usuario.setTipoId(tipoId);
-		usuario.setNivel("-");
-		usuario.setAsociacion("-");
-		if (usuario.insertReg(conElias)){		
+		Usuario.setClave(strCodigoId);
+		Usuario.setAdministrador("N");
+		Usuario.setContable("N");
+		Usuario.setCotejador("N");
+		Usuario.setEscuela( "-"+String.valueOf( strCodigoId.substring(0,3))+"-");
+		Usuario.setPlan("N");
+		Usuario.setCuenta(strCodigoId);
+		Usuario.setTipoId(tipoId);
+		Usuario.setNivel("-");
+		Usuario.setAsociacion("-");
+		if (Usuario.insertReg(conElias)){		
 			existeUsuario = true;
 		}
 	}else{
 		//System.out.println("No grabe el usuario");
 	}
 	
+	// Aplicar el rol para el usuario
+	if (accion.equals("1")){
+		// obtener las opciones del rol		
+		String rolId = request.getParameter("Rol")==null?"0":request.getParameter("Rol");
+		ArrayList<aca.rol.RolOpcion> lisRolOpcion 		= RolOpcionL.getList(conElias, rolId, " ORDER BY 1");
+
+		conElias.setAutoCommit(false);
+		for (aca.rol.RolOpcion opcion : lisRolOpcion){
+			UsuarioMenu.setCodigoId(strCodigoId);
+			UsuarioMenu.setOpcionId(opcion.getopcionId());
+			if (!UsuarioMenu.existeReg(conElias)){
+
+				if (UsuarioMenu.insertReg(conElias))
+					conElias.commit();
+			}		
+		}
+		conElias.setAutoCommit(true);
+		
+	}
+	
 	// Verifica si es administrador
 	boolean admin = aca.usuario.Usuario.esAdministrador(conElias, strCodigo);
 	
-	ArrayList<aca.rol.Rol> lisRoles 		= rolL.getListAll(conElias, " ORDER BY 1");
+	ArrayList<aca.rol.Rol> lisRoles 		= RolL.getListAll(conElias, " ORDER BY 1");
 %>
 <body>
 
@@ -93,15 +117,17 @@
 		<strong><fmt:message key="aca.Tipo" />:</strong> <%=tipo %>
 	</div>
 	
-	<div class="row">
-		<div class="span5">
-	  
+	<div class="row">		
+		<div class="span5">	  
 	  		<h4><fmt:message key="aca.MenuUsuario" /></h4>	
-	  		<%if (usuarioLogin.getAdministrador().equals("S")){ %>
+	  		<%if (UsuarioLogin.getAdministrador().equals("S")){ %>
+	  		<form action="usuario.jsp" id="frmRol" name="frmRol" method="post">
+	  		<input name="Accion" id="Accion" type="hidden"/>
 	  		<div class="well">
 	  			<a href="menu.jsp" class="btn btn-primary"><i class="icon-pencil icon-white"></i> <fmt:message key="boton.Editar" /></a>
-	  			&nbsp;&nbsp;
-	  			<select name="Rol">
+	  			&nbsp;&nbsp;&nbsp;
+	  			Rol:
+	  			<select name="Rol" class="input input-medium">
 <%
 			for (aca.rol.Rol rol : lisRoles){
 %>
@@ -109,14 +135,14 @@
 <%					
 			}
 %>	  			
-	  			</select>
-	  			<a href="javascript:Aplicar() class="btn btn-primary">Aplicar</a>
+	  			</select>&nbsp;
+	  			<a href="javascript:Aplicar()" class="btn btn-success">Aplicar</a>
 	  		</div>
+	  		</form>
 	  		<%} %>          
 			        
 			<%
-				ArrayList ListMenuUsuario = new ArrayList();
-				ListMenuUsuario = usuarioMenuLista.getListUsuario(conElias, strCodigoId, " ORDER BY 2");
+				ArrayList<aca.usuario.UsuarioMenu> ListMenuUsuario = UsuarioMenuLista.getListUsuario(conElias, strCodigoId, " ORDER BY 2");
 				
 				temp = "x";
 				for (int i=0;i<ListMenuUsuario.size();i++){
@@ -160,15 +186,15 @@
 					  		
 					<tr>
 						<td><fmt:message key="aca.EsAdministrador" /></td>
-						<td><%=usuario.getAdministrador().equals("S")?"Si":"No" %></td>
+						<td><%=Usuario.getAdministrador().equals("S")?"Si":"No" %></td>
 					</tr>
 					<tr>
 						<td><fmt:message key="aca.Cotejador" /></td>
-						<td><%=usuario.getCotejador().equals("S")?"Si":"No" %></td>
+						<td><%=Usuario.getCotejador().equals("S")?"Si":"No" %></td>
 					</tr>
 					<tr>
 						<td><fmt:message key="aca.EsUsuarioContable" /></td>
-						<td><%=usuario.getContable().equals("S")?"Si":"No" %></td>
+						<td><%=Usuario.getContable().equals("S")?"Si":"No" %></td>
 					</tr>
 				</table>					  	
 			</div>			
@@ -181,8 +207,8 @@
 				<%
 						if (existeUsuario){		
 							String escuelaUsuarioId = aca.usuario.Usuario.getEscuelaUsuario(conElias, strCodigoId, String.valueOf(aca.usuario.Usuario.getTipo(conElias, strCodigoId)));			
-							if(usuario.getNivel()!=null){
-								String [] niveles = usuario.getNivel().split("-");
+							if(Usuario.getNivel()!=null){
+								String [] niveles = Usuario.getNivel().split("-");
 								String nivel = "";
 								for(int i=0; i<niveles.length; i++){
 									if(niveles[i].equals("0"))nivel="Maternal";
@@ -212,6 +238,12 @@
 		</div>
 	</div>
 </div>
+<script>
+    function Aplicar(){
+    	document.frmRol.Accion.value = "1";
+    	document.frmRol.submit();
+    }
+</script>
 
 </body>
 <%@ include file= "../../cierra_elias.jsp" %>
