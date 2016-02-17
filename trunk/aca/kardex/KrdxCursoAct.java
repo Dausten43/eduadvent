@@ -826,11 +826,11 @@ public class KrdxCursoAct {
 		String  cantidad		= "0";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COUNT(*) AS CANTIDAD "
+			ps = conn.prepareStatement("SELECT COALESCE(COUNT(*),0) AS CANTIDAD "
 					+ " FROM KRDX_CURSO_ACT "
 					+ " WHERE SUBSTR(CODIGO_ID,1,3) = ?"
 					+ " AND CICLO_GRUPO_ID = ? AND CURSO_ID = ?"
-					+ " AND NOTA_EXTRA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_CURSO_ACT.CURSO_ID) ");
+					+ " AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_CURSO_ACT.CURSO_ID) ");
 			
 			ps.setString(1, escuelaId);
 			ps.setString(2, cicloGrupoId);	
