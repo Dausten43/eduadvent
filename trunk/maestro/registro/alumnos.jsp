@@ -52,11 +52,17 @@
 	<div class="well"> 
 		<a class="btn btn-primary" href="grupo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>		
 <%
+		System.out.println(session.getAttribute("escuela").toString());
+		String tipoBoleta		= aca.catalogo.CatParametro.getTipoBoleta(conElias, session.getAttribute("escuela").toString());
 		String boleta 			= "boleta.jsp";
 		String boletaActividad 	= "boletaActividades.jsp";
 		if(aca.catalogo.CatEsquemaLista.getEsquemaEvaluacionNivel(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId(), Grupo.getGrado()).equals("C")){/* SI EVALUA POR COMPETENCIA */
 			boleta 			= "boletaCompetencias.jsp";
 			boletaActividad = "boletaActividadCompetencias.jsp";
+		}
+		System.out.println(tipoBoleta);
+		if(tipoBoleta.equals("3")){
+			boleta = "boletaPanama.jsp";
 		}
 %>		
 		<a class="btn btn-info" href="<%=boleta %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoleta" /></a>
