@@ -2277,7 +2277,6 @@ if(lisTodosLosExtras.size() == 5){
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
-					<td>&nbsp;</td>
 					<!-- BOTONES PARA EDITAR LAS NOTAS (ESCONDIDOS POR DEFAULT) -->
 					<%
 					
@@ -2425,6 +2424,7 @@ if(lisTodosLosExtras.size() == 5){
 					<%
 					}
 					%>
+					<td>&nbsp;</td>
 				</tr>
 		</table>
 	</form>
