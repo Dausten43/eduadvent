@@ -809,18 +809,18 @@ public class Ciclo {
 	}
 	
 	// Redondeo de numeros
-	public static String numRedondeo(Connection conn, String numero, String decimales, String tipo) throws SQLException{
+	public static String numRedondeo(Connection conn, String numero, int decimales, String tipo) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
 		String num 				= "0";
 		try{
 			if (tipo.equals("A")){
-				ps = conn.prepareStatement("SELECT ROUND(TO_NUMBER(?,'999999.9999'),TO_NUMBER(?,'99')) AS NUMERO FROM DUAL");
+				ps = conn.prepareStatement("SELECT ROUND(TO_NUMBER(?,'999999.9999'),?) AS NUMERO");
 			}else{
-				ps = conn.prepareStatement("SELECT TRUNC(TO_NUMBER(?,'999999.9999'),TO_NUMBER(?,'99')) AS NUMERO FROM DUAL");
+				ps = conn.prepareStatement("SELECT TRUNC(TO_NUMBER(?,'999999.9999'),?) AS NUMERO");
 			}			
 			ps.setString(1, numero);
-			ps.setString(2, decimales);
+			ps.setInt(2, decimales);
 			
 			rs = ps.executeQuery();
 			if (rs.next()){
