@@ -808,4 +808,33 @@ public class Ciclo {
 		return redondeo;
 	}
 	
+	// Redondeo de numeros
+	public static String numRedondeo(Connection conn, String numero, String decimales, String tipo) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String num 				= "0";
+		try{
+			if (tipo.equals("A")){
+				ps = conn.prepareStatement("SELECT ROUND(TO_NUMBER(?,'999999.9999'),TO_NUMBER(?,'99')) AS NUMERO FROM DUAL");
+			}else{
+				ps = conn.prepareStatement("SELECT TRUNC (TO_NUMBER(?,'999999.9999'),TO_NUMBER(?,'99')) AS NUMERO FROM DUAL");
+			}			
+			ps.setString(1, numero);
+			ps.setString(2, decimales);
+			
+			rs = ps.executeQuery();
+			if (rs.next()){
+				num = rs.getString("NUMERO");
+			}	
+			
+		}catch(Exception ex){
+			 System.out.println("Error - aca.ciclo.ciclo|numRedondeo|:" + ex);
+		}finally{
+			if (ps!=null) ps.close();		
+			if (rs!=null) rs.close();
+			
+		}
+		return num;
+	}
+	
 }
