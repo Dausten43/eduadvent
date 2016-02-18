@@ -97,8 +97,26 @@
 			}		
 		}
 		conElias.setAutoCommit(true);
-		
 	}
+	
+	// Eliminar el rol para el usuario
+		if (accion.equals("2")){
+			// obtener las opciones del rol		
+			String rolId = request.getParameter("Rol")==null?"0":request.getParameter("Rol");
+			ArrayList<aca.rol.RolOpcion> lisRolOpcion 		= RolOpcionL.getList(conElias, rolId, " ORDER BY 1");
+
+			conElias.setAutoCommit(false);
+			for (aca.rol.RolOpcion opcion : lisRolOpcion){
+				UsuarioMenu.setCodigoId(strCodigoId);
+				UsuarioMenu.setOpcionId(opcion.getopcionId());
+				if (UsuarioMenu.existeReg(conElias)){
+
+					if (UsuarioMenu.deleteReg(conElias))
+						conElias.commit();
+				}		
+			}
+			conElias.setAutoCommit(true);
+		}
 	
 	// Verifica si es administrador
 	boolean admin = aca.usuario.Usuario.esAdministrador(conElias, strCodigo);
@@ -136,7 +154,8 @@
 			}
 %>	  			
 	  			</select>&nbsp;
-	  			<a href="javascript:Aplicar()" class="btn btn-success">Aplicar</a>
+	  			<a href="javascript:Aplicar()" class="btn btn-success" title="Guardar"><i class="icon-plus-sign icon-white"></i></a>
+	  			<a href="javascript:Eliminar()" class="btn btn-danger" title="Borrar"><i class="icon-trash icon-white"></i></a>
 	  		</div>
 	  		</form>
 	  		<%} %>          
@@ -241,6 +260,11 @@
 <script>
     function Aplicar(){
     	document.frmRol.Accion.value = "1";
+    	document.frmRol.submit();
+    }
+    
+    function Eliminar(){
+    	document.frmRol.Accion.value = "2";
     	document.frmRol.submit();
     }
 </script>
