@@ -1940,15 +1940,20 @@
 						%>
 							<td class="text-center">
 								<div id="extra<%=i%>"><%=strExtra %></div>
-								
-								INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT)
+						<%
+						String tipoInput1 = "hidden";						 
+						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
+							tipoInput1 = "text";
+						}
+						%>		
+							<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
 								<%if ( !strExtra.equals("") ){%>
 									<div class="editarExtra" style="display:none;">
 										<input 
 											style="margin-bottom:0;text-align:center;" 
 											class="input-mini onlyNumbers" 
 											data-max-num="<%=escala%>"
-											type="text" 
+											type="<%=tipoInput1%>" 
 											tabindex="<%=i+1%>" 
 											name="notaExtra<%=i%>"
 											id="notaExtra<%=i%>" 
@@ -1982,7 +1987,12 @@
 							%>
 								<td class="text-center">
 									<div id="extra<%=i%>"><%=strExtra2 %></div>
-									
+							<%
+							String tipoInput2 = "hidden";						 
+							if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
+								tipoInput2 = "text";
+							}
+							%>		
 									<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 2 (ESCONDIDO POR DEFAULT) -->
 									<%if ( !strExtra2.equals("") ) {%>
 										<div class="editarExtra2" style="display:none;">
@@ -1990,7 +2000,7 @@
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers"
 												data-max-num="<%=escala %>" 
-												type="text" 
+												type="<%=tipoInput2%>" 
 												tabindex="<%=i+1%>" 
 												name="notaExtra2<%=i%>"
 												id="notaExtra2<%=i%>" 
@@ -2024,7 +2034,12 @@
 							
 								<td class="text-center">
 									<div id="extra<%=i%>"><%=strExtra3 %></div>
-									
+							<%
+						String tipoInput3 = "hidden";						 
+						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
+							tipoInput3 = "text";
+						}
+						%>		
 									<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 3 (ESCONDIDO POR DEFAULT) -->
 									<%if ( !strExtra3.equals("") ) {%>
 										<div class="editarExtra3" style="display:none;">
@@ -2032,7 +2047,7 @@
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers"
 												data-max-num="<%=escala %>" 
-												type="text" 
+												type="<%=tipoInput3%>" 
 												tabindex="<%=i+1%>" 
 												name="notaExtra3<%=i%>"
 												id="notaExtra3<%=i%>" 
@@ -2042,9 +2057,6 @@
 									<%}%>
 								</td>	
 						<%	
-							
-						
-							
 						}else if(lisTodosLosExtras.size() == 2){
 							// DOS OPORTUNIDADES //
 							// ************* 	EXTRAORDINARIO   *************//	
@@ -2069,7 +2081,12 @@
 						%>
 							<td class="text-center">
 								<div id="extra<%=i%>"><%=strExtra %></div>
-								
+						<%
+						String tipoInput1 = "hidden";						 
+						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
+							tipoInput1 = "text";
+						}
+						%>		
 								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
 								<%if ( !strExtra.equals("") ){%>
 									<div class="editarExtra" style="display:none;">
@@ -2077,7 +2094,7 @@
 											style="margin-bottom:0;text-align:center;" 
 											class="input-mini onlyNumbers" 
 											data-max-num="<%=escala%>"
-											type="text" 
+											type="<%=tipoInput1%>" 
 											tabindex="<%=i+1%>" 
 											name="notaExtra<%=i%>"
 											id="notaExtra<%=i%>" 
@@ -2111,7 +2128,12 @@
 							%>
 								<td class="text-center">
 									<div id="extra<%=i%>"><%=strExtra2 %></div>
-									
+							<%
+							String tipoInput2 = "hidden";						 
+							if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
+								tipoInput2 = "text";
+							}
+							%>		
 									<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 2 (ESCONDIDO POR DEFAULT) -->
 									<%if ( !strExtra2.equals("") ) {%>
 										<div class="editarExtra2" style="display:none;">
@@ -2119,7 +2141,7 @@
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers"
 												data-max-num="<%=escala %>" 
-												type="text" 
+												type="<%=tipoInput2%>" 
 												tabindex="<%=i+1%>" 
 												name="notaExtra2<%=i%>"
 												id="notaExtra2<%=i%>" 
@@ -2159,21 +2181,19 @@
 							<td class="text-center">
 							<div id="extra<%=i%>"><%=strExtra %></div>
 						<%
-						String tipoInput = "hidden";						 
+						String tipoInput1 = "hidden";						 
 						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
-							tipoInput = "text";
+							tipoInput1 = "text";
 						}
-						
 						%>				
 								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
 								<%if ( !strExtra.equals("") ){%>
-<!-- 									<div class="editarExtra" style="display:none;"> -->
 									<div class="editarExtra" style="display:none;">
 										<input 
 											style="margin-bottom:0;text-align:center;" 
 											class="input-mini onlyNumbers" 
 											data-max-num="<%=escala%>"
-											type="<%=tipoInput%>" 
+											type="<%=tipoInput1%>" 
 											tabindex="<%=i+1%>" 
 											name="notaExtra<%=i%>"
 											id="notaExtra<%=i%>" 
@@ -2209,7 +2229,12 @@
 						%>
 							<td class="text-center">
 								<div id="extra<%=i%>"><%=strExtra %></div>
-								
+						<%
+						String tipoInput = "hidden";						 
+						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
+							tipoInput = "text";
+						}
+						%>		
 								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
 								<%if ( !strExtra.equals("") ){%>
 									<div class="editarExtra" style="display:none;">
@@ -2217,7 +2242,7 @@
 											style="margin-bottom:0;text-align:center;" 
 											class="input-mini onlyNumbers" 
 											data-max-num="<%=escala%>"
-											type="text" 
+											type="<%=tipoInput%>" 
 											tabindex="<%=i+1%>" 
 											name="notaExtra<%=i%>"
 											id="notaExtra<%=i%>" 
@@ -2303,6 +2328,7 @@
 					<%
 					if(lisTodosLosExtras.size() == 5){
 					%>
+					<td>&nbsp;</td>
 					<!-- BOTON DE NOTA EXTRA -->
 					<td class="text-center">
 						<div class="editarExtra" style="display:none;">
@@ -2340,6 +2366,7 @@
 					<%	
 					}else if(lisTodosLosExtras.size() == 4){
 					%>	
+					<td>&nbsp;</td>
 					<!-- BOTON DE NOTA EXTRA -->
 					<td class="text-center">
 						<div class="editarExtra" style="display:none;">
@@ -2370,6 +2397,7 @@
 					<%
 					}if(lisTodosLosExtras.size() == 3){
 					%>	
+					<td>&nbsp;</td>
 					<!-- BOTON DE NOTA EXTRA -->
 					<td class="text-center">
 						<div class="editarExtra" style="display:none;">
@@ -2394,6 +2422,7 @@
 					<%
 					}if(lisTodosLosExtras.size() == 2){
 					%>
+					<td>&nbsp;</td>
 					<!-- BOTON DE NOTA EXTRA -->
 					<td class="text-center">
 						<div class="editarExtra" style="display:none;">
@@ -2421,6 +2450,7 @@
 					<%
 					}  if(lisTodosLosExtras.size() < 1){
 					%>
+					<td>&nbsp;</td>
 					<!-- BOTON DE NOTA EXTRA  CUANDO NO ASIGNAN NINGUN EXTRA-->
 					<td class="text-center">
 						<div class="editarExtra" style="display:none;">
