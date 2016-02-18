@@ -817,7 +817,7 @@ public class Ciclo {
 			if (tipo.equals("A")){
 				ps = conn.prepareStatement("SELECT ROUND(TO_NUMBER(?,'999999.9999'),TO_NUMBER(?,'99')) AS NUMERO FROM DUAL");
 			}else{
-				ps = conn.prepareStatement("SELECT TRUNC (TO_NUMBER(?,'999999.9999'),TO_NUMBER(?,'99')) AS NUMERO FROM DUAL");
+				ps = conn.prepareStatement("SELECT TRUNC(TO_NUMBER(?,'999999.9999'),TO_NUMBER(?,'99')) AS NUMERO FROM DUAL");
 			}			
 			ps.setString(1, numero);
 			ps.setString(2, decimales);
