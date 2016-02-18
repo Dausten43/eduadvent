@@ -2161,25 +2161,21 @@
 								
 								
 						<%
-						String tipoInput = "hidden";
-						
-						 System.out.println("CODIGO ID : "+kardex.getCodigoId()+" CICLO GRUPO ID : "+kardex.getCicloGrupoId()+" CURSO ID : "+kardex.getCursoId());
-						 System.out.println("ALUMNO EN EXTRA : "+aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, escuelaId, codigoId, cicloGrupoId, cursoId));
-						 if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, escuelaId, codigoId, cicloGrupoId, cursoId)){
-							System.out.println("ALUMNO EN EXTRA");
-							tipoInput = "";
+						String tipoInput = "hidden";						 
+						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
+							tipoInput = "text";
 						}
 						
 						%>				
 								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
 								<%if ( !strExtra.equals("") ){%>
 <!-- 									<div class="editarExtra" style="display:none;"> -->
-									<div class="editarExtra" style="display:none;" type="<%=tipoInput%>">
+									<div class="editarExtra" style="display:none;">
 										<input 
 											style="margin-bottom:0;text-align:center;" 
 											class="input-mini onlyNumbers" 
 											data-max-num="<%=escala%>"
-											type="text" 
+											type="<%=tipoInput%>" 
 											tabindex="<%=i+1%>" 
 											name="notaExtra<%=i%>"
 											id="notaExtra<%=i%>" 
