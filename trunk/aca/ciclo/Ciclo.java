@@ -166,7 +166,7 @@ public class Ciclo {
             ps.setString(10, editarActividad);
             ps.setString(11, cicloEscolar);
             ps.setString(12, decimales);
-            ps.setString(12, redondeo);
+            ps.setString(13, redondeo);
 
             if (ps.executeUpdate() == 1) {
                 ok = true;
