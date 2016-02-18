@@ -2157,9 +2157,7 @@
 							
 						%>
 							<td class="text-center">
-								<div id="extra<%=i%>"><%=strExtra %></div>
-								
-								
+							<div id="extra<%=i%>"><%=strExtra %></div>
 						<%
 						String tipoInput = "hidden";						 
 						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
