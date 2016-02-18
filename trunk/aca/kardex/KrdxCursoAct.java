@@ -851,4 +851,32 @@ public class KrdxCursoAct {
 		return cantidad;
 	}
 	
+	public static boolean getAlumnoReprobado(Connection conn, String escuelaId, String codigoId, String cicloGrupoId, String cursoId) throws SQLException{
+		PreparedStatement ps		= null;
+		ResultSet 		rs 			= null;		
+		boolean	alumnoReprobado		= false;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM KRDX_CURSO_ACT "
+					+ "WHERE CODIGO_ID = ? "
+					+ "AND CICLO_GRUPO_ID = ? AND CURSO_ID = ? "
+					+ "AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_CURSO_ACT.CURSO_ID)");
+			ps.setString(1, codigoId);
+			ps.setString(2, cicloGrupoId);	
+			ps.setString(3, cursoId);
+			
+			rs = ps.executeQuery();
+			if (rs.next())
+				alumnoReprobado = true;
+			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.krdx.KrdxCursoAct|getAlumnoReprobado|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}	
+		return alumnoReprobado;
+	}
+	
 }
