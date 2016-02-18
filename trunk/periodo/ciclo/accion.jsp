@@ -68,6 +68,7 @@
 		Ciclo.setModulos(request.getParameter("Modulos"));
 		Ciclo.setCicloEscolar(request.getParameter("cicloEscolar"));
 		Ciclo.setDecimales(request.getParameter("decimal"));
+		Ciclo.setRedondeo(request.getParameter("redondeo"));
 
 		if (Ciclo.existeReg(conElias) == false){
 			if (Ciclo.insertReg(conElias)){
@@ -97,6 +98,7 @@
 		Ciclo.setModulos(request.getParameter("Modulos"));
 		Ciclo.setCicloEscolar(request.getParameter("cicloEscolar"));
 		Ciclo.setDecimales(request.getParameter("decimal"));
+		Ciclo.setRedondeo(request.getParameter("redondeo"));
 		
 		if (Ciclo.existeReg(conElias) == true){
 			if (Ciclo.updateReg(conElias)){
@@ -115,8 +117,7 @@
 	else if( accion.equals("4") ){ // Borrar
 		if (Ciclo.existeReg(conElias) == true){
 			if (Ciclo.deleteReg(conElias)){
-				sResultado = "Eliminado";
-				conElias.commit();
+				sResultado = "Eliminado";				
 				response.sendRedirect("ciclo.jsp");
 			}else{
 				sResultado = "NoElimino";
@@ -267,6 +268,13 @@
 			<select id="decimal" name="decimal">
 				<option value="0" <%if(Ciclo.getDecimales().equals("0")){out.print("selected");}%>>0</option>
 				<option value="1" <%if(Ciclo.getDecimales().equals("1")){out.print("selected");}%>>1</option>
+			</select>
+		</fieldset>
+		<fieldset>
+			<label for="Redondeo"><fmt:message key="aca.Redondeo" /></label>
+			<select id="redondeo" name="redondeo">
+				<option value="A" <%if(Ciclo.getRedondeo().equals("A")){out.print("selected");}%>>Arriba</option>
+				<option value="T" <%if(Ciclo.getRedondeo().equals("T")){out.print("selected");}%>>Truncado</option>
 			</select>
 		</fieldset>
 	</form>

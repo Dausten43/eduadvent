@@ -58,12 +58,13 @@
 				<th><fmt:message key="aca.NumEval" /></th>
 				<th><fmt:message key="aca.CicloEscuela" /></th>
 				<th><fmt:message key="aca.Decimal" /></th>
+				<th><fmt:message key="aca.Redondeo" /></th>
 			</tr>
 		</thead>
 		
 <%		int cont = 0; %>
 <%		for (aca.ciclo.Ciclo ciclo : lisCiclo){
-			if(ciclo.getCicloEscolar().equals(periodoId)){
+			if(ciclo.getCicloEscolar().equals(periodoId)){	 
 %>
 			<%cont++; %>				
 	  		<tr>
@@ -94,6 +95,7 @@
 				<td><%=ciclo.getModulos()%></td>
 				<td><%=ciclo.getCicloEscolar()%></td>
 				<td><%=ciclo.getDecimales()%></td>
+				<td><%=ciclo.getRedondeo().equals("A")?"Arriba":"Truncado"%></td>
 	  		</tr>  
 <%
 			}
