@@ -22,6 +22,8 @@
 	if (accion.equals("1")) {//Grabar
 		ejercicio.setEscuelaId(escuelaId);
 		ejercicio.setYear(request.getParameter("Year"));
+		ejercicio.setFechaIni(request.getParameter("FechaIni"));
+		ejercicio.setFechaFin(request.getParameter("FechaFin"));	
 			
 		if (request.getParameter("Year").length() < 4){
 			resultado = "ElAnoDebeTenerCuatroDigitos";
