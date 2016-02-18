@@ -829,7 +829,8 @@ public class KrdxCursoAct {
 			ps = conn.prepareStatement("SELECT COALESCE(COUNT(*),0) AS CANTIDAD "
 					+ " FROM KRDX_CURSO_ACT "
 					+ " WHERE SUBSTR(CODIGO_ID,1,3) = ?"
-					+ " AND CICLO_GRUPO_ID = ? AND CURSO_ID = ?"
+					+ " AND CICLO_GRUPO_ID = ?"
+					+ " AND CURSO_ID = ?"
 					+ " AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_CURSO_ACT.CURSO_ID) ");
 			
 			ps.setString(1, escuelaId);
@@ -851,24 +852,24 @@ public class KrdxCursoAct {
 		return cantidad;
 	}
 	
-	public static boolean getAlumnoReprobado(Connection conn, String escuelaId, String codigoId, String cicloGrupoId, String cursoId) throws SQLException{
+	public static boolean getAlumnoReprobado(Connection conn, String codigoId, String cicloGrupoId, String cursoId) throws SQLException{
 		PreparedStatement ps		= null;
 		ResultSet 		rs 			= null;		
 		boolean	alumnoReprobado		= false;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM KRDX_CURSO_ACT "
-					+ "WHERE CODIGO_ID = ? "
-					+ "AND CICLO_GRUPO_ID = ? AND CURSO_ID = ? "
-					+ "AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_CURSO_ACT.CURSO_ID)");
+			ps = conn.prepareStatement("SELECT * FROM KRDX_CURSO_ACT"
+					+ " WHERE CODIGO_ID = ?"
+					+ " AND CICLO_GRUPO_ID = ?"
+					+ " AND CURSO_ID = ?"
+					+ " AND NOTA < (SELECT NOTA_AC FROM PLAN_CURSO WHERE CURSO_ID = KRDX_CURSO_ACT.CURSO_ID)");
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);	
 			ps.setString(3, cursoId);
 			
 			rs = ps.executeQuery();
 			if (rs.next())
-				alumnoReprobado = true;
-			
+				alumnoReprobado = true;			
 			
 		}catch(Exception ex){
 			System.out.println("Error - aca.krdx.KrdxCursoAct|getAlumnoReprobado|:"+ex);
