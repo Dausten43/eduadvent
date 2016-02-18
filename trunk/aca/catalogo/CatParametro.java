@@ -1,7 +1,6 @@
 package aca.catalogo;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -306,5 +305,29 @@ public class CatParametro {
 		
 		return ok;
 	}
+	
+	public static String getTipoBoleta(Connection conn, String escuelaId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String tipoBoleta		= "1";
+		
+		try{
+			ps = conn.prepareStatement("SELECT TIPO_BOLETA FROM CAT_PARAMETRO WHERE ESCUELA_ID=?");
+			ps.setString(1, escuelaId);
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				tipoBoleta = rs.getString("TIPO_BOLETA");
+			}			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatAsociacion|getUnionEscuela|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return tipoBoleta;
+	}
+	
+	
 	
 }
