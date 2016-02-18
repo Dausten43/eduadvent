@@ -785,4 +785,27 @@ public class Ciclo {
 		return decimales;
 	}
 	
+	public static String getRedondeo( Connection conn, String cicloId) throws SQLException, Exception {
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String redondeo		= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT REDONDEO FROM CICLO WHERE CICLO_ID = ?");
+			ps.setString(1, cicloId);
+			
+			rs = ps.executeQuery();
+			if (rs.next()){
+				redondeo = rs.getString("REDONDEO");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.Ciclo|getRedondeo|:"+ex);
+		}finally{		
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return redondeo;
+	}
+	
 }
