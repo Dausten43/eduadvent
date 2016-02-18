@@ -1346,8 +1346,6 @@
 					//***************** UNA PORTUNIDADAD *********************//
 					} else if(lisTodosLosExtras.size() == 1){
 						
-					System.out.println("IMPRIME : "+lisKardexAlumnosExtra.size());
-						
 					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 							<th class="text-center" style="width:4%;">
 								<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
@@ -2161,9 +2159,22 @@
 							<td class="text-center">
 								<div id="extra<%=i%>"><%=strExtra %></div>
 								
+								
+						<%
+						String tipoInput = "hidden";
+						
+						 System.out.println("CODIGO ID : "+kardex.getCodigoId()+" CICLO GRUPO ID : "+kardex.getCicloGrupoId()+" CURSO ID : "+kardex.getCursoId());
+						 System.out.println("ALUMNO EN EXTRA : "+aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, escuelaId, codigoId, cicloGrupoId, cursoId));
+						 if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, escuelaId, codigoId, cicloGrupoId, cursoId)){
+							System.out.println("ALUMNO EN EXTRA");
+							tipoInput = "";
+						}
+						
+						%>				
 								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
 								<%if ( !strExtra.equals("") ){%>
-									<div class="editarExtra" style="display:none;">
+<!-- 									<div class="editarExtra" style="display:none;"> -->
+									<div class="editarExtra" style="display:none;" type="<%=tipoInput%>">
 										<input 
 											style="margin-bottom:0;text-align:center;" 
 											class="input-mini onlyNumbers" 
