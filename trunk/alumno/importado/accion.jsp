@@ -1,8 +1,8 @@
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
-<%@ include file= "../../menu.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
 <%@ include file= "../../head.jsp" %>
+<%@ include file= "../../menu.jsp" %>
 
 <%@page import="aca.catalogo.CatNivel"%>
 <%@page import="aca.plan.Plan"%>
