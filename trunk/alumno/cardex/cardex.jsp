@@ -15,6 +15,7 @@
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
 	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
+	java.text.DecimalFormat formato4	= new java.text.DecimalFormat("##0.0000;-##0.0000");
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoAlumno");
@@ -23,7 +24,9 @@
 	String nivel			= aca.plan.Plan.getNivel(conElias, planId);
 	String nivelNombre		= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivel);
 	String nivelTitulo		= aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, nivel).toUpperCase();
-	boolean existeAlumno 	= false;			
+	String unionId			= aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId);
+	boolean existeAlumno 	= false;
+	 
 	
 	/* Planes de estudio del alumno */
 	ArrayList<aca.alumno.AlumPlan> lisPlan						= AlumPlanL.getArrayList(conElias, codigoId, "ORDER BY F_INICIO");
@@ -112,7 +115,10 @@
 			lisPromedio 		= CicloPromedioL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY PROMEDIO_ID");
 			
 			// Lista de evaluaciones o bloques en el ciclo
-			lisBloque 			= CicloBloqueL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY BLOQUE_ID");	
+			lisBloque 			= CicloBloqueL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY BLOQUE_ID");
+			
+			// Tipo de redondeo en el ciclo
+			String redondeoCiclo = aca.ciclo.Ciclo.getRedondeo(conElias, ciclo.getCicloId());			
 %>			
 	<div class="alert alert-info"><%= cicloNombre %> - <%= nivelNombre %> - <%= gradoNombre %> "<%= ciclo.getGrupo() %>"</div>
 				
@@ -177,19 +183,23 @@
 								}
 								double promEval = 0;
 								if (cuentaEval>0 && sumaEval>0){
-									promEval = sumaEval/cuentaEval;
+									promEval = sumaEval/cuentaEval;									
 									numProm++;
-									promCiclo += promEval;
+									promCiclo += promEval;									
 								}
 								// Inserta columnas de evaluaciones
 								out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
 							}
-						}
+						}						
 						if (numProm > 0) promCiclo = promCiclo / numProm;
+						
+						// Tipo de redondeo en el ciclo "A"=Arriba y "T"=Truncado 
+						if (redondeoCiclo.equals("T")){
+							String promConRedondeo = aca.ciclo.Ciclo.numRedondeo(conElias, String.valueOf(promCiclo), 2, "T");
+							promCiclo = Double.parseDouble(promConRedondeo);
+						}
 						// Inserta columna del promedio de las evaluaciones
 						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
-						
-						
 					}
 					
 					// Completa las columnas del renglon de promedio  
@@ -315,16 +325,23 @@
 						}
 						double promEval = 0;
 						if (cuentaEval>0 && sumaEval>0){
-							promEval = sumaEval/cuentaEval;
+							promEval = sumaEval/cuentaEval;							
 							numProm++;
-							promCiclo += promEval;
-						}								
+							promCiclo += promEval;							
+						}						
 						// Inserta columnas de evaluaciones
 						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
 					}	
 				}
 					
 				if (numProm > 0) promCiclo = promCiclo / numProm;
+				
+				// Tipo de redondeo en el ciclo "A"=Arriba y "T"=Truncado 
+				if (redondeoCiclo.equals("T")){
+					String promConRedondeo = aca.ciclo.Ciclo.numRedondeo(conElias, String.valueOf(promCiclo), 2, "T");
+					promCiclo = Double.parseDouble(promConRedondeo);
+				}				
+				
 				// Inserta columna del promedio de las evaluaciones
 				out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
 			}
@@ -364,8 +381,22 @@
 				}
 				
 				if (numProm > 0) promCiclo = promCiclo / numProm;
+				
+				// Tipo de redondeo en el ciclo "A"=Arriba y "T"=Truncado 
+				if (redondeoCiclo.equals("T")){
+					int decimales = 2;
+					if (unionId.equals("8")) decimales = 4;
+					String promConRedondeo = aca.ciclo.Ciclo.numRedondeo(conElias, String.valueOf(promCiclo), decimales, "T");
+					promCiclo = Double.parseDouble(promConRedondeo);
+				}
+				
 				// Inserta columna del promedio de las evaluaciones
-				out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
+				if (!unionId.equals("8")){
+					out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
+				}else{
+					out.print("<td class='text-center' width='2%' title=''>"+formato4.format(promCiclo)+"</td>");
+				}
+				
 			}
 			// Completa las columnas del renglon de promedio  
 			out.print("<td colspan='20'></td>");
