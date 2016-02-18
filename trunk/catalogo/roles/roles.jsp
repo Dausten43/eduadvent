@@ -132,7 +132,7 @@
 	}
 	
 	ArrayList<aca.rol.Rol> roles		= rolL.getListAll(conElias, "");
-
+	
 %>
 
 <div id="content">
@@ -158,9 +158,11 @@
 	<th width="2%">#</th>
 	<th width="4%"><fmt:message key="aca.Operacion"/> </th>
 	<th>Nombre</th>
+	<th>Cantidad de permisos</th>
 <%
 	
 	for(int i = 0; i < roles.size(); i ++){
+		java.util.HashMap<String, String> cantidadPermisosDeRol = rolOpL. mapOpUsuarios(conElias, roles.get(i).getRolId());
 %>
 		<tr>
 			<td><%= i + 1 %></td>
@@ -169,6 +171,7 @@
 				<a id="eliminar" class="icon-remove" href="javascript:confirmDelete('<%=roles.get(i).getRolId()%>')" ></a> 
 			</td>
 			<td><%= roles.get(i).getRolNombre() %></td>
+			<td><%= cantidadPermisosDeRol.size() %></td>
 		</tr>
 <%	
 	}
