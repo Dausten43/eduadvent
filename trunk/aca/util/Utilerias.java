@@ -31,8 +31,6 @@ public class Utilerias {
 		return rs;
 	}
 	
-	
-	
 	public static boolean isInteger(String str){
 		try{
 
@@ -46,8 +44,6 @@ public class Utilerias {
 		return true;
 	}
 	
-	
-
 	public static boolean isNumeric(String str){
 		try{
 
@@ -59,6 +55,6 @@ public class Utilerias {
 		
 		
 		return true;
-	}
+	} 
 	
 }
