@@ -25,7 +25,8 @@
 
 
 	if(accion.equals("1")){
-		CatAspectos.setAspectosId(CatAspectos.maximoReg(conElias));
+		
+		CatAspectos.setAspectosId(CatAspectos.maximoReg(conElias, escuela));
 		CatAspectos.setNombre(request.getParameter("descripcion"));
 		CatAspectos.setOrden(request.getParameter("orden"));
 		CatAspectos.setNivelId(request.getParameter("nivel"));
