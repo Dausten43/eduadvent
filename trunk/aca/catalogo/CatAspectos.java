@@ -246,7 +246,9 @@ public class CatAspectos {
 		String maximo 			= "1";
 		
 		try{
-			ps = conn.prepareStatement("SELECT COALESCE(MAX(ASPECTOS_ID)+1,'1') AS MAXIMO FROM CAT_ASPECTOS WHERE ESCUELA_ID = ?");
+			ps = conn.prepareStatement("SELECT COALESCE(MAX(ASPECTOS_ID)+1,'1') AS MAXIMO"
+					+ " FROM CAT_ASPECTOS"
+					+ " WHERE ESCUELA_ID = ?");
 			ps.setString(1, escuelaId);
 			rs= ps.executeQuery();		
 			if(rs.next()){
