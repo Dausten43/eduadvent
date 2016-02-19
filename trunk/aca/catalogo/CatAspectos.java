@@ -239,7 +239,7 @@ public class CatAspectos {
 		return ok;
 	}
 	
-	public String maximoReg(Connection conn) throws SQLException{
+	public String maximoReg(Connection conn, String escuelaId) throws SQLException{
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
