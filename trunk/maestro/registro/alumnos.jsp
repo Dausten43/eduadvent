@@ -77,8 +77,7 @@
 				<th width="60%" align="center"><fmt:message key="aca.NombreDelAlumno" /></th>
 				<th width="20%" align="center"><fmt:message key="aca.Boleta" /></th>
 			</tr>
-		</thead>
-		
+		</thead>		
 <%
 		int cont = 0;
 		for (String codigoAlumno : lisAlum) {
