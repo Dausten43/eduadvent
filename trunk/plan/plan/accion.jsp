@@ -106,7 +106,7 @@
   		
   		<fieldset>
   			<label for="PlanNombre"><fmt:message key="aca.Nombre" /></label>
-  			<input name="PlanNombre" type="text" id="PlanNombre" value="<%=Plan.getPlanNombre()%>" maxlength="40" />
+  			<input name="PlanNombre" type="text" id="PlanNombre" value="<%=Plan.getPlanNombre()%>" maxlength="70" />
   		</fieldset>
   		
   		<fieldset>
