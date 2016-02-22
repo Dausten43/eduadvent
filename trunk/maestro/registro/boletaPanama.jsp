@@ -80,6 +80,9 @@
 	//Map de promedios del alumno en cada materia
 	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
 	
+
+	
+	
 	if(hayAbiertas){
 %>
 <head>
@@ -108,6 +111,10 @@
 	        
 	        for(int i = 0; i < lisAlum.size(); i++){
 	        	codigoAlumno = (String) lisAlum.get(i);
+	        	
+	        	//Map que suma las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
+       			java.util.HashMap<String, String> mapEvalSuma= aca.kardex.KrdxAlumEvalLista.mapEvalSumaNotas(conElias, codigoAlumno);
+       			
 		        alumPersonal.mapeaRegId(conElias, codigoAlumno);
 				plan 				= Grupo.getPlanId();
 				nivel 				= Grupo.getNivelId();
@@ -132,6 +139,8 @@
 				
 	            PdfPCell cell = null;
 	            
+	            
+	           
 	            /* 
 	             * Agregar el logo de cada boleta
 	             */
@@ -261,7 +270,8 @@
 	    			}
  			
 	    			if(cursoEncontrado){
-
+						
+	    				
 		    			cantidadMaterias++;
 		    			boolean encontro = false;
 		    			for(int k = 0; k < lisAlumnoCurso.size(); k++){
@@ -389,6 +399,7 @@
 			    	    				}
 									}
 		    	    		    	if(todasTienenCalificacion ){
+		    	    		    		
 		    	    		    		float notaDeTodas = 0;
 		    	    		    		for(int l=0; l<lisBloque.size(); l++){
 		    	    		    		//	System.out.println(sumaPorBimestreTmp[l]);
@@ -558,6 +569,7 @@
 			    				tabla.addCell(celda);
 			    				materias++;
 			    				for(int l = 0; l < lisBloque.size(); l++){
+			    					
 			    					switch(l+1){
 			    						case 1:{
 			    		    				celda = new PdfPCell(new Phrase(alumnoCurso.getCal1().equals("-")?"--": alumnoCurso.getCal1(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
@@ -619,20 +631,21 @@
 			    					if(cantidadBimestres!=0){
 			    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1")){
 			    							nota = mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1" ).getNota();
+			    							System.out.println("Cerradas"+nota);
 				    					}			    						
 			    					}
 			    					
 			    					// Colocar formato con una decimal
 			    					nota = frm3.format(Double.parseDouble(nota));
-			    					
 			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    				tabla.addCell(celda);
 			    				}else{
-			    					String nota = alumnoCurso.getNota();
-			    					nota = frm3.format(alumnoCurso.getNota());
+			    					String nota = mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1" ).getNota(); // promedio de materia
+			    					nota = nota.toString();
+			    					nota = frm3.format(Double.parseDouble(nota));
 			    					if(nota!=null){
-			    						nota=nota.trim();
+			    						//nota=nota.trim();
 			    					}
 			    					System.out.println("Datos 2:"+nota);
 			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
