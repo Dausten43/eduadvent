@@ -61,10 +61,8 @@
 
 		int n_accion 		= Integer.parseInt(request.getParameter("Accion"));
 		String strResultado = "";
-		//String union		= aca.catalogo.CatAsociacion.getUnionId(conElias, aca.catalogo.CatEscuela.getAsociacionId(conElias, escuela));
-
-		nivel.mapeaRegId(conElias, request.getParameter("nivelId"), escuelaId);
 		
+		nivel.mapeaRegId(conElias, request.getParameter("nivelId"), escuelaId);		
 		
 		Curso.setCursoId(cursoId.toUpperCase());
 		if (Curso.existeReg(conElias)) {
