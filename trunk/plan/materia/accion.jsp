@@ -54,12 +54,14 @@
 </head>
 <%
 	// Declaración de variables
-		int n_accion = Integer.parseInt(request.getParameter("Accion"));
-		String cursoId = request.getParameter("CursoId").replaceAll(
-				"}", "&");
-		String planId = request.getParameter("PlanId");
+		
+		String cursoId 		= request.getParameter("CursoId").replaceAll("}", "&");
+		String planId		= request.getParameter("PlanId");		
+		String escuela 		= request.getParameter("escuela");
+		int n_accion 		= Integer.parseInt(request.getParameter("Accion"));
 		String strResultado = "";
-		String escuela = request.getParameter("escuela");
+		//String union		= aca.catalogo.CatAsociacion.getUnionId(conElias, aca.catalogo.CatEscuela.getAsociacionId(conElias, escuela));
+
 		nivel.mapeaRegId(conElias, request.getParameter("nivelId"), escuela);
 		
 		
@@ -75,7 +77,17 @@
 			Curso.setHoras("0");
 			Curso.setCreditos("0");
 			Curso.setPunto("N");
-
+			Curso.setNotaAc("6");
+		/*	
+			// Si es la union de panamá
+			if (union.equals("8")){
+				Curso.setNotaAc("3");
+				Curso.setPunto("S");	
+			}else{
+				Curso.setPunto("N");
+				Curso.setNotaAc("6");
+			}
+		*/
 			break;
 		}
 
