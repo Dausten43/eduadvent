@@ -25,6 +25,7 @@
 
 
 <%
+	String escuelaId	= (String) session.getAttribute("escuela");
 	String accion 		= request.getParameter("Accion")==null?"5":request.getParameter("Accion");
 	if(accion.equals("5") && request.getParameter("CodigoEmpleado") != null){
 		session.setAttribute("codigoEmpleado", request.getParameter("CodigoEmpleado"));
@@ -355,7 +356,7 @@
 						</p>
 						
 						<p>
-							<label><fmt:message key="aca.ApellidoMat"/></label>
+							<label><fmt:message key="aca.ApellidoMat"/>/Casada</label>
 							<input name="ApellidoMaterno" type="text" id="ApellidoMaterno" maxlength="40" value="<%=Personal.getAmaterno()%>">
 						</p>
 						
@@ -453,7 +454,11 @@
 						</p>
 						
 						<p>
-							<label><fmt:message key="aca.rfc"/></label>
+					<%	if (escuelaId.contains("H")){
+							out.print("<label>C.I.P.</label>");										
+						}else{
+							out.print("<label><fmt:message key='aca.rfc'/></label>");
+						}%>
 							<input name="Rfc" type="text" id="Rfc" maxlength="40" value="<%= Personal.getRfc()==null?"":Personal.getRfc()%>">
 						</p>
 						
@@ -483,8 +488,7 @@
 						<p>
 							<label><fmt:message key="aca.Iglesia"/></label>
 							<input name="Iglesia" type="text" id="Iglesia" maxlength="70" value="<%=Personal.getIglesia()%>">
-						</p>
-						
+						</p>					
 						
 					</div>
 				</div>
