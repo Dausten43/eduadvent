@@ -134,13 +134,12 @@
 		}
 
 		case 4: { // Borrar
+			conElias.setAutoCommit(false);
 			Ciclo.setCursoId(Curso.getCursoId());
 			if (!Ciclo.existeRegCursoId(conElias)) {
 				if (Curso.existeReg(conElias) == true) {
 					if (Curso.deleteReg(conElias)) {
 						strResultado = "Eliminado";
-						response.sendRedirect("materia.jsp?PlanId="
-								+ planId);
 						conElias.commit();
 					} else {
 						strResultado = "NoElimino";
@@ -151,6 +150,7 @@
 			} else {
 				strResultado = "DependenciaError";
 			}
+			conElias.setAutoCommit(true);
 			break;
 		}
 
@@ -161,6 +161,9 @@
 			break;
 		}
 		}
+		if (strResultado.equals("Eliminado")){
+			response.sendRedirect("materia.jsp?PlanId="	+ planId);
+		}
 		
 		pageContext.setAttribute("resultado", strResultado);
 %>
@@ -168,9 +171,9 @@
 	<div id="content">
 		<h2>Datos de la Materia</h2>
 		<% if (strResultado.equals("Eliminado") || strResultado.equals("Modificado") || strResultado.equals("Guardado")){%>
-	   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
+	   		<div class='alert alert-info'><fmt:message key="aca.${resultado}" /></div>
 	  	<% }else if(!strResultado.equals("")){%>
-	  		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
+	  		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
 	  	<%} %>
 
 		<div class="well" style="overflow: hidden;">
