@@ -161,9 +161,6 @@
 			break;
 		}
 		}
-		if (strResultado.equals("Eliminado")){
-			response.sendRedirect("materia.jsp?PlanId="	+ planId);
-		}
 		
 		pageContext.setAttribute("resultado", strResultado);
 %>
@@ -337,9 +334,11 @@
 		<div class="well" style="overflow: hidden;">
 			&nbsp; <a class="btn btn-primary"
 				href="javascript:Nuevo('<%=planId%>')"><i
-				class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a> &nbsp; <a
-				class="btn btn-primary" href="javascript:Grabar()"><i class="icon-ok  icon-white"></i> <fmt:message key="boton.Guardar" /></a> &nbsp;
-			<a class="btn btn-primary" href="javascript:Borrar()"><i class="icon-remove  icon-white"></i> <fmt:message key="boton.Eliminar" /></a>
+				class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a> &nbsp;
+<%		if (!strResultado.equals("Eliminado")){ %>	
+				<a class="btn btn-primary" href="javascript:Grabar()"><i class="icon-ok  icon-white"></i> <fmt:message key="boton.Guardar" /></a> &nbsp;			
+				<a class="btn btn-primary" href="javascript:Borrar()"><i class="icon-remove  icon-white"></i> <fmt:message key="boton.Eliminar" /></a>
+<% 		}%>				
 		</div>
 	</div>
 </body>
