@@ -18,7 +18,7 @@
 	String escuelaId		= (String) session.getAttribute("escuela");
 	
 	// Lista de periodos o ciclos escolares
-	ArrayList<String>  lisPeriodos			= cicloL.getListCicloEscolar(conElias, escuelaId, "'A'", "ORDER BY 1 DESC");
+	ArrayList<String>  lisPeriodos			= cicloL.getListCicloEscolar(conElias, escuelaId, "'A','I'", "ORDER BY 1 DESC");
 	
 	// Lista de ciclos
 	ArrayList<aca.ciclo.Ciclo>  lisCiclo	= cicloL.getListAll(conElias, escuelaId, " ORDER BY CICLO_ID");
