@@ -28,7 +28,10 @@
 			<tr>
 				<th>#</th>
 				<th><fmt:message key="aca.Codigo" /></th>
-				<th><fmt:message key="aca.Nombre" /></th>
+				<th><fmt:message key="aca.Nombre" /></th>		
+				<th><fmt:message key="aca.Nivel" /></th>
+				<th><fmt:message key="aca.Grado" /></th>
+				<th><fmt:message key="aca.Grupo" /></th>
 				<th><fmt:message key="aca.FechadeNacimiento" /></th>
 				<th><fmt:message key="aca.Genero" /></th>
 				<th><fmt:message key="aca.Direccion" /></th>
@@ -43,6 +46,9 @@
 				<td><%=cont %></td>
 				<td><%=alumno.getCodigoId() %></td>
 				<td><%=alumno.getNombre() %> <%=alumno.getApaterno() %> <%=alumno.getAmaterno() %></td>
+				<td><%=alumno.getNivelId() %></td>
+				<td><%=alumno.getGrado() %></td>
+				<td><%=alumno.getGrupo() %></td>
 				<td><%=alumno.getFNacimiento() %></td>
 				<td><%=alumno.getGenero() %></td>
 				<td><%=alumno.getDireccion() %></td>
