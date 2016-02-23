@@ -214,7 +214,8 @@
 				    		strGrado = aca.util.Utilerias.removeEmptyDecimalPoints(grado.toString()).trim();
 				    		if (
 				    			!strGrado.equals("1") && !strGrado.equals("2") && !strGrado.equals("3") && !strGrado.equals("4") && !strGrado.equals("5") &&
-				    			!strGrado.equals("6") && !strGrado.equals("7") && !strGrado.equals("8") && !strGrado.equals("9") && !strGrado.equals("10")
+				    			!strGrado.equals("6") && !strGrado.equals("7") && !strGrado.equals("8") && !strGrado.equals("9") && !strGrado.equals("10") &&
+				    			!strGrado.equals("11")&& !strGrado.equals("12")
 				    			){
 				    			errorGrado = true;
 				    		}
