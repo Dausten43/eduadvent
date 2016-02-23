@@ -1040,6 +1040,12 @@
 				<fmt:message key="boton.EvaluarConducta" />
 			</a> 
 	<%
+		} if(planCurso.getTardanza().equals("S")){
+	%> 
+			<a class="btn btn-mobile" href="evaluarTardanza.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+				<fmt:message key="maestros.RegistrodeTardanzas" />
+			</a> 
+	<%
 		}
 	
 		if (planCurso.getConducta().equals("P")) {
