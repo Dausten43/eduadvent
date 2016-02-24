@@ -270,4 +270,28 @@ public class CatEsquema {
 		return resultado;
 	}
 	
+	/* OBTIENE EL NOMBRE DEL GRADO EN EL NIVEL DE UN A ESCUELA */
+	public static String getNombreGrado(Connection conn, String escuelaId, String nivelId, String grado) throws SQLException{
+		
+		PreparedStatement ps 	= null;
+		ResultSet rs 			= null;
+		String nombre		= "N"; 
+		try{
+			ps = conn.prepareStatement("SELECT GRADO_NOMBRE FROM CAT_ESQUEMA WHERE ESCUELA_ID = ? AND NIVEL_ID = TO_NUMBER(?,'99') AND GRADO = TO_NUMBER(?,'99')");
+			ps.setString(1, escuelaId);
+			ps.setString(2, nivelId);
+			ps.setString(3, grado);
+			rs = ps.executeQuery();
+			if (rs.next())
+				nombre = rs.getString("GRADO_NOMBRE");
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.plan.PlanCurso|getPunto|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return nombre;
+	}
+	
 }
