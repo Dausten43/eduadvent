@@ -326,6 +326,11 @@
 					out.print("selected=\"selected\"");%>><fmt:message key="aca.Pase" /></option>
 							</select>
 						</div>
+						<div class="control-group ">
+							<label for="CursoBase"> <fmt:message key="aca.Curso" />: </label> <input name="CursoBase"
+								type="text" id="CursoBase" value="<%=Curso.getCursoBase().equals("")?"1":Curso.getCursoBase()%>" class="input-small"
+								maxlength="12">
+						</div>
 					</fieldset>
 				</div>
 			</div>
