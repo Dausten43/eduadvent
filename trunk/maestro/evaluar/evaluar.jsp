@@ -1042,7 +1042,7 @@
 	<%
 		} if(planCurso.getTardanza().equals("S")){
 	%> 
-			<a class="btn btn-mobile" href="evaluarTardanza.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+			<a class="btn btn-mobile" href="evaluarTardanzas.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
 				<fmt:message key="maestros.RegistrodeTardanzas" />
 			</a> 
 	<%
