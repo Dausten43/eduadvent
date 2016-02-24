@@ -21,7 +21,8 @@
 	
 	int grado			= 0;
 	
-	ArrayList lisPlan	= PlanLista.getListAll(conElias, escuelaId, " ORDER BY NIVEL_ID");
+	// Lista de planes 
+	ArrayList<aca.plan.Plan> lisPlan	= PlanLista.getListAll(conElias, escuelaId, " ORDER BY NIVEL_ID");
 		
 %>
 <head>        
