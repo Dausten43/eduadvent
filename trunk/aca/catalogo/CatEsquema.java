@@ -275,9 +275,9 @@ public class CatEsquema {
 		
 		PreparedStatement ps 	= null;
 		ResultSet rs 			= null;
-		String nombre		= "N"; 
+		String nombre			= "X"; 
 		try{
-			ps = conn.prepareStatement("SELECT GRADO_NOMBRE FROM CAT_ESQUEMA WHERE ESCUELA_ID = ? AND NIVEL_ID = TO_NUMBER(?,'99') AND GRADO = TO_NUMBER(?,'99')");
+			ps = conn.prepareStatement("SELECT COALESCE(GRADO_NOMBRE,'X') AS GRADO_NOMBRE FROM CAT_ESQUEMA WHERE ESCUELA_ID = ? AND NIVEL_ID = TO_NUMBER(?,'99') AND GRADO = TO_NUMBER(?,'99')");
 			ps.setString(1, escuelaId);
 			ps.setString(2, nivelId);
 			ps.setString(3, grado);
