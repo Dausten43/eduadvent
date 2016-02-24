@@ -201,7 +201,7 @@
   		<li <%if(grado.equals("0")){out.print("class='active'");} %>>
   			<a href="javascript:CambiaGrado('0');"><fmt:message key="boton.Todos" /></a>
   		</li>
-<% 			for(int i=1;i<=gradoFin;i++){ 
+<% 			for(int i=gradoIni;i<=gradoFin;i++){ 
 %>
 	  			<li <%if(grado.equals(i+"")){out.print("class='active'");} %>>
 					<a href="javascript:CambiaGrado('<%=i%>');"><%=i%>°</a>
