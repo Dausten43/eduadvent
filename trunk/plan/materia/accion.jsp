@@ -21,6 +21,7 @@
 		document.frmPlan.Horas.value = "0";
 		document.frmPlan.NotaAC.value = "0";
 		document.frmPlan.Tipocurso.value = "";
+		document.frmPlan.Falta.value = "S";
 		document.frmPlan.Accion.value = "1";
 		document.frmPlan.submit();
 	}
