@@ -383,7 +383,7 @@ public class CicloGrupo {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CICLO_GRUPO" +
-					" WHERE GRADO = ? AND GRUPO = ? AND CICLO_ID = ? AND NIVEL_ID = TO_NUMBER(?, '99') AND PLAN_ID = ? ");
+					" WHERE GRADO = TO_NUMBER(?,'99') AND GRUPO = ? AND CICLO_ID = ? AND NIVEL_ID = TO_NUMBER(?, '99') AND PLAN_ID = ? ");
 			ps.setString(1, grado);
 			ps.setString(2, grupo);
 			ps.setString(3, cicloId);
