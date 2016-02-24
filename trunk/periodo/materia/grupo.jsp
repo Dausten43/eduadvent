@@ -100,7 +100,10 @@
 					</thead>
 				<%	
 					for(aca.catalogo.CatGrupo grupo: lisGrupo){
-						nombreGrado = aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grupo.getGrado()))+titulo+" "+grupo.getGrupo();
+						nombreGrado = aca.catalogo.CatEsquema.getNombreGrado(conElias, escuelaId, nivelId, grupo.getGrado());
+						if (nombreGrado.equals("X")){
+							nombreGrado = aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grupo.getGrado()))+titulo+" "+grupo.getGrupo();
+						}
 				%>  
 				  	  	<tr>
 				    		<td><%= grupo.getGrado() %></td>
