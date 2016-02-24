@@ -94,9 +94,12 @@
 		
 		if (Integer.parseInt(curso.getGrado())!=grado){
 			grado = Integer.parseInt(curso.getGrado());	
+			String nombreGrado = aca.catalogo.CatEsquema.getNombreGrado(conElias, escuelaId, nivelId, curso.getGrado());
+			if (nombreGrado.equals("X")) nombreGrado = aca.catalogo.CatNivel.getGradoNombre(grado)+ titulo;
+			
 %>
   <tr> 
-    <td style="border:1px solid gray;" colspan="13" align="center">&nbsp;<strong><%=aca.catalogo.CatNivel.getGradoNombre(grado)+ titulo%></strong></td>
+    <td style="border:1px solid gray;" colspan="13" align="center">&nbsp;<strong><%=nombreGrado%></strong></td>
   </tr>
 <%	} %>
   <tr> 
