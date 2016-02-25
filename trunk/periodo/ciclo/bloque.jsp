@@ -28,8 +28,8 @@
 		promedioId = session.getAttribute("promedioId").toString();
 	}
 	
-	ArrayList<aca.ciclo.CicloBloque> lisBloque 		= BloqueLista.getBloquePromedioCiclo(conElias, promedioId, cicloId, " ORDER BY BLOQUE_ID");	
-	java.util.HashMap<String, String> mapAlumnos 	= aca.kardex.KrdxAlumEvalLista.mapAlumnosEvaluadosCiclo(conElias, cicloId);
+	ArrayList<aca.ciclo.CicloBloque> lisBloque 			= BloqueLista.getBloquePromedioCiclo(conElias, promedioId, cicloId, " ORDER BY ORDEN, BLOQUE_ID");
+	java.util.HashMap<String, String> mapAlumnos 		= aca.kardex.KrdxAlumEvalLista.mapAlumnosEvaluadosCiclo(conElias, cicloId);
 	java.util.HashMap<String, String> mapActividades 	= aca.ciclo.CicloGrupoActividadLista.getMapActividadesCiclo(conElias, cicloId);
 	
 	// Cuenta el numero de materias para saber si se puede borrar el ciclo o no.
