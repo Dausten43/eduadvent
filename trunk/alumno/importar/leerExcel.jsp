@@ -226,7 +226,7 @@
 					    String strGrupo		= "X";
 					    if ( grupo != null){
 					    	strGrupo = grupo.toString().trim();
-					    	if ( !strGrupo.equals("A") && !strGrupo.equals("B") && !strGrupo.equals("C") && !strGrupo.equals("D")) errorGrupo = true;
+					    	if ( !strGrupo.equals("A") && !strGrupo.equals("B") && !strGrupo.equals("C") && !strGrupo.equals("D") && !strGrupo.equals("E") && !strGrupo.equals("F") && !strGrupo.equals("G")) errorGrupo = true;
 					    }else{
 					    	errorGrupo = true;
 					    }
