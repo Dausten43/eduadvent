@@ -68,10 +68,28 @@
 		
 		int cont = 0;
 		for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
+			
+			
 			krdxAlumFalta.setCodigoId(kardex.getCodigoId());
 			krdxAlumFalta.setCicloGrupoId(cicloGrupoId);
 			krdxAlumFalta.setCursoId(cursoId);
 			krdxAlumFalta.setEvaluacionId(evaluacion);
+			
+			////
+			String falta = "";
+			
+			ArrayList<aca.kardex.KrdxAlumFalta> lisKardexFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID), EVALUACION_ID");
+			
+			for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
+				for (aca.kardex.KrdxAlumFalta kardexAlumFalta: lisKardexFalta) {
+					if ( kardexAlumFalta.getCodigoId().equals(kardex.getCodigoId()) && eval.getEvaluacionId().equals(kardexAlumFalta.getEvaluacionId()) ) {	
+						if(kardexAlumFalta.getEvaluacionId().equals(evaluacion)){
+							falta = kardexAlumFalta.getFalta();
+						}
+					}
+				}
+			}
+			////
 			
 			String tardanza = request.getParameter("tardanza" + cont + "-" + evaluacion);
 
@@ -87,10 +105,14 @@
 					}
 					
 				}else{//Si tiene nota entonces guardarla
-					
-					krdxAlumFalta.setTardanza(tardanza);
 
+					krdxAlumFalta.setTardanza(tardanza);
+					///
+					krdxAlumFalta.setFalta(falta);
+					///
+				
 					if (krdxAlumFalta.existeReg(conElias)) {
+						
 						if(krdxAlumFalta.updateReg(conElias)){
 							//Modificado correctamente
 						}else{
@@ -241,7 +263,6 @@
 							
 							for (aca.kardex.KrdxAlumFalta kardexAlumFalta: lisKardexFalta) {
 								if ( kardexAlumFalta.getCodigoId().equals(kardex.getCodigoId()) && eval.getEvaluacionId().equals(kardexAlumFalta.getEvaluacionId()) ) {	
-									System.out.println(kardexAlumFalta.getTardanza());
 									tardanzas = kardexAlumFalta.getTardanza();
 									sumaTardanzas += Float.parseFloat(kardexAlumFalta.getTardanza());
 								}
