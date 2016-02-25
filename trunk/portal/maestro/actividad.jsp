@@ -44,8 +44,6 @@
 		}
 	}
 </script>
-
-
 <% 
 	String cicloGrupoId 	= (String) session.getAttribute("cicloGrupoId");
 	String cursoId 			= (String) session.getAttribute("cursoId");
