@@ -45,12 +45,14 @@
 	}
 </script>
 <% 
+	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloGrupoId 	= (String) session.getAttribute("cicloGrupoId");
 	String cursoId 			= (String) session.getAttribute("cursoId");
+	String unionId 			= aca.catalogo.CatAsociacion.getUnionEscuela(conElias, escuelaId);
 	
 	String evaluacionId	    = request.getParameter("EvaluacionId")==null?"0":request.getParameter("EvaluacionId");
 	String actividadId	    = request.getParameter("ActividadId")==null?"0":request.getParameter("ActividadId");
-	String valor	        = request.getParameter("Valor")==null?"0":request.getParameter("Valor");	
+	String valor	        = request.getParameter("Valor")==null?"0":request.getParameter("Valor");
 	int accion 			    = request.getParameter("Accion")==null?0:Integer.parseInt(request.getParameter("Accion"));
 	
 	String resultado		= "";
@@ -180,7 +182,7 @@
 	
 	
 	pageContext.setAttribute("resultado",resultado);
-	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListAll(conElias, "ORDER BY 1");
+	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListUnion(conElias, unionId, "ORDER BY 1");
 	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")) , " ORDER BY ORDEN ");
 %>
 <div id="content">
