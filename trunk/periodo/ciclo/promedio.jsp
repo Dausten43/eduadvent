@@ -26,7 +26,7 @@
 		cicloId = session.getAttribute("cicloId").toString();
 	}
 	
-	ArrayList<aca.ciclo.CicloPromedio>  cicloPromediol	= promedioL.getListCiclo(conElias, cicloId, "");
+	ArrayList<aca.ciclo.CicloPromedio>  cicloPromediol	= promedioL.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
 %>
 
 <div id="content">
