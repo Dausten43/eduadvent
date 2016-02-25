@@ -1042,6 +1042,13 @@
 			</a> 
 	<%
 		}
+	  	if (escuelaId.contains("H")){
+	  		%> 
+	  		<a class="btn btn-mobile" href="evaluarActitudes.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+	  			Evaluar Actitudes
+	  		</a> 
+	  		<%
+	  			}
 	
 		if (planCurso.getConducta().equals("P")) {
 	%>
