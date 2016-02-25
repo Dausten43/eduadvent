@@ -23,6 +23,10 @@
 	function boletaAlumno(cicloGrupoId, codigoAlumno, empleadoId) {
 		document.location.href = "boletaAlumno.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno+"&empleadoId" + empleadoId;
 	}
+	
+	function boletaAlumnoPanama(cicloGrupoId, codigoAlumno, empleadoId) {
+		document.location.href = "boletaAlumnoPanama.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno+"&empleadoId" + empleadoId;
+	}
 </script>
 
 <%
@@ -96,10 +100,18 @@
 				<td>
 					<a href="javascript:notasMetodo('<%=cicloGrupoId%>','<%=codigoAlumno%>');"><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "APELLIDO")%></a>
 				</td>				
-<%			}%>		
+<%			}
+
+			if (tipoBoleta.equals("3")){
+%>						
+				<td>
+					<a href="javascript:boletaAlumnoPanama('<%=cicloGrupoId%>','<%=codigoAlumno%>','<%=Grupo.getEmpleadoId()%>');">Boleta</a>
+				</td>
+<%			}else{%>
 				<td>
 					<a href="javascript:boletaAlumno('<%=cicloGrupoId%>','<%=codigoAlumno%>','<%=Grupo.getEmpleadoId()%>');">Boleta</a>
-				</td>			
+				</td>				
+<%			}%>				
 			</tr>			
 <%			  	
 		} //fin de for
