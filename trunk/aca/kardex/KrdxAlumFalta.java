@@ -90,7 +90,7 @@ public class KrdxAlumFalta {
 			ps.setString(3, cursoId);
 			ps.setString(4, evaluacionId);
 			ps.setString(5, falta);
-			ps.setString(5, tardanza);
+			ps.setString(6, tardanza);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -112,7 +112,7 @@ public class KrdxAlumFalta {
 		try{
 			ps = conn.prepareStatement("UPDATE KRDX_ALUM_FALTA " +
 					" SET " +
-					" FALTA = TO_NUMBER(?,'99')" +
+					" FALTA = TO_NUMBER(?,'99')," +
 					" TARDANZA = TO_NUMBER(?,'99')" +
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
