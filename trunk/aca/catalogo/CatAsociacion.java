@@ -28,7 +28,6 @@ public class CatAsociacion {
 		
 	}
 	
-	
 	public String getAsociacionId() {
 		return asociacionId;
 	}
