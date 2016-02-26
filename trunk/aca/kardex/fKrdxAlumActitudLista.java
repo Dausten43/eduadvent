@@ -31,7 +31,7 @@ public class fKrdxAlumActitudLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumConductaLista|getListAll|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumActitudLista|getListAll|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
