@@ -96,7 +96,7 @@ public class KrdxAlumActitud {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumConducta|insertReg|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumActitud|insertReg|:"+ex);
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -128,7 +128,7 @@ public class KrdxAlumActitud {
 				ok = false;
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumConducta|updateReg|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumActitud|updateReg|:"+ex);
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -158,7 +158,7 @@ public class KrdxAlumActitud {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumConducta|deleteReg|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumActitud|deleteReg|:"+ex);
 		}finally{
 			if (ps!=null) ps.close();
 		}
@@ -199,7 +199,7 @@ public class KrdxAlumActitud {
 				mapeaReg(rs);
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumConducta|mapeaRegId|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumActitud|mapeaRegId|:"+ex);
 			ex.printStackTrace();
 		}finally{
 			if (rs!=null) rs.close();
@@ -232,7 +232,7 @@ public class KrdxAlumActitud {
 				ok = false;
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumConducta|existeReg|:"+ex);
+			System.out.println("Error - aca.kardex.KrdxAlumActitud|existeReg|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
