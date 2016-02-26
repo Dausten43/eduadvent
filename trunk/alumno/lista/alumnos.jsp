@@ -45,7 +45,7 @@
 			<tr>
 				<td><%=cont %></td>
 				<td><%=alumno.getCodigoId() %></td>
-				<td><%=alumno.getNombre() %> <%=alumno.getApaterno() %> <%=alumno.getAmaterno() %></td>
+				<td><%=alumno.getApaterno() %> <%=alumno.getAmaterno() %> <%=alumno.getNombre() %></td>
 				<td><%=alumno.getNivelId() %></td>
 				<td><%=alumno.getGrado() %></td>
 				<td><%=alumno.getGrupo() %></td>
