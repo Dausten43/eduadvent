@@ -73,8 +73,7 @@
 						<td><%=alumno.getColonia()%></td>
 						<td><%=alumno.getDireccion()%></td>
 						<td><%=alumno.getTelefono()%></td>
-				 	</tr>		 
-  
+				 	</tr>  
 		<%			
 				}
 			} 
