@@ -55,7 +55,6 @@
 						</a>
 					</p>
 					<p>
-						<button class="btn btn-primary" style="width:100%"><i class="icon-pencil icon-white"></i> <fmt:message key="boton.ModificarDatos" /></button>
 					</p>
 					<p>
 						<button class="btn btn-info fam" style="width:100%;"><i class="icon-user icon-white"></i> <fmt:message key="boton.DatosFam" /></button>
