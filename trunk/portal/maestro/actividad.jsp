@@ -182,7 +182,7 @@
 	
 	
 	pageContext.setAttribute("resultado",resultado);
-	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListUnion(conElias, unionId, "ORDER BY 1");
+	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListUnion(conElias, unionId, "ORDER BY TIPOACT_NOMBRE");
 	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")) , " ORDER BY ORDEN ");
 %>
 <div id="content">
