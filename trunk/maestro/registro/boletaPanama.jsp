@@ -174,10 +174,16 @@
 				cell.setBorder(borde);
 				topTable.addCell(cell);
  
-	            cell = new PdfPCell(new Phrase("Alumno: [ "+codigoAlumno+" ] "+alumPersonal.getNombre()+
-	            		" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+// 	            cell = new PdfPCell(new Phrase("Alumno : [ "+codigoAlumno+" ] "+alumPersonal.getNombre()+
+// 	            		" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+// 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+// 				cell.setBorder(borde);
+// 				topTable.addCell(cell);
+
+				cell = new PdfPCell(new Phrase());
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				cell.setBorder(borde);
+				cell.setBorder(1);
+				cell.setBorderColorBottom(BaseColor.BLACK);
 				topTable.addCell(cell);
 	            
 	            cell = new PdfPCell(new Phrase(subnivel+"Nivel: [ "+
@@ -186,6 +192,17 @@
 	                    " ] - Grupo: [ "+Grupo.getGrupo()+" ]", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(borde);
+				topTable.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("ESTUDIANTE : ", FontFactory.getFont(FontFactory.HELVETICA, 12, new BaseColor(0,0,0))));
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setBorder(borde);
+				topTable.addCell(cell);
+				
+				cell = new PdfPCell(new Phrase("CEDULA : "));
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setBorder(1);
+				cell.setBorderColorTop(BaseColor.BLACK);
 				topTable.addCell(cell);
 	           
 				/*
