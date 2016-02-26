@@ -75,7 +75,7 @@ public class KrdxAlumActitud {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_CONDUCTA" +
+			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_ACTITUD" +
 					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, ASPECTOS_ID, NOTA)" +
 					" VALUES(?, ?, ?," +
 					" TO_NUMBER(?, '99')," +
@@ -107,7 +107,7 @@ public class KrdxAlumActitud {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("UPDATE KRDX_ALUM_CONDUCTA" +
+			ps = conn.prepareStatement("UPDATE KRDX_ALUM_ACTITUD" +
 					" SET NOTA = TO_NUMBER(?,'99999.99')" +
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
@@ -139,7 +139,7 @@ public class KrdxAlumActitud {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("DELETE FROM KRDX_ALUM_CONDUCTA" +
+			ps = conn.prepareStatement("DELETE FROM KRDX_ALUM_ACTITUD" +
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
@@ -181,7 +181,7 @@ public class KrdxAlumActitud {
 		try{
 			ps = con.prepareStatement("SELECT CODIGO_ID, CICLO_GRUPO_ID," +
 					" CURSO_ID, EVALUACION_ID, ASPECTOS_ID, NOTA" +
-					" FROM KRDX_ALUM_CONDUCTA" +
+					" FROM KRDX_ALUM_ACTITUD" +
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?"+
@@ -213,7 +213,7 @@ public class KrdxAlumActitud {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM KRDX_ALUM_CONDUCTA" +
+			ps = conn.prepareStatement("SELECT * FROM KRDX_ALUM_ACTITUD" +
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
