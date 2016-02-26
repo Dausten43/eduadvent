@@ -428,14 +428,8 @@
 					calificaciones += "<td class='text-center' width='2%' title=''><b>"+formato2.format(promCiclo)+"</b></td>";
 		}
 		// Completa las columnas del renglon de promedio  
-					calificaciones += "<td colspan='20'></td>"+
-										"</table><br>";
-		}
-	
-	
-	
-	
-	
+					calificaciones += "<td colspan='20'></td></table><br>";
+		}	
 	
 	/* END CALIFICACIONES */
 	
@@ -448,6 +442,7 @@
 	constanciaHTML = constanciaHTML.replaceAll("#Paterno", AlumPersonal.getApaterno().trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Materno", AlumPersonal.getAmaterno().trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Curp", AlumPersonal.getCurp().trim());
+	constanciaHTML = constanciaHTML.replaceAll("#CIP", AlumPersonal.getCurp().trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Nivel", nivelNombreCorto.toLowerCase().trim());
 	//constanciaHTML = constanciaHTML.replaceAll("#Grado", grado.toLowerCase().trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Grupo", AlumPersonal.getGrupo().trim());
