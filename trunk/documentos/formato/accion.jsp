@@ -112,6 +112,7 @@
   		#Foto
   		&nbsp;
   		#Calificaciones
+  		#CIP
   		
   	</div>	
 	
@@ -166,18 +167,8 @@
 		
 	<div class="well">
 		<button onclick="guardar();" class="btn btn-primary btn-large">
-			<i class="icon-ok icon-white"></i>  
-			<%
-				if(constanciaId.equals("")){		
-			%>
-					<fmt:message key="boton.Guardar"/>
-			<%
-				}else{
-			%>
-					<fmt:message key="boton.Editar"/>
-			<%
-				}
-			%>
+			<i class="icon-ok icon-white"></i>
+			<fmt:message key="boton.Guardar"/>			
 		</button>
 	</div>
 	
