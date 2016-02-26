@@ -49,13 +49,14 @@
 	int i = 0;	
 
 	if (nAccion == 1)
-		reporte.setTipoId(reporte.maximoReg(conElias));
+		reporte.setTipoId(reporte.maximoReg(conElias, escuelaId));
 	else
 		reporte.setTipoId(request.getParameter("TipoId"));
 
 	// Operaciones a realizar en la pantalla	
 	switch (nAccion) {
-	case 2: { // Grabar			
+	case 2: { // Grabar
+		reporte.setTipoId(reporte.maximoReg(conElias, escuelaId));
 		reporte.setTipoId(request.getParameter("TipoId"));
 		reporte.setTipoNombre(request.getParameter("TipoNombre"));
 		reporte.setComentario(request.getParameter("Comentario"));
