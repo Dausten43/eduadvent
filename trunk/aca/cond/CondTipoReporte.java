@@ -224,7 +224,7 @@ public class CondTipoReporte {
 		}
 	}
 	
-public String maximoReg(Connection conn) throws SQLException{
+public String maximoReg(Connection conn, String escuelaId) throws SQLException{
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
@@ -232,7 +232,7 @@ public String maximoReg(Connection conn) throws SQLException{
 		
 		try{
 			ps = conn.prepareStatement("SELECT COALESCE(MAX(TIPO_ID)+1,'1') AS MAXIMO " +
-					"FROM COND_TIPOREPORTE");
+					"FROM COND_TIPOREPORTE WHERE ESCUELA_ID = ?");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");
