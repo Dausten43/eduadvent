@@ -7,7 +7,7 @@
 <jsp:useBean id="tipoU" scope="page" class="aca.cond.CondTipoReporteLista"/>
 
 <head>
-	<script language="javascript">
+	<script type="javascript">
 		function Borrar( TipoId ){
 			if(confirm("¿Estás seguro de eliminar el registro: "+TipoId+"?")==true){
 		  		document.location="accion.jsp?Accion=4&TipoId="+TipoId;
