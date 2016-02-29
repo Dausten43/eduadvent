@@ -15,6 +15,7 @@ public class CatParametro {
 	private String puerto;
 	private String caja;	
 	private String tipoBoleta;
+	private String bloqueaPortal;
 	
 	public CatParametro(){
 		escuelaId		= "";
@@ -26,6 +27,7 @@ public class CatParametro {
 		puerto			= "";
 		caja			= "";
 		tipoBoleta		= "";
+		bloqueaPortal 	= "100000"; 
 	}
 
 	
@@ -129,6 +131,8 @@ public class CatParametro {
 	public void setCaja(String caja) {
 		this.caja = caja;
 	}
+	
+	
 	
 	public boolean insertReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
