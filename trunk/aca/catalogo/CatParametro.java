@@ -133,14 +133,28 @@ public class CatParametro {
 	}
 	
 	
-	
+	/**
+	 * @return the bloqueaPortal
+	 */
+	public String getBloqueaPortal() {
+		return bloqueaPortal;
+	}
+
+	/**
+	 * @param bloqueaPortal the bloqueaPortal to set
+	 */
+	public void setBloqueaPortal(String bloqueaPortal) {
+		this.bloqueaPortal = bloqueaPortal;
+	}
+
+
 	public boolean insertReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_PARAMETRO" +
-					" (ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, TIPO_BOLETA)" + 
-					" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");			
+					" (ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, TIPO_BOLETA, BLOQUEA_BOLETA)" + 
+					" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, TO_NUMBER(?,'999999.99'))");			
 			ps.setString(1, escuelaId);
 			ps.setString(2, firmaBoleta);
 			ps.setString(3, firmaPadre);
@@ -150,6 +164,7 @@ public class CatParametro {
 			ps.setString(7, puerto);
 			ps.setString(8, caja);
 			ps.setString(9, tipoBoleta);
+			ps.setString(10, bloqueaPortal);
 			if ( ps.executeUpdate()== 1){
 				ok = true;				
 			}else{
@@ -176,7 +191,7 @@ public class CatParametro {
 					" BASEDATOS = ?," +
 					" PUERTO	= ?," +
 					" CAJA 		= ?," +
-					" TIPO_BOLETA	= ?" +
+					" TIPO_PORTAL	= TO_NUMBER(?,'999999.99')" +
 					" WHERE ESCUELA_ID = ?");
 			ps.setString(1, firmaBoleta);
 			ps.setString(2, firmaPadre);
@@ -186,7 +201,8 @@ public class CatParametro {
 			ps.setString(6, puerto);
 			ps.setString(7, caja);
 			ps.setString(8, tipoBoleta);
-			ps.setString(9, escuelaId);
+			ps.setString(9, bloqueaPortal);
+			ps.setString(10, escuelaId);
 						
 			if ( ps.executeUpdate()== 1){
 				ok = true;				
@@ -234,14 +250,14 @@ public class CatParametro {
 		puerto			= rs.getString("PUERTO");
 		caja			= rs.getString("CAJA");
 		tipoBoleta		= rs.getString("TIPO_BOLETA");
-		
+		bloqueaPortal	= rs.getString("BLOQUEA_PORTAL");		
 	}
 	
 	public void mapeaRegId(Connection con, String escuelaId) throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			ps = con.prepareStatement("SELECT ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, TIPO_BOLETA" +
+			ps = con.prepareStatement("SELECT ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, TIPO_BOLETA, BLOQUEA_PORTAL" +
 					" FROM CAT_PARAMETRO" +
 					" WHERE ESCUELA_ID = ? ");
 			
@@ -323,7 +339,7 @@ public class CatParametro {
 				tipoBoleta = rs.getString("TIPO_BOLETA");
 			}			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatAsociacion|getUnionEscuela|:"+ex);
+			System.out.println("Error - aca.catalogo.CatParametro|getUnionEscuela|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
@@ -332,6 +348,25 @@ public class CatParametro {
 		return tipoBoleta;
 	}
 	
-	
-	
+	public static String getBloqueaPortal(Connection conn, String escuelaId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String tipoBoleta		= "1";
+		
+		try{
+			ps = conn.prepareStatement("SELECT BLOQUEA_PORTAL FROM CAT_PARAMETRO WHERE ESCUELA_ID = ? ");
+			ps.setString(1, escuelaId);
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				tipoBoleta = rs.getString("BLOQUEA_PORTAL");
+			}			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatParametro|getBloqueaPortal|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return tipoBoleta;
+	}	
 }
