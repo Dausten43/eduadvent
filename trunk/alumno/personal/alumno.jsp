@@ -22,7 +22,6 @@
 <jsp:useBean id="usuarioMenu" scope="page" class="aca.usuario.UsuarioMenu"/>
 <jsp:useBean id="ClasFinLista" scope="page" class="aca.catalogo.CatClasFinLista"/>
 
-
 <script>
 	
 	function Nuevo(){	
