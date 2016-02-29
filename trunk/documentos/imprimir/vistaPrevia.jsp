@@ -90,26 +90,28 @@
 	
 	/*
 	/* NOMBRE GRADO 
-	String gradoNombre = AlumPersonal.getGrado();
-	if(AlumPersonal.getGrado().equals("1")){
-		gradoNombre = "Primer";
-	}else if(AlumPersonal.getGrado().equals("2")){ 
-		gradoNombre = "Segundo";
-	}else if(AlumPersonal.getGrado().equals("3")){
-		gradoNombre = "Tercer";
-	}else if(AlumPersonal.getGrado().equals("4")){
-		gradoNombre = "Cuarto";
-	}else if(AlumPersonal.getGrado().equals("5")){
-		gradoNombre = "Quinto";
-	}else if(AlumPersonal.getGrado().equals("6")){
-		gradoNombre = "Sexto";
-	}else if(AlumPersonal.getGrado().equals("7")){
-		gradoNombre = "Septimo";
-	}*/
+	*/
+	//String gradoNombre = AlumPersonal.getGrado();
+// 	if(AlumPersonal.getGrado().equals("1")){
+// 		gradoNombre = "Primer";
+// 	}else if(AlumPersonal.getGrado().equals("2")){ 
+// 		gradoNombre = "Segundo";
+// 	}else if(AlumPersonal.getGrado().equals("3")){
+// 		gradoNombre = "Tercer";
+// 	}else if(AlumPersonal.getGrado().equals("4")){
+// 		gradoNombre = "Cuarto";
+// 	}else if(AlumPersonal.getGrado().equals("5")){
+// 		gradoNombre = "Quinto";
+// 	}else if(AlumPersonal.getGrado().equals("6")){
+// 		gradoNombre = "Sexto";
+// 	}else if(AlumPersonal.getGrado().equals("7")){
+// 		gradoNombre = "Septimo";
+// 	}
 	
 	/* FORMATEAR TEXTO */
 	String nivelNombreCorto = aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, AlumPersonal.getNivelId());
 	//String grado            = gradoNombre + " " + aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, AlumPersonal.getNivelId());
+	String grado            = "";
 	String ciudad           = aca.catalogo.CatCiudad.getCiudad(conElias, escuela.getPaisId(), escuela.getEstadoId(), escuela.getCiudadId());
 	String estado 			= aca.catalogo.CatEstado.getEstado(conElias, escuela.getPaisId(), escuela.getEstadoId());
 	
@@ -140,6 +142,8 @@
 		
 		// Nombre del grado
 		String gradoNombre	= aca.catalogo.CatNivel.getGradoNombre( Integer.parseInt(ciclo.getGrado()) )+" "+nivelTitulo;
+		
+		grado = gradoNombre;
 		
 		// Escala
 		int escalaEval = aca.ciclo.Ciclo.getEscala(conElias, ciclo.getCicloId());
@@ -444,7 +448,7 @@
 	constanciaHTML = constanciaHTML.replaceAll("#Curp", AlumPersonal.getCurp().trim());
 	constanciaHTML = constanciaHTML.replaceAll("#CIP", AlumPersonal.getCurp().trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Nivel", nivelNombreCorto.toLowerCase().trim());
-	//constanciaHTML = constanciaHTML.replaceAll("#Grado", grado.toLowerCase().trim());
+	constanciaHTML = constanciaHTML.replaceAll("#Grado", grado.toLowerCase().trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Grupo", AlumPersonal.getGrupo().trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Ciudad", ciudad.trim());
 	constanciaHTML = constanciaHTML.replaceAll("#Estado", estado.trim());
