@@ -46,6 +46,7 @@
 			<th>#</th>
 	    	<th><fmt:message key="aca.Matricula"/></th>
 	    	<th><fmt:message key="aca.Nombre"/></th>
+	    	<th><fmt:message key="aca.CID"/></th>
 	    	<th><fmt:message key="aca.Genero"/></th>
 	    	<th><fmt:message key="aca.Edad"/></th>
 	    	<th><fmt:message key="aca.Colonia"/></th>
@@ -68,6 +69,7 @@
 						<td><%=i+1%></td>
 						<td><%=alumno.getCodigoId()%></td>
 						<td><%=alumno.getApaterno()%>&nbsp;<%=alumno.getAmaterno()%>&nbsp;<%=alumno.getNombre()%></td>
+						<td><%=alumno.getCurp() %></td>
 						<td><%= genero  %></td>
 						<td><%=aca.alumno.AlumPersonal.getEdad(conElias, alumno.getCodigoId())%></td>
 						<td><%=alumno.getColonia()%></td>
