@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 
-public class fKrdxAlumActitudLista {
+public class KrdxAlumActitudLista {
 	
 	public ArrayList<KrdxAlumActitud> getListAll(Connection conn, String orden ) throws SQLException{
 		ArrayList<KrdxAlumActitud> lis 	= new ArrayList<KrdxAlumActitud>();
