@@ -45,6 +45,8 @@
 		document.frmPersonal.Cotejado.value			= "N";
 		document.frmPersonal.Tutor.value			= "";
 		document.frmPersonal.Celular.value			= "2";
+		document.frmPersonal.TipoSangre.value		= "O+";
+		document.frmPersonal.Cedula.value			= "-";
 		document.frmPersonal.submit();		
 	}
 	
@@ -128,6 +130,16 @@
 	session.setAttribute("mat",codigoAlumno);
 	
 	ArrayList<aca.plan.Plan> lisPlan		= PlanLista.getListEscuela(conElias, escuelaId, " ORDER BY NIVEL_ID");
+	ArrayList<String> listTipoSangre 		= new ArrayList<String>();
+	
+	listTipoSangre.add("O+");
+	listTipoSangre.add("O-");
+	listTipoSangre.add("A+");
+	listTipoSangre.add("A-");
+	listTipoSangre.add("B+");
+	listTipoSangre.add("B-");
+	listTipoSangre.add("AB+");
+	listTipoSangre.add("AB-");
 	
 	if(vref==null) vref		= "0";	
 	String sResultado		= "";		
@@ -198,6 +210,8 @@
 			Personal.setTutor(request.getParameter("Tutor"));			
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));		
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
+			Personal.setSangre(request.getParameter("TipoSangre"));
+			Personal.setCedulaTutor(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
 			conElias.setAutoCommit(false);
 			
 			if (Personal.existeReg(conElias) == false){
@@ -259,6 +273,8 @@
 			Personal.setTutor(request.getParameter("Tutor"));
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
+			Personal.setSangre(request.getParameter("TipoSangre"));
+			Personal.setCedulaTutor(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
 			Personal.setDiscapacidad("-");
 			
 			conElias.setAutoCommit(false);
@@ -496,6 +512,18 @@
 					<input name="emailAlumno" type="text" id="emailAlumno" maxlength="50" value="<%=Personal.getCorreo()==null?"-":Personal.getCorreo()%>">
 				</p>
 				
+				<p>
+         			<label>
+         				<fmt:message key="aca.TipoSangre"/>
+         			</label> 
+	              	
+	              	<select name="TipoSangre" class="input-medium" <%if(inscrito){out.print("readonly");} %>>
+	              		<%for(String sangre : listTipoSangre){ %>
+		    				<option value="<%=sangre %>" <%if(Personal.getSangre().equals(sangre+"")){out.print("selected");} %>><%=sangre %></option>
+		    			<%}%>
+	              	</select>
+	            </p>
+				
 			</div>
 			
 			<div class="span3">
@@ -696,6 +724,11 @@
 	          	<p>
 	          		<label><fmt:message key="aca.Colonia"/></label>
 	          		<input type="text" name="Colonia" id="Colonia" maxlength="30" value="<%=(Personal.getColonia()==null || Personal.getColonia().equals("-") || Personal.getColonia().equals("null"))? "" : Personal.getColonia()%>">
+	          	</p>
+	          	
+	          	<p>
+	          		<label>Cedula</label>
+	          		<input type="text" name="Cedula" id="Cedula" maxlength="20" value="<%=(Personal.getCedulaTutor()==null || Personal.getCedulaTutor().equals("-") || Personal.getCedulaTutor().equals("null"))? "" : Personal.getCedulaTutor()%>">
 	          	</p>
 	          	
 	        </div>
