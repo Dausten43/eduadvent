@@ -46,6 +46,8 @@ public class AlumPersonal {
 	private String enfermedad;
 	private String correo;
 	private String iglesia;
+	private String sangre;
+	private String cedula_tutor;
 	
 	public AlumPersonal(){
 		codigoId	= "";
@@ -78,6 +80,8 @@ public class AlumPersonal {
 		enfermedad 	= "-";
 		correo 		= "-";
 		iglesia		= "-";
+		sangre      = "";
+		cedula_tutor= "-";
 	}
 
 	
@@ -579,6 +583,36 @@ public class AlumPersonal {
 	public void setIglesia(String iglesia) {
 		this.iglesia = iglesia;
 	}
+	
+	/**
+	 * @return the sangre
+	 */
+	public String getSangre() {
+		return sangre;
+	}
+
+
+	/**
+	 * @param nombre the sangre to set
+	 */
+	public void setSangre(String sangre) {
+		this.sangre = sangre;
+	}
+	
+	/**
+	 * @return the cedula_tutor
+	 */
+	public String getCedulaTutor() {
+		return cedula_tutor;
+	}
+
+
+	/**
+	 * @param nombre the cedula_tutor to set
+	 */
+	public void setCedulaTutor(String cedula_tutor) {
+		this.cedula_tutor = cedula_tutor;
+	}
 
 
 	public boolean insertReg(Connection conn ) throws SQLException{
@@ -592,7 +626,7 @@ public class AlumPersonal {
 					" ESTADO_ID, CIUDAD_ID, CLASFIN_ID," +
 					" EMAIL, COLONIA, DIRECCION," +
 					" TELEFONO, COTEJADO, NIVEL_ID, GRADO, GRUPO, ESTADO," +
-					" ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA)" +
+					" ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA, TIPO_SANGRE, TUTOR_CEDULA)" +
 					" VALUES(?, ?, UPPER(RTRIM(LTRIM(?)))," +
 					" UPPER(RTRIM(LTRIM(?))), UPPER(RTRIM(LTRIM(?))), ?," +
 					" ?, TO_DATE(?, 'DD/MM/YYYY'), TO_NUMBER(?, '999')," +
@@ -633,6 +667,8 @@ public class AlumPersonal {
 			ps.setString(30, enfermedad);
 			ps.setString(31, correo);
 			ps.setString(32, iglesia);
+			ps.setString(33, sangre);
+			ps.setString(34, cedula_tutor);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -783,7 +819,9 @@ public class AlumPersonal {
 					" DISCAPACIDAD = ? ," +
 					" ENFERMEDAD = ?, " +
 					" CORREO = ?, " +
-					" IGLESIA = ? " +
+					" IGLESIA = ?, " +
+					" TIPO_SANGRE = ?, " +
+					" TUTOR_CEDULA = ? " +
 					" WHERE CODIGO_ID = ? ");			
 			
 			ps.setString(1, escuelaId);
@@ -817,7 +855,9 @@ public class AlumPersonal {
 			ps.setString(29, enfermedad);
 			ps.setString(30, correo);
 			ps.setString(31, iglesia);
-			ps.setString(32, codigoId);
+			ps.setString(32, sangre);
+			ps.setString(33, cedula_tutor);
+			ps.setString(34, codigoId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -950,6 +990,8 @@ public class AlumPersonal {
 		enfermedad	= rs.getString("ENFERMEDAD");
 		correo		= rs.getString("CORREO");
 		iglesia		= rs.getString("IGLESIA");
+		sangre		= rs.getString("TIPO_SANGRE");
+		cedula_tutor= rs.getString("TUTOR_CEDULA");
 		
 	}
 	
@@ -974,7 +1016,7 @@ public class AlumPersonal {
 					" GRADO, GRUPO, ESTADO, COALESCE(ACTA,'-') AS ACTA, COALESCE(CRIP,'-') AS CRIP," +
 					" RELIGION, COALESCE(TRANSPORTE,'-') AS TRANSPORTE, COALESCE(CELULAR,'-') AS CELULAR," +
 					" COALESCE(TUTOR,'-') AS TUTOR, MATRICULA, DISCAPACIDAD, COALESCE(ENFERMEDAD,'-') AS ENFERMEDAD, COALESCE(CORREO,'-') AS CORREO, " +
-					" COALESCE(IGLESIA,'-') AS IGLESIA " +
+					" COALESCE(IGLESIA,'-') AS IGLESIA, TIPO_SANGRE, TUTOR_CEDULA " +
 					" FROM ALUM_PERSONAL" +
 					" WHERE CODIGO_ID = ?");
 			
