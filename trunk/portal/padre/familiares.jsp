@@ -57,14 +57,12 @@
 	    	if (Datos.existeReg(conElias) == false){
 				if (Datos.insertReg(conElias)){
 			resultado = "!! Los Datos han sido Guardados Correctamente !!";
-			conElias.commit();
 				}else{
 			resultado = "No Grabó: "+Datos.getCodigoId();
 				}
 			}else{	
 				if (Datos.updateReg(conElias)){ 
 			resultado = "!! Los Datos han sido Modificados Correctamente !!";
-			conElias.commit();
 				}else{
 			resultado = "No Cambió: "+Datos.getCodigoId();
 				}

@@ -105,7 +105,6 @@
 		if (Promedio.existeReg(conElias) == true){
 			if (Promedio.deleteReg(conElias)){
 				sResultado = "Eliminado";
-				conElias.commit();
 				response.sendRedirect("promedio.jsp");
 			}else{
 				sResultado = "NoElimino";

@@ -70,7 +70,6 @@
 			if (GrupoEval.existeReg(conElias) == false){
 				if (GrupoEval.insertReg(conElias)){
 					sResultado = "Guardado";
-					conElias.commit();
 					response.sendRedirect("metodo.jsp");
 				}else{
 					sResultado = "NoGuardo";
@@ -78,7 +77,6 @@
 			}else{	
 				if (GrupoEval.updateReg(conElias)){ 
 					sResultado = "Modificado";
-					conElias.commit();
 					response.sendRedirect("metodo.jsp");
 				}else{
 					sResultado = "NoModifico";
@@ -97,7 +95,6 @@
 					if (GrupoEval.existeReg(conElias) == true){
 						if (GrupoEval.deleteReg(conElias)){
 							sResultado = "Eliminado";
-							conElias.commit();
 							response.sendRedirect("metodo.jsp");
 						}else{
 							sResultado = "NoBorro";

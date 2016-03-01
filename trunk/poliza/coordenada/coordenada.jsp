@@ -95,14 +95,12 @@
 			if (Coordenada.existeReg(conElias) == false) {//Grabar
 				if (Coordenada.insertReg(conElias)) {
 					sResultado = "Grabado";
-					conElias.commit();
 				} else {
 					sResultado = "No Grabó";
 				}
 			} else {//Modificar
 				if (Coordenada.updateReg(conElias)) {
 					sResultado = "Modificado";
-					conElias.commit();
 				} else {
 					sResultado = "No Cambió";
 				}

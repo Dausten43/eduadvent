@@ -49,14 +49,12 @@
 			if (Modulo.existeReg(conElias) == false) {
 				if (Modulo.insertReg(conElias)) {
 					resultado = "Guardado";
-					conElias.commit();
 				} else {
 					resultado = "NoGuardo";
 				}
 			} else {
 				if (Modulo.updateReg(conElias)) {
 					resultado = "Modificado";
-					conElias.commit();
 				} else {
 					resultado = "NoModifico";
 				}
@@ -71,7 +69,6 @@
 			if (Modulo.existeReg(conElias) == true) {
 				if (Modulo.deleteReg(conElias)) {
 					resultado = "Eliminado";
-					conElias.commit();
 					response.sendRedirect("modulo.jsp");
 				} else {
 					resultado = "NoElimino";

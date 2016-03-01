@@ -31,7 +31,6 @@
 		//System.out.println("Cancelar..."+cicloId+":"+periodoId+":"+pagoId+":"+cuentaId);
 		
 		if ( FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno, pagoId, cuentaId, "C") ){
-			conElias.commit();
 		}
 		
 	}

@@ -72,7 +72,6 @@
 			if (Nivel.existeReg(conElias) == false){
 				if (Nivel.insertReg(conElias)){
 					sResultado = "Grabado: "+Nivel.getNivelId();
-					conElias.commit();
 				}else{
 					sResultado = "No Grabó: "+Nivel.getNivelId();
 				}
@@ -90,7 +89,6 @@
 			if (Nivel.existeReg(conElias) == true){
 				if (Nivel.updateReg(conElias)){
 					sResultado = "Modificado: "+Nivel.getNivelId();
-					conElias.commit();
 				}else{
 					sResultado = "No Cambió: "+Nivel.getNivelId();
 				}
@@ -103,7 +101,6 @@
 			if (Nivel.existeReg(conElias) == true){
 				if (Nivel.deleteReg(conElias)){
 					sResultado = "Borrado: "+Nivel.getNivelId();
-					conElias.commit();
 				}else{
 					sResultado = "No Borró: "+Nivel.getNivelId();
 				}	

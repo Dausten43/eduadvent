@@ -49,14 +49,12 @@
 			if (Tema.existeReg(conElias) == false) {
 				if (Tema.insertReg(conElias)) {
 					resultado = "Guardado";
-					conElias.commit();
 				} else {
 					resultado = "NoGuardo";
 				}
 			} else {
 				if (Tema.updateReg(conElias)) {
 					resultado = "Modificado";
-					conElias.commit();
 				} else {
 					resultado = "NoModifico";
 				}
@@ -73,7 +71,6 @@
 			if (Tema.existeReg(conElias) == true) {
 				if (Tema.deleteReg(conElias)) {
 					resultado = "Eliminado";
-					conElias.commit();
 					response.sendRedirect("modulo.jsp?ModuloId="+modulo);
 				} else {
 					resultado = "NoElimino";

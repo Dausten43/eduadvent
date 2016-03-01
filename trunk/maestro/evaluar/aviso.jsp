@@ -59,14 +59,12 @@
     	if (PadresAviso.existeReg(conElias) == false){
 			if (PadresAviso.insertReg(conElias)){
 				resultado = "DatosGuardados";
-				conElias.commit();
 			}else{
 				resultado = "NoGrabo";
 			}
 		}else{	
 			if (PadresAviso.updateReg(conElias)){ 
 				resultado = "DatosModificados";
-				conElias.commit();
 			}else{
 				resultado = "NoCambio";
 			}

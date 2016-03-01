@@ -324,7 +324,6 @@
 //------------- BORRA CALIFICACIONES DE UNA EVALUACION ------------->
 	else if (accion.equals("2")) {
 		if (aca.kardex.KrdxAlumEval.deleteNotasEval(conElias, cicloGrupoId, cursoId, request.getParameter("Evaluacion"))) {
-			conElias.commit();
 			msj = "Eliminado";
 		} else {
 			msj = "ErrorBorrar";
@@ -707,7 +706,6 @@
 								error++;	
 							}
 						}
-						conElias.commit();
 					}
 					if (error == 0){
 						msj = "Guardado";	

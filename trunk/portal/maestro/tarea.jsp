@@ -53,14 +53,12 @@
 			if (Tarea.existeReg(conElias) == false){
 				if (Tarea.insertReg(conElias)){
 					resultado = "Guardado";
-					conElias.commit();
 				}else{
 					resultado = "NoGuardo";
 				}
 			}else{				
 				if (Tarea.updateReg(conElias)){
 					resultado = "Modificado";
-					conElias.commit();
 				}else{
 					resultado = "NoModifico";
 				}
@@ -76,7 +74,6 @@
 			if (Tarea.existeReg(conElias) == true){
 				if (Tarea.deleteReg(conElias)){
 					resultado = "Eliminado";
-					conElias.commit();
 					response.sendRedirect("modulo.jsp?ModuloId="+modulo);
 				}else{
 					resultado = "NoElimino";
