@@ -131,6 +131,13 @@
 		   </select>
 	    </div>
 	    
+	    <div class="control-group ">
+	    	<label for="Límite de Deuda">
+	        	<fmt:message key="aca.limiteDeuda" />:
+	        </label>
+	        <input type="text" id="Deuda" name="Deuda" value="<%=CatParametro.getBloqueaPortal() %>" maxlength="9" />
+	    </div>
+	    
 	</fieldset>	
 	<div class="well" style="overflow:hidden;">
 		<button class="btn btn-primary" onclick="javascript:Graba()" ><i class="icon-ok icon-white"></i> <fmt:message key="boton.Grabar" /></button>
