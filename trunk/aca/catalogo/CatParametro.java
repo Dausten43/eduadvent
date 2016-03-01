@@ -153,7 +153,7 @@ public class CatParametro {
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_PARAMETRO" +
-					" (ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, TIPO_BOLETA, BLOQUEA_BOLETA)" + 
+					" (ESCUELA_ID, FIRMA_BOLETA, FIRMA_PADRE, SUNPLUS, IP_SERVER, BASEDATOS, PUERTO, CAJA, TIPO_BOLETA, BLOQUEA_PORTAL)" + 
 					" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, TO_NUMBER(?,'999999.99'))");			
 			ps.setString(1, escuelaId);
 			ps.setString(2, firmaBoleta);
