@@ -20,7 +20,6 @@
 	if (foto.exists()){
 		tieneFoto = true;
 	}
-	
 %>
 
 <style>
