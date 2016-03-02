@@ -66,7 +66,7 @@
 	String usuarioLogeado = (String)session.getAttribute("codigoId");
 	
 	usuario.mapeaRegId(conElias, usuarioLogeado);
-	String escuelas = usuario.getEscuela();	
+	String escuelas = usuario.getEscuela();
 	pageContext.setAttribute("resultado",resultado);
 %>
 </head>
@@ -99,9 +99,9 @@
 			</thead>
 			<%
 			for (int i=0; i< lisEscuela.size(); i++){
-				aca.catalogo.CatEscuela escuela = (aca.catalogo.CatEscuela) lisEscuela.get(i);
+				aca.catalogo.CatEscuela escuela = (aca.catalogo.CatEscuela) lisEscuela.get(i);			
 				
-				if(!escuelas.contains( "-"+escuela.getEscuelaId()+"-" ))continue;
+				if(!escuelas.contains( escuela.getEscuelaId() ))continue;
 				
 				String nombreAsociacion = "";
 				if (mapAsociacion.containsKey(escuela.getAsociacionId())){
