@@ -180,11 +180,11 @@ public class CatBarrio {
 		barrioNombre	= rs.getString("BARRIO_NOMBRE");		
 	}
 	
-	public void mapeaRegId(Connection con, String paisId, String estadoId, String ciudadId) throws SQLException{
+	public void mapeaRegId(Connection con, String paisId, String estadoId, String ciudadId, String barrioId ) throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = con.prepareStatement("SELECT PAIS_ID, ESTADO_ID, CIUDAD_ID, BARRIO_NOMBRE"
+			ps = con.prepareStatement("SELECT PAIS_ID, ESTADO_ID, CIUDAD_ID, BARRIO_ID, BARRIO_NOMBRE"
 					+ " FROM CAT_BARRIO"
 					+ " WHERE PAIS_ID = TO_NUMBER(?, '999')"
 					+ " AND ESTADO_ID = TO_NUMBER(?, '999')"
@@ -252,7 +252,7 @@ public class CatBarrio {
 					+ " FROM CAT_BARRIO"
 					+ " WHERE PAIS_ID = TO_NUMBER('"+paisId+"','999')"
 					+ " AND ESTADO_ID = TO_NUMBER('"+estadoId+"','999')"
-					+ " AND CIUDAD_ID = TO_NUMBER('"+ciudadId+",'999')");
+					+ " AND CIUDAD_ID = TO_NUMBER('"+ciudadId+"','999')");
 			rs 	= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");
