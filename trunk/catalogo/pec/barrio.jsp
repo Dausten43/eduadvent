@@ -30,12 +30,11 @@
 		<a class="btn btn-primary" href="ciudad.jsp?PaisId=<%=strPaisId %>&EstadoId=<%=strEstadoId%>&CiudadId=<%=strCiudadId%>">
 		  <i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" />
 		</a>&nbsp;
-		<a class="btn btn-primary" href="accion_c.jsp?Accion=1&PaisId=<%=strPaisId%>&EstadoId=<%=strEstadoId%>&CiudadId=<%=strCiudadId%>">
+		<a class="btn btn-primary" href="accion_b.jsp?Accion=1&PaisId=<%=strPaisId%>&EstadoId=<%=strEstadoId%>&CiudadId=<%=strCiudadId%>">
 		  <i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
-		</a> 
-	
+		</a>	
   </div>
-  <table width="40%" align="center" class="table table-condensed">
+  <table class="table table-condensed">
   <tr> 
     <th width="17%"><fmt:message key="aca.Operacion" /></th>
     <th width="9%">#</th>
@@ -44,18 +43,18 @@
   </tr>
 <%
 	for (int i=0; i< lisBarrio.size(); i++){
-		aca.catalogo.CatBarrio ciudad = (aca.catalogo.CatBarrio) lisBarrio.get(i);
-		if(ciudad.getPaisId().equals(strPaisId) && ciudad.getEstadoId().equals(strEstadoId)){
+		aca.catalogo.CatBarrio barrio = (aca.catalogo.CatBarrio) lisBarrio.get(i);
+		if(barrio.getPaisId().equals(strPaisId) && barrio.getEstadoId().equals(strEstadoId)){
 %>  
   <tr> 
     <td align="center">
-	  <a class="icon-pencil" href="accion_c.jsp?Accion=5&CiudadId=<%=ciudad.getCiudadId()%>&EstadoId=<%=ciudad.getEstadoId()%>&PaisId=<%=ciudad.getPaisId()%>">
+	  <a class="icon-pencil" href="accion_b.jsp?Accion=5&BarrioId=<%=barrio.getBarrioId()%>&CiudadId=<%=barrio.getCiudadId()%>&EstadoId=<%=barrio.getEstadoId()%>&PaisId=<%=barrio.getPaisId()%>">
 	  </a>
-	  <a class="icon-remove" href="javascript:Borrar ('<%=ciudad.getPaisId()%>','<%=ciudad.getEstadoId()%>','<%=ciudad.getCiudadId()%>','<%=ciudad.getBarrioId()%>')">
+	  <a class="icon-remove" href="javascript:Borrar ('<%=barrio.getPaisId()%>','<%=barrio.getEstadoId()%>','<%=barrio.getCiudadId()%>','<%=barrio.getBarrioId()%>')">
 	  </a>
 	</td>
-    <td align="center"><%=ciudad.getCiudadId()%></td>
-    <td><%=ciudad.getBarrioNombre()%></td>
+    <td align="center"><%=barrio.getCiudadId()%></td>
+    <td><%=barrio.getBarrioNombre()%></td>
 	</tr>
 <%
 		}
