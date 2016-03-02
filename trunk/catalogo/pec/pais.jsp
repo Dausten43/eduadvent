@@ -14,10 +14,11 @@
 		  	}
 		}
 	</script>
-<%
-	ArrayList lisPais			= new ArrayList();	
-	lisPais	 				= paisLista.getListAll(conElias,"ORDER BY PAIS_NOMBRE");
-	String escuelaId = (String) session.getAttribute("escuela");
+<%	
+	String escuelaId 	= (String) session.getAttribute("escuela");
+
+	// Lista de paises
+	ArrayList<aca.catalogo.CatPais> lisPais	= paisLista.getListAll(conElias,"ORDER BY PAIS_NOMBRE");
 	
 %>
 	
@@ -25,13 +26,14 @@
 <body>
 <div id="content">
   
- <h2><fmt:message key="catalogo.ListadoDePais" /></h2>
-	<div class="well" style="overflow:hidden;">
- 		<a href="accion_p.jsp?Accion=1" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
-	</div>	
-		
-  
-  <table width="40%" class="table table-condensed " align="center">
+  <h2><fmt:message key="catalogo.ListadoDePais" /></h2>
+  <div class="well" style="overflow:hidden;">
+  <input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">
+  	<a href="accion_p.jsp?Accion=1" class="btn btn-primary">
+		<i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
+	</a> 		
+  </div>  
+  <table id="table" class="table table-condensed ">
   <tr> 
     <th width="17%"><fmt:message key="aca.Operacion" /></th>
     <th width="9%">#</th>
@@ -53,8 +55,8 @@
 %>  
 <tr> 
  <td align="center">
-	<a class="icon-pencil" href="accion_p.jsp?Accion=5&PaisId=<%=pais.getPaisId()%>">
-	<a class="icon-remove" href="javascript:Borrar('<%=pais.getPaisId()%>')"></a>
+	<a href="accion_p.jsp?Accion=5&PaisId=<%=pais.getPaisId()%>" class="icon-pencil"></a>
+	<a href="javascript:Borrar('<%=pais.getPaisId()%>')" class="icon-remove"></a>
  </td>
     <td align="center"><%=pais.getPaisId()%></td>
     <td><a href="estado.jsp?PaisId=<%=pais.getPaisId()%>"><%=pais.getPaisNombre()%></a> </td>
@@ -71,5 +73,9 @@
 %>
    </table>  
 </div>
+<script src="../../js/search.js"></script>
+<script>
+	$('#buscar').focus().search({table:$("#table")});
+</script>
 </body>
 <%@ include file= "../../cierra_elias.jsp" %> 
