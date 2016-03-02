@@ -568,14 +568,13 @@
 					}
 				%>
             		</select>
-				</p>
-				
-				<p>
-				<% if (!escuelaId.contains("H")){
-					out.print("<label><fmt:message key='aca.CURP'/></label>");			
-				}else{
-					out.print("<label>C.I.P.</label>");
-				}%>
+				</p>				
+				<p>				
+				<%	if (!escuelaId.contains("H")){%>
+					<label><fmt:message key='aca.CURP'/></label>	
+				<%	}else{%>					
+					<label>C.I.P.</label>
+				<%	}%>
 				    <input name="Curp" type="text" id="Curp" maxlength="19" value="<%=(Personal.getCurp().equals("-") || Personal.getCurp().equals("-") || Personal.getCurp().equals("null"))? "" : Personal.getCurp()%>"> 
 				</p>
 				
