@@ -21,6 +21,8 @@ public class AlumInscrito {
 	private String nivel;
 	private String grado;
 	private String grupo;
+	private String curp;
+	private String tipoSangre;
 
 	public AlumInscrito(){
 		cicloId		= "";
@@ -38,6 +40,8 @@ public class AlumInscrito {
 		nivel		= "";
 		grado		= "";
 		grupo		= "";
+		curp		= "";
+		tipoSangre	= "";
 	}
 	
 
@@ -187,6 +191,34 @@ public class AlumInscrito {
 	public void setGrupo(String grupo) {
 		this.grupo = grupo;
 	}
+	
+	/**
+	 * @return the curp
+	 */
+	public String getCurp() {
+		return curp;
+	}
+	
+	/**
+	 * @param curp the curp to set
+	 */
+	public void setCurp(String curp) {
+		this.curp = curp;
+	}
+	
+	/**
+	 * @return the tipoSangre
+	 */
+	public String getTipoSangre() {
+		return tipoSangre;
+	}
+	
+	/**
+	 * @param tipoSangre the tipoSangre to set
+	 */
+	public void setTipoSangre(String tipoSangre) {
+		this.tipoSangre = tipoSangre;
+	}
 
 
 	public void mapeaReg(ResultSet rs) throws SQLException{
@@ -205,6 +237,8 @@ public class AlumInscrito {
 		nivel 			= rs.getString("NIVEL");
 		grado 			= rs.getString("GRADO");
 		grupo 			= rs.getString("GRUPO");
+		curp 			= rs.getString("CURP");
+		tipoSangre		= rs.getString("TIPO_SANGRE");
 	}
 	
 	public void mapeaRegId(Connection conn, String ciclo_id, String periodo_id, String codigo_id) throws SQLException{
@@ -290,6 +324,29 @@ public class AlumInscrito {
 		
 		try{
 			ps = conn.prepareStatement("SELECT COALESCE(COUNT(*),0) AS TOTAL FROM ALUMNO_INSCRITO");	
+			rs = ps.executeQuery();
+			if (rs.next())
+				total = rs.getInt("TOTAL");			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.vista.AlumEval|numInscritos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return total;
+	}
+	
+	public static int numInscritos(Connection conn, String escuelaId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs			= null;		
+		int total = 0;
+		
+		try{
+			ps = conn.prepareStatement("SELECT COALESCE(COUNT(*),0) AS TOTAL FROM ALUMNO_INSCRITO WHERE SUBSTR(CODIGO_ID,1,3) = ?");
+			ps.setString(1, escuelaId);
 			rs = ps.executeQuery();
 			if (rs.next())
 				total = rs.getInt("TOTAL");			
