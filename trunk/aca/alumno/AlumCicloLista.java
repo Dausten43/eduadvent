@@ -75,7 +75,6 @@ public class AlumCicloLista{
 	}
 	
 	public ArrayList<AlumCiclo> getArrayListInscritos(Connection conn, String cicloId, String orden ) throws SQLException{
-
 		
 		ArrayList<AlumCiclo> lisAlumCiclo	= new ArrayList<AlumCiclo>();
 		Statement st 		= conn.createStatement();
@@ -84,9 +83,8 @@ public class AlumCicloLista{
 	
 		
 		try{
-			comando = "SELECT * " +
-				"FROM ALUM_CICLO "+
-				"WHERE CICLO_ID = '"+cicloId+"' " +
+			comando = "SELECT * FROM ALUM_CICLO"+
+				" WHERE CICLO_ID = '"+cicloId+"'" +
 				" AND ESTADO = 'I' "+ orden;
 			
 			rs = st.executeQuery(comando);
