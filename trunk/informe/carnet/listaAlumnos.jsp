@@ -17,7 +17,7 @@
 <div id="content">
 	<h1>Alumnos Inscritos<small>( <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %>)</small></h1>	
   	<div class="well well-small">
-  		<a href="listado.jsp" class="btn btn-primary"><fmt:message key="boton.Regresar" /><a>
+  		<a href="listado.jsp" class="btn btn-primary"><fmt:message key="boton.Regresar" /></a>
     </div>		
 	<table class="table table-bordered" >
 		<tr>     
