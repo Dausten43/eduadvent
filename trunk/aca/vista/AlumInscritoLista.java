@@ -10,14 +10,40 @@ import java.util.HashMap;
 
 public class AlumInscritoLista {
 	
-	public ArrayList<AlumInscrito> getListaInscritos(Connection conn,  String ciclo_id, String periodo_id, String orden) throws SQLException{
+	public ArrayList<AlumInscrito> getListaInscritos(Connection conn,  String cicloId, String periodoId, String orden) throws SQLException{
 		ArrayList<AlumInscrito> lisInscritos 	= new ArrayList<AlumInscrito>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
 		try{
-			comando = "SELECT * FROM ALUM_INSCRITOS WHERE CICLO_ID = ? AND PERIODO_ID = ? ORDER BY "+orden;			
+			comando = "SELECT * FROM ALUMNO_INSCRITO WHERE CICLO_ID = '"+cicloId+"' AND PERIODO_ID = TO_NUMBER('"+periodoId+"','99') "+orden;			
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){				
+				AlumInscrito inscrito = new AlumInscrito();				
+				inscrito.mapeaReg(rs);
+				lisInscritos.add(inscrito);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.vista.AlumInscritosLista|getListaInscritos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisInscritos;
+	}
+	
+	public ArrayList<AlumInscrito> getListaInscritos(Connection conn,  String escuelaId, String orden) throws SQLException{
+		ArrayList<AlumInscrito> lisInscritos 	= new ArrayList<AlumInscrito>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT * FROM ALUMNO_INSCRITO WHERE SUBSTR(CODIGO_ID,1,3) = '"+escuelaId+"' "+orden;			
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){				
