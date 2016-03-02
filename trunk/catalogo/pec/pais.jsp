@@ -28,15 +28,15 @@
   
   <h2><fmt:message key="catalogo.ListadoDePais" /></h2>
   <div class="well" style="overflow:hidden;">
-  <input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">
+  <input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">&nbsp;&nbsp;
   	<a href="accion_p.jsp?Accion=1" class="btn btn-primary">
 		<i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
 	</a> 		
   </div>  
   <table id="table" class="table table-condensed ">
   <tr> 
-    <th width="17%"><fmt:message key="aca.Operacion" /></th>
-    <th width="9%">#</th>
+    <th width="7%"><fmt:message key="aca.Operacion" /></th>
+    <th width="5%">#</th>
     <th width="34%"><fmt:message key="aca.Pais" /></th>
     <th width="10%">Region</th>
   </tr>
