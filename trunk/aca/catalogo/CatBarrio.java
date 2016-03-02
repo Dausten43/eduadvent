@@ -252,7 +252,7 @@ public class CatBarrio {
 					+ " FROM CAT_BARRIO"
 					+ " WHERE PAIS_ID = TO_NUMBER('"+paisId+"','999')"
 					+ " AND ESTADO_ID = TO_NUMBER('"+estadoId+"','999')"
-					+ " AND CIUDAD_ID = TO_NUMBER('"+ciudadId+"')");
+					+ " AND CIUDAD_ID = TO_NUMBER('"+ciudadId+",'999')");
 			rs 	= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");
