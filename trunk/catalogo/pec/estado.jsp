@@ -48,8 +48,11 @@
 	  </a>
 	</td>
     <td align="center"><%=estado.getEstadoId()%></td>
-    <td><a href="ciudad.jsp?PaisId=<%=estado.getPaisId()%>&EstadoId=<%=estado.getEstadoId()%>">
-	<%=estado.getEstadoNombre()%></a> </td>
+    <td>
+      <a href="ciudad.jsp?PaisId=<%=estado.getPaisId()%>&EstadoId=<%=estado.getEstadoId()%>">
+		<%=estado.getEstadoNombre()%>
+	  </a>
+	</td>
   </tr>
 <%
 	}

@@ -47,11 +47,7 @@
 	  </a>
 	</td>
     <td align="center"><%=ciudad.getCiudadId()%></td>
-    <td>
-      <a href="barrio.jsp?PaisId=<%=ciudad.getPaisId()%>&EstadoId=<%=ciudad.getEstadoId()%>&CiudadId=<%=ciudad.getCiudadId()%>">
-      <%=ciudad.getCiudadNombre()%>
-      </a>
-    </td>
+    <td><%=ciudad.getCiudadNombre()%></td>
 	</tr>
 <%
 		}
