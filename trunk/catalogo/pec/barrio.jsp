@@ -25,7 +25,7 @@
 </head>
 <body>
 <div id= "content">
-  <h2><fmt:message key="catalogo.ListadoDeBarrios" /></h2> 
+  <h2><fmt:message key="catalogo.ListadoDeCorregimientos" /></h2> 
   <div class="well" style="overflow:hidden;">
 		<a class="btn btn-primary" href="ciudad.jsp?PaisId=<%=strPaisId %>&EstadoId=<%=strEstadoId%>&CiudadId=<%=strCiudadId%>">
 		  <i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" />
@@ -40,7 +40,7 @@
     <th width="17%"><fmt:message key="aca.Operacion" /></th>
     <th width="9%">#</th>
     <th width="74%"><fmt:message key="aca.Ciudad" /></th>
-    <th width="74%"><fmt:message key="aca.Barrio" /></th>
+    <th width="74%"><fmt:message key="aca.Corregimiento" /></th>
   </tr>
 <%
 	for (int i=0; i< lisBarrio.size(); i++){
