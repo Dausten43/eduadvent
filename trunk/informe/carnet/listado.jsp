@@ -9,8 +9,7 @@
 
 <%
 	String codigoPersonal	= (String) session.getAttribute("codigoPersonal");
-	String escuelaId 		= (String) session.getAttribute("escuela");	
-	String cicloId			= aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
+	String escuelaId 		= (String) session.getAttribute("escuela");
 	
 	String unionId			= aca.catalogo.CatAsociacion.getUnionEscuela(conElias, escuelaId);
 	
@@ -31,7 +30,7 @@
 <%	
 	for(aca.catalogo.CatEscuela escuelas : lisEscuelas){
 		
-		int registroAlumno = aca.alumno.AlumPersonal.getTotalRegistros(conElias, escuelas.getEscuelaId());
+		int registroAlumno = aca.vista.AlumInscrito.numInscritos(conElias, escuelas.getEscuelaId());
 %>		
 		<tr>
 		<td class='text-center'><%= escuelas.getEscuelaId() %></td>	
