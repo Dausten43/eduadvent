@@ -25,7 +25,7 @@
 </head>
 <body>
 <div id= "content">
-  <h2><fmt:message key="catalogo.ListadoDeCiudad" /></h2> 
+  <h2><fmt:message key="catalogo.ListadoDeBarrios" /></h2> 
   <div class="well" style="overflow:hidden;">
 		<a class="btn btn-primary" href="ciudad.jsp?PaisId=<%=strPaisId %>&EstadoId=<%=strEstadoId%>&CiudadId=<%=strCiudadId%>">
 		  <i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" />
