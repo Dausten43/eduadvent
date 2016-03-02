@@ -38,7 +38,6 @@
   <tr> 
     <th width="17%"><fmt:message key="aca.Operacion" /></th>
     <th width="9%">#</th>
-    <th width="74%"><fmt:message key="aca.Ciudad" /></th>
     <th width="74%"><fmt:message key="aca.Corregimiento" /></th>
   </tr>
 <%

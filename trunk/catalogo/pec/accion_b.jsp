@@ -8,7 +8,7 @@
 <head>
 <script>
 	function Nuevo() {
-		document.frmBarrio.CiudadId.value = " ";
+		document.frmBarrio.BarrioId.value = " ";
 		document.frmBarrio.CiudadId.value = " ";
 		document.frmBarrio.BarrioNombre.value = " ";
 		document.frmBarrio.Accion.value = "1";
@@ -16,7 +16,7 @@
 	}
 
 	function Grabar() {
-		if (document.frmBarrio.CiudadId.value != ""
+		if (document.frmBarrio.BarrioId.value != ""
 				&& document.frmBarrio.BarrioNombre != "") {
 			document.frmBarrio.Accion.value = "2";
 			document.frmBarrio.submit();
@@ -57,18 +57,19 @@
 		Barrio.setCiudadId(request.getParameter("CiudadId"));
 
 		if (nAccion == 1)
-			Barrio.setCiudadId(Barrio.maximoReg(conElias, Barrio.getPaisId(), Barrio.getEstadoId(), Barrio.getCiudadId()));
+			Barrio.setBarrioId(Barrio.maximoReg(conElias, Barrio.getPaisId(), Barrio.getEstadoId(), Barrio.getCiudadId()));
 		else
 			Barrio.setBarrioId(request.getParameter("BarrioId"));
 
 		// Operaciones a realizar en la pantalla	
 		switch (nAccion) {
 		case 2: { // Grabar
+			Barrio.setBarrioId(Barrio.maximoReg(conElias, Barrio.getPaisId(), Barrio.getEstadoId(), Barrio.getCiudadId()));
 			Barrio.setBarrioNombre(request.getParameter("BarrioNombre"));
+		System.out.println("Datos:"+Barrio.getCiudadId()+":"+Barrio.getBarrioId());
 			if (Barrio.existeReg(conElias) == false) {
 				if (Barrio.insertReg(conElias)) {
-					sResultado = "Guardado";
-					conElias.commit();
+					sResultado = "Guardado";					
 				} else {
 					sResultado = "NoGuardo";
 				}
@@ -81,8 +82,7 @@
 			Barrio.setBarrioNombre(request.getParameter("BarrioNombre"));
 			if (Barrio.existeReg(conElias) == true) {
 				if (Barrio.updateReg(conElias)) {
-					sResultado = "Modificado";
-					conElias.commit();
+					sResultado = "Modificado";					
 				} else {
 					sResultado = "NoModifico";
 				}
@@ -94,8 +94,7 @@
 		case 4: { // Borrar
 			if (Barrio.existeReg(conElias) == true) {
 				if (Barrio.deleteReg(conElias)) {
-					sResultado = "Eliminado";
-					conElias.commit();
+					sResultado = "Eliminado";					
 				} else {
 					sResultado = "NoElimino";
 				}
@@ -111,7 +110,8 @@
 				Barrio.mapeaRegId(conElias,
 						request.getParameter("PaisId"),
 						request.getParameter("EstadoId"),
-						Barrio.getCiudadId());
+						request.getParameter("CiudadId"),
+						Barrio.getBarrioId());
 				sResultado = "Consulta";
 			} else {
 				sResultado = "NoExiste";
@@ -137,7 +137,7 @@
 			href="ciudad.jsp?PaisId=<%=Barrio.getPaisId()%>&EstadoId=<%=Barrio.getEstadoId()%>"><i class="icon-list icon-white"></i> <fmt:message key="boton.Listado" /></a>
 	</div>
 
-	<form action="accion_c.jsp" method="post" name="frmBarrio" target="_self">
+	<form action="accion_b.jsp" method="post" name="frmBarrio" target="_self">
 		
 		<input type="hidden" name="Accion">
 		<input type="hidden" name="PaisId" value="<%=Barrio.getPaisId()%>">
