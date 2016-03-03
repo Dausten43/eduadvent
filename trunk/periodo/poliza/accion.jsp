@@ -90,7 +90,7 @@
 				
 		<fieldset>
 				<label for="ValorAnterior"><fmt:message key="aca.Poliza"/></label>
-	        	<input type="text" id="Poliza" name="Poliza" value="<%=CatSeguro.getPoliza() %>" size="8" maxlength="10" required/>
+	        	<input type="text" id="Poliza" name="Poliza" value="<%=CatSeguro.getPoliza() %>" size="8" maxlength="20" required/>
 		</fieldset>
 		<input type="hidden" name="Accion" id="Accion" value="1"/>
 		<div class="well">
