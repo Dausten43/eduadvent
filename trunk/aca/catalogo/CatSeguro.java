@@ -188,10 +188,10 @@ public class CatSeguro {
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
-				nombre = rs.getString("ETIQUETA_NOMBRE");
+				nombre = rs.getString("POLIZA");
 			}
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatSeguro|maximoReg|:"+ex);
+			System.out.println("Error - aca.catalogo.CatSeguro|getPoliza|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
