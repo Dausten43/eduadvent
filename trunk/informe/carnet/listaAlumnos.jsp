@@ -44,12 +44,13 @@ String tieneFoto 			= "No";
 String muestraAño			= String.valueOf(año.get(Calendar.YEAR));
 
 	for(aca.vista.AlumInscrito inscrito : lisInscritos){	
-		
 		// Verifica si existe la imagen	
 		String dirFoto = application.getRealPath("/WEB-INF/fotos/"+inscrito.getCodigoId()+".jpg");
 		java.io.File foto = new java.io.File(dirFoto);
 		if (foto.exists()){
 			tieneFoto = "Si";
+		}else {
+			tieneFoto = "No";
 		}
 %>		
 		<tr>
