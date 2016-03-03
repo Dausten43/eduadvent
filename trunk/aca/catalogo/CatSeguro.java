@@ -74,8 +74,8 @@ public class CatSeguro {
 		
 		try{
 			ps = conn.prepareStatement("UPDATE CAT_SEGURO" +
-					" SET POLIZA = ?, " +
-					" WHERE ESCUELA_ID = ? AND  YEAR = TO_NUMBER(?, '999')");
+					" SET POLIZA = ? " +
+					" WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '999')");
 			
 			ps.setString(1, poliza);
 			ps.setString(2, escuelaId);					
@@ -126,15 +126,15 @@ public class CatSeguro {
 		poliza		= rs.getString("POLIZA");
 	}
 	
-	public void mapeaRegId(Connection con, String escuelaId, String year) throws SQLException{
+	public void mapeaRegId(Connection con) throws SQLException{
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
 			ps = con.prepareStatement("SELECT * " +
 					" FROM CAT_SEGURO WHERE ESCUELA_ID = ?" +
-					" AND YEAR = TO_NUMBER(?, '999')");
+					" AND YEAR = TO_NUMBER(?, '9999')");
 			ps.setString(1, escuelaId);
-			ps.setString(2, escuelaId);
+			ps.setString(2, year);
 			
 			rs = ps.executeQuery();			
 			if(rs.next()){
@@ -155,7 +155,7 @@ public class CatSeguro {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM CAT_SEGURO WHERE ESCUEAL_ID = ? AND YEAR = TO_NUMBER(?, '999' ");
+			ps = conn.prepareStatement("SELECT * FROM CAT_SEGURO WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '999' )");
 			ps.setString(1, escuelaId);
 			ps.setString(2, year);
 			
