@@ -357,8 +357,7 @@ public class AlumPlan{
 		boolean	ok 		= false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("SELECT "+
-					"CODIGO_ID, PLAN_ID, TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO, " +
+			ps = conn.prepareStatement("SELECT CODIGO_ID, PLAN_ID, TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO, " +
 					"TO_CHAR(F_GRADUACION,'DD/MM/YYYY') AS F_GRADUACION, ESTADO, GRADO, GRUPO " +
 				"FROM ALUM_PLAN "+
 				"WHERE CODIGO_ID = ? "+

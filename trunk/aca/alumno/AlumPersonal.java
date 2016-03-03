@@ -747,7 +747,7 @@ public class AlumPersonal {
 					" IGLESIA = ?, " +
 					" TIPO_SANGRE = ?, " +
 					" TUTOR_CEDULA = ?, " +
-					" BARRIO_ID = TO_NUMBER(?,'999'), " +
+					" BARRIO_ID = TO_NUMBER(?,'999') " +
 					" WHERE CODIGO_ID = ? ");			
 			
 			ps.setString(1, escuelaId);
