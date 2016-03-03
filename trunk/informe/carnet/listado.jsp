@@ -14,7 +14,7 @@
 	String unionId			= aca.catalogo.CatAsociacion.getUnionEscuela(conElias, escuelaId);
 	
 	//LISTA DE ESCUELAS
-	ArrayList<aca.catalogo.CatEscuela> lisEscuelas 	= listaEscuelas.getListUnion(conElias, unionId, "");	
+	ArrayList<aca.catalogo.CatEscuela> lisEscuelas 	= listaEscuelas.getListUnion(conElias, unionId, "ORDER BY ESCUELA_NOMBRE");	
 %>
 <div id="content">
 	<h1>Carnet<small>( <%= aca.catalogo.CatUnion.getNombre(conElias, unionId) %>)</small></h1>	
