@@ -136,17 +136,18 @@
 		<form action="accion.jsp" method="post" name="frmClas" target="_self">
 			<input type="hidden" name="Accion"> <input name="Pec"
 				type="hidden">
+		<div class="row">
+			<div class="span4">
 
 			<fieldset>
-				<div class="control-group ">
 					<label for="ClasfinId"> <fmt:message key="aca.Id" />: </label> 
 					<input name="ClasfinId" type="text" id="ClasfinId" size="3" maxlength="3" value="<%=clasificacion.getClasfinId()%>">
-				</div>
-				<div class="control-group ">
+			</fieldset>
+			<fieldset>
 					<label for="ClasfinNombre"> <fmt:message key="aca.Clasificacion" />: </label>
 					<input name="ClasfinNombre" type="text" id="ClasfinNombre" value="<%=clasificacion.getClasfinNombre()%>" size="40" maxlength="40">
-				</div>
-				<div class="control-group ">
+			</fieldset>
+			<fieldset>
 					<label for="Estado"> <fmt:message key="aca.Estado" />: </label>
 					<select name="Estado" id="Estado" tabindex="4">
 		            <%	if(clasificacion.getEstado().equals("A")){%>
@@ -156,14 +157,15 @@
 			            <option value='A'><fmt:message key="aca.Activo"/></option>
 			            <option value='I' selected><fmt:message key="aca.Inactivo"/></option>
 			        <%	}%>
-			        </select>					
-				</div>				
+			        </select>							
 			</fieldset>
 
 			<div class="well" style="overflow: hidden;">
 				<a class="btn btn-primary" href="javascript:Nuevo();"><i class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a>
 				&nbsp; &nbsp;<a class="btn btn-primary" href="javascript:Grabar();"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
 				&nbsp; &nbsp; <a class="btn btn-primary" href="javascript:Borrar()"><i class="icon-remove icon-white"></i> <fmt:message key="boton.Eliminar" /></a>
+			</div>
+			</div>
 			</div>
 		</form>
 	</div>
