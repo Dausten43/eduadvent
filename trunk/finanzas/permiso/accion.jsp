@@ -4,119 +4,81 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-<jsp:useBean id="Cuenta" scope="page" class="aca.fin.FinCuenta"/>
+<jsp:useBean id="Permiso" scope="page" class="aca.fin.FinPermiso"/>
 
 <script>
 	
 	function Nuevo(){
-		document.frmCuenta.CuentaId.value = " ";	
-		document.frmCuenta.CuentaNombre.value = " ";
-		document.frmCuenta.Beca.value= " ";
-		document.frmCuenta.SunPlus.value= " ";
-		document.frmCuenta.Accion.value="1";
-		document.frmCuenta.Caja.value=" ";
-		document.frmCuenta.Alumno.value=" ";
-		document.frmCuenta.submit();
+		document.frmPermiso.CodigoId.value		= " ";	
+		document.frmPermiso.Folio.value			= " ";
+		document.frmPermiso.Fecha_ini.value		= " ";
+		document.frmPermiso.Fecha_fin.value		= " ";
+		document.frmPermiso.Estado.value		= " ";
+		document.frmPermiso.Comentario.value	= " ";
+		document.frmPermiso.submit();
 	}
 	
 	function Grabar(){
-		if(document.frmCuenta.CuentaId.value	!="" 
-			&& document.frmCuenta.CuentaNombre	!="" 
-			&& document.frmCuenta.EscuelaId		!=""
-			&& document.frmCuenta.Beca			!="" 
-			&& document.frmCuenta.Caja			!="" 
-			&& document.frmCuenta.Alumno		!="" 
-			&& document.frmCuenta.SunPlus		!=""){
-			document.frmCuenta.Accion.value		= "2";
-			document.frmCuenta.submit();
+		if(document.frmPermiso.CodigoId.value	!="" 
+			&& document.frmPermiso.Folio		!="" 
+			&& document.frmPermiso.Fecha_ini	!=""
+			&& document.frmPermiso.Fecha_fin	!="" 
+			&& document.frmPermiso.Estado		!="" 
+			&& document.frmPermiso.Comentario	!="" 
+			document.frmPermiso.submit();
 		}else{
 			alert("¡Complete el formulario! ");
 		}
 	}
 	
 	function Borrar( ){	
-		if(document.frmCuenta.CuentaId.value!=""){		
+		if(document.frmPermiso.CodigoId.value!=""){		
 			if(confirm("¿Estás seguro de eliminar el registro?")==true){
-	  			document.frmCuenta.Accion.value = "4";
-				document.frmCuenta.submit();
+	  			document.frmPermido.Accion.value = "4";
+				document.frmPermiso.submit();
 			}			
 		}else{
 			alert("¡Escriba la Clave!");
-			document.frmCuenta.CuentaId.focus(); 
+			document.frmPermiso.CodigoId.focus(); 
 	  	}
 	}
 	
 	function Consultar(){
-		document.frmCuenta.Accion.value = "5";
-		document.frmCuenta.submit();		
+		document.frmPermiso.Accion.value = "5";
+		document.frmPermio.submit();		
 	}	
 	
 </script>
 
 <%
 	// Declaracion de variables
-	String escuelaId 		= (String) session.getAttribute("escuela");
-
-	int numAccion			= Integer.parseInt(request.getParameter("Accion")==null?"1":request.getParameter("Accion"));
-	String tipoCaja 		= request.getParameter("TipoCaja")==null?"":request.getParameter("TipoCaja");
-	String tipoAlumno		= request.getParameter("TipoAlumno")==null?"":request.getParameter("TipoAlumno");
-	
+	String numAccion		= request.getParameter("Accion")==null?"1":request.getParameter("Accion");	
 	String resultado		= "";
 	
-	if ( numAccion == 1 ){		
-		Cuenta.setCuentaId(Cuenta.maxReg(conElias, escuelaId));		
-	}else{
-		Cuenta.mapeaRegId(conElias, request.getParameter("CuentaId"));
-		Cuenta.setCuentaId(request.getParameter("CuentaId"));
+	if(numAccion.equals("1")){
+		Permiso.setCodigoId(request.getParameter("codigoId"));
+		Permiso.setFolio(request.getParameter("folio"));
+		Permiso.setFecha_ini(request.getParameter("fecha_ini"));
+		Permiso.setFecha_fin(request.getParameter("fecha_fin"));
+		Permiso.setEstado(request.getParameter("estado"));
+		Permiso.setComentario(request.getParameter("comentario"));
+		
+		if(!Permiso.existeReg(conElias)){
+			Permiso.insertReg(conElias);
+			resultado = "Guardado";
+		}
+		
+		if(Permiso.existeReg(conElias)){
+			Permiso.updateReg(conElias);
+			resultado = "Modificado";
+		}
 	}
 	
-	// Operaciones a realizar en la pantalla	
-	switch (numAccion){
-		case 2: { // Grabar
-			String tipo = (tipoCaja+tipoAlumno).equals("")?"-":(tipoCaja+tipoAlumno);
-			Cuenta.setCuentaNombre(request.getParameter("CuentaNombre"));
-			Cuenta.setEscuelaId(escuelaId);
-			Cuenta.setBeca(request.getParameter("Beca"));
-			Cuenta.setTipo(tipo);
-			Cuenta.setCuentaSunPlus(request.getParameter("SunPlus"));
-			Cuenta.setPagoInicial(request.getParameter("PagoInicial"));			
-			if (Cuenta.existeReg(conElias) == false){
-				if (Cuenta.insertReg(conElias)){
-					resultado = "Guardado";
-					conElias.commit();
-				}else{
-					resultado = "NoGuardo";
-				}
-			}else{				
-				if (Cuenta.updateReg(conElias)){
-					resultado = "Modificado";
-					conElias.commit();
-				}else{
-					resultado = "NoModifico";
-				}
+	if(numAccion.equals("2")){
+		if(Permiso.existeReg(conElias)){
+			if(Permiso.deleteReg(conElias)){
+				resultado = "Eliminado";
 			}
-			
-			break;
-		}
-		case 4: { // Borrar		
-			
-			if (Cuenta.existeReg(conElias) == true){				
-				if(!aca.fin.FinCosto.existeSoloCuenta(conElias, Cuenta.getCuentaId()) && !aca.fin.FinMovimientos.existeCuentaId(conElias, Cuenta.getCuentaId())){					
-					if (Cuenta.deleteReg(conElias)){						
-						resultado = "Eliminado";
-						response.sendRedirect("cuenta.jsp");
-					}else{
-						resultado = "NoElimino";
-					}
-				}else{
-					resultado = "NoElimino";
-				}
-			}else{
-				resultado = "NoElimino";
-			}
-			
-			break;
-			
 		}
 	}
 	
@@ -134,60 +96,42 @@
   	<%} %>
 
  	<div class="well">
- 		<a class="btn btn-primary"href="cuenta.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+ 		<a class="btn btn-primary"href="permiso.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
  	</div>  
 
-	<form action="accion.jsp" method="post" name="frmCuenta" target="_self">
+	<form action="accion.jsp" method="post" name="frmPermiso" target="_self">
 		<input type="hidden" name="Accion">
-
+		
 		<fieldset>
-	    	<label for="CuentaId"><fmt:message key="aca.Id" /></label>
-	        <input class="input-small" name="CuentaId" type="text" id="CuentaId" size="3" maxlength="4" value="<%=Cuenta.getCuentaId()%>" readonly> 
+	    	<label for="CodigoId"><fmt:message key="Codigo Id" /></label>
+	    	<input class="input-large" name="CodigoId" type="text" id="CodigoId" value="<%=Permiso.getCodigoId()%>">
+	    </fieldset>
+	    
+		<fieldset>
+	    	<label for="Folio"><fmt:message key="Folio" /></label>
+	    	<input class="input-large" name="Folio" type="text" id="Folio" value="<%=Permiso.getFolio()%>">
 	    </fieldset>	        
 	    
 	    <fieldset>
-	    	<label for="CuentaNombre"><fmt:message key="aca.Nombre" /></label>
-	        <input name="CuentaNombre" type="text" id="CuentaNombre" value="<%=Cuenta.getCuentaNombre()%>" size="40" maxlength="40">
+	    	<label for="Fecha-ini"><fmt:message key="Fecha ini" /></label>
+	    	<input name="FechaIni" type="date" id="FechaIni" value="<%=Permiso.getFecha_ini()%>">
 	   </fieldset>
 	    
 	   <fieldset>
-	    	<label for="SunPlus"><fmt:message key="aca.SunPlus" /></label>
-	        <select name="SunPlus" id="SunPlus">
-	        	<option value="-"> - </option>
-	        	<option value="621110" <%if(Cuenta.getCuentaSunPlus().equals("621110"))out.print("selected"); %>>621110 | <fmt:message key="aca.Ensenanza" /></option>
-	        	<option value="622110" <%if(Cuenta.getCuentaSunPlus().equals("622110"))out.print("selected"); %>>622110 | <fmt:message key="aca.IngresosInscripcion" /></option>
-	        	<option value="601110" <%if(Cuenta.getCuentaSunPlus().equals("601110"))out.print("selected"); %>>601110 | <fmt:message key="aca.TiendaEscolar" /></option>
-	        	<option value="601120" <%if(Cuenta.getCuentaSunPlus().equals("601120"))out.print("selected"); %>>601120 | <fmt:message key="aca.UniformesEstudiantes" /></option>
-	        	<option value="671140" <%if(Cuenta.getCuentaSunPlus().equals("671140"))out.print("selected"); %>>671140 | <fmt:message key="aca.IngresosOtrosServicios" /></option>
-	        	<option value="622120" <%if(Cuenta.getCuentaSunPlus().equals("622120"))out.print("selected"); %>>622120 | <fmt:message key="aca.DerechoExamen" /></option>
-	        	<option value="622140" <%if(Cuenta.getCuentaSunPlus().equals("622140"))out.print("selected"); %>>622140 | <fmt:message key="aca.SalaTareas" /></option>
-	        	<option value="622150" <%if(Cuenta.getCuentaSunPlus().equals("622150"))out.print("selected"); %>>622150 | <fmt:message key="aca.IngresosClinicaNacionales" /></option>
-	        	<option value="671120" <%if(Cuenta.getCuentaSunPlus().equals("671120"))out.print("selected"); %>>671120 | <fmt:message key="aca.RecargoEstudiantil" /></option>
-	        </select>
+	    	<label for="Fecha-fin"><fmt:message key="Fecha fin" /></label>
+	        <input name="FechaFin" type="date" id="FechaFin" value="<%=Permiso.getFecha_fin()%>">
 	   	</fieldset>
 	   
 		<fieldset>
-	    	<label for="CuentaNombre"><fmt:message key="aca.Beca" /></label>
-	        <select  id="Beca" name="Beca">										
-				<option value="S" <%if(Cuenta.getBeca().equals("S"))out.print("selected"); %>><fmt:message key="aca.Si" /></option>
-				<option value="N" <%if(Cuenta.getBeca().equals("N"))out.print("selected"); %>><fmt:message key="aca.Negacion" /></option>
-			</select>	
+	    	<label for="Estado"><fmt:message key="Estado" /></label>
+	        <input class="input-large" name="Estado" type="text" id="Estado" value="<%=Permiso.getEstado()%>">
 	   </fieldset>
 	   
 	   <fieldset>
-	   		<p>
-	        	<input type="checkbox" class="tipo" id="TipoCaja" name="TipoCaja" value="-CAJA" <%if(Cuenta.getTipo().contains("CAJA")) out.print("Checked");%> /> <fmt:message key="aca.Caja" /> 
-	        </p>
-	        <p>
-	        	<input type="checkbox" class="tipo" id="TipoAlumno" name="TipoAlumno" value="-ALUMNO" <%if(Cuenta.getTipo().contains("ALUMNO")) out.print("Checked");%> /> <fmt:message key="aca.Alumno" />
-	        </p>	
-	   </fiedset>
-	   
-	   <fieldset>
-	    	<label for="Tipo">
-	        	% <fmt:message key="aca.PagoInicial" />
+	    	<label for=">Comentario">
+				<fmt:message key="Comentario" />
 	        </label>
-	        <input class="input-small" name="PagoInicial" type="text" id="PagoInicial" value="<%=Cuenta.getPagoInicial()%>" size="5" maxlength="5">
+	        <input class="input-large" name="Comentario" type="text" id="Comentario" value="<%=Permiso.getComentario()%>" size="200" maxlength="200">
 		</fieldset>
 	
 		<div class="well">

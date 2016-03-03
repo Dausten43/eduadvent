@@ -12,7 +12,7 @@
 %>
 
 <div id="content">
-	<h2><fmt:message key="aca.Cuentas" /><small>( <%=escuelaId%> - <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small></h2> 
+	<h2><fmt:message key="aca.Permiso" /><small>( <%=escuelaId%> - <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small></h2> 
    
    <div class="well">
       <a class="btn btn-primary" href="accion.jsp?Accion=1"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
