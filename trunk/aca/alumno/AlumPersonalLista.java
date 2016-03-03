@@ -778,7 +778,7 @@ public class AlumPersonalLista{
 		Statement st 		= conn.createStatement();
 		ResultSet rs 		= null;
 		String comando		= "";
-		System.out.println("Escuela2:"+escuelaId);
+
 		try{
 			comando =	"SELECT CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO," +
 			" GENERO, CURP, TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY') AS F_NACIMIENTO," +
