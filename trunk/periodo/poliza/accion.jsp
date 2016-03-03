@@ -85,7 +85,7 @@
 		
 		<fieldset>
 			<label for="oportunidad"><fmt:message key="aca.Ano" /></label>
-			<input type="text" id="Year" name="Year" value="<%if(accion.equals("2")){CatSeguro.getYear();}else{out.print(java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));}%>" size="8" maxlength="10" <%if(accion.equals("2")){out.print("readonly ");}%>required >
+			<input type="text" id="Year" name="Year" value="<%if(accion.equals("2")){out.print(CatSeguro.getYear());}else{out.print(java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));}%>" size="8" maxlength="10" <%if(accion.equals("2")){out.print("readonly ");}%>required >
 		</fieldset>
 				
 		<fieldset>
