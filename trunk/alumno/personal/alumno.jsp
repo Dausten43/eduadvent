@@ -12,6 +12,7 @@
 <jsp:useBean id="PaisL" scope="page" class="aca.catalogo.CatPaisLista"/>
 <jsp:useBean id="EstadoL" scope="page" class="aca.catalogo.CatEstadoLista"/>
 <jsp:useBean id="CiudadL" scope="page" class="aca.catalogo.CatCiudadLista"/>
+<jsp:useBean id="BarrioL" scope="page" class="aca.catalogo.CatBarrioLista"/>
 <jsp:useBean id="AlumPlan" scope="page" class="aca.alumno.AlumPlan"/>
 <jsp:useBean id="PlanLista" scope="page" class="aca.plan.PlanLista"/>
 <jsp:useBean id="catReligion" scope="page" class="aca.catalogo.CatReligion"/>
@@ -47,6 +48,7 @@
 		document.frmPersonal.Celular.value			= "2";
 		document.frmPersonal.TipoSangre.value		= "O+";
 		document.frmPersonal.Cedula.value			= "-";
+		document.frmPersonal.BarrioId.value			= "0";
 		document.frmPersonal.submit();		
 	}
 	
@@ -122,7 +124,7 @@
 	String sTipo 			= request.getParameter("tipo")==null?"N":request.getParameter("tipo");	
 	String vref				= request.getParameter("ref");	
 	String strPlanId		= request.getParameter("Plan");
-	
+
 	String nombreAlumno		= "";
 	String tipoCodigo		= "";
 	boolean acceso 			= false;
@@ -140,7 +142,7 @@
 	listTipoSangre.add("B-");
 	listTipoSangre.add("AB+");
 	listTipoSangre.add("AB-");
-	
+
 	if(vref==null) vref		= "0";	
 	String sResultado		= "";		
 	String clave 			= "";
@@ -151,7 +153,7 @@
 	boolean existeAlumno	= false;
 	boolean inscrito		= aca.vista.AlumInscrito.estaInscrito(conElias, codigoAlumno);
 	
-	
+
 	Personal.setCodigoId(codigoAlumno);
 	
 	// Verificar plan del alumno	
@@ -160,7 +162,7 @@
 			strPlanId = AlumPlan.getPlanId();
 		existePlan = true;
 	}
-	
+
 	// Operaciones a realizar en la pantalla
 	switch (accion){
 	
@@ -179,7 +181,8 @@
 			}			
 			break;
 		}
-		case 3: { // Grabar			
+		case 3: { // Grabar
+		
 			strPlanId = request.getParameter("Plan");
 			Personal.setCodigoId(Personal.maximoReg(conElias,escuelaId));
 			Personal.setEscuelaId(escuelaId);
@@ -210,10 +213,11 @@
 			Personal.setTutor(request.getParameter("Tutor"));			
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));		
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
-			Personal.setSangre(request.getParameter("TipoSangre"));
-			Personal.setCedulaTutor(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
+			Personal.setTipoSangre(request.getParameter("TipoSangre"));
+			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
+			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			conElias.setAutoCommit(false);
-			
+			System.out.println("Grabar:"+Personal.getCodigoId()+":"+Personal.getBarrioId());
 			if (Personal.existeReg(conElias) == false){
 				if (Personal.insertReg(conElias)){
 					session.setAttribute("codigoAlumno", Personal.getCodigoId());
@@ -243,7 +247,8 @@
 			conElias.setAutoCommit(true);
 			
 		}break;
-		case 4: { // Modificar					    	
+		case 4: { // Modificar
+		
 			strPlanId = request.getParameter("Plan");		
 			Personal.setEscuelaId(escuelaId);
 			Personal.setNombre(request.getParameter("Nombre"));
@@ -273,8 +278,9 @@
 			Personal.setTutor(request.getParameter("Tutor"));
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
-			Personal.setSangre(request.getParameter("TipoSangre"));
-			Personal.setCedulaTutor(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
+			Personal.setTipoSangre(request.getParameter("TipoSangre"));
+			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
+			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			Personal.setDiscapacidad("-");
 			
 			conElias.setAutoCommit(false);
@@ -381,6 +387,7 @@
 			Personal.setPaisId(request.getParameter("PaisId"));
 			Personal.setEstadoId(request.getParameter("EstadoId"));
 			Personal.setCiudadId(request.getParameter("CiudadId"));
+			Personal.setBarrioId(request.getParameter("BarrioId"));
 			Personal.setClasfinId(request.getParameter("ClasificacionFin"));
 			Personal.setEmail(request.getParameter("Email"));
 			Personal.setColonia(request.getParameter("Colonia"));
@@ -394,7 +401,7 @@
 			Personal.setCrip(request.getParameter("Crip")==null?"-":request.getParameter("Crip"));
 			Personal.setReligion(request.getParameter("Religion"));
 			Personal.setCelular(request.getParameter("Celular"));
-			Personal.setTutor(request.getParameter("Tutor"));		
+			Personal.setTutor(request.getParameter("Tutor"));
 			acceso = true;
 			sResultado = "LlenarFormulario";
 						
@@ -431,12 +438,10 @@
 	<form action="alumno.jsp" method="post" name="frmPersonal" target="_self">
 		<input type="hidden" name="Accion">
 		<input type="hidden" name="Pec">
-		<input type="hidden" name="tipo" value="<%=sTipo%>">
-    
+		<input type="hidden" name="tipo" value="<%=sTipo%>">    
 <%		
 	if(Personal.existeReg(conElias)){
-%>
-		
+%>		
 		<div class="row">
 			<div class="span3">
 				<img src="imagen.jsp?id=<%=new java.util.Date().getTime()%>&nuevo=<%=accion==1?"S":"N" %>" width="300">
@@ -519,7 +524,7 @@
 	              	
 	              	<select name="TipoSangre" class="input-medium" <%if(inscrito){out.print("readonly");} %>>
 	              		<%for(String sangre : listTipoSangre){ %>
-		    				<option value="<%=sangre %>" <%if(Personal.getSangre().equals(sangre+"")){out.print("selected");} %>><%=sangre %></option>
+		    				<option value="<%=sangre %>" <%if(Personal.getTipoSangre().equals(sangre+"")){out.print("selected");} %>><%=sangre %></option>
 		    			<%}%>
 	              	</select>
 	            </p>
@@ -543,7 +548,11 @@
 				</p>
 				
 				<p>
+				<%	if (!escuelaId.contains("H")){%>
 					<label><fmt:message key="aca.Estado"/></label>
+				<%	}else{ %>
+					<label><fmt:message key="aca.Provincia"/></label>
+				<%	} %>					
 				    <select name="EstadoId" id="EstadoId"  onChange= "javascript:PEC('2','<%=sTipo%>')">
 	                <%	
 						ArrayList<aca.catalogo.CatEstado> lisEstado = EstadoL.getArrayList(conElias, Personal.getPaisId(), "ORDER BY 1,3");
@@ -557,7 +566,11 @@
 				</p>
 						
 				<p>
+				<%	if (!escuelaId.contains("H")){%>
 					<label><fmt:message key="aca.Ciudad"/></label>
+				<%	}else{ %>
+					<label><fmt:message key="aca.Distrito"/></label>
+				<%	} %>	
           			<select name="CiudadId" id="CiudadId" tabindex="9">
               	<%	
 					ArrayList<aca.catalogo.CatCiudad> lisCiudad = CiudadL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(), "ORDER BY 4");
@@ -569,6 +582,23 @@
 				%>
             		</select>
 				</p>				
+				<p>
+				<%	if (!escuelaId.contains("H")){%>
+					<label><fmt:message key="aca.Barrio"/></label>
+				<%	}else{ %>
+					<label><fmt:message key="aca.Corregimiento"/></label>
+				<%	} %>	
+          			<select name="BarrioId" id="BarrioId" tabindex="9">
+              	<%	
+					ArrayList<aca.catalogo.CatBarrio> lisBarrio = BarrioL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(),Personal.getCiudadId(), "ORDER BY BARRIO_NOMBRE");
+					for(aca.catalogo.CatBarrio barrio: lisBarrio){
+				%>	
+						<option value="<%=barrio.getBarrioId() %>" <%if(barrio.getBarrioId().equals(Personal.getBarrioId())){ out.print("selected");} %>><%=barrio.getBarrioNombre() %></option>
+				<%						
+					}
+				%>
+            		</select>
+				</p>
 				<p>				
 				<%	if (!escuelaId.contains("H")){%>
 					<label><fmt:message key='aca.CURP'/></label>	
@@ -726,8 +756,8 @@
 	          	</p>
 	          	
 	          	<p>
-	          		<label>Cedula</label>
-	          		<input type="text" name="Cedula" id="Cedula" maxlength="20" value="<%=(Personal.getCedulaTutor()==null || Personal.getCedulaTutor().equals("-") || Personal.getCedulaTutor().equals("null"))? "" : Personal.getCedulaTutor()%>">
+	          		<label>Cédula</label>
+	          		<input type="text" name="Cedula" id="Cedula" maxlength="20" value="<%=(Personal.getTutorCedula()==null || Personal.getTutorCedula().equals("-") || Personal.getTutorCedula().equals("null"))? "" : Personal.getTutorCedula()%>">
 	          	</p>
 	          	
 	        </div>
@@ -766,7 +796,6 @@
 <%	
 	}		
 %>
-
 <link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 
