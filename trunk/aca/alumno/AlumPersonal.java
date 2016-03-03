@@ -46,8 +46,9 @@ public class AlumPersonal {
 	private String enfermedad;
 	private String correo;
 	private String iglesia;
-	private String sangre;
-	private String cedula_tutor;
+	private String tipoSangre;
+	private String tutorCedula;
+	private String barrioId;
 	
 	public AlumPersonal(){
 		codigoId	= "";
@@ -58,9 +59,9 @@ public class AlumPersonal {
 		genero		= "";
 		curp		= "";
 		fNacimiento	= "";
-		paisId		= "";
-		estadoId	= "";
-		ciudadId	= "";
+		paisId		= "0";
+		estadoId	= "0";
+		ciudadId	= "0";
 		clasfinId	= "";
 		email		= "";
 		colonia		= "";
@@ -80,47 +81,36 @@ public class AlumPersonal {
 		enfermedad 	= "-";
 		correo 		= "-";
 		iglesia		= "-";
-		sangre      = "";
-		cedula_tutor= "-";
+		tipoSangre      = "";
+		tutorCedula	= "-";
+		barrioId 	= "0";	 
 	}
-
 	
 	// correo del alumno
 	public String getCorreo() {
 		return correo;
 	}
-
-
+	
 	// correo del alumno
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-
-
-
+	
 	public String getDiscapacidad() {
 		return discapacidad;
 	}
-
-
-
+	
 	public void setDiscapacidad(String discapacidad) {
 		this.discapacidad = discapacidad;
 	}
-
-
 
 	public String getEnfermedad() {
 		return enfermedad;
 	}
 
-
-
 	public void setEnfermedad(String enfermedad) {
 		this.enfermedad = enfermedad;
 	}
-
-
 
 	/**
 	 * @return the matricula
@@ -128,23 +118,20 @@ public class AlumPersonal {
 	public String getMatricula() {
 		return matricula;
 	}
-
-
+	
 	/**
 	 * @param matricula the matricula to set
 	 */
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
-
-
+	
 	/**
 	 * @return the codigoId
 	 */
 	public String getCodigoId() {
 		return codigoId;
 	}
-
 
 	/**
 	 * @param codigoId the codigoId to set
@@ -153,7 +140,6 @@ public class AlumPersonal {
 		this.codigoId = codigoId;
 	}
 
-
 	/**
 	 * @return the escuelaId
 	 */
@@ -161,14 +147,13 @@ public class AlumPersonal {
 		return escuelaId;
 	}
 
-
 	/**
 	 * @param escuelaId the escuelaId to set
 	 */
+	
 	public void setEscuelaId(String escuelaId) {
 		this.escuelaId = escuelaId;
 	}
-
 
 	/**
 	 * @return the nombre
@@ -177,14 +162,12 @@ public class AlumPersonal {
 		return nombre;
 	}
 
-
 	/**
 	 * @param nombre the nombre to set
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 
 	/**
 	 * @return the apaterno
@@ -193,14 +176,12 @@ public class AlumPersonal {
 		return apaterno;
 	}
 
-
 	/**
 	 * @param apaterno the apaterno to set
 	 */
 	public void setApaterno(String apaterno) {
 		this.apaterno = apaterno;
 	}
-
 
 	/**
 	 * @return the amaterno
@@ -209,14 +190,12 @@ public class AlumPersonal {
 		return amaterno;
 	}
 
-
 	/**
 	 * @param amaterno the amaterno to set
 	 */
 	public void setAmaterno(String amaterno) {
 		this.amaterno = amaterno;
 	}
-
 
 	/**
 	 * @return the genero
@@ -225,14 +204,12 @@ public class AlumPersonal {
 		return genero;
 	}
 
-
 	/**
 	 * @param genero the genero to set
 	 */
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-
 
 	/**
 	 * @return the curp
@@ -241,14 +218,12 @@ public class AlumPersonal {
 		return curp;
 	}
 
-
 	/**
 	 * @param curp the curp to set
 	 */
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
-
 
 	/**
 	 * @return the fNacimiento
@@ -257,14 +232,12 @@ public class AlumPersonal {
 		return fNacimiento;
 	}
 
-
 	/**
 	 * @param nacimiento the fNacimiento to set
 	 */
 	public void setFNacimiento(String nacimiento) {
 		fNacimiento = nacimiento;
 	}
-
 
 	/**
 	 * @return the paisId
@@ -273,14 +246,12 @@ public class AlumPersonal {
 		return paisId;
 	}
 
-
 	/**
 	 * @param paisId the paisId to set
 	 */
 	public void setPaisId(String paisId) {
 		this.paisId = paisId;
 	}
-
 
 	/**
 	 * @return the estadoId
@@ -289,14 +260,12 @@ public class AlumPersonal {
 		return estadoId;
 	}
 
-
 	/**
 	 * @param estadoId the estadoId to set
 	 */
 	public void setEstadoId(String estadoId) {
 		this.estadoId = estadoId;
 	}
-
 
 	/**
 	 * @return the ciudadId
@@ -305,14 +274,12 @@ public class AlumPersonal {
 		return ciudadId;
 	}
 
-
 	/**
 	 * @param ciudadId the ciudadId to set
 	 */
 	public void setCiudadId(String ciudadId) {
 		this.ciudadId = ciudadId;
 	}
-
 
 	/**
 	 * @return the clasfinId
@@ -321,14 +288,12 @@ public class AlumPersonal {
 		return clasfinId;
 	}
 
-
 	/**
 	 * @param clasfinId the clasfinId to set
 	 */
 	public void setClasfinId(String clasfinId) {
 		this.clasfinId = clasfinId;
 	}
-
 
 	/**
 	 * @return the email
@@ -337,14 +302,12 @@ public class AlumPersonal {
 		return email;
 	}
 
-
 	/**
 	 * @param email the email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	/**
 	 * @return the colonia
@@ -353,14 +316,12 @@ public class AlumPersonal {
 		return colonia;
 	}
 
-
 	/**
 	 * @param colonia the colonia to set
 	 */
 	public void setColonia(String colonia) {
 		this.colonia = colonia;
 	}
-
 
 	/**
 	 * @return the direccion
@@ -369,14 +330,12 @@ public class AlumPersonal {
 		return direccion;
 	}
 
-
 	/**
 	 * @param direccion the direccion to set
 	 */
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-
 
 	/**
 	 * @return the telefono
@@ -385,14 +344,12 @@ public class AlumPersonal {
 		return telefono;
 	}
 
-
 	/**
 	 * @param telefono the telefono to set
 	 */
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
 
 	/**
 	 * @return the cotejado
@@ -401,14 +358,12 @@ public class AlumPersonal {
 		return cotejado;
 	}
 
-
 	/**
 	 * @param cotejado the cotejado to set
 	 */
 	public void setCotejado(String cotejado) {
 		this.cotejado = cotejado;
 	}
-
 
 	/**
 	 * @return the nivelId
@@ -417,14 +372,12 @@ public class AlumPersonal {
 		return nivelId;
 	}
 
-
 	/**
 	 * @param nivelId the nivelId to set
 	 */
 	public void setNivelId(String nivelId) {
 		this.nivelId = nivelId;
 	}
-
 
 	/**
 	 * @return the grado
@@ -433,14 +386,12 @@ public class AlumPersonal {
 		return grado;
 	}
 
-
 	/**
 	 * @param grado the grado to set
 	 */
 	public void setGrado(String grado) {
 		this.grado = grado;
 	}
-
 
 	/**
 	 * @return the grupo
@@ -449,14 +400,12 @@ public class AlumPersonal {
 		return grupo;
 	}
 
-
 	/**
 	 * @param grupo the grupo to set
 	 */
 	public void setGrupo(String grupo) {
 		this.grupo = grupo;
 	}
-
 
 	/**
 	 * @return the estado
@@ -465,14 +414,12 @@ public class AlumPersonal {
 		return estado;
 	}
 
-
 	/**
 	 * @param estado the estado to set
 	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
 
 	/**
 	 * @return the acta
@@ -481,14 +428,12 @@ public class AlumPersonal {
 		return acta;
 	}
 
-
 	/**
 	 * @param acta the acta to set
 	 */
 	public void setActa(String acta) {
 		this.acta = acta;
 	}
-
 
 	/**
 	 * @return the crip
@@ -497,14 +442,12 @@ public class AlumPersonal {
 		return crip;
 	}
 
-
 	/**
 	 * @param crip the crip to set
 	 */
 	public void setCrip(String crip) {
 		this.crip = crip;
 	}
-
 
 	/**
 	 * @return the religion
@@ -513,14 +456,12 @@ public class AlumPersonal {
 		return religion;
 	}
 
-
 	/**
 	 * @param religion the religion to set
 	 */
 	public void setReligion(String religion) {
 		this.religion = religion;
 	}
-
 
 	/**
 	 * @return the transporte
@@ -529,14 +470,12 @@ public class AlumPersonal {
 		return transporte;
 	}
 
-
 	/**
 	 * @param transporte the transporte to set
 	 */
 	public void setTransporte(String transporte) {
 		this.transporte = transporte;
 	}
-
 
 	/**
 	 * @return the celular
@@ -545,7 +484,6 @@ public class AlumPersonal {
 		return celular;
 	}
 
-
 	/**
 	 * @param celular the celular to set
 	 */
@@ -553,14 +491,12 @@ public class AlumPersonal {
 		this.celular = celular;
 	}
 
-
 	/**
 	 * @return the tutor
 	 */
 	public String getTutor() {
 		return tutor;
 	}
-
 
 	/**
 	 * @param tutor the tutor to set
@@ -576,7 +512,6 @@ public class AlumPersonal {
 		return iglesia;
 	}
 
-
 	/**
 	 * @param nombre the iglesia to set
 	 */
@@ -584,56 +519,51 @@ public class AlumPersonal {
 		this.iglesia = iglesia;
 	}
 	
-	/**
-	 * @return the sangre
-	 */
-	public String getSangre() {
-		return sangre;
+	public String getTipoSangre() {
+		return tipoSangre;
 	}
 
-
-	/**
-	 * @param nombre the sangre to set
-	 */
-	public void setSangre(String sangre) {
-		this.sangre = sangre;
-	}
-	
-	/**
-	 * @return the cedula_tutor
-	 */
-	public String getCedulaTutor() {
-		return cedula_tutor;
+	public void setTipoSangre(String tipoSangre) {
+		this.tipoSangre = tipoSangre;
 	}
 
-
-	/**
-	 * @param nombre the cedula_tutor to set
-	 */
-	public void setCedulaTutor(String cedula_tutor) {
-		this.cedula_tutor = cedula_tutor;
+	public String getTutorCedula() {
+		return tutorCedula;
 	}
 
+	public void setTutorCedula(String tutorCedula) {
+		this.tutorCedula = tutorCedula;
+	}
+
+	public String getBarrioId() {
+		return barrioId;
+	}
+
+	public void setBarrioId(String barrioId) {
+		this.barrioId = barrioId;
+	}
 
 	public boolean insertReg(Connection conn ) throws SQLException{
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("INSERT INTO ALUM_PERSONAL" +
-					" (CODIGO_ID, ESCUELA_ID, NOMBRE," +
-					" APATERNO, AMATERNO, GENERO," +
-					" CURP, F_NACIMIENTO, PAIS_ID," +
-					" ESTADO_ID, CIUDAD_ID, CLASFIN_ID," +
-					" EMAIL, COLONIA, DIRECCION," +
-					" TELEFONO, COTEJADO, NIVEL_ID, GRADO, GRUPO, ESTADO," +
-					" ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA, TIPO_SANGRE, TUTOR_CEDULA)" +
-					" VALUES(?, ?, UPPER(RTRIM(LTRIM(?)))," +
-					" UPPER(RTRIM(LTRIM(?))), UPPER(RTRIM(LTRIM(?))), ?," +
-					" ?, TO_DATE(?, 'DD/MM/YYYY'), TO_NUMBER(?, '999')," +
-					" TO_NUMBER(?, '999'), TO_NUMBER(?, '999'), TO_NUMBER(?, '99')," +
-					" ?, ?, ?," +
-					" ?, ?, TO_NUMBER(?, '99')," +
-					" TO_NUMBER(?, '99'), ?, ?, ?, ?, TO_NUMBER(?, '99'), ?, ?, ?, ?,?,?,?,?)");
+			ps	= conn.prepareStatement("INSERT INTO ALUM_PERSONAL"
+				+ " (CODIGO_ID, ESCUELA_ID, NOMBRE,"
+				+ " APATERNO, AMATERNO, GENERO,"
+				+ " CURP, F_NACIMIENTO, PAIS_ID,"
+				+ " ESTADO_ID, CIUDAD_ID, CLASFIN_ID,"
+				+ " EMAIL, COLONIA, DIRECCION,"
+				+ " TELEFONO, COTEJADO, NIVEL_ID, GRADO, GRUPO, ESTADO,"
+				+ " ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA,"
+				+ " DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA, TIPO_SANGRE, TUTOR_CEDULA, BARRIO_ID)"
+				+ " VALUES(?, ?, UPPER(RTRIM(LTRIM(?))),"
+				+ " UPPER(RTRIM(LTRIM(?))), UPPER(RTRIM(LTRIM(?))), ?, ?,"
+				+ " TO_DATE(?, 'DD/MM/YYYY'), TO_NUMBER(?, '999'),"
+				+ " TO_NUMBER(?, '999'), TO_NUMBER(?, '999'), TO_NUMBER(?, '99'),"
+				+ " ?, ?, ?,"
+				+ " ?, ?, TO_NUMBER(?, '99'),"
+				+ " TO_NUMBER(?, '99'), ?, ?, ?, ?, TO_NUMBER(?, '99'),"
+				+ " ?, ?, ?, ?, ?, ?, ?, ?, TO_NUMBER(?,'999'))");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
@@ -667,8 +597,9 @@ public class AlumPersonal {
 			ps.setString(30, enfermedad);
 			ps.setString(31, correo);
 			ps.setString(32, iglesia);
-			ps.setString(33, sangre);
-			ps.setString(34, cedula_tutor);
+			ps.setString(33, tipoSangre);
+			ps.setString(34, tutorCedula);
+			ps.setString(35, barrioId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -742,13 +673,7 @@ public class AlumPersonal {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			/*
-			String comando =  "INSERT INTO ALUM_PERSONAL(CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO,F_NACIMIENTO,GENERO,CORREO,COLONIA," +
-					" DIRECCION, TELEFONO, CELULAR, NIVEL_ID, GRADO, GRUPO)" +
-					" VALUES('"+codigoId+"', '"+escuelaId+"', '"+nombre+"', '"+apaterno+"', '"+amaterno+"', TO_DATE('"+fNacimiento+"', 'DD/MM/YYYY')," +
-					" '"+genero+"', '"+correo+"', '"+colonia+"', '"+direccion+"', '"+telefono+"', '"+celular+"', TO_NUMBER('"+nivelId+"', '9'), '"+grado+"', '"+grupo+"'";
-			System.out.println(comando);
-			*/
+			
 			ps = conn.prepareStatement("INSERT INTO ALUM_PERSONAL" +
 					" (CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO,F_NACIMIENTO, GENERO, CORREO, COLONIA," +
 					" DIRECCION, TELEFONO, CELULAR, NIVEL_ID, GRADO, GRUPO)" +
@@ -821,7 +746,8 @@ public class AlumPersonal {
 					" CORREO = ?, " +
 					" IGLESIA = ?, " +
 					" TIPO_SANGRE = ?, " +
-					" TUTOR_CEDULA = ? " +
+					" TUTOR_CEDULA = ?, " +
+					" BARRIO_ID = TO_NUMBER(?,'999'), " +
 					" WHERE CODIGO_ID = ? ");			
 			
 			ps.setString(1, escuelaId);
@@ -855,9 +781,10 @@ public class AlumPersonal {
 			ps.setString(29, enfermedad);
 			ps.setString(30, correo);
 			ps.setString(31, iglesia);
-			ps.setString(32, sangre);
-			ps.setString(33, cedula_tutor);
-			ps.setString(34, codigoId);
+			ps.setString(32, tipoSangre);
+			ps.setString(33, tutorCedula);
+			ps.setString(34, barrioId);
+			ps.setString(35, codigoId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -910,7 +837,6 @@ public class AlumPersonal {
 		}
 		return ok;
 	}
-
 	
 	public boolean updateRegPromover(Connection conn ) throws SQLException{
 		boolean ok = false;
@@ -919,7 +845,7 @@ public class AlumPersonal {
 			ps = conn.prepareStatement("UPDATE ALUM_PERSONAL" +
 					" SET NIVEL_ID = TO_NUMBER(?,'99'), GRADO = TO_NUMBER(?, '99'), GRUPO = ? WHERE CODIGO_ID = ?");
 			ps.setString(1, nivelId);
-			ps.setString(2, grado);		
+			ps.setString(2, grado);
 			ps.setString(3, grupo);
 			ps.setString(4, codigoId);
 			if ( ps.executeUpdate()== 1){			
@@ -990,8 +916,9 @@ public class AlumPersonal {
 		enfermedad	= rs.getString("ENFERMEDAD");
 		correo		= rs.getString("CORREO");
 		iglesia		= rs.getString("IGLESIA");
-		sangre		= rs.getString("TIPO_SANGRE");
-		cedula_tutor= rs.getString("TUTOR_CEDULA");
+		tipoSangre	= rs.getString("TIPO_SANGRE");
+		tutorCedula = rs.getString("TUTOR_CEDULA");
+		barrioId 	= rs.getString("BARRIO_ID");
 		
 	}
 	
@@ -1016,7 +943,7 @@ public class AlumPersonal {
 					" GRADO, GRUPO, ESTADO, COALESCE(ACTA,'-') AS ACTA, COALESCE(CRIP,'-') AS CRIP," +
 					" RELIGION, COALESCE(TRANSPORTE,'-') AS TRANSPORTE, COALESCE(CELULAR,'-') AS CELULAR," +
 					" COALESCE(TUTOR,'-') AS TUTOR, MATRICULA, DISCAPACIDAD, COALESCE(ENFERMEDAD,'-') AS ENFERMEDAD, COALESCE(CORREO,'-') AS CORREO, " +
-					" COALESCE(IGLESIA,'-') AS IGLESIA, TIPO_SANGRE, TUTOR_CEDULA " +
+					" COALESCE(IGLESIA,'-') AS IGLESIA, TIPO_SANGRE, TUTOR_CEDULA, BARRIO_ID" +
 					" FROM ALUM_PERSONAL" +
 					" WHERE CODIGO_ID = ?");
 			
@@ -1143,9 +1070,6 @@ public class AlumPersonal {
 		}
 		return nombre;
 	}
-	
-
-	
 	
 	public String maximoReg(Connection conn, String escuelaId) throws SQLException{
  		
