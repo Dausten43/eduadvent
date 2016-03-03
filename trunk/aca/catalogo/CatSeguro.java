@@ -48,7 +48,7 @@ public class CatSeguro {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_SEGURO" +
 					" (ESCUELA_ID, YEAR, POLIZA)" +
-					" VALUES(?, TO_NUMBER(?, '999'), ?)");
+					" VALUES(?, TO_NUMBER(?, '9999'), ?)");
 							
 			ps.setString(1, escuelaId);
 			ps.setString(2, year);
@@ -75,7 +75,7 @@ public class CatSeguro {
 		try{
 			ps = conn.prepareStatement("UPDATE CAT_SEGURO" +
 					" SET POLIZA = ? " +
-					" WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '999')");
+					" WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '9999')");
 			
 			ps.setString(1, poliza);
 			ps.setString(2, escuelaId);					
@@ -100,7 +100,7 @@ public class CatSeguro {
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("DELETE FROM CAT_SEGURO" +
-					" WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '999')");
+					" WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '9999')");
 			
 			ps.setString(1, escuelaId);
 			ps.setString(2, year);
@@ -155,7 +155,7 @@ public class CatSeguro {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM CAT_SEGURO WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '999' )");
+			ps = conn.prepareStatement("SELECT * FROM CAT_SEGURO WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '9999' )");
 			ps.setString(1, escuelaId);
 			ps.setString(2, year);
 			
@@ -182,7 +182,7 @@ public class CatSeguro {
 		
 		try{
 			ps = conn.prepareStatement("SELECT POLIZA FROM CAT_SEGURO "
-					+ " WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '999') ");
+					+ " WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '9999') ");
 			ps.setString(1, escuelaId);
 			ps.setString(2, year);
 			
