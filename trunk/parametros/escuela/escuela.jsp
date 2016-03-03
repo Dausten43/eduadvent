@@ -20,6 +20,7 @@
 	String sAccion				= request.getParameter("Accion")==null?"1":request.getParameter("Accion");
 	int numAccion 				= Integer.parseInt(sAccion);
 	String resultado			= "";
+	String salto 				= "";  
 	
 	/* Lista completa de escuela */
 	ArrayList<aca.catalogo.CatEscuela> lisEscuela		= escuelaLista.getListAll(conElias," ORDER BY ESCUELA_NOMBRE");
@@ -57,7 +58,7 @@
 			String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conElias, escuelaId);	
 			session.setAttribute("ejercicioId", ejercicioId);
 			
-			response.sendRedirect("../../general/inicio/index.jsp");
+			salto = "../../general/inicio/index.jsp";		
 			
 			break;			
 		}
@@ -156,5 +157,10 @@
 		$('#buscar').focus().search({table:$("#table")});
 	</script>
 </body>
+<%	
+	// Salto de pagina
+	if (salto.length()>0){%>
+	<meta http-equiv="refresh" content="0; url=<%=salto%>">
+<%	} %>
 
 <%@ include file= "../../cierra_elias.jsp" %> 
