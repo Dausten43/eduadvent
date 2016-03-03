@@ -897,8 +897,10 @@ public class AlumPersonalLista{
 				
 				iCont = 0;
 			}
-		
-			lisPersonal.remove(0);
+			
+			if (lisPersonal.size()>0){
+				lisPersonal.remove(0);
+			}			
 			//System.out.println("Tamaño del listor:"+lisPersonal.size());				
 		}catch(Exception e){
 			System.out.println("Error en busca duplicados: "+e);
