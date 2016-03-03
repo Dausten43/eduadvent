@@ -8,6 +8,11 @@
 <%@ page import="aca.alumno.AlumPersonalLista"%>
 
 <script>
+	function OtraBusqueda() {		
+		document.frmDatos.Accion.value = "0";
+		document.forDatos.submit();		
+	}
+	
 	function Buscar() {
 		if (document.frmDatos.nombre.value == "") {
 			alert("<fmt:message key="aca.IngreseAlumno"/>");
@@ -56,57 +61,64 @@
 %>
 
 <div id="content">
+			
+	<h2><fmt:message key="alumnos.VerificaciondeInformacion"/></h2>
 	
 	<form action="datos.jsp" name="frmDatos" method="post" target="_self">
-		<input type="hidden" name="Accion">
-		
-		<h2><fmt:message key="alumnos.VerificaciondeInformacion"/></h2>	
-
-		<div class="well">
-			<a class="btn btn-primary" href="alumno.jsp">
-				<i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/>
-			</a>
-		&nbsp;  &nbsp;Instrucciones: <fmt:message key="aca.IngresaDatos"/>
-		</div>
-		
-		<table class="table table-condensed" onkeypress='presDocumento()' style="margin-bottom: 0px;">
-		 <tr>
-		  <td>
-		     <p>
-			   <label><fmt:message key="aca.Nombre"/></label>
-			   <input name="nombre" type="text" value="<%=nombre%>">
-		     </p>
-		  </td>
-				
-		  <td>
-		    <p>
-			  <label><fmt:message key="aca.ApellidoPat"/></label>
-			  <input type="text" name="aPaterno" value="<%=aPaterno%>">
+	<input type="hidden" name="Accion">
+	<div class="well">
+		<a class="btn btn-primary" href="alumno.jsp">
+			<i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/>
+		</a>							
+	</div>
+<%
+	// SECCION DE BUSQUEDA DE ALUMNOS
+	if (accion.equals("0")){
+%>				
+	<div class="alert">Instrucciones: <fmt:message key="aca.IngresaDatos"/> )</div>			
+	<table class="table table-condensed" onkeypress='presDocumento()' style="margin-bottom: 0px;">
+	<tr>
+		<td>
+			<p>
+				<label><fmt:message key="aca.Nombre"/></label>
+				<input name="nombre" type="text" value="<%=nombre%>">
 		    </p>
-		  </td>	
+		</td>
+				
+		<td>
+			<p>
+		 		<label><fmt:message key="aca.ApellidoPat"/></label>
+			  	<input type="text" name="aPaterno" value="<%=aPaterno%>">
+		    </p>
+		</td>	
 		  
-		  <td>
-		     <p>
-			   <label><fmt:message key="aca.ApellidoMat"/></label>
-			   <input type="text" name="aMaterno" value="<%=aMaterno%>">
-		     </p>
-		  </td>
-		 </tr>
-		</table>	
-		<div class="well">
+		<td>
+			<p>
+				<label><fmt:message key="aca.ApellidoMat"/></label>
+			 	<input type="text" name="aMaterno" value="<%=aMaterno%>">
+		    </p>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">
 			<button class="btn btn-primary btn-large" onclick="return Buscar();">
 				<i class="icon-search icon-white"></i> <fmt:message key="boton.Buscar"/>
 			</button>
-		</div>
-			
-	</form>
+		</td>
+	</tr>		 
+	</table>			
+	</form>	
+<% 	}	
 		
-<%
+	// SECCION DE CREACION DEL ALUMNO
 	if (accion.equals("1")) {%>
 	
 	<form action="datos.jsp" name="frmLista" method="post" target="_self">
 		
-		<div class="alert"><fmt:message key="aca.AlumnosParecidos"/></div>
+		<div class="alert">
+		<fmt:message key="aca.AlumnosParecidos"/>
+		&nbsp; &nbsp; &nbsp;Nombre: <%=sNom%> &nbsp;Paterno: <%=sPat%> &nbsp;Materno: <%=sMat%>
+		</div>
 		
 		<table  class="table table-bordered table-striped">
 		<thead>
