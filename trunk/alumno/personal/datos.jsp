@@ -9,13 +9,14 @@
 
 <script>
 	function Buscar() {
-		if (document.frmDatos.nombre.value != "") {
+		if (document.frmDatos.nombre.value == "") {
+			alert("<fmt:message key="aca.IngreseAlumno"/>");
+		}else if ( document.frmDatos.aPaterno.value == ""){
+			alert("¡Ingrese el apellido paterno del alumno!");
+		}else{	
 			document.frmDatos.Accion.value = "1";
 			return true;
-		} else {
-			alert("<fmt:message key="aca.IngreseAlumno"/>");
 		}
-
 		return false;
 	}
 
@@ -27,9 +28,9 @@
 <%
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	
-	String nombre			= request.getParameter("nombre")==null?" ":request.getParameter("nombre").toUpperCase();
-	String aPaterno			= request.getParameter("aPaterno")==null?" ":request.getParameter("aPaterno").toUpperCase();
-	String aMaterno			= request.getParameter("aMaterno")==null?" ":request.getParameter("aMaterno").toUpperCase();
+	String nombre			= request.getParameter("nombre")==null?"":request.getParameter("nombre").toUpperCase();
+	String aPaterno			= request.getParameter("aPaterno")==null?"":request.getParameter("aPaterno").toUpperCase();
+	String aMaterno			= request.getParameter("aMaterno")==null?"":request.getParameter("aMaterno").toUpperCase();
 	String sCodigoAlumno	= request.getParameter("codigoPersonal");	
 	String sNom 			= "";
 	String sPat				= "";
@@ -40,9 +41,9 @@
 	String accion			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	if(accion.equals("1")){	
 		
-		if (nombre==null || nombre.length()==0) sNom = " ";
-		if (aPaterno==null || aPaterno.length()==0) sPat = " ";
-		if (aMaterno==null || aMaterno.length()==0) sMat = " ";
+		if (nombre==null || nombre.length()==0) sNom = "-"; else sNom = nombre;
+		if (aPaterno==null || aPaterno.length()==0) sPat = "-"; else sPat = aPaterno;
+		if (aMaterno==null || aMaterno.length()==0) sMat = "-"; else sMat = aMaterno;
 		
 		lisLista = AlumPersonalLista.BuscaDuplicados(conElias, escuelaId, sNom,sPat,sMat,50);
 		
