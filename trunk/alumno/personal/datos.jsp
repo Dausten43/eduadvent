@@ -27,9 +27,9 @@
 <%
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	
-	String nombre			= request.getParameter("nombre")==null?"":request.getParameter("nombre").toUpperCase();
-	String aPaterno			= request.getParameter("aPaterno")==null?"":request.getParameter("aPaterno").toUpperCase();
-	String aMaterno			= request.getParameter("aMaterno")==null?"":request.getParameter("aMaterno").toUpperCase();
+	String nombre			= request.getParameter("nombre")==null?" ":request.getParameter("nombre").toUpperCase();
+	String aPaterno			= request.getParameter("aPaterno")==null?" ":request.getParameter("aPaterno").toUpperCase();
+	String aMaterno			= request.getParameter("aMaterno")==null?" ":request.getParameter("aMaterno").toUpperCase();
 	String sCodigoAlumno	= request.getParameter("codigoPersonal");	
 	String sNom 			= "";
 	String sPat				= "";
@@ -38,17 +38,12 @@
 	ArrayList<aca.alumno.AlumPersonal> lisLista		= new ArrayList<aca.alumno.AlumPersonal>();
 	
 	String accion			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
-	if(accion.equals("1")){		
+	if(accion.equals("1")){	
 		
-		if(aMaterno.length() == 0){
-			sNom = nombre;			
-			sPat = aPaterno;		
-		}else{
-			sNom = nombre;			
-			sPat = aPaterno;			
-			sMat = aMaterno;
-		}			
-	
+		if (nombre==null || nombre.length()==0) sNom = " ";
+		if (aPaterno==null || aPaterno.length()==0) sPat = " ";
+		if (aMaterno==null || aMaterno.length()==0) sMat = " ";
+		
 		lisLista = AlumPersonalLista.BuscaDuplicados(conElias, escuelaId, sNom,sPat,sMat,50);
 		
 	}else if(accion.equals("2")){
