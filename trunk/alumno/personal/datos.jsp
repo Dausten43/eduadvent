@@ -10,7 +10,7 @@
 <script>
 	function OtraBusqueda() {		
 		document.frmDatos.Accion.value = "0";
-		document.forDatos.submit();		
+		document.frmDatos.submit();
 	}
 	
 	function Buscar() {
@@ -69,14 +69,18 @@
 	<div class="well">
 		<a class="btn btn-primary" href="alumno.jsp">
 			<i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/>
-		</a>							
+		</a>
+		&nbsp;&nbsp;
+		<a class="btn btn-primary" href="javascript:OtraBusqueda();">
+			<i class="icon-search icon-white"></i> <fmt:message key="boton.NuevaBusqueda"/>
+		</a>
 	</div>
 <%
 	// SECCION DE BUSQUEDA DE ALUMNOS
 	if (accion.equals("0")){
 %>				
 	<div class="alert">Instrucciones: <fmt:message key="aca.IngresaDatos"/> )</div>			
-	<table class="table table-condensed" onkeypress='presDocumento()' style="margin-bottom: 0px;">
+	<table class="table table-fullcondensed" onkeypress='presDocumento()' style="margin-bottom: 0px;">
 	<tr>
 		<td>
 			<p>
@@ -101,8 +105,8 @@
 	</tr>
 	<tr>
 		<td colspan="3">
-			<button class="btn btn-primary btn-large" onclick="return Buscar();">
-				<i class="icon-search icon-white"></i> <fmt:message key="boton.Buscar"/>
+			<button class="btn btn-primary btn-medium" onclick="return Buscar();">
+				<i class="icon-search icon-white"></i> <fmt:message key="aca.Comparar"/>
 			</button>
 		</td>
 	</tr>		 
