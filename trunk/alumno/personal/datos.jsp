@@ -119,8 +119,8 @@
 	
 	<form action="datos.jsp" name="frmLista" method="post" target="_self">
 		
-		<div class="alert">
-		<fmt:message key="aca.AlumnosParecidos"/>
+		<div class="alert alert-success">
+		<fmt:message key="aca.AlumnosParecidos"/>:
 		&nbsp; &nbsp; &nbsp;Nombre: <%=sNom%> &nbsp;Paterno: <%=sPat%> &nbsp;Materno: <%=sMat%>
 		</div>
 		
