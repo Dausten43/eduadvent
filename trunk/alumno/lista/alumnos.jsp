@@ -11,7 +11,7 @@
 	String escuelaId		= (String) session.getAttribute("escuela");
 	String codigoId			= (String) session.getAttribute("codigoPersonal");
 	
-	ArrayList<aca.alumno.AlumPersonal> alumnos = alumPersonalL.getListAll(conElias, escuelaId, "");
+	ArrayList<aca.alumno.AlumPersonal> alumnos = alumPersonalL.getListAll(conElias, escuelaId, " ORDER BY NIVEL_ID, GRADO, GRUPO");
 	
 %>
 
