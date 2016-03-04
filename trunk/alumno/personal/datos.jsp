@@ -79,7 +79,7 @@
 	// SECCION DE BUSQUEDA DE ALUMNOS
 	if (accion.equals("0")){
 %>				
-	<div class="alert">Instrucciones: <fmt:message key="aca.IngresaDatos"/> )</div>			
+	<div class="alert"><fmt:message key="aca.IngresaDatos"/></div>			
 	<table class="table table-fullcondensed" onkeypress='presDocumento()' style="margin-bottom: 0px;">
 	<tr>
 		<td>
@@ -121,7 +121,7 @@
 		
 		<div class="alert alert-success">
 		<fmt:message key="aca.AlumnosParecidos"/>:
-		&nbsp; &nbsp; &nbsp;Nombre: <%=sNom%> &nbsp;Paterno: <%=sPat%> &nbsp;Materno: <%=sMat%>
+		&nbsp; &nbsp; &nbsp;<b>Nombre:</b> <%=sNom%> &nbsp;<b>Paterno:</b> <%=sPat%> &nbsp;<b>Materno:</b> <%=sMat%>
 		</div>
 		
 		<table  class="table table-bordered table-striped">
