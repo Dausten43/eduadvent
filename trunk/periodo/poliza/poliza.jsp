@@ -19,8 +19,6 @@
 <%
 	String escuelaId 	= (String) session.getAttribute("escuela");
 
-	
-
 	String accion 		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String msj 			= "";
 	
@@ -50,10 +48,10 @@
 	</form>
 	<table class="table table-bordered">
 		<tr>
-			<th>#</th>
-			<th><fmt:message key="aca.Op" /></th>
-			<th><fmt:message key="aca.Ano" /></th>
-			<th><fmt:message key="aca.Poliza" /></th>
+			<th width="5%">#</th>
+			<th width="10%"><fmt:message key="aca.Op" /></th>
+			<th width="10%"><fmt:message key="aca.Ano" /></th>
+			<th width="75%"><fmt:message key="aca.Poliza" /></th>
 		</tr>
 <%
 			int cont = 1;
