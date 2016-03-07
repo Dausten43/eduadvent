@@ -110,6 +110,7 @@
 			Curso.setCreditos(request.getParameter("Creditos"));
 			Curso.setEstado(request.getParameter("Estado"));
 			Curso.setTipoEvaluacion(request.getParameter("TipoEvaluacion"));
+			Curso.setCursoBase(request.getParameter("CursoBase"));
 
 			if (Curso.existeReg(conElias)) {
 
