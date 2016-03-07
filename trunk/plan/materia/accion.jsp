@@ -12,17 +12,18 @@
 
 <script>
 	function Nuevo(planId) {
-		document.frmPlan.PlanId.value = planId;
-		document.frmPlan.CursoId.value = "";
-		document.frmPlan.CursoNombre.value = "";
-		document.frmPlan.CursoCorto.value = "";
-		document.frmPlan.Grado.value = "0";
-		document.frmPlan.Creditos.value = "0";
-		document.frmPlan.Horas.value = "0";
-		document.frmPlan.NotaAC.value = "0";
-		document.frmPlan.Tipocurso.value = "";
-		document.frmPlan.Falta.value = "S";
-		document.frmPlan.Accion.value = "1";
+		document.frmPlan.PlanId.value 		= planId;
+		document.frmPlan.CursoId.value 		= "";
+		document.frmPlan.CursoNombre.value 	= "";
+		document.frmPlan.CursoCorto.value 	= "";
+		document.frmPlan.Grado.value 		= "0";
+		document.frmPlan.Creditos.value 	= "0";
+		document.frmPlan.Horas.value 		= "0";
+		document.frmPlan.NotaAC.value 		= "0";
+		document.frmPlan.Tipocurso.value 	= "";
+		document.frmPlan.Falta.value 		= "S";
+		document.frmPlan.Conducta.value 	= "N";
+		document.frmPlan.Accion.value 		= "1";		
 		document.frmPlan.submit();
 	}
 
@@ -82,7 +83,8 @@
 			// Si es de la union de panamá
 			if (escuelaId.contains("H")){
 				Curso.setNotaAc("3");
-				Curso.setPunto("S");	
+				Curso.setPunto("S");
+				Curso.setConducta("N");
 			}else{
 				Curso.setPunto("N");
 				Curso.setNotaAc("6");
@@ -271,17 +273,17 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Conducta"> <fmt:message key="aca.EvaluaConducta" />:</label><select
-								name="Conducta" id="Conducta">
-								<option value="S"
-									<%if (Curso.getConducta().equals("S"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Si" /></option>
-								<option value="N"
-									<%if (Curso.getConducta().equals("N"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Negacion" /></option>
-								<option value="P"
-									<%if (Curso.getConducta().equals("P"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Promedio" /></option>
+							<label for="Conducta"> <fmt:message key="aca.EvaluaConducta" />:</label>
+							<select name="Conducta" id="Conducta">
+								<option value="S" <%if (Curso.getConducta().equals("S")) out.print("selected");%>>
+								<fmt:message key="aca.Si" />
+								</option>
+								<option value="N" <%if (Curso.getConducta().equals("N")) out.print("selected");%>>
+								<fmt:message key="aca.Negacion" />
+								</option>
+								<option value="P" <%if (Curso.getConducta().equals("P")) out.print("selected");%>>
+								<fmt:message key="aca.Promedio" />
+								</option>
 							</select>
 						</div>
 					</fieldset>
