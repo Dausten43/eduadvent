@@ -66,12 +66,10 @@
 		if(!Permiso.existeReg(conElias)){
 			Permiso.insertReg(conElias);
 			resultado = "Guardado";
-		}
-		
-		if(Permiso.existeReg(conElias)){
-			Permiso.updateReg(conElias);
-			resultado = "Modificado";
-		}
+		}else if(Permiso.existeReg(conElias)){
+				Permiso.updateReg(conElias);
+				resultado = "Modificado";
+			}
 	}
 	
 	if(numAccion.equals("2")){
