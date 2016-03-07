@@ -52,7 +52,7 @@
 	  <a class="icon-remove" href="javascript:Borrar ('<%=barrio.getPaisId()%>','<%=barrio.getEstadoId()%>','<%=barrio.getCiudadId()%>','<%=barrio.getBarrioId()%>')">
 	  </a>
 	</td>
-    <td align="center"><%=barrio.getCiudadId()%></td>
+    <td align="center"><%=barrio.getBarrioId()%></td>
     <td><%=barrio.getBarrioNombre()%></td>
 	</tr>
 <%
