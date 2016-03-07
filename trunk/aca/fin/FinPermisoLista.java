@@ -7,8 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class FinPermisoLista {
-	public ArrayList<FinFolio> getListAll(Connection conn, String orden ) throws SQLException{
-		ArrayList<FinFolio> lisFolio 	= new ArrayList<FinFolio>();
+	public ArrayList<FinPermiso> getListAll(Connection conn, String orden ) throws SQLException{
+		ArrayList<FinPermiso> lisPermiso 	= new ArrayList<FinPermiso>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
@@ -17,9 +17,9 @@ public class FinPermisoLista {
 			comando = "SELECT CODIGO_ID, FOLIO, FECHA_INI, FECHA_FIN, ESTADO, COMENTARIO FROM FIN_PERMISO "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
-				FinFolio folio = new FinFolio();				
-				folio.mapeaReg(rs);
-				lisFolio.add(folio);			
+				FinPermiso permiso = new FinPermiso();				
+				permiso.mapeaReg(rs);
+				lisPermiso.add(permiso);			
 			}
 			
 		}catch(Exception ex){
@@ -29,6 +29,6 @@ public class FinPermisoLista {
 			if (st!=null) st.close();
 		}	
 		
-		return lisFolio;
+		return lisPermiso;
 	}
 }
