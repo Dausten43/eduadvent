@@ -6,6 +6,7 @@
 
 
 <jsp:useBean id="Curso" scope="page" class="aca.plan.PlanCurso" />
+<jsp:useBean id="PlanCursoLista"  class="aca.plan.PlanCursoLista" scope="page"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.CicloGrupoCurso" />
 <jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 
@@ -57,7 +58,8 @@
 		// Declaracion de variables		
 		String escuelaId 		= (String) session.getAttribute("escuela");
 		String cursoId 			= request.getParameter("CursoId").replaceAll("}", "&");
-		String planId			= request.getParameter("PlanId");		
+		String planId			= request.getParameter("PlanId");	
+		String curso			= "";
 
 		int n_accion 		= Integer.parseInt(request.getParameter("Accion"));
 		String strResultado = "";
@@ -162,6 +164,10 @@
 			break;
 		}
 		}
+		
+		
+		// Lista de cursos
+		ArrayList<aca.plan.PlanCurso> lisCursos	= PlanCursoLista.getCursosPorGrado(conElias, planId, Curso.getGrado(), "ORDER BY CURSO_NOMBRE");
 		
 		pageContext.setAttribute("resultado", strResultado);		
 %>
@@ -328,10 +334,19 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="CursoBase"> <fmt:message key="aca.Curso" />: </label> <input name="CursoBase"
-								type="text" id="CursoBase" value="<%=Curso.getCursoBase().equals("")?"1":Curso.getCursoBase()%>" class="input-small"
-								maxlength="12">
-
+							<label for="CursoBase"> <fmt:message key="aca.Curso" />: </label> <select
+								name="CursoBase" id="CursoBase">
+								<%
+								for(aca.plan.PlanCurso cursos : lisCursos){
+									if(!cursos.getCursoBase().equals("-")){
+										curso = cursos.getCursoNombre();
+									}
+								%>	
+								<option value="<%= cursos.getCursoId()%>"<%=cursos.getCursoNombre().equals(curso)?" Selected":"" %>><%= cursos.getCursoNombre() %></option>
+								<%
+								}
+								%>
+								</select>
 						</div>
 					</fieldset>
 				</div>
