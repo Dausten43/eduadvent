@@ -4,6 +4,8 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
+<%@page import="java.util.GregorianCalendar"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="aca.catalogo.CatReligion"%>
 <%@page import="aca.alumno.AlumCiclo"%>
 <%@page import="aca.kardex.KrdxCursoAct"%>
@@ -124,6 +126,9 @@
 	String sTipo 			= request.getParameter("tipo")==null?"N":request.getParameter("tipo");	
 	String vref				= request.getParameter("ref");	
 	String strPlanId		= request.getParameter("Plan");
+	
+	Calendar año = new GregorianCalendar();
+	String muestraAño			= String.valueOf(año.get(Calendar.YEAR));
 
 	String nombreAlumno		= "";
 	String tipoCodigo		= "";
@@ -488,6 +493,18 @@
 		            	<%} %> 
 					<%}%>
 				</div>
+				
+				<%
+				if(!aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraAño).equals("")){
+				%>	
+					<h3>Poliza : <%=aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraAño ) %></h3>
+				<%	
+				}else{
+				%>
+					<h3>Poliza : No registrada</h3>
+				<%	
+				}
+				%>
 				
 			</div>
 			<div class="span3">
