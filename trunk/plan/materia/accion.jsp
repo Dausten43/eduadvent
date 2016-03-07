@@ -8,22 +8,20 @@
 <jsp:useBean id="Curso" scope="page" class="aca.plan.PlanCurso" />
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.CicloGrupoCurso" />
 <jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
-<head>
 
 <script>
 	function Nuevo(planId) {
-		document.frmPlan.PlanId.value 		= planId;
-		document.frmPlan.CursoId.value 		= "";
-		document.frmPlan.CursoNombre.value 	= "";
-		document.frmPlan.CursoCorto.value 	= "";
-		document.frmPlan.Grado.value 		= "0";
-		document.frmPlan.Creditos.value 	= "0";
-		document.frmPlan.Horas.value 		= "0";
-		document.frmPlan.NotaAC.value 		= "0";
-		document.frmPlan.Tipocurso.value 	= "";
-		document.frmPlan.Falta.value 		= "S";
-		document.frmPlan.Conducta.value 	= "N";
-		document.frmPlan.Accion.value 		= "1";		
+		document.frmPlan.PlanId.value = planId;
+		document.frmPlan.CursoId.value = "";
+		document.frmPlan.CursoNombre.value = "";
+		document.frmPlan.CursoCorto.value = "";
+		document.frmPlan.Grado.value = "0";
+		document.frmPlan.Creditos.value = "0";
+		document.frmPlan.Horas.value = "0";
+		document.frmPlan.NotaAC.value = "0";
+		document.frmPlan.Tipocurso.value = "";
+		document.frmPlan.Falta.value = "S";
+		document.frmPlan.Accion.value = "1";
 		document.frmPlan.submit();
 	}
 
@@ -53,7 +51,7 @@
 		document.frmPlan.submit();
 	}
 </script>
-</head>
+
 <%
 	// Declaración de variables
 		// Declaracion de variables		
@@ -83,8 +81,7 @@
 			// Si es de la union de panamá
 			if (escuelaId.contains("H")){
 				Curso.setNotaAc("3");
-				Curso.setPunto("S");
-				Curso.setConducta("N");
+				Curso.setPunto("S");	
 			}else{
 				Curso.setPunto("N");
 				Curso.setNotaAc("6");
@@ -166,9 +163,9 @@
 		}
 		}
 		
-		pageContext.setAttribute("resultado", strResultado);
+		pageContext.setAttribute("resultado", strResultado);		
 %>
-<body>
+
 	<div id="content">
 		<h2>Datos de la Materia</h2>
 		<% if (strResultado.equals("Eliminado") || strResultado.equals("Modificado") || strResultado.equals("Guardado")){%>
@@ -274,17 +271,17 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Conducta"> <fmt:message key="aca.EvaluaConducta" />:</label>
-							<select name="Conducta" id="Conducta">
-								<option value="S" <%if (Curso.getConducta().equals("S")) out.print("selected");%>>
-								<fmt:message key="aca.Si" />
-								</option>
-								<option value="N" <%if (Curso.getConducta().equals("N")) out.print("selected");%>>
-								<fmt:message key="aca.Negacion" />
-								</option>
-								<option value="P" <%if (Curso.getConducta().equals("P")) out.print("selected");%>>
-								<fmt:message key="aca.Promedio" />
-								</option>
+							<label for="Conducta"> <fmt:message key="aca.EvaluaConducta" />:</label><select
+								name="Conducta" id="Conducta">
+								<option value="S"
+									<%if (Curso.getConducta().equals("S"))
+					out.print("selected=\"selected\"");%>><fmt:message key="aca.Si" /></option>
+								<option value="N"
+									<%if (Curso.getConducta().equals("N"))
+					out.print("selected=\"selected\"");%>><fmt:message key="aca.Negacion" /></option>
+								<option value="P"
+									<%if (Curso.getConducta().equals("P"))
+					out.print("selected=\"selected\"");%>><fmt:message key="aca.Promedio" /></option>
 							</select>
 						</div>
 					</fieldset>
@@ -334,6 +331,7 @@
 							<label for="CursoBase"> <fmt:message key="aca.Curso" />: </label> <input name="CursoBase"
 								type="text" id="CursoBase" value="<%=Curso.getCursoBase().equals("")?"1":Curso.getCursoBase()%>" class="input-small"
 								maxlength="12">
+
 						</div>
 					</fieldset>
 				</div>
@@ -350,7 +348,7 @@
 <% 		}%>				
 		</div>
 	</div>
-</body>
+
 <script>
 	select();
 
