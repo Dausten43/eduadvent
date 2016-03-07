@@ -76,6 +76,7 @@
 	
 	//Map de promedios del alumno en cada materia
 	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
+	//System.out.println(cicloGrupoId);
 	
 	if(hayAbiertas){
 %>
@@ -142,7 +143,7 @@
         		}else{
         			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/logoIASD.png");
         		}
-	            System.out.println("Ruta Boleta:"+dirFoto);
+	            //System.out.println("Ruta Boleta:"+dirFoto);
 	            jpg.setAlignment(Image.LEFT | Image.UNDERLYING);
 	            jpg.scaleAbsolute(50, 49);	            
 	            
@@ -368,11 +369,11 @@
 		    	    				float[] sumaPorBimestreTmp = new float[10];
 		    	    				for(int l = 0; l < lisBloque.size(); l++){
 		    	    					float tmp = 0;
-		    	    					if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){ 
+		    	    					if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){
 		    	    						tmp = sumaPorBimestre[l];
 		    	    						int cantidadMateriasTmp = cantidadMaterias;
 		    	    						cantidadMateriasTmp = cantidadMateriasTmp-materiasSinNota[l];
-			    	    					sumaPorBimestre[l] = new BigDecimal(sumaPorBimestre[l]+"").divide(new BigDecimal(cantidadMateriasTmp+""), 1, RoundingMode.DOWN).floatValue();			    	    					
+			    	    					sumaPorBimestre[l] = new BigDecimal(sumaPorBimestre[l]+"").divide(new BigDecimal(cantidadMateriasTmp+""), 1, RoundingMode.DOWN).floatValue();
 			    	    					celda = new PdfPCell(new Phrase( sumaPorBimestre[l]+"", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 			    	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 			    	        				tabla.addCell(celda);
@@ -610,19 +611,34 @@
 			    					}
 			    				}
 			    				boolean estanTodasCerradas = CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, alumnoCurso.getCursoId());
-			    				
+			    				String promedio = "0";
+			    				double promedioF = 0.0;
+			    				boolean promedioporDos = false;
 			    				if(!estanTodasCerradas){
-			    					String nota = "0";			    					
+			    					double nota = 0.0, notaDos = 0.0, notaTres = 0.0;	
 			    					if(cantidadBimestres!=0){
-			    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1")){
-			    							nota = mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1" ).getNota();
-				    					}			    						
-			    					}
-			    					
+				    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1")){
+				    							nota = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1").getNota());
+					    					}
+				    						if(nota == 0.0){
+				    							promedioporDos = true;
+				    						}
+				    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"2")){
+				    							notaDos = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"2").getNota());
+					    					}
+				    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"3")){
+				    							notaTres = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"3").getNota());
+					    					}
+				    						if(promedioporDos){
+				    							promedioF = (nota+notaDos+notaTres)/2;
+				    						}else{
+				    							promedioF = (nota+notaDos+notaTres)/3;
+				    						}
+			    						}
+				    					
 			    					// Colocar formato con una decimal
-			    					nota = frm1.format(Double.parseDouble(nota));
-			    					
-			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    					promedio = frm1.format(promedioF);
+			    					celda = new PdfPCell(new Phrase(promedio, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    				tabla.addCell(celda);
 			    				}else{
@@ -630,7 +646,6 @@
 			    					if(nota!=null){
 			    						nota=nota.trim();
 			    					}
-			    					//System.out.println("Datos 2:"+nota);
 			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    				tabla.addCell(celda);
@@ -865,7 +880,6 @@
 	    					if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){
 	    						int materiasTmp = materias;
 	    						materiasTmp = materiasTmp-materiasSinNota[l];
-	    						
     	    					sumaPorBimestre[l] = new BigDecimal(sumaPorBimestre[l]+"").divide(new BigDecimal(materiasTmp+""), 1, RoundingMode.DOWN).floatValue();
     	    					celda = new PdfPCell(new Phrase( sumaPorBimestre[l]+"", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
