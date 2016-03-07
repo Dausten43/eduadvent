@@ -125,6 +125,36 @@ public class PlanCursoLista {
 		return lisCurso;
 	}
 	
+	public ArrayList<PlanCurso> getCursosPorGrado(Connection conn, String planId, String grado, String orden ) throws SQLException{
+		ArrayList<PlanCurso> lisCurso = new ArrayList<PlanCurso>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT PLAN_ID, CURSO_ID, CURSO_NOMBRE, CURSO_CORTO," +
+					" GRADO, TIPOCURSO_ID, NOTA_AC, FALTA, CONDUCTA, ORDEN, PUNTO, HORAS, CREDITOS, ESTADO, TIPO_EVALUACION, TARDANZA, CURSO_BASE" +
+					" FROM PLAN_CURSO WHERE PLAN_ID = '"+planId+"' AND GRADO = TO_NUMBER('"+grado+"','99')  " + orden;
+					
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				
+				PlanCurso curso = new PlanCurso();			
+				curso.mapeaReg(rs);
+				lisCurso.add(curso);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.plan.PlanCursoLista|getListCursoGrado|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}				
+		
+		return lisCurso;
+	}
+	
 	public static HashMap<String,PlanCurso> mapPlanCursos(Connection conn, String planId ) throws SQLException{
 		
 		HashMap<String,PlanCurso> mapa = new HashMap<String,PlanCurso>();
