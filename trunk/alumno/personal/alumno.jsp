@@ -134,6 +134,7 @@
 	ArrayList<aca.plan.Plan> lisPlan		= PlanLista.getListEscuela(conElias, escuelaId, " ORDER BY NIVEL_ID");
 	ArrayList<String> listTipoSangre 		= new ArrayList<String>();
 	
+	listTipoSangre.add("--");
 	listTipoSangre.add("O+");
 	listTipoSangre.add("O-");
 	listTipoSangre.add("A+");
@@ -166,10 +167,25 @@
 	// Operaciones a realizar en la pantalla
 	switch (accion){
 	
-		case 1:{// Consultar		
+		case 1:{// Consultar	
+			
 			if (Personal.existeReg(conElias)){				
-				Personal.mapeaRegId(conElias, codigoAlumno);
+				Personal.mapeaRegId(conElias, codigoAlumno);				
 				existeAlumno = true;
+				
+				// Elegir el pais de acuerdo a la escuela
+				if (escuelaId.contains("G") && Personal.getPaisId().equals("0")){
+					// Colocar por default el pais de República Dominicana					
+					Personal.setPaisId("166");					
+				}else if (escuelaId.contains("H") && Personal.getPaisId().equals("0")){
+					// Colocar por default el pais de Panama
+					Personal.setPaisId("153");					
+				}else{
+					// Colocar por default el pais de Mexico
+					Personal.setPaisId("135");
+				}
+				
+				
 				nombreAlumno = aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno,"NOMBRE");
 				if (nombreAlumno.equals("x")){		
 					nombreAlumno = "No Definido";
@@ -217,7 +233,7 @@
 			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			conElias.setAutoCommit(false);
-			System.out.println("Grabar:"+Personal.getCodigoId()+":"+Personal.getBarrioId());
+			
 			if (Personal.existeReg(conElias) == false){
 				if (Personal.insertReg(conElias)){
 					session.setAttribute("codigoAlumno", Personal.getCodigoId());
@@ -313,6 +329,7 @@
 			
 		}break;
 		case 5: { // Borrar
+			
 			if (Personal.existeReg(conElias) == true){
 				if(!KrdxCursoAct.tieneMaterias(conElias, codigoAlumno)){//Si el alumno no tiene materias puede pasar a borrar
 					
@@ -357,11 +374,25 @@
 			}
 			break;
 		}
-		case 6: { // Consultar			
+		case 6: { // Consultar
+			
 			if (Personal.existeReg(conElias)){				
 				acceso = true;
 				existeAlumno = true;
 				Personal.mapeaRegId(conElias, codigoAlumno);
+				
+				// Elegir el pais de acuerdo a la escuela
+				if (escuelaId.contains("G") && Personal.getPaisId().equals("0")){
+					// Colocar por default el pais de República Dominicana					
+					Personal.setPaisId("166");					
+				}else if (escuelaId.contains("H") && Personal.getPaisId().equals("0")){
+					// Colocar por default el pais de Panama
+					Personal.setPaisId("153");					
+				}else{
+					// Colocar por default el pais de Mexico
+					Personal.setPaisId("135");
+				}
+				 
 				if (AlumPlan.mapeaRegActual(conElias,codigoAlumno)){
 					strPlanId = AlumPlan.getPlanId();
 					existePlan = true;
