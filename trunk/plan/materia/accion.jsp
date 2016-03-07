@@ -59,7 +59,6 @@
 		String escuelaId 		= (String) session.getAttribute("escuela");
 		String cursoId 			= request.getParameter("CursoId").replaceAll("}", "&");
 		String planId			= request.getParameter("PlanId");	
-		String curso			= "";
 
 		int n_accion 		= Integer.parseInt(request.getParameter("Accion"));
 		String strResultado = "";
@@ -334,19 +333,16 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="CursoBase"> <fmt:message key="aca.Curso" />: </label> <select
-								name="CursoBase" id="CursoBase">
-								<%
+							<label for="CursoBase"> <fmt:message key="aca.CursoBase" />: </label>
+							<select name="CursoBase" id="CursoBase">
+							<%								
 								for(aca.plan.PlanCurso cursos : lisCursos){
-									if(!cursos.getCursoBase().equals("-")){
-										curso = cursos.getCursoNombre();
-									}
-								%>	
-								<option value="<%= cursos.getCursoId()%>"<%=cursos.getCursoNombre().equals(curso)?" Selected":"" %>><%= cursos.getCursoNombre() %></option>
-								<%
+							%>	
+								<option value="<%= cursos.getCursoId()%>" <%=cursos.getCursoId().equals(Curso.getCursoBase())?" Selected":""%>><%= cursos.getCursoNombre() %></option>
+							<%
 								}
-								%>
-								</select>
+							%>
+							</select>
 						</div>
 					</fieldset>
 				</div>
