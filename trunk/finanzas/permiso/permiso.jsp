@@ -4,25 +4,48 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
+<jsp:useBean id="Permiso" scope="page" class="aca.fin.FinPermiso"/>
 <jsp:useBean id="permisoLista" scope="page" class="aca.fin.FinPermisoLista"/>
 <% 
-	String escuelaId 		= (String) session.getAttribute("escuela");
-	
-	ArrayList<aca.fin.FinPermiso> lisPermiso		= permisoLista.getListAll(conElias, " ");
+	String escuelaId = (String) session.getAttribute("escuela");
+	String numAccion		= request.getParameter("Accion")==null?"1":request.getParameter("Accion");
+	String codigoId			= request.getParameter("codigoId");
+	String folio			= request.getParameter("folio");
+	String resultado		= "";
+
+	if(numAccion.equals("1")){
+		Permiso.setCodigoId(codigoId);
+		Permiso.setFolio(folio);
+		
+		if(Permiso.existeReg(conElias)){
+			if(Permiso.deleteReg(conElias)){
+				resultado = "Eliminado";
+			}
+		}
+	pageContext.setAttribute("resultado", resultado);
+	}
+
+	ArrayList<aca.fin.FinPermiso> lisPermiso	= permisoLista.getListAll(conElias, "ORDER BY FOLIO");
 %>
 
 <div id="content">
-	<h2><fmt:message key="aca.Permiso" /><small>( <%=escuelaId%> - <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small></h2> 
+	<h2><fmt:message key="permisos.Permiso" /><small>( <%=escuelaId%> - <%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> )</small></h2> 
    
    <div class="well">
-      <a class="btn btn-primary" href="accion.jsp?Accion=1"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
+      <a class="btn btn-primary" href="accion.jsp"><i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" /></a>
+   	
    </div>
+   <% if (resultado.equals("Eliminado") || resultado.equals("Modificado") || resultado.equals("Guardado")){%>
+   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
+  	<% }else if(!resultado.equals("")){%>
+  		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
+  	<%} %>
     
 	<form id="forma" name="forma" action="accion.jsp" >
 		<table class="table table-condensed table-bordered table-striped">
 	  		<tr>
+	  			<th>#</th>
 	    		<th><fmt:message key="aca.Accion" /></th>
-	    		<th>#</th>
 	    		<th><fmt:message key="aca.CodigoId" /></th>
 	    		<th><fmt:message key="aca.Folio" /></th>    
 	    		<th><fmt:message key="aca.FechaInicio" /></th>
@@ -33,14 +56,13 @@
 	  		<%
 	  			int cont = 0;
 				for (aca.fin.FinPermiso permiso : lisPermiso){
-					cont++;
+					System.out.println(permiso.getFecha_fin());
 			%>
-	  				<tr> 
+	  				<tr>
+	  					<td><%=++cont %></td> 
 	    				<td>
-	      					<a class="icon-pencil" href="accion.jsp?Accion=5&CodigoId=<%=permiso.getCodigoId()%>&folio=<%=permiso.getFolio()%>"> </a>
-	      					<%if(!aca.fin.FinPermiso.existeSoloCuenta(conElias, cuenta.getCuentaId()) && !aca.fin.FinMovimientos.existeCuentaId(conElias, cuenta.getCuentaId())){%> 
-	      						<a class="icon-remove" id="del" href="javascript:Elimina('<%=cuenta.getCuentaId() %>');" ></a>
-	      					<%} %>
+	      					<a class="icon-pencil" href="accion.jsp?codigoId=<%=permiso.getCodigoId()%>&folio=<%=permiso.getFolio() %>"> </a>
+      						<a class="icon-remove" id="del" href="javascript:Elimina('<%=permiso.getCodigoId()%>', '<%=permiso.getFolio() %>');" ></a>
 	    				</td>
 	    				<td><%=permiso.getCodigoId() %></td>
 	    				<td><%=permiso.getFolio() %></td>    
@@ -57,9 +79,9 @@
 </div>
 
 <script>   
-	function Elimina(cuentaId ){
+	function Elimina(codigoId, folio ){
 		if(confirm("<fmt:message key='js.Confirma' />")){
-			document.location = "accion.jsp?Accion=4&CuentaId="+cuentaId;
+			document.location = "permiso.jsp?Accion=1&codigoId="+codigoId+"&folio="+folio;
 		}
 	}
 </script>
