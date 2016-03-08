@@ -211,33 +211,28 @@
 						</div>
 						
 						<div class="control-group ">
-							<label for="CursoNombre"> <fmt:message key="aca.Nombre" />: </label> <input
-								name="CursoNombre" type="text" id="CursoNombre"
-								value="<%=Curso.getCursoNombre()%>" size="30" maxlength="70">
+							<label for="CursoNombre"> <fmt:message key="aca.Nombre" />: </label>
+							<input name="CursoNombre" type="text" id="CursoNombre" value="<%=Curso.getCursoNombre()%>" size="30" maxlength="70">
 						</div>
 						<div class="control-group ">
-							<label for="CursoCorto"> <fmt:message key="aca.NombreCorto" />: </label> <input
-								name="CursoCorto" type="text" id="CursoCorto"
-								value="<%=Curso.getCursoCorto()%>" size="15" maxlength="20">
+							<label for="CursoCorto"> <fmt:message key="aca.NombreCorto" />: </label>
+							<input name="CursoCorto" type="text" id="CursoCorto" value="<%=Curso.getCursoCorto()%>" size="15" maxlength="20">
 						</div>
 						<div class="control-group ">
-							<label for="Grado"> <fmt:message key="aca.Grado" />: </label>
-								
-								 <select name="Grado" id="Grado" class="input-mini">
-							    	<%for(int i = 1; i<=12; i++){ %>
-							    		<option value="<%=i %>" <%if(Curso.getGrado().equals(i+"")){out.print("selected");} %>><%=i %></option>
-							    	<%} %>
-							    </select>
+							<label for="Grado"> <fmt:message key="aca.Grado" />: </label>								
+							<select name="Grado" id="Grado" class="input-mini">
+							<%for(int i = 1; i<=12; i++){ %>
+								<option value="<%=i %>" <%if(Curso.getGrado().equals(i+"")){out.print("selected");} %>><%=i %></option>
+							<%} %>
+							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Horas"> <fmt:message key="aca.Horas" />: </label> <input name="Horas"
-								type="text" id="Horas" value="<%=Curso.getHoras()%>" class="input-mini"
-								maxlength="3">
+							<label for="Horas"> <fmt:message key="aca.Horas" />: </label>
+							<input name="Horas" type="text" id="Horas" value="<%=Curso.getHoras()%>" class="input-mini" maxlength="3">
 						</div>
 					</fieldset>
 				</div>
-
-
+				
 				<div class="span4">
 					<fieldset>
 						<div class="control-group ">
