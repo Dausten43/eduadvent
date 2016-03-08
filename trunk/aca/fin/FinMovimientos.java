@@ -716,4 +716,29 @@ public class FinMovimientos {
 		return saldo;
 	}
     
+    public static double saldoAlumno( Connection conn, String auxiliar) throws SQLException{
+    	Statement st		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando 		= "";		
+		double saldo			= 0;
+		
+		try{
+			comando = "SELECT COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS "
+					+ " WHERE FECHA <= NOW() AND AUXILIAR = '"+auxiliar+"'";
+								
+			rs = st.executeQuery(comando);					
+			if(rs.next()){
+				saldo = rs.getDouble("SALDO");
+			}			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimiento|saldoCaja|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return saldo;
+	}
+    
 }
