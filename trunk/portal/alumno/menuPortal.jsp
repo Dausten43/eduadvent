@@ -1,3 +1,5 @@
+<%@ include file= "../../con_elias.jsp" %>
+
 <jsp:useBean id="CatParametro" scope="page" class="aca.catalogo.CatParametro"/>
 
 <style>
@@ -11,13 +13,19 @@
 </style>
 
 <%
-String codigo		= session.getAttribute("codigoId").toString();
+String auxiliar		= session.getAttribute("codigoId").toString();
+String escuela	= (String) session.getAttribute("escuela");
 
-System.out.println("IMPRIME : "+codigo);
+System.out.println("IMPRIME : "+auxiliar+" - "+escuela);
+
+double saldoAlumno 		= aca.fin.FinMovimientos.saldoAlumno(conElias, auxiliar);
+
+CatParametro.mapeaRegId(conElias, escuela);	
+
 %>
 
 <ul class="nav nav-tabs">
-	<%if(codigo.length() == 8){
+	<%if(saldoAlumno < Double.parseDouble(CatParametro.getBloqueaPortal())){
 	%>
 	  <li class="datos"><a href="datos.jsp"><fmt:message key="aca.Datos"/></a></li>
 	  <li class="finanzas"><a href="finanzas.jsp"><fmt:message key="aca.Finanzas"/></a></li>
@@ -35,3 +43,5 @@ System.out.println("IMPRIME : "+codigo);
 	  }
 	%>	  
 </ul>
+
+<%@ include file= "../../cierra_elias.jsp" %>
