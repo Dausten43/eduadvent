@@ -25,6 +25,7 @@
 		CatParametro.setPuerto(request.getParameter("Puerto"));
 		CatParametro.setCaja(request.getParameter("Caja"));
 		CatParametro.setTipoBoleta(request.getParameter("tipoBoleta"));
+		CatParametro.setBloqueaPortal(request.getParameter("Deuda"));
 		
 		if(!CatParametro.existeReg(conElias)){
 			if(CatParametro.insertReg(conElias)){						
