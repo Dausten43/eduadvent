@@ -716,15 +716,17 @@ public class FinMovimientos {
 		return saldo;
 	}
     
-    public static double saldoAlumno( Connection conn, String auxiliar) throws SQLException{
+    public static double saldoAlumno( Connection conn, String auxiliar, String fecha) throws SQLException{
     	Statement st		= conn.createStatement();
 		ResultSet rs 		= null;
 		String comando 		= "";		
 		double saldo			= 0;
 		
 		try{
-			comando = "SELECT COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS "
-					+ " WHERE FECHA <= NOW() AND AUXILIAR = '"+auxiliar+"'";
+			comando = " SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'D' THEN -1 ELSE 1 END),0) AS SALDO"
+					+ " FROM FIN_MOVIMIENTOS"
+					+ " WHERE AUXILIAR = '"+auxiliar+"'"
+					+ " AND FECHA <= TO_DATE('"+fecha+"','DD/MM/YYYY')";
 								
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
@@ -732,7 +734,7 @@ public class FinMovimientos {
 			}			
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.fin.FinMovimiento|saldoCaja|:"+ex);
+			System.out.println("Error - aca.fin.FinMovimiento|saldoAlumno|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
