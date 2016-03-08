@@ -161,7 +161,7 @@ public class FinPermiso {
 		comentario		= rs.getString("COMENTARIO");
     }
         
-    public void mapeaRegId(Connection conn, String codigoId, String folio) throws SQLException{
+    public void mapeaRegId(Connection conn) throws SQLException{
         ResultSet rs = null;
         PreparedStatement ps = null; 
         try{
@@ -209,19 +209,13 @@ public class FinPermiso {
         return ok;
     }
     
-    public String maxReg(Connection conn, String codigoId, String folio) throws SQLException {
+    public String maxReg(Connection conn) throws SQLException {
     	PreparedStatement ps	= null;        
         ResultSet rs			= null;
         String maximo			= "1";
         
         try {
-        	ps = conn.prepareStatement("SELECT COALESCE(MAX(FOLIO)+1,1) AS MAXIMO FROM FIN_PERMISO" +
-            		" WHERE CODIGO_ID = ?" +
-            		" AND FOLIO = TO_NUMBER(?,'99')");
-        	
-            ps.setString(1, codigoId);
-            ps.setString(2, folio);
-            
+        	ps = conn.prepareStatement("SELECT COALESCE(MAX(FOLIO)+1,1) AS MAXIMO FROM FIN_PERMISO");
             rs = ps.executeQuery();
             if(rs.next()){
                 maximo = rs.getString("MAXIMO");
