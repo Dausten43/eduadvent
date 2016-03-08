@@ -165,7 +165,7 @@ public class FinPermiso {
         ResultSet rs = null;
         PreparedStatement ps = null; 
         try{
-	        ps = conn.prepareStatement("SELECT CODIGO_ID, FOLIO, FECHA_INI, FECHA_FIN, ESTADO, COMENTARIO FROM FIN_PERMISO WHERE CODIGO_ID = ? AND FOLIO = TO_NUMBER(?, '999')");
+	        ps = conn.prepareStatement("SELECT CODIGO_ID, FOLIO, TO_CHAR(FECHA_INI, 'DD/MM/YYYY') AS FECHA_INI, TO_CHAR(FECHA_FIN, 'DD/MM/YYYY') AS FECHA_FIN, ESTADO, COMENTARIO FROM FIN_PERMISO WHERE CODIGO_ID = ? AND FOLIO = TO_NUMBER(?, '999')");
 	        ps.setString(1, codigoId);
 	        ps.setString(2, folio);
 	        
