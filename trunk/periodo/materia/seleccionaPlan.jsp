@@ -9,7 +9,6 @@
 <jsp:useBean id="PlanLista"  class="aca.plan.PlanLista" scope="page"/>
 <jsp:useBean id="PermisoLista" scope="page" class="aca.ciclo.CicloPermisoLista"/>
 
-
 <script>	
 	function cargaPlan(plan, event){
 		console.log("seleccionaPlan.jsp?Accion=1&PlanId="+plan);
@@ -17,7 +16,6 @@
 		document.location.href="seleccionaPlan.jsp?Accion=1&PlanId="+plan;
 	}
 </script>
-
 <%
 	String escuelaId		= (String) session.getAttribute("escuela");	
 	if(request.getParameter("Ciclo")!=null){
@@ -30,13 +28,13 @@
 	String strPlanId		= request.getParameter("PlanId");
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
-	
 	ArrayList<aca.plan.Plan> lisPlan				= PlanLista.getListEscuela(conElias, escuelaId, "AND ESTADO = 'A' ORDER BY NIVEL_ID");
-	ArrayList<aca.ciclo.CicloPermiso> lisPermiso	= PermisoLista.getListConPermiso(conElias, cicloId, "ORDER BY CICLO_ID, NIVEL_ID");	
-		
+	ArrayList<aca.ciclo.CicloPermiso> lisPermiso	= PermisoLista.getListConPermiso(conElias, cicloId, "ORDER BY CICLO_ID, NIVEL_ID");
+	
+	String salto = "";	
 	if(accion.equals("1")){ //Carga en session el planId
-		session.setAttribute("planId", strPlanId);
-		response.sendRedirect("materia.jsp");
+		session.setAttribute("planId", strPlanId);		
+		salto = "materia.jsp";
 	}
 %>
 
@@ -96,4 +94,10 @@
 		%>
 	</form>
 </div>
+<%	
+	// Salto de pagina
+	if (salto.length()>0){%>
+	<meta http-equiv="refresh" content="0; url=<%=salto%>">
+<%	} %>
+
 <%@ include file= "../../cierra_elias.jsp" %> 
