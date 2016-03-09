@@ -27,12 +27,14 @@
 	ArrayList<aca.ciclo.CicloGpoModulo> lisModulo	= ModuloL.getListCurso(conElias, cicloGrupo, cursoId, "ORDER BY ORDEN, MODULO_ID");
 %>
 <div id="content">
-	<h2><fmt:message key="maestros.Planeacion" /> <small><%=aca.empleado.EmpPersonal.getNombre(conElias,codigoId, "NOMBRE")%></small></h2>
-
-	<div class="alert alert-info">
-		<h4><%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupo)%></h4>
-		<small><%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoId))%></small> 
-	</div>
+	<h2>
+		<fmt:message key="maestros.Planeacion" /> 
+		<small>
+			(<%=aca.empleado.EmpPersonal.getNombre(conElias,codigoId, "NOMBRE")%>)
+			<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupo)%>
+			| <%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoId))%>
+		</small>
+	</h2>
 	
 	<div class="well">
 	
@@ -44,26 +46,22 @@
 			
 		<%
 			}
+
+		if (lisModulo.size() < numModulos) {
 		%>
-	</div>
-	
-	<div class="well">
-	<%
-	if (lisModulo.size() < numModulos) {
-	%>
-		<a href="altaModulo.jsp?Accion=1" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.AnadirModulo" /></a> &nbsp; &nbsp;
-	<%
-	}
-	for (int i = 0; i < lisModulo.size(); i++) {
-		aca.ciclo.CicloGpoModulo mod = (aca.ciclo.CicloGpoModulo) lisModulo.get(i);
-		if (modulo2.equals("0") && i == 0)
-			modulo2 = mod.getModuloId();
-	%>
-			<a class="btn btn-info btn-mini <%if(modulo2.equals(mod.getModuloId()))out.print("active"); %>" href="modulo.jsp?ModuloId=<%=mod.getModuloId()%>"> <%=mod.getModuloId()%></a> 
-			<a class="icon-pencil" href="altaModulo.jsp?ModuloId=<%=mod.getModuloId()%>" > </a> &nbsp;&nbsp;
-	<%
+			<a href="altaModulo.jsp?Accion=1" class="btn btn-primary"><i class="icon-plus icon-white"></i> <fmt:message key="boton.AnadirModulo" /></a> &nbsp; &nbsp;
+		<%
 		}
-	%>
+		for (int i = 0; i < lisModulo.size(); i++) {
+			aca.ciclo.CicloGpoModulo mod = (aca.ciclo.CicloGpoModulo) lisModulo.get(i);
+			if (modulo2.equals("0") && i == 0)
+				modulo2 = mod.getModuloId();
+		%>
+				<a class="btn btn-info btn-mini <%if(modulo2.equals(mod.getModuloId()))out.print("active"); %>" href="modulo.jsp?ModuloId=<%=mod.getModuloId()%>"> <%=mod.getModuloId()%></a> 
+				<a class="icon-pencil" href="altaModulo.jsp?ModuloId=<%=mod.getModuloId()%>" > </a> &nbsp;&nbsp;
+		<%
+			}
+		%>
 				
 	</div>
 	
@@ -92,6 +90,10 @@
 	
 	<p>
 		<a class="btn btn-info" href="tema.jsp?Accion=1&ModuloId=<%=Modulo.getModuloId()%>"><i class="icon-book icon-white"></i> <fmt:message key="boton.AnadirTema" /></a>
+	</p>
+	
+	<p>
+		<a class="btn btn-info" href="tema.jsp?Accion=1&ModuloId=<%=Modulo.getModuloId()%>"><i class="icon-book icon-white"></i> <fmt:message key="boton.AnadirTareas" /></a>
 	</p>
 	
 	
