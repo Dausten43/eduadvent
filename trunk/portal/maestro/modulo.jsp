@@ -30,9 +30,9 @@
 	<h2>
 		<fmt:message key="maestros.Planeacion" /> 
 		<small>
-			(<%=aca.empleado.EmpPersonal.getNombre(conElias,codigoId, "NOMBRE")%>)
+			(<%=aca.empleado.EmpPersonal.getNombre(conElias,codigoId, "NOMBRE")%> |
 			<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupo)%>
-			| <%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoId))%>
+			| <%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoId))%>)
 		</small>
 	</h2>
 	
@@ -91,11 +91,6 @@
 	<p>
 		<a class="btn btn-info" href="tema.jsp?Accion=1&ModuloId=<%=Modulo.getModuloId()%>"><i class="icon-book icon-white"></i> <fmt:message key="boton.AnadirTema" /></a>
 	</p>
-	
-	<p>
-		<a class="btn btn-info" href="tema.jsp?Accion=1&ModuloId=<%=Modulo.getModuloId()%>"><i class="icon-book icon-white"></i> <fmt:message key="boton.AnadirTareas" /></a>
-	</p>
-	
 	
 <%
 	for (int j = 0; j < lisTema.size(); j++) {
