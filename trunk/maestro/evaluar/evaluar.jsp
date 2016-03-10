@@ -594,9 +594,9 @@
  		}//End for de promedio	
 			
 			String notaExtra = request.getParameter("notaExtra"+cont)==null?"0":request.getParameter("notaExtra"+cont);
-			
+ 		
 			if (!notaExtra.equals("")) {
-					
+				
 				String promedio = "";
 				String fecha = aca.util.Fecha.getHoy();
 				
@@ -608,10 +608,12 @@
 					
 					double valorPromedio = Double.parseDouble(cicloExtra.getCicloExtra(conElias, cicloId, "1").get(0).getValorAnterior());
 					double valorExtra    = Double.parseDouble(cicloExtra.getCicloExtra(conElias, cicloId, "1").get(0).getValorExtra());
-				
+
 					//promedio = Double.toString( ((Double.parseDouble(notaExtra)* valorExtra)/100)+((Double.parseDouble(kardex.getNota())* valorPromedio)/100)   );
 					promedio = Double.toString( ((Double.parseDouble(notaExtra)* valorExtra)/100)+((promEval* valorPromedio)/100)   );
 				
+				}else{
+					promedio = notaExtra;
 				}
 				
 				kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
