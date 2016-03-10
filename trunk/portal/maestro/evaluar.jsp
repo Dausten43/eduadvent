@@ -615,6 +615,8 @@
 					//promedio = Double.toString( ((Double.parseDouble(notaExtra)* valorExtra)/100)+((Double.parseDouble(kardex.getNota())* valorPromedio)/100)   );
 					promedio = Double.toString( ((Double.parseDouble(notaExtra)* valorExtra)/100)+((promEval* valorPromedio)/100)   );
 				
+				}else{
+					promedio = notaExtra;
 				}
 				
 				kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
@@ -1390,6 +1392,8 @@
 								Promedio <fmt:message key="aca.Extra" />&nbsp;
 						</th>
 					<%} %>
+					
+					
 				</tr>
 			</thead>			
 			
