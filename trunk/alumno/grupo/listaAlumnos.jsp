@@ -24,7 +24,7 @@
 	int i=0;
 	String Insc			= request.getParameter("ins");
 	
-	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = AlumnoLista.getListAlumnosGrado(conElias, escuelaId, cicloId, periodoId, nivelId, grado, " AND GRUPO='"+grupo+"' ORDER BY 4,5,3,GRUPO");
+	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = AlumnoLista.getListAlumnosGrado(conElias, escuelaId, cicloId, periodoId, nivelId, grado, " AND GRUPO='"+grupo+"' ORDER BY APATERNO, AMATERNO, NOMBRE, GRUPO");
 	
 %>
 
