@@ -180,7 +180,13 @@
 				}
 				
 				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
-				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) ); 
+				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+				
+				//--------COMPROBAR SI LA ESCALA ES 5----------				
+				if( escala == 5 ){
+					/* Convirtiendo la escala de 100 a 5 (ya que las actividades se evaluan de 0 a 100) */
+					promedioActividades = promedioActividades.multiply(new BigDecimal("5")).divide(new BigDecimal("100"), 2, RoundingMode.DOWN);
+				}
 				
 				//--------COMPROBAR SI LA ESCALA ES 10----------
 				
