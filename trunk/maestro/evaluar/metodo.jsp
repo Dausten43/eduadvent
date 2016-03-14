@@ -32,7 +32,7 @@
 	
 	String resultado			= "";
 	
-	ArrayList<aca.ciclo.CicloPromedio> listPromedio 		= promedioL.getListPromedioCiclo(conElias, cicloId,"");
+	ArrayList<aca.ciclo.CicloPromedio> listPromedio 		= promedioL.getListPromedioCiclo(conElias, cicloId," ORDER BY ORDEN");
 	ArrayList<aca.ciclo.CicloGrupoEval> listEstrategias 	= new ArrayList();
 	ArrayList<aca.ciclo.CicloGrupoActividad> lisActividad 	= cicloGrupoActividadL.getListGrupo(conElias, cicloGrupoId, cursoId, "ORDER BY EVALUACION_ID, ACTIVIDAD_ID");
 	
