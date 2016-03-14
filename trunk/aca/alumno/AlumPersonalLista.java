@@ -561,7 +561,7 @@ public class AlumPersonalLista{
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, ESCUELA_ID, TIPO_SANGRE,TUTOR_CEDULA, NOMBRE, APATERNO, AMATERNO," +
+			comando = "SELECT CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO," +
 					" GENERO, CURP, TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY') AS F_NACIMIENTO," +
 					" PAIS_ID, ESTADO_ID, CIUDAD_ID," +
 					" CLASFIN_ID, EMAIL, COLONIA, DIRECCION, TELEFONO, COTEJADO," +
@@ -572,7 +572,7 @@ public class AlumPersonalLista{
 					" WHERE ESCUELA_ID = '"+escuelaId+"'" +
 					" AND NIVEL_ID = TO_NUMBER('"+nivelId+"', '99') AND GRADO = TO_NUMBER('"+grado+"', '99')" +
 							" AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO" +
-															" WHERE CICLO_ID = '"+cicloId+"'" +															
+															" WHERE CICLO_ID = '"+cicloId+"'" +				
 															" AND ESTADO = 'I')" +orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
