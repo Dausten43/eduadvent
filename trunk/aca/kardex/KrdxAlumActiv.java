@@ -121,7 +121,7 @@ public class KrdxAlumActiv {
 					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID," +
 					" ACTIVIDAD_ID, NOTA)" +
 					" VALUES(?, ?, ?, TO_NUMBER(?, '99')," +
-					" TO_NUMBER(?, '99'), TO_NUMBER(?, '999'))");
+					" TO_NUMBER(?, '99'), TO_NUMBER(?, '999.99'))");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
@@ -149,7 +149,7 @@ public class KrdxAlumActiv {
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("UPDATE KRDX_ALUM_ACTIV" +
-					" SET NOTA = TO_NUMBER(?, '999')" +
+					" SET NOTA = TO_NUMBER(?, '999.99')" +
 					" WHERE CODIGO_ID = ?" +
 					" AND CICLO_GRUPO_ID = ?" +
 					" AND CURSO_ID = ?" +
