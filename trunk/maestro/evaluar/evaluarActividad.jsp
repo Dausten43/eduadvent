@@ -83,9 +83,9 @@
 	float notaAC 				= Float.parseFloat(aca.plan.PlanCurso.getNotaAC(conElias, cursoId)); /* La nota con la que se acredita el cursoId */	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	float notaMinima			= Float.parseFloat(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId )); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */
-	if (escala == 100){ //Si la escala es 100, entonces la nota minima debe multiplicarse por 10, por ejemplo en vez de 5 que sea 50
-		notaMinima = notaMinima * 10;	
-	}
+// 	if (escala == 100){ //Si la escala es 100, entonces la nota minima debe multiplicarse por 10, por ejemplo en vez de 5 que sea 50
+// 		notaMinima = notaMinima * 10;	
+// 	}
 	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
@@ -183,17 +183,17 @@
 				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
 				
 				//--------COMPROBAR SI LA ESCALA ES 5----------				
-				if( escala == 5 ){
-					/* Convirtiendo la escala de 100 a 5 (ya que las actividades se evaluan de 0 a 100) */
-					promedioActividades = promedioActividades.multiply(new BigDecimal("5")).divide(new BigDecimal("100"), 2, RoundingMode.DOWN);
-				}
+// 				if( escala == 5 ){
+// 					/* Convirtiendo la escala de 100 a 5 (ya que las actividades se evaluan de 0 a 100) */
+// 					promedioActividades = promedioActividades.multiply(new BigDecimal("5")).divide(new BigDecimal("100"), 2, RoundingMode.DOWN);
+// 				}
 				
-				//--------COMPROBAR SI LA ESCALA ES 10----------
+// 				//--------COMPROBAR SI LA ESCALA ES 10----------
 				
-				if( escala == 10 ){
-					/* Convirtiendo la escala de 100 a 10 (ya que las actividades se evaluan de 0 a 100) */
-					promedioActividades = promedioActividades.divide(new BigDecimal("10"), 2, RoundingMode.DOWN);
-				}
+// 				if( escala == 10 ){
+// 					/* Convirtiendo la escala de 100 a 10 (ya que las actividades se evaluan de 0 a 100) */
+// 					promedioActividades = promedioActividades.divide(new BigDecimal("10"), 2, RoundingMode.DOWN);
+// 				}
 				
 				//--------COMPROBAR SI TIENEN PUNTO DECIMAL----------
 				
@@ -343,13 +343,14 @@
 			<thead>
 				<tr>
 					<td colspan="20" class="text-center alert">
-						<fmt:message key="aca.ActivdadesDeCeroACien"/>
+<%-- 						<fmt:message key="aca.ActivdadesDeCeroACien"/> --%>
 						  
+						 Las actividades se evalúan de 0 a <%= escala %>
 						&nbsp;&nbsp;
-						|
+<!-- 						| -->
 						&nbsp;&nbsp;
 						
-						<fmt:message key="aca.EvaluacionConEnteros" />
+<%-- 						<fmt:message key="aca.EvaluacionConEnteros" /> --%>
 					</td>
 				</tr>
 				
@@ -416,7 +417,7 @@
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers" 
 												data-allow-decimal="no"
-												data-max-num="100"
+												data-max-num="<%= escala %>"
 												type="text" 
 												tabindex="<%=i+1%>" 
 												name="nota<%=i%>-<%=activ.getActividadId() %>"
@@ -462,7 +463,7 @@
 						<%
 							// obtiene el promedio de la evaluacion que esta en la BD
 							String promedio =  aca.kardex.KrdxAlumEval.getNotaEval(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, Integer.parseInt(evaluacionId));		
-							
+						
 							String strProm = "-";
 							if( promedio != null && !promedio.equals("-") ){
 								if(evaluaConPunto.equals("S")){
