@@ -109,7 +109,7 @@
 				<a href="tema.jsp?Accion=0&ModuloId=<%=Modulo.getModuloId()%>&TemaId=<%=tema.getTemaId()%>"><i class="icon-pencil"></i></a>
 			</h4>
 			<p style="margin:0;">
-				<%=desTema.equals("") ? "-" : desTema%> <br />
+				<%=desTema.equals("") ? "-" : desTema%> 
 			</p>
 		</div>
 		
