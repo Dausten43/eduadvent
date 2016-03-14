@@ -57,6 +57,7 @@
 	
 	String resultado		= "";
 	
+	String salto 			= ""; 
 	
 	if (accion == 1){ 
 		cicloGrupoActividad.setCicloGrupoId(cicloGrupoId);
@@ -98,7 +99,7 @@
 					if(cicloGrupoActividad.existeReg(conElias) == false){//Grabar
 						if(cicloGrupoActividad.insertReg(conElias)){
 							resultado = "Guardado";
-							response.sendRedirect("metodo.jsp");
+							salto = "metodo.jsp";
 						}else{
 							resultado = "NoGuardo";
 						}
@@ -303,5 +304,11 @@
 	});
 	
 </script>
+
+<%	
+	// Salto de pagina
+	if (salto.length()>0){%>
+	<meta http-equiv="refresh" content="0; url=<%=salto%>">
+<%	} %>
 
 <%@ include file= "../../cierra_elias.jsp" %>
