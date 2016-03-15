@@ -62,6 +62,7 @@
 	  			<th width="12%"><fmt:message key="aca.Fin" /></th> 
 	  			<th width="12%"><fmt:message key="aca.Valor" /></th> 
 	  			<th width="12%"><fmt:message key="aca.Decimales" /></th>
+	  			<th width="12%"><fmt:message key="aca.Redondeo" /></th>
 	  			<th width="12%"><fmt:message key="aca.Orden" /></th> 
 			</tr>
 		</thead>
@@ -93,6 +94,7 @@
   				<td><%=bloque.getFFinal()%></td>
   				<td><%=bloque.getValor()%>%</td>
   				<td><%=bloque.getDecimales()%></td>
+  				<td><%=bloque.getRedondeo()%></td>
   				<td><%=bloque.getOrden()%></td>
 			</tr>  
 			<%
@@ -104,7 +106,7 @@
 			<th><%=getformato.format( total ) %>%</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			
+			<th>&nbsp;</th>
 		</tr>
 	</table>
 </div>
