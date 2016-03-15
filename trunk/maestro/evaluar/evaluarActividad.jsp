@@ -75,13 +75,17 @@
 	String estado			= request.getParameter("estado")==null?"":request.getParameter("estado");
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
+	String redondeo			= aca.ciclo.Ciclo.getRedondeo(conElias, cicloId);
+	String decimales		= aca.ciclo.Ciclo.getDecimales(conElias, cicloId);
+	
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
 	
 	//CONDICIONES DE LAS NOTAS ---------------------------->
 	String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
 	float notaAC 				= Float.parseFloat(aca.plan.PlanCurso.getNotaAC(conElias, cursoId)); /* La nota con la que se acredita el cursoId */	
-	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
+// 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
+	int escala					= 100;
 	float notaMinima			= Float.parseFloat(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId )); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */
 // 	if (escala == 100){ //Si la escala es 100, entonces la nota minima debe multiplicarse por 10, por ejemplo en vez de 5 que sea 50
 // 		notaMinima = notaMinima * 10;	
@@ -180,7 +184,18 @@
 				}
 				
 				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
-				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+// 				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+				if(decimales.equals("0")){
+					promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+				}else if(decimales.equals("1")){
+					promedioActividades = new BigDecimal( frmDecimal.format(promedioActividades) );
+					if(redondeo.equals("A") ){
+						promedioActividades = promedioActividades.setScale(2, BigDecimal.ROUND_HALF_UP);
+					}else{
+						promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+					}
+				}
+				
 				
 				//--------COMPROBAR SI LA ESCALA ES 5----------				
 // 				if( escala == 5 ){
@@ -398,7 +413,7 @@
 								
 								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
 									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(activ.getActividadId())){					
-										strNota = frmEntero.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+										strNota = frmDecimal.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
 									}
 								}
 
@@ -416,7 +431,7 @@
 											<input 
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers" 
-												data-allow-decimal="no"
+												data-allow-decimal="si"
 												data-max-num="<%= escala %>"
 												type="text" 
 												tabindex="<%=i+1%>" 
