@@ -23,6 +23,7 @@ public class CicloBloque {
 	private String promedioId;
 	private String corto;
 	private String decimales;
+	private String redondeo;
 	
 	public CicloBloque(){
 		cicloId			= "";
@@ -35,6 +36,7 @@ public class CicloBloque {
 		promedioId		= "";
 		corto			= "";
 		decimales		= "";
+		redondeo		= "";
 	}
 
 	/**
@@ -173,20 +175,29 @@ public class CicloBloque {
 	public void setDecimales(String decimales) {
 		this.decimales = decimales;
 	}
+	
+	public String getRedondeo() {
+		return redondeo;
+	}
+
+	public void setRedondeo(String redondeo) {
+		this.redondeo = redondeo;
+	}
 
 	public boolean insertReg(Connection conn ) throws SQLException{
 		PreparedStatement ps = null;
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_BLOQUE"
-					+ " (CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, F_INICIO, F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES)"
+					+ " (CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE, F_INICIO, F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES, REDONDEO)"
 					+ " VALUES(?, TO_NUMBER(?, '99'), ?,"
 					+ " TO_DATE(?, 'DD/MM/YYYY'),"
 					+ " TO_DATE(?, 'DD/MM/YYYY'),"
 					+ " TO_NUMBER(?, '999.99'), "
 					+ " TO_NUMBER(?, '99'),"
 					+ " TO_NUMBER(?, '99'),"
-					+ " ?, TO_NUMBER(?, '9'))");
+					+ " ?, TO_NUMBER(?, '9')),"
+					+ " ?)");
 			
 			ps.setString(1, cicloId);
 			ps.setString(2, bloqueId);
@@ -198,6 +209,7 @@ public class CicloBloque {
 			ps.setString(8, promedioId);
 			ps.setString(9, corto);
 			ps.setString(10, decimales);
+			ps.setString(11, redondeo);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -225,7 +237,8 @@ public class CicloBloque {
 					+ " ORDEN = TO_NUMBER(?, '99'),"
 					+ " PROMEDIO_ID = TO_NUMBER(?, '99'),"
 					+ " CORTO = ?,"
-					+ " DECIMALES = TO_NUMBER(?,'9')" +
+					+ " DECIMALES = TO_NUMBER(?,'9'),"
+					+ " REDONDEO = ? " +
 					" WHERE CICLO_ID = ?" +
 					" AND BLOQUE_ID = TO_NUMBER(?, '99')");			
 			ps.setString(1, bloqueNombre);
@@ -236,8 +249,9 @@ public class CicloBloque {
 			ps.setString(6, promedioId);
 			ps.setString(7, corto);
 			ps.setString(8, decimales);
-			ps.setString(9, cicloId);
-			ps.setString(10, bloqueId);
+			ps.setString(9, redondeo);
+			ps.setString(10, cicloId);
+			ps.setString(11, bloqueId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -288,6 +302,7 @@ public class CicloBloque {
 		promedioId		= rs.getString("PROMEDIO_ID");
 		corto			= rs.getString("CORTO");
 		decimales		= rs.getString("DECIMALES");
+		redondeo		= rs.getString("REDONDEO");
 	}
 	
 	public void mapeaRegId(Connection con, String cicloId, String bloqueId) throws SQLException{
@@ -296,7 +311,7 @@ public class CicloBloque {
 		try{
 			ps = con.prepareStatement("SELECT CICLO_ID, BLOQUE_ID, BLOQUE_NOMBRE," +
 					" TO_CHAR(F_INICIO,'DD/MM/YYYY') AS F_INICIO, " +
-					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES" +
+					" TO_CHAR(F_FINAL,'DD/MM/YYYY') AS F_FINAL, VALOR, ORDEN, PROMEDIO_ID, CORTO, DECIMALES, REDONDEO" +
 					" FROM CICLO_BLOQUE" +
 					" WHERE CICLO_ID = ?" +
 					" AND BLOQUE_ID = TO_NUMBER(?, '99')");
