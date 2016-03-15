@@ -49,6 +49,9 @@
 <% 
 	String cicloGrupoId 	= (String) session.getAttribute("cicloGrupoId");
 	String cursoId 			= (String) session.getAttribute("cursoId");
+	String escuelaId 		= (String) session.getAttribute("escuela");
+			
+	String unionId 			= aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId);
 	
 	String evaluacionId	    = request.getParameter("EvaluacionId")==null?"0":request.getParameter("EvaluacionId");
 	String actividadId	    = request.getParameter("ActividadId")==null?"0":request.getParameter("ActividadId");
@@ -181,10 +184,10 @@
 		
 	}
 	
-	
 	pageContext.setAttribute("resultado",resultado);
-	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListAll(conElias, "ORDER BY 1");
-	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")) , " ORDER BY ORDEN ");
+	
+	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListUnion(conElias, unionId, " ORDER BY TIPOACT_NOMBRE");
+	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, unionId, " ORDER BY ORDEN ");
 %>
 <div id="content">
 	<h2>
