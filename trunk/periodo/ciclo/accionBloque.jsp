@@ -284,6 +284,14 @@
 		</fieldset>
 		
 		<fieldset>
+			<label for="Redondeo"><fmt:message key="aca.Redondeo" /></label>
+			<select name="Redondeo" id="Redondeo" class="input input-small">
+				<option value="A" <% if (Bloque.getDecimales().equals("A")){out.print(" selected");}%>>Arriba</option>
+				<option value="T" <% if (Bloque.getDecimales().equals("T")){out.print(" selected");}%>>Truncado</option>
+			</select>
+		</fieldset>
+		
+		<fieldset>
 			<label for="Orden"><fmt:message key="aca.Orden" /></label>
 			<input name="Orden" type="text" id="Orden" class="onlyNumbers input-mini" value="<%=(Bloque.getOrden()==null||Bloque.getOrden().equals(""))?Bloque.getBloqueId():Bloque.getOrden() %>" />
 		</fieldset>
