@@ -109,7 +109,7 @@
 					}else{//Modificar
 						if(cicloGrupoActividad.updateReg(conElias)){
 							resultado = "Modificado";
-							response.sendRedirect("metodo.jsp");
+							salto = "metodo.jsp";
 						}else{
 							resultado = "NoModifico";
 						}
