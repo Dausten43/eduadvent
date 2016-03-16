@@ -103,6 +103,7 @@
 	}
 	
 	function PEC( Pec, tipo){	
+		alert("Entre...");
 		document.frmPersonal.Accion.value	= "7";
 		document.frmPersonal.tipo.value 	= tipo;
 		document.frmPersonal.Pec.value 		= Pec;
@@ -185,11 +186,10 @@
 				}else if (escuelaId.contains("H") && Personal.getPaisId().equals("0")){
 					// Colocar por default el pais de Panama
 					Personal.setPaisId("153");					
-				}else{
+				}else if ( Personal.getPaisId().equals("0")){
 					// Colocar por default el pais de Mexico
 					Personal.setPaisId("135");
-				}
-				
+				}				
 				
 				nombreAlumno = aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno,"NOMBRE");
 				if (nombreAlumno.equals("x")){		
@@ -393,11 +393,11 @@
 				}else if (escuelaId.contains("H") && Personal.getPaisId().equals("0")){
 					// Colocar por default el pais de Panama
 					Personal.setPaisId("153");					
-				}else{
+				}else if ( Personal.getPaisId().equals("0")){
 					// Colocar por default el pais de Mexico
 					Personal.setPaisId("135");
 				}
-				 
+				
 				if (AlumPlan.mapeaRegActual(conElias,codigoAlumno)){
 					strPlanId = AlumPlan.getPlanId();
 					existePlan = true;
@@ -413,6 +413,7 @@
 			if (Personal.existeReg(conElias)){
 				existeAlumno = true;
 			}		
+			
 			Personal.setEscuelaId(escuelaId);
 			Personal.setNombre(request.getParameter("Nombre"));
 			Personal.setApaterno(request.getParameter("ApellidoPaterno"));
@@ -601,7 +602,7 @@
 				<%	}else{ %>
 					<label><fmt:message key="aca.Provincia"/></label>
 				<%	} %>					
-				    <select name="EstadoId" id="EstadoId"  onChange= "javascript:PEC('2','<%=sTipo%>')">
+				    <select name="EstadoId" id="EstadoId" onChange= "javascript:PEC('2','<%=sTipo%>')">
 	                <%	
 						ArrayList<aca.catalogo.CatEstado> lisEstado = EstadoL.getArrayList(conElias, Personal.getPaisId(), "ORDER BY 1,3");
 						for(aca.catalogo.CatEstado estado: lisEstado){
@@ -619,7 +620,7 @@
 				<%	}else{ %>
 					<label><fmt:message key="aca.Distrito"/></label>
 				<%	} %>	
-          			<select name="CiudadId" id="CiudadId" tabindex="9">
+          			<select name="CiudadId" id="CiudadId" onchange="javascript:PEC('3','<%=sTipo%>')">
               	<%	
 					ArrayList<aca.catalogo.CatCiudad> lisCiudad = CiudadL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(), "ORDER BY 4");
 					for(aca.catalogo.CatCiudad ciudad: lisCiudad){
@@ -637,7 +638,7 @@
 					<label><fmt:message key="aca.Corregimiento"/></label>
 				<%	} %>	
           			<select name="BarrioId" id="BarrioId" tabindex="9">
-              	<%	
+              	<%	              		
 					ArrayList<aca.catalogo.CatBarrio> lisBarrio = BarrioL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(),Personal.getCiudadId(), "ORDER BY BARRIO_NOMBRE");
 					for(aca.catalogo.CatBarrio barrio: lisBarrio){
 				%>	
