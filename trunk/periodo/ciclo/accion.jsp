@@ -73,7 +73,9 @@
 		if (Ciclo.existeReg(conElias) == false){
 			if (Ciclo.insertReg(conElias)){
 				sResultado = "Grabado";
-				response.sendRedirect("ciclo.jsp");
+%>
+				<meta http-equiv="refresh" content="0; URL='ciclo.jsp'" />
+<%
 			}else{
 				sResultado = "NoGrabó";
 				accion = "1";
@@ -103,7 +105,9 @@
 		if (Ciclo.existeReg(conElias) == true){
 			if (Ciclo.updateReg(conElias)){
 				sResultado = "Modificado";
-				response.sendRedirect("ciclo.jsp");
+%>
+				<meta http-equiv="refresh" content="0; URL='ciclo.jsp'" />
+<%
 			}else{
 				sResultado = "Nocambio";
 				accion = "5";
@@ -117,8 +121,10 @@
 	else if( accion.equals("4") ){ // Borrar
 		if (Ciclo.existeReg(conElias) == true){
 			if (Ciclo.deleteReg(conElias)){
-				sResultado = "Eliminado";				
-				response.sendRedirect("ciclo.jsp");
+				sResultado = "Eliminado";
+%>
+				<meta http-equiv="refresh" content="0; URL='ciclo.jsp'" />
+<%
 			}else{
 				sResultado = "NoElimino";
 				accion = "5";
