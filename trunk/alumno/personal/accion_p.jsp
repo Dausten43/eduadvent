@@ -403,7 +403,7 @@
 			Personal.setCrip(request.getParameter("Crip"));
 			Personal.setReligion(request.getParameter("Religion"));
 			Personal.setCelular(request.getParameter("Celular"));
-			Personal.setTutor(request.getParameter("Tutor"));		
+			Personal.setTutor(request.getParameter("Tutor"));
 			
 			sResultado = "¡Llene correctamente el formulario!";
 			
