@@ -73,13 +73,12 @@
 <div id="content">
 	<h2><fmt:message key="aca.agregarAspecto" /></h2> 
 	 
-   <div class="well" style="overflow:hidden;">
-  	<a class="btn btn-primary" href="aspectos.jsp"><i class="icon-list icon-white"></i>&nbsp;<fmt:message key="boton.Listado" /></a>
-  </div>
-
-	
+	<div class="well" style="overflow:hidden;">
+  		<a class="btn btn-primary" href="aspectos.jsp"><i class="icon-list icon-white"></i>&nbsp;<fmt:message key="boton.Listado" /></a>
+	</div>
+		
 	<form action="accion.jsp" data-toggle="validator" role="form" method="get" name="forma" target="_self">
-	  <div class="form-group">
+	<div class="form-group">
 	    <label for="descripcion">Descripcion:</label>
 	    <textarea class="form-control" name="descripcion" id="descripcion" required><%=CatAspectos.getNombre()%></textarea>
 	    <label for="orden">Orden:</label>
@@ -104,8 +103,8 @@
 	    </select>
 	    <input name="Accion" id="Accion" hidden value="<%=accion.equals("")?"1":"3"%>">
 	    <input name="AspectoId" id="AspectoId" hidden value="<%=aspectosId==null?"0":aspectosId%>">
-	  </div>
-	  <button class="btn btn-primary" type="submit"><i class="icon-plus icon-white"></i>&nbsp;<fmt:message key="boton.Grabar" /></button>
+	</div>
+	<button class="btn btn-primary" type="submit"><i class="icon-plus icon-white"></i>&nbsp;<fmt:message key="boton.Grabar" /></button>
 	</form>
 </div>
 
