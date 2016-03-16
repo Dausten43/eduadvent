@@ -25,8 +25,8 @@
 	ArrayList<aca.alumno.AlumPersonal> alumnos  			= AlumnoLista.getListAll(conElias,escuelaId,"ORDER BY NOMBRE");
 	
 	int  totGrado=0, totNivel=0, totAlumnos;
-	int grupoA=0, grupoB=0, grupoC=0, grupoD=0, grupoU=0, grupoX=0;
-	int totA= 0, totB=0, totC=0, totD=0, totU=0;
+	int grupoA=0, grupoB=0, grupoC=0, grupoD=0, grupoE=0, grupoF=0, grupoG=0, grupoU=0, grupoX=0;
+	int totA= 0, totB=0, totC=0, totD=0, totE=0, totF=0, totG=0, totU=0;
 	int nivel1=0, nivel2=0, nivel3=0, nivel4=0, nivel0=0;
 	
 	
@@ -53,7 +53,7 @@
 	%>
 			<table class="table table-bordered">
   				<tr>
-  					<td colspan="7" class="alert alert-info">
+  					<td colspan="10" class="alert alert-info">
   						<strong><%=nivel.getNivelNombre()%></strong>
   					</td>
   				</tr>
@@ -63,6 +63,9 @@
 		   			<th class="text-center" style="width:10%;">B</th>
 		    		<th class="text-center" style="width:10%;">C</th>
 		    		<th class="text-center" style="width:10%;">D</th>
+		    		<th class="text-center" style="width:10%;">E</th>
+		    		<th class="text-center" style="width:10%;">F</th>
+		    		<th class="text-center" style="width:10%;">G</th>
 		    		<th class="text-center" style="width:10%;"><fmt:message key="aca.Total"/></th>
 		  		</tr>
 	<%
@@ -74,6 +77,9 @@
 					grupoB = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, "B");
 					grupoC = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, "C");
 					grupoD = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, "D");
+					grupoE = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, "E");
+					grupoF = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, "F");
+					grupoG = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, "G");					
 					grupoX = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, " ");
 				
 					totGrado = grupoA+grupoB+grupoC+grupoD+grupoU;
@@ -81,6 +87,9 @@
 					totB += grupoB;
 					totC += grupoC;
 					totD += grupoD;
+					totE += grupoE;
+					totF += grupoF;
+					totG += grupoG;
 					totNivel+= totGrado;
 	%>		
 					<tr>
@@ -98,6 +107,15 @@
 							<a href="listaAlumnos.jsp?nivel_id=<%=nivel.getNivelId()%>&grado=<%=j%>&grupo=D&Cantidad=<%=grupoD%>&ciclo=<%=cicloId %>"><%=grupoD%></a>
 						</td>
 						<td class="text-center">
+							<a href="listaAlumnos.jsp?nivel_id=<%=nivel.getNivelId()%>&grado=<%=j%>&grupo=D&Cantidad=<%=grupoE%>&ciclo=<%=cicloId %>"><%=grupoE%></a>
+						</td>
+						<td class="text-center">
+							<a href="listaAlumnos.jsp?nivel_id=<%=nivel.getNivelId()%>&grado=<%=j%>&grupo=D&Cantidad=<%=grupoF%>&ciclo=<%=cicloId %>"><%=grupoF%></a>
+						</td>
+						<td class="text-center">
+							<a href="listaAlumnos.jsp?nivel_id=<%=nivel.getNivelId()%>&grado=<%=j%>&grupo=D&Cantidad=<%=grupoG%>&ciclo=<%=cicloId %>"><%=grupoG%></a>
+						</td>
+						<td class="text-center">
 							<%=totGrado%>
 						</td>
 					</tr>
@@ -110,6 +128,9 @@
 				    <td class="text-center"><strong><%=totB%></strong></td>
 				    <td class="text-center"><strong><%=totC%></strong></td>
 				    <td class="text-center"><strong><%=totD%></strong></td>
+				    <td class="text-center"><strong><%=totE%></strong></td>
+				    <td class="text-center"><strong><%=totF%></strong></td>
+				    <td class="text-center"><strong><%=totG%></strong></td>
 				    <td class="text-center"><strong><%=totNivel%></strong></td>
 				</tr>
 			</table>

@@ -102,8 +102,7 @@
 		document.frmPersonal.submit();		
 	}
 	
-	function PEC( Pec, tipo){	
-		alert("Entre...");
+	function PEC( Pec, tipo){		
 		document.frmPersonal.Accion.value	= "7";
 		document.frmPersonal.tipo.value 	= tipo;
 		document.frmPersonal.Pec.value 		= Pec;
@@ -638,7 +637,7 @@
 					<label><fmt:message key="aca.Corregimiento"/></label>
 				<%	} %>	
           			<select name="BarrioId" id="BarrioId" tabindex="9">
-              	<%	              		
+              	<%              		
 					ArrayList<aca.catalogo.CatBarrio> lisBarrio = BarrioL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(),Personal.getCiudadId(), "ORDER BY BARRIO_NOMBRE");
 					for(aca.catalogo.CatBarrio barrio: lisBarrio){
 				%>	
