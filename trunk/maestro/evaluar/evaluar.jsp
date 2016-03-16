@@ -1583,7 +1583,7 @@
 							
 								strExtra2 = "-";
 								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra.equals("")) {	
+								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra2.equals("")) {	
 
 	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
 	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
@@ -1667,7 +1667,7 @@
 						
 							strExtra4 = "-";
 							
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra3.equals("")) {	
+							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra4.equals("")) {	
 
  								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
  								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
@@ -1708,7 +1708,7 @@
 						
 							strExtra5 = "-";
 							
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra4.equals("")) {	
+							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra5.equals("")) {	
 
  								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
  								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
@@ -1794,7 +1794,7 @@
 							
 								strExtra2 = "-";
 								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra.equals("")) {	
+								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra2.equals("")) {	
 
 	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
 	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
@@ -1878,7 +1878,7 @@
 						
 							strExtra4 = "-";
 							
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra3.equals("")) {	
+							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra4.equals("")) {	
 
  								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
  								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
@@ -1977,7 +1977,7 @@
 							
 								strExtra2 = "-";
 								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra.equals("")) {	
+								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra2.equals("")) {	
 
 	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
 	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
@@ -2118,7 +2118,7 @@
 							
 								strExtra2 = "-";
 								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra.equals("")) {	
+								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra2.equals("")) {	
 
 	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
 	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
