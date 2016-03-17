@@ -63,7 +63,9 @@
 		if (Promedio.existeReg(conElias) == false){
 			if (Promedio.insertReg(conElias)){
 				sResultado = "Grabado";
-				response.sendRedirect("promedio.jsp");
+%>
+				<meta http-equiv="refresh" content="0; URL='promedio.jsp'" />
+<%
 			}else{
 				sResultado = "NoGrabó";
 				accion = "1";
@@ -88,7 +90,9 @@
 		if (Promedio.existeReg(conElias) == true){
 			if (Promedio.updateReg(conElias)){
 				sResultado = "Modificado";
-				response.sendRedirect("promedio.jsp");
+%>
+				<meta http-equiv="refresh" content="0; URL='promedio.jsp'" />
+<%
 			}else{
 				sResultado = "Nocambio";
 				accion = "5";
@@ -105,7 +109,9 @@
 		if (Promedio.existeReg(conElias) == true){
 			if (Promedio.deleteReg(conElias)){
 				sResultado = "Eliminado";
-				response.sendRedirect("promedio.jsp");
+%>
+				<meta http-equiv="refresh" content="0; URL='promedio.jsp'" />
+<%
 			}else{
 				sResultado = "NoElimino";
 				accion = "5";
