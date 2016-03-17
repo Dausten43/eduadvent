@@ -643,8 +643,49 @@
 				    				tabla.addCell(celda);
 			    				}else{
 			    					String nota = alumnoCurso.getNota();
+			    					double notaP = 0.0;
+			    					int contP = 0;
 			    					if(nota!=null){
 			    						nota=nota.trim();
+			    					}else{
+			    						for(int g = 1; g<11; g++){
+				    						if (g ==1 && !alumnoCurso.getCal1().equals("-") && Double.parseDouble(alumnoCurso.getCal1())>1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal1());
+				    						contP++;
+				    						}else if (g == 2 && !alumnoCurso.getCal2().equals("-") && Double.parseDouble(alumnoCurso.getCal2()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal2());
+				    						contP++;
+				    						}else if (g == 3 && !alumnoCurso.getCal3().equals("-") && Double.parseDouble(alumnoCurso.getCal3()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal3());
+				    						contP++;
+				    						}else if (g == 4 && !alumnoCurso.getCal4().equals("-") && Double.parseDouble(alumnoCurso.getCal4()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal4());
+				    						contP++;
+				    						}else if (g == 5 && !alumnoCurso.getCal5().equals("-") && Double.parseDouble(alumnoCurso.getCal5()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal5());
+				    						contP++;
+				    						}else if (g == 6 && !alumnoCurso.getCal6().equals("-") && Double.parseDouble(alumnoCurso.getCal6()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal6());
+				    						contP++;
+				    						}else if (g == 7 && !alumnoCurso.getCal7().equals("-") && Double.parseDouble(alumnoCurso.getCal7()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal7());
+				    						contP++;
+				    						}else if (g == 8 && !alumnoCurso.getCal8().equals("-") && Double.parseDouble(alumnoCurso.getCal8()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal8());
+				    						contP++;
+				    						}else if (g == 9 && !alumnoCurso.getCal9().equals("-") && Double.parseDouble(alumnoCurso.getCal9()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal9());
+				    						contP++;
+				    						}else if (g == 10 && !alumnoCurso.getCal10().equals("-") && Double.parseDouble(alumnoCurso.getCal10()) > 1 ){
+				    						notaP += Double.parseDouble(alumnoCurso.getCal10());
+				    						contP++;
+				    						}
+			    						}
+			    						
+			    						notaP = (notaP/contP);
+			    						nota = frm1.format(notaP);
+			    						
+			    						
 			    					}
 			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
