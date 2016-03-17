@@ -146,6 +146,9 @@
 																							<%}%> 
 																						  ">
 													<%=aca.plan.PlanCurso.getCursoNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCursoId()) %>
+													<br>
+													<%="("+ aca.catalogo.CatSalon.getSalonNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getSalonId())+" - "
+													+aca.ciclo.CicloGrupo.getGradoGrupo(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId())+")" %>
 												</strong>
 											<%} %>
 										
