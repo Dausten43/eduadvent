@@ -85,7 +85,7 @@
 
 <div id="content">
 
-	<h2><fmt:message key="aca.Horario" /><small><%=" ( "+maestro+" )" %></small></h2>
+	<h2><fmt:message key="aca.Horario" /><small> ( <%=codigoId%> - <%=maestro%> - <%=cicloId%> )</small></h2>
 	
 	<div class="well">
 		<a href="cursos.jsp" class="btn btn-primary btn-mobile"><i class="icon-arrow-left icon-white"></i> 
@@ -119,42 +119,44 @@
 						<th><fmt:message key="aca.Sabado"/></th>
 					</tr>
 				</thead>
+				<tbody>
 				<%
 					for(aca.catalogo.CatHorarioPeriodo per: periodos){
 				%>
-						<tr>
-							<td><%=per.getHoraInicio() %>:<%=per.getMinInicio() %> - <%=per.getHorafin() %>:<%=per.getMinfin() %></td>
-							<%for(int dia=1; dia<8; dia++){ %>
-								<td>
+					<tr>
+						<td><%=per.getHoraInicio() %>:<%=per.getMinInicio() %> - <%=per.getHorafin() %>:<%=per.getMinfin() %></td>
+				<%		for(int dia=1; dia<8; dia++){ %>
+						<td>
 									
-									<%for(String salonId : listSalonesMaestro){ %>
+				<%			for(String salonId : listSalonesMaestro){ %>
 										
-											<%if(mapHorarioMaestro.containsKey(salonId+"@"+per.getPeriodoId()+"@"+dia)){ 
-												//System.out.println("test");%>
-												<strong class="materia-info" data-content="
-																							<strong><fmt:message key='aca.Salon' />:</strong> <%= aca.catalogo.CatSalon.getSalonNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getSalonId()) %>
-																							<br>
-																							<strong><fmt:message key='aca.Edificio' />:</strong> <%= aca.catalogo.CatSalon.getEdificioNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getSalonId()) %>
-																							<br>
-																							<strong><fmt:message key='aca.Grupo' />:</strong> <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId())  %>
-																							<br>
-																							<%if(!mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId().substring(0, 8).equals(cicloId)){ %> <!-- Si la materia pertenece a otro ciclo entonces muestra a que ciclo pertenece -->
-																								<div style='text-align:center;margin-top:8px;'><strong><small><%=aca.ciclo.Ciclo.getCicloNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId().substring(0, 8) ) %></small></div>
-																							<%}%> 
-																						  ">
-													<%=aca.plan.PlanCurso.getCursoNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCursoId())%>
-													<br>
-													<%="("+aca.catalogo.CatSalon.getSalonNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getSalonId())+" - "
-												    	+aca.ciclo.CicloGrupo.getGradoGrupo(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId())+")" %>
-												</strong>
-											<%} %>
+				<%				if(mapHorarioMaestro.containsKey(salonId+"@"+per.getPeriodoId()+"@"+dia)){ 
+									//System.out.println("test");%>
+									<strong class="materia-info" data-content="
+										<strong><fmt:message key='aca.Salon' />:</strong> <%= aca.catalogo.CatSalon.getSalonNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getSalonId()) %>
+										<br>
+										<strong><fmt:message key='aca.Edificio' />:</strong> <%= aca.catalogo.CatSalon.getEdificioNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getSalonId()) %>
+										<br>
+										<strong><fmt:message key='aca.Grupo' />:</strong> <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId())  %>
+										<br>
+								<%	if(!mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId().substring(0, 8).equals(cicloId)){ %> <!-- Si la materia pertenece a otro ciclo entonces muestra a que ciclo pertenece -->
+										<div style='text-align:center;margin-top:8px;'><strong><small><%=aca.ciclo.Ciclo.getCicloNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId().substring(0, 8) ) %></small></div>
+								<%	}%> 
+									">
+									<%=aca.plan.PlanCurso.getCursoNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCursoId())%>
+										<br>
+									<%="("+aca.catalogo.CatSalon.getSalonNombre(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getSalonId())+" - "
+									+aca.ciclo.CicloGrupo.getGradoGrupo(conElias, mapHorarioMaestro.get(salonId+"@"+per.getPeriodoId()+"@"+dia).getCicloGrupoId())+")" %>
+									</strong>
+							<%	} %>
 										
-									<%} %>
+						<%	} %>
 									
-								</td>
-							<%} %>
-						</tr>
+						</td>
+						<%} %>
+					</tr>
 				<%	} %>
+				</tbody>
 		</table>
 		
 	<%} %>
