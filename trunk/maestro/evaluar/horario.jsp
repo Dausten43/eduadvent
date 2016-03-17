@@ -17,6 +17,8 @@
 	String cicloId 			= (String) session.getAttribute("cicloId");
 	String codigoId 		= (String) session.getAttribute("codigoEmpleado");
 	
+	String maestroId 	= (String)session.getAttribute("codigoEmpleado");
+	empPersonal.mapeaRegId(conElias, maestroId);
 	String maestro			= empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno();
 	
 	/* =========== HORARIOS =========== */ 
