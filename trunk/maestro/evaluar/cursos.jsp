@@ -75,7 +75,7 @@
 
 <div id="content">
 	<div>
-		<h2><fmt:message key="aca.Cursos" /> <small><%=maestro %></small></h2>
+		<h2><fmt:message key="aca.Cursos" /> <small><%="( "+maestro+" )" %></small></h2>
 	</div>
 	
 	<% if (mensaje.equals("Eliminado") || mensaje.equals("Modificado") || mensaje.equals("Guardado") || mensaje.equals("MensajeEnviado")){%>
