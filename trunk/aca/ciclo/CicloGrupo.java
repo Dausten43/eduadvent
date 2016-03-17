@@ -669,6 +669,34 @@ public class CicloGrupo {
 		return nombreGrupo;
 	}
 	
+public static String getGradoGrupo( Connection conn, String cicloGrupoId ) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;		
+		String gradoGrupo		= "x";
+		String grado			= "";
+		String grupo			= "";
+		
+		try{
+			ps = conn.prepareStatement("SELECT GRADO,GRUPO FROM CICLO_GRUPO" +
+					" WHERE CICLO_GRUPO_ID = ?");					
+			ps.setString(1, cicloGrupoId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				grado	   = rs.getString("GRADO");
+				grupo	   = rs.getString("GRUPO");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloGrupo|getGradoGrupo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		gradoGrupo = grado+" "+grupo;
+		return gradoGrupo;
+	}
+	
 	public static String getCicloId( Connection conn, String cicloGrupoId ) throws SQLException{
 		
 		PreparedStatement ps	= null;
