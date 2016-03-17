@@ -4,6 +4,7 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
+<jsp:useBean id="empPersonal" scope="page" class="aca.empleado.EmpPersonal"/>
 <jsp:useBean id="HorarioL" scope="page" class="aca.catalogo.CatHorarioLista"/>
 <jsp:useBean id="HorarioPeriodoL" scope="page" class="aca.catalogo.CatHorarioPeriodoLista"/>
 <jsp:useBean id="cicloGrupoHorarioL" scope="page" class="aca.ciclo.CicloGrupoHorarioLista"/>
@@ -16,6 +17,7 @@
 	String cicloId 			= (String) session.getAttribute("cicloId");
 	String codigoId 		= (String) session.getAttribute("codigoEmpleado");
 	
+	String maestro			= empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno();
 	
 	/* =========== HORARIOS =========== */ 
 	
@@ -77,24 +79,13 @@
 
 <div id="content">
 
-	<h2><fmt:message key="aca.Horario" /></h2>
+	<h2><fmt:message key="aca.Horario" /><small><%="("+maestro+")" %></small></h2>
 	
 	<div class="well">
-		<a href="cursos.jsp" class="btn btn-primary btn-mobile"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-	</div>
-	
-	<%if(horarios.size()==0){ %>
-		<div class="alert alert-danger"><fmt:message key="aca.NoTieneHorarios" /></div>
-	<%}else{ %>
-		
-		
-		<form action="horario.jsp" method="post" name="forma">
-			
-			<div class="alert">
-				<div class="row">
-					<div class="span3">
-						<label for="horarioId"><fmt:message key="aca.Horario" />:</label>
-						<select name="horarioId" id="horarioId" style="width:100%;" onchange="document.forma.submit();">
+		<a href="cursos.jsp" class="btn btn-primary btn-mobile"><i class="icon-arrow-left icon-white"></i> 
+			<fmt:message key="boton.Regresar" />
+		</a> &nbsp;&nbsp;<fmt:message key="aca.Horario" />:&nbsp;&nbsp;
+		<select name="horarioId" id="horarioId" style="width:360px;margin-bottom:0px;" onchange="document.forma.submit();">
 						<%
 							for(aca.catalogo.CatHorario horario: horarios){
 						%>
@@ -102,13 +93,12 @@
 						<%
 							}
 						%>
-						</select>
-					</div>
-				</div>
-			</div>
-			
-		</form>
-		
+		</select>
+	</div>
+	
+	<%if(horarios.size()==0){ %>
+		<div class="alert alert-danger"><fmt:message key="aca.NoTieneHorarios" /></div>
+	<%}else{ %>
 		
 		<table class="table table-bordered table-condensed table-striped horario">
 				<thead>
