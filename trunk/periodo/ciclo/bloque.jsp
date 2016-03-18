@@ -61,9 +61,10 @@
 	  			<th width="13%"><fmt:message key="aca.Inicio" /></th>
 	  			<th width="12%"><fmt:message key="aca.Fin" /></th> 
 	  			<th width="12%"><fmt:message key="aca.Valor" /></th> 
-	  			<th width="12%"><fmt:message key="aca.Decimales" /></th>
+	  			<th width="10%"><fmt:message key="aca.Decimales" /></th>
 	  			<th width="12%"><fmt:message key="aca.Redondeo" /></th>
 	  			<th width="12%"><fmt:message key="aca.Orden" /></th> 
+	  			<th width="12%"><fmt:message key="aca.Calculo" /></th> 
 			</tr>
 		</thead>
 		<%
@@ -96,6 +97,17 @@
   				<td><%=bloque.getDecimales()%></td>
   				<td><%=bloque.getRedondeo()%></td>
   				<td><%=bloque.getOrden()%></td>
+  				<td><% 
+  					if(bloque.getCalculo().equals("V")){ 
+	  				%>
+	  				Valor
+	  				<%			
+  					}else{
+  					%>
+  					Promedio
+  		  			<%		
+  					}
+  				%></td>
 			</tr>  
 			<%
 				total += Float.parseFloat(bloque.getValor());
@@ -104,6 +116,7 @@
 		<tr>
 			<th colspan="6"><fmt:message key="aca.TotalPorcentaje" /></th>
 			<th><%=getformato.format( total ) %>%</th>
+			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
