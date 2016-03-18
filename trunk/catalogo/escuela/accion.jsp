@@ -10,6 +10,7 @@
 <jsp:useBean id="PaisL" scope="page" class="aca.catalogo.CatPaisLista" />
 <jsp:useBean id="EstadoL" scope="page" class="aca.catalogo.CatEstadoLista" />
 <jsp:useBean id="CiudadL" scope="page" class="aca.catalogo.CatCiudadLista" />
+<jsp:useBean id="BarrioL" scope="page" class="aca.catalogo.CatBarrioLista" />
 <jsp:useBean id="RegionL" scope="page" class="aca.catalogo.CatRegionLista" />
 
 <script>
@@ -87,6 +88,7 @@
 		Escuela.setEslogan(request.getParameter("Eslogan"));
 		Escuela.setSector(request.getParameter("Sector"));
 		Escuela.setZona(request.getParameter("Zona"));
+		Escuela.setBarrioId(request.getParameter("BarrioId"));
 	}
 	
 	String msj = "";
@@ -96,6 +98,7 @@
 
 		Escuela.setEstadoId(request.getParameter("EstadoId"));
 		Escuela.setCiudadId(request.getParameter("CiudadId"));
+		Escuela.setBarrioId(request.getParameter("BarrioId"));
 
 		if (Escuela.existeReg(conElias) == false) {
 			Escuela.setEscuelaId(Union.getLetra()+request.getParameter("EscuelaId"));
@@ -161,6 +164,7 @@
 	ArrayList<aca.catalogo.CatPais> lisPais 	= PaisL.getListAll(conElias, " ORDER BY PAIS_NOMBRE");
 	ArrayList<aca.catalogo.CatEstado> lisEstado	= EstadoL.getArrayList(conElias, Escuela.getPaisId(), " ORDER BY PAIS_ID,ESTADO_NOMBRE");
 	ArrayList<aca.catalogo.CatCiudad> lisCiudad = CiudadL.getArrayList(conElias, Escuela.getPaisId(), Escuela.getEstadoId(), "ORDER BY CIUDAD_NOMBRE");
+	ArrayList<aca.catalogo.CatBarrio> lisBarrio = BarrioL.getArrayList(conElias, Escuela.getPaisId(), Escuela.getEstadoId(), Escuela.getCiudadId(), "ORDER BY BARRIO_NOMBRE");
 	ArrayList<aca.catalogo.CatRegion> lisRegion = RegionL.getListAll(conElias, Escuela.getPaisId(), "ORDER BY REGION_NOMBRE");
 	
 	ArrayList<aca.catalogo.CatAsociacion> asoc = AsocL.getListAll(conElias, "WHERE UNION_ID = "+unionId+" ORDER BY ASOCIACION_NOMBRE ");
@@ -257,6 +261,15 @@
 						</select>
 				</fieldset>
 				
+				<fieldset>
+					<label for="BarrioId"> <fmt:message key="aca.Barrio" /></label> 
+						<select name="BarrioId" id="BarrioId">
+							<%for (aca.catalogo.CatBarrio barrio : lisBarrio) {%>
+								<option value="<%=barrio.getBarrioId() %>" <%if (barrio.getBarrioId().equals(Escuela.getBarrioId())){out.print("selected");} %>><%=barrio.getBarrioNombre() %></option>
+							<%} %>										
+						</select>
+				</fieldset>
+				
 				<fieldset>						
 					<label for="AsocId"> <fmt:message key="catalogo.Asoc" /></label> 
 					<select name="AsocId" id="AsocId" onchange="distritosAsoc()">
@@ -279,11 +292,6 @@
 							<option value="<%=region.getRegionId() %>" <%if(region.getRegionId().equals(Escuela.getRegionId())){out.print("selected");} %>><%=region.getRegionNombre() %></option>
 						<%} %>
 					</select>
-				</fieldset>
-				
-				<fieldset>	
-					<label for="Eslogan"> <fmt:message key="aca.Eslogan" /></label>
-					<input name="Eslogan" type="text" id="Eslogan" value="<%=Escuela.getEslogan()==null?"":Escuela.getEslogan()%>" maxlength="100">
 				</fieldset>
 				
 			</div>
@@ -321,6 +329,11 @@
 				<fieldset>	
 					<label for="OrgId"> <fmt:message key="aca.OrgId" /></label>
 					<input name="OrgId" type="text" id="OrgId" value="<%=Escuela.getOrgId()==null?"0":Escuela.getOrgId()%>" size="10" maxlength="10">
+				</fieldset>
+				
+				<fieldset>	
+					<label for="Eslogan"> <fmt:message key="aca.Eslogan" /></label>
+					<input name="Eslogan" type="text" id="Eslogan" value="<%=Escuela.getEslogan()==null?"":Escuela.getEslogan()%>" maxlength="100">
 				</fieldset>
 				
 			</div>
