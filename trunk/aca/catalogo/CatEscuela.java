@@ -36,6 +36,7 @@ public class CatEscuela {
 	private String eslogan;
 	private String sector;
 	private String zona;
+	private String barrioId;
 	
 	public CatEscuela(){
 		escuelaId			= "";
@@ -60,9 +61,20 @@ public class CatEscuela {
 		eslogan				= "";
 		sector 				= "";
 		zona 				= "";
+		barrioId 				= "";
 	}
 
 	
+	public String getBarrioId() {
+		return barrioId;
+	}
+
+
+	public void setBarrioId(String barrioId) {
+		this.barrioId = barrioId;
+	}
+
+
 	public String getFirma() {
 		return firma;
 	}
@@ -336,9 +348,9 @@ public class CatEscuela {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_ESCUELA" +
 					" (ESCUELA_ID, ESCUELA_NOMBRE, NOMBRE_CORTO, PAIS_ID, ESTADO_ID," +					
-					" CIUDAD_ID, COLONIA, DIRECCION, TELEFONO, FAX, ASOCIACION_ID, LOGO, ESTADO, FIRMA, SECCION_ID, UNION_ID, ORG_ID, DISTRITO, REGION_ID, ESLOGAN, SECTOR, ZONA)" +									
+					" CIUDAD_ID, COLONIA, DIRECCION, TELEFONO, FAX, ASOCIACION_ID, LOGO, ESTADO, FIRMA, SECCION_ID, UNION_ID, ORG_ID, DISTRITO, REGION_ID, ESLOGAN, SECTOR, ZONA, BARRIO_ID)" +									
 					" VALUES(?, ?, ?, TO_NUMBER(?, '999')," +								
-					" TO_NUMBER(?, '999'),TO_NUMBER(?, '999'), ?, ?, ?, ?, TO_NUMBER(?, '99'), ?, ?, ?, ?,TO_NUMBER(?,'99'),? ,?, TO_NUMBER(?,'99'), ?, ?, ?)");			
+					" TO_NUMBER(?, '999'),TO_NUMBER(?, '999'), ?, ?, ?, ?, TO_NUMBER(?, '99'), ?, ?, ?, ?,TO_NUMBER(?,'99'),? ,?, TO_NUMBER(?,'99'), ?, ?, ?,TO_NUMBER(?, '999'))");			
 			ps.setString(1, escuelaId);
 			ps.setString(2, escuelaNombre);
 			ps.setString(3, nombreCorto);			
@@ -361,6 +373,7 @@ public class CatEscuela {
 			ps.setString(20, eslogan);
 			ps.setString(21, sector);
 			ps.setString(22, zona);
+			ps.setString(23, barrioId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -403,7 +416,8 @@ public class CatEscuela {
 					" REGION_ID = TO_NUMBER(?, '99')," +
 					" ESLOGAN = ?," +
 					" SECTOR = ?," +
-					" ZONA = ?" +
+					" ZONA = ?," +
+					" BARRIO_ID = TO_NUMBER(?, '999')" +
 					" WHERE ESCUELA_ID = ? ");			
 			ps.setString(1, escuelaNombre);
 			ps.setString(2, nombreCorto);
@@ -426,7 +440,8 @@ public class CatEscuela {
 			ps.setString(19, eslogan);
 			ps.setString(20, sector);
 			ps.setString(21, zona);
-			ps.setString(22, escuelaId);
+			ps.setString(22, barrioId);
+			ps.setString(23, escuelaId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -487,6 +502,7 @@ public class CatEscuela {
 		eslogan 			= rs.getString("ESLOGAN");
 		sector 				= rs.getString("SECTOR");
 		zona				= rs.getString("ZONA");
+		barrioId			= rs.getString("BARRIO_ID");
 	}
 	
 	public void mapeaRegId(Connection con, String escuelaId) throws SQLException{
@@ -494,7 +510,7 @@ public class CatEscuela {
 		ResultSet rs = null;
 		try{
 			ps = con.prepareStatement("SELECT ESCUELA_ID, ESCUELA_NOMBRE, NOMBRE_CORTO," +
-					" PAIS_ID, ESTADO_ID, CIUDAD_ID, COLONIA, DIRECCION, TELEFONO, FAX, ASOCIACION_ID, LOGO, ESTADO, FIRMA, SECCION_ID, UNION_ID, ORG_ID, DISTRITO, REGION_ID, ESLOGAN, SECTOR, ZONA" +
+					" PAIS_ID, ESTADO_ID, CIUDAD_ID, COLONIA, DIRECCION, TELEFONO, FAX, ASOCIACION_ID, LOGO, ESTADO, FIRMA, SECCION_ID, UNION_ID, ORG_ID, DISTRITO, REGION_ID, ESLOGAN, SECTOR, ZONA, BARRIO_ID" +
 					" FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
 			ps.setString(1, escuelaId);
 			
