@@ -206,7 +206,7 @@ public class CicloBloque {
 					+ " TO_NUMBER(?, '999.99'), "
 					+ " TO_NUMBER(?, '99'),"
 					+ " TO_NUMBER(?, '99'),"
-					+ " ?, TO_NUMBER(?, '9')),"
+					+ " ?, TO_NUMBER(?, '9'),"
 					+ " ?,"
 					+ " ?)");
 			
