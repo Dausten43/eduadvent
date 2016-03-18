@@ -67,9 +67,10 @@
 		Bloque.setFFinal(request.getParameter("FFinal"));
 		Bloque.setValor(request.getParameter("Valor"));
 		Bloque.setOrden(request.getParameter("Orden"));
-		Bloque.setOrden(request.getParameter("Orden"));		
+		Bloque.setRedondeo(request.getParameter("Redondeo"));		
 		Bloque.setCorto(request.getParameter("Corto"));
 		Bloque.setDecimales(request.getParameter("Decimales"));
+		Bloque.setCalculo(request.getParameter("Calculo"));		
 											
 		if (Bloque.existeReg(conElias) == false){
 			if (Bloque.insertReg(conElias)){
@@ -134,8 +135,10 @@
 				Bloque.setFFinal(request.getParameter("FFinal"));
 				Bloque.setValor(request.getParameter("Valor"));
 				Bloque.setOrden(request.getParameter("Orden"));
+				Bloque.setRedondeo(request.getParameter("Redondeo"));		
 				Bloque.setCorto(request.getParameter("Corto"));
 				Bloque.setDecimales(request.getParameter("Decimales"));
+				Bloque.setCalculo(request.getParameter("Calculo"));		
 					
 				if (Bloque.existeReg(conElias) == true){
 					if (Bloque.updateReg(conElias)){
@@ -294,6 +297,14 @@
 		<fieldset>
 			<label for="Orden"><fmt:message key="aca.Orden" /></label>
 			<input name="Orden" type="text" id="Orden" class="onlyNumbers input-mini" value="<%=(Bloque.getOrden()==null||Bloque.getOrden().equals(""))?Bloque.getBloqueId():Bloque.getOrden() %>" />
+		</fieldset>
+		
+		<fieldset>
+			<label for="Calculo"><fmt:message key="aca.Calculo" /></label>
+			<select name="Calculo" id="Calculo" class="input input-small">
+				<option value="V" <% if (Bloque.getCalculo().equals("V")){out.print(" selected");}%>>Valor</option>
+				<option value="P" <% if (Bloque.getCalculo().equals("P")){out.print(" selected");}%>>Promedio</option>
+			</select>
 		</fieldset>
 		
 	</form>
