@@ -40,6 +40,8 @@
 	int numModulos 		= aca.ciclo.Ciclo.getModulos(conElias, cicloId);
 	String strResultado	= "";
 	
+	String salto 		= "";
+	
 	java.util.HashMap<String, String> mapAlumnos 		= aca.kardex.KrdxAlumEvalLista.mapAlumnosEvaluadosCiclo(conElias, cicloId);
 	java.util.HashMap<String, String> mapActividades 	= aca.ciclo.CicloGrupoActividadLista.getMapActividadesCiclo(conElias, cicloId);	
 		
@@ -113,7 +115,7 @@
 		}else{
 			strResultado = "Grabado";
 			conElias.commit();	
-			response.sendRedirect("bloque.jsp");
+			salto = "bloque.jsp";
 		}
 		
 		conElias.setAutoCommit(true);
@@ -164,7 +166,8 @@
 				}else{
 					strResultado = "Grabado";
 					conElias.commit();	
-					response.sendRedirect("bloque.jsp");
+// 					salto = "bloque.jsp";
+					salto = "accionBloque.jsp?Accion=5&BloqueId="+Bloque.getBloqueId();
 				}
 				
 				conElias.setAutoCommit(true);
@@ -208,7 +211,7 @@
 				}else{
 					strResultado = "Eliminado";
 					conElias.commit();	
-					response.sendRedirect("bloque.jsp");
+					salto = "bloque.jsp";
 				}
 				
 				conElias.setAutoCommit(true);
@@ -326,5 +329,11 @@
 	$('#FInicio').datepicker();
 	$('#FFinal').datepicker();
 </script>
+
+<%	
+	// Salto de pagina
+	if (salto.length()>0){%>
+	<meta http-equiv="refresh" content="0; url=<%=salto%>">
+<%	} %>
 
 <%@ include file= "../../cierra_elias.jsp" %>
