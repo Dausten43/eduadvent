@@ -266,7 +266,7 @@ public class CatBarrio {
 		return maximo;
 	}
 	
-	public static String getBarrio(Connection conn, String paisId, String estadoId, String ciudadId) throws SQLException{
+	public static String getBarrio(Connection conn, String paisId, String estadoId, String ciudadId, String barrioId) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
 		String barrio			= "0";		
@@ -280,6 +280,7 @@ public class CatBarrio {
 			ps.setString(1, paisId);
 			ps.setString(2, estadoId);
 			ps.setString(3, ciudadId);
+			ps.setString(4, barrioId);
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
