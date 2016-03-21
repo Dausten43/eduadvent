@@ -18,6 +18,7 @@
 	String union				= aca.catalogo.CatAsociacion.getUnionId(conElias, asociacion);
 	String strNombreUsuario		= "";
 	String paisNombre 			= aca.catalogo.CatPais.getPais(conElias, escuela.getPaisId() );
+	String barrioNombre			= aca.catalogo.CatBarrio.getBarrio(conElias, escuela.getPaisId(), escuela.getEstadoId(), escuela.getCiudadId(), escuela.getBarrioId());
 	
 	int intTipoUsuario	= aca.usuario.Usuario.getTipo(conElias, sCodigoPersonal);
 	if (intTipoUsuario ==1){
@@ -87,7 +88,16 @@
 		<button type="button" class="close" data-dismiss="alert">&times;</button>	
 		<h3><%=escuela.getEscuelaNombre() %></h3>
 		<h5><%=aca.catalogo.CatUnion.getNombre(conElias, union) %> - <%=aca.catalogo.CatAsociacion.getNombre(conElias, asociacion) %></h5>	
-		<h5><%=aca.catalogo.CatCiudad.getCiudad(conElias, escuela.getPaisId(), escuela.getEstadoId(), escuela.getCiudadId()) %>, <%=aca.catalogo.CatEstado.getEstado(conElias, escuela.getPaisId(), escuela.getEstadoId())%>, <%=paisNombre%></h5>
+		<h5>
+		<%
+			if(!escuela.getBarrioId().equals("0")){
+		%>
+			<%= barrioNombre %> ,
+		<%
+			}
+		%>
+		<%=aca.catalogo.CatCiudad.getCiudad(conElias, escuela.getPaisId(), escuela.getEstadoId(), escuela.getCiudadId()) %>, <%=aca.catalogo.CatEstado.getEstado(conElias, escuela.getPaisId(), escuela.getEstadoId())%>, <%=paisNombre%>
+		</h5>
 		<h6> <%=sCodigoPersonal%> | <%=strNombreUsuario %></h6> 
 		
 	</div>
