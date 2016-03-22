@@ -539,12 +539,13 @@
 		
  		int evalCerradas = 0;
  		double promEval = 0;
-		
+			
  		for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 			
   			for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
 			
- 				if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){			
+ 				if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
+ 					
  					String strNota = "-";
  					// Nota del alumno en la evaluacion
  					double notaEval = 0;
@@ -556,7 +557,8 @@
  						if (cicloBloque.getDecimales().equals("1")) {
  							strNota = formato1.format(notaEval);
  						}
- 					}									
+ 					}
+ 					
  					// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
  					String estadoEval = "A";									
 					if (mapEvalCiclo.containsKey(cicloGrupoId+kardex.getCursoId()+cicloBloque.getBloqueId())){
@@ -637,7 +639,7 @@
 				}else {
 					kardexAlumnoExtra.insertReg(conElias);
 				}
-
+				
 			}			
 			cont++;
 		}
