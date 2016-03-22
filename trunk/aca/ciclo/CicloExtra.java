@@ -235,6 +235,57 @@ public class CicloExtra {
 		return maximo;
 	}
 	
+	public String maximo(Connection conn, String cicloId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String maximo 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT COUNT(OPORTUNIDAD) AS MAXIMO FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID = ? ");
+			ps.setString(1, cicloId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				maximo = rs.getString("MAXIMO");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|maximo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return maximo;
+	}
+	
+	public String getNombreOp(Connection conn, String cicloId, String oportunidad) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String nombre 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT OPORTUNIDAD_NOMBRE FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID = '"+cicloId+"' AND OPORTUNIDAD = '"+oportunidad+"' ");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				nombre = rs.getString("OPORTUNIDAD_NOMBRE");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|getNombreOp|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return nombre;
+	}
+	
 	public ArrayList<CicloExtra> getCicloExtra(Connection con, String cicloId, String oportunidad) throws SQLException{
 		ArrayList<CicloExtra> lisCicloExtra = new ArrayList<CicloExtra>();
 		Statement st 		= con.createStatement();

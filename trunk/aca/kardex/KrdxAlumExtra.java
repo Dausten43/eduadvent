@@ -317,7 +317,7 @@ public class KrdxAlumExtra {
 			while (rs.next()){
 				KrdxAlumExtra kae = new KrdxAlumExtra();		
 				kae.mapeaReg(rs);
-				map.put(rs.getString("CODIGO_ID")+rs.getString("CICLO_GRUPO_ID")+rs.getString("CURSO_ID"), kae);
+				map.put(rs.getString("CODIGO_ID")+rs.getString("CICLO_GRUPO_ID")+rs.getString("CURSO_ID")+rs.getString("OPORTUNIDAD"), kae);
 			}
 			
 		}catch(Exception ex){
