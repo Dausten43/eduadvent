@@ -111,7 +111,7 @@ public class KrdxAlumPromLista {
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
 				
-				KrdxAlumProm obj = new KrdxAlumProm();		
+				KrdxAlumProm obj = new KrdxAlumProm();	
 				obj.mapeaReg(rs);
 				map.put(obj.getCodigoId()+obj.getCursoId()+obj.getPromedioId(), obj);
 			}
