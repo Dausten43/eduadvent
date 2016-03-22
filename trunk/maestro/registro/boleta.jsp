@@ -21,6 +21,7 @@
 <jsp:useBean id="alumnoCurso" scope="page" class="aca.vista.AlumnoCurso"/>
 <jsp:useBean id="alumnoCursoLista" scope="page" class="aca.vista.AlumnoCursoLista"/>
 <jsp:useBean id="cursoActLista" scope="page" class="aca.kardex.KrdxCursoActLista"/>
+<jsp:useBean id="alumnoExtra" scope="page" class="aca.kardex.KrdxAlumExtra"/>
 <jsp:useBean id="cicloBloque" scope="page" class="aca.ciclo.CicloBloque"/>
 <jsp:useBean id="cicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="CatParametro" scope="page" class="aca.catalogo.CatParametro"/>
@@ -76,6 +77,7 @@
 	
 	//Map de promedios del alumno en cada materia
 	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
+	
 	//System.out.println(cicloGrupoId);
 	
 	if(hayAbiertas){
@@ -700,12 +702,35 @@
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    				tabla.addCell(celda);
 			    		        }
-			    		        if(alumnoCurso.getNotaExtra() == null){
+			    		        
+			    		        java.util.HashMap<String, aca.kardex.KrdxAlumExtra> mapAlumExtra	= aca.kardex.KrdxAlumExtra.mapAlumnoExtra(conElias);
+			    		        if(mapAlumExtra.containsKey(alumnoCurso.getCodigoId()+cicloGrupoId+alumnoCurso.getCursoId())){
+			    		        	celda = new PdfPCell(new Phrase(mapAlumExtra.get(alumnoCurso.getCodigoId()+cicloGrupoId+alumnoCurso.getCursoId()).getPromedio(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				    				tabla.addCell(celda);
+			    		        }else{
+			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				    				tabla.addCell(celda);
+			    		        }
+			    		        
+			    		        if(mapAlumExtra.containsKey(alumnoCurso.getCodigoId()+cicloGrupoId+alumnoCurso.getCursoId())){
+			    		        	celda = new PdfPCell(new Phrase(mapAlumExtra.get(alumnoCurso.getCodigoId()+cicloGrupoId+alumnoCurso.getCursoId()).getFecha(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				    				tabla.addCell(celda);
+			    		        }else{
+			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				    				tabla.addCell(celda);
+			    		        }
+			    		        
+			    		      /*  if(alumnoExtra.getAlumnoExtra(conElias, alumnoCurso.getCodigoId(), cicloGrupoId, alumnoCurso.getCursoId())==null){
 			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    				tabla.addCell(celda);
 			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getNotaExtra().trim(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    		        	
+			    		        	celda = new PdfPCell(new Phrase(alumnoExtra.getAlumnoExtra(conElias, alumnoCurso.getCodigoId(), cicloGrupoId, alumnoCurso.getCursoId()), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    				tabla.addCell(celda);
 			    		        }
@@ -717,7 +742,7 @@
 			    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFExtra(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    				tabla.addCell(celda);
-			    		        }
+			    		        }*/
 			    		        for(int l = 0; l < lisBloque.size(); l++){
 			    		        	switch(l+1){
 			    		        		case 1:{

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class KrdxAlumExtra {
 	
@@ -301,5 +302,32 @@ public class KrdxAlumExtra {
 		
 		return lisAlumnoExtra;
 	}
+	
+	public static HashMap<String, KrdxAlumExtra> mapAlumnoExtra(Connection con) throws SQLException{
+		HashMap<String,KrdxAlumExtra> map 			= new HashMap<String, KrdxAlumExtra>();
+		Statement st 								= con.createStatement();
+		ResultSet rs 								= null;
+		String comando								= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID," +
+					" CURSO_ID, OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA " +
+					" FROM KRDX_ALUM_EXTRA";
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				KrdxAlumExtra kae = new KrdxAlumExtra();		
+				kae.mapeaReg(rs);
+				map.put(rs.getString("CODIGO_ID")+rs.getString("CICLO_GRUPO_ID")+rs.getString("CURSO_ID"), kae);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalAlumno|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}	
 	
 }
