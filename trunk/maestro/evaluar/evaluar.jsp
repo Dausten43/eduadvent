@@ -197,6 +197,7 @@
 	String cicloGrupoId	 	= request.getParameter("CicloGrupoId");
 	String cursoId 			= request.getParameter("CursoId");
 	String estado 			= request.getParameter("estado");
+	String valor			= "0";
 	
 	String planId 			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
@@ -970,6 +971,7 @@
 				
 				if (eval.getPromedioId().equals( promedio.getPromedioId())){
 					
+					valor = eval.getValor();
 					cont++;					
 			%>
 					<tr>
@@ -1440,7 +1442,7 @@
 						
 						double promedioFinal = 0;
 						String muestraPromedioFinal = "";
-						
+						int eval = 0;
 						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 							
 							for(aca.ciclo.CicloBloque cicloBloque : lisBloque){					
@@ -1513,6 +1515,7 @@
 								puntosFormato 		= formato2.format(puntosEval);
 							}	
 							
+							puntosFormato = Double.toString((Double.parseDouble(puntosFormato) * 5)/Double.parseDouble(valor));
 							// Inserta columna del promedio de las evaluaciones
 							out.print("<td class='text-center' width='2%'  >"+promFormato+"</td>");
 							
@@ -1523,8 +1526,11 @@
 						
 							muestraPromedioFinal = formato1.format(promedioFinal);
 							
+							eval++;
+							
 						}//End for de promedio
 						if (lisPromedio.size() > 1){
+							muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
 							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
 						}
 %>											
