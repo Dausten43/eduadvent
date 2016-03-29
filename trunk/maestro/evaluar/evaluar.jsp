@@ -1500,22 +1500,32 @@
 								promEval = Double.parseDouble(mapPromAlumno.get(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId()).getNota());									
 							}
 							
-							// Puntos del promedio
+							// Puntos del promedio en escala de 100 (considerando el valor de cada promedio en escala de 0-100)
 							double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
+							
+							double puntosEscala = 0;
+							if (escalaEval == 5){
+								puntosEscala = (puntosEval * 5)/Double.parseDouble(valor);
+							}else if (escalaEval == 10){
+								puntosEscala = (puntosEval * 10)/Double.parseDouble(valor);
+							}else{
+								// Escala 100							
+								puntosEscala = puntosEval;
+							}
 							
 							// Formato del promedio y los puntos (decimales usados)
 							String promFormato		= formato1.format(promEval);
-							String puntosFormato	= formato1.format(puntosEval);
+							String puntosFormato	= formato1.format(puntosEscala);							
 							
 							if (cicloPromedio.getDecimales().equals("0")){
 								promFormato 		= formato0.format(promEval);
-								puntosFormato 		= formato0.format(puntosEval);
+								puntosFormato 		= formato0.format(puntosEscala);
 							}else if (cicloPromedio.getDecimales().equals("2")){
 								promFormato 		= formato2.format(promEval);
-								puntosFormato 		= formato2.format(puntosEval);
-							}	
+								puntosFormato 		= formato2.format(puntosEscala);
+							}			
 							
-							puntosFormato = Double.toString((Double.parseDouble(puntosFormato) * 5)/Double.parseDouble(valor));
+							//puntosFormato = Double.toString((Double.parseDouble(puntosFormato) * 5)/Double.parseDouble(valor));
 							// Inserta columna del promedio de las evaluaciones
 							out.print("<td class='text-center' width='2%'  >"+promFormato+"</td>");
 							
@@ -1530,8 +1540,8 @@
 							
 						}//End for de promedio
 						if (lisPromedio.size() > 1){
-							muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
-							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
+							//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
+							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"*</td>");
 						}
 %>											
 						
