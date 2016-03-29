@@ -2287,6 +2287,7 @@
 						<!-- --------- PROMEDIO DEL EXTRA ACTUAL MAS PROMEDIO --------- -->
 							<%
 							String promedioFinalExtra = "";
+							String valorAnt = "", valorExt = "";
 							String alumnosEnExtra = aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId); 
 							
 							if(Integer.parseInt(alumnosEnExtra) > 0 && cicloGrupoCurso.getEstado().equals("3")){ %>
@@ -2297,26 +2298,36 @@
 								} else if ( strExtra5 != "-") {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "5");
 									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
+									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "5");
+									valorExt = cicloExtra.getExtra(conElias, cicloId, "5");
 								%>
 									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
 								<%} else if (strExtra4 != "-" ) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "4");
 									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
+									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "4");
+									valorExt = cicloExtra.getExtra(conElias, cicloId, "4");
 								%>
 									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
 								<%} else if ( strExtra3 != "-") {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "3");
 									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
+									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "3");
+									valorExt = cicloExtra.getExtra(conElias, cicloId, "3");
 								%>
 									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
 								<%} else if (strExtra2 != "-" ) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "2");
 									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
+									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "2");
+									valorExt = cicloExtra.getExtra(conElias, cicloId, "2");
 								%>
 									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
 								<%} else if ( strExtra != "-" ) {	
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
 									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
+									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "1");
+									valorExt = cicloExtra.getExtra(conElias, cicloId, "1");
 								%>
 									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
 								<%} %>									

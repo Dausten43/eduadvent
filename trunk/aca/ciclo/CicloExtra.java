@@ -286,6 +286,56 @@ public class CicloExtra {
 		return nombre;
 	}
 	
+	public String getAnterior(Connection conn, String cicloId, String oportunidad) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String nombre 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT VALOR_ANTERIOR FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID = '"+cicloId+"' AND OPORTUNIDAD = '"+oportunidad+"' ");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				nombre = rs.getString("VALOR_ANTERIOR");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|getAnterior|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return nombre;
+	}
+	
+	public String getExtra(Connection conn, String cicloId, String oportunidad) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String nombre 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT VALOR_EXTRA FROM CICLO_EXTRA" +
+					" WHERE CICLO_ID = '"+cicloId+"' AND OPORTUNIDAD = '"+oportunidad+"' ");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				nombre = rs.getString("VALOR_EXTRA");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloExtra|getExtra|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return nombre;
+	}
+	
 	public ArrayList<CicloExtra> getCicloExtra(Connection con, String cicloId, String oportunidad) throws SQLException{
 		ArrayList<CicloExtra> lisCicloExtra = new ArrayList<CicloExtra>();
 		Statement st 		= con.createStatement();
