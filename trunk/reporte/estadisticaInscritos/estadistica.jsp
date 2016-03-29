@@ -10,6 +10,9 @@
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="CatClas" scope="page" class="aca.catalogo.CatClasFinLista"/>
+<jsp:useBean id="nivelU" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
+<jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
+
 <head>
   <script type="text/javascript" src="../../js/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="../../js/highcharts.js"></script>
@@ -35,6 +38,8 @@
 	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuela, "ORDER BY 1");
 	ArrayList<String> lisReligion = personalLista.getListAlumnosInscritosReligion(conElias, escuela, ciclo);
 	ArrayList<String> lisClasFin = CatClas.getListClas(conElias, escuela);
+	
+	ArrayList<aca.catalogo.CatNivelEscuela> niveles = nivelU.getListEscuela(conElias, escuela, "ORDER BY 2");
 %>
 <style>	
 	body{
@@ -122,11 +127,22 @@
 		
 		
 		//SERIES
-		String serieGenero 		= "['Hombres: "+hombres+"', "+promHombres+"], ['Mujeres: "+mujeres+"',"+promMujeres+"]";	
-		String serieNivel 		= "['Maternal: "+maternal+"', "+promMaternal+"], ['Preescolar: "+preescolar+"', "+promPreescolar+"], ['Primaria: "+primaria+"',"+promPrimaria+"],"+
-								  "['Secundaria: "+secundaria+"',"+promSecundaria+"], ['Preparatoria: "+prepa+"',"+promPrepa+"]";
-		String serieAcfe 		= "['ACFE: "+acfe+"', "+promAcfe+"], ['NO ACFE: "+nAcfe+"',"+promNAcfe+"]";
-		String serieEdad		= "";
+		String serieGenero 		 = "['Hombres: "+hombres+"', "+promHombres+"], ['Mujeres: "+mujeres+"',"+promMujeres+"]";
+		
+		String muestraSerieNivel = "";
+		
+		for(aca.catalogo.CatNivelEscuela nivel: niveles){
+			int cantidad	 	= AlumPersonal.getCantidadPorNivel(conElias, ciclo, nivel.getNivelId());
+			double promedio 	= cantidad==0 ? 0 : ((double)cantidad)*100/totalInscritos;
+			promedio 			= Double.valueOf(getformato.format(promedio).replaceAll(",","."));
+
+			muestraSerieNivel += "['"+nivel.getNivelNombre()+": "+AlumPersonal.getCantidadPorNivel(conElias, ciclo, nivel.getNivelId())+"',"+promedio+"],";
+		}
+
+		String serieNivel 		 = muestraSerieNivel;
+		
+		String serieAcfe 		 = "['ACFE: "+acfe+"', "+promAcfe+"], ['NO ACFE: "+nAcfe+"',"+promNAcfe+"]";
+		String serieEdad		 = "";
 
 %>
 	<table width="90%" class="table table-fullcondensed table-nohover"  align="center" cellpadding="0" cellspacing="0" bordercolor="#000000" id="noayuda">
