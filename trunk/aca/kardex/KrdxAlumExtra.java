@@ -269,6 +269,34 @@ public class KrdxAlumExtra {
 		return ok;
 	}
 	
+	public static boolean tieneExtras(Connection conn, String codigoId, String cicloGrupoId, String cursoId ) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		boolean ok 				= false;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM KRDX_ALUM_EXTRA" +
+					" WHERE CODIGO_ID = ?" +
+					" AND CICLO_GRUPO_ID = ?" +
+					" AND CURSO_ID = ?");
+			ps.setString(1, codigoId);
+			ps.setString(2, cicloGrupoId);
+			ps.setString(3, cursoId);
+			
+			rs = ps.executeQuery();		
+			if(rs.next()){
+				ok = true;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumExtra|tieneExtras|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return ok;
+	}
 	
 	
 	public ArrayList<KrdxAlumExtra> getAlumnoExtra(Connection con, String codigoId, String cicloGrupoId, String cursoId) throws SQLException{
