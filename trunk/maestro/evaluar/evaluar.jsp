@@ -1071,15 +1071,27 @@
 					
 					/*** MUESTRA EL TERCER EXTRAORDINARIO ***/
 					if(lisTodosLosExtras.size() >= 3){
-						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){
+							// Busca el valor de la nota anterior y extraordinaria en el ciclo
+							String notaAnt 		= "0";
+							String notaExtra	= "0"; 	
+							cicloExtra.setCicloId(cicloId);
+							cicloExtra.setOportunidad("3");						
+							if(cicloExtra.existeReg(conElias)){
+								cicloExtra.mapeaRegId(conElias, cicloId, "3");
+								notaAnt 	= cicloExtra.getValorAnterior();
+								notaExtra 	= cicloExtra.getValorExtra();
+							}		
+				%>					
+						
 						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra3(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
+							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra3(<%=lisKardexAlumnos.size()%>);" title="Extra2=<%=notaAnt%>%, Extra3=<%=notaExtra%>%">
 								<fmt:message key="aca.Extra" />&nbsp;3
-							</a>
+							</a>							
 						</th>
 					<%	}else{ %>
 						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
+							<a class="btn btn-mini btn-danger" title="<fmt:message key='boton.EvaluarExtra'/>" >	
 								<fmt:message key="aca.Extra" />&nbsp;3
 							</a>
 						</th>
@@ -1088,9 +1100,21 @@
 					
 					/*** MUESTRA EL CUARTO EXTRAORDINARIO ***/
 					if(lisTodosLosExtras.size() >= 4){
-						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){
+							// Busca el valor de la nota anterior y extraordinaria en el ciclo
+							String notaAnt 		= "0";
+							String notaExtra	= "0"; 	
+							cicloExtra.setCicloId(cicloId);
+							cicloExtra.setOportunidad("4");						
+							if(cicloExtra.existeReg(conElias)){
+								cicloExtra.mapeaRegId(conElias, cicloId, "4");
+								notaAnt 	= cicloExtra.getValorAnterior();
+								notaExtra 	= cicloExtra.getValorExtra();
+							}						
+					%>
+												
 					<th class="text-center" style="width:4%;">
-						<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra4(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
+						<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra4(<%=lisKardexAlumnos.size()%>);" title="Extra3=<%=notaAnt%>%, Extra4=<%=notaExtra%>%" >
 							<fmt:message key="aca.Extra" />&nbsp;4
 						</a>
 					</th>
@@ -1106,9 +1130,20 @@
 					/*** MUESTRA EL QUINTO EXTRAORDINARIO ***/
 					if(lisTodosLosExtras.size() >= 5){						
 					
-						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ 
+							// Busca el valor de la nota anterior y extraordinaria en el ciclo
+							String notaAnt 		= "0";
+							String notaExtra	= "0"; 	
+							cicloExtra.setCicloId(cicloId);
+							cicloExtra.setOportunidad("5");						
+							if(cicloExtra.existeReg(conElias)){
+								cicloExtra.mapeaRegId(conElias, cicloId, "5");
+								notaAnt 	= cicloExtra.getValorAnterior();
+								notaExtra 	= cicloExtra.getValorExtra();
+							}
+					%>
 					<th class="text-center" style="width:4%;">
-						<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra5(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
+						<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra5(<%=lisKardexAlumnos.size()%>);" title="Extra4=<%=notaAnt%>%, Extra5=<%=notaExtra%>%" >
 							<fmt:message key="aca.Extra" />&nbsp;5
 						</a>
 					</th>
