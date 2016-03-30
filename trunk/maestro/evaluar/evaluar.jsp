@@ -819,10 +819,10 @@
 		<fmt:message key="aca.Estrategia" />: [ <%= promedio.getNombre() %> ] &nbsp;&nbsp; <fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>]
 	</div>
 		
-	<table class="table table-condensed table-bordered table-striped">
+	<table class="table table-fullcondensed table-bordered table-striped">
 			<thead>
 				<tr>
-					<th class="text-center" style="padding:0px;">#</th>
+					<th class="text-center">#</th>
 					<th><fmt:message key="aca.Descripcion" /></th>
 					<th class="text-center"><fmt:message key="aca.Fecha" /></th>
 					<th class="text-center"><fmt:message key="aca.Valor" /></th>
@@ -840,8 +840,8 @@
 					cont++;					
 			%>
 					<tr>
-						<td class="text-center" style="width:100px;padding:0px;"><%=cont%></td>
-						<td style="padding:0px;">
+						<td class="text-center" style="width:100px;"><%=cont%></td>
+						<td>
 							<%if (aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, eval.getCicloGrupoId(), eval.getCursoId(), eval.getEvaluacionId())) {%>
 								<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
 									<%=eval.getEvaluacionNombre()%>
