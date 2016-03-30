@@ -298,6 +298,36 @@ public class KrdxAlumExtra {
 		return ok;
 	}
 	
+	public static String getPromedio(Connection conn, String codigoId, String cicloGrupoId, String cursoId, String oportunidad ) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String promedio 		= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT PROMEDIO FROM KRDX_ALUM_EXTRA"
+					+ " WHERE CODIGO_ID = ?"
+					+ " AND CICLO_GRUPO_ID = ?"
+					+ " AND CURSO_ID = ?"
+					+ " AND OPORTUNIDAD = TO_NUMBER(?,'99')");
+			ps.setString(1, codigoId);
+			ps.setString(2, cicloGrupoId);
+			ps.setString(3, cursoId);
+			ps.setString(4, oportunidad);
+			
+			rs = ps.executeQuery();		
+			if(rs.next()){
+				promedio = rs.getString("PROMEDIO");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumExtra|getPromedio|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return promedio;
+	}
 	
 	public ArrayList<KrdxAlumExtra> getAlumnoExtra(Connection con, String codigoId, String cicloGrupoId, String cursoId) throws SQLException{
 		ArrayList<KrdxAlumExtra> lisAlumnoExtra = new ArrayList<KrdxAlumExtra>();
