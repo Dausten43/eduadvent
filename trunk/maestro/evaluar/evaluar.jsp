@@ -248,6 +248,12 @@
 	//LISTA EXTRAS
 	ArrayList<aca.ciclo.CicloExtra> lisTodosLosExtras					= cicloExtra.getTodosLosCiclosExtras(conElias, cicloId);
 	
+	// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
+	java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNota = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, cursoId, "");
+			
+	//TREEMAP DE LOS PROMEDIOS DE LOS ALUMNOS EN LA MATERIA (de la vista de alum_prom)
+	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
+	
 /* ********************************** ACCIONES ********************************** */
 	String msj = "";	
 
@@ -316,7 +322,8 @@
 		
 		conElias.setAutoCommit(true);//** END TRANSACTION **
 		
-		mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
+		// Actualizar los promedios (CICLO_PROMEDIO)
+		mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);		
 	}
 //------------- BORRA CALIFICACIONES DE UNA EVALUACION ------------->
 	else if (accion.equals("2")) {
@@ -325,6 +332,10 @@
 		} else {
 			msj = "ErrorBorrar";
 		}
+		
+		// Actualizar los promedios (CICLO_PROMEDIO)
+		mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
+		
 	}
 //------------- CERRAR EVALUACION ------------->
 	else if(accion.equals("3")){
@@ -333,166 +344,73 @@
 		
 		conElias.setAutoCommit(false);//** END TRANSACTION **
 		boolean error = false;
-	
-		//**************** RECALCULAR EL PROMEDIO DE LAS ACTIVIDADES DE LA EVALUACION QUE SE VA A CERRAR (SI ES QUE TIENE) ****************
-	
-		if(aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, cicloGrupoId, cursoId, evaluacion)){
-			/* Actividades del alumno */
-			ArrayList<aca.kardex.KrdxAlumActiv> lisKrdxActiv		= krdxAlumActivL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacion, "ORDER BY ALUM_APELLIDO(CODIGO_ID), ACTIVIDAD_ID");
-			/* Actividades definidas en el metodo de evaluacion */
-			ArrayList<aca.ciclo.CicloGrupoActividad> lisActividad	= cicloGrupoActividadL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacion, "ORDER BY ACTIVIDAD_ID, ACTIVIDAD_NOMBRE");
-						
-			//RECORRE A LOS ALUMNOS
-			for(aca.kardex.KrdxCursoAct krdxCursoAct: lisKardexAlumnos){ 
-				
-				BigDecimal valorActividadesTotal = new BigDecimal("0");
-				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
-					for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
-							//valorActividadesTotal += Double.parseDouble( cicloGrupoActividad.getValor() );
-							valorActividadesTotal = valorActividadesTotal.add( new BigDecimal(cicloGrupoActividad.getValor()) );
-						}
-					}
-				}
-				
-				//float promedioActividades = 0f;
-				BigDecimal promedioActividades = new BigDecimal("0");
-				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
-					for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
-							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
-							promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 1, RoundingMode.DOWN) );
-						}
-					}
-				}
-				
-				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
-				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) ); 
-				
-				//--------COMPROBAR SI LA ESCALA ES 10----------
-				
-				if( escala == 10 ){
-					/* Convirtiendo la escala de 100 a 10 (ya que las actividades se evaluan de 0 a 100) */
-					promedioActividades = promedioActividades.divide(new BigDecimal("10"), 1, RoundingMode.DOWN);
-				}
-				
-				//--------COMPROBAR SI TIENEN PUNTO DECIMAL----------
-				
-				if(evaluaConPunto.equals("N")){
-					/* Si tiene una nota reprobatoria entonces el redondeo es hacia abajo, por ejemplo: (5.9 a 5) (5.6 a 5) (4.9 a 4)  */
-					if( promedioActividades.compareTo( new BigDecimal(notaAC) ) == -1 ){// promedioActividades<notaAC
-						promedioActividades = new BigDecimal( frmEntero.format( promedioActividades.setScale(0, RoundingMode.DOWN) ) );
-					}
-					/* Si tiene una nota aprobatoria entonces el redondeo es normal, por ejemplo: (6.4 a 6) (6.6 a 7)  */
-					else{
-						promedioActividades = new BigDecimal( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ) );
-					}
-				}	
-						
-				//--------VERIFICAR LA NOTAMINIMA PARA EL NIVEL----------
-				
-				if( promedioActividades.compareTo( new BigDecimal(notaMinima) ) == -1 ){// promedioActividades<notaMinima
-					promedioActividades = new BigDecimal(notaMinima);
-				}
-				
-				//--------GUARDAR PROMEDIO DE LAS ACTIVIDADES EN LA EVALUACION----------
-				
-				kardexEval.setCodigoId(krdxCursoAct.getCodigoId());
-				kardexEval.setCicloGrupoId(cicloGrupoId);
-				kardexEval.setCursoId(cursoId);
-				kardexEval.setEvaluacionId(evaluacion);
-			
-				if(kardexEval.existeReg(conElias)){
-					kardexEval.mapeaRegId(conElias, krdxCursoAct.getCodigoId(), cicloGrupoId, cursoId, evaluacion);
-					kardexEval.setNota(promedioActividades +"");
-					if(kardexEval.updateReg(conElias)){
-						//Actualizo correctamente
-					}else{
-						error = true; break;
-					}
-				}else{
-					kardexEval.setNota( promedioActividades +"");
-					if(kardexEval.insertReg(conElias)){
-						//Inserto correctamente
-					}else{
-						error = true; break;
-					}
-				}
-					
-					
-			}//End for alumnos
-				
-		}else{
-			//NO TIENE ACTIVIDADES
+		
+		//**************** CERRAR EVALUACION ****************		
+		
+		cicloGrupoEval.mapeaRegId(conElias, cicloGrupoId, cursoId, evaluacion);
+		cicloGrupoEval.setEstado("C");
+
+		if (cicloGrupoEval.updateReg(conElias)) {
+			lisEvaluacion = cicloGrupoEvalLista.getArrayList( conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
+		} else {
+			error = true;
 		}
+		
+		//------------------- SI YA SE CERRARON TODAS LAS EVALUACIONES, ENTONCES CIERRA LA MATERIA (guarda las calificaciones del alumno y cambia el estado de la materia) ------------------->
+		if (aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId)) {
+			
+			// Actualizar los promedios
+			treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
+			
+			boolean todosPasan = true;				
+
+			int i = 0;
+			for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
+				double promedio = 0.0;
 				
-		//**************** END RECALCULAR EL PROMEDIO DE LAS ACTIVIDADES DE LA EVALUACION QUE SE VA A CERRAR (SI ES QUE TIENE) ****************		
-		
-		//**************** CERRAR EVALUACION ****************
-		if(error == false){
-		
-			cicloGrupoEval.mapeaRegId(conElias, cicloGrupoId, cursoId, evaluacion);
-			cicloGrupoEval.setEstado("C");
-	
-			if (cicloGrupoEval.updateReg(conElias)) {
-				lisEvaluacion = cicloGrupoEvalLista.getArrayList( conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
-			} else {
-				error = true;
+				if (treeProm.containsKey(cicloGrupoId + cursoId	+ kardex.getCodigoId())) {
+					aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
+					promedio = Double.parseDouble(alumProm.getPromedio().replaceAll(",",".")); 
+				}
+				
+				/* Guardar promedio del alumno en krdx_curso_act */
+				kardex.setNota(frmDecimal.format(promedio));
+				kardex.setFNota(aca.util.Fecha.getHoy());
+				
+				//ACREDITO EL ORDINARIO
+				if (promedio >= notaAC) {
+					kardex.setTipoCalId("2");
+					todosPasan &= true;
+				}
+				//NO ACREDITO EL ORDINARIO
+				else{
+					kardex.setTipoCalId("3");
+					todosPasan &= false;
+				}
+				
+				if(kardex.updateReg(conElias)){
+					//Actualizo correctamente
+				}else{
+					error = true; break;
+				}
+				
+				i++;
 			}
 			
-			//------------------- SI YA SE CERRARON TODAS LAS EVALUACIONES, ENTONCES CIERRA LA MATERIA (guarda las calificaciones del alumno y cambia el estado de la materia) ------------------->
-			if (aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId)) {
-				java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
-				
-				boolean todosPasan = true;				
-	
-				int i = 0;
-				for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
-					double promedio = 0.0;
-					
-					if (treeProm.containsKey(cicloGrupoId + cursoId	+ kardex.getCodigoId())) {
-						aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
-						promedio = Double.parseDouble(alumProm.getPromedio().replaceAll(",",".")); 
-					}
-					
-					/* Guardar promedio del alumno en krdx_curso_act */
-					kardex.setNota(frmDecimal.format(promedio));
-					kardex.setFNota(aca.util.Fecha.getHoy());
-					
-					//ACREDITO EL ORDINARIO
-					if (promedio >= notaAC) {
-						kardex.setTipoCalId("2");
-						todosPasan &= true;
-					}
-					//NO ACREDITO EL ORDINARIO
-					else{
-						kardex.setTipoCalId("3");
-						todosPasan &= false;
-					}
-					
-					if(kardex.updateReg(conElias)){
-						//Actualizo correctamente
-					}else{
-						error = true; break;
-					}
-					
-					i++;
-				}
-				
-				if (todosPasan){
-					cicloGrupoCurso.setEstado("4"); //MATERIA CERRADA
-				}else{
-					cicloGrupoCurso.setEstado("3");	//MATERIA EN EXTRAORDINARIO, YA QUE NO TODOS PASARON
-				}
-				
-				if(cicloGrupoCurso.updateReg(conElias)){
-					//Se actualizo el estado correctamente
-				}else{
-					error = true;
-				}
-			}//End cerraron todas las evaluaciones
+			if (todosPasan){
+				cicloGrupoCurso.setEstado("4"); //MATERIA CERRADA
+			}else{
+				cicloGrupoCurso.setEstado("3");	//MATERIA EN EXTRAORDINARIO, YA QUE NO TODOS PASARON
+			}
+			
+			if(cicloGrupoCurso.updateReg(conElias)){
+				//Se actualizo el estado correctamente
+			}else{
+				error = true;
+			}
+		}//End cerraron todas las evaluaciones
 		
-		}//End error
+		
 		//**************** END CERRAR EVALUACION ****************
 		
 		
@@ -522,7 +440,8 @@
 		}
 		
 		// Lista de evaluaciones de la materia
-		lisEvaluacion = cicloGrupoEvalLista.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
+		lisEvaluacion = cicloGrupoEvalLista.getArrayList(conElias, cicloGrupoId, cursoId, " ORDER BY ORDEN");
+		
 		// Actualizar el map de evaluaciones
 		mapEvalCiclo	= aca.ciclo.CicloGrupoEvalLista.mapEvalCurso(conElias, cicloGrupoId, cursoId);
 	}
@@ -535,8 +454,8 @@
 		
 		for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
 		
- 		// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
- 		java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNota = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, cursoId, "");
+ 		// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS 		
+ 		treeNota = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, cursoId, "");
 		
  		int evalCerradas = 0;
  		double promEval = 0;
@@ -882,16 +801,14 @@
 	pageContext.setAttribute("resultado", msj);
 	
 /* ********************************** END ACCIONES ********************************** */
-
-	
 	
 	
 
 	// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
-	java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNota = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, cursoId, "");
+	treeNota = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, cursoId, "");
 		
 	//TREEMAP DE LOS PROMEDIOS DE LOS ALUMNOS EN LA MATERIA (de la vista de alum_prom)
-	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
+	treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
 	
 %>
 
@@ -1137,7 +1054,7 @@
 						// Inserta columna del promedio de las evaluaciones
 						out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");
 %>				
-						<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th>
+						<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Porciento'/></th>
 <%
 					}
 					if (lisPromedio.size() > 1){
@@ -1148,253 +1065,97 @@
 %>		
 
 <%					
-					if(lisTodosLosExtras.size() == 5){
+					/*** MUESTRA EL PRIMER EXTRAORDINARIO ***/
+					if(lisTodosLosExtras.size() >= 1){
 						
-					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
+						if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />
 							</a>
 						</th>
-					<%}else{ %>
+					<%	}else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />
 							</a>
 						</th>
-					<%} 
-					
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+					<%	}
+					}
+
+					/*** MUESTRA EL SEGUNDO EXTRAORDINARIO ***/
+					if(lisTodosLosExtras.size() >= 2){
+						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra2(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
 								<fmt:message key="aca.Extra" />&nbsp;2
 							</a>
 						</th>
-					<%}else{ %>
+					<%	}else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />&nbsp;2
 							</a>
 						</th>
-					<%} 
+					<%	}
+					}	
 					
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+					/*** MUESTRA EL TERCER EXTRAORDINARIO ***/
+					if(lisTodosLosExtras.size() >= 3){
+						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra3(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
 								<fmt:message key="aca.Extra" />&nbsp;3
 							</a>
 						</th>
-					<%}else{ %>
+					<%	}else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />&nbsp;3
 							</a>
 						</th>
-					<%}
-						
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+					<%	}
+					}	
+					
+					/*** MUESTRA EL CUARTO EXTRAORDINARIO ***/
+					if(lisTodosLosExtras.size() >= 4){
+						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
 					<th class="text-center" style="width:4%;">
 						<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra4(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
 							<fmt:message key="aca.Extra" />&nbsp;4
 						</a>
 					</th>
-					<%}else{ %>
+					<%	}else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />&nbsp;4
 							</a>
 						</th>
-					<%}
+					<%	}
+					}
 					
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+					/*** MUESTRA EL QUINTO EXTRAORDINARIO ***/
+					if(lisTodosLosExtras.size() >= 5){						
+					
+						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
 					<th class="text-center" style="width:4%;">
 						<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra5(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
 							<fmt:message key="aca.Extra" />&nbsp;5
 						</a>
 					</th>
-					<%}else{ %>
+					<%	}else{ %>
 						<th class="text-center" style="width:4%;">
 							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
 								<fmt:message key="aca.Extra" />&nbsp;5
 							</a>
 						</th>
-					<%}
-					
-						//***************** CUATRO PORTUNIDADADES *********************//
-					} else if(lisTodosLosExtras.size() == 4){
-						
-					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />
-							</a>
-						</th>
-					<%} 
-					
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra2(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
-								<fmt:message key="aca.Extra" />&nbsp;2
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />&nbsp;2
-							</a>
-						</th>
-					<%} 
-					
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra3(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
-								<fmt:message key="aca.Extra" />&nbsp;3
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />&nbsp;3
-							</a>
-						</th>
-					<%}
-						
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
-					<th class="text-center" style="width:4%;">
-						<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra4(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
-							<fmt:message key="aca.Extra" />&nbsp;4
-						</a>
-					</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />&nbsp;4
-							</a>
-						</th>
-					<%}
-						
-					//***************** TRES PORTUNIDADADES *********************//
-					} else if(lisTodosLosExtras.size() == 3){
-						
-					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%} 
-					
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra2(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
-								<%=lisTodosLosExtras.get(1).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(1).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%} 
-					
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra3(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
-								<%=lisTodosLosExtras.get(2).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(2).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%}	
-					
-					//***************** DOS PORTUNIDADADES *********************//
-					} else if(lisTodosLosExtras.size() == 2){
-						
-					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%} 
-					
-					if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra2(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
-								<%=lisTodosLosExtras.get(1).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(1).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%} 
-						
-					//***************** UNA PORTUNIDADAD *********************//
-					} else if(lisTodosLosExtras.size() == 1){
-						
-					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
-							<th class="text-center" style="width:4%;">
-								<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
-									<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
-								</a>
-							</th>
-					<% }else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<%=lisTodosLosExtras.get(0).getOportunidadNombre() %>
-							</a>
-						</th>
-					<%} 
-						
-					//***************** NO REGISTRRAON PORTUNIDADADES *********************//
-					} else {
-						
-					if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />
-							</a>
-						</th>
-					<%}else{ %>
-						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
-								<fmt:message key="aca.Extra" />
-							</a>
-						</th>
-					<%} 
-						
+					<%	}
 					}
-%>				
+					%>			
 					
-					<%if(cicloGrupoCurso.getEstado().equals("3")){ %>
+					<%if(cicloGrupoCurso.getEstado().equals("3")||cicloGrupoCurso.getEstado().equals("4")||cicloGrupoCurso.getEstado().equals("5")){ %>
 						<th class="text-center" style="width:10%;">
-								Promedio <fmt:message key="aca.Extra" />&nbsp;
+								P.<fmt:message key="aca.Extra" />&nbsp;
 						</th>
 					<%} %>	
 				</tr>
@@ -1441,9 +1202,10 @@
 						int evalCerradas =0;
 						
 						double promedioFinal = 0;
+						double sumaValor = 0;
 						String muestraPromedioFinal = "";
 						int eval = 0;
-						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){							
 							
 							for(aca.ciclo.CicloBloque cicloBloque : lisBloque){					
 								if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){			
@@ -1492,37 +1254,34 @@
 								</td>
 						<%
 								}
-							} // End for evaluaciones
+							} // End for evaluaciones				
 							
+									
 							// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
 							double promEval = 0; 
 							if (mapPromAlumno.containsKey(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId())){
 								promEval = Double.parseDouble(mapPromAlumno.get(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId()).getNota());									
 							}
 							
-							// Puntos del promedio en escala de 100 (considerando el valor de cada promedio en escala de 0-100)
-							double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
-							
-							double puntosEscala = 0;
-							if (escalaEval == 5){
-								puntosEscala = (puntosEval * 5)/Double.parseDouble(valor);
-							}else if (escalaEval == 10){
-								puntosEscala = (puntosEval * 10)/Double.parseDouble(valor);
-							}else{
-								// Escala 100							
-								puntosEscala = puntosEval;
+							// Suma los valores de todos los promedios en ciclo_promedio para calcular la nota final
+							// Considera solamente los evaluados
+							if (promEval > 0){
+								sumaValor += Double.parseDouble(cicloPromedio.getValor());
 							}
+							
+							// Puntos del promedio en escala de 100 (considerando el valor de cada promedio en escala de 0-100)
+							double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;						
 							
 							// Formato del promedio y los puntos (decimales usados)
 							String promFormato		= formato1.format(promEval);
-							String puntosFormato	= formato1.format(puntosEscala);							
+							String puntosFormato	= formato1.format(puntosEval);							
 							
 							if (cicloPromedio.getDecimales().equals("0")){
 								promFormato 		= formato0.format(promEval);
-								puntosFormato 		= formato0.format(puntosEscala);
+								puntosFormato 		= formato0.format(puntosEval);
 							}else if (cicloPromedio.getDecimales().equals("2")){
 								promFormato 		= formato2.format(promEval);
-								puntosFormato 		= formato2.format(puntosEscala);
+								puntosFormato 		= formato2.format(puntosEval);
 							}			
 							
 							//puntosFormato = Double.toString((Double.parseDouble(puntosFormato) * 5)/Double.parseDouble(valor));
@@ -1533,31 +1292,36 @@
 							out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
 							
 							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
-						
-							muestraPromedioFinal = formato1.format(promedioFinal);
-							
 							eval++;
 							
-						}//End for de promedio
+						}//End for de promedio						
+						
 						if (lisPromedio.size() > 1){
+						
+							double puntosEscala = 0;
+							if (escalaEval == 5){
+								promedioFinal = (promedioFinal * 5)/sumaValor;
+							}else if (escalaEval == 10){
+								promedioFinal = (promedioFinal * 10)/sumaValor;
+							}							
+							muestraPromedioFinal = formato1.format(promedioFinal);
+						
 							//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
 							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"*</td>");
 						}
-%>											
-						
-<% 
+
 						String strExtra = "-";
 						String strExtra2 = "-";
 						String strExtra3 = "-";
 						String strExtra4 = "-";
 						String strExtra5 = "-";
+						String promedioFinalExtra = "";
+						
+						float numExtra 	= 0;
 
-
-						if(lisTodosLosExtras.size() == 5){
-							// CINCO OPORTUNIDADES //
-							// ************* 	EXTRAORDINARIO *************//	
+						/*** HABILITAR PRIMER EXTRADORDINARIO ***/
+						if(lisTodosLosExtras.size() >= 1){						
 							
-							float numExtra 	= 0;
 							strExtra = "-";
 							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && promedio < notaAC) {	
 
@@ -1568,7 +1332,8 @@
 
 								if (kardexAlumnoExtra.existeReg(conElias)) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-									strExtra = kardexAlumnoExtra.getNotaExtra();
+									strExtra 			= kardexAlumnoExtra.getNotaExtra();
+									promedioFinalExtra 	= kardexAlumnoExtra.getPromedio();
  								} else {
  									strExtra = "-";
  								}																							
@@ -1595,9 +1360,10 @@
 								<%}%>
 							</td>
 							<%
-							
-							// ************* 	EXTRAORDINARIO 2 *************//	
-							
+						}
+						
+						/*** HABILITAR SEGUNDO EXTRADORDINARIO ***/
+						if(lisTodosLosExtras.size() >= 2){											
 							
 								strExtra2 = "-";
 								
@@ -1611,6 +1377,7 @@
 									if (kardexAlumnoExtra.existeReg(conElias)) {
 										kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "2");
 										strExtra2 = kardexAlumnoExtra.getNotaExtra();
+										promedioFinalExtra 	= kardexAlumnoExtra.getPromedio();
 	 								} else {
 	 									strExtra2 = "-";
 	 								}																							
@@ -1637,8 +1404,10 @@
 									<%}%>
 								</td>
 							<%
-							
-							// ************* 	EXTRAORDINARIO 3 *************//	
+						}
+						
+						/*** HABILITAR TERCER EXTRADORDINARIO ***/
+						if(lisTodosLosExtras.size() >= 3){								
 							
 								strExtra3 = "-";
 								
@@ -1652,6 +1421,7 @@
 									if (kardexAlumnoExtra.existeReg(conElias)) {
 										kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "3");
 										strExtra3 = kardexAlumnoExtra.getNotaExtra();
+										promedioFinalExtra 	= kardexAlumnoExtra.getPromedio();
 	 								} else {
 	 									strExtra3 = "-";
 	 								}																							
@@ -1679,9 +1449,10 @@
 									<%}%>
 								</td>	
 						<%
+						}
 						
-						// ************* 	EXTRAORDINARIO 4 *************//	
-						
+						/*** HABILITAR CUARTO EXTRADORDINARIO ***/
+						if(lisTodosLosExtras.size() >= 4){					
 						
 							strExtra4 = "-";
 							
@@ -1695,6 +1466,7 @@
 								if (kardexAlumnoExtra.existeReg(conElias)) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "4");
 									strExtra4 = kardexAlumnoExtra.getNotaExtra();
+									promedioFinalExtra 	= kardexAlumnoExtra.getPromedio();
  								} else {
  									strExtra4 = "-";
  								}																							
@@ -1721,8 +1493,10 @@
 								<%}%>
 							</td>
 						<%
+						}
 						
-						// ************* 	EXTRAORDINARIO 5 *************//	
+						/*** HABILITAR QUINTO EXTRADORDINARIO ***/
+						if(lisTodosLosExtras.size() >= 5){			
 						
 							strExtra5 = "-";
 							
@@ -1736,6 +1510,7 @@
 								if (kardexAlumnoExtra.existeReg(conElias)) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "5");
 									strExtra5 = kardexAlumnoExtra.getNotaExtra();
+									promedioFinalExtra 	= kardexAlumnoExtra.getPromedio();
  								} else {
  									strExtra5 = "-";
  								}																							
@@ -1761,622 +1536,62 @@
 										/>
 									</div>
 								<%}%>
-							</td>	
-					<%
-							
-						}else if(lisTodosLosExtras.size() == 4){
-							// CUATRO OPORTUNIDADES //
-							// ************* 	EXTRAORDINARIO   *************//	
-							
-							float numExtra 	= 0;
-							strExtra = "-";
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && promedio < notaAC) {	
-
- 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
- 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
- 								kardexAlumnoExtra.setCursoId(cursoId);
- 								kardexAlumnoExtra.setOportunidad("1");
-
-								if (kardexAlumnoExtra.existeReg(conElias)) {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-									strExtra = kardexAlumnoExtra.getNotaExtra();
- 								} else {
- 									strExtra = "-";
- 								}																							
-								
-							}							
-						%>
-							<td class="text-center">
-								<div id="extra<%=i%>"><%=strExtra %></div>
-								
-								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
-								<%if ( !strExtra.equals("") ){%>
-									<div class="editarExtra" style="display:none;">
-										<input 
-											style="margin-bottom:0;text-align:center;" 
-											class="input-mini onlyNumbers" 
-											data-max-num="<%=escala%>"
-											type="text" 
-											tabindex="<%=i+1%>" 
-											name="notaExtra<%=i%>"
-											id="notaExtra<%=i%>" 
-											value="<%=strExtra.equals("-")?"":strExtra %>" 
-										/>
-									</div>
-								<%}%>
-							</td>
-							<%
-							
-							// ************* 	EXTRAORDINARIO 2 *************//	
-							
-							
-								strExtra2 = "-";
-								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra2.equals("")) {	
-
-	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
-	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
-	 								kardexAlumnoExtra.setCursoId(cursoId);
-	 								kardexAlumnoExtra.setOportunidad("2");
-
-									if (kardexAlumnoExtra.existeReg(conElias)) {
-										kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "2");
-										strExtra2 = kardexAlumnoExtra.getNotaExtra();
-	 								} else {
-	 									strExtra2 = "-";
-	 								}																							
-									
-								}
-							%>
-								<td class="text-center">
-									<div id="extra<%=i%>"><%=strExtra2 %></div>
-									
-									<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 2 (ESCONDIDO POR DEFAULT) -->
-									<%if ( !strExtra2.equals("") ) {%>
-										<div class="editarExtra2" style="display:none;">
-											<input 
-												style="margin-bottom:0;text-align:center;" 
-												class="input-mini onlyNumbers"
-												data-max-num="<%=escala %>" 
-												type="text" 
-												tabindex="<%=i+1%>" 
-												name="notaExtra2<%=i%>"
-												id="notaExtra2<%=i%>" 
-												value="<%=strExtra2.equals("-")?"":strExtra2 %>" 
-											/>
-										</div>
-									<%}%>
-								</td>
-							<%
-							
-							// ************* 	EXTRAORDINARIO 3 *************//	
-							
-								strExtra3 = "-";
-								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra3.equals("")) {	
-
-	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
-	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
-	 								kardexAlumnoExtra.setCursoId(cursoId);
-	 								kardexAlumnoExtra.setOportunidad("3");
-
-									if (kardexAlumnoExtra.existeReg(conElias)) {
-										kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "3");
-										strExtra3 = kardexAlumnoExtra.getNotaExtra();
-	 								} else {
-	 									strExtra3 = "-";
-	 								}																							
-									
-								}
-							%>
-							
-								<td class="text-center">
-									<div id="extra<%=i%>"><%=strExtra3 %></div>
-									
-									<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 3 (ESCONDIDO POR DEFAULT) -->
-									<%if ( !strExtra3.equals("") ) {%>
-										<div class="editarExtra3" style="display:none;">
-											<input 
-												style="margin-bottom:0;text-align:center;" 
-												class="input-mini onlyNumbers"
-												data-max-num="<%=escala %>" 
-												type="text" 
-												tabindex="<%=i+1%>" 
-												name="notaExtra3<%=i%>"
-												id="notaExtra3<%=i%>" 
-												value="<%=strExtra3.equals("-")?"":strExtra3 %>" 
-											/>
-										</div>
-									<%}%>
-								</td>	
-						<%
-						
-						// ************* 	EXTRAORDINARIO 4 *************//	
-						
-						
-							strExtra4 = "-";
-							
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra4.equals("")) {	
-
- 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
- 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
- 								kardexAlumnoExtra.setCursoId(cursoId);
- 								kardexAlumnoExtra.setOportunidad("4");
-
-								if (kardexAlumnoExtra.existeReg(conElias)) {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "4");
-									strExtra4 = kardexAlumnoExtra.getNotaExtra();
- 								} else {
- 									strExtra4 = "-";
- 								}																							
-								
-							}
-						%>
-							<td class="text-center">
-								<div id="extra<%=i%>"><%=strExtra4 %></div>
-								
-								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 4 (ESCONDIDO POR DEFAULT) -->
-								<%if ( !strExtra4.equals("") ) {%>
-									<div class="editarExtra4" style="display:none;">
-										<input 
-											style="margin-bottom:0;text-align:center;" 
-											class="input-mini onlyNumbers"
-											data-max-num="<%=escala %>" 
-											type="text" 
-											tabindex="<%=i+1%>" 
-											name="notaExtra4<%=i%>"
-											id="notaExtra4<%=i%>" 
-											value="<%=strExtra4.equals("-")?"":strExtra4 %>" 
-										/>
-									</div>
-								<%}%>
-							</td>
-						<%	
-							
-							
-						
-							
-						}else if(lisTodosLosExtras.size() == 3){
-							// TRES OPORTUNIDADES //
-							// ************* 	EXTRAORDINARIO   *************//	
-							
-							float numExtra 	= 0;
-							strExtra = "-";
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && promedio < notaAC) {	
-
- 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
- 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
- 								kardexAlumnoExtra.setCursoId(cursoId);
- 								kardexAlumnoExtra.setOportunidad("1");
-
-								if (kardexAlumnoExtra.existeReg(conElias)) {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-									
-									if(kardexAlumnoExtra.getNotaExtra().equals("")){
-										strExtra = "-";
-									}else{
-										strExtra = kardexAlumnoExtra.getNotaExtra();
-									}
-									
- 								} else {
- 									strExtra = "-";
- 								}																							
-						
-							}							
-						%>
-							<td class="text-center">
-								<div id="extra<%=i%>"><%=strExtra %></div>
-						<%
-						String tipoInput1 = "hidden";						 
-						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
-							tipoInput1 = "text";
+							</td>				
+<%
 						}
-						%>		
-							<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
-								<%if ( !strExtra.equals("") ){%>
-									<div class="editarExtra" style="display:none;">
-										<input 
-											style="margin-bottom:0;text-align:center;" 
-											class="input-mini onlyNumbers" 
-											data-max-num="<%=escala%>"
-											type="<%=tipoInput1%>" 
-											tabindex="<%=i+1%>" 
-											name="notaExtra<%=i%>"
-											id="notaExtra<%=i%>" 
-											value="<%=strExtra.equals("-")?"":strExtra %>" 
-										/>
-									</div>
-								<%}%>
-							</td>
-							<%
-							
-							// ************* 	EXTRAORDINARIO 2 *************//	
-							
-							
-								strExtra2 = "-";
-								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra2.equals("")) {	
-
-	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
-	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
-	 								kardexAlumnoExtra.setCursoId(cursoId);
-	 								kardexAlumnoExtra.setOportunidad("2");
-
-									if (kardexAlumnoExtra.existeReg(conElias)) {
-										kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "2");
-										strExtra2 = kardexAlumnoExtra.getNotaExtra();
-	 								} else {
-	 									strExtra2 = "-";
-	 								}																							
-									
-								}
-							%>
-								<td class="text-center">
-									<div id="extra<%=i%>"><%=strExtra2 %></div>
-							<%
-							String tipoInput2 = "hidden";						 
-							if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
-								tipoInput2 = "text";
-							}
-							%>		
-									<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 2 (ESCONDIDO POR DEFAULT) -->
-									<%if ( !strExtra2.equals("") ) {%>
-										<div class="editarExtra2" style="display:none;">
-											<input 
-												style="margin-bottom:0;text-align:center;" 
-												class="input-mini onlyNumbers"
-												data-max-num="<%=escala %>" 
-												type="<%=tipoInput2%>" 
-												tabindex="<%=i+1%>" 
-												name="notaExtra2<%=i%>"
-												id="notaExtra2<%=i%>" 
-												value="<%=strExtra2.equals("-")?"":strExtra2 %>" 
-											/>
-										</div>
-									<%}%>
-								</td>
-							<%
-							
-							// ************* 	EXTRAORDINARIO 3 *************//	
-							
-								strExtra3 = "-";
-								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra3.equals("")) {	
-
-	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
-	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
-	 								kardexAlumnoExtra.setCursoId(cursoId);
-	 								kardexAlumnoExtra.setOportunidad("3");
-
-									if (kardexAlumnoExtra.existeReg(conElias)) {
-										kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "3");
-										strExtra3 = kardexAlumnoExtra.getNotaExtra();
-	 								} else {
-	 									strExtra3 = "-";
-	 								}																							
-									
-								}
-							%>
-							
-								<td class="text-center">
-									<div id="extra<%=i%>"><%=strExtra3 %></div>
-							<%
-						String tipoInput3 = "hidden";						 
-						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
-							tipoInput3 = "text";
-						}
-						%>		
-									<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 3 (ESCONDIDO POR DEFAULT) -->
-									<%if ( !strExtra3.equals("") ) {%>
-										<div class="editarExtra3" style="display:none;">
-											<input 
-												style="margin-bottom:0;text-align:center;" 
-												class="input-mini onlyNumbers"
-												data-max-num="<%=escala %>" 
-												type="<%=tipoInput3%>" 
-												tabindex="<%=i+1%>" 
-												name="notaExtra3<%=i%>"
-												id="notaExtra3<%=i%>" 
-												value="<%=strExtra3.equals("-")?"":strExtra3 %>" 
-											/>
-										</div>
-									<%}%>
-								</td>	
-						<%	
-						}else if(lisTodosLosExtras.size() == 2){
-							// DOS OPORTUNIDADES //
-							// ************* 	EXTRAORDINARIO   *************//	
-							
-							float numExtra 	= 0;
-							strExtra = "-";
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && promedio < notaAC) {	
-
- 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
- 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
- 								kardexAlumnoExtra.setCursoId(cursoId);
- 								kardexAlumnoExtra.setOportunidad("1");
-
-								if (kardexAlumnoExtra.existeReg(conElias)) {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-									strExtra = kardexAlumnoExtra.getNotaExtra();
- 								} else {
- 									strExtra = "-";
- 								}																							
-								
-							}							
-						%>
-							<td class="text-center">
-								<div id="extra<%=i%>"><%=strExtra %></div>
-						<%
-						String tipoInput1 = "hidden";						 
-						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
-							tipoInput1 = "text";
-						}
-						%>		
-								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
-								<%if ( !strExtra.equals("") ){%>
-									<div class="editarExtra" style="display:none;">
-										<input 
-											style="margin-bottom:0;text-align:center;" 
-											class="input-mini onlyNumbers" 
-											data-max-num="<%=escala%>"
-											type="<%=tipoInput1%>" 
-											tabindex="<%=i+1%>" 
-											name="notaExtra<%=i%>"
-											id="notaExtra<%=i%>" 
-											value="<%=strExtra.equals("-")?"":strExtra %>" 
-										/>
-									</div>
-								<%}%>
-							</td>
-							<%
-							
-							// ************* 	EXTRAORDINARIO 2 *************//	
-							
-							
-								strExtra2 = "-";
-								
-								if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && numExtra < notaAC && !strExtra2.equals("")) {	
-
-	 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
-	 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
-	 								kardexAlumnoExtra.setCursoId(cursoId);
-	 								kardexAlumnoExtra.setOportunidad("2");
-
-									if (kardexAlumnoExtra.existeReg(conElias)) {
-										kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "2");
-										strExtra2 = kardexAlumnoExtra.getNotaExtra();
-	 								} else {
-	 									strExtra2 = "-";
-	 								}																							
-									
-								}
-							%>
-								<td class="text-center">
-									<div id="extra<%=i%>"><%=strExtra2 %></div>
-							<%
-							String tipoInput2 = "hidden";						 
-							if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
-								tipoInput2 = "text";
-							}
-							%>		
-									<!-- INPUT PARA EDITAR EL EXTRAORDINARIO 2 (ESCONDIDO POR DEFAULT) -->
-									<%if ( !strExtra2.equals("") ) {%>
-										<div class="editarExtra2" style="display:none;">
-											<input 
-												style="margin-bottom:0;text-align:center;" 
-												class="input-mini onlyNumbers"
-												data-max-num="<%=escala %>" 
-												type="<%=tipoInput2%>" 
-												tabindex="<%=i+1%>" 
-												name="notaExtra2<%=i%>"
-												id="notaExtra2<%=i%>" 
-												value="<%=strExtra2.equals("-")?"":strExtra2 %>" 
-											/>
-										</div>
-									<%
-									}
-									%>
-								</td>
-							<%	
-	
-						}else if(lisTodosLosExtras.size() == 1){
-							// ************* 	EXTRAORDINARIO   *************//	
-							
-							float numExtra 	= 0;
-							strExtra = "-";
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && promedio < notaAC) {	
-
- 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
- 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
- 								kardexAlumnoExtra.setCursoId(cursoId);
- 								kardexAlumnoExtra.setOportunidad("1");
-
-								if (kardexAlumnoExtra.existeReg(conElias)) {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-									
-									strExtra = kardexAlumnoExtra.getNotaExtra();
-							
- 								} else {
- 									strExtra = "-";
- 								}																							
-								
-							}
-							
-						%>
-							<td class="text-center">
-							<div id="extra<%=i%>"><%=strExtra %></div>
-						<%
-						String tipoInput1 = "hidden";						 
-						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
-							tipoInput1 = "text";
-						}
-						%>				
-								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
-								<%if ( !strExtra.equals("") ){%>
-									<div class="editarExtra" style="display:none;">
-										<input 
-											style="margin-bottom:0;text-align:center;" 
-											class="input-mini onlyNumbers" 
-											data-max-num="<%=escala%>"
-											type="<%=tipoInput1%>" 
-											tabindex="<%=i+1%>" 
-											name="notaExtra<%=i%>"
-											id="notaExtra<%=i%>" 
-											value="<%=strExtra.equals("-")?"":strExtra %>" 
-										/>
-									</div>
-								<%}%>
-							</td>
-							<%	
-						}else{
-						%>
-						
-							<!-- SI NO REGISTRO NINGUNA OPORTUNIDAD  --> 
-							<!-- ************* 	EXTRAORDINARIO   *************	 --> 
-						<%	
-							float numExtra 	= 0;
-							strExtra = "-";
-							if ( (cicloGrupoCurso.getEstado().equals("3") || cicloGrupoCurso.getEstado().equals("4") || cicloGrupoCurso.getEstado().equals("5")) && promedio < notaAC) {	
-
- 								kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
- 								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
- 								kardexAlumnoExtra.setCursoId(cursoId);
- 								kardexAlumnoExtra.setOportunidad("1");
-
-								if (kardexAlumnoExtra.existeReg(conElias)) {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-									strExtra = kardexAlumnoExtra.getNotaExtra();
-									
-									// Formato del extra (decimales usados)
-									for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-										double muestraExtra = Double.parseDouble(strExtra);
-										strExtra		= formato1.format(muestraExtra);
-										
-// 										if (cicloPromedio.getDecimales().equals("0")){
-// 											strExtra 		= formato0.format(muestraExtra);
-// 										}else if (cicloPromedio.getDecimales().equals("2")){
-// 											strExtra 		= formato2.format(muestraExtra);
-// 										}	
-									}
-	
- 								} else {
- 									strExtra = "-";
- 								}																							
-								
-							}							
-						%>
-							<td class="text-center">
-								<div id="extra<%=i%>"><%=strExtra %></div>
-						<%
-						String tipoInput = "hidden";						 
-						if(aca.kardex.KrdxCursoAct.getAlumnoReprobado(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId)){							
-							tipoInput = "text";
-						}
-						%>		
-								<!-- INPUT PARA EDITAR EL EXTRAORDINARIO (ESCONDIDO POR DEFAULT) -->
-								<%if ( !strExtra.equals("") ){%>
-									<div class="editarExtra" style="display:none;">
-										<input 
-											style="margin-bottom:0;text-align:center;" 
-											class="input-mini onlyNumbers" 
-											data-max-num="<%=escala%>"
-											type="<%=tipoInput%>" 
-											tabindex="<%=i+1%>" 
-											name="notaExtra<%=i%>"
-											id="notaExtra<%=i%>" 
-											value="<%=strExtra.equals("-")?"":strExtra %>" 
-										/>
-									</div>
-								<%}%>
-							</td>
-							<%	
-						}
-						%>	
-						
+%>						
 						<!-- --------- PROMEDIO DEL EXTRA ACTUAL MAS PROMEDIO --------- -->
-							<%
-							String promedioFinalExtra = "";
-							String valorAnt = "", valorExt = "";
-							String alumnosEnExtra = aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId); 
+<%														
+							boolean tieneExtra = aca.kardex.KrdxAlumExtra.tieneExtras(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId);										 
 							
-							if(Integer.parseInt(alumnosEnExtra) > 0 && cicloGrupoCurso.getEstado().equals("3")){ %>
-								<td class="text-center">
-								<%if ( strExtra == "-") {%>
-									<div id="extra<%=i%>"><%="-"%></div>
-								<%
-								} else if ( strExtra5 != "-") {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "5");
-									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
-									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "5");
-									valorExt = cicloExtra.getExtra(conElias, cicloId, "5");
-								%>
-									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
-								<%} else if (strExtra4 != "-" ) {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "4");
-									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
-									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "4");
-									valorExt = cicloExtra.getExtra(conElias, cicloId, "4");
-								%>
-									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
-								<%} else if ( strExtra3 != "-") {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "3");
-									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
-									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "3");
-									valorExt = cicloExtra.getExtra(conElias, cicloId, "3");
-								%>
-									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
-								<%} else if (strExtra2 != "-" ) {
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "2");
-									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
-									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "2");
-									valorExt = cicloExtra.getExtra(conElias, cicloId, "2");
-								%>
-									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
-								<%} else if ( strExtra != "-" ) {	
-									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-									promedioFinalExtra = kardexAlumnoExtra.getPromedio();
-									valorAnt = cicloExtra.getAnterior(conElias, cicloId, "1");
-									valorExt = cicloExtra.getExtra(conElias, cicloId, "1");
-								%>
-									<div id="extra<%=i%>"><%=promedioFinalExtra %></div>
-								<%} %>									
-							
-								</td>
-							<%}else { %>	
-								<td class="text-center">
-									<div id="extra<%=i%>"><%="-"%></div>
-								</td>
-							<%} %>		
-							
-													
-				</tr>
-				<%
+							// Si esta en estado de evaluar extraordinarios y tiene notas en extra
+							if(cicloGrupoCurso.getEstado().equals("3")||cicloGrupoCurso.getEstado().equals("4")||cicloGrupoCurso.getEstado().equals("5")){
+								if (tieneExtra){				
+%>
+							<td class="text-center">
+								<div><%=promedioFinalExtra %></div>
+							</td>
+<%								
+								}else{
+%>
+							<td class="text-center">
+								<div>-</div>
+							</td>
+<%								
+								}
+							}	
+%>					</tr>
+<%
 						i++;
 					} // end for lista de alumnos
-				%>
-				
+%>
 				<tr>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 					<td>&nbsp;</td>
 				<!-- BOTONES PARA EDITAR LAS NOTAS (ESCONDIDOS POR DEFAULT) -->
-					<%
-					for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
-					%>
+<%
+				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+					
+					for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+									
+						if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){					
+%>
 						<td class="text-center">
-							<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
-								<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=eval.getEvaluacionId()%>' );"><fmt:message key="boton.Guardar" /></a> 
-								<a tabindex="<%=lisKardexAlumnos.size()+1 %>" class="btn btn-danger btn-block" type="button" href="javascript:borrarCalificaciones( '<%=eval.getEvaluacionId()%>' );"><fmt:message key="boton.Eliminar" /></a>
+							<div class="editar<%=cicloBloque.getBloqueId() %>" style="display:none;">
+								<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=cicloBloque.getBloqueId()%>' );"><fmt:message key="boton.Guardar" /></a> 
+								<a tabindex="<%=lisKardexAlumnos.size()+1 %>" class="btn btn-danger btn-block" type="button" href="javascript:borrarCalificaciones( '<%=cicloBloque.getBloqueId()%>' );"><fmt:message key="boton.Eliminar" /></a>
 							</div>
 						</td>
 					<%
+						}
 					}
-					%>
-					<td>&nbsp;</td>
-					
+					out.print("<td>&nbsp;</td>");
+					out.print("<td>&nbsp;</td>");
+				}	
+					%>					
 					<%
-					if(lisTodosLosExtras.size() == 5){
+					if(lisTodosLosExtras.size() >= 1){
 					%>
 					<td>&nbsp;</td>
 					<!-- BOTON DE NOTA EXTRA -->
@@ -2385,13 +1600,20 @@
 							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
 						</div>
 					</td>
-					
+					<%
+					}				
+					if(lisTodosLosExtras.size() >= 2){
+					%>
 					<!-- BOTON DE NOTA EXTRA 2 -->
-						<td class="text-center">
-							<div class="editarExtra2" style="display:none;">
-								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra2();"><fmt:message key="boton.Guardar" /></a> 
-							</div>
-						</td>
+					<td class="text-center">
+						<div class="editarExtra2" style="display:none;">
+							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra2();"><fmt:message key="boton.Guardar" /></a> 
+						</div>
+					</td>
+					<%
+					}				
+					if(lisTodosLosExtras.size() >= 3){
+					%>	
 					
 					<!-- BOTON DE NOTA EXTRA 3 -->
 						<td class="text-center">
@@ -2399,128 +1621,33 @@
 								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra3();"><fmt:message key="boton.Guardar" /></a> 
 							</div>
 						</td>
+					<%
+					}				
+					if(lisTodosLosExtras.size() >= 4){
+					%>	
 					<!-- BOTON DE NOTA EXTRA 4 -->
 						<td class="text-center">
 							<div class="editarExtra4" style="display:none;">
 								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra4();"><fmt:message key="boton.Guardar" /></a> 
 							</div>
 						</td>
-					
+					<%
+					}				
+					if(lisTodosLosExtras.size() >= 5){
+					%>
 					<!-- BOTON DE NOTA EXTRA 5 -->
 						<td class="text-center">
 							<div class="editarExtra5" style="display:none;">
 								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra5();"><fmt:message key="boton.Guardar" /></a> 
 							</div>
-						</td>
-						<td>&nbsp;</td>
+						</td>						
 					<%	
-					}else if(lisTodosLosExtras.size() == 4){
-					%>	
-					<td>&nbsp;</td>
-					<!-- BOTON DE NOTA EXTRA -->
-					<td class="text-center">
-						<div class="editarExtra" style="display:none;">
-							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
-						</div>
-					</td>
-					
-					<!-- BOTON DE NOTA EXTRA 2 -->
-						<td class="text-center">
-							<div class="editarExtra2" style="display:none;">
-								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra2();"><fmt:message key="boton.Guardar" /></a> 
-							</div>
-						</td>
-					
-					<!-- BOTON DE NOTA EXTRA 3 -->
-						<td class="text-center">
-							<div class="editarExtra3" style="display:none;">
-								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra3();"><fmt:message key="boton.Guardar" /></a> 
-							</div>
-						</td>
-					<!-- BOTON DE NOTA EXTRA 4 -->
-						<td class="text-center">
-							<div class="editarExtra4" style="display:none;">
-								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra4();"><fmt:message key="boton.Guardar" /></a> 
-							</div>
-						</td>
-						<td>&nbsp;</td>
-					<%
-					}if(lisTodosLosExtras.size() == 3){
-					%>	
-					<td>&nbsp;</td>
-					<!-- BOTON DE NOTA EXTRA -->
-					<td class="text-center">
-						<div class="editarExtra" style="display:none;">
-							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
-						</div>
-					</td>
-					
-					<!-- BOTON DE NOTA EXTRA 2 -->
-						<td class="text-center">
-							<div class="editarExtra2" style="display:none;">
-								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra2();"><fmt:message key="boton.Guardar" /></a> 
-							</div>
-						</td>
-					
-					<!-- BOTON DE NOTA EXTRA 3 -->
-						<td class="text-center">
-							<div class="editarExtra3" style="display:none;">
-								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra3();"><fmt:message key="boton.Guardar" /></a> 
-							</div>
-						</td>
-						<td>&nbsp;</td>
-					<%
-					}if(lisTodosLosExtras.size() == 2){
-					%>
-					<td>&nbsp;</td>
-					<!-- BOTON DE NOTA EXTRA -->
-					<td class="text-center">
-						<div class="editarExtra" style="display:none;">
-							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
-						</div>
-					</td>
-					
-					<!-- BOTON DE NOTA EXTRA 2 -->
-						<td class="text-center">
-							<div class="editarExtra2" style="display:none;">
-								<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra2();"><fmt:message key="boton.Guardar" /></a> 
-							</div>
-						</td>
-						<td>&nbsp;</td>
-					<%	
-					}if(lisTodosLosExtras.size() == 1){
-					%>
-					<!-- BOTON DE NOTA EXTRA -->
-					<td class="text-center">
-						<div class="editarExtra" style="display:none;">
-							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
-						</div>
-					</td>
-					<td>&nbsp;</td>
-					<%
-					}  if(lisTodosLosExtras.size() < 1){
-					%>
-					<td>&nbsp;</td>
-					<!-- BOTON DE NOTA EXTRA  CUANDO NO ASIGNAN NINGUN EXTRA-->
-					<td class="text-center">
-						<div class="editarExtra" style="display:none;">
-							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
-						</div>
-					</td>
-					<td>&nbsp;</td>
-					<%
- 					}
-					%> 
-										
-					<td>&nbsp;</td>
+					} 
+					%>				
 				</tr>
 		</table>
 	</form>
-
-
+	
 </div>
-
-
-
 
 <%@ include file="../../cierra_elias.jsp"%>

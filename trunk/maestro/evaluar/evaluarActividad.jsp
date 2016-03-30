@@ -91,8 +91,7 @@
 // 	}
 	
 	//INFORMACION DEL MAESTRO
-	empPersonal.mapeaRegId(conElias, codigoId);
-	
+	empPersonal.mapeaRegId(conElias, codigoId);	
 
 	ArrayList<aca.ciclo.CicloGrupoActividad> lisActividad 	= cicloGrupoActividadL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacionId, "ORDER BY ACTIVIDAD_ID, ACTIVIDAD_NOMBRE");
 	ArrayList<aca.kardex.KrdxAlumActiv> lisKrdxActiv 		= krdxAlumActivL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacionId, "ORDER BY ALUM_APELLIDO(CODIGO_ID), ACTIVIDAD_ID");
