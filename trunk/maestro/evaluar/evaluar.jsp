@@ -614,7 +614,7 @@
 			String notaExtra = request.getParameter("notaExtra2"+cont)==null?"0":request.getParameter("notaExtra2"+cont);
 			
 			if (!notaExtra.equals("")) {			
-				
+				System.out.println("Datos:"+notaExtra);
 				/* OBTIENE EL PROMEDIO DEL EXTRAORDINARIO ANTERIOR (#1) **/
 				double promAnt = Double.parseDouble(aca.kardex.KrdxAlumExtra.getPromedio(conElias, kardex.getCodigoId(), kardex.getCicloGrupoId(), kardex.getCursoId(), "1"));				
 					
@@ -763,39 +763,28 @@
 <!--  ********************************************** HTML MARKUP **********************************************  -->
 
 <div id="content">
-	<h2>
-		<fmt:message key="aca.Evaluaciones" /> 
-		
-		<%if (cicloGrupoCurso.getEstado().equals("1")){%>
-			<span class='label label-info'><fmt:message key="aca.MateriaCreada" /></span>
-		<%}else if (cicloGrupoCurso.getEstado().equals("2")){%>
-			<span class='label label-success'><fmt:message key="aca.MateriaEnEvaluacion" /></span>
-		<%}else if (cicloGrupoCurso.getEstado().equals("3")){%>
-			<span class='label label-important'><fmt:message key="aca.MateriaEnExtraordinario" /></span>
-			<a style="margin:0;display:inline-block;vertical-align:baseline;" class="btn btn-primary btn-mini" type="button" href="javascript:cerrarExtra();">Cerrar extra</a>
-		<%}else if (cicloGrupoCurso.getEstado().equals("4")){%>
-			<span class='label label-inverse'><fmt:message key="aca.MateriaCerrada" /></span>
-		<%}%>
-		
-		<small><%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%></small>
-	</h2>
+	<h3>
+		<fmt:message key="aca.Evaluaciones" />		
+		<small>
+		( 
+			<%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%> | 
+			<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | 
+			<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> | 
+			<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>
+		 )
+		</small>
+	</h3>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
   	<%} %>
-	
-	<div class="alert alert-info">
-		<h5><%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> <small><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></small> </h5>
-		
-	</div>
-	
+  		
 	<div class="well" style="overflow:hidden;">
 		<a href="cursos.jsp" class="btn btn-primary btn-mobile">
 			<i class="icon-th-list icon-white"></i> <fmt:message key="aca.Cursos" />
-		</a>
-		
+		</a>		
 		<a class="btn btn-mobile" target="_blank" href="tarjeta.jsp?Curso=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&CodigoId=<%=codigoId%>">
 			<i class="icon-book"></i> <fmt:message key="aca.TarjetasDeAlumnos" />
 		</a>
@@ -807,6 +796,16 @@
 		<a class="btn btn-mobile" target="_blank" href="formatoAsistencia.jsp?CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>">
 			<i class="icon-list-alt"></i> <fmt:message key="aca.FormatoAsistencia" />
 		</a>
+		<%if (cicloGrupoCurso.getEstado().equals("1")){%>
+			<span class='label label-info'><fmt:message key="aca.MateriaCreada" /></span>
+		<%}else if (cicloGrupoCurso.getEstado().equals("2")){%>
+			<span class='label label-success'><fmt:message key="aca.MateriaEnEvaluacion" /></span>
+		<%}else if (cicloGrupoCurso.getEstado().equals("3")){%>
+			<span class='label label-important'><fmt:message key="aca.MateriaEnExtraordinario" /></span>
+			<a style="margin:0;display:inline-block;vertical-align:baseline;" class="btn btn-primary btn-mini" type="button" href="javascript:cerrarExtra();">Cerrar extra</a>
+		<%}else if (cicloGrupoCurso.getEstado().equals("4")){%>
+			<span class='label label-inverse'><fmt:message key="aca.MateriaCerrada" /></span>
+		<%}%>
 	</div>
 	
 <!--  -------------------- TABLA DE EVALUACIONES -------------------- -->
@@ -1016,15 +1015,25 @@
 					/*** MUESTRA EL PRIMER EXTRAORDINARIO ***/
 					if(lisTodosLosExtras.size() >= 1){
 						
+						// Busca el valor de la nota anterior y extraordinaria en el ciclo
+						String notaAnt 		= "0";
+						String notaExtra	= "0"; 	
+						cicloExtra.setCicloId(cicloId);
+						cicloExtra.setOportunidad("1");						
+						if(cicloExtra.existeReg(conElias)){
+							cicloExtra.mapeaRegId(conElias, cicloId, "1");
+							notaAnt 	= cicloExtra.getValorAnterior();
+							notaExtra 	= cicloExtra.getValorExtra();
+						}
 						if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))) {%>
 						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >	
+							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra(<%=lisKardexAlumnosExtra.size()%>);" title="Nota=<%=notaAnt%>%, Extra=<%=notaExtra%>%" >	
 								<fmt:message key="aca.Extra" />
 							</a>
 						</th>
 					<%	}else{ %>
 						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >	
+							<a class="btn btn-mini btn-danger" title="<fmt:message key="boton.EvaluarExtra" />" >
 								<fmt:message key="aca.Extra" />
 							</a>
 						</th>
@@ -1033,9 +1042,21 @@
 
 					/*** MUESTRA EL SEGUNDO EXTRAORDINARIO ***/
 					if(lisTodosLosExtras.size() >= 2){
-						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){ %>
+						if(aca.kardex.KrdxCursoAct.getCantidadAlumnosConExtra(conElias, escuelaId, cicloGrupoId, cursoId).equals("0") == false && cicloGrupoCurso.getEstado().equals("3")){
+							// Busca el valor de la nota anterior y extraordinaria en el ciclo
+							String notaAnt 		= "0";
+							String notaExtra	= "0"; 	
+							cicloExtra.setCicloId(cicloId);
+							cicloExtra.setOportunidad("2");						
+							if(cicloExtra.existeReg(conElias)){
+								cicloExtra.mapeaRegId(conElias, cicloId, "2");
+								notaAnt 	= cicloExtra.getValorAnterior();
+								notaExtra 	= cicloExtra.getValorExtra();
+							}					
+%>
+						
 						<th class="text-center" style="width:4%;">
-							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra2(<%=lisKardexAlumnos.size()%>);" title="<fmt:message key="boton.EvaluarExtra" />" >
+							<a class="btn btn-mini btn-danger" href="javascript:muestraInputExtra2(<%=lisKardexAlumnos.size()%>);" title="Extra1=<%=notaAnt%>%, Extra2=<%=notaExtra%>%" >
 								<fmt:message key="aca.Extra" />&nbsp;2
 							</a>
 						</th>
