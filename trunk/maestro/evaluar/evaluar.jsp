@@ -786,23 +786,24 @@
 			<i class="icon-th-list icon-white"></i> <fmt:message key="aca.Cursos" />
 		</a>		
 		<a class="btn btn-mobile" target="_blank" href="tarjeta.jsp?Curso=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&CodigoId=<%=codigoId%>">
-			<i class="icon-book"></i> <fmt:message key="aca.TarjetasDeAlumnos" />
+			<i class="icon-book"></i> <fmt:message key="aca.Tarjetas" />
 		</a>
 		
 		<a class="btn btn-mobile" target="_blank" href="actamateria.jsp?Curso=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-			<i class="icon-print"></i> <fmt:message key="aca.ImprimirActa" />
+			<i class="icon-print"></i> <fmt:message key="aca.Acta" />
 		</a>
 		
 		<a class="btn btn-mobile" target="_blank" href="formatoAsistencia.jsp?CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>">
-			<i class="icon-list-alt"></i> <fmt:message key="aca.FormatoAsistencia" />
+			<i class="icon-list-alt"></i> <fmt:message key="aca.Asistencia" />
 		</a>
 		<%if (cicloGrupoCurso.getEstado().equals("1")){%>
 			<span class='label label-info'><fmt:message key="aca.MateriaCreada" /></span>
 		<%}else if (cicloGrupoCurso.getEstado().equals("2")){%>
 			<span class='label label-success'><fmt:message key="aca.MateriaEnEvaluacion" /></span>
 		<%}else if (cicloGrupoCurso.getEstado().equals("3")){%>
-			<span class='label label-important'><fmt:message key="aca.MateriaEnExtraordinario" /></span>
-			<a style="margin:0;display:inline-block;vertical-align:baseline;" class="btn btn-primary btn-mini" type="button" href="javascript:cerrarExtra();">Cerrar extra</a>
+			<a class="btn btn-primary btn-mobile" type="button" href="javascript:cerrarExtra();">Cerrar extra</a>
+			&nbsp;&nbsp;
+			<span class='label label-important'><fmt:message key="aca.MateriaEnExtraordinario" /></span>			
 		<%}else if (cicloGrupoCurso.getEstado().equals("4")){%>
 			<span class='label label-inverse'><fmt:message key="aca.MateriaCerrada" /></span>
 		<%}%>
@@ -821,7 +822,7 @@
 	<table class="table table-condensed table-bordered table-striped">
 			<thead>
 				<tr>
-					<th class="text-center">#</th>
+					<th class="text-center" style="padding:0px;">#</th>
 					<th><fmt:message key="aca.Descripcion" /></th>
 					<th class="text-center"><fmt:message key="aca.Fecha" /></th>
 					<th class="text-center"><fmt:message key="aca.Valor" /></th>
@@ -839,8 +840,8 @@
 					cont++;					
 			%>
 					<tr>
-						<td class="text-center" style="width:100px;"><%=cont%></td>
-						<td>
+						<td class="text-center" style="width:100px;padding:0px;"><%=cont%></td>
+						<td style="padding:0px;">
 							<%if (aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, eval.getCicloGrupoId(), eval.getCursoId(), eval.getEvaluacionId())) {%>
 								<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
 									<%=eval.getEvaluacionNombre()%>
