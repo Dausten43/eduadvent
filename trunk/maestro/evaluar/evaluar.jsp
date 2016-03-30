@@ -453,74 +453,19 @@
 		int cont = 0;
 		
 		for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
-		
- 		// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS 		
- 		treeNota = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, cursoId, "");
-		
- 		int evalCerradas = 0;
- 		double promEval = 0;
 			
- 		for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-			
-  			for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
-			
- 				if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
- 					
- 					String strNota = "-";
- 					// Nota del alumno en la evaluacion
- 					double notaEval = 0;
- 					if (treeNota.containsKey(cicloGrupoId + cursoId + cicloBloque.getBloqueId() + kardex.getCodigoId())) {
- 						notaEval = Double.parseDouble(treeNota.get(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
- 						
- 						// Formato de la evaluacion
- 						strNota = formato0.format(notaEval);
- 						if (cicloBloque.getDecimales().equals("1")) {
- 							strNota = formato1.format(notaEval);
- 						}
- 					}
- 					
- 					// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
- 					String estadoEval = "A";									
-					if (mapEvalCiclo.containsKey(cicloGrupoId+kardex.getCursoId()+cicloBloque.getBloqueId())){
- 						estadoEval 	= mapEvalCiclo.get(cicloGrupoId+kardex.getCursoId()+cicloBloque.getBloqueId()).getEstado();										
- 					}
- 					// Color de la evaluacion
- 					String colorEval = "color:blue;";
- 					if (estadoEval.equals("C")){
- 						evalCerradas++;
- 						colorEval = "color:black;";
- 					}
- 		 
-  				}
-				
-  			} // End for evaluaciones
-			
- 			// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom) 
- 			if (mapPromAlumno.containsKey(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId())){
- 				promEval = Double.parseDouble(mapPromAlumno.get(kardex.getCodigoId()+kardex.getCursoId()+cicloPromedio.getPromedioId()).getNota());									
- 			}
-			
- 			// Puntos del promedio
- 			double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
-			
- 			// Formato del promedio y los puntos (decimales usados)
- 			String promFormato		= formato1.format(promEval);
- 			String puntosFormato	= formato1.format(puntosEval);
- 			if (cicloPromedio.getDecimales().equals("0")){
- 				promFormato 		= formato0.format(promEval);
- 				puntosFormato 		= formato0.format(puntosEval);
- 			}else if (cicloPromedio.getDecimales().equals("2")){
- 				promFormato 		= formato2.format(promEval);
- 				puntosFormato 		= formato2.format(puntosEval);
- 			}	
-			
- 		}//End for de promedio	
-			
-			String notaExtra = request.getParameter("notaExtra"+cont)==null?"0":request.getParameter("notaExtra"+cont);
+			String notaExtra = request.getParameter("notaExtra"+cont)==null?"0":request.getParameter("notaExtra"+cont);		
  		
 			if (!notaExtra.equals("")) {
 				
-				String promedio = "";
+				/* OBTIENE EL PROMEDIO ORDINARIO DEL ALUMNO **/
+				double promOrd = 0;
+				if (treeProm.containsKey(kardex.getCicloGrupoId()+kardex.getCursoId()+kardex.getCodigoId())){
+					aca.vista.AlumnoProm alumProm = treeProm.get(kardex.getCicloGrupoId()+kardex.getCursoId()+kardex.getCodigoId());
+					promOrd = Double.parseDouble(alumProm.getPromedio());
+				}
+				
+				double promExtra = 0;
 				String fecha = aca.util.Fecha.getHoy();
 				
 				//*******COMPROBAMOS QUE EXISTA EL CICLO EXTRA*********//
@@ -528,16 +473,15 @@
 				cicloExtra.setOportunidad("1");
 				
 				if(cicloExtra.existeReg(conElias)){
+					cicloExtra.mapeaRegId(conElias, cicloId, "1");
 					
-					double valorPromedio = Double.parseDouble(cicloExtra.getCicloExtra(conElias, cicloId, "1").get(0).getValorAnterior());
-					double valorExtra    = Double.parseDouble(cicloExtra.getCicloExtra(conElias, cicloId, "1").get(0).getValorExtra());
-
-					//promedio = Double.toString( ((Double.parseDouble(notaExtra)* valorExtra)/100)+((Double.parseDouble(kardex.getNota())* valorPromedio)/100)   );
-					promedio = Double.toString( ((Double.parseDouble(notaExtra)* valorExtra)/100)+((promEval* valorPromedio)/100));
+					double valorAnterior = Double.parseDouble(cicloExtra.getValorAnterior());
+					double valorExtra    = Double.parseDouble(cicloExtra.getValorExtra());
 					
-				
+					promExtra = ((Double.parseDouble(notaExtra)* valorExtra)/100) + ((promOrd * valorAnterior)/100);
+					//System.out.println("Datos:"+(Double.parseDouble(notaExtra)* valorExtra)/100+":"+(promOrd * valorAnterior)/100 +":"+ formato2.format(promExtra));					
 				}else{
-					promedio = notaExtra;		
+					promExtra = Double.parseDouble(notaExtra);
 				}
 				
 				kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
@@ -545,9 +489,9 @@
 				kardexAlumnoExtra.setCursoId(cursoId);
 				kardexAlumnoExtra.setOportunidad("1");
 				kardexAlumnoExtra.setFecha(fecha);
-				kardexAlumnoExtra.setNotaAnterior(Double.toString(promEval));
+				kardexAlumnoExtra.setNotaAnterior(Double.toString(promOrd));
 				kardexAlumnoExtra.setNotaExtra(notaExtra);	
-				kardexAlumnoExtra.setPromedio(promedio);
+				kardexAlumnoExtra.setPromedio(formato2.format(promExtra));
 				
 				if(kardexAlumnoExtra.existeReg(conElias )){
 					if(kardexAlumnoExtra.updateReg(conElias)){
@@ -669,23 +613,27 @@
 		
 			String notaExtra = request.getParameter("notaExtra2"+cont)==null?"0":request.getParameter("notaExtra2"+cont);
 			
-			if (!notaExtra.equals("")) {
+			if (!notaExtra.equals("")) {			
+				
+				/* OBTIENE EL PROMEDIO DEL EXTRAORDINARIO ANTERIOR (#1) **/
+				double promAnt = Double.parseDouble(aca.kardex.KrdxAlumExtra.getPromedio(conElias, kardex.getCodigoId(), kardex.getCicloGrupoId(), kardex.getCursoId(), "1"));				
 					
-				String promedio = "";
+				double promExtra = 0;				
 				String fecha = aca.util.Fecha.getHoy();
 				
 				//*******COMPROBAMOS QUE EXISTA EL CICLO EXTRA 2 *********//
 				cicloExtra.setCicloId(cicloId);
 				cicloExtra.setOportunidad("2");
 				
-				if(cicloExtra.existeReg(conElias)){
+				if(cicloExtra.existeReg(conElias)){		
+					cicloExtra.mapeaRegId(conElias, cicloId, "2");
+					double valorAnterior = Double.parseDouble(cicloExtra.getValorAnterior());
+					double valorExtra    = Double.parseDouble(cicloExtra.getValorExtra());
 					
-					double valorPromedio = Double.parseDouble(cicloExtra.getCicloExtra(conElias, cicloId, "2").get(0).getValorAnterior());
-					double valorExtra    = Double.parseDouble(cicloExtra.getCicloExtra(conElias, cicloId, "2").get(0).getValorExtra());
+					promExtra = ((Double.parseDouble(notaExtra)* valorExtra)/100) + ((promAnt * valorAnterior)/100);
 					
-					kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-				
-					promedio = Double.toString( ((Double.parseDouble(notaExtra)* valorExtra)/100)+((Double.parseDouble(kardexAlumnoExtra.getPromedio())* valorPromedio)/100)   );
+				}else{
+					promExtra = Double.parseDouble(notaExtra);
 				}
 				
 				kardexAlumnoExtra.setCicloGrupoId(cicloGrupoId);
@@ -693,9 +641,9 @@
 				kardexAlumnoExtra.setCursoId(cursoId);
 				kardexAlumnoExtra.setOportunidad("2");
 				kardexAlumnoExtra.setFecha(fecha);
-				kardexAlumnoExtra.setNotaAnterior(promedio);
+				kardexAlumnoExtra.setNotaAnterior(formato2.format(promAnt));
 				kardexAlumnoExtra.setNotaExtra(notaExtra);	
-				kardexAlumnoExtra.setPromedio(promedio);
+				kardexAlumnoExtra.setPromedio(formato2.format(promExtra));
 				
 				if(kardexAlumnoExtra.existeReg(conElias )){
 					if(kardexAlumnoExtra.updateReg(conElias)){
@@ -707,7 +655,7 @@
 				}else {
 					kardexAlumnoExtra.insertReg(conElias);
 				}
-
+				
 			}			
 			cont++;
 		}
