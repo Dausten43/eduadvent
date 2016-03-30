@@ -56,7 +56,9 @@
 	<tr>
 		<td></td>
 		<td style="width:2px;"></td>
-		<td><fmt:message key="aca.MenosDe" /> <br>6 <fmt:message key="aca.Anos" /></td>
+		<td>3 <fmt:message key="aca.Anos" /></td>
+		<td>4 <fmt:message key="aca.Anos" /></td>
+		<td>5 <fmt:message key="aca.Anos" /></td>
 		<td>6 <fmt:message key="aca.Anos" /></td>
 		<td>7 <fmt:message key="aca.Anos" /></td>
 		<td>8 <fmt:message key="aca.Anos" /></td>
@@ -66,7 +68,12 @@
 		<td>12 <fmt:message key="aca.Anos" /></td>
 		<td>13 <fmt:message key="aca.Anos" /></td>
 		<td>14 <fmt:message key="aca.Anos" /></td>
-		<td>15 <fmt:message key="aca.AnosyMas" /></td>
+		<td>15 <fmt:message key="aca.Anos" /></td>
+		<td>16 <fmt:message key="aca.Anos" /></td>
+		<td>17 <fmt:message key="aca.Anos" /></td>
+		<td>18 <fmt:message key="aca.Anos" /></td>
+		<td>19 <fmt:message key="aca.Anos" /></td>
+		<td>20 <fmt:message key="aca.AnosyMas" /></td>
 	</tr>
 <%
 String nivel = "";
@@ -75,7 +82,7 @@ for(aca.alumno.AlumPersonal alumno: Inscritos){
 	if(!nivel.equals(alumno.getNivelId())){
 		nivel= alumno.getNivelId();
 %>
-	<tr><td colspan="13" style="background:#D8D8D8;border:1px solid black;"><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), alumno.getNivelId()) %></td></tr>
+	<tr><td colspan="20" style="background:#D8D8D8;border:1px solid black;"><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), alumno.getNivelId()) %></td></tr>
 <%
 	}
 	
@@ -86,7 +93,7 @@ for(aca.alumno.AlumPersonal alumno: Inscritos){
 		<td style="text-align:left;"><a href="porGrado.jsp?ciclo=<%=ciclo%>&nivel=<%=nivel%>&grado=<%=alumno.getGrado()%>&genero=M"><fmt:message key="aca.Hombres" /></a></td>
 		<%
 		ArrayList<Integer> edadMujeres = new ArrayList<Integer>();	
-		for(int i=5; i<=15; i++){ 
+		for(int i=3; i<=20; i++){ 
 			int contHombres = 0;
 			int contMujeres = 0;
 			for(aca.alumno.AlumPersonal alum: Inscritos){
@@ -94,10 +101,10 @@ for(aca.alumno.AlumPersonal alumno: Inscritos){
 				boolean edad = false;
 				if(alum.getCodigoId().equals("0110787"))System.out.println(alum.getFNacimiento());
 				
-				if(i==5){
-					if(aca.util.Edad.getEdad(alum.getFNacimiento())<=5)edad=true;
-				}else if(i==15){
-					if(aca.util.Edad.getEdad(alum.getFNacimiento())>=15)edad=true;
+				if(i==3){
+					if(aca.util.Edad.getEdad(alum.getFNacimiento())<=3)edad=true;
+				}else if(i==20){
+					if(aca.util.Edad.getEdad(alum.getFNacimiento())>=20)edad=true;
 				}else{
 					if(aca.util.Edad.getEdad(alum.getFNacimiento())==i)edad=true;
 				}
@@ -118,7 +125,7 @@ for(aca.alumno.AlumPersonal alumno: Inscritos){
 	<tr>
 		<td style="text-align:left;"><a href="porGrado.jsp?ciclo=<%=ciclo%>&nivel=<%=nivel%>&grado=<%=alumno.getGrado()%>&genero=F"><fmt:message key="aca.Mujeres" /></a></td>
 		<%
-		int cont=5;
+		int cont=3;
 		for(Integer edad: edadMujeres){
 		%>
 			<td style="background:white;cursor:pointer;cursor:hand;" onclick="document.location='porGrado.jsp?ciclo=<%=ciclo%>&nivel=<%=nivel%>&grado=<%=alumno.getGrado()%>&genero=F&edad=<%=cont%>'"><%=edad==0?"":edad%></td>
