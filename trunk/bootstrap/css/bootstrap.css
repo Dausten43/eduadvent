@@ -2045,6 +2045,10 @@ table {
   padding: 4px 5px;
 }
 
+.table-fulcondensed th,
+.table-fullcondensed td {
+  padding: 0px;
+}
 .table-bordered {
   border: 1px solid #dddddd;
   border-collapse: separate;
