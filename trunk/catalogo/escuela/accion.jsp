@@ -89,6 +89,7 @@
 		Escuela.setSector(request.getParameter("Sector"));
 		Escuela.setZona(request.getParameter("Zona"));
 		Escuela.setBarrioId(request.getParameter("BarrioId"));
+		Escuela.setWww(request.getParameter("Www"));
 	}
 	
 	String msj = "";
@@ -190,7 +191,7 @@
 		<input type="hidden" name="unionId" value="<%=unionId%>" />
 			
 		<div class="row">
-			<div class="span4">
+			<div class="span3">
 			
 				<fieldset>
 					<label for="EscuelaId"> <fmt:message key="aca.Clave" /></label> 
@@ -232,7 +233,7 @@
 				
 			</div>
 
-			<div class="span4">
+			<div class="span3">
 				
 				<fieldset>
 					<label for="PaisId"><fmt:message key="aca.Pais" /></label> 
@@ -296,7 +297,7 @@
 				
 			</div>
 
-			<div class="span4">
+			<div class="span3">
 			
 				<fieldset>
 					<label for="Sector"><fmt:message key="aca.Sector" /></label>
@@ -334,6 +335,14 @@
 				<fieldset>	
 					<label for="Eslogan"> <fmt:message key="aca.Eslogan" /></label>
 					<input name="Eslogan" type="text" id="Eslogan" value="<%=Escuela.getEslogan()==null?"":Escuela.getEslogan()%>" maxlength="100">
+				</fieldset>
+				
+			</div>
+			
+			<div class="span3">
+				<fieldset>	
+					<label for="Www"> <fmt:message key="aca.Www" /></label>
+					<input name="Www" type="text" id="Www" value="<%=Escuela.getWww()==null?"":Escuela.getWww()%>" maxlength="30">
 				</fieldset>
 				
 			</div>
