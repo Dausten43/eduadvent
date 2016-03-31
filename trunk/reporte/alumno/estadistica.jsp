@@ -58,8 +58,9 @@
   </form>
       
 <%	totAlumnos= 0;
-	for (int i=0;i<lisNivel.size();i++){
-		aca.catalogo.CatNivelEscuela nivel = (aca.catalogo.CatNivelEscuela) lisNivel.get(i);
+
+	for (aca.catalogo.CatNivelEscuela nivel : lisNivel){
+
 		totNivel=0; totA=0; totB=0; totC=0; totD=0; totU=0;
 		totHombres=0; totMujeres=0; totASD=0; totNASD=0;
 		totMNivel=0; totHNivel=0; totASDnivel=0; totNASDnivel=0;
@@ -84,7 +85,10 @@
     	<th align="center"># NOASD</th>
   	</tr>
 <%
-		for (int j=1;j<=Integer.parseInt(nivel.getGradoFin());j++){
+		
+		int iniciaGrado = Integer.parseInt(nivel.getGradoIni());
+	
+		for (int j=iniciaGrado;j<=Integer.parseInt(nivel.getGradoFin());j++){
 			totGrado=0;
 						
 			if(Insc.equals("Inscritos")){
