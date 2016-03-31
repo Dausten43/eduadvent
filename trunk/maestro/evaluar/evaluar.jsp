@@ -1498,15 +1498,6 @@
 								 if(promedio < notaAC && !kardexAlumnoExtra.existeReg(conElias)){
 									muestraBotonGuardarExtra = true;
 									
-// 									enviaExtra.setCicloGrupoId(cicloGrupoId);
-// 									enviaExtra.setCodigoId(kardex.getCodigoId());
-// 									enviaExtra.setCursoId(cursoId);
-// 									enviaExtra.setOportunidad("1");
-									
-// 									if(enviaExtra.existeReg(conElias)){
-// 										enviaExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
-// 									}
-									
 								 	if ( !strExtra.equals("") ) {%>
 									<div class="editarExtra" style="display:none;">
 										<input 
@@ -1560,17 +1551,7 @@
 
 									 if(promedio < notaAC && !kardexAlumnoExtra.existeReg(conElias)){
 										muestraBotonGuardarExtra2 = true;
-										
-// 											enviaExtra.setCicloGrupoId(cicloGrupoId);
-// 											enviaExtra.setCodigoId(kardex.getCodigoId());
-// 											enviaExtra.setCursoId(cursoId);
-// 											enviaExtra.setOportunidad("2");
-											
-// 											if(enviaExtra.existeReg(conElias)){
-// 												enviaExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "2");
-// 										    }
-										
-										
+												
 										if ( !strExtra2.equals("") ) {%>
 										<div class="editarExtra2" style="display:none;">
 											<input 
@@ -1626,15 +1607,6 @@
 									 if(promedio < notaAC && !kardexAlumnoExtra.existeReg(conElias)){
 										muestraBotonGuardarExtra3 = true;
 
-// 											enviaExtra.setCicloGrupoId(cicloGrupoId);
-// 											enviaExtra.setCodigoId(kardex.getCodigoId());
-// 											enviaExtra.setCursoId(cursoId);
-// 											enviaExtra.setOportunidad("3");
-											
-// 											if(enviaExtra.existeReg(conElias)){
-// 												enviaExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "3");
-// 										    }
-										
 										if ( !strExtra3.equals("") ) {%>
 										<div class="editarExtra3" style="display:none;">
 											<input 
