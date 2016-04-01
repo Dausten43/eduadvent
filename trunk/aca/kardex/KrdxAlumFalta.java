@@ -13,6 +13,7 @@ public class KrdxAlumFalta {
 	private String codigoId;
 	private String cicloGrupoId;
 	private String cursoId;
+	private String promedioId;
 	private String evaluacionId;
 	private String falta;
 	private String tardanza;
@@ -21,9 +22,11 @@ public class KrdxAlumFalta {
 		codigoId		= "";
 		cicloGrupoId	= "";
 		cursoId			= "";
+		promedioId		= "";
 		evaluacionId	= "";
 		falta 			= "0";
 		tardanza 		= "0";
+		
 	}
 		
 	public String getCodigoId() {
@@ -74,23 +77,33 @@ public class KrdxAlumFalta {
 		this.tardanza = tardanza;
 	}
 
+	public String getPromedioId() {
+		return promedioId;
+	}
+
+	public void setPromedioId(String promedioId) {
+		this.promedioId = promedioId;
+	}
+
 	public boolean insertReg(Connection conn ) throws SQLException{
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
 			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_FALTA " +
-					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, FALTA, TARDANZA)" +
-					" VALUES(?, ?, ?," +
-					" TO_NUMBER(?, '99')," +
-					" TO_NUMBER(?, '99')," +
-					" TO_NUMBER(?, '99'))");
+					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, EVALUACION_ID, FALTA, TARDANZA)"
+					+ " VALUES(?, ?, ?,"
+					+ " TO_NUMBER(?, '99'),"
+					+ " TO_NUMBER(?, '99'),"
+					+ " TO_NUMBER(?, '99')," 
+					+ " TO_NUMBER(?, '99'))");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
-			ps.setString(4, evaluacionId);
-			ps.setString(5, falta);
-			ps.setString(6, tardanza);
+			ps.setString(5, promedioId);
+			ps.setString(6, evaluacionId);
+			ps.setString(7, falta);
+			ps.setString(8, tardanza);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -110,21 +123,23 @@ public class KrdxAlumFalta {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("UPDATE KRDX_ALUM_FALTA " +
-					" SET " +
-					" FALTA = TO_NUMBER(?,'99')," +
-					" TARDANZA = TO_NUMBER(?,'99')" +
-					" WHERE CODIGO_ID = ?" +
-					" AND CICLO_GRUPO_ID = ?" +
-					" AND CURSO_ID = ?" +
-					" AND EVALUACION_ID = TO_NUMBER(?, '99')");			
+			ps = conn.prepareStatement("UPDATE KRDX_ALUM_FALTA "
+					+ " SET " 
+					+ " FALTA = TO_NUMBER(?,'99'),"
+					+ " TARDANZA = TO_NUMBER(?,'99')" 
+					+ " WHERE CODIGO_ID = ?" 
+					+ " AND CICLO_GRUPO_ID = ?" 
+					+ " AND CURSO_ID = ?" 
+					+ " AND PROMEDIO_ID = TO_NUMBER(?,'99')"
+					+ " AND EVALUACION_ID = TO_NUMBER(?, '99')");			
 			
 			ps.setString(1, falta);
 			ps.setString(2, tardanza);
 			ps.setString(3, codigoId);			
 			ps.setString(4, cicloGrupoId);
-			ps.setString(5, cursoId);			
-			ps.setString(6, evaluacionId);			
+			ps.setString(5, cursoId);	
+			ps.setString(6, promedioId);
+			ps.setString(7, evaluacionId);			
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -143,15 +158,17 @@ public class KrdxAlumFalta {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
-			ps = conn.prepareStatement("DELETE FROM KRDX_ALUM_FALTA " +
-					" WHERE CODIGO_ID = ?" +
-					" AND CICLO_GRUPO_ID = ?" +
-					" AND CURSO_ID = ?" +
-					" AND EVALUACION_ID = TO_NUMBER(?,'99')");
+			ps = conn.prepareStatement("DELETE FROM KRDX_ALUM_FALTA "
+					+ " WHERE CODIGO_ID = ?"
+					+ " AND CICLO_GRUPO_ID = ?"
+					+ " AND CURSO_ID = ?"
+					+ " AND PROMEDIO_ID = TO_NUMBER(?,'99')"
+					+ " AND EVALUACION_ID = TO_NUMBER(?,'99')");
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
-			ps.setString(4, evaluacionId);
+			ps.setString(4, promedioId);
+			ps.setString(5, evaluacionId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -171,27 +188,30 @@ public class KrdxAlumFalta {
 		codigoId		= rs.getString("CODIGO_ID");
 		cicloGrupoId	= rs.getString("CICLO_GRUPO_ID");
 		cursoId			= rs.getString("CURSO_ID");
+		promedioId		= rs.getString("PROMEDIO_ID");
 		evaluacionId	= rs.getString("EVALUACION_ID");
 		falta			= rs.getString("FALTA");
 		tardanza		= rs.getString("TARDANZA");
 	}
 	
-	public void mapeaRegId(Connection con, String codigoId, String cicloGrupoId, String cursoId, String evaluacionId) throws SQLException{
+	public void mapeaRegId(Connection con, String codigoId, String cicloGrupoId, String cursoId, String promedioId, String evaluacionId) throws SQLException{
 		
 		ResultSet rs = null;		
 		PreparedStatement ps = null; 
 		try{
-			ps = con.prepareStatement("SELECT CODIGO_ID, CICLO_GRUPO_ID," +
-					" CURSO_ID, EVALUACION_ID, FALTA, TARDANZA " +
-					" FROM KRDX_ALUM_FALTA" +
-					" WHERE CODIGO_ID = ?" +
-					" AND CICLO_GRUPO_ID = ?" +
-					" AND CURSO_ID = ?"+
-					" AND EVALUACION_ID = TO_NUMBER(?,'99')");
+			ps = con.prepareStatement("SELECT CODIGO_ID, CICLO_GRUPO_ID," 
+					+ " CURSO_ID, EVALUACION_ID, FALTA, TARDANZA " 
+					+ " FROM KRDX_ALUM_FALTA" 
+					+ " WHERE CODIGO_ID = ?" 
+					+ " AND CICLO_GRUPO_ID = ?" 
+					+ " AND CURSO_ID = ?"
+					+ " AND PROMEDIO_ID = TO_NUMBER(?,'99')"
+					+ " AND EVALUACION_ID = TO_NUMBER(?,'99')");
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
-			ps.setString(4, evaluacionId);
+			ps.setString(4, promedioId);
+			ps.setString(5, evaluacionId);
 			
 			rs = ps.executeQuery();
 			
@@ -213,15 +233,17 @@ public class KrdxAlumFalta {
 		PreparedStatement ps	= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM KRDX_ALUM_FALTA" +
-					" WHERE CODIGO_ID = ?" +
-					" AND CICLO_GRUPO_ID = ?" +
-					" AND CURSO_ID = ?" +
-					" AND EVALUACION_ID = TO_NUMBER(?, '99')");
+			ps = conn.prepareStatement("SELECT * FROM KRDX_ALUM_FALTA" 
+					+ " WHERE CODIGO_ID = ?" 
+					+ " AND CICLO_GRUPO_ID = ?" 
+					+ " AND CURSO_ID = ?" 
+					+ " AND PROMEDIO_ID = TO_NUMBER(?, '99')"
+					+ " AND EVALUACION_ID = TO_NUMBER(?, '99')");
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
-			ps.setString(4, evaluacionId);
+			ps.setString(4, promedioId);
+			ps.setString(5, evaluacionId);
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
