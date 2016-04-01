@@ -18,7 +18,7 @@ public class KrdxAlumConductaLista {
 		
 		try{
 			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
-                " EVALUACION_ID, CONDUCTA " +
+                " PROMEDIO_ID, EVALUACION_ID, CONDUCTA " +
                 " FROM KRDX_ALUM_CONDUCTA "+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -47,7 +47,7 @@ public class KrdxAlumConductaLista {
 		
 		try{
 			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
-                " EVALUACION_ID, CONDUCTA " +
+                " PROMEDIO_ID, EVALUACION_ID, CONDUCTA " +
                 " FROM KRDX_ALUM_EVAL" +
                 " WHERE CODIGO_ID = '"+codigoId+"'" +
                 " AND CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
