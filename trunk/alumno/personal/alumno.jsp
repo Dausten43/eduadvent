@@ -449,7 +449,7 @@
 		tipoCodigo = "Alumno";
 	else
 		tipoCodigo = "Empleado";
-	pageContext.setAttribute("resultado", sResultado);
+	pageContext.setAttribute("resultado", sResultado);	
 %>
 
 <style>
@@ -507,8 +507,8 @@
 				%>
 				
 			</div>
-			<div class="span3">
 			
+			<div class="span3">		
 				<p>
 					<label><fmt:message key="aca.Clave"/></label>
 					<input name="CodigoPersonal" type="text" value="<%if((accion!=1||accion==6)&&sTipo.equals("Nuevo"))out.print(Personal.maximoReg(conElias, escuelaId));else out.print(Personal.getCodigoId());%>" readonly="readonly"> 
@@ -669,7 +669,7 @@
 				    %>
 				    </select>
 				</p>
-				
+					
 				<p>
 					<label><fmt:message key="aca.Religion"/></label>
 					<select name="Religion" id="Religion">
@@ -683,7 +683,7 @@
 					%>
 					</select>
 				</p>
-				
+					
 				<p>
 					<label><fmt:message key="aca.CRIP"/></label>
 			        <input name="Crip" type="text" id="Crip" maxlength="20" value="<%=Personal.getCrip()==null?"-":Personal.getCrip()%>">
@@ -750,6 +750,7 @@
 		    			<%}%>
 	              	</select>
 	            </p>
+	            
 	            <p>
 	            	<label>
 	            		<fmt:message key="aca.Grupo"/>
