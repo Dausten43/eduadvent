@@ -18,6 +18,7 @@ public class Ciclo {
     private String cicloEscolar;
     private String decimales;
     private String redondeo;
+    private String nivelEval;
 
     public Ciclo() {
         cicloId 		= "";
@@ -32,6 +33,7 @@ public class Ciclo {
         cicloEscolar	= "0000";
         decimales 		= "1";
         redondeo 		= "A";
+        nivelEval		= "E";
     }
     
     
@@ -139,6 +141,18 @@ public class Ciclo {
 		this.redondeo = redondeo;
 	}
 	
+	
+	
+	public String getNivelEval() {
+		return nivelEval;
+	}
+
+
+	public void setNivelEval(String nivelEval) {
+		this.nivelEval = nivelEval;
+	}
+
+
 	// Insert del ciclo
 	public boolean insertReg(Connection conn) throws SQLException {
 		PreparedStatement ps = null;
@@ -146,14 +160,14 @@ public class Ciclo {
 
         try {
             ps = conn.prepareStatement("INSERT INTO CICLO(CICLO_ID,"
-                    + " CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES, REDONDEO)"
+                    + " CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES, REDONDEO, NIVEL_EVAL)"
                     + " VALUES(?, ?, TO_DATE(?,'DD/MM/YYYY'),"
                     + " TO_DATE(?,'DD/MM/YYYY'),"
                     + " TO_DATE(?,'DD/MM/YYYY'),"
                     + " TO_NUMBER(?,'999'), ?,"
                     + " TO_NUMBER(?,'999'),"
                     + " TO_NUMBER(?,'99'), ?, ?,"
-                    + " TO_NUMBER(?,'9'),?)");
+                    + " TO_NUMBER(?,'9'),?,?)");
             ps.setString(1, cicloId);
             ps.setString(2, cicloNombre);
             ps.setString(3, fCreada);
@@ -167,6 +181,7 @@ public class Ciclo {
             ps.setString(11, cicloEscolar);
             ps.setString(12, decimales);
             ps.setString(13, redondeo);
+            ps.setString(14, nivelEval);
 
             if (ps.executeUpdate() == 1) {
                 ok = true;
@@ -203,7 +218,8 @@ public class Ciclo {
                     + " EDITAR_ACTIVIDAD = ?,"
                     + " CICLO_ESCOLAR = ?,"
                     + " DECIMALES = TO_NUMBER(?,'9'),"
-                    + " REDONDEO = ?"
+                    + " REDONDEO = ?,"
+                    + " NIVEL_EVAL = ?"
                     + " WHERE CICLO_ID = ?");
             
             ps.setString(1, cicloNombre);
@@ -218,7 +234,9 @@ public class Ciclo {
             ps.setString(10, cicloEscolar);            
             ps.setString(11, decimales);
             ps.setString(12, redondeo);
-            ps.setString(13, cicloId);
+            ps.setString(13, nivelEval);
+            ps.setString(14, cicloId);
+            
 
             if (ps.executeUpdate() == 1) {
                 ok = true;
@@ -280,6 +298,7 @@ public class Ciclo {
         cicloEscolar	= rs.getString("CICLO_ESCOLAR");
         decimales		= rs.getString("DECIMALES");
         redondeo		= rs.getString("REDONDEO");
+        nivelEval		= rs.getString("NIVEL_EVAL");
     }
 
     public void mapeaRegId(Connection con, String cicloId) throws SQLException {
@@ -292,7 +311,7 @@ public class Ciclo {
 	                + " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
 	                + " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
 	                + " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
-	                + " CICLO_ESCOLAR, DECIMALES, REDONDEO"
+	                + " CICLO_ESCOLAR, DECIMALES, REDONDEO, NIVEL_EVAL"
 	                + " FROM CICLO WHERE CICLO_ID = ?");
 	        ps.setString(1, cicloId);
 	        rs = ps.executeQuery();
