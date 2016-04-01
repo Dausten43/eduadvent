@@ -69,6 +69,7 @@
 		Ciclo.setCicloEscolar(request.getParameter("cicloEscolar"));
 		Ciclo.setDecimales(request.getParameter("decimal"));
 		Ciclo.setRedondeo(request.getParameter("redondeo"));
+		Ciclo.setNivelEval(request.getParameter("nivelEval"));
 
 		if (Ciclo.existeReg(conElias) == false){
 			if (Ciclo.insertReg(conElias)){
@@ -101,6 +102,7 @@
 		Ciclo.setCicloEscolar(request.getParameter("cicloEscolar"));
 		Ciclo.setDecimales(request.getParameter("decimal"));
 		Ciclo.setRedondeo(request.getParameter("redondeo"));
+		Ciclo.setNivelEval(request.getParameter("nivelEval"));
 		
 		if (Ciclo.existeReg(conElias) == true){
 			if (Ciclo.updateReg(conElias)){
@@ -283,6 +285,16 @@
 				<option value="T" <%if(Ciclo.getRedondeo().equals("T")){out.print("selected");}%>>Truncado</option>
 			</select>
 		</fieldset>
+		
+		<fieldset>
+			<label for="nivelEval"><fmt:message key="aca.nivelEval" /></label>
+			<select id="nivelEval" name="nivelEval">
+				<option value="P" <%if(Ciclo.getNivelEval().equals("P")){out.print("selected");}%>>Promedios</option>
+				<option value="E" <%if(Ciclo.getNivelEval().equals("E")){out.print("selected");}%>>Evaluaciones</option>
+				<option value="A" <%if(Ciclo.getNivelEval().equals("A")){out.print("selected");}%>>Actividades</option>
+			</select>
+		</fieldset>
+		
 	</form>
 	                  
 	<%if( accion.equals("1") ){%>				
