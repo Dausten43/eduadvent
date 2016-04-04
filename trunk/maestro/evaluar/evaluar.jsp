@@ -238,6 +238,7 @@
 	
 	String planId 			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
+	String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
 	
 	cicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);
 	String estadoMateria    = cicloGrupoCurso.getEstado(); /* 1 = Materia creada, 2 = Materia en evaluacion, 3 = Materia en extraordinario, 4 = Materia cerrada */
@@ -954,75 +955,75 @@
 		<fmt:message key="aca.Estrategia" />: [ <%= promedio.getNombre() %> ] &nbsp;&nbsp; <fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>]
 	</div>
 		
-	<table class="table table-fullcondensed table-bordered table-striped">
-			<thead>
-				<tr>
-					<th class="text-center">#</th>
-					<th><fmt:message key="aca.Descripcion" /></th>
-					<th class="text-center"><fmt:message key="aca.Fecha" /></th>
-					<th class="text-center"><fmt:message key="aca.Valor" /></th>
-					<th class="text-center"><fmt:message key="aca.Estado" /></th>
-					<th style="width:1%;"></th>
-				</tr>
-			</thead>
-			<%
+	<table class="table table-fullcondensed table-bordered table-striped table-fontsmall">
+		<thead>
+			<tr>
+				<th class="text-center">#</th>
+				<th><fmt:message key="aca.Descripcion" /></th>
+				<th class="text-center"><fmt:message key="aca.Fecha" /></th>
+				<th class="text-center"><fmt:message key="aca.Valor" /></th>
+				<th class="text-center"><fmt:message key="aca.Estado" /></th>
+				<th style="width:1%;"></th>
+			</tr>
+		</thead>
+		<%
 
-			for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
-				
-				if (eval.getPromedioId().equals( promedio.getPromedioId())){
+		for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
+			
+			if (eval.getPromedioId().equals( promedio.getPromedioId())){
 					
-					valor = eval.getValor();
-					cont++;					
-			%>
-					<tr>
-						<td class="text-center" style="width:100px;"><%=cont%></td>
-						<td>
-							<%if (aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, eval.getCicloGrupoId(), eval.getCursoId(), eval.getEvaluacionId())) {%>
-								<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
+				valor = eval.getValor();
+				cont++;					
+		%>
+				<tr>
+					<td class="text-center" style="width:100px; padding:0px;"><%=cont%></td>
+					<td style="padding:0px;">
+						<%if (aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, eval.getCicloGrupoId(), eval.getCursoId(), eval.getEvaluacionId())) {%>
+							<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
+								<%=eval.getEvaluacionNombre()%>
+							</a> 
+						<%} else {%>
+							<%if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A")) {%> 
+								<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
 									<%=eval.getEvaluacionNombre()%>
 								</a> 
-							<%} else {%>
-		 						<%if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A")) {%> 
-									<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
-										<%=eval.getEvaluacionNombre()%>
-									</a> 
-								<%}else{%>
-		 							<%=eval.getEvaluacionNombre() %>
-		 						<%}%>
-		 					<%}%>
-						</td>
-						<td class="text-center"><%=eval.getFecha()%></td>
-						<td class="text-center"><%=eval.getValor()%>%</td>
-						<td class="text-center">
-							<%if (eval.getEstado().equals("A")) {%>
-								<span class="label label-success"><fmt:message key="aca.Abierto" /></span>								
-							<%}else if (eval.getEstado().equals("C")) {%> 					
-								<span class="label label-inverse"><fmt:message key="aca.Cerrado" /></span>
+							<%}else{%>
+									<%=eval.getEvaluacionNombre() %>
+								<%}%>
 							<%}%>
-						</td>
-						<td>
-							<%if (eval.getEstado().equals("A")) {
-								String notasConCero = "SI";
-								if (aca.ciclo.CicloGrupoEval.tieneNotasConCero(conElias, cicloGrupoId, cursoId, eval.getEvaluacionId()).equals(lisKardexAlumnos.size()+"")) {
-									notasConCero = "NO";
-								}
-							%>
-								<a title="<fmt:message key="boton.CerrarEvaluacion" />" class="btn btn-success btn-mini"  href="javascript:cerrarEvaluacion('<%=eval.getEvaluacionId()%>', '<%=notasConCero%>');">
-									<i class="icon-ok icon-white"></i>
-								</a> 
-							<%} %>
-							
-							<%if (eval.getEstado().equals("C") && permitirCambiarElEstado) {%>
-								<a title="<fmt:message key="boton.AbrirEvaluacion" />" class="btn btn-success btn-mini"  href="javascript:abrirEvaluacion('<%=eval.getEvaluacionId()%>');">
-									<i class="icon-pencil icon-white"></i>
-								</a>  
-							<%}else if(eval.getEstado().equals("C")){%>
-								<a title="<fmt:message key="boton.EvaluacionCerrada" />" class="btn btn-inverse btn-mini disabled" >
-									<i class="icon-ok icon-white"></i>
-								</a>
-							<%} %> 	
-						</td>
-					</tr>
+					</td>
+					<td class="text-center" style="padding:0px;"><%=eval.getFecha()%></td>
+					<td class="text-center" style="padding:0px;"><%=eval.getValor()%>%</td>
+					<td class="text-center" style="padding:0px;">
+						<%if (eval.getEstado().equals("A")) {%>
+							<span class="label label-success"><fmt:message key="aca.Abierto" /></span>								
+						<%}else if (eval.getEstado().equals("C")) {%> 					
+							<span class="label label-inverse"><fmt:message key="aca.Cerrado" /></span>
+						<%}%>
+					</td>
+					<td style="padding:0px;">
+						<%if (eval.getEstado().equals("A")) {
+							String notasConCero = "SI";
+							if (aca.ciclo.CicloGrupoEval.tieneNotasConCero(conElias, cicloGrupoId, cursoId, eval.getEvaluacionId()).equals(lisKardexAlumnos.size()+"")) {
+								notasConCero = "NO";
+							}
+						%>
+							<a title="<fmt:message key="boton.CerrarEvaluacion" />" class="btn btn-success btn-mini"  href="javascript:cerrarEvaluacion('<%=eval.getEvaluacionId()%>', '<%=notasConCero%>');">
+								<i class="icon-ok icon-white"></i>
+							</a> 
+						<%} %>
+						
+						<%if (eval.getEstado().equals("C") && permitirCambiarElEstado) {%>
+							<a title="<fmt:message key="boton.AbrirEvaluacion" />" class="btn btn-success btn-mini"  href="javascript:abrirEvaluacion('<%=eval.getEvaluacionId()%>');">
+								<i class="icon-pencil icon-white"></i>
+							</a>  
+						<%}else if(eval.getEstado().equals("C")){%>
+							<a title="<fmt:message key="boton.EvaluacionCerrada" />" class="btn btn-inverse btn-mini disabled" >
+								<i class="icon-ok icon-white"></i>
+							</a>
+						<%} %> 	
+					</td>
+				</tr>
 			<%}%>		
 		<%}%>
 	</table>
@@ -1034,18 +1035,35 @@
 	<div class="well text-center" style="overflow:visible;">
 	<%
 		if (planCurso.getFalta().equals("S")) {
+			
+			if (nivelEvaluacion.equals("E")){
 	%>
 			<a class="btn btn-mobile" href="evaluarFaltas.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
 				<fmt:message key="maestros.RegistrodeFaltas" />
 			</a> 
 	<%
+			}else if (nivelEvaluacion.equals("P")){
+	%>
+			<a class="btn btn-mobile" href="evaluarFaltasProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+				<fmt:message key="maestros.RegistrodeFaltas" />
+			</a>
+	<%				
+			}
 		}
 	  	if (planCurso.getConducta().equals("S")){
+	  		
+	  		if (nivelEvaluacion.equals("E")){ 
 	%> 
 			<a class="btn btn-mobile" href="evaluarConducta.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
 				<fmt:message key="boton.EvaluarConducta" />
 			</a> 
-	<%
+	<%		}else if (nivelEvaluacion.equals("P")){
+	%>
+			<a class="btn btn-mobile" href="evaluarConductaProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+				<fmt:message key="boton.EvaluarConducta" />
+			</a>
+	<%		
+			}	  		
 		} if(planCurso.getTardanza().equals("S")){
 	%> 
 			<a class="btn btn-mobile" href="evaluarTardanzas.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
@@ -1088,7 +1106,7 @@
 	%>
 	</div>
 	
-<!--  -------------------- TABLA DE ALUMNOS -------------------- -->
+<!---------------------- TABLA DE ALUMNOS ---------------------->
 	
 	<form action="evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
 	
