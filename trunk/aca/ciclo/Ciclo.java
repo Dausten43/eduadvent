@@ -827,7 +827,7 @@ public class Ciclo {
 		return redondeo;
 	}
 	
-	// Redondeo de numeros
+	// Redondeo de números
 	public static String numRedondeo(Connection conn, String numero, int decimales, String tipo) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
@@ -854,6 +854,31 @@ public class Ciclo {
 			
 		}
 		return num;
+	}
+	
+	// Consulta el nivel de evaluación
+	public static String getNivelEval(Connection conn, String ciclo) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String nivel			= "-";
+		try{	
+			ps = conn.prepareStatement("SELECT NIVEL_EVAL FROM CICLO WHERE CICLO_ID = ?");
+			
+			ps.setString(1, ciclo);
+			
+			rs = ps.executeQuery();
+			if (rs.next()){
+				nivel = rs.getString("NIVEL_EVAL");
+			}
+			
+		}catch(Exception ex){
+			 System.out.println("Error - aca.ciclo.ciclo|getNivelEval|:" + ex);
+		}finally{
+			if (ps!=null) ps.close();
+			if (rs!=null) rs.close();
+			
+		}
+		return nivel;
 	}
 	
 }
