@@ -91,19 +91,15 @@ public class KrdxAlumFalta {
 		try{
 			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_FALTA " +
 					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, EVALUACION_ID, FALTA, TARDANZA)"
-					+ " VALUES(?, ?, ?,"
-					+ " TO_NUMBER(?, '99'),"
-					+ " TO_NUMBER(?, '99'),"
-					+ " TO_NUMBER(?, '99')," 
-					+ " TO_NUMBER(?, '99'))");
+					+ " VALUES(?, ?, ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '99'))");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
-			ps.setString(5, promedioId);
-			ps.setString(6, evaluacionId);
-			ps.setString(7, falta);
-			ps.setString(8, tardanza);
+			ps.setString(4, promedioId);
+			ps.setString(5, evaluacionId);
+			ps.setString(6, falta);
+			ps.setString(7, tardanza);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;

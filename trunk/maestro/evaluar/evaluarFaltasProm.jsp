@@ -113,8 +113,10 @@
 					krdxAlumFalta.setFalta(falta);
 					///
 					krdxAlumFalta.setTardanza(tardanza);
-					///
-
+					
+					if(tardanza.equals("") || tardanza.isEmpty())
+						krdxAlumFalta.setTardanza("0");
+						
 					if (krdxAlumFalta.existeReg(conElias)) {
 						
 						if(krdxAlumFalta.updateReg(conElias)){
@@ -211,7 +213,7 @@
 	
 	<!--  -------------------- TABLA DE ALUMNOS -------------------- -->
 	
-	<form action="evaluarFaltas.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
+	<form action="evaluarFaltasProm.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="Promedio" />
 			
