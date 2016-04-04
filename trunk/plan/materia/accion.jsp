@@ -333,6 +333,7 @@
 %>						
 							<label for="CursoBase"> <fmt:message key="aca.CursoBase" />: </label>
 							<select name="CursoBase" id="CursoBase">
+								<option value="-" >No aplica</option>
 <%								
 								for(aca.plan.PlanCurso cursos : lisCursos){
 %>	
