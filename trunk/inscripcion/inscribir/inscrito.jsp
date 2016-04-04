@@ -12,7 +12,6 @@
 <jsp:useBean id="GrupoCursoL" scope="page" class="aca.ciclo.CicloGrupoCursoLista"/>
 <jsp:useBean id="cicloPeriodoL" scope="page" class="aca.ciclo.CicloPeriodoLista"/>
 
-
 <script>		
 	function cambiaCiclo( ){
 		document.frmInscrito.Accion.value = "1";
