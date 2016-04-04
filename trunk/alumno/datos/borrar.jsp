@@ -12,6 +12,7 @@
 <%
 	String codigoAlumno		= (String) session.getAttribute("codigoAlumno");
 	boolean borrar 			= false;
+	String salto			= "X";
 	
 	String dirFoto = application.getRealPath("/WEB-INF/fotos/"+codigoAlumno+".jpg");
 	java.io.File foto = new java.io.File(dirFoto);
@@ -27,10 +28,14 @@
 		}
 	}
 	if (borrar){
-		response.sendRedirect("alumno.jsp");
+		salto = "alumno.jsp";
+		//response.sendRedirect("alumno.jsp");
 	}else{
 		out.println("No se puedo elimiar la foto del alumno:["+codigoAlumno+"] - "+aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "NOMBRE")+"<br>");
 		out.println("<font color=black> ESPERE 5 MINUTOS O SUSTITUYA LA IMAGEN</font>");
 	}
 %>
 <%@ include file="../../cierra_elias.jsp" %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0"; url="<%=salto%>" />
+<% 	}%>

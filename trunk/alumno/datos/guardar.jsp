@@ -14,6 +14,7 @@
 	String dir				= application.getRealPath("/WEB-INF/fotos/"+codigoAlumno+".jpg");
 	int widthImage     		= 0;
 	int heightImage			= 0;
+	String salto 			= "X";
 	
 	boolean guardo = false;	
 	try{		
@@ -59,9 +60,9 @@
 		// Cerrar los objetos
 		if (fos!=null) fos.close();
 		if (fis!=null) fis.close();
-		fi.delete();
-		
-		guardo = true;
+		fi.delete();		
+		guardo 	= true;
+		salto	= "alumno.jsp";
 	    
 	}catch(java.io.IOException e){
 		//System.out.println("Error al subir el archivo: "+e);
@@ -85,10 +86,11 @@
 <%		
 	}
 	
-	
 	if (guardo){ 
-		System.gc();
-		response.sendRedirect("alumno.jsp");
+		System.gc();		
 	}
 %>
 <%@ include file="../../cierra_elias.jsp" %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0"; url="<%=salto%>" />
+<% 	}%>
