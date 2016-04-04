@@ -42,6 +42,7 @@
 	
 	String escuelaId				= (String) session.getAttribute("escuela");
 	boolean validaDatos				= true;
+	String salto 					= "X";
 	
 	//Parse the request
 	java.util.List<FileItem> items 	= upload.parseRequest(request);
@@ -305,11 +306,9 @@
 	    	}
 			
 		}
-		String mensaje = "Se han registrado: "+lisAlumnos.size()+" alumnos en tu escuela";
-		response.sendRedirect("datos.jsp?mensaje="+mensaje);
+		String mensaje = "Se han registrado: "+lisAlumnos.size()+" alumnos en tu escuela";		
 	}	
 %>
-
 </div>
-
 <%@ include file="../../cierra_elias.jsp"%>
+<meta http-equiv="refresh" content="1"; url="datos.jsp?mensaje=<%=mensaje%>" />
