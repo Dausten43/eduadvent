@@ -135,7 +135,10 @@
 					int numCursos=0; int numAlumnos = 0; boolean notas = false;
 					for(int i = 0; i < lisGrupoAlta.size(); i++){
 						aca.catalogo.CatGrupo grupo = (aca.catalogo.CatGrupo) lisGrupoAlta.get(i);
-						nombreGrado 	= aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grupo.getGrado()))+titulo+" "+grupo.getGrupo();
+						nombreGrado = aca.catalogo.CatEsquema.getNombreGrado(conElias, escuelaId, nivelId, grupo.getGrado());
+						if (nombreGrado.equals("X")){
+							nombreGrado = aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grupo.getGrado()))+titulo+" "+grupo.getGrupo();
+						}						
 						cicloGrupoId 	= aca.ciclo.CicloGrupo.getCicloGrupoId(conElias, nivelId, grupo.getGrado(), grupo.getGrupo(), cicloId, planId);
 						numCursos 		= aca.ciclo.CicloGrupoCurso.numCursosGrupo(conElias, cicloGrupoId);
 						numAlumnos 		= aca.kardex.KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoId);

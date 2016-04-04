@@ -14,25 +14,22 @@
 	
 	function Modificar( CodigoPersonal ){
 		document.frmmaestro.Accion.value="2";
-		document.frmmaestro.CodigoPersonal.value=CodigoPersonal;
-		document.frmmaestro.submit();		
+		document.frmmaestro.CodigoPersonal.value = CodigoPersonal;
+		document.frmmaestro.submit();
 	}	
 	
 </script>
 
 <%
-
 	String escuelaId		= (String) session.getAttribute("escuela");
 	String cicloId			= (String) session.getAttribute("cicloId");
 	String planId			= (String) session.getAttribute("planId");
-	
 	String cicloGrupoId		= (String) request.getParameter("CicloGrupoId");
 	String cursoId			= (String) request.getParameter("CursoId")==null?"":request.getParameter("CursoId").replace("$", "&");
 	String parametro		= (String) request.getParameter("Parametro")==null?"":request.getParameter("Parametro");
 	
-	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
-	
-	String nivelId 			= aca.plan.Plan.getNivel(conElias,planId);
+	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
+	String nivelId 			= aca.plan.Plan.getNivel(conElias, planId);
 	
 	Plan.mapeaRegId(conElias, planId);
 	
@@ -40,7 +37,7 @@
 	CicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);
 	
 	String Maestro  		= "";	
-	String grupo 			= CicloGrupo.getGrupoNombre();	
+	String grupo 			= CicloGrupo.getGrupoNombre();
 	String Nombre  			= "";
 	String Resultado 		= "";
 	
@@ -60,7 +57,7 @@
 			if (CicloGrupo.existeReg(conElias) == true){
 				if (CicloGrupo.updateReg(conElias)==true){
 					Resultado = "Modificado";					
-					response.sendRedirect("materia.jsp");
+					//response.sendRedirect("materia.jsp");
 				}else{
 					Resultado = "NoModifico";
 				}
@@ -74,7 +71,7 @@
 			if (CicloGrupoCurso.existeReg(conElias) == true){
 				if (CicloGrupoCurso.updateReg(conElias)==true){					
 					Resultado = "Modificado";					
-					response.sendRedirect("materia.jsp");
+					//response.sendRedirect("materia.jsp");
 				}else{
 					Resultado = "NoModifico";
 				}
@@ -95,11 +92,14 @@
 %>
 
 <div id="content">
-
 	<h2>
-		<fmt:message key="aca.AsignarMaestro" />
-		
-		<small><%=Maestro%></small>
+		<fmt:message key="aca.AsignarMaestro" />		
+		<small>(&nbsp;<%=Maestro.equals("-")?"¡Sin Maestro!":Maestro%>
+		<%if(parametro.equals("Materias")){ %> 
+		| <%=CicloGrupo.getGrado()%>-<%=grupo%> | <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId) %>
+		<%}%>
+		&nbsp;)
+		</small>
 	</h2>
 	
 	<% if (Resultado.equals("Eliminado") || Resultado.equals("Modificado") || Resultado.equals("Guardado")){%>
@@ -107,16 +107,7 @@
   	<% }else if(!Resultado.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
   	<%} %>
-	
-	<div class="alert alert-info">
-		<%=grupo%>
-		<%if(parametro.equals("Materias")){ %>
-			| <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId) %> 
-		<%}%>
-	</div>
-
-	
-
+  	
 	<form name="frmmaestro" action="maestro.jsp?CicloGrupoId=<%=cicloGrupoId %>&Parametro=<%=parametro %>&CursoId=<%=cursoId.replace("&","$")%>" method="post">
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="CodigoPersonal">
