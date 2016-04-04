@@ -268,7 +268,9 @@
 							String conducta = "-";
 							
 							for (aca.kardex.KrdxAlumConducta kardexConductaAlumno: lisKardexConducta) {
-								if ( kardexConductaAlumno.getCodigoId().equals(kardex.getCodigoId()) && eval.getEvaluacionId().equals(kardexConductaAlumno.getEvaluacionId()) ) {					
+								if ( kardexConductaAlumno.getCodigoId().equals(kardex.getCodigoId()) &&
+										eval.getPromedioId().equals(kardexConductaAlumno.getPromedioId())&&
+										eval.getEvaluacionId().equals(kardexConductaAlumno.getEvaluacionId()) ) {					
 								
 									// Verifica si la materia evalua con decimales
 									if (evaluaConPunto.equals("S")) {
