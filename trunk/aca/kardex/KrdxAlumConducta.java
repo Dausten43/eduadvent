@@ -77,10 +77,7 @@ public class KrdxAlumConducta {
 		try{
 			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_CONDUCTA" +
 					" (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, EVALUACION_ID, CONDUCTA )"
-					+ " VALUES(?, ?, ?,"
-					+ " TO_NUMBER(?,'99'),"
-					+ " TO_NUMBER(?, '99'),"					
-					+ " TO_NUMBER(?, '999.99')");
+					+ " VALUES(?, ?, ?, TO_NUMBER(?,'99'), TO_NUMBER(?, '99'), TO_NUMBER(?, '999.99'))");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);

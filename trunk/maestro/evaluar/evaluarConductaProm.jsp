@@ -65,7 +65,7 @@
 	String msj 			= "";
 	
 	if(accion.equals("1")){ //Guardar Conducta
-		String promedio		= request.getParameter("Evaluacion");
+		String promedio		= request.getParameter("Promedio");
 		
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
 		boolean error = false;
@@ -76,8 +76,9 @@
 			kardexConducta.setCodigoId(kardex.getCodigoId());
 			kardexConducta.setCicloGrupoId(cicloGrupoId);
 			kardexConducta.setCursoId(cursoId);
-			kardexConducta.setEvaluacionId("0");
 			kardexConducta.setPromedioId(promedio);
+			kardexConducta.setEvaluacionId("0");
+			
 			
 			String conducta = request.getParameter("conducta"+cont+"-"+promedio);
 			
