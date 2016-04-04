@@ -42,14 +42,14 @@ public class CicloPromedioLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR, REDONDEO"
+			comando = " SELECT CICLO_ID, PROMEDIO_ID, NOMBRE, CORTO, CALCULO, ORDEN, DECIMALES, VALOR, REDONDEO"
 					+ " FROM CICLO_PROMEDIO"
 					+ " WHERE CICLO_ID = '"+cicloId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				
-				CicloPromedio ciclo = new CicloPromedio();				
+				CicloPromedio ciclo = new CicloPromedio();
 				ciclo.mapeaReg(rs);
 				lista.add(ciclo);
 			}
