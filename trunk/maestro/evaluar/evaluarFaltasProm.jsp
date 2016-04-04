@@ -160,20 +160,20 @@
 %>
 
 <div id="content">
-	<h2><fmt:message key="maestros.RegistrodeFaltas" /> <small><%=empPersonal.getNombre() + " " + empPersonal.getApaterno() + " " + empPersonal.getAmaterno()%></small></h2>
+	<h3>
+	<fmt:message key="maestros.RegistrodeFaltas" />
+	<small>(&nbsp;
+		<%=empPersonal.getNombre() + " " + empPersonal.getApaterno() + " " + empPersonal.getAmaterno()%> |&nbsp;
+		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> |&nbsp;
+		<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>
+	&nbsp;)</small>
+	</h3>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
-  	<%} %>
-  	
-	<div class="alert alert-info">
-		<h4><%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%></h4>
-		<small><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></small> 
-	</div>
-	
-	
+  	<%} %>	
 	<%
 	cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());		
 	

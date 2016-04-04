@@ -18,8 +18,8 @@
 	/*
 	 * ABRIR INPUTS PARA EDITAR LAS NOTAS
 	 */
-	function muestraInput(evaluacionId){
-		var editar = $('.editar'+evaluacionId);//Busca los inputs
+	function muestraInput(promedioId){
+		var editar = $('.editar'+promedioId);//Busca los inputs
 		
 		editar.each(function(){
 			var $this = $(this);
@@ -32,7 +32,8 @@
 	/*
 	 * GUARDA LAS NOTAS QUE SE MODIFICARON
 	 */
-	function guardarCalificaciones(evaluacion){
+	function guardarCalificaciones(promedio, evaluacion){
+		document.forma.Promedio.value = promedio;
 		document.forma.Evaluacion.value = evaluacion;
 		document.forma.Accion.value = "1";
 		document.forma.submit();
@@ -64,6 +65,7 @@
 	String msj 			= "";
 	
 	if(accion.equals("1")){ //Guardar Conducta
+		String promedio			= request.getParameter("Promedio");
 		String evaluacion		= request.getParameter("Evaluacion");
 		
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
@@ -75,6 +77,7 @@
 			kardexConducta.setCodigoId(kardex.getCodigoId());
 			kardexConducta.setCicloGrupoId(cicloGrupoId);
 			kardexConducta.setCursoId(cursoId);
+			kardexConducta.setPromedioId(promedio);
 			kardexConducta.setEvaluacionId(evaluacion);
 			
 			String conducta = request.getParameter("conducta"+cont+"-"+evaluacion);
@@ -221,6 +224,7 @@
 	<form action="evaluarConducta.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="Evaluacion" />
+		<input type="hidden" name="Promedio" />
 		
 		<table class="table table-condensed table-bordered table-striped">
 			
@@ -319,7 +323,7 @@
 				<%for (aca.ciclo.CicloGrupoEval eval :  lisEvaluacion) {%>
 					<td class="text-center">
 						<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
-							<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=eval.getEvaluacionId()%>' );"><fmt:message key="boton.Guardar" /></a> 
+							<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=eval.getPromedioId()%>','<%=eval.getEvaluacionId()%>' );"><fmt:message key="boton.Guardar" /></a> 
 						</div>
 					</td>
 								
