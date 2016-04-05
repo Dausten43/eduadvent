@@ -10,7 +10,6 @@
 <jsp:useBean id="cicloGrupoEvalLista" scope="page" class="aca.ciclo.CicloGrupoEvalLista" />
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista" />
 <jsp:useBean id="cicloGrupoCurso" scope="page" class="aca.ciclo.CicloGrupoCurso" />
-
 <jsp:useBean id="cicloGrupoEval" scope="page" class="aca.ciclo.CicloGrupoEval" />
 <jsp:useBean id="cicloGrupoActividadL" scope="page" class="aca.ciclo.CicloGrupoActividadLista"/>
 <jsp:useBean id="krdxCursoActL" scope="page" class="aca.kardex.KrdxCursoActLista"/>
@@ -18,11 +17,11 @@
 <jsp:useBean id="kardexEvalLista" scope="page" class="aca.kardex.KrdxAlumEvalLista" />
 <jsp:useBean id="kardexConductaLista" scope="page" class="aca.kardex.KrdxAlumConductaLista" />
 <jsp:useBean id="kardexEval" scope="page" class="aca.kardex.KrdxAlumEval" />
+<jsp:useBean id="kardexProm" scope="page" class="aca.kardex.KrdxAlumProm" />
 <jsp:useBean id="planCurso" scope="page" class="aca.plan.PlanCurso" />
 <jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="CicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista" />
-
 <jsp:useBean id="kardexAlumnoExtra" scope="page" class="aca.kardex.KrdxAlumExtra" />
 <jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
 
@@ -184,7 +183,18 @@
 	}
 	
 	/*
-	 * PROMEDIAR CONDUCTA
+	 * PROMEDIAR CONDUCTA POR PROMEDIOS
+	 */
+	function promediarConductaProm(promedio){		
+		if(confirm("<fmt:message key="js.PromediarConductaEvaluacion" />")==true){
+			document.forma.Promedio.value = promedio;
+			document.forma.Accion.value = "13";
+			document.forma.submit();
+		}
+	}
+	
+	/*
+	 * PROMEDIAR CONDUCTA POR EVALUACIONES
 	 */
 	function promediarConducta(evaluacion){
 		if(confirm("<fmt:message key="js.PromediarConductaEvaluacion" />")==true){
@@ -232,9 +242,11 @@
 	String cicloGrupoId	 	= request.getParameter("CicloGrupoId");
 	String cursoId 			= request.getParameter("CursoId");
 	String estado 			= request.getParameter("estado");
+	String valor			= "0";
 	
 	String planId 			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
+	String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
 	
 	cicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);
 	String estadoMateria    = cicloGrupoCurso.getEstado(); /* 1 = Materia creada, 2 = Materia en evaluacion, 3 = Materia en extraordinario, 4 = Materia cerrada */
@@ -249,10 +261,7 @@
 	}
 	
 	// Escala para la columna de puntos
-	int escalaEval 			= escala;	
-	
-	//LISTA DE OPORTUNIDADES
-	ArrayList <aca.ciclo.CicloExtra> listCiclo = CicloExtraL.getListAll(conElias, cicloId, "ORDER BY OPORTUNIDAD");
+	int escalaEval 			= escala;
 	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
@@ -371,6 +380,7 @@
 		
 		// Actualizar los promedios (CICLO_PROMEDIO)
 		mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
+		
 	}
 //------------- CERRAR EVALUACION ------------->
 	else if(accion.equals("3")){
@@ -378,167 +388,73 @@
 		String evaluacion = request.getParameter("Evaluacion");
 		
 		conElias.setAutoCommit(false);//** END TRANSACTION **
-		boolean error = false;
-	
-		//**************** RECALCULAR EL PROMEDIO DE LAS ACTIVIDADES DE LA EVALUACION QUE SE VA A CERRAR (SI ES QUE TIENE) ****************
-	
-		if(aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, cicloGrupoId, cursoId, evaluacion)){
-			/* Actividades del alumno */
-			ArrayList<aca.kardex.KrdxAlumActiv> lisKrdxActiv		= krdxAlumActivL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacion, "ORDER BY ALUM_APELLIDO(CODIGO_ID), ACTIVIDAD_ID");
-			/* Actividades definidas en el metodo de evaluacion */
-			ArrayList<aca.ciclo.CicloGrupoActividad> lisActividad	= cicloGrupoActividadL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacion, "ORDER BY ACTIVIDAD_ID, ACTIVIDAD_NOMBRE");
-						
-			//RECORRE A LOS ALUMNOS
-			for(aca.kardex.KrdxCursoAct krdxCursoAct: lisKardexAlumnos){ 
-				
-				BigDecimal valorActividadesTotal = new BigDecimal("0");
-				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
-					for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
-							//valorActividadesTotal += Double.parseDouble( cicloGrupoActividad.getValor() );
-							valorActividadesTotal = valorActividadesTotal.add( new BigDecimal(cicloGrupoActividad.getValor()) );
-						}
-					}
-				}
-				
-				//float promedioActividades = 0f;
-				BigDecimal promedioActividades = new BigDecimal("0");
-				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
-					for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
-							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
-							promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply(new BigDecimal(cicloGrupoActividad.getValor())).divide(valorActividadesTotal, 1, RoundingMode.DOWN) );
-						}
-					}
-				}
-				
-				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
-				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) ); 
-				
-				//--------COMPROBAR SI LA ESCALA ES 10----------
-				
-				if( escala == 10 ){
-					/* Convirtiendo la escala de 100 a 10 (ya que las actividades se evaluan de 0 a 100) */
-					promedioActividades = promedioActividades.divide(new BigDecimal("10"), 1, RoundingMode.DOWN);
-				}
-				
-				//--------COMPROBAR SI TIENEN PUNTO DECIMAL----------
-				
-				if(evaluaConPunto.equals("N")){
-					/* Si tiene una nota reprobatoria entonces el redondeo es hacia abajo, por ejemplo: (5.9 a 5) (5.6 a 5) (4.9 a 4)  */
-					if( promedioActividades.compareTo( new BigDecimal(notaAC) ) == -1 ){// promedioActividades<notaAC
-						promedioActividades = new BigDecimal( frmEntero.format( promedioActividades.setScale(0, RoundingMode.DOWN) ) );
-					}
-					/* Si tiene una nota aprobatoria entonces el redondeo es normal, por ejemplo: (6.4 a 6) (6.6 a 7)  */
-					else{
-						promedioActividades = new BigDecimal( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ) );
-					}
-				}	
-						
-				//--------VERIFICAR LA NOTAMINIMA PARA EL NIVEL----------
-				
-				if( promedioActividades.compareTo( new BigDecimal(notaMinima) ) == -1 ){// promedioActividades<notaMinima
-					promedioActividades = new BigDecimal(notaMinima);
-				}
-				
-				//--------GUARDAR PROMEDIO DE LAS ACTIVIDADES EN LA EVALUACION----------
-				
-				kardexEval.setCodigoId(krdxCursoAct.getCodigoId());
-				kardexEval.setCicloGrupoId(cicloGrupoId);
-				kardexEval.setCursoId(cursoId);
-				kardexEval.setEvaluacionId(evaluacion);
-			
-				if(kardexEval.existeReg(conElias)){
-					kardexEval.mapeaRegId(conElias, krdxCursoAct.getCodigoId(), cicloGrupoId, cursoId, evaluacion);
-					kardexEval.setNota(promedioActividades +"");
-					if(kardexEval.updateReg(conElias)){
-						//Actualizo correctamente
-					}else{
-						error = true; break;
-					}
-				}else{
-					kardexEval.setNota( promedioActividades +"");
-					if(kardexEval.insertReg(conElias)){
-						//Inserto correctamente
-					}else{
-						error = true; break;
-					}
-				}
-					
-					
-			}//End for alumnos
-				
-		}else{
-			//NO TIENE ACTIVIDADES
+		boolean error = false;		
+		
+		//**************** CERRAR EVALUACION ****************	
+		
+		cicloGrupoEval.mapeaRegId(conElias, cicloGrupoId, cursoId, evaluacion);
+		cicloGrupoEval.setEstado("C");
+		
+		if (cicloGrupoEval.updateReg(conElias)) {
+			lisEvaluacion = cicloGrupoEvalLista.getArrayList( conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
+		} else {
+			error = true;
 		}
-				
-		//**************** END RECALCULAR EL PROMEDIO DE LAS ACTIVIDADES DE LA EVALUACION QUE SE VA A CERRAR (SI ES QUE TIENE) ****************
-		
-		//**************** CERRAR EVALUACION ****************
-		if(error == false){
-		
-			cicloGrupoEval.mapeaRegId(conElias, cicloGrupoId, cursoId, evaluacion);
-			cicloGrupoEval.setEstado("C");
+			
+		//------------------- SI YA SE CERRARON TODAS LAS EVALUACIONES, ENTONCES CIERRA LA MATERIA (guarda las calificaciones del alumno y cambia el estado de la materia) ------------------->
+		if (aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId)) {
+
+			// Actualizar los promedios
+			treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
+			
+			boolean todosPasan = true;				
 	
-			if (cicloGrupoEval.updateReg(conElias)) {
-				lisEvaluacion = cicloGrupoEvalLista.getArrayList( conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
-			} else {
+			int i = 0;
+			for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
+				double promedio = 0.0;
+					
+				if (treeProm.containsKey(cicloGrupoId + cursoId	+ kardex.getCodigoId())) {
+					aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
+					promedio = Double.parseDouble(alumProm.getPromedio().replaceAll(",",".")); 
+				}
+					
+				/* Guardar promedio del alumno en krdx_curso_act */
+				kardex.setNota(frmDecimal.format(promedio));
+				kardex.setFNota(aca.util.Fecha.getHoy());
+				
+				//ACREDITO EL ORDINARIO
+				if (promedio >= notaAC) {
+					kardex.setTipoCalId("2");
+					todosPasan &= true;
+				}
+				//NO ACREDITO EL ORDINARIO
+				else{
+					kardex.setTipoCalId("3");
+					todosPasan &= false;
+				}
+				
+				if(kardex.updateReg(conElias)){
+					//Actualizo correctamente
+				}else{
+					error = true; break;
+				}
+				
+				i++;
+			}
+				
+			if (todosPasan){
+				cicloGrupoCurso.setEstado("4"); //MATERIA CERRADA
+			}else{
+				cicloGrupoCurso.setEstado("3");	//MATERIA EN EXTRAORDINARIO, YA QUE NO TODOS PASARON
+			}
+				
+			if(cicloGrupoCurso.updateReg(conElias)){
+				//Se actualizo el estado correctamente
+			}else{
 				error = true;
 			}
-			
-			//------------------- SI YA SE CERRARON TODAS LAS EVALUACIONES, ENTONCES CIERRA LA MATERIA (guarda las calificaciones del alumno y cambia el estado de la materia) ------------------->
-			if (aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId)) {
-// 				java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
-				
-				boolean todosPasan = true;				
-	
-				int i = 0;
-				for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
-					double promedio = 0.0;
-					
-					if (treeProm.containsKey(cicloGrupoId + cursoId	+ kardex.getCodigoId())) {
-						aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
-						promedio = Double.parseDouble(alumProm.getPromedio().replaceAll(",",".")); 
-					}
-					
-					/* Guardar promedio del alumno en krdx_curso_act */
-					kardex.setNota(frmDecimal.format(promedio));
-					kardex.setFNota(aca.util.Fecha.getHoy());
-					
-					//ACREDITO EL ORDINARIO
-					if (promedio >= notaAC) {
-						kardex.setTipoCalId("2");
-						todosPasan &= true;
-					}
-					//NO ACREDITO EL ORDINARIO
-					else{
-						kardex.setTipoCalId("3");
-						todosPasan &= false;
-					}
-					
-					if(kardex.updateReg(conElias)){
-						//Actualizo correctamente
-					}else{
-						error = true; break;
-					}
-					
-					i++;
-				}
-				
-				if (todosPasan){
-					cicloGrupoCurso.setEstado("4"); //MATERIA CERRADA
-				}else{
-					cicloGrupoCurso.setEstado("3");	//MATERIA EN EXTRAORDINARIO, YA QUE NO TODOS PASARON
-				}
-				
-				if(cicloGrupoCurso.updateReg(conElias)){
-					//Se actualizo el estado correctamente
-				}else{
-					error = true;
-				}
-			}//End cerraron todas las evaluaciones
+		}//End cerraron todas las evaluaciones	
 		
-		}//End error
 		//**************** END CERRAR EVALUACION ****************
 		
 		
@@ -967,7 +883,72 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 				
 				/* Refrescar lista */
 				lisKardexAlumnos			= krdxCursoActL.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
-			}
+			}//------------- PROMEDIAR CONDUCTA DE TODAS LAS MATERIAS ------------->
+			else if (accion.equals("13")) {
+				
+				String promedio = request.getParameter("Promedio");
+				
+				if (aca.kardex.KrdxAlumConducta.tieneEvaluacionesDeConducta(conElias, cicloGrupoId, promedio,"0")) {
+						
+						ArrayList<aca.kardex.KrdxAlumConducta> lisConducta = kardexConductaLista.getListAll(conElias,"WHERE CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND PROMEDIO_ID = " + promedio + " AND CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CONDUCTA = 'S') ORDER BY CODIGO_ID");
+						
+						if (lisConducta.size() > 0) {
+							int error = 0;
+							for (aca.kardex.KrdxCursoAct alumno : lisKardexAlumnos) { //Alumnos de este grupo
+								//int sumaNotas = 0;
+								//int cantidadMaterias = 0;
+								BigDecimal sumaNotas = new BigDecimal("0.0");
+								BigDecimal cantidadMaterias = new BigDecimal("0");
+								for (aca.kardex.KrdxAlumConducta krdxConducta : lisConducta) { //Notas de todos los alumnos de este grupo de todas las materias
+									if (krdxConducta.getCodigoId().equals(alumno.getCodigoId()) && Float.parseFloat(krdxConducta.getConducta()) > 0) {
+										//sumaNotas += Float.parseFloat(krdxConducta.getConducta());
+										//cantidadMaterias++;
+										sumaNotas = sumaNotas.add( new BigDecimal(krdxConducta.getConducta()) );
+										cantidadMaterias = cantidadMaterias.add(new BigDecimal("1"));
+									}
+								}
+								
+								kardexProm.mapeaRegId(conElias, alumno.getCodigoId(), cicloGrupoId, cursoId, promedio);
+								
+								kardexProm.setCodigoId(alumno.getCodigoId());
+								kardexProm.setCicloGrupoId(cicloGrupoId);
+								kardexProm.setCursoId(cursoId);
+								kardexProm.setPromedioId(promedio);
+								
+								//if (cantidadMaterias == 0 || sumaNotas < 1){
+								if( cantidadMaterias.compareTo(BigDecimal.ZERO) == 0 || sumaNotas.compareTo(new BigDecimal("1")) == -1 ){
+									kardexProm.setNota("0");
+								}else{
+									System.out.println(sumaNotas+":"+cantidadMaterias+":"+sumaNotas.divide(cantidadMaterias, 2, RoundingMode.HALF_UP));
+									kardexProm.setNota( sumaNotas.divide(cantidadMaterias, 2, RoundingMode.HALF_UP ).toString());
+								}
+								
+								if (kardexProm.existeReg(conElias)) {
+								
+									if (!kardexProm.updateReg(conElias)){
+										error++;
+									}
+								} else {
+									if (!kardexProm.insertReg(conElias)){
+										error++;	
+									}
+								}
+							}
+							if (error == 0){
+								msj = "Guardado";	
+							}else{
+								msj = "ErrorAlPromediar";
+							}
+						} else {
+							msj = "MaestroNoHaEvaluado";
+						}
+
+						lisKardexAlumnos			= krdxCursoActL.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");					
+					
+				} else {
+					msj = "MaestroNoHaEvaluado";
+				}
+			 }
 		
 		pageContext.setAttribute("resultado", msj);
 	
@@ -1117,28 +1098,59 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 	<div class="well text-center" style="overflow:visible;">
 	<%
 		if (planCurso.getFalta().equals("S")) {
+			
+			if (nivelEvaluacion.equals("E")){
 	%>
 			<a class="btn btn-mobile" href="evaluarFaltas.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
 				<fmt:message key="maestros.RegistrodeFaltas" />
 			</a> 
 	<%
+			}else if (nivelEvaluacion.equals("P")){
+	%>
+				<a class="btn btn-mobile" href="evaluarFaltasProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+					<fmt:message key="maestros.RegistrodeFaltas" />
+				</a>
+	<%			
+			}
 		}
+	
 	  	if (planCurso.getConducta().equals("S")){
+	  		
+	  		if (nivelEvaluacion.equals("E")){	  	
 	%> 
 			<a class="btn btn-mobile" href="evaluarConducta.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
 				<fmt:message key="boton.EvaluarConducta" />
 			</a> 
 	<%
-		}
+	  		}else if (nivelEvaluacion.equals("P")){
+	%>
+			<a class="btn btn-mobile" href="evaluarConductaProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+				<fmt:message key="boton.EvaluarConducta" />
+			</a>
+	<%	  			
+	  		}
+	  	}	
+		
 	  	if (escuelaId.contains("H")){
-	  		%> 
+	  		
+	  		if (nivelEvaluacion.equals("E")){	  		
+	 %> 
 	  		<a class="btn btn-mobile" href="evaluarActitudes.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
 	  			Evaluar Actitudes
 	  		</a> 
-	  		<%
-	  			}
+	  <%
+	  		}else if (nivelEvaluacion.equals("P")){
+	  %>		
+	  		<a class="btn btn-mobile" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+	  			Evaluar Actitudes
+	  		</a>
+	  <%		 	
+	  		}
+	  	}
 	
 		if (planCurso.getConducta().equals("P")) {
+			
+			if (nivelEvaluacion.equals("E")){
 	%>
 			<div class="btn-group text-left btn-mobile">
             	<button style="width:100%;" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="aca.PromediarConducta" /> <span class="caret"></span></button>
@@ -1168,6 +1180,33 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
                 </ul>
            	</div>
 	<%
+			}else if (nivelEvaluacion.equals("P")){
+%>
+			<div class="btn-group text-left btn-mobile">
+            	<button style="width:100%;" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="aca.PromediarConducta" /> <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+<%				cont = 0;				
+				for (aca.ciclo.CicloPromedio prom : lisPromedio){
+					cont++;
+%>
+					<li><a href="javascript:promediarConductaProm('<%=prom.getPromedioId()%>')"><%=prom.getNombre() %></a></li>	
+<%				}%>
+		   		</ul>
+           	</div>
+           	<div class="btn-group text-left btn-mobile">
+            	<button style="width:100%;" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="aca.ReporteConducta" /> <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                <%
+			  		for (aca.ciclo.CicloPromedio prom : lisPromedio) {
+			  	%> 
+					<li><a href="conductaProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=prom.getPromedioId()%>"><%=prom.getNombre()%></a></li>
+				<%
+					}
+				%>
+                </ul>
+           	</div>
+<%				
+			}
 		}
 	%>
 	</div>
