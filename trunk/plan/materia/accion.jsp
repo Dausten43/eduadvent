@@ -22,6 +22,7 @@
 		document.frmPlan.NotaAC.value = "0";
 		document.frmPlan.Tipocurso.value = "";
 		document.frmPlan.Falta.value = "S";
+		document.frmPlan.Tardanza.value = "S";
 		document.frmPlan.Accion.value = "1";
 		document.frmPlan.submit();
 	}
@@ -101,6 +102,7 @@
 			Curso.setNotaAc(request.getParameter("NotaAC"));
 			Curso.setTipocursoId(request.getParameter("Tipocurso"));
 			Curso.setFalta(request.getParameter("Falta"));
+			Curso.setTardanza(request.getParameter("Tardanza"));
 			Curso.setConducta(request.getParameter("Conducta"));
 			Curso.setOrden(request.getParameter("Orden"));
 			Curso.setPunto(request.getParameter("Punto"));
@@ -230,16 +232,16 @@
 							<label for="Horas"> <fmt:message key="aca.Horas" />: </label>
 							<input name="Horas" type="text" id="Horas" value="<%=Curso.getHoras()%>" class="input-mini" maxlength="3">
 						</div>
-					</fieldset>
-				</div>
-				
-				<div class="span4">
-					<fieldset>
 						<div class="control-group ">
 							<label for="Créditos"> <fmt:message key="aca.Creditos" />: </label> <input name="Creditos"
 								type="text" id="Creditos" value="<%=Curso.getCreditos()%>"
 								class="input-mini" maxlength="2">
 						</div>
+					</fieldset>
+				</div>
+				
+				<div class="span4">
+					<fieldset>						
 						<div class="control-group ">
 							<label for="NotaAC"> <fmt:message key="aca.NotaAprobatoria" />: </label> <input
 								name="NotaAC" type="text" id="NotaAC"
@@ -260,40 +262,36 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Falta"> <fmt:message key="aca.RegistraFalta" />: </label><select name="Falta"
-								id="Falta">
-								<option value="S"
-									<%if (Curso.getFalta().equals("S"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Si" /></option>
-								<option value="N"
-									<%if (Curso.getFalta().equals("N"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Negacion" /></option>
+							<label for="Falta"> <fmt:message key="aca.RegistraFalta" />: </label>
+							<select name="Falta" id="Falta">
+								<option value="S" <%=Curso.getFalta().equals("S")?"":""%>><fmt:message key="aca.Si" /></option>
+								<option value="N" <%=Curso.getFalta().equals("N")?"":""%>><fmt:message key="aca.Negacion" /></option>
+							</select>
+						</div>						
+						<div class="control-group ">
+							<label for="Tardanza"> <fmt:message key="aca.RegistraTardanza" />:</label>
+							<select name="Tardanza" id="Conducta">
+								<option value="S" <%=Curso.getTardanza().equals("S")?" Selected":""%>><fmt:message key="aca.Si" /></option>
+								<option value="N" <%=Curso.getTardanza().equals("N")?" Selected":""%>><fmt:message key="aca.Negacion" /></option>								
 							</select>
 						</div>
 						<div class="control-group ">
 							<label for="Conducta"> <fmt:message key="aca.EvaluaConducta" />:</label><select
 								name="Conducta" id="Conducta">
-								<option value="S"
-									<%if (Curso.getConducta().equals("S"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Si" /></option>
-								<option value="N"
-									<%if (Curso.getConducta().equals("N"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Negacion" /></option>
-								<option value="P"
-									<%if (Curso.getConducta().equals("P"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Promedio" /></option>
+								<option value="S" <%=Curso.getConducta().equals("S")?" Selected":""%>><fmt:message key="aca.Si" /></option>
+								<option value="N" <%=Curso.getConducta().equals("N")?" Selected":""%>><fmt:message key="aca.Negacion" /></option>
+								<option value="P" <%=Curso.getConducta().equals("P")?" Selected":""%>><fmt:message key="aca.Promedio" /></option>
 							</select>
 						</div>
-					</fieldset>
-				</div>
-
-				<div class="span4">
-					<fieldset>
 						<div class="control-group ">
 							<label for="Orden"> <fmt:message key="aca.Orden" />: </label> <input name="Orden"
 								type="text" id="orden" value="<%=Curso.getOrden().equals("")?"1":Curso.getOrden()%>" class="input-mini"
 								maxlength="2">
 						</div>
+					</fieldset>
+				</div>
+				<div class="span4">
+					<fieldset>						
 						<div class="control-group ">
 							<label for="Punto"><fmt:message key="aca.PuntoDecimal" /> </label>
 							<select name="Punto" id="Punto">
@@ -343,15 +341,13 @@
 %>
 							</select>
 <%
-						}			
+						}		
 %>							
 						</div>
 					</fieldset>
 				</div>
 			</div>
-		</form>
-
-		<div class="well" style="overflow: hidden;">
+			<div class="well" style="overflow: hidden;">
 			&nbsp; <a class="btn btn-primary"
 				href="javascript:Nuevo('<%=planId%>')"><i
 				class="icon-file icon-white"></i> <fmt:message key="boton.Nuevo" /></a> &nbsp;
@@ -359,7 +355,8 @@
 				<a class="btn btn-primary" href="javascript:Grabar()"><i class="icon-ok  icon-white"></i> <fmt:message key="boton.Guardar" /></a> &nbsp;			
 				<a class="btn btn-primary" href="javascript:Borrar()"><i class="icon-remove  icon-white"></i> <fmt:message key="boton.Eliminar" /></a>
 <% 		}%>				
-		</div>
+			</div>
+		</form>
 	</div>
 
 <script>
