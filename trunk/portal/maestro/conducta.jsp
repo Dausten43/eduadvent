@@ -10,28 +10,32 @@
 <%
 	//FORMATOS ---------------------------->
 	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat frmDecimal1 	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat frmDecimal2 	= new java.text.DecimalFormat("##0.0;-##0.0");
 
-	String escuelaId 	= (String) session.getAttribute("escuela");
-	String cursoId 		= request.getParameter("CursoId");
-	String cicloGrupoId	= request.getParameter("CicloGrupoId");
-	String evaluacionId = request.getParameter("EvaluacionId");
-	
-	String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
+	String escuelaId 		= (String) session.getAttribute("escuela");
+	String cicloId 			= (String) session.getAttribute("cicloId");
+	String cursoId 			= request.getParameter("CursoId");
+	String cicloGrupoId		= request.getParameter("CicloGrupoId");
+	String evaluacionId		= request.getParameter("EvaluacionId");
+	String decimales 		= aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, evaluacionId);	
 	
 	ArrayList<aca.kardex.KrdxCursoAct> lisAlumnos		= krdxCursoActL.getListAll(conElias, escuelaId, "AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND CURSO_ID = '"+cursoId+"' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
 	ArrayList<aca.ciclo.CicloGrupoCurso> lisMaterias 	= cicloGrupoCursoL.getListMateriasGrupo(conElias, cicloGrupoId, "AND CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CONDUCTA = 'S') ORDER BY CURSO_NOMBRE(CURSO_ID)");
-	ArrayList<aca.kardex.KrdxAlumConducta> lisEvals		= krdxAlumConductaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = "+evaluacionId);
-		
+	ArrayList<aca.kardex.KrdxAlumConducta> lisEvals		= krdxAlumConductaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = "+evaluacionId);		
 %>
+
 <div id="content">
 	
-	<h2><fmt:message key="aca.ReporteConducta"/> <small><fmt:message key="aca.Evaluacionn"/> <%=evaluacionId %></small></h2>
-	
-	<div class="alert alert-info">
-		<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId) %> | <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId) %>
-	</div>
-	
+	<h2>
+	<fmt:message key="aca.ReporteConducta"/>
+	<small>
+		<fmt:message key="aca.Evaluacionn"/><%=evaluacionId %> |
+		<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId) %> | 
+		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId) %>
+	</small>
+	</h2>
+		
 	<div class="well">
 		<a href="evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
 	</div>
@@ -65,7 +69,7 @@
 					<td><%=krdxCursoAct.getCodigoId() %></td>
 					<td><%=aca.alumno.AlumPersonal.getNombre(conElias, krdxCursoAct.getCodigoId(), "APELLIDO") %></td>
 		<%
-				int suma = 0;
+				float suma = 0;
 				int numMaterias = 0;
 				cont = 0;
 				for(aca.ciclo.CicloGrupoCurso cicloGrupoCurso: lisMaterias){
@@ -78,11 +82,13 @@
 								suma += Float.parseFloat(krdxAlumConducta.getConducta());
 								numMaterias++;
 								
-								if (evaluaConPunto.equals("S")) {
-									conducta = frmDecimal.format(Double.parseDouble(krdxAlumConducta.getConducta())).replaceAll(",", ".");
-								} else {
+								if (decimales.equals("1")) {
+									conducta = frmDecimal1.format(Double.parseDouble(krdxAlumConducta.getConducta())).replaceAll(",", ".");
+								} else if (decimales.equals("2")) {
+									conducta = frmDecimal2.format(Double.parseDouble(krdxAlumConducta.getConducta())).replaceAll(",", ".");
+								}else{
 									conducta = frmEntero.format(Double.parseDouble(krdxAlumConducta.getConducta())).replaceAll(",", ".");
-								}
+								}								
 							}
 						}
 					}
@@ -93,9 +99,11 @@
 				}
 				
 				String total = "-";
-				if (evaluaConPunto.equals("S")) {
-					total = frmDecimal.format(suma/((float)numMaterias)).replaceAll(",", ".");
-				} else {
+				if (decimales.equals("1")) {
+					total = frmDecimal1.format(suma/((float)numMaterias)).replaceAll(",", ".");
+				} else if (decimales.equals("2")) {
+					total = frmDecimal2.format(suma/((float)numMaterias)).replaceAll(",", ".");
+				}else{
 					total = frmEntero.format(suma/((float)numMaterias)).replaceAll(",", ".");
 				}
 		%>
