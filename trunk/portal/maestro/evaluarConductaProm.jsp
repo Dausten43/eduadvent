@@ -52,7 +52,7 @@
 		java.text.DecimalFormat frmDecimal = new java.text.DecimalFormat("##0.0;-##0.0");
 
 		String escuelaId = (String) session.getAttribute("escuela");
-		String codigoId = (String) session.getAttribute("codigoEmpleado");
+		String codigoId 		= (String) session.getAttribute("codigoId");		
 
 		String cicloGrupoId = request.getParameter("CicloGrupoId");
 		String cursoId = request.getParameter("CursoId");
