@@ -24,8 +24,6 @@
 	ArrayList<aca.kardex.KrdxAlumConducta> lisEvals		= krdxAlumConductaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = "+evaluacionId);
 		
 %>
-
-
 <div id="content">
 	
 	<h2><fmt:message key="aca.ReporteConducta"/> <small><fmt:message key="aca.Evaluacionn"/> <%=evaluacionId %></small></h2>
