@@ -42,7 +42,7 @@
 	java.text.DecimalFormat getformato = new java.text.DecimalFormat("##0;(##0)");
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
-	String codigoId 		= (String) session.getAttribute("codigoEmpleado");
+	String codigoId 		= (String) session.getAttribute("codigoId");	
 	String cicloId 			= (String) session.getAttribute("cicloId");
 
 	String cicloGrupoId 	= request.getParameter("CicloGrupoId");
