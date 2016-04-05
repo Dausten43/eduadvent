@@ -6,6 +6,7 @@
 
 
 <jsp:useBean id="catNivelL" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
+<jsp:useBean id="CatNivelEscuela" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
@@ -70,7 +71,7 @@
 			
 			if (openTabla) out.print("</table>");
 			openTabla = true;
-			String nombreNivel = aca.catalogo.CatNivel.getNivelNombre(conElias, grupo.getNivelId());
+			String nombreNivel = aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuela, grupo.getNivelId());
 			out.print("<div class='alert alert-info'><h4>"+nombreNivel+"</h4></div>");		
 %>
 	<table class='table table-fullcondensed'>
