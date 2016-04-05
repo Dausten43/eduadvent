@@ -78,28 +78,15 @@
 			krdxAlumFalta.setCicloGrupoId(cicloGrupoId);
 			krdxAlumFalta.setCursoId(cursoId);			
 			krdxAlumFalta.setPromedioId(promedio);
-			krdxAlumFalta.setEvaluacionId(evaluacion);
+			krdxAlumFalta.setEvaluacionId(evaluacion);			
 			
-			//
-			String tardanza = "";
-			
-			ArrayList<aca.kardex.KrdxAlumFalta> lisKardexFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID), EVALUACION_ID");
-			
-			for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
-				for (aca.kardex.KrdxAlumFalta kardexAlumFalta: lisKardexFalta) {
-					if ( kardexAlumFalta.getCodigoId().equals(kardex.getCodigoId()) && eval.getEvaluacionId().equals(kardexAlumFalta.getEvaluacionId()) ) {	
-						if(kardexAlumFalta.getEvaluacionId().equals(evaluacion)){
-							tardanza = kardexAlumFalta.getTardanza();
-						}
-					}
-				}
-			}
-			////
-			
-			String falta = request.getParameter("falta" + cont + "-" + evaluacion);
+			String falta 	= request.getParameter("falta" + cont + "-" + evaluacion);
+			String tardanza = request.getParameter("tardanza" + cont + "-" + evaluacion);
 
-			if (falta != null) {
-				if (falta.equals("")){//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota
+			if (falta != null && tardanza != null) {
+				
+				//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota
+				if (falta.equals("") && tardanza.equals("")){
 					
 					if(krdxAlumFalta.existeReg(conElias)){
 						
@@ -110,13 +97,19 @@
 						}	
 					}
 					
-				}else{//Si tiene nota entonces guardarla
+				//Si tiene nota entonces guardarla	
+				}else{
 					
+					// Valida Falta
 					krdxAlumFalta.setFalta(falta);
-					///
-					krdxAlumFalta.setTardanza(tardanza);
-					///
-
+					if(falta.equals("") || falta.isEmpty())
+						krdxAlumFalta.setFalta("0");	
+					
+					// Valida Tardanza
+					krdxAlumFalta.setTardanza(tardanza);					
+					if(tardanza.equals("") || tardanza.isEmpty())
+						krdxAlumFalta.setTardanza("0");
+					
 					if (krdxAlumFalta.existeReg(conElias)) {
 						
 						if(krdxAlumFalta.updateReg(conElias)){
@@ -243,9 +236,11 @@
 						for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
 							cont++;
 						%>
-							<th style="width:3%;" class="text-center" title="<%=eval.getEvaluacionNombre()%>"><%=cont%></th>
+							<th style="width:3%;" class="text-center" title="<%=eval.getEvaluacionNombre()%>(Falta)"><%=cont%>(F)</th>
+							<th style="width:3%;" class="text-center" title="<%=eval.getEvaluacionNombre()%>(Tardanza)"><%=cont%>(T)</th>
 						<%}%>
-					<th class="text-center"><fmt:message key="aca.Total" /></th>
+					<th class="text-center"><fmt:message key="aca.Total" />(F)</th>
+					<th class="text-center"><fmt:message key="aca.Total" />(T)</th>
 				</tr>
 			</thead>
 			<%
@@ -263,15 +258,18 @@
 				  		<%} %>
 					</td>
 					<%
-						float sumaFaltas = 0;
+						float sumaFaltas 	= 0;
+						float sumaTardanzas = 0;
 						for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
 							
-							String faltas = "-";
-							
+							String faltas 		= "-";
+							String tardanzas 	= "-";
 							for (aca.kardex.KrdxAlumFalta kardexAlumFalta: lisKardexFalta) {
 								if ( kardexAlumFalta.getCodigoId().equals(kardex.getCodigoId()) && eval.getEvaluacionId().equals(kardexAlumFalta.getEvaluacionId()) ) {					
 									faltas = kardexAlumFalta.getFalta();
 									sumaFaltas += Float.parseFloat(kardexAlumFalta.getFalta());
+									tardanzas = kardexAlumFalta.getTardanza();
+									sumaTardanzas += Float.parseFloat(kardexAlumFalta.getTardanza());
 								}
 							}
 					%>
@@ -293,16 +291,39 @@
 									</div>
 								<%}%>
 							</td>
+							<td class="text-center">
+								<div><%=tardanzas %></div>
+								
+								<%if (!kardex.getTipoCalId().equals("6") && eval.getEstado().equals("A") ) { /* Si el alumno no se ha dado de baja puede editar su nota */ %>
+									<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
+										<input 
+											style="margin-bottom:0;text-align:center;" 
+											class="input-mini onlyNumbers" 
+											data-allow-decimal="no"
+											type="text" 
+											tabindex="<%=i+1%>" 
+											name="tardanza<%=i%>-<%=eval.getEvaluacionId()%>"
+											id="tardanza<%=i%>-<%=eval.getEvaluacionId()%>" 
+											value="<%=tardanzas.equals("-")?"":tardanzas%>" 
+										/>
+									</div>
+								<%}%>
+							</td>
 					<%
 						}
 						
-						String total = "-";
+						String totalFalta = "-";
 						if(sumaFaltas != 0){
-							total = getformato.format(sumaFaltas).replace(',','.');
+							totalFalta = getformato.format(sumaFaltas).replace(',','.');
+						}
+						String totalTardanza = "-";
+						if(sumaTardanzas != 0){
+							totalTardanza = getformato.format(sumaTardanzas).replace(',','.');
 						}
 					%>	
 						
-						<td class="text-center"><%=total %></td>
+						<td class="text-center"><%=totalFalta%></td>
+						<td class="text-center"><%=totalTardanza%></td>
 				</tr>
 			<%
 				i++;
@@ -314,13 +335,14 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<%for (aca.ciclo.CicloGrupoEval eval :  lisEvaluacion) {%>
-					<td class="text-center">
+					<td class="text-center" colspan="2">
 						<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
 							<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=eval.getPromedioId()%>','<%=eval.getEvaluacionId()%>' );"><fmt:message key="boton.Guardar" /></a> 
 						</div>
 					</td>
 								
 				<%}%>
+				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			

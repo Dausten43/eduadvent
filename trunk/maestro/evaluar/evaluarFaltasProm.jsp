@@ -80,10 +80,9 @@
 			
 			String falta 		= request.getParameter("falta" + cont + "-" + promedio);
 			String tardanza 	= request.getParameter("tardanza" + cont + "-" + promedio);
-			System.out.println("Paso 1:"+promedio);
-			if (falta != null && tardanza != null){
-				
-				System.out.println("Paso 2"+falta+":"+tardanza);
+			
+			if (falta != null && tardanza != null){				
+			
 				//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota
 				if (falta.equals("") && tardanza.equals("")){
 					
@@ -108,7 +107,7 @@
 					krdxAlumFalta.setTardanza(tardanza);					
 					if(tardanza.equals("") || tardanza.isEmpty())
 						krdxAlumFalta.setTardanza("0");
-					System.out.println("Antes de grabar:"+krdxAlumFalta.getTardanza()+":"+krdxAlumFalta.getFalta());	
+						
 					if (krdxAlumFalta.existeReg(conElias)) {
 						
 						if(krdxAlumFalta.updateReg(conElias)){
@@ -122,8 +121,7 @@
 						}else{
 							error = true; break;
 						}
-					}
-					
+					}					
 				}
 			}
 			

@@ -237,8 +237,6 @@
 	boolean muestraBotonGuardarExtra3 = false;
 	boolean muestraBotonGuardarExtra4 = false;
 	boolean muestraBotonGuardarExtra5 = false;
-	
-// 	kardexAlumnoExtra enviaExtra = new kardexAlumnoExtra();
 
 	String accion 			= request.getParameter("Accion") == null?"0":request.getParameter("Accion");
 	String cicloGrupoId	 	= request.getParameter("CicloGrupoId");
@@ -1025,7 +1023,6 @@
 	int cont = 0;
 	for (aca.ciclo.CicloPromedio promedio : lisPromedio){
 %>	
-	
 	<div class="alert alert-info">
 		<fmt:message key="aca.Estrategia" />: [ <%= promedio.getNombre() %> ] &nbsp;&nbsp; <fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>]
 	</div>
@@ -1109,8 +1106,9 @@
 	%>
 	<div class="well text-center" style="overflow:visible;">
 	<%
-		if (planCurso.getFalta().equals("S")) {
-			
+		if (planCurso.getFalta().equals("S")) {			
+		
+			// El nivel de evaluacion se determina en la tabla ciclo
 			if (nivelEvaluacion.equals("E")){
 	%>
 			<a class="btn btn-mobile" href="evaluarFaltas.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
@@ -1125,9 +1123,10 @@
 	<%				
 			}
 		}
-	  	if (planCurso.getConducta().equals("S")){
+	  	
+		if (planCurso.getConducta().equals("S")){
 	  		
-	  		if (nivelEvaluacion.equals("E")){ 
+	  		if (nivelEvaluacion.equals("E")){
 	%> 
 			<a class="btn btn-mobile" href="evaluarConducta.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
 				<fmt:message key="boton.EvaluarConducta" />
@@ -1139,17 +1138,10 @@
 			</a>
 	<%		
 			}	  		
-		} if(planCurso.getTardanza().equals("S")){
-	%> 
-			<a class="btn btn-mobile" href="evaluarTardanzas.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-				<fmt:message key="maestros.RegistrodeTardanzas" />
-			</a> 
-	<%
 		}
 	
 		if (planCurso.getConducta().equals("P")) {
-			if (nivelEvaluacion.equals("E")){
-		
+			if (nivelEvaluacion.equals("E")){		
 	%>
 			<div class="btn-group text-left btn-mobile">
             	<button style="width:100%;" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="aca.PromediarConducta" /> <span class="caret"></span></button>
