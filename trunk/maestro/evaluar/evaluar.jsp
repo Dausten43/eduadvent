@@ -904,7 +904,7 @@
 						for (aca.kardex.KrdxCursoAct alumno : lisKardexAlumnos) { //Alumnos de este grupo
 							//int sumaNotas = 0;
 							//int cantidadMaterias = 0;
-							BigDecimal sumaNotas = new BigDecimal("0");
+							BigDecimal sumaNotas = new BigDecimal("0.0");
 							BigDecimal cantidadMaterias = new BigDecimal("0");
 							for (aca.kardex.KrdxAlumConducta krdxConducta : lisConducta) { //Notas de todos los alumnos de este grupo de todas las materias
 								if (krdxConducta.getCodigoId().equals(alumno.getCodigoId()) && Float.parseFloat(krdxConducta.getConducta()) > 0) {
@@ -926,10 +926,12 @@
 							if( cantidadMaterias.compareTo(BigDecimal.ZERO) == 0 || sumaNotas.compareTo(new BigDecimal("1")) == -1 ){
 								kardexProm.setNota("0");
 							}else{
-								kardexProm.setNota( sumaNotas.divide(cantidadMaterias, 1, RoundingMode.DOWN)+"" );
+								System.out.println(sumaNotas+":"+cantidadMaterias+":"+sumaNotas.divide(cantidadMaterias, 2, RoundingMode.HALF_UP));
+								kardexProm.setNota( sumaNotas.divide(cantidadMaterias, 2, RoundingMode.HALF_UP ).toString());
 							}
 							
 							if (kardexProm.existeReg(conElias)) {
+							
 								if (!kardexProm.updateReg(conElias)){
 									error++;
 								}
@@ -1189,6 +1191,18 @@
 					<li><a href="javascript:promediarConductaProm('<%=prom.getPromedioId()%>')"><%=prom.getNombre() %></a></li>	
 <%				}%>
 		   		</ul>
+           	</div>
+           	<div class="btn-group text-left btn-mobile">
+            	<button style="width:100%;" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="aca.ReporteConducta" /> <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                <%
+			  		for (aca.ciclo.CicloPromedio prom : lisPromedio) {
+			  	%> 
+					<li><a href="conductaProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=prom.getPromedioId()%>"><%=prom.getNombre()%></a></li>
+				<%
+					}
+				%>
+                </ul>
            	</div>
 <%				
 			}
@@ -1555,7 +1569,7 @@
 							muestraPromedioFinal = formato1.format(promedioFinal);
 						
 							//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
-							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"*</td>");
+							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
 						}
 
 						String strExtra = "-";
