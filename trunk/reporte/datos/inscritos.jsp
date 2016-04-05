@@ -11,6 +11,7 @@
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="CicloLista" scope="page" class="aca.alumno.AlumCicloLista"/>
 <jsp:useBean id="CatNivelEscuela" scope="page" class="aca.catalogo.CatNivelEscuela"/>
+<jsp:useBean id="CatNivelEscuelaLista" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
 
 <%@page import="java.util.HashMap"%>
 <% 
@@ -50,6 +51,8 @@
 	
 	// Lista de Alumnos Inscritos en un ciclo escolar
 	ArrayList<aca.alumno.AlumPersonal> lisInscritos = AlumnoL.getListAlumnosInscritos(conElias,escuelaId,ciclo, " ORDER BY NIVEL_ID,GRADO,GRUPO,APATERNO,AMATERNO,NOMBRE");
+	//LIsta de niveles de escuela
+	ArrayList<aca.catalogo.CatNivelEscuela> lisNiveles = CatNivelEscuelaLista.getListNivelesPermitidos(conElias,escuelaId,ciclo, " ORDER BY NIVEL_ID");
 	
 	// Map de historico del alumno
 	HashMap<String, aca.alumno.AlumCiclo > mapaGradoGrupo =   aca.alumno.AlumCicloLista.getMapHistoria(conElias, "");
@@ -81,7 +84,196 @@
 			&nbsp; &nbsp; 			
 			<a onclick="location='inscritos_grupo.jsp?ciclo=<%=ciclo %>'" class="btn btn-primary"><i class="icon-th-list icon-white"></i> <fmt:message key="boton.ListaGrado" /></a>
 	</div>
-  </form>			
+  </form>
+  
+  
+  
+<%  
+//Recorrido para obtener informacion
+
+//HashMap<Integer, String> nombreMap = new HashMap<Integer, String>();
+
+// for(aca.catalogo.CatNivelEscuela nivel : lisNiveles){
+	for(aca.alumno.AlumPersonal inscrito : lisInscritos){
+		cont++;
+		AlumP.mapeaRegId(conElias, inscrito.getCodigoId());
+		
+		  if(!nivelTemp.equals(inscrito.getNivelId())){
+			  if(!nivelTemp.equals("-1")){
+				  
+				hombres = 0;
+				mujeres = 0;
+				relAdv	= 0;
+				relDif	= 0;
+				
+			  }
+		    cont=1;
+			nivelTemp = inscrito.getNivelId();	
+		  }
+			
+			String gen 		= inscrito.getGenero();
+		  	String relig 	= inscrito.getReligion();
+		  	
+		  	if(relig.equals("1")){
+		  		relAdv++;
+		  		totACFE++;
+		  	}else{
+		  		relDif++;
+		  		totNACFE++;
+		  	}
+		  	
+		  	if(gen.equals("M")){
+		  		hombres++;
+		  		totHombres ++;
+		  		
+		  	}else{
+		  		mujeres++;
+		  		totMujeres++;
+		  	}
+	}					
+// }
+
+
+
+		for(aca.catalogo.CatNivelEscuela nivel : lisNiveles){
+%>
+			 <div class="alert alert-info">
+			  	<h4><%= nivel.getNivelNombre()%></h4>
+			  	<br>
+			  	<b><fmt:message key="aca.Hombres" />: </b><%=hombres%>&nbsp;&nbsp;
+				<b><fmt:message key="aca.Mujeres" />: </b><%=mujeres%>&nbsp;&nbsp;
+				<b><fmt:message key="aca.Adventistas" />: </b><%=relAdv%>&nbsp;&nbsp;
+				<b><fmt:message key="aca.NoAdventistas" />: </b><%=relDif%>
+			 </div>
+			 
+			 <table width="100%" class="table table-fullcondensed table-fontsmall table-bordered table-striped" align="center">
+				  <tr>
+				    <th>#</th>
+				    <th><fmt:message key="aca.Matricula" /></th>
+				    <th><fmt:message key="aca.Nombre" /></th>
+				    <th><fmt:message key="aca.Grado" /></th>
+				    <th><fmt:message key="aca.Grupo" /></th>
+				    <th><fmt:message key="aca.FNac" /></th>
+				    <th><fmt:message key="aca.Genero" /></th>
+				    <th><fmt:message key="aca.CURP" /></th>
+				    <th><fmt:message key="aca.Pais" /></th>
+				    <th><fmt:message key="aca.Estado" /></th>
+				    <th><fmt:message key="aca.Ciudad" /></th>
+				    <th><fmt:message key="aca.Colonia" /></th>
+				    <th><fmt:message key="aca.Direccion" /></th>
+				    <th><fmt:message key="aca.Telefono" /></th>
+				    <th><fmt:message key="aca.ClassFin" /></th>
+				    <th><fmt:message key="aca.Religion" /></th>
+				    <th><fmt:message key="aca.Tutor" /></th>    
+			     	<th><fmt:message key="aca.Celular" /></th> 
+			     	<th><fmt:message key="aca.Correo" /></th>   
+			     	<th><fmt:message key="aca.Iglesia" /></th> 
+				  </tr>
+  				
+		  
+<%
+			int uno = 1;
+  			for(aca.alumno.AlumPersonal inscrito : lisInscritos){
+  				
+  				if(uno < 2){
+%>
+				
+<%					
+					uno++;
+  				}
+  				
+  				if (mapaGradoGrupo.containsKey(inscrito.getCodigoId()+ciclo+"1")){
+  					aca.alumno.AlumCiclo historia = (aca.alumno.AlumCiclo) mapaGradoGrupo.get(inscrito.getCodigoId()+ciclo+"1");
+  					grado 		= aca.catalogo.CatEsquemaLista.getGradoYGrupo(conElias, escuelaId, historia.getNivel(), historia.getGrado());
+  					grupo 		= historia.getGrupo();			 
+  									
+  				}else{
+  					grado = "-"; grupo = "-";
+  				}
+%>  				
+  			    <tr >
+					  <td align="center"><%= cont %></td>
+					  <td align="center"><%= inscrito.getCodigoId() %></td>
+					  <td align="left"><%= inscrito.getApaterno()+" "+inscrito.getAmaterno()+", "+inscrito.getNombre()%></td>
+					  <td align="center"><%= grado %></td>
+					  <td align="center"><%= grupo %></td>
+					  <td align="left"><%= inscrito.getFNacimiento()%></td>
+					  <td align="center"><%= inscrito.getGenero().equals("M")?"H":"M" %></td>
+					  <td align="left"><%= inscrito.getCurp()%></td>
+					  <td align="left"><%= aca.catalogo.CatPais.getPais(conElias,inscrito.getPaisId())%></td>
+					  <td align="left"><%= aca.catalogo.CatEstado.getEstado(conElias,inscrito.getPaisId(),inscrito.getEstadoId())%></td>
+					  <td align="left"><%= aca.catalogo.CatCiudad.getCiudad(conElias,inscrito.getPaisId(),inscrito.getEstadoId(),inscrito.getCiudadId())%></td>
+					  <td align="left"><%= inscrito.getColonia()%></td>
+					  <td align="left"><%= inscrito.getDireccion()%></td>
+					  <td align="left"><%= inscrito.getTelefono()%></td>
+					  <td align="left"><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias,escuelaId,inscrito.getClasfinId())%></td>
+					  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,inscrito.getReligion())%></td>
+					  <td align="left"><%= inscrito.getTutor()%></td> 
+					  <td align="left"><%= inscrito.getCelular()%></td> 
+					  <td align="left"><%= AlumP.getEmail()%></td> 
+					  <td align="left"><%= inscrito.getIglesia()%></td>
+					  
+				</tr>
+  				
+<% 				
+  			}
+%>
+  			</table>
+<% 	
+		}
+%>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  			
 <%	 	
 	for(int i=0; i<lisInscritos.size();i++){ cont++;
 		aca.alumno.AlumPersonal inscrito = (aca.alumno.AlumPersonal) lisInscritos.get(i);
@@ -90,7 +282,7 @@
 		  if(!nivelTemp.equals(inscrito.getNivelId())){
 			  if(!nivelTemp.equals("-1")){%>
 				
-				</div>
+				
 				<div class="alert" style="margin-left:20px;">
 				<h5><fmt:message key="aca.Totales" /></h5>
 					<b><fmt:message key="aca.Hombres" />: </b><%=hombres%>&nbsp;&nbsp;
