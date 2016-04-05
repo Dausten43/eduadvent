@@ -1123,6 +1123,23 @@
 	<%				
 			}
 		}
+	
+		if (escuelaId.contains("H")){
+  		
+  			if (nivelEvaluacion.equals("E")){	  		
+%> 
+  		<a class="btn btn-mobile" href="evaluarActitudes.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+  			Evaluar Actitudes
+  		</a> 
+<%
+  			}else if (nivelEvaluacion.equals("P")){
+%>		
+  		<a class="btn btn-mobile" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
+  			Evaluar Actitudes
+  		</a>
+<%		 	
+  			}
+  		}
 	  	
 		if (planCurso.getConducta().equals("S")){
 	  		
