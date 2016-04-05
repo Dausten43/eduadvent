@@ -22,10 +22,8 @@
 	
 	ArrayList<aca.kardex.KrdxCursoAct> lisAlumnos		= krdxCursoActL.getListAll(conElias, escuelaId, "AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND CURSO_ID = '"+cursoId+"' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
 	ArrayList<aca.ciclo.CicloGrupoCurso> lisMaterias 	= cicloGrupoCursoL.getListMateriasGrupo(conElias, cicloGrupoId, "AND CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CONDUCTA = 'S') ORDER BY CURSO_NOMBRE(CURSO_ID)");
-	ArrayList<aca.kardex.KrdxAlumConducta> lisEvals		= krdxAlumConductaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = "+evaluacionId);
-		
+	ArrayList<aca.kardex.KrdxAlumConducta> lisEvals		= krdxAlumConductaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = "+evaluacionId);		
 %>
-
 
 <div id="content">
 	
