@@ -1141,7 +1141,7 @@
 		}
 	
 		if (planCurso.getConducta().equals("P")) {
-			if (nivelEvaluacion.equals("E")){		
+			if (nivelEvaluacion.equals("E")){
 	%>
 			<div class="btn-group text-left btn-mobile">
             	<button style="width:100%;" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="aca.PromediarConducta" /> <span class="caret"></span></button>

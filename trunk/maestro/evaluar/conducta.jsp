@@ -27,12 +27,15 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.ReporteConducta"/> <small><fmt:message key="aca.Evaluacionn"/> <%=evaluacionId %></small></h2>
-	
-	<div class="alert alert-info">
-		<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId) %> | <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId) %>
-	</div>
-	
+	<h2>
+	<fmt:message key="aca.ReporteConducta"/>
+	<small>
+		<fmt:message key="aca.Evaluacionn"/><%=evaluacionId %> |
+		<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId) %> | 
+		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId) %>
+	</small>
+	</h2>
+		
 	<div class="well">
 		<a href="evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
 	</div>
