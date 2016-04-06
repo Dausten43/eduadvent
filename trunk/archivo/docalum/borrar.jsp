@@ -8,7 +8,8 @@
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String documentoId		= request.getParameter("DocumentoId");
 	String hoja				= request.getParameter("Hoja")==null?"0":request.getParameter("Hoja");
-	System.out.println("Datos:"+codigoId+":"+escuelaId+":"+documentoId+":"+hoja);
+	String salto 			= "X";
+	
 	boolean borroPg = false;
 	try{		
 		conEliasDir.setAutoCommit(false);
@@ -30,8 +31,8 @@
 	   	}		
 		conEliasDir.setAutoCommit(true);
 		
-	    if(borroPg){
-	    	response.sendRedirect("docalum.jsp");
+	    if(borroPg){	    	
+	    	salto = "docalum.jsp";
 	    }else{
 %>
 		<font size="4" color="red"><b><fmt:message key="aca.ErrorBorrarCorto"/></b> <a href="docalum.jsp">&lsaquo;&lsaquo; <fmt:message key="boton.Regresar"/></a></font><br>
@@ -44,4 +45,7 @@
 <%
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias_dir.jsp" %>
