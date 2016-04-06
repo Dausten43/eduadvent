@@ -17,7 +17,8 @@
 		out.println("<font color=black> No se puedo elimiar la foto del alumno:["+codigoAlumno+"] - "+aca.alumno.AlumPersonal.getNombreAlumno(conEnoc, codigoAlumno, "NOMBRE")+"</font>");
 	}
 %>
-<%@ include file="../../cierra_enoc.jsp" %>
 <% 	if (!salto.equals("X")){%>
-		<meta http-equiv="refresh" content="0"; url="<%=salto%>" />
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
 <% 	}%>
+<%@ include file="../../cierra_enoc.jsp" %>
+
