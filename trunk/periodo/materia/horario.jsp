@@ -12,9 +12,7 @@
 <jsp:useBean id="cicloGrupoHorario" scope="page" class="aca.ciclo.CicloGrupoHorario"/>
 <jsp:useBean id="cicloGrupoHorarioL" scope="page" class="aca.ciclo.CicloGrupoHorarioLista"/>
 
-
-<%
-	
+<%	
 	String escuelaId		= (String) session.getAttribute("escuela");
 	String cicloId			= (String) session.getAttribute("cicloId");
 	String planId			= (String) session.getAttribute("planId");
