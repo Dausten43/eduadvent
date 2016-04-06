@@ -87,6 +87,10 @@
 			
 			String aspecto 		= request.getParameter("aspecto" + cont + "-" + promedio);
 			if ( aspecto != null ){
+				// Valida aspecto
+				krdxAlumActitud.setNota(aspecto);
+				if(aspecto.equals("") || aspecto.isEmpty())
+					krdxAlumActitud.setNota("0");
 				
 			}
 			cont++;
