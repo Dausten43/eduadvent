@@ -40,6 +40,7 @@
 	String sNom 			= "";
 	String sPat				= "";
 	String sMat				= "";
+	String salto 			= "X"; 
 	
 	ArrayList<aca.alumno.AlumPersonal> lisLista		= new ArrayList<aca.alumno.AlumPersonal>();
 	
@@ -52,11 +53,10 @@
 		
 		lisLista = AlumPersonalLista.BuscaDuplicados(conElias, escuelaId, sNom,sPat,sMat,50);
 		
-	}else if(accion.equals("2")){
-		
+	}else if(accion.equals("2")){		
 		session.setAttribute("codigoAlumno", request.getParameter("CodigoPersonal"));
-		response.sendRedirect("accion_p.jsp");
-		
+		//response.sendRedirect("accion_p.jsp");
+		salto = "accion_p.jsp";
 	}
 %>
 
@@ -162,6 +162,8 @@
 <script>
 	document.frmDatos.nombre.focus();
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>
 
