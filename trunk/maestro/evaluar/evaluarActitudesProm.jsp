@@ -13,6 +13,7 @@
 <jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="AspectosL" scope="page" class="aca.catalogo.CatAspectosLista"/>
 <jsp:useBean id="AspectosCalL" scope="page" class="aca.catalogo.CatAspectosCalLista"/>
+<jsp:useBean id="krdxAlumActitud" scope="page" class="aca.kardex.KrdxAlumActitud" />
 <script>
 	/*
 	 * ABRIR INPUTS PARA EDITAR LAS NOTAS
@@ -71,14 +72,23 @@
 	String msj 			= "";
 	
 	if(accion.equals("1")){ //Guardar Conducta
-		String evaluacion		= request.getParameter("Evaluacion");
+		String promedio		= request.getParameter("Promedio");
 		
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
 		boolean error = false;
 	
 		int cont = 0;
-		for(aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos){		
+		for(aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos){
+			krdxAlumActitud.setCodigoId(kardex.getCodigoId());
+			krdxAlumActitud.setCicloGrupoId(cicloGrupoId);
+			krdxAlumActitud.setCursoId(cursoId);
+			krdxAlumActitud.setPromedioId(promedio);
+			krdxAlumActitud.setEvaluacionId("0");
 			
+			String aspecto 		= request.getParameter("aspecto" + cont + "-" + promedio);
+			if ( aspecto != null ){
+				
+			}
 			cont++;
 		}		
 		
