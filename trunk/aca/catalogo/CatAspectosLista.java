@@ -55,7 +55,7 @@ public class CatAspectosLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatAspectosLista|getListUnion|:"+ex);
+			System.out.println("Error - aca.catalogo.CatAspectosLista|getListAspectos|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
