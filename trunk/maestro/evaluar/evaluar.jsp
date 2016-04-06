@@ -452,11 +452,9 @@
 			}else{
 				error = true;
 			}
-		}//End cerraron todas las evaluaciones
-		
+		}//End cerraron todas las evaluaciones		
 		
 		//**************** END CERRAR EVALUACION ****************
-		
 		
 		//COMMIT OR ROLLBACK TO DB
 		if(error){
@@ -1294,6 +1292,7 @@
 							notaAnt 	= cicloExtra.getValorAnterior();
 							notaExtra 	= cicloExtra.getValorExtra();
 						}
+						//System.out.println("Datos:"+notaExtra);
 						if ((cicloGrupoCurso.getEstado().equals("3"))||(aca.ciclo.CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, cursoId))){
 %>
 						<th class="text-center" style="width:4%;">
@@ -1603,7 +1602,7 @@
  								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
  								kardexAlumnoExtra.setCursoId(cursoId);
  								kardexAlumnoExtra.setOportunidad("1");
-
+ 								
 								if (kardexAlumnoExtra.existeReg(conElias)) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
 									strExtra 			= kardexAlumnoExtra.getNotaExtra();
@@ -1611,7 +1610,7 @@
  								} else {
  									strExtra = "-";
  								}																							
-								
+								System.out.println("Extra:"+strExtra);
 							}							
 						%>
 							<td class="text-center">

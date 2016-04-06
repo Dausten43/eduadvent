@@ -90,7 +90,7 @@
 			krdxAlumActitud.setAspectosId(aspectoId);
 			
 			String nota 		= request.getParameter("aspecto" + cont + "-" + aspectoId);
-			System.out.println("Datos:"+nota);	
+				
 			if ( nota != null ){
 				
 				// Valida aspecto
@@ -99,18 +99,16 @@
 					krdxAlumActitud.setNota("0");
 				
 				if (krdxAlumActitud.existeReg(conElias)) {
-				System.out.println("Existe:"+nota);	
+					
 					if(krdxAlumActitud.updateReg(conElias)){
-						//Modificado correctamente
-						System.out.println("Modifico:"+nota);
+						//Modificado correctamente						
 					}else{
 						error = true; break;
 					}
 				} else {
-					System.out.println("No Existe:"+nota);
+					
 					if(krdxAlumActitud.insertReg(conElias)){
-						//Guardado correctamente
-						System.out.println("Guardo:"+nota);
+						//Guardado correctamente						
 					}else{
 						error = true; break;
 					}
@@ -169,7 +167,7 @@
 			<th><fmt:message key="aca.Descripcion" /></th>		
 		</tr>
 		<%
-			int cont = 0; System.out.println("Size:"+lisAspectos.size());
+			int cont = 0;
 			for(aca.catalogo.CatAspectos aspecto : lisAspectos){
 				cont++;
 		%>				

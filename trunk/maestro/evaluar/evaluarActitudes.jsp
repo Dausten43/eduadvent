@@ -6,20 +6,21 @@
 <%@ include file="../../menu.jsp"%>
 
 <jsp:useBean id="empPersonal" scope="page" class="aca.empleado.EmpPersonal" />
-<jsp:useBean id="cicloGrupoEvalLista" scope="page" class="aca.ciclo.CicloGrupoEvalLista" />
 <jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo" />
-<jsp:useBean id="kardexLista" scope="page" class="aca.kardex.KrdxCursoActLista" />
-<jsp:useBean id="kardexConducta" scope="page" class="aca.kardex.KrdxAlumConducta" />
-<jsp:useBean id="kardexConductaLista" scope="page" class="aca.kardex.KrdxAlumConductaLista" />
 <jsp:useBean id="cicloGrupoCurso" scope="page" class="aca.ciclo.CicloGrupoCurso" />
 <jsp:useBean id="planCurso" scope="page" class="aca.plan.PlanCurso" />
-
+<jsp:useBean id="kardexLista" scope="page" class="aca.kardex.KrdxCursoActLista" />
+<jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
+<jsp:useBean id="AspectosL" scope="page" class="aca.catalogo.CatAspectosLista"/>
+<jsp:useBean id="AspectosCalL" scope="page" class="aca.catalogo.CatAspectosCalLista"/>
+<jsp:useBean id="krdxAlumActitud" scope="page" class="aca.kardex.KrdxAlumActitud" />
+<jsp:useBean id="krdxAlumActitudL" scope="page" class="aca.kardex.KrdxAlumActitudLista" />
 <script>
 	/*
 	 * ABRIR INPUTS PARA EDITAR LAS NOTAS
 	 */
-	function muestraInput(evaluacionId){
-		var editar = $('.editar'+evaluacionId);//Busca los inputs
+	function muestraInput(aspectoId){
+		var editar = $('.editar'+aspectoId);//Busca los inputs
 		
 		editar.each(function(){
 			var $this = $(this);
@@ -32,8 +33,10 @@
 	/*
 	 * GUARDA LAS NOTAS QUE SE MODIFICARON
 	 */
-	function guardarCalificaciones(evaluacion){
-		document.forma.Evaluacion.value = evaluacion;
+	function guardarCalificaciones(promedio, evaluacion, aspecto){
+		document.forma.PromedioId.value = promedio;
+		document.forma.EvaluacionId.value = evaluacion;
+		document.forma.Aspecto.value = aspecto;
 		document.forma.Accion.value = "1";
 		document.forma.submit();
 	}
@@ -42,78 +45,81 @@
 	//FORMATOS ---------------------------->
 	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("##0.0;-##0.0");
-
+	
 	String escuelaId 	= (String) session.getAttribute("escuela");
+	String cicloId 		= (String) session.getAttribute("cicloId");
 	String codigoId 	= (String) session.getAttribute("codigoEmpleado");
 	
 	String cicloGrupoId	= request.getParameter("CicloGrupoId");
 	String cursoId 		= request.getParameter("CursoId");
-	String cicloId 		= (String) session.getAttribute("cicloId");
+	String promedio 	= request.getParameter("PromedioId")==null?"0":request.getParameter("PromedioId");
+	String evaluacion 	= request.getParameter("EvaluacionId")==null?"0":request.getParameter("EvaluacionId");
+	String aspectoId	= request.getParameter("Aspecto")==null?"0":request.getParameter("Aspecto");
 	String planId 		= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
+	String url 			= "evaluar.jsp";
 	
-	String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
-	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
-	
-	empPersonal.mapeaRegId(conElias, codigoId);	
+	empPersonal.mapeaRegId(conElias, codigoId);		
 	cicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);
+	cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());	
 	
-	ArrayList<aca.ciclo.CicloGrupoEval> lisEvaluacion 	= cicloGrupoEvalLista.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
+	// Lista de promedios	
+	ArrayList<aca.catalogo.CatAspectos> lisAspectos 	= AspectosL.getListAspectos(conElias, escuelaId, cicloGrupo.getNivelId(), " ORDER BY ORDEN");
+	
+	// Lista de promedios	
+	ArrayList<aca.catalogo.CatAspectosCal> lisAspectosCal 	= AspectosCalL.getListPorNivel(conElias, escuelaId, cicloGrupo.getNivelId()," ORDER BY CAL_ID");
+	
+	// Lista de alumnos en la materia
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos	= kardexLista.getListAll(conElias,escuelaId, "AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
+	
+	// Map de actitudes
+	java.util.HashMap<String,aca.kardex.KrdxAlumActitud> mapActitud = krdxAlumActitudL.mapAspectosGrupo(conElias, cicloGrupoId, cursoId);
 	
 	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String msj 			= "";
 	
-	if(accion.equals("1")){ //Guardar Conducta
-		String evaluacion		= request.getParameter("Evaluacion");
+	if(accion.equals("1")){ //Guardar Conducta	
 		
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
 		boolean error = false;
 	
 		int cont = 0;
 		for(aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos){
-
-			kardexConducta.setCodigoId(kardex.getCodigoId());
-			kardexConducta.setCicloGrupoId(cicloGrupoId);
-			kardexConducta.setCursoId(cursoId);
-			kardexConducta.setEvaluacionId(evaluacion);
+			krdxAlumActitud.setCodigoId(kardex.getCodigoId());
+			krdxAlumActitud.setCicloGrupoId(cicloGrupoId);
+			krdxAlumActitud.setCursoId(cursoId);
+			krdxAlumActitud.setPromedioId(promedio);
+			krdxAlumActitud.setEvaluacionId(evaluacion);
+			krdxAlumActitud.setAspectosId(aspectoId);
 			
-			String conducta = request.getParameter("conducta"+cont+"-"+evaluacion);
-			
-			if(conducta != null){
-				if(conducta.equals("")){//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota
-					
-					if(kardexConducta.existeReg(conElias)){
-						if(kardexConducta.deleteReg(conElias)){
-							//Elimino correctamente
-						}else{
-							error = true; break;
-						}	
+			String nota 		= request.getParameter("aspecto" + cont + "-" + aspectoId);
+			System.out.println("Datos:"+nota);	
+			if ( nota != null ){
+				
+				// Valida aspecto
+				krdxAlumActitud.setNota(nota);
+				if(nota.equals("") || nota.isEmpty())
+					krdxAlumActitud.setNota("0");
+				
+				if (krdxAlumActitud.existeReg(conElias)) {
+				System.out.println("Existe:"+nota);	
+					if(krdxAlumActitud.updateReg(conElias)){
+						//Modificado correctamente
+						System.out.println("Modifico:"+nota);
+					}else{
+						error = true; break;
 					}
-					
-				}else{//Si tiene nota entonces guardarla
-					
-					kardexConducta.setConducta(conducta);
-
-					if (kardexConducta.existeReg(conElias)) {
-						if(kardexConducta.updateReg(conElias)){
-							//Modificado correctamente
-						}else{
-							error = true; break;
-						}
-					} else {
-						if(kardexConducta.insertReg(conElias)){
-							//Guardado correctamente
-						}else{
-							error = true; break;
-						}
+				} else {
+					System.out.println("No Existe:"+nota);
+					if(krdxAlumActitud.insertReg(conElias)){
+						//Guardado correctamente
+						System.out.println("Guardo:"+nota);
+					}else{
+						error = true; break;
 					}
-					
 				}
 			}
-			
 			cont++;
-		}
-		
+		}		
 		
 		//COMMIT OR ROLLBACK TO DB
 		if(error){
@@ -126,90 +132,58 @@
 		
 		conElias.setAutoCommit(true);//** END TRANSACTION **
 				
+		mapActitud = krdxAlumActitudL.mapAspectosGrupo(conElias, cicloGrupoId, cursoId);
 	}
 	
 	pageContext.setAttribute("resultado", msj);
-
-	ArrayList<aca.kardex.KrdxAlumConducta> lisKardexConducta = kardexConductaLista.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID), EVALUACION_ID");
-
-	planCurso.mapeaRegId(conElias, cursoId);
 	
-	java.util.HashMap<String, aca.ciclo.CicloGrupoEval> mapConducta = aca.ciclo.CicloGrupoEvalLista.getMapConducta(conElias, cicloGrupoId, cursoId, planId );
-
+	ArrayList<aca.kardex.KrdxAlumActitud> lisKardexActitud = krdxAlumActitudL.getListAll(conElias, " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND CURSO_ID = '"+cursoId+"' ORDER BY ALUM_APELLIDO(CODIGO_ID), PROMEDIO_ID");
+	
+	planCurso.mapeaRegId(conElias, cursoId);
 	
 %>
 
 <div id="content">
-	<h2><fmt:message key="maestros.RegistroConducta" /> <small><%=empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno()%></small></h2>
+	<h2>
+		<fmt:message key="maestros.RegistroConducta" />
+		<small>
+		( <%=empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno()%> | 
+		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> | 
+		<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>&nbsp;
+		)
+		</small>
+	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
   	<%} %>
-  	
-	<div class="alert alert-info">
-		<h4><%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%></h4>
-		<small><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></small> 
-	</div>
-	
-	<%
-	cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());		
-	String url = "evaluar.jsp";
-	if(aca.catalogo.CatEsquemaLista.getEsquemaEvaluacion(conElias, (String) session.getAttribute("escuela"), cicloGrupo.getGrado() ,cicloGrupoCurso.getCursoId()).equals("C")){/* SI EVALUA POR COMPETENCIA */
-		url = "evaluarCompetencias.jsp";
-	}
-	%>
 	<div class="well">
-		<a href="<%=url %>?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>" class="btn btn-primary btn-mobile"><i class="icon-arrow-left icon-white"></i><fmt:message key="boton.Regresar" /></a>
+		<a href="<%=url %>?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>" class="btn btn-primary btn-mobile"><i class="icon-arrow-left icon-white"></i><fmt:message key="boton.Regresar" /></a>		
 	</div>
 	
-	<!--  -------------------- TABLA DE EVALUACIONES -------------------- -->
-	
+	<!--  -------------------- TABLA DE EVALUACIONES -------------------- -->	
 	<table class="table table-condensed table-bordered table-striped">
 		<tr>
 			<th class="text-center">#</th>
-			<th><fmt:message key="aca.Descripcion" /></th>
-			<th><fmt:message key="aca.Fecha" /></th>
-			<th class="text-center"><fmt:message key="aca.Estado" /></th>
+			<th class="text-center"><fmt:message key="aca.Area" /></th>
+			<th><fmt:message key="aca.Descripcion" /></th>		
 		</tr>
 		<%
 			int cont = 0;
-			for(aca.ciclo.CicloGrupoEval eval : lisEvaluacion){
+			for(aca.catalogo.CatAspectos aspecto : lisAspectos){
 				cont++;
-									
-				boolean evaluarConducta = false;
-									
-				if(mapConducta.size()>0){
-					if(mapConducta.containsKey(eval.getEvaluacionId())){
-						String edo = mapConducta.get(eval.getEvaluacionId()).getEstado();
-						if(edo.equals("A")){
-							evaluarConducta = true;
-						}
-					}	
-				}
-		%>
-				
-				<tr>
-					<td class="text-center"><%=cont%></td>
-					<td>
-						<%if(cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A") && evaluarConducta){%> 
-							<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');"> 
-								<%=eval.getEvaluacionNombre()%>
-							</a> 
-						<%}else{%>
-							<%=eval.getEvaluacionNombre()%>
-						<%}%>
-					</td>
-					<td><%=eval.getFecha()%></td>
-					<td class="text-center">
-						<%if (eval.getEstado().equals("A") && evaluarConducta) {%>
-							<span class="label label-success"><fmt:message key="aca.Abierto" /></span>								
-						<%}else if (eval.getEstado().equals("C") || evaluarConducta==false) {%> 					
-							<span class="label label-inverse" <%if(evaluarConducta==false){%>title="<fmt:message key="maestros.LaMateriaYaFueCerrada" />"<%}%>><fmt:message key="aca.Cerrado" /></span>
-						<%}%>
-					</td>
-				</tr>
+		%>				
+		<tr>
+			<td class="text-center"><%=cont%></td>
+			<td><%=aca.catalogo.CatArea.getNombre(conElias, aspecto.getArea())%></td>
+			<td>				 
+				<a href="javascript:muestraInput('<%=aspecto.getAspectosId()%>');"> 
+					<%=aspecto.getNombre()%>
+				</a> 
+			</td>		
+		</tr>
 		<%
 			}
 		%>
@@ -217,9 +191,11 @@
 	
 	<!--  -------------------- TABLA DE ALUMNOS -------------------- -->
 	
-	<form action="evaluarConducta.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
+	<form action="evaluarActitudesProm.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
 		<input type="hidden" name="Accion" />
-		<input type="hidden" name="Evaluacion" />
+		<input type="hidden" name="PromedioId" />
+		<input type="hidden" name="EvaluacionId" />
+		<input type="hidden" name="Aspecto" />
 		
 		<table class="table table-condensed table-bordered table-striped">
 			
@@ -228,15 +204,15 @@
 					<th class="text-center">#</th>
 					<th class="text-center"><fmt:message key="aca.Codigo" /></th>
 					<th><fmt:message key="aca.NombreDelAlumno" /></th>
-						<%
-							cont = 0;
-							for(aca.ciclo.CicloGrupoEval eval : lisEvaluacion){
-								cont++;
-						%>
-							<th style="width:3%;" class="text-center" title="<%=eval.getEvaluacionNombre()%>"><%=cont%></th>
-						<%
-							}
-						%>
+				<%
+					cont = 0;
+					for(aca.catalogo.CatAspectos aspecto : lisAspectos){
+						cont++;
+				%>
+					<th style="width:3%;" class="text-center" title="<%=aspecto.getAspectosId()%>"><%=cont%></th>
+				<%
+					}
+				%>
 					<th class="text-center"><fmt:message key="aca.Promedio" /></th>
 				</tr>
 			</thead>
@@ -256,56 +232,46 @@
 				  		<%} %>
 					</td>
 					<%
-						float sumaConducta = 0;
-						int cantidadEvaluaciones = 0;
-						for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
+						float sumaAspectos = 0;
+						int cantidadAspectos = 0;
+						for(aca.catalogo.CatAspectos aspecto : lisAspectos){
 									
-							String conducta = "-";
+							String nota = "0";
+							if (mapActitud.containsKey(kardex.getCodigoId()+promedio+evaluacion+aspecto.getAspectosId())){
+								krdxAlumActitud = (aca.kardex.KrdxAlumActitud)mapActitud.get(kardex.getCodigoId()+promedio+"0"+aspecto.getAspectosId());
+								nota = krdxAlumActitud.getNota();
+								sumaAspectos += Float.parseFloat(krdxAlumActitud.getNota());
+								cantidadAspectos++;
+							}														
 							
-							for (aca.kardex.KrdxAlumConducta kardexConductaAlumno: lisKardexConducta) {
-								if ( kardexConductaAlumno.getCodigoId().equals(kardex.getCodigoId()) && eval.getEvaluacionId().equals(kardexConductaAlumno.getEvaluacionId()) ) {					
-								
-									// Verifica si la materia evalua con decimales
-									if (evaluaConPunto.equals("S")) {
-										conducta = frmDecimal.format(Double.parseDouble(kardexConductaAlumno.getConducta())).replaceAll(",", ".");
-									} else {
-										conducta = frmEntero.format(Double.parseDouble(kardexConductaAlumno.getConducta())).replaceAll(",", ".");
-									}
-									
-									sumaConducta += Float.parseFloat(kardexConductaAlumno.getConducta());
-									cantidadEvaluaciones++;
-								}
-							}
 					%>
-							<td class="text-center">
-								<div><%=conducta %></div>
-								
-								<%if (!kardex.getTipoCalId().equals("6") && eval.getEstado().equals("A") ) { /* Si el alumno no se ha dado de baja puede editar su nota */ %>
-									<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
-										<input 
-											style="margin-bottom:0;text-align:center;" 
-											class="input-mini onlyNumbers" 
-											data-allow-decimal="<%=evaluaConPunto.equals("S")?"si":"no" %>"
-											data-max-num="<%=escala %>"
-											type="text" 
-											tabindex="<%=i+1%>" 
-											name="conducta<%=i%>-<%=eval.getEvaluacionId()%>"
-											id="conducta<%=i%>-<%=eval.getEvaluacionId()%>" 
-											value="<%=conducta.equals("-")?"":conducta %>" 
-										/>
-									</div>
-								<%}%>
-							</td>
+					<td class="text-center">
+						<div><%=aca.catalogo.CatAspectosCal.getCalCorto(conElias, escuelaId, cicloGrupo.getNivelId(), nota)%></div>
+						<div class="editar<%=aspecto.getAspectosId()%>" style="display:none;">
+							<select name="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" id="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" style="width:70px;">
+					<%
+							for( aca.catalogo.CatAspectosCal cal : lisAspectosCal ){
+					%>		
+								<option value="<%=cal.getCalId()%>"><%=cal.getCalCorto()%></option>
+					<%
+							}
+					%>							
+							</select>							
+						</div>								
+					</td>
 					<%
 						}
 						
-						String total = "-";
-						if(sumaConducta != 0){
-							total = frmDecimal.format((double)sumaConducta/(double)cantidadEvaluaciones).replace(',','.');
+						String total = "0";
+						if(sumaAspectos != 0){
+							total = frmDecimal.format((double)sumaAspectos/(double)cantidadAspectos).replace(',','.');
+							// Redondeo hacia arriba
+							total = String.valueOf(Math.round(Float.parseFloat(total)));
 						}
+						 
 					%>
 					
-						<td class="text-center"><%=total %></td>
+						<td class="text-center"><%=aca.catalogo.CatAspectosCal.getCalCorto(conElias, escuelaId, cicloGrupo.getNivelId(),total)%></td>
 				</tr>
 			<%
 				i++;
@@ -315,10 +281,10 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<%for (aca.ciclo.CicloGrupoEval eval :  lisEvaluacion) {%>
+				<%for(aca.catalogo.CatAspectos aspecto : lisAspectos){%>
 					<td class="text-center">
-						<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
-							<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=eval.getEvaluacionId()%>' );"><fmt:message key="boton.Guardar" /></a> 
+						<div class="editar<%=aspecto.getAspectosId() %>" style="display:none;">
+							<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=promedio%>','<%=evaluacion%>','<%=aspecto.getAspectosId()%>' );"><fmt:message key="boton.Guardar" /></a> 
 						</div>
 					</td>
 								
@@ -329,6 +295,5 @@
 		</table>
 	</form>
 </div>
-
 
 <%@ include file="../../cierra_elias.jsp"%>
