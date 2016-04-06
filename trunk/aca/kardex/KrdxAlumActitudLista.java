@@ -18,7 +18,7 @@ public class KrdxAlumActitudLista {
 		
 		try{
 			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
-                " EVALUACION_ID, ASPECTOS_ID, NOTA " +
+                " PROMEDIO_ID, EVALUACION_ID, ASPECTOS_ID, NOTA " +
                 " FROM KRDX_ALUM_ACTITUD "+orden;
 			
 			rs = st.executeQuery(comando);			
