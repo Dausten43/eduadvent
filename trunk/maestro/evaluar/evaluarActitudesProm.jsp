@@ -140,15 +140,16 @@
 %>
 
 <div id="content">
-	<h2>
-		<fmt:message key="maestros.RegistroConducta" />
+	<h3>
+		<fmt:message key="aca.HabitosyActitudes" />
 		<small>
 		( <%=empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno()%> | 
 		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> | 
-		<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>&nbsp;
+		<%=aca.plan.Plan.getNombrePlan(conElias, planId)%> |&nbsp;
+		<%=aca.ciclo.CicloPromedio.getNombre(conElias, cicloId, promedio)%>&nbsp;
 		)
 		</small>
-	</h2>
+	</h3>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>

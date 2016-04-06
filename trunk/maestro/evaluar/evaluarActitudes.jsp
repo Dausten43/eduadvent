@@ -92,7 +92,7 @@
 			krdxAlumActitud.setAspectosId(aspectoId);
 			
 			String nota 		= request.getParameter("aspecto" + cont + "-" + aspectoId);
-			System.out.println("Datos:"+nota);	
+				
 			if ( nota != null ){
 				
 				// Valida aspecto
@@ -101,7 +101,7 @@
 					krdxAlumActitud.setNota("0");
 				
 				if (krdxAlumActitud.existeReg(conElias)) {
-				System.out.println("Existe:"+nota);	
+				
 					if(krdxAlumActitud.updateReg(conElias)){
 						//Modificado correctamente
 						System.out.println("Modifico:"+nota);
@@ -109,10 +109,9 @@
 						error = true; break;
 					}
 				} else {
-					System.out.println("No Existe:"+nota);
+			
 					if(krdxAlumActitud.insertReg(conElias)){
-						//Guardado correctamente
-						System.out.println("Guardo:"+nota);
+						//Guardado correctamente			
 					}else{
 						error = true; break;
 					}
@@ -144,15 +143,16 @@
 %>
 
 <div id="content">
-	<h2>
-		<fmt:message key="maestros.RegistroConducta" />
+	<h3>
+		<fmt:message key="aca.HabitosyActitudes" />
 		<small>
 		( <%=empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno()%> | 
 		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> | 
-		<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>&nbsp;
+		<%=aca.plan.Plan.getNombrePlan(conElias, planId)%> |&nbsp;
+		<%=aca.ciclo.CicloBloque.getBloqueNombre(conElias, cicloId, evaluacion)%>&nbsp;
 		)
 		</small>
-	</h2>
+	</h3>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
@@ -191,7 +191,7 @@
 	
 	<!--  -------------------- TABLA DE ALUMNOS -------------------- -->
 	
-	<form action="evaluarActitudesProm.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
+	<form action="evaluarActitudes.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="PromedioId" />
 		<input type="hidden" name="EvaluacionId" />
@@ -235,15 +235,15 @@
 						float sumaAspectos = 0;
 						int cantidadAspectos = 0;
 						for(aca.catalogo.CatAspectos aspecto : lisAspectos){
-									
+								
 							String nota = "0";
 							if (mapActitud.containsKey(kardex.getCodigoId()+promedio+evaluacion+aspecto.getAspectosId())){
-								krdxAlumActitud = (aca.kardex.KrdxAlumActitud)mapActitud.get(kardex.getCodigoId()+promedio+"0"+aspecto.getAspectosId());
+								
+								krdxAlumActitud = (aca.kardex.KrdxAlumActitud)mapActitud.get(kardex.getCodigoId()+promedio+evaluacion+aspecto.getAspectosId());
 								nota = krdxAlumActitud.getNota();
 								sumaAspectos += Float.parseFloat(krdxAlumActitud.getNota());
 								cantidadAspectos++;
-							}														
-							
+							}
 					%>
 					<td class="text-center">
 						<div><%=aca.catalogo.CatAspectosCal.getCalCorto(conElias, escuelaId, cicloGrupo.getNivelId(), nota)%></div>
