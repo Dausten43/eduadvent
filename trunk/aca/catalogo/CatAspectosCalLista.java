@@ -56,7 +56,7 @@ public class CatAspectosCalLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CatAspectosCalLista|getListAspectos|:"+ex);
+			System.out.println("Error - aca.catalogo.CatAspectosCalLista|getListPorNivel|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
