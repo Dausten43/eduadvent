@@ -46,7 +46,7 @@
 		<font size="4"><b><fmt:messaje key="aca.ErrorMuyGrande"/></b> <a href="subir.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a></font>
 <%
 	}
-	if (guardo){ 
+	if (guardo){
 		response.sendRedirect("datos.jsp");
 	}
 %>
