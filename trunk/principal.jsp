@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-
+<%@ page import="aca.menu.*"%>
+<%@ page buffer="5kb" autoFlush="true"%>
 <%@ include file="con_elias.jsp"%>
 
 <jsp:useBean id="usuario2" scope="page" class="aca.usuario.Usuario"/>
 <jsp:useBean id="moduloLista" scope="page" class="aca.menu.ModuloLista"/>
 <jsp:useBean id="opcionLista" scope="page" class="aca.menu.ModuloOpcionLista"/>
 <jsp:useBean id="usuarios" scope="page" class="aca.vista.Usuarios"/>
-<%@ page buffer="none"%>
-<%@ page import="aca.menu.*"%>
-
 <jsp:useBean id="cicloGrupoCurso" scope="page"	class="aca.ciclo.CicloGrupoCurso"/>
 <jsp:useBean id="alumPersonal" scope="page"	class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="empPersonal" scope="page"	class="aca.empleado.EmpPersonal"/>
