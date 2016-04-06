@@ -1,5 +1,5 @@
 <DOCTYPE HTML PUBLIC "- / / W3C / / DTD HTML 4.01 Frameset / / EN"  "Http://www.w3.org/TR/html4/frameset.dtd">
-<%@ page buffer= "none" %>
+<%@ page buffer= "5kb" autoFlush="true" %>
 <html>
 <style>
 	a { 
