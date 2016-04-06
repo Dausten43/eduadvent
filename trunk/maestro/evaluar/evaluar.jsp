@@ -1030,8 +1030,8 @@
 		if (planCurso.getAspectos().equals("S")){
 			if (nivelEvaluacion.equals("P")){
 %>		
-		<a class="btn btn-mobile" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=promedio.getPromedioId()%>">
-			Actitudes
+		<a class="btn btn-mobile btn-success btn-mini" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=promedio.getPromedioId()%>">
+			<i class="icon-star icon-white"></i>
 		</a>
 <%		 	
 		}
@@ -1063,18 +1063,29 @@
 					<td class="text-center" style="width:100px; padding:0px;"><%=cont%></td>
 					<td style="padding:0px;">
 						<%if (aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, eval.getCicloGrupoId(), eval.getCursoId(), eval.getEvaluacionId())) {%>
-							<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
-								<%=eval.getEvaluacionNombre()%>
-							</a> 
+						<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
+							<%=eval.getEvaluacionNombre()%>
+						</a> 
 						<%} else {%>
-							<%if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A")) {%> 
-								<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
-									<%=eval.getEvaluacionNombre()%>
-								</a> 
-							<%}else{%>
+						<%	if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A")) {%> 
+						<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
+							<%=eval.getEvaluacionNombre()%>
+						</a> 
+						<%	}else{%>
 									<%=eval.getEvaluacionNombre() %>
-								<%}%>
-							<%}%>
+						<%	}%>
+						<%}%>
+<%		
+						if (planCurso.getAspectos().equals("S")){
+							if (nivelEvaluacion.equals("E")){
+%>		
+						<a class="btn btn-mobile btn-success btn-mini" href="evaluarActitudes.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=eval.getPromedioId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
+							<i class="icon-star icon-white"></i>
+						</a>
+<%		 	
+		}
+	}	
+%>						
 					</td>
 					<td class="text-center" style="padding:0px;"><%=eval.getFecha()%></td>
 					<td class="text-center" style="padding:0px;"><%=eval.getValor()%>%</td>
