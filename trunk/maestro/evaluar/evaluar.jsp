@@ -1124,7 +1124,7 @@
 			}
 		}
 	
-		if (escuelaId.contains("H")){
+		if (planCurso.getAspectos().equals("S")){
   		
   			if (nivelEvaluacion.equals("E")){	  		
 %> 
