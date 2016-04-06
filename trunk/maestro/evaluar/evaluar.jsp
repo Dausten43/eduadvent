@@ -213,9 +213,7 @@
 	}
 	
 </script>
-
-<%
-	
+<%	
 	//FORMATOS ---------------------------->
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -967,13 +965,15 @@
 	//TREEMAP DE LOS PROMEDIOS DE LOS ALUMNOS EN LA MATERIA (de la vista de alum_prom)
 	treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
 	
+	// Obtiene los datos de la materia 
+	planCurso.mapeaRegId(conElias, cursoId);
 %>
 
 <!--  ********************************************** HTML MARKUP **********************************************  -->
 
 <div id="content">
 	<h3>
-		<fmt:message key="aca.Evaluaciones" />		
+		<fmt:message key="aca.Evaluaciones" />
 		<small>
 		( 
 			<%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%> | 
@@ -1024,7 +1024,19 @@
 	for (aca.ciclo.CicloPromedio promedio : lisPromedio){
 %>	
 	<div class="alert alert-info">
-		<fmt:message key="aca.Estrategia" />: [ <%= promedio.getNombre() %> ] &nbsp;&nbsp; <fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>]
+		<fmt:message key="aca.Estrategia" />: [ <%= promedio.getNombre() %> ] &nbsp;&nbsp; 
+		<fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>] &nbsp;
+<%		
+		if (planCurso.getAspectos().equals("S")){
+			if (nivelEvaluacion.equals("P")){
+%>		
+		<a class="btn btn-mobile" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=promedio.getPromedioId()%>">
+			Actitudes
+		</a>
+<%		 	
+		}
+	}	
+%>		
 	</div>
 		
 	<table class="table table-fullcondensed table-bordered table-striped table-fontsmall">
@@ -1100,10 +1112,7 @@
 		<%}%>
 	</table>
 <%	} %>		
-<!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->
-	<%
-		planCurso.mapeaRegId(conElias, cursoId);
-	%>
+<!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->	
 	<div class="well text-center" style="overflow:visible;">
 	<%
 		if (planCurso.getFalta().equals("S")) {			
@@ -1122,24 +1131,7 @@
 			</a>
 	<%				
 			}
-		}
-	
-		if (planCurso.getAspectos().equals("S")){
-  		
-  			if (nivelEvaluacion.equals("E")){	  		
-%> 
-  		<a class="btn btn-mobile" href="evaluarActitudes.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-  			Evaluar Actitudes
-  		</a> 
-<%
-  			}else if (nivelEvaluacion.equals("P")){
-%>		
-  		<a class="btn btn-mobile" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-  			Evaluar Actitudes
-  		</a>
-<%		 	
-  			}
-  		}
+		}	
 	  	
 		if (planCurso.getConducta().equals("S")){
 	  		

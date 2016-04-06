@@ -143,7 +143,7 @@
 	
 	pageContext.setAttribute("resultado", msj);
 
-	ArrayList<aca.kardex.KrdxAlumFalta> lisKardexFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID), EVALUACION_ID");
+	ArrayList<aca.kardex.KrdxAlumFalta> lisKardexFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID), PROMEDIO_ID");
 
 	planCurso.mapeaRegId(conElias, cursoId);
 %>
