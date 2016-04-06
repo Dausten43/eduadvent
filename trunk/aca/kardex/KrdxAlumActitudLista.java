@@ -1,4 +1,3 @@
-
 package aca.kardex;
 
 import java.sql.Connection;
@@ -6,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 public class KrdxAlumActitudLista {
 	
@@ -17,9 +16,9 @@ public class KrdxAlumActitudLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
-                " PROMEDIO_ID, EVALUACION_ID, ASPECTOS_ID, NOTA " +
-                " FROM KRDX_ALUM_ACTITUD "+orden;
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID,"
+					+ " PROMEDIO_ID, EVALUACION_ID, ASPECTOS_ID, NOTA"
+					+ " FROM KRDX_ALUM_ACTITUD "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -37,5 +36,36 @@ public class KrdxAlumActitudLista {
 		}	
 		
 		return lis;
+	}
+	
+	public HashMap<String,KrdxAlumActitud> mapAspectosGrupo(Connection conn, String cicloGrupoId, String cursoId) throws SQLException{
+		
+		HashMap<String,KrdxAlumActitud> map = new HashMap<String,KrdxAlumActitud>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+		String llave				= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID,"
+					+ " PROMEDIO_ID, EVALUACION_ID, ASPECTOS_ID, NOTA"
+					+ " FROM KRDX_ALUM_ACTITUD";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				KrdxAlumActitud objeto = new KrdxAlumActitud();				
+				objeto.mapeaReg(rs);
+				llave = objeto.getCodigoId()+objeto.getPromedioId()+objeto.getEvaluacionId()+objeto.getAspectosId();
+				map.put(llave,objeto);	
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatRegionLista|getTotalSeccionPorPais|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
 	}
 }
