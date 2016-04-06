@@ -85,7 +85,7 @@
 				<a id="borrar" name="borrar" href="javascript:eliminar('<%=aspectos.get(i).getEscuelaId()%>','<%=aspectos.get(i).getNivelId()%>','<%=aspectos.get(i).getCalId()%>');"><i class="icon-remove"></i></a>
 			</td>
 			<td><%= i + 1 %></td>
-			<td><%=aca.catalogo.CatNivel.getNivelNombre(conElias, aspectos.get(i).getNivelId())%></td>
+			<td><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuela, aspectos.get(i).getNivelId())%></td>
 			<td><%=aspectos.get(i).getCalId()%></td>
 			<td><%=aspectos.get(i).getCalNombre()%></td>
 			<td><%=aspectos.get(i).getCalCorto()%></td>
