@@ -9,8 +9,8 @@
 
 <%
 	String empleadoId 	= (String) session.getAttribute("codigoEmpleado");
-	String cicloId		= (String) session.getAttribute("cicloId");	
-	
+	String cicloId		= (String) session.getAttribute("cicloId");
+	String salto 		= "X";	
 	
 	if (!aca.ciclo.Ciclo.existeCiclo(conElias, cicloId)){
 		// Elegir el mejor ciclo
@@ -23,20 +23,19 @@
 	}
 	
 	if(cicloGrupoCurso.existeMaestro(conElias, empleadoId)){
-			response.sendRedirect("cursos.jsp?Ciclo="+cicloId);
+		salto = "cursos.jsp?Ciclo="+cicloId;
 	}
 	
 %>
-
 <div id="content">
 
-	<div class="alert">
-	
-		<fmt:message key="aca.NoEmpleadoSeleccionado" />
-	
+	<div class="alert">	
+		<fmt:message key="aca.NoEmpleadoSeleccionado" />	
 	</div>
-
 </div>
-
+<%	if (!salto.equals("X")){%>
+	<meta http-equiv='REFRESH' content='0; url=<%=salto%>'>
+<%	}%>
 <%@ include file= "../../cierra_elias.jsp" %>
+
 
