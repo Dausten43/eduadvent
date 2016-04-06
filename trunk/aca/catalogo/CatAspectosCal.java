@@ -243,7 +243,7 @@ public class CatAspectosCal {
 		return maximo;
 	}
 	
-	public static String getCalCorto(Connection conn, String escuelaId, String nivelId) throws SQLException{
+	public static String getCalCorto(Connection conn, String escuelaId, String nivelId, String calId) throws SQLException{
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
@@ -252,9 +252,12 @@ public class CatAspectosCal {
 		try{
 			ps = conn.prepareStatement("SELECT CAL_CORTO FROM CAT_ASPECTOS_CAL"
 					+ " WHERE ESCUELA_ID = ?"
-					+ " AND NIVEL_ID = TO_NUMBER(?,'99')");
+					+ " AND NIVEL_ID = TO_NUMBER(?,'99')"
+					+ " AND CAL_ID = TO_NUMBER(?,'99')");
 			ps.setString(1, escuelaId);
 			ps.setString(2, nivelId);
+			ps.setString(3, calId);
+			
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				corto = rs.getString("CAL_CORTO");
