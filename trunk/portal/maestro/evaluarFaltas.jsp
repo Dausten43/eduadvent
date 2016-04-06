@@ -31,7 +31,8 @@
 	/*
 	 * GUARDA LAS NOTAS QUE SE MODIFICARON
 	 */
-	function guardarCalificaciones(evaluacion){
+	function guardarCalificaciones(promedio, evaluacion){
+		document.forma.Promedio.value = promedio;
 		document.forma.Evaluacion.value = evaluacion;
 		document.forma.Accion.value = "1";
 		document.forma.submit();
@@ -48,12 +49,16 @@
 	String cicloGrupoId 	= request.getParameter("CicloGrupoId");
 	String cursoId 			= request.getParameter("CursoId");
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
-
-	empPersonal.mapeaRegId(conElias, codigoId);	
-	cicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);
-
 	
+	String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
+	
+	empPersonal.mapeaRegId(conElias, codigoId);	
+	cicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);	
+	
+	// Lista de evaluaciones
 	ArrayList<aca.ciclo.CicloGrupoEval> lisEvaluacion 	= cicloGrupoEvalLista.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
+	
+	// Lista de alumnos en la materia
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos	= kardexLista.getListAll(conElias,escuelaId, "AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
 
 
@@ -61,6 +66,7 @@
 	String msj 		= "";
 	
 	if (accion.equals("1")) { //Guardar Faltas
+		String promedio = request.getParameter("Promedio");
 		String evaluacion = request.getParameter("Evaluacion");
 	
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
@@ -70,15 +76,20 @@
 		for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
 			krdxAlumFalta.setCodigoId(kardex.getCodigoId());
 			krdxAlumFalta.setCicloGrupoId(cicloGrupoId);
-			krdxAlumFalta.setCursoId(cursoId);
-			krdxAlumFalta.setEvaluacionId(evaluacion);
+			krdxAlumFalta.setCursoId(cursoId);			
+			krdxAlumFalta.setPromedioId(promedio);
+			krdxAlumFalta.setEvaluacionId(evaluacion);			
 			
-			String falta = request.getParameter("falta" + cont + "-" + evaluacion);
+			String falta 	= request.getParameter("falta" + cont + "-" + evaluacion);
+			String tardanza = request.getParameter("tardanza" + cont + "-" + evaluacion);
 
-			if (falta != null) {
-				if (falta.equals("")){//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota
+			if (falta != null && tardanza != null) {
+				
+				//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota
+				if (falta.equals("") && tardanza.equals("")){
 					
 					if(krdxAlumFalta.existeReg(conElias)){
+						
 						if(krdxAlumFalta.deleteReg(conElias)){
 							//Elimino correctamente
 						}else{
@@ -86,11 +97,21 @@
 						}	
 					}
 					
-				}else{//Si tiene nota entonces guardarla
+				//Si tiene nota entonces guardarla	
+				}else{
 					
+					// Valida Falta
 					krdxAlumFalta.setFalta(falta);
-
+					if(falta.equals("") || falta.isEmpty())
+						krdxAlumFalta.setFalta("0");	
+					
+					// Valida Tardanza
+					krdxAlumFalta.setTardanza(tardanza);					
+					if(tardanza.equals("") || tardanza.isEmpty())
+						krdxAlumFalta.setTardanza("0");
+					
 					if (krdxAlumFalta.existeReg(conElias)) {
+						
 						if(krdxAlumFalta.updateReg(conElias)){
 							//Modificado correctamente
 						}else{
@@ -132,20 +153,20 @@
 %>
 
 <div id="content">
-	<h2><fmt:message key="maestros.RegistrodeFaltas" /> <small><%=empPersonal.getNombre() + " " + empPersonal.getApaterno() + " " + empPersonal.getAmaterno()%></small></h2>
+	<h3>
+		<fmt:message key="maestros.RegistrodeFaltas" /> 
+		<small>
+		<%=empPersonal.getNombre() + " " + empPersonal.getApaterno() + " " + empPersonal.getAmaterno()%> |
+		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> |
+		<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>
+		</small>
+	</h3>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
-  	<%} %>
-  	
-	<div class="alert alert-info">
-		<h4><%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%></h4>
-		<small><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></small> 
-	</div>
-	
-	
+  	<%} %>	
 	<%
 	cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());		
 	
@@ -158,42 +179,42 @@
 		<a class="btn btn-primary btn-mobile" href="<%=url %>?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
 	
-	<!--  -------------------- TABLA DE EVALUACIONES -------------------- -->
+	<!--  ------------- TABLA DE PROMEDIOS O EVALUACIONES ----------------- -->
 	
 	<table class="table table-condensed table-bordered table-striped">
 		<tr>
-			<th class="text-center">#</th>
+			<th class="text-center">#</th>			
 			<th><fmt:message key="aca.Descripcion" /></th>
 			<th><fmt:message key="aca.Fecha" /></th>
 			<th class="text-center"><fmt:message key="aca.Estado" /></th>
 		</tr>
 		<%
-			int cont = 0;
-			for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
+			int cont = 0;			
+			for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {		
 				cont++;
 		%>
-				<tr>
-					<td class="text-center"><%=cont%></td>
-					<td>
-						<%if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A")) {%> 
-							<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
-								<%=eval.getEvaluacionNombre()%>
-							</a> 
-						<%} else {%>
+			<tr>
+				<td class="text-center"><%=cont%></td>
+				<td>
+					<%if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A")){%> 
+						<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
 							<%=eval.getEvaluacionNombre()%>
-						<%}%>
-					</td>
-					<td><%=eval.getFecha()%></td>
-					<td class="text-center">
-						<%if (eval.getEstado().equals("A")) {%>
-							<span class="label label-success"><fmt:message key="aca.Abierto" /></span>								
-						<%}else if (eval.getEstado().equals("C")) {%> 					
-							<span class="label label-inverse"><fmt:message key="aca.Cerrado" /></span>
-						<%}%>
-					</td>
-				</tr>
-		<%
-			}
+						</a> 
+					<%} else {%>
+						<%=eval.getEvaluacionNombre()%>
+					<%}%>
+				</td>
+				<td><%=eval.getFecha()%></td>
+				<td class="text-center">
+					<%if (eval.getEstado().equals("A")) {%>
+						<span class="label label-success"><fmt:message key="aca.Abierto" /></span>								
+					<%}else if (eval.getEstado().equals("C")) {%> 					
+						<span class="label label-inverse"><fmt:message key="aca.Cerrado" /></span>
+					<%}%>
+				</td>
+			</tr>
+		<%	
+			}	
 		%>
 	</table>
 	
@@ -202,6 +223,7 @@
 	<form action="evaluarFaltas.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="Evaluacion" />
+		<input type="hidden" name="Promedio" />
 			
 		<table class="table table-condensed table-bordered table-striped">
 			<thead>
@@ -214,9 +236,11 @@
 						for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
 							cont++;
 						%>
-							<th style="width:3%;" class="text-center" title="<%=eval.getEvaluacionNombre()%>"><%=cont%></th>
+							<th style="width:3%;" class="text-center" title="<%=eval.getEvaluacionNombre()%>(Falta)"><%=cont%>(F)</th>
+							<th style="width:3%;" class="text-center" title="<%=eval.getEvaluacionNombre()%>(Tardanza)"><%=cont%>(T)</th>
 						<%}%>
-					<th class="text-center"><fmt:message key="aca.Total" /></th>
+					<th class="text-center"><fmt:message key="aca.Total" />(F)</th>
+					<th class="text-center"><fmt:message key="aca.Total" />(T)</th>
 				</tr>
 			</thead>
 			<%
@@ -234,15 +258,18 @@
 				  		<%} %>
 					</td>
 					<%
-						float sumaFaltas = 0;
+						float sumaFaltas 	= 0;
+						float sumaTardanzas = 0;
 						for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
 							
-							String faltas = "-";
-							
+							String faltas 		= "-";
+							String tardanzas 	= "-";
 							for (aca.kardex.KrdxAlumFalta kardexAlumFalta: lisKardexFalta) {
 								if ( kardexAlumFalta.getCodigoId().equals(kardex.getCodigoId()) && eval.getEvaluacionId().equals(kardexAlumFalta.getEvaluacionId()) ) {					
 									faltas = kardexAlumFalta.getFalta();
 									sumaFaltas += Float.parseFloat(kardexAlumFalta.getFalta());
+									tardanzas = kardexAlumFalta.getTardanza();
+									sumaTardanzas += Float.parseFloat(kardexAlumFalta.getTardanza());
 								}
 							}
 					%>
@@ -264,16 +291,39 @@
 									</div>
 								<%}%>
 							</td>
+							<td class="text-center">
+								<div><%=tardanzas %></div>
+								
+								<%if (!kardex.getTipoCalId().equals("6") && eval.getEstado().equals("A") ) { /* Si el alumno no se ha dado de baja puede editar su nota */ %>
+									<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
+										<input 
+											style="margin-bottom:0;text-align:center;" 
+											class="input-mini onlyNumbers" 
+											data-allow-decimal="no"
+											type="text" 
+											tabindex="<%=i+1%>" 
+											name="tardanza<%=i%>-<%=eval.getEvaluacionId()%>"
+											id="tardanza<%=i%>-<%=eval.getEvaluacionId()%>" 
+											value="<%=tardanzas.equals("-")?"":tardanzas%>" 
+										/>
+									</div>
+								<%}%>
+							</td>
 					<%
 						}
 						
-						String total = "-";
+						String totalFalta = "-";
 						if(sumaFaltas != 0){
-							total = getformato.format(sumaFaltas).replace(',','.');
+							totalFalta = getformato.format(sumaFaltas).replace(',','.');
+						}
+						String totalTardanza = "-";
+						if(sumaTardanzas != 0){
+							totalTardanza = getformato.format(sumaTardanzas).replace(',','.');
 						}
 					%>	
 						
-						<td class="text-center"><%=total %></td>
+						<td class="text-center"><%=totalFalta%></td>
+						<td class="text-center"><%=totalTardanza%></td>
 				</tr>
 			<%
 				i++;
@@ -285,13 +335,14 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<%for (aca.ciclo.CicloGrupoEval eval :  lisEvaluacion) {%>
-					<td class="text-center">
+					<td class="text-center" colspan="2">
 						<div class="editar<%=eval.getEvaluacionId() %>" style="display:none;">
-							<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=eval.getEvaluacionId()%>' );"><fmt:message key="boton.Guardar" /></a> 
+							<a tabindex="<%=lisKardexAlumnos.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarCalificaciones( '<%=eval.getPromedioId()%>','<%=eval.getEvaluacionId()%>' );"><fmt:message key="boton.Guardar" /></a> 
 						</div>
 					</td>
 								
 				<%}%>
+				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
 			
