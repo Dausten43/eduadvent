@@ -62,7 +62,7 @@
 	ArrayList<aca.catalogo.CatAspectos> lisAspectos 	= AspectosL.getListAspectos(conElias, escuelaId, cicloGrupo.getNivelId(), " ORDER BY ORDEN");
 	
 	// Lista de promedios	
-	ArrayList<aca.catalogo.CatAspectosCal> lisAspectosCal 	= AspectosCalL.getListPorNivel(conElias, escuelaId, cicloGrupo.getNivelId(), " ORDER BY CAL_ID");
+	ArrayList<aca.catalogo.CatAspectosCal> lisAspectosCal 	= AspectosCalL.getListPorNivel(conElias, escuelaId, cicloGrupo.getNivelId()," ORDER BY CAL_ID");
 	
 	// Lista de alumnos en la materia
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos	= kardexLista.getListAll(conElias,escuelaId, "AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
@@ -206,26 +206,15 @@
 					<td class="text-center">
 						<div><%=aspecto.getAspectosId()%></div>								
 						<div class="editar<%=aspecto.getAspectosId()%>" style="display:none;">
-							<select name="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" id="aspecto<%=i%>-<%=aspecto.getAspectosId()%>">
+							<select name="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" id="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" style="width:70px;">
 					<%
 							for( aca.catalogo.CatAspectosCal cal : lisAspectosCal ){
 					%>		
-								<option value="<%=cal.getCalId()%>"><%=cal.getCalNombre()%></option>
+								<option value="<%=cal.getCalId()%>"><%=cal.getCalCorto()%></option>
 					<%
 							}
 					%>							
-							</select> 
-							<input 
-								style="margin-bottom:0;text-align:center;" 
-								class="input-mini onlyNumbers" 
-								data-allow-decimal="no"
-								data-max-num="3"
-								type="text" 
-								tabindex="<%=i+1%>" 
-								name="aspecto<%=i%>-<%=aspecto.getAspectosId()%>"
-								id="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" 
-								value="<%=nota.equals("-")?"":nota %>" 
-							/>
+							</select>							
 						</div>								
 					</td>
 					<%
