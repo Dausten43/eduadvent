@@ -45,8 +45,7 @@ public class CatAspectosCalLista {
 			comando = " SELECT ESCUELA_ID, NIVEL_ID, CAL_ID, CAL_NOMBRE, CAL_CORTO"
 					+ " FROM CAT_ASPECTOS_CAL"
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
-					+ " AND NIVEL_ID = TO_NUMBER(?,'99') "+orden;
-			
+					+ " AND NIVEL_ID = TO_NUMBER('"+nivelId+"','99') "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				
