@@ -47,8 +47,8 @@
 	</form>
 	<%	
 		totAlumnos= 0;
-		for (int i=0;i<lisNivel.size();i++){ 
-			aca.catalogo.CatNivelEscuela nivel = (aca.catalogo.CatNivelEscuela) lisNivel.get(i);
+		for (aca.catalogo.CatNivelEscuela nivel : lisNivel){ 
+
 			totNivel=0; totA=0; totB=0; totC=0; totD=0; totU=0;
 	%>
 			<table class="table table-bordered">
@@ -70,7 +70,7 @@
 		  		</tr>
 	<%
 				int sinGrupo =0;
-				for (int j=1;j<=Integer.parseInt(nivel.getGradoFin());j++){
+				for (int j=Integer.parseInt(nivel.getGradoIni());j<=Integer.parseInt(nivel.getGradoFin());j++){
 					totGrado=0;
 			
 					grupoA = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, "A");
