@@ -54,8 +54,7 @@
 		lisLista = AlumPersonalLista.BuscaDuplicados(conElias, escuelaId, sNom,sPat,sMat,50);
 		
 	}else if(accion.equals("2")){		
-		session.setAttribute("codigoAlumno", request.getParameter("CodigoPersonal"));
-		//response.sendRedirect("accion_p.jsp");
+		session.setAttribute("codigoAlumno", request.getParameter("CodigoPersonal"));		
 		salto = "accion_p.jsp";
 	}
 %>
