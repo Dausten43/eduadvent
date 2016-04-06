@@ -28,7 +28,7 @@
 		// llenar el arreglo de bytes con los bytes del archivo
 		fis.read(buf,0,(int)fi.length());
 		
-		// Escribir el archivo en el directorio del servidor de aplicaciones con el objeto FileOutputStream 
+		// Escribir el archivo en el directorio del servidor de aplicaciones con el objeto FileOutputStream
 		FileOutputStream fos = new FileOutputStream(dir);		
 		fos.write(buf,0,(int)fi.length());		
 		fos.flush();
