@@ -181,7 +181,7 @@ public class CatHorario {
 		
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CAT_HORARIO" +
-					" WHERE HORARIO_ID = ?" );
+					" WHERE HORARIO_ID = TO_NUMBER(?,'9999')" );
 			ps.setString(1, horarioId);
 			
 			rs= ps.executeQuery();		
