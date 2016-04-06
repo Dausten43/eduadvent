@@ -19,7 +19,7 @@ public class PlanCurso{
 	private String creditos;
 	private String estado;
 	private String tipoEvaluacion;
-	private String tardanza;
+	private String aspectos;
 	private String cursoBase;
 	
 	
@@ -39,7 +39,7 @@ public class PlanCurso{
 		creditos		= "";
 		estado 			= "A"; 
 		tipoEvaluacion	= "C";
-		tardanza		= "N";
+		aspectos		= "N";
 		cursoBase		= "000-00AAAA00";
 	}
 	
@@ -219,12 +219,13 @@ public class PlanCurso{
 		this.tipoEvaluacion = tipoEvaluacion;
 	}
 	
-	public String getTardanza() {
-		return tardanza;
+	/* Evaluacion por competencias */
+	public String getAspectos() {
+		return aspectos;
 	}
 
-	public void setTardanza(String tardanza) {
-		this.tardanza = tardanza;
+	public void setAspectos(String aspectos) {
+		this.aspectos = aspectos;
 	}	
 
 	/**
@@ -251,7 +252,7 @@ public class PlanCurso{
 		try{			
 			ps = conn.prepareStatement("INSERT INTO PLAN_CURSO"+
 				" (PLAN_ID, CURSO_ID, CURSO_NOMBRE, CURSO_CORTO, GRADO, NOTA_AC, TIPOCURSO_ID, FALTA, CONDUCTA, ORDEN, PUNTO, HORAS, CREDITOS, ESTADO, "+
-				" TIPO_EVALUACION, TARDANZA, CURSO_BASE)" +
+				" TIPO_EVALUACION, ASPECTOS, CURSO_BASE)" +
 				" VALUES( ?, UPPER(?), ?, ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'999')," +
 				" TO_NUMBER(?, '99'), ?, ?, " +
 				" TO_NUMBER(?, '99'), ?," +
@@ -273,7 +274,7 @@ public class PlanCurso{
 			ps.setString(13, creditos);
 			ps.setString(14, estado);
 			ps.setString(15, tipoEvaluacion);
-			ps.setString(16, tardanza);
+			ps.setString(16, aspectos);
 			ps.setString(17, cursoBase);
 			
 			if (ps.executeUpdate()== 1)
@@ -291,8 +292,7 @@ public class PlanCurso{
 	
 	public boolean updateReg(Connection conn ) throws Exception{
 		PreparedStatement ps = null;
-		boolean ok = false;
-		System.out.println(tardanza);
+		boolean ok = false;		
 		try{
 			ps = conn.prepareStatement("UPDATE PLAN_CURSO" + 
 				" SET PLAN_ID = ?," +
@@ -309,7 +309,7 @@ public class PlanCurso{
 				" CREDITOS = TO_NUMBER(?,'99')," +
 				" ESTADO = ?,"+
 				" TIPO_EVALUACION = ?," +
-				" TARDANZA = ?, " +
+				" ASPECTOS = ?, " +
 				" CURSO_BASE = ?"+
 				" WHERE CURSO_ID = ?");
 			
@@ -327,7 +327,7 @@ public class PlanCurso{
 			ps.setString(12, creditos);
 			ps.setString(13, estado);
 			ps.setString(14, tipoEvaluacion);
-			ps.setString(15, tardanza);
+			ps.setString(15, aspectos);
 			ps.setString(16, cursoBase);
 			ps.setString(17, cursoId);
 			
@@ -399,7 +399,7 @@ public class PlanCurso{
 		creditos		= rs.getString("CREDITOS");
 		estado 			= rs.getString("ESTADO");
 		tipoEvaluacion	= rs.getString("TIPO_EVALUACION");
-		tardanza		= rs.getString("TARDANZA");
+		aspectos		= rs.getString("ASPECTOS");
 		cursoBase		= rs.getString("CURSO_BASE");
 	}
 	
@@ -409,7 +409,7 @@ public class PlanCurso{
 		PreparedStatement ps = null; 
 		try{
 			ps = conn.prepareStatement("SELECT PLAN_ID, CURSO_ID, CURSO_NOMBRE," +
-					" CURSO_CORTO, GRADO, NOTA_AC, TIPOCURSO_ID, FALTA, CONDUCTA, ORDEN, PUNTO, HORAS, CREDITOS, ESTADO, TIPO_EVALUACION, TARDANZA, CURSO_BASE" +
+					" CURSO_CORTO, GRADO, NOTA_AC, TIPOCURSO_ID, FALTA, CONDUCTA, ORDEN, PUNTO, HORAS, CREDITOS, ESTADO, TIPO_EVALUACION, ASPECTOS, CURSO_BASE" +
 					" FROM PLAN_CURSO" +
 					" WHERE CURSO_ID = ?");
 			ps.setString(1,cursoId);
