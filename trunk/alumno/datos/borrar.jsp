@@ -28,14 +28,13 @@
 		}
 	}
 	if (borrar){
-		salto = "alumno.jsp";
-		//response.sendRedirect("alumno.jsp");
+		salto = "alumno.jsp";		
 	}else{
 		out.println("No se puedo elimiar la foto del alumno:["+codigoAlumno+"] - "+aca.alumno.AlumPersonal.getNombre(conElias, codigoAlumno, "NOMBRE")+"<br>");
 		out.println("<font color=black> ESPERE 5 MINUTOS O SUSTITUYA LA IMAGEN</font>");
 	}
 %>
-<%@ include file="../../cierra_elias.jsp" %>
 <% 	if (!salto.equals("X")){%>
 		<meta http-equiv="refresh" content="0"; url="<%=salto%>" />
 <% 	}%>
+<%@ include file="../../cierra_elias.jsp" %>
