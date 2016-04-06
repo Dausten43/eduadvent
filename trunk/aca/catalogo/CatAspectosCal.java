@@ -242,4 +242,29 @@ public class CatAspectosCal {
 		}
 		return maximo;
 	}
+	
+	public static String getCalCorto(Connection conn, String escuelaId, String nivelId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String corto 			= "-";
+		
+		try{
+			ps = conn.prepareStatement("SELECT CAL_CORTO FROM CAT_ASPECTOS_CAL"
+					+ " WHERE ESCUELA_ID = ?"
+					+ " AND NIVEL_ID = TO_NUMBER(?,'99')");
+			ps.setString(1, escuelaId);
+			ps.setString(2, nivelId);
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				corto = rs.getString("CAL_CORTO");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatAspectosCal|getCalCorto|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return corto;
+	}
 }
