@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class CatAspectosCalLista {
 	
-	public ArrayList<CatAspectosCal> getListAll(Connection conn, String orden ) throws SQLException{
+	public ArrayList<CatAspectosCal> getListAll(Connection conn, String escuelaId, String orden ) throws SQLException{
 		ArrayList<CatAspectosCal> list 	= new ArrayList<CatAspectosCal>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
@@ -15,7 +15,7 @@ public class CatAspectosCalLista {
 		
 		try{
 			comando = " SELECT ESCUELA_ID, NIVEL_ID, CAL_ID, CAL_NOMBRE, CAL_CORTO"
-					+ " FROM CAT_ASPECTOS_CAL "+orden;
+					+ " FROM CAT_ASPECTOS_CAL WHERE ESCUELA_ID = '"+escuelaId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){

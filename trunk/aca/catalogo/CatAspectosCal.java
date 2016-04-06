@@ -74,7 +74,7 @@ public class CatAspectosCal {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_ASPECTOS_CAL" +
 					" (ESCUELA_ID, NIVEL_ID, CAL_ID, CAL_NOMBRE, CAL_CORTO)" +
-					" VALUES( ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, ?, ?)");
+					" VALUES( ?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), ?, ?)");
 							
 			ps.setString(1, escuelaId);
 			ps.setString(2, nivelId);
