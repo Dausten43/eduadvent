@@ -48,7 +48,14 @@
 				msj = "NoModificado";
 			}
 		}
+	}else if(accion.equals("3")){
+		AspectosCal.setEscuelaId(escuela);
+		AspectosCal.setNivelId(nivelId);
+		AspectosCal.setCalId(calId);
+		AspectosCal.mapeaRegId(conElias);
 	}	
+	
+	
 %>
 
 <div id=content>

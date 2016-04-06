@@ -24,9 +24,6 @@
 	String mensaje  		= "";
 	
 	
-	System.out.println(calId);
-	System.out.println(nivelId);
-	System.out.println(escuela);
 	
 	if (accion.equals("1")) {
 		
@@ -84,11 +81,11 @@
 %>
 		<tr>
 			<td>
-				<a href="accion.jsp?escuelaId=<%=aspectos.get(i).getEscuelaId()%>&calId=<%=aspectos.get(i).getCalId()%>&nivelId=<%=aspectos.get(i).getNivelId()%>"><i class="icon-pencil"></i></a>
+				<a href="accion.jsp?Accion=3&escuelaId=<%=aspectos.get(i).getEscuelaId()%>&calId=<%=aspectos.get(i).getCalId()%>&nivelId=<%=aspectos.get(i).getNivelId()%>"><i class="icon-pencil"></i></a>
 				<a id="borrar" name="borrar" href="javascript:eliminar('<%=aspectos.get(i).getEscuelaId()%>','<%=aspectos.get(i).getNivelId()%>','<%=aspectos.get(i).getCalId()%>');"><i class="icon-remove"></i></a>
 			</td>
 			<td><%= i + 1 %></td>
-			<td><%=aspectos.get(i).getNivelId()%></td>
+			<td><%=aca.catalogo.CatNivel.getNivelNombre(conElias, aspectos.get(i).getNivelId())%></td>
 			<td><%=aspectos.get(i).getCalId()%></td>
 			<td><%=aspectos.get(i).getCalNombre()%></td>
 			<td><%=aspectos.get(i).getCalCorto()%></td>
