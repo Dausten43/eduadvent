@@ -1,7 +1,7 @@
 <!doctype html>
 <%@page errorPage="../../paginaerror.jsp"%>
 <%@ include file= "idioma.jsp" %>
-<%@page buffer="5kb" autoFlush="true"%>
+<%@page buffer="32kb" autoFlush="true"%>
 
 <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../bootstrap/css/bootstrap-responsive.min.css" />
