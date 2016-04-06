@@ -25,6 +25,7 @@
 	String ccostoId							= request.getParameter("ccostoId");
 	String resultado						= "";
 	int accion								= Integer.parseInt(request.getParameter("Accion"));
+	String salto 							= "X";
 	
 	ArrayList<ContCcosto> lisCcosto			= null;
 	ArrayList<Usuario> lisUsuario	= null;
@@ -50,8 +51,8 @@
 				contPoliza.setEstado("A");
 				contPoliza.setUsAlta((String)session.getAttribute("codigoId"));
 				contPoliza.setUsRevision(request.getParameter("usRevision"));
-				if (contPoliza.insertReg(conElias)){
-					response.sendRedirect("cabecera.jsp?Ejercicio="+ejercicioId+"&Libro="+libroId+"&ccostoId="+ccostoId+"&Accion=5");
+				if (contPoliza.insertReg(conElias)){					
+					salto = "cabecera.jsp?Ejercicio="+ejercicioId+"&Libro="+libroId+"&ccostoId="+ccostoId+"&Accion=5";
 				}else{
 					resultado = "<font color=red size=2>No Grab&oacute;: "+contPoliza.getPolizaId()+"</font>";
 				}
@@ -60,8 +61,8 @@
 				contPoliza.setFecha(request.getParameter("fecha"));
 				contPoliza.setDescripcion(request.getParameter("descripcion"));
 				contPoliza.setUsRevision(request.getParameter("usRevision"));
-				if (contPoliza.updateReg(conElias)){
-					response.sendRedirect("cabecera.jsp?Ejercicio="+ejercicioId+"&Libro="+libroId+"&ccostoId="+ccostoId+"&Accion=6");
+				if (contPoliza.updateReg(conElias)){					
+					salto = "cabecera.jsp?Ejercicio="+ejercicioId+"&Libro="+libroId+"&ccostoId="+ccostoId+"&Accion=6";
 				}else{
 					resultado = "<font color=red size=2>No Modific&oacute;: "+contPoliza.getPolizaId()+"</font>";
 				}				
@@ -199,4 +200,7 @@
 <script>
 	$('#fecha').datepicker();
 </script>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>
