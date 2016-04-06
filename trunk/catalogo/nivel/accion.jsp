@@ -19,9 +19,10 @@
 	}
 </script>
 <%
-	String escuela = (String)session.getAttribute("escuela");
-	String accion = request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	String msj = "";
+	String escuela 	= (String)session.getAttribute("escuela");
+	String accion 	= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String msj 		= "";
+	String salto 	= "X";
 	
 	if(accion.equals("1")){//grabar
 		nivel.setEscuelaId(escuela);
@@ -39,15 +40,15 @@
 		if(nivel.existeReg(conElias)){
 			if(nivel.updateReg(conElias)){
 				msj = "Modificado";
-				response.sendRedirect("nivel.jsp");
+				salto = "nivel.jsp";
 			}else{
 				msj = "NoModifico";
 			}
 			accion = "2";
 		}else{
 			if(nivel.insertReg(conElias)){
-				msj = "Guardado";
-				response.sendRedirect("nivel.jsp");
+				msj = "Guardado";				
+				salto = "nivel.jsp";
 			}else{
 				msj = "NoGuardo";
 			}
@@ -280,4 +281,7 @@
 
 <%} %>
 </div>
+<% 	if (!salto.equals("X")){%>
+	<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %> 
