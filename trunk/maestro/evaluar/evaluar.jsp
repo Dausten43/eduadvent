@@ -1032,8 +1032,8 @@
 			<i class="icon-star icon-white"></i>
 		</a>
 <%		 	
-		}
-	}	
+			}
+		}	
 %>		
 	</div>
 		
