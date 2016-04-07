@@ -269,4 +269,52 @@ public class KrdxAlumActitud {
 		
 		return ok;
 	}
+	
+	public static String calFinalActitud(Connection conn, String codigoId, String cicloGrupoId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String calFinal			= "";
+		
+		try{
+			ps = conn.prepareStatement("SELECT SUM(NOTA) AS FINAL FROM KRDX_ALUM_ACTITUD " +
+					" WHERE CODIGO_ID='"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				calFinal = rs.getString("FINAL");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumFalta|calFinalActitud|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return calFinal;
+	}
+	
+	public static String calActitud(Connection conn, String codigoId, String cicloGrupoId, String evaluacionId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String actitud			= "";
+		
+		try{
+			ps = conn.prepareStatement("SELECT NOTA AS ACTITUD FROM KRDX_ALUM_ACTITUD " +
+					" WHERE CODIGO_ID='"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = '"+evaluacionId+"'");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				actitud = rs.getString("ACTITUD");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumFalta|calActitud|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return actitud;
+	}
 }
