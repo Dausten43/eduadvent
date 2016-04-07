@@ -220,11 +220,8 @@ if(!origen.equals("X")&&!carpeta.equals("X")){%>
 </table>
 </body>
 <%
-	lisAlumno 	= null;
-%>
-
-
-<%} %>
+		lisAlumno 	= null;
+	} %>
 <% 	if (!salto.equals("X")){%>
 		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
 <% 	}%>
