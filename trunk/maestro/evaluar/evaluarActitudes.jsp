@@ -250,9 +250,11 @@
 						<div class="editar<%=aspecto.getAspectosId()%>" style="display:none;">
 							<select name="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" id="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" style="width:70px;">
 					<%
+							String sel = "";
 							for( aca.catalogo.CatAspectosCal cal : lisAspectosCal ){
+								if (Float.valueOf(nota).intValue()==Integer.parseInt(cal.getCalId())) sel = " Selected"; else sel = "";
 					%>		
-								<option value="<%=cal.getCalId()%>"><%=cal.getCalCorto()%></option>
+								<option value="<%=cal.getCalId()%>" <%=sel%>><%=cal.getCalCorto()%></option>
 					<%
 							}
 					%>							
