@@ -21,6 +21,7 @@
 <jsp:useBean id="Aspectos" scope="page" class="aca.catalogo.CatAspectos"/>
 <jsp:useBean id="LisAspectos" scope="page" class="aca.catalogo.CatAspectosLista"/>
 <jsp:useBean id="AlumFalta" scope="page" class="aca.kardex.KrdxAlumFalta" />
+<jsp:useBean id="AlumAspecto" scope="page" class="aca.kardex.KrdxAlumActitud" />
 <%
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -402,95 +403,28 @@
 			</thead>
 		<%
 			int row2 = 0;
-// 			for (aca.vista.AlumnoCurso alumCurso: lisAlumnoCurso) {
 			for (aca.catalogo.CatAspectos aspecto : lisAspectos) {
-				row2++;
-				
-// 				aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
-				
-				// Si el alumno tiene el curso
-// 				if (mapCurso.containsKey(alumCurso.getCursoId())){
-// 					curso = mapCurso.get(alumCurso.getCursoId());		
-// 				}    
+				row2++;   
 %>
 			<tr> 
 		    	<td width="20%"><%=aspecto.getNombre()%></td>
 <%
-				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-					int evalCerradas = 0;
+
 					for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
-						if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
-							
-							// Nota del alumno en la evaluacion
-							double notaEval = 0;
-// 							if (mapEval.containsKey(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-// 								notaEval = Double.parseDouble(mapEval.get(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
-// 							}
-							// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
-							String estadoEval = "A";
-							String nombreEval = "-";
-// 							if (mapEvalCiclo.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-// 								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEstado();
-// 								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
-// 							}
-							// Color de la evaluacion
-							String colorEval = "color:blue;";
-							if (estadoEval.equals("C")){
-								evalCerradas++;
-								colorEval = "color:black;";
-							}
-							
-							// Formato de la evaluacion
-							String notaFormato = formato0.format(notaEval);
-							if (cicloBloque.getDecimales().equals("1")) 
-								notaFormato = formato1.format(notaEval);
-							
-							// Inserta columnas de evaluaciones (Habilitado para modificar aunque este cerrado el bimestre)
-							if(estadoEval.equals("A") || estadoEval.equals("C")){
 %>
-							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>						
-								<%= notaFormato %>								
-							</td>
-<%						
-							}else{
-%>
-							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'><%= notaFormato %></td>
-<%	
-							}
-						}
+					<td class='text-center' width='1%' style='"+colorEval+"'>					
+						<%=   aca.kardex.KrdxAlumActitud.calActitud(conElias, codigoAlumno, cicloGrupoId, cicloBloque.getBloqueId()) %>					
+					</td>
+<%
+						
+
 					}
 					
-					// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
-					double promEval = 0; 
-// 					if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
-// 						promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
-// 					}
-					
-					// Puntos del promedio
-					double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
-					
-					// Formato del promedio y los puntos (decimales usados)
-					String promFormato		= formato1.format(promEval);
-					String puntosFormato	= formato1.format(puntosEval);
-					if (cicloPromedio.getDecimales().equals("0")){
-						promFormato 		= formato0.format(promEval);
-						puntosFormato 		= formato0.format(puntosEval);
-					}else if (cicloPromedio.getDecimales().equals("2")){
-						promFormato 		= formato2.format(promEval);
-						puntosFormato 		= formato2.format(puntosEval);
-					}	
-					
-					// Color del promedio
-					String colorProm = "color:blue;";
-					if (evalCerradas>0 && evalCerradas == lisBloque.size()){
-						colorProm = "color:black;";
-					}
-					evalcerradas = evalCerradas; 
 					// Inserta columna del promedio de las evaluaciones
-					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
+					out.print("<td class='text-center' width='2%' title=''>"+111+"</td>");
 					
-				}
-				evalcerradas = 0;
+// 				}
+// 				evalcerradas = 0;
 			}
 			out.print("</tr>");	
 %>			
