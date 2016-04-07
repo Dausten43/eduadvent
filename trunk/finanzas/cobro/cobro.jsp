@@ -86,10 +86,7 @@
 	
 	<form id="forma" name="forma" action="cobro.jsp" method="post">
 		<div class="well">
-			
-			<a class="btn btn-primary" href="edita_cobro.jsp?ciclo=<%=cicloId%>&periodo=<%=periodoId%>">
-				  <i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
-			</a> &nbsp;&nbsp;<fmt:message key="aca.Ciclo" />:&nbsp;&nbsp;
+			<fmt:message key="aca.Ciclo" />:&nbsp;&nbsp;			
 			<select id="Ciclo" name="Ciclo" onchange="document.location = 'cobro.jsp?Ciclo='+this.options[this.selectedIndex].value;" style="width:360px;margin-bottom:0px;">
 		<%
 			for(int i = 0; i < lisCiclo.size(); i++){
@@ -111,12 +108,14 @@
 			}
 		%>
 			</select>
-			<br><br>
-<%-- 			<a class="btn btn-success" href="traspaso.jsp?ciclo=<%=cicloId%>&periodo=<%=periodoId%>"> --%>
+			&nbsp;&nbsp;
+			<a class="btn btn-primary" href="edita_cobro.jsp?ciclo=<%=cicloId%>&periodo=<%=periodoId%>">
+				  <i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
+			</a> 
+			&nbsp;&nbsp;
 			<a class="btn btn-success" href="traspaso.jsp">
 				   <fmt:message key="aca.ClonarCobros" /><i class="icon-random icon-white"></i>
-			</a>
-			
+			</a>			
 		</div>
 		
 		<table class="table table-bordered table-striped">
