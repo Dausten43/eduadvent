@@ -363,7 +363,7 @@ public class FinCosto {
                 ok = true;
             }
         }catch(Exception ex){
-            System.out.println("Error - aca.fin.FinCosto|existeReg|:" +ex);
+            System.out.println("Error - aca.fin.FinCosto|existeCuenta|:" +ex);
         }finally{
 	        if(rs != null){
 	            rs.close();
@@ -521,7 +521,7 @@ public class FinCosto {
             ps = conn.prepareStatement("SELECT COUNT(FCD.CICLO_ID) AS CONT" +
             	" FROM FIN_CALCULO_DET FCD, FIN_CALCULO FC" +
             	" WHERE FCD.CICLO_ID = ?" +
-            	" AND FCD.PERIODO_ID = ?"+
+            	" AND FCD.PERIODO_ID = TO_NUMBER(?, '99')"+
             	" AND FCD.CUENTA_ID = ?" +
             	" AND FC.CLASFIN_ID = ?" +
             	" AND FC.PLAN_ID = ?" +
