@@ -12,7 +12,7 @@
 <jsp:useBean id="PeriodoL" scope="page"
 	class="aca.ciclo.CicloPeriodoLista" />
 
-<script language="javascript">
+<script type="javascript">
 	function grabar() {
 		document.frmciclo.Accion.value = "2";
 		document.frmciclo.submit();
