@@ -54,7 +54,9 @@
 		AspectosCal.setNivelId(nivelId);
 		AspectosCal.setCalId(calId);
 		AspectosCal.mapeaRegId(conElias);
-	}	
+	}
+	
+	pageContext.setAttribute("msj", msj);
 	
 	ArrayList<aca.catalogo.CatNivelEscuela> lisNiveles 	= nivelU.getListEscuela(conElias, escuela, "ORDER BY 2");
 %>
