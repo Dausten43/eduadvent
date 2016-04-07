@@ -151,8 +151,7 @@
 			
 			salto = "../../general/inicio/index.jsp";
 %>
-<%
-			salto = "../../menu.jsp";
+<%			
 		}
 	}
 %>
