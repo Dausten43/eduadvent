@@ -62,6 +62,7 @@
 	String tipoAlumno		= request.getParameter("TipoAlumno")==null?"":request.getParameter("TipoAlumno");
 	
 	String resultado		= "";
+	String salto			= "X";
 	
 	if ( numAccion == 1 ){		
 		Cuenta.setCuentaId(Cuenta.maxReg(conElias, escuelaId));		
@@ -104,7 +105,7 @@
 				if(!aca.fin.FinCosto.existeSoloCuenta(conElias, Cuenta.getCuentaId()) && !aca.fin.FinMovimientos.existeCuentaId(conElias, Cuenta.getCuentaId())){					
 					if (Cuenta.deleteReg(conElias)){						
 						resultado = "Eliminado";
-						response.sendRedirect("cuenta.jsp");
+						salto = "cuenta.jsp";
 					}else{
 						resultado = "NoElimino";
 					}
@@ -195,4 +196,7 @@
 		</div>	     
 	</form>
 </div>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

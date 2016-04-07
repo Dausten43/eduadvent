@@ -37,6 +37,7 @@
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String ejercicioId 	= (String)session.getAttribute("ejercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId"); 
+	String salto		= "X";
 	
 	/* INFORMACION DEL RECIBO */
 	FinFolio.mapeaRegId(conElias, ejercicioId, usuario);
@@ -59,7 +60,7 @@
 	String polizaId 	= (String) session.getAttribute("polizaId");
 	
 	if( polizaId == null ){
-		response.sendRedirect("caja.jsp");
+		salto = "caja.jsp";
 	}
 	
 	FinPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
@@ -416,5 +417,7 @@
 	})
 </script>
 <script src="../../js-plugins/tableToExcel/tableToExcel.js"></script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

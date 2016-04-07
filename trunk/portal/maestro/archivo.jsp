@@ -18,6 +18,7 @@
 	String cursoId		= request.getParameter("CursoId");
 	String cicloGrupoId	= request.getParameter("CicloGrupoId");
 	String resultado	= "";
+	String salto		= "X";
 	
 	int accion 			= request.getParameter("Accion")==null?0:Integer.parseInt(request.getParameter("Accion"));
 	
@@ -84,7 +85,7 @@
             byte[] buffer = new byte[size];
             is.read(buffer, 0, size);
             session.setAttribute("archivo", buffer);
-			response.sendRedirect("../../bajar?nombre="+cicloGrupoArchivop.getNombre());
+			salto = "../../bajar?nombre="+cicloGrupoArchivop.getNombre();
 		}break;
 		case 6:{
 			String folio = request.getParameter("folio");
@@ -240,4 +241,7 @@
 %>
 </table>
 </body>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

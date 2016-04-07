@@ -17,6 +17,7 @@
 	String folio		= "";	
 	String nombre		= "";
 	String descripcion 	= "-";
+	String salto		= "X";
 	
 	boolean guardo = false; 
 	
@@ -68,7 +69,10 @@
 <%
 	}
 	if (guardo){ 
-		response.sendRedirect("modulo.jsp?ModuloId="+modulo);
+		salto = "modulo.jsp?ModuloId="+modulo;
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias_dir.jsp" %>

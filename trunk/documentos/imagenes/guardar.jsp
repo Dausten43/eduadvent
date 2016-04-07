@@ -10,6 +10,7 @@
 <%	
 
 	String escuelaId	= (String) session.getAttribute("escuela");
+	String salto		= "X";
 
 	// Carpeta donde quedará almacenada la imagen 
 	String carpeta		= application.getRealPath("/WEB-INF"+"/"+escuelaId+"/");
@@ -65,7 +66,10 @@
 	
 	if (guardo){ 
 		System.gc();
-		response.sendRedirect("catalogo.jsp");
+		salto = "catalogo.jsp";
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp" %>

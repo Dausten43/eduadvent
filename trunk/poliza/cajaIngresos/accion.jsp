@@ -18,6 +18,7 @@
 	String ejercicioId 	= (String)session.getAttribute("ejercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId");
 	String polizaId     = request.getParameter("polizaId")==null?"":request.getParameter("polizaId");
+	String salto		= "X";
 	FinPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
 	
 	String accion 	 	= request.getParameter("Accion")==null?"":request.getParameter("Accion");
@@ -58,7 +59,7 @@
 		
 		if(FinPoliza.existeDelUsuario(conElias)){
 			if(FinPoliza.deleteReg(conElias)){
-				response.sendRedirect("ingresos.jsp");
+				salto = "ingresos.jsp";
 			}else{
 				msj = "NoElimino";
 			}
@@ -128,5 +129,7 @@
 	$('#Fecha').datepicker();
 </script>
 
-	
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>	
 <%@ include file= "../../cierra_elias.jsp" %>

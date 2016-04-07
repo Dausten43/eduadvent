@@ -9,10 +9,11 @@
 
 
 <%
-	String cicloGrupo = (String) session.getAttribute("cicloGrupoId");
-		String cursoId = (String) session.getAttribute("cursoId");
-		String modulo = request.getParameter("ModuloId");
-		String temaId = request.getParameter("TemaId") == null ? "0" : request.getParameter("TemaId");
+	String cicloGrupo	= (String) session.getAttribute("cicloGrupoId");
+		String cursoId	= (String) session.getAttribute("cursoId");
+		String modulo	= request.getParameter("ModuloId");
+		String temaId	= request.getParameter("TemaId") == null ? "0" : request.getParameter("TemaId");
+		String salto	= "X";
 
 		int numAccion = 0;
 		if (request.getParameter("Accion") != null)
@@ -72,7 +73,7 @@
 				if (Tema.deleteReg(conElias)) {
 					resultado = "Eliminado";
 					conElias.commit();
-					response.sendRedirect("modulo.jsp?ModuloId="+modulo);
+					salto = "modulo.jsp?ModuloId="+modulo;
 				} else {
 					resultado = "NoElimino";
 				}
@@ -228,5 +229,7 @@
 
 	
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

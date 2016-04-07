@@ -18,6 +18,7 @@
 
 	String accion 		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String resultado 	= "";
+	String salto		= "X";
 
 	if (accion.equals("1")) {//Grabar
 		ejercicio.setEscuelaId(escuelaId);
@@ -46,7 +47,7 @@
 	} else if (accion.equals("2")) {
 		ejercicio.setEjercicioId(request.getParameter("Id"));
 		ejercicio.deleteReg(conElias);
-		response.sendRedirect("ejercicio.jsp");
+		salto = "ejercicio.jsp";
 	}
 	
 	pageContext.setAttribute("resultado", resultado);
@@ -102,5 +103,7 @@
 	$('#FechaIni').datepicker();
 	$('#FechaFin').datepicker();
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

@@ -10,17 +10,18 @@
 <%
 	String strEscuela 			= (String)session.getAttribute("escuela");
 	String sCodigoPersonal 		= (String)session.getAttribute("codigoId");
+	String salto				= "X";
 	
 	
 	
 	/* SOLO PARA ADMINISTRADORES DE LAS ESCUELAS */
 	if (aca.usuario.Usuario.esAdministrador(conElias, sCodigoPersonal) == false){
-		response.sendRedirect("index.jsp");
+		salto = "index.jsp";
 	}
 	
 	String encuestaId = request.getParameter("encuestaId");
 	
-	if(encuestaId == null)response.sendRedirect("index.jsp");
+	if(encuestaId == null)salto = "index.jsp";
 	
 	Encuesta.mapeaRegId(conElias, encuestaId);
 	
@@ -138,5 +139,7 @@
 	</form>
 	
 </div>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

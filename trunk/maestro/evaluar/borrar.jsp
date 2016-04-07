@@ -9,6 +9,7 @@
 	String temaId		= request.getParameter("TemaId");
 	String modulo 		= temaId.substring(0,2);		
 	String folio		= request.getParameter("Folio");
+	String salto		= "X";
 	
 	
 	boolean borroPg = false;
@@ -41,7 +42,7 @@
 		conEliasDir.setAutoCommit(true);
 		
 	    if(borroPg){
-	    	response.sendRedirect("modulo.jsp?ModuloId="+modulo);
+	    	salto = "modulo.jsp?ModuloId="+modulo;
 	    }else{
 %>
 		<font size="4" color="red"><b><fmt:message key="aca.ErrorBorrarCorto"/></b> <a href="modulo.jsp?ModuloId=<%= modulo%>">&lsaquo;&lsaquo; <fmt:message key="boton.Regresar"/></a></font><br>
@@ -54,4 +55,7 @@
 <%
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias_dir.jsp" %>

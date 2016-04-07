@@ -21,6 +21,7 @@
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");	
 	String tipoMovId		= request.getParameter("tipoMovId")==null?"0":request.getParameter("tipoMovId");
 	String mensaje  		= "";
+	String salto			= "X";
 
 	ArrayList<aca.catalogo.CatTipoMovimiento> movimientos		= TipoMovimientoL.getListAll(conElias, "");
 	
@@ -32,7 +33,7 @@
 			
 		if (TipoMovimiento.deleteReg(conElias)) {
 			mensaje = "Eliminado";
-			response.sendRedirect("movimiento.jsp");
+			salto = "movimiento.jsp";
 		} else {
 			mensaje = "NoElimino";
 		}
@@ -84,4 +85,7 @@
 %>
 	</table>
 </div>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

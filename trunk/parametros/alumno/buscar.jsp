@@ -17,6 +17,7 @@
 	String origen			= "";
 	String menu				= "";
 	String carpeta 			= "";	
+	String salto			= "X";
 	
 	// Obtiene la opción del menu que mando llamar la busqueda
 	moduloOpcion.setOpcionId(idJspOrigen);
@@ -107,7 +108,7 @@
 			
 			if(origen.equals(""))origen="general/inicio/index.jsp";
 			if( !origen.equals("X") && !carpeta.equals("X"))
-				response.sendRedirect("../../"+origen);
+				salto = "../../"+origen;
 		}
 	}	
 %>
@@ -189,7 +190,7 @@ if(!origen.equals("X")&&!carpeta.equals("X")){%>
 					strResultado = "Registrado en tú sesión: "+alumno.getCodigoId();
 					
 					if( !origen.equals("X") && !carpeta.equals("X")) 
-						response.sendRedirect("../../"+origen+"?moduloId="+menu+"&carpeta="+carpeta);
+						salto = "../../"+origen+"?moduloId="+menu+"&carpeta="+carpeta;
 				}
 			}	
 			break;
@@ -215,7 +216,7 @@ if(!origen.equals("X")&&!carpeta.equals("X")){%>
 			strResultado = "Registrado en tú sesión: "+alumno.getCodigoId();
 			
 			if( !origen.equals("X") && !carpeta.equals("X")) 
-				response.sendRedirect("../../"+origen);
+				salto = "../../"+origen;
 			break;
 		}
 	}
@@ -228,4 +229,7 @@ if(!origen.equals("X")&&!carpeta.equals("X")){%>
 
 
 <%} %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

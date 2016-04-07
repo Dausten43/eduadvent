@@ -104,7 +104,7 @@
 			strResultado = "Registrado en tú sesión: "+request.getParameter("CodigoPersonal");
 			
 			if(origen.equals(""))origen="general/inicio/index.jsp";
-			if(!origen.equals("X"))response.sendRedirect("../../"+origen);
+			if(!origen.equals("X"))salto = "../../"+origen;
 		}
 	}	
 %>
@@ -179,7 +179,7 @@
 					session.setAttribute("codigoReciente", empleado.getCodigoId());
 					strResultado = "Registrado en tú sesión: "+empleado.getCodigoId();
 					if( !origen.equals("X") && !carpeta.equals("X"))					
-						response.sendRedirect("../../"+origen+"?moduloId="+menu+"&carpeta="+carpeta);
+						salto = "../../"+origen+"?moduloId="+menu+"&carpeta="+carpeta;
 				}
 			}	
 			break;
@@ -203,7 +203,7 @@
 			session.setAttribute("codigoReciente", empleado.getCodigoId());
 			strResultado = "Registrado en tú sesión: "+empleado.getCodigoId();
 			if( !origen.equals("X") && !carpeta.equals("X"))
-				response.sendRedirect("../../"+origen);
+				salto = "../../"+origen;
 			break;
 		}
 	}
@@ -215,4 +215,7 @@
 %>
 
 <%} %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp"%>

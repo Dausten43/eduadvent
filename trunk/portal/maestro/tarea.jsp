@@ -74,7 +74,7 @@
 			if (Tarea.existeReg(conElias) == true){
 				if (Tarea.deleteReg(conElias)){
 					resultado = "Eliminado";
-					response.sendRedirect("modulo.jsp?ModuloId="+modulo);
+					salto = "modulo.jsp?ModuloId="+modulo;
 				}else{
 					resultado = "NoElimino";
 				}	
@@ -224,5 +224,7 @@
 
 	
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp" %>

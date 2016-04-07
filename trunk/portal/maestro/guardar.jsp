@@ -12,6 +12,7 @@
 	String cursoId 		= (String) session.getAttribute("cursoId");
 	String modulo 		= request.getParameter("ModuloId");
 	String temaId		= request.getParameter("TemaId");
+	String salto		= "X";
 	
 	String ruta 		= application.getRealPath("/portal/maestro/")+"/";
 	String folio		= "";	
@@ -68,7 +69,10 @@
 <%
 	}
 	if (guardo){ 
-		response.sendRedirect("modulo.jsp?ModuloId="+modulo);
+		salto = "modulo.jsp?ModuloId="+modulo;
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias_dir.jsp" %>

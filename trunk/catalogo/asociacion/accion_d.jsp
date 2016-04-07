@@ -27,6 +27,7 @@
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String asociacionId 	= request.getParameter("asociacionId");
 	ArrayList lisAsociacion	= new ArrayList();
+	String salto			= "X";
 
 	if(accion.equals("1")){//Nuevo
 		java.util.HashMap<String, aca.catalogo.CatDistrito> dist = DistritoU.getMapAll(conElias, "");
@@ -89,7 +90,7 @@
 	
 			if(Distrito.deleteReg(conElias)){
 				sResultado = "Eliminado";
-				response.sendRedirect("asociacion.jsp");
+				salto = "asociacion.jsp";
 			}else{
 				sResultado = "NoElimino";
 			}
@@ -165,4 +166,7 @@
 </form>
 </div>
 </body>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

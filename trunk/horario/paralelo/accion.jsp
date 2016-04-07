@@ -16,6 +16,7 @@
 	String escuelaId						= (String) session.getAttribute("escuela");
 	String folio 							= request.getParameter("folio") == null? "1": request.getParameter("folio");
 	String accion 							= request.getParameter("Accion") == null? "0": request.getParameter("Accion");
+	String salto							= "X";
 
 	ArrayList<aca.ciclo.Ciclo> cicloEsc 	= CicloL.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID");
 	String ciclosEsc						= aca.catalogo.CatHorarioCicloLista.getCiclos(conElias, escuelaId, folio);
@@ -50,7 +51,7 @@
 				resultado = "NoModificado";
 			}
 		}
-		response.sendRedirect("accion.jsp?folio="+folio);
+		salto = "accion.jsp?folio="+folio;
 	}else if (accion.equals("2")){
 		horarioC.setEscuelaId(escuelaId);
 		horarioC.setFolio(folio);
@@ -62,7 +63,7 @@
 		} else {
 			resultado = "NoModificado";
 		}
-		response.sendRedirect("accion.jsp?folio="+folio);
+		salto = "accion.jsp?folio="+folio;
 	}else if(accion.equals("3")){
 		horarioC.setEscuelaId(escuelaId);
 		horarioC.setFolio(folio);
@@ -71,7 +72,7 @@
 		}else{
 			resultado = "NoEliminad";
 		}
-		response.sendRedirect("paralelo.jsp");
+		salto = "paralelo.jsp";
 	}
 
 	
@@ -157,5 +158,7 @@
 	</div>
 
 </div>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

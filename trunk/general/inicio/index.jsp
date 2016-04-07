@@ -12,6 +12,7 @@
 <%
 	String strEscuela 			= (String)session.getAttribute("escuela");
 	String sCodigoPersonal 		= (String)session.getAttribute("codigoId");
+	String salto				= "X";
 	
 	escuela.mapeaRegId(conElias, strEscuela);
 	String asociacion			= aca.catalogo.CatEscuela.getAsociacionId(conElias, escuela.getEscuelaId());
@@ -80,7 +81,7 @@
 
 <%
 	if(!usuario.getEsUsuario(conElias, (String)session.getAttribute("user"), claveDigest).equals("x")){
-		response.sendRedirect("../editar/cambia_clave.jsp");
+		salto = "../editar/cambia_clave.jsp";
 	}
 %>
 		
@@ -127,4 +128,7 @@
 <a href="http://soporte.eduadvent.um.edu.mx/client.php?locale=es&amp;style=silver&amp;group=1" target="_blank" onclick="if(navigator.userAgent.toLowerCase().indexOf('opera') != -1 &amp;&amp; window.event.preventDefault) window.event.preventDefault();this.newWindow = window.open('http://soporte.eduadvent.um.edu.mx/client.php?locale=es&amp;style=silver&amp;group=1&amp;url='+escape(document.location.href)+'&amp;referrer='+escape(document.referrer), 'webim', 'toolbar=0,scrollbars=0,location=0,status=1,menubar=0,width=640,height=480,resizable=1');this.newWindow.focus();this.newWindow.opener=window;return false;"><img src="http://soporte.eduadvent.um.edu.mx/b.php?i=mblue&amp;lang=es&amp;group=1" border="0" width="177" height="61" alt="" align="right"/></a><!-- / mibew button -->
 
 </div>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

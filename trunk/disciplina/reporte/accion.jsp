@@ -67,6 +67,7 @@
 		int nAccion 			= Integer.parseInt(accion);
 		String TipoId 			= request.getParameter("TipoId");
 		String sResultado 		= "";
+		String salto			= "X";
 
 		ArrayList lisRep = ReporteL.getListEscuela(conElias, escuelaId,	"ORDER BY 1");
 		ArrayList lisEmp = EmpleadoL.getListEmp(conElias, escuelaId, "ORDER BY APATERNO, AMATERNO, NOMBRE");
@@ -101,7 +102,7 @@
 				if (Reporte.insertReg(conElias)) {
 					sResultado = "Grabado";
 					conElias.commit();
-					response.sendRedirect("repalumno.jsp");
+					salto = "repalumno.jsp";
 				} else {
 					sResultado = "NoGrabo";
 				}
@@ -109,7 +110,7 @@
 				if (Reporte.updateReg(conElias)) {
 					sResultado = "Modificado";
 					conElias.commit();
-					response.sendRedirect("repalumno.jsp");
+					salto = "repalumno.jsp";
 				} else {
 					sResultado = "NoCambio";
 				}
@@ -125,7 +126,7 @@
 				if (Reporte.deleteReg(conElias)) {
 					sResultado = "Eliminado";
 					conElias.commit();
-					response.sendRedirect("repalumno.jsp");
+					salto = "repalumno.jsp";
 				} else {
 					sResultado = "NoBorro";
 				}
@@ -268,4 +269,7 @@
 <script>
 	$('#Fecha').datepicker();
 </script>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

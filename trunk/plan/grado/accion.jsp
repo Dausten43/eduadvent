@@ -22,6 +22,7 @@
 	// Declaración de variables
 	String planId	 		= request.getParameter("PlanId");
 	String escuelaId		= (String) session.getAttribute("escuela");
+	String salto			= "X";
 	
 	
 	ArrayList<aca.catalogo.CatNivelEscuela> lisNiveles = catNivelL.getListEscuela(conElias, escuelaId, "ORDER BY NIVEL_ID");
@@ -70,7 +71,7 @@
 	else if(accion.equals("2")){
 		if (Plan.existeReg(conElias) == true){
 			if (Plan.deleteReg(conElias)){
-				response.sendRedirect("plan.jsp");
+				salto = "plan.jsp";
 			}else{
 				msj = "NoElimino";
 			}	
@@ -154,5 +155,7 @@
 	</form>
 	
 </div>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

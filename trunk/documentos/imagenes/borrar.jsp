@@ -11,8 +11,9 @@
 
 <%
 	String nombreArchivo	= request.getParameter("nombreArchivo")==null?"":request.getParameter("nombreArchivo");
-	String escuela		= (String) session.getAttribute("escuela");
+	String escuela			= (String) session.getAttribute("escuela");
 	boolean borrar 			= false;
+	String salto			= "X";
 	
 	String dirFoto = application.getRealPath("/WEB-INF/"+escuela+"/"+nombreArchivo);
 	java.io.File foto = new java.io.File(dirFoto);
@@ -28,9 +29,12 @@
 		}
 	}
 	if (borrar){
-		response.sendRedirect("catalogo.jsp");
+		salto = "catalogo.jsp";
 	}else{
 		out.println("No se puedo elimiar la foto <br>");
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp" %>

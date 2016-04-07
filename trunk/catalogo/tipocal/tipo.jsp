@@ -22,6 +22,7 @@
 	String nivelId			= request.getParameter("nivelId")==null?"0":request.getParameter("nivelId");
 	String calId			= request.getParameter("calId")==null?"0":request.getParameter("calId");
 	String mensaje  		= "";
+	String salto			= "X";
 	
 	
 	
@@ -35,7 +36,7 @@
 			
 		if (AspectosCal.deleteReg(conElias)) {
 			mensaje = "Eliminado";
-			response.sendRedirect("movimiento.jsp");
+			salto = "movimiento.jsp";
 		} else {
 			mensaje = "NoElimino";
 		}
@@ -96,4 +97,7 @@
 %>
 	</table>
 </div>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

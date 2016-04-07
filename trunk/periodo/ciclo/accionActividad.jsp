@@ -37,6 +37,7 @@
 	String cicloId 		= session.getAttribute("cicloId").toString();
 	String bloqueId 	= request.getParameter("BloqueId");
 	String escuelaId	= session.getAttribute("escuela").toString();
+	String salto		= "X";
 	
 	ArrayList<aca.catalogo.CatTipoact> lisTipoact = tipoactLista.getListUnion(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId),"ORDER BY TIPOACT_NOMBRE ASC");
 	ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = ActEtiquetalista.getListAll(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")) , " ORDER BY ORDEN");	
@@ -66,7 +67,7 @@
 		if (BloqueActividad.existeReg(conElias) == false){
 			if (BloqueActividad.insertReg(conElias)){
 				strResultado = "Grabado";
-				response.sendRedirect("actividad.jsp?bloqueId="+bloqueId);
+				salto = "actividad.jsp?bloqueId="+bloqueId;
 			}else{
 				strResultado = "NoGrabo";
 				accion = "1";
@@ -87,7 +88,7 @@
 		if (BloqueActividad.existeReg(conElias) == true){
 			if (BloqueActividad.updateReg(conElias)){
 				strResultado = "Modificado";
-				response.sendRedirect("actividad.jsp?bloqueId="+bloqueId);
+				salto = "actividad.jsp?bloqueId="+bloqueId;
 			}else{
 				strResultado = "Nocambio";
 				accion = "5";
@@ -102,7 +103,7 @@
 		if (BloqueActividad.existeReg(conElias) == true){
 			if (BloqueActividad.deleteReg(conElias)){
 				strResultado = "Eliminado";
-				response.sendRedirect("actividad.jsp?bloqueId="+bloqueId);
+				salto = "actividad.jsp?bloqueId="+bloqueId;
 			}else{
 				strResultado = "NoElimino";
 			}	
@@ -199,5 +200,7 @@
 <script>
 	$('#Fecha').datepicker();
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

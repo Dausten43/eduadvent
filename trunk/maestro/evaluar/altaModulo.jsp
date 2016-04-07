@@ -7,9 +7,10 @@
 <jsp:useBean id="Modulo" scope="page" class="aca.ciclo.CicloGpoModulo" />
 
 <%
-		String cicloGrupo = (String) session.getAttribute("cicloGrupoId");
-		String cursoId = (String) session.getAttribute("cursoId");
-		String modulo = "";
+		String cicloGrupo	= (String) session.getAttribute("cicloGrupoId");
+		String cursoId		= (String) session.getAttribute("cursoId");
+		String modulo		= "";
+		String salto		= "X";
 
 		int numAccion = 0;
 		if (request.getParameter("Accion") != null){
@@ -69,7 +70,7 @@
 			if (Modulo.existeReg(conElias) == true) {
 				if (Modulo.deleteReg(conElias)) {
 					resultado = "Eliminado";
-					response.sendRedirect("modulo.jsp");
+					salto = "modulo.jsp";
 				} else {
 					resultado = "NoElimino";
 				}
@@ -236,5 +237,7 @@
 	
 </script>
 
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

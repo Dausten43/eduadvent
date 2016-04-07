@@ -8,8 +8,9 @@
 <%
 	String escuelaId 			= (String) session.getAttribute("escuela");
 	String constanciaId         = request.getParameter("constanciaId");
+	String salto				= "X";
 	if(constanciaId == null){
-		response.sendRedirect("documento.jsp");
+		salto = "documento.jsp";
 	}
 
 	AlumConstancia.mapeaRegId(conElias, constanciaId, escuelaId);
@@ -25,5 +26,7 @@
 </div>	
 
 
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp" %>

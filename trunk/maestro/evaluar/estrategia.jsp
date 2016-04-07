@@ -27,6 +27,7 @@
 <%   
 	 String cicloGrupoId 	= (String) session.getAttribute("cicloGrupoId");
 	 String cursoId 		= (String) session.getAttribute("cursoId");
+	 String salto			= "X";
 	 
 	 String evaluacionId	= request.getParameter("EvaluacionId")==null?"0":request.getParameter("EvaluacionId");
 
@@ -50,7 +51,7 @@
 			GrupoEval.mapeaRegId(conElias, cicloGrupoId,cursoId, evaluacionId);
 	    	maxOrden = GrupoEval.getOrden();
 	    	if(GrupoEval.getEstado().equals("C")){
-	    		response.sendRedirect("metodo.jsp");//Si la evaluacione esta cerrada no deberias poder editarlo, asi que regresalo
+	    		salto = "metodo.jsp";//Si la evaluacione esta cerrada no deberias poder editarlo, asi que regresalo
 	    	}
 			break;
 		}	
@@ -70,14 +71,14 @@
 			if (GrupoEval.existeReg(conElias) == false){
 				if (GrupoEval.insertReg(conElias)){
 					sResultado = "Guardado";
-					response.sendRedirect("metodo.jsp");
+					salto = "metodo.jsp";
 				}else{
 					sResultado = "NoGuardo";
 				}
 			}else{	
 				if (GrupoEval.updateReg(conElias)){ 
 					sResultado = "Modificado";
-					response.sendRedirect("metodo.jsp");
+					salto = "metodo.jsp";
 				}else{
 					sResultado = "NoModifico";
 				}
@@ -95,7 +96,7 @@
 					if (GrupoEval.existeReg(conElias) == true){
 						if (GrupoEval.deleteReg(conElias)){
 							sResultado = "Eliminado";
-							response.sendRedirect("metodo.jsp");
+							salto = "metodo.jsp";
 						}else{
 							sResultado = "NoBorro";
 						}	
@@ -162,5 +163,7 @@
 	$('#Fecha').datepicker();
 </script>
 
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

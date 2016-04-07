@@ -30,6 +30,7 @@
 	String grupos			= GrupoLista.getGrupos(conElias, escuelaId, nivelId);	
 	String grupo			= "";
 	String sResultado 		= "";
+	String salto			= "X";
 	
 	CatNivel.mapeaRegId(conElias, nivelId, escuelaId);
 	
@@ -71,7 +72,7 @@
 		case 5: { // Borrar
 			Grupo.setFolio(folio);
 			Grupo.deleteReg(conElias);
-			response.sendRedirect("grupo.jsp?nivelId="+request.getParameter("nivelId"));
+			salto = "grupo.jsp?nivelId="+request.getParameter("nivelId");
 			break;
 		}
 	}
@@ -144,5 +145,7 @@
 
 </div>
 
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %> 

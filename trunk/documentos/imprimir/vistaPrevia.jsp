@@ -21,6 +21,7 @@
 	String codigoId      		= request.getParameter("codigoId");
 	String cicloId 				= (String) session.getAttribute("cicloId");
 	String planId				= request.getParameter("plan")==null?aca.alumno.AlumPlan.getPlanActual(conElias, codigoId):request.getParameter("plan");
+	String salto				= "X";
 	
 	String nivel			= aca.plan.Plan.getNivel(conElias, planId);
 	String nivelNombre		= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivel);
@@ -83,7 +84,7 @@
 	java.util.HashMap<String, aca.catalogo.CatNivelEscuela> mapNomNivel 	= CatNivelEscuelaListaU.mapNivelesEscuela(conElias, escuelaId);
 	
 	if(constanciaId == null){
-		response.sendRedirect("documento.jsp");
+		salto = "documento.jsp";
 	}
 
 	AlumConstancia.mapeaRegId(conElias, constanciaId, escuelaId);
@@ -472,5 +473,7 @@
 </div>	
 
 
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp" %>

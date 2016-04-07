@@ -24,6 +24,7 @@
 	String horarioId 	= request.getParameter("HorarioId")==null?"-1":request.getParameter("HorarioId");
 	String accion 		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String resultado 	= "";
+	String salto		= "X";
 	
 	HorarioPeriodo.setHorarioId(horarioId);
 	
@@ -52,7 +53,7 @@
 		Horario.setHorarioId(horarioId);
 		
 		if(Horario.deleteReg(conElias)){
-			response.sendRedirect("horario.jsp");	
+			salto = "horario.jsp";	
 		}else{
 			resultado = "NoElimino";
 		}
@@ -100,9 +101,7 @@
 	
 </div>
 
-
-
-
-
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

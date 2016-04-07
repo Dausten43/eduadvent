@@ -27,6 +27,7 @@
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String unionId 			= request.getParameter("unionId");
 	ArrayList lisUnion		= new ArrayList();
+	String					= "X";
 	//String añadir 			= request.getParameter("añadir");
 	
 
@@ -93,7 +94,7 @@
 	
 			if(Asociacion.deleteReg(conElias)){
 				sResultado = "Eliminado";
-				response.sendRedirect("asociacion.jsp");
+				salto = "asociacion.jsp";
 			}else{
 				sResultado = "NoElimino";
 			}
@@ -186,4 +187,7 @@
 </form>
 </div>
 </body>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

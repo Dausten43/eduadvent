@@ -17,6 +17,7 @@
 	String sNom 			= "";
 	String sPat				= "";
 	String sMat				= "";
+	String salto			= "X";
 	
 	ArrayList<aca.empleado.EmpPersonal> lisLista		= new ArrayList<aca.empleado.EmpPersonal>();
 	
@@ -37,7 +38,7 @@
 	
 	}else if(accion.equals("2")){
 		session.setAttribute("codigoEmpleado", request.getParameter("codigoEmpleado"));
-		response.sendRedirect("accion_p.jsp");
+		salto = "accion_p.jsp";
 	}
 %>
 
@@ -146,5 +147,7 @@
 		document.location.href = "accion_p.jsp?CodigoPadre="+codigoId+"&Accion=5";
 	}		
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %> 

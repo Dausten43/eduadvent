@@ -146,7 +146,7 @@
 				if(cicloGrupoActividad.deleteReg(conElias)){
 					conElias.commit();
 					resultado = "Eliminado";
-					response.sendRedirect("metodo.jsp");
+					salto = "metodo.jsp";
 				}else{
 					resultado = "ErrorBorrar";
 				}

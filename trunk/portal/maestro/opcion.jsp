@@ -9,6 +9,7 @@
 <%
 	String empleadoId 	= (String) session.getAttribute("codigoId");
 	String cicloId		= (String) session.getAttribute("cicloId");	
+	String salto		= "X";
 	
 	
 	if (!aca.ciclo.Ciclo.existeCiclo(conElias, cicloId)){
@@ -22,8 +23,11 @@
 	}
 	
 	if(cicloGrupoCurso.existeMaestro(conElias, empleadoId)){
-			response.sendRedirect("cursos.jsp?Ciclo="+cicloId);
+			salto = "cursos.jsp?Ciclo="+cicloId;
 	}
 	
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

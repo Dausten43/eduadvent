@@ -30,6 +30,7 @@
 	
 	String strPlanId		= request.getParameter("PlanId");
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String salto			= "X";
 	
 	
 	ArrayList<aca.plan.Plan> lisPlan				= PlanLista.getListEscuela(conElias, escuelaId, "AND ESTADO = 'A' ORDER BY NIVEL_ID");
@@ -37,7 +38,7 @@
 	
 	if(accion.equals("1")){ //Carga en session el planId
 		session.setAttribute("planId", strPlanId);
-		response.sendRedirect("materias.jsp");
+		salto = "materias.jsp";
 	}
 	
 %>
@@ -99,5 +100,7 @@
 		%>
 	</form>
 </div>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %> 

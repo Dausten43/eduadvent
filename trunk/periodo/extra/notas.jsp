@@ -21,6 +21,7 @@
 <%
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String cicloId 		= request.getParameter("ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("ciclo");
+	String salto		= "X";
 
 	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloL.getListActivos(conElias, escuelaId, "ORDER BY F_INICIAL");
 	ArrayList<aca.ciclo.CicloExtra> lisextras = cicloExtraL.getListCiclo(conElias, cicloId, "ORDER BY OPORTUNIDAD");
@@ -42,10 +43,10 @@
 			
 		if (cicloExtra.deleteReg(conElias)) {
 			msj = "Eliminado";
-			response.sendRedirect("notas.jsp");
+			salto = "notas.jsp";
 		} else {
 			msj = "NoElimino";
-			response.sendRedirect("notas.jsp");
+			salto = "notas.jsp";
 		}
 	}
 	
@@ -100,5 +101,7 @@
 
 	
 </div>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

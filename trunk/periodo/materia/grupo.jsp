@@ -13,6 +13,7 @@
 	String escuelaId		= (String) session.getAttribute("escuela");
 	String cicloId			= (String) session.getAttribute("cicloId");
 	String planId			= (String) session.getAttribute("planId");
+	String salto			= "X";
 	
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	int numAccion 			= Integer.parseInt(accion);
@@ -46,7 +47,7 @@
 				}			
 			}else{
 				System.out.println("ya existe: "+cicloId+"+"+CicloGrupo.getGrado()+"+"+CicloGrupo.getGrupo());
-				response.sendRedirect("grupo.jsp");
+				salto = "grupo.jsp";
 			}
 			break;
 		}
@@ -164,5 +165,7 @@
 	</form>
 	
 </div>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>
