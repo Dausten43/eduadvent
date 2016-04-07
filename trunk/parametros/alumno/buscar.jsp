@@ -7,32 +7,28 @@
 <jsp:useBean id="alumnoLista" scope="page" class="aca.alumno.AlumPersonalLista"/>
 <jsp:useBean id="modulo" scope="page" class="aca.menu.Modulo"/>
 <jsp:useBean id="moduloOpcion" scope="page" class="aca.menu.ModuloOpcion"/>
-
-
-<%if(((String)session.getAttribute("codigoId")).contains("E") || ((String)session.getAttribute("codigoId")).equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){ %>
-
-<%
+<%	
 	String escuelaId		= (String) session.getAttribute("escuela");
 	String idJspOrigen		= (String) session.getAttribute("idJsp");
 	String origen			= "";
 	String menu				= "";
-	String carpeta 			= "";	
+	String carpeta 			= "";
 	String salto			= "X";
+
+	if(((String)session.getAttribute("codigoId")).contains("E") || ((String)session.getAttribute("codigoId")).equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){	
 	
-	// Obtiene la opción del menu que mando llamar la busqueda
-	moduloOpcion.setOpcionId(idJspOrigen);
-	if (moduloOpcion.existeOpcion(conElias)){
-		moduloOpcion.mapeaRegId(conElias, idJspOrigen);
-		modulo.mapeaRegId(conElias, moduloOpcion.getModuloId());
-		origen 		= modulo.getUrl()+moduloOpcion.getUrl();
-		menu		= modulo.getModuloId();
-		carpeta 	= modulo.getUrl();
-	}	
-	
+		// Obtiene la opción del menu que mando llamar la busqueda
+		moduloOpcion.setOpcionId(idJspOrigen);
+		if (moduloOpcion.existeOpcion(conElias)){
+			moduloOpcion.mapeaRegId(conElias, idJspOrigen);
+			modulo.mapeaRegId(conElias, moduloOpcion.getModuloId());
+			origen 		= modulo.getUrl()+moduloOpcion.getUrl();
+			menu		= modulo.getModuloId();
+			carpeta 	= modulo.getUrl();
+		}	
 %>
 <head>
-	<script language="javascript">
-	
+	<script type="javascript">	
 		function Consultar(){
 			document.frmalumno.Accion.value="1";
 			document.frmalumno.submit();
