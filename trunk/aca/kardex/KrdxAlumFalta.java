@@ -304,4 +304,52 @@ public class KrdxAlumFalta {
 		
 		return faltas;
 	}
+	
+	public static String faltasPorCiclo(Connection conn, String codigoId, String cicloGrupoId, String evaluacionId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String faltas			= "";
+		
+		try{
+			ps = conn.prepareStatement("SELECT FALTA AS FALTA FROM KRDX_ALUM_FALTA " +
+					" WHERE CODIGO_ID='"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = '"+evaluacionId+"'");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				faltas = rs.getString("FALTA");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumFalta|faltasPorCiclo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return faltas;
+	}
+	
+	public static String tardanzasPorCiclo(Connection conn, String codigoId, String cicloGrupoId, String evaluacionId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String tardanzas			= "";
+		
+		try{
+			ps = conn.prepareStatement("SELECT TARDANZA AS TARDANZA FROM KRDX_ALUM_FALTA " +
+					" WHERE CODIGO_ID='"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = '"+evaluacionId+"'");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				tardanzas = rs.getString("TARDANZA");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumFalta|tardanzasPorCiclo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return tardanzas;
+	}
 }
