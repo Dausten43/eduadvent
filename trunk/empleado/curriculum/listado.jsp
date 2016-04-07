@@ -10,11 +10,12 @@
 <jsp:useBean id="empCurriculumU" class="aca.empleado.EmpCurriculumLista" scope="page"/>
 <%
 	String codigoPersonal	= (String) session.getAttribute("codigoPersonal");
+	String salto			= "X";
 	 
 	//String accesos			= Acceso.getAccesos(conEnoc, codigoPersonal);
 	//boolean esAdmin			= Acceso.esAdministrador(conEnoc, codigoPersonal);
 	//if(!esAdmin && accesos.trim().equals(""))
-	//	response.sendRedirect("vitae.jsp");
+	 salto = "vitae.jsp";
 	
 		
 	ArrayList<EmpCurriculum> listCurriculum = empCurriculumU.getListAll(conElias, "ORDER BY EMP_NOMBRE(ID_EMPLEADO)");  
@@ -48,4 +49,7 @@
 </div>
 </body>
 <script src="../../js/search.js"></script>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

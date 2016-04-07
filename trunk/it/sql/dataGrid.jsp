@@ -9,6 +9,7 @@
 	String user						= (String)session.getAttribute("userDB");
 	String password					= (String)session.getAttribute("passwordDB");
 	String query					= request.getParameter("query");
+	String salto					= "X";
 	
 	Connection  conn	 			= null;
 	
@@ -16,7 +17,7 @@
 	
 	//System.out.println("query = "+query);
 	if(user == null){
-		response.sendRedirect("user.jsp?query="+query);
+		salto = "user.jsp?query="+query;
 	}else{
 
 		try{
@@ -128,5 +129,7 @@
 %>
 	</table>
 </body>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../cierra_conn.jsp" %>

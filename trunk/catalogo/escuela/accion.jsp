@@ -52,9 +52,10 @@
 </script>
 
 <%
-	String unionId = request.getParameter("unionId");
+	String unionId	= request.getParameter("unionId");
 	Union.mapeaRegId(conElias, unionId);
-	String editar  = request.getParameter("editar")==null?"N":request.getParameter("editar");
+	String editar 	= request.getParameter("editar")==null?"N":request.getParameter("editar");
+	String salto	= "X";
 
 	//Declaracion de variables	
 	String accion = request.getParameter("Accion");
@@ -126,7 +127,7 @@
 		if (Escuela.existeReg(conElias) == true) {
 			if (Escuela.deleteReg(conElias)) {
 				msj = "Eliminado";
-				response.sendRedirect("escuela.jsp?unionId="+unionId);
+				salto = "escuela.jsp?unionId="+unionId;
 			} else {
 				msj = "NoElimino";
 			}
@@ -359,5 +360,7 @@
 	</form>
 </div>
 
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

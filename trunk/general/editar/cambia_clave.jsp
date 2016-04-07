@@ -8,8 +8,9 @@
 
 	String strModulob		= request.getParameter("moduloId");
 	if (strModulob==null)strModulob="";
-	String noMuestres = request.getParameter("noMuestres");
+	String noMuestres 		= request.getParameter("noMuestres");
 	String strCarpetab		= request.getParameter("carpeta");
+	String salto			= "X";
 	
 	ModuloOpcion opcionb = new ModuloOpcion();
 	Modulo modulob = new Modulo();
@@ -51,7 +52,7 @@
 		    String claveDigest = (new BASE64Encoder()).encode(raw);
 			usuario.setClave(claveDigest);
 			if(usuario.updateReg(conElias)){
-				//response.sendRedirect("inicial.jsp");
+				salto = "inicial.jsp";
 				//msj = "<div class='alert alert-success'><button class='close' data-dismiss='alert'>&times;</button> Se Actualizo tu Contraseña Correctamente</div>";
 				msj = "ActualizoPass";
 			}else{
@@ -116,5 +117,7 @@
 		}
 	}
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

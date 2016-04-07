@@ -46,6 +46,7 @@
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	int nAccion 			= Integer.parseInt(request.getParameter("Accion"));
 	String sResultado 		= "";
+	String salto			= "X";
 	int i = 0;	
 
 	if (nAccion == 1)
@@ -65,7 +66,7 @@
 			if (reporte.insertReg(conElias)) {
 				sResultado = "Guardado";
 				conElias.commit();
-			//	response.sendRedirect("tipo.jsp");
+				salto = "tipo.jsp";
 			} else {
 				sResultado = "NoGuardo";
 			}
@@ -84,7 +85,7 @@
 			if (reporte.updateReg(conElias)) {
 				sResultado = "Modificado";
 				conElias.commit();
-				/*response.sendRedirect("tipo.jsp");*/
+				salto = "tipo.jsp");
 			} else {
 				sResultado = "NoModificado";
 			}
@@ -98,7 +99,7 @@
 			if (reporte.deleteReg(conElias)) {
 				sResultado = "Eliminado";
 				conElias.commit();
-				/*response.sendRedirect("tipo.jsp");*/
+				salto = "tipo.jsp");
 			} else {
 				sResultado = "NoEliminado";
 			}
@@ -160,4 +161,7 @@
 		</form>
 	</div>
 </body>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

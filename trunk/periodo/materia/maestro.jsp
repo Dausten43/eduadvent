@@ -40,6 +40,7 @@
 	String grupo 			= CicloGrupo.getGrupoNombre();
 	String Nombre  			= "";
 	String Resultado 		= "";
+	String salto			= "X";
 	
 	ArrayList<aca.empleado.EmpPersonal> lisEmpleado	 	= new ArrayList<aca.empleado.EmpPersonal>();
 	
@@ -57,7 +58,7 @@
 			if (CicloGrupo.existeReg(conElias) == true){
 				if (CicloGrupo.updateReg(conElias)==true){
 					Resultado = "Modificado";					
-					//response.sendRedirect("materia.jsp");
+					salto = "materia.jsp";
 				}else{
 					Resultado = "NoModifico";
 				}
@@ -71,7 +72,7 @@
 			if (CicloGrupoCurso.existeReg(conElias) == true){
 				if (CicloGrupoCurso.updateReg(conElias)==true){					
 					Resultado = "Modificado";					
-					//response.sendRedirect("materia.jsp");
+					salto = "materia.jsp";
 				}else{
 					Resultado = "NoModifico";
 				}
@@ -148,4 +149,7 @@
 	</form>
 
 </div>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

@@ -28,6 +28,7 @@
 	ArrayList lisOpcion			= new ArrayList();
 	ArrayList lisMenuPrincipal	= new ArrayList();
 	String strOpcion			= "";
+	String salto				= "X";
 	
 	if( accion.equals("3") && !session.getAttribute("admin").equals("-------") ){
 		if( ((String)session.getAttribute("admin")).equals("B01P0002") ){	
@@ -47,7 +48,7 @@
 		
 		
 		if(!Usuario.existeReg(conElias)){
-			response.sendRedirect("../../general/inicio/index.jsp?mensaje=1");
+			salto = "../../general/inicio/index.jsp?mensaje=1";
 		}else{			
 			session.setAttribute("codigoId", matricula);
 			session.setAttribute("codigoAlumno",matricula);
@@ -148,11 +149,14 @@
 				session.setAttribute("portalPadre", false);
 			}
 			
-			response.sendRedirect("../../general/inicio/index.jsp");
+			salto = "../../general/inicio/index.jsp";
 %>
 <%
-			//response.sendRedirect("../../menu.jsp");
+			salto = "../../menu.jsp";
 		}
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

@@ -9,6 +9,7 @@
 	String codigoEmpleado		= (String) session.getAttribute("codigoEmpleado");
 	String nombre 				= "";
 	String dir					= application.getRealPath("/WEB-INF/fotos/")+"/";
+	String salto				= "X";
 	int widthImage     		= 0;
 	int heightImage			= 0;
 	
@@ -71,7 +72,10 @@
 	}finally{
 	}
 	if (guardo){ 
-		response.sendRedirect("empleado.jsp?CodigoEmpleado="+codigoEmpleado+"&tipo=Empleado&ref=0");
+		salto = "empleado.jsp?CodigoEmpleado="+codigoEmpleado+"&tipo=Empleado&ref=0";
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp" %>
