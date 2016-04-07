@@ -507,7 +507,7 @@ public class CicloBloque {
 		return decimales;
 	}
 	
-public static String getCalculo(Connection conn, String cicloId, String bloqueId) throws SQLException{
+	public static String getCalculo(Connection conn, String cicloId, String bloqueId) throws SQLException{
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
@@ -526,6 +526,33 @@ public static String getCalculo(Connection conn, String cicloId, String bloqueId
 			
 		}catch(Exception ex){
 			System.out.println("Error - aca.ciclo.CicloBloque|getCalculo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return calculo;
+	}
+	
+	public static String getBloqueNombre(Connection conn, String cicloId, String bloqueId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String calculo			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT BLOQUE_NOMBRE FROM CICLO_BLOQUE" +
+					" WHERE CICLO_ID = ? AND BLOQUE_ID = TO_NUMBER(?, '99')");
+			ps.setString(1, cicloId);
+			ps.setString(2, bloqueId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				calculo = rs.getString("BLOQUE_NOMBRE");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloBloque|getBloqueNombre|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
