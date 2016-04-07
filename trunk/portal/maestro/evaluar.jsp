@@ -990,15 +990,15 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 			<i class="icon-th-list icon-white"></i> <fmt:message key="aca.Cursos" />
 		</a>		
 		<a class="btn btn-mobile" target="_blank" href="tarjeta.jsp?Curso=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&CodigoId=<%=codigoId%>">
-			<i class="icon-book"></i> <fmt:message key="aca.TarjetasDeAlumnos" />
+			<i class="icon-book"></i> <fmt:message key="aca.Tarjetas" />
 		</a>
 		
 		<a class="btn btn-mobile" target="_blank" href="actamateria.jsp?Curso=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-			<i class="icon-print"></i> <fmt:message key="aca.ImprimirActa" />
+			<i class="icon-print"></i> <fmt:message key="aca.Acta" />
 		</a>
 		
 		<a class="btn btn-mobile" target="_blank" href="formatoAsistencia.jsp?CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>">
-			<i class="icon-list-alt"></i> <fmt:message key="aca.FormatoAsistencia" />
+			<i class="icon-list-alt"></i> <fmt:message key="aca.Asistencia" />
 		</a>
 		<%if (cicloGrupoCurso.getEstado().equals("1")){%>
 			<span class='label label-info'><fmt:message key="aca.MateriaCreada" /></span>
