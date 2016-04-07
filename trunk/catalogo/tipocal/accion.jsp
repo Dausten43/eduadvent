@@ -8,6 +8,7 @@
 <%@page import="aca.catalogo.CatAspectosCal"%>
 
 <jsp:useBean id="AspectosCal" scope="page" class="aca.catalogo.CatAspectosCal"/>
+<jsp:useBean id="nivelU" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
 
 <script>
 	function Grabar() {
@@ -55,7 +56,7 @@
 		AspectosCal.mapeaRegId(conElias);
 	}	
 	
-	
+	ArrayList<aca.catalogo.CatNivelEscuela> lisNiveles 	= nivelU.getListEscuela(conElias, escuela, "ORDER BY 2");
 %>
 
 <div id=content>
@@ -75,28 +76,34 @@
 	<form name="forma" action="accion.jsp" method="post">
 	<input type="hidden" name="Accion">	
 		<fieldset>
-				<label for="NombreTipoMovimiento">Nombre</label>
-	        	<input type="text" id="Nombre" name="Nombre" value="<%out.print(AspectosCal.getCalNombre());%>"/>
+			<label for="NombreTipoMovimiento">Nombre</label>
+		   	<input type="text" id="Nombre" name="Nombre" value="<%out.print(AspectosCal.getCalNombre());%>"/>
 		</fieldset>
-		
+			
 		<fieldset>
-				<label for="NombreTipoMovimiento">Cal. Id</label>
-	        	<input type="text" id="calId" name="calId" value="<%out.print(AspectosCal.getCalId());%>"/>
-		</fieldset>
-		<fieldset>
-				<label for="NombreTipoMovimiento">Nivel Id</label>
-	        	<input type="text" id="nivelId" name="nivelId" value="<%out.print(AspectosCal.getNivelId());%>"/>
+			<label for="NombreTipoMovimiento">Cal. Id</label>
+		   	<input type="text" id="calId" name="calId" value="<%out.print(AspectosCal.getCalId());%>"/>
 		</fieldset>
 		<fieldset>
-				<label for="NombreTipoMovimiento">Cal. Corto</label>
-	        	<input type="text" id="calCorto" name="calCorto" value="<%out.print(AspectosCal.getCalCorto());%>"/>
+			<label for="NombreTipoMovimiento">Nivel Id</label>
+			<select class="form-control" name="nivelId"  id="nivelId" required>
+	    		<option value="">Seleccione Nivel</option>
+<%		for(aca.catalogo.CatNivelEscuela nivel: lisNiveles){
+%>
+	    		<option value="<%=nivel.getNivelId()%>" <% if (nivel.getNivelId().equals(AspectosCal.getNivelId())){out.print("Selected");}%>><%=nivel.getNivelNombre()%></option>
+<%
+	    } %>
+	    	</select>	        
+		</fieldset>
+		<fieldset>
+			<label for="NombreTipoMovimiento">Cal. Corto</label>
+	       	<input type="text" id="calCorto" name="calCorto" value="<%out.print(AspectosCal.getCalCorto());%>"/>
 		</fieldset>
 		
 		<div class="well">
 			<button class="btn btn-primary btn-large" onclick="javascript:Grabar()"><i class="icon-ok icon-white"></i> <fmt:message key='boton.Guardar' /></button>
 		</div>
 	</form>
-		
 </div>
 
 <%@ include file= "../../cierra_elias.jsp" %>

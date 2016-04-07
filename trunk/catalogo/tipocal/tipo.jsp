@@ -7,6 +7,7 @@
 
 <jsp:useBean id="AspectosCalL" scope="page" class="aca.catalogo.CatAspectosCalLista"/>
 <jsp:useBean id="AspectosCal" scope="page" class="aca.catalogo.CatAspectosCal"/>
+<jsp:useBean id="nivelU" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
 
 <script>
 		function eliminar(escuelaId,nivelId,calId) {
@@ -50,11 +51,12 @@
 			mensaje = "NoEliminado";
 		}
 	}
-	ArrayList<aca.catalogo.CatAspectosCal> aspectos		= AspectosCalL.getListAll(conElias,escuela, "");
+	
+	ArrayList<aca.catalogo.CatAspectosCal> aspectos		= AspectosCalL.getListAll(conElias,escuela, "");	
 %>
 
 <div id="content">
-	<h1>Catalogo de Aspectos</h1>
+	<h2>Tipo de Nota<small> ( Hábitos y actitudes ) </small></h2>
 	
 	<% 
 	if (mensaje.equals("Eliminado") || mensaje.equals("Modificado") || mensaje.equals("Guardado")){%>
