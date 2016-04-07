@@ -18,6 +18,9 @@
 <jsp:useBean id="AlumnoCursoL" scope="page" class="aca.vista.AlumnoCursoLista"/>
 <jsp:useBean id="CatEscuela" scope="page" class="aca.catalogo.CatEscuela"/>
 <jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
+<jsp:useBean id="Aspectos" scope="page" class="aca.catalogo.CatAspectos"/>
+<jsp:useBean id="LisAspectos" scope="page" class="aca.catalogo.CatAspectosLista"/>
+<jsp:useBean id="AlumFalta" scope="page" class="aca.kardex.KrdxAlumFalta" />
 <%
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -80,6 +83,9 @@
 	/* Lista de materias del alumno*/
 	ArrayList<aca.vista.AlumnoCurso> lisAlumnoCurso 		= AlumnoCursoL.getListAlumCurso(conElias, codigoAlumno, cicloGrupoId, " ORDER BY TIPO_CURSO_ID(CURSO_ID), ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 	
+	/* Lista de aspectos del alumno*/
+	ArrayList<aca.catalogo.CatAspectos> lisAspectos 		= LisAspectos.getListAspectos(conElias, escuelaId, "ORDER BY NIVEL_ID");
+
 	// Lista de promedios en el ciclo
 	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
 	
@@ -147,32 +153,6 @@
 		</tr>			
 	</table>
 	<table >
-<!-- 		<tr> -->
-<!-- 			<th width="5%">No.</th> -->
-<!-- 			<th width="25%">Nombre </th> -->
-<!-- 			<th width="30%">Apellidos</th> -->
-<!-- 			<th width="15%">Año Lectivo</th> -->
-<!-- 			<th width="10%">Nivel</th> -->
-<!-- 			<th width="5%">Curso</th> -->
-<!-- 			<th width="5%">Sección</th> -->
-<!-- 			<th width="5%">Tanda</th> -->
-<!-- 		</tr> -->
-<!-- 		<tr> -->
-<%-- <% 
- 		String content = aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId());
- 		content = content.replace("NIVEL", "");
- %> --%>
-		
-<%-- 			<td><%=kardex.getOrden() %></td> --%>
-<%-- 			<td><%=AlumPersonal.getNombre() %></td> --%>
-<%-- 			<td><%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %></td> --%>
-<%-- 			<td><%= aca.ciclo.Ciclo.getCicloNombre(conElias, cicloId)%></td>  --%>
-<%-- 			<td><%= content%></td> --%>
-<%-- 			<td><%=aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(Grupo.getGrado())) %></td> --%>
-<%-- 			<td><%=Grupo.getGrupo() %></td> --%>
-<!-- 			<td>MATUTINO</td>	 -->
-<!-- 		</tr> -->
-		
 		<tr>
 			<th width="1%" align="left">Estudiante :</th>
 			<th width="20%" align="center" style="border-bottom: 1px solid black;"> <%=AlumPersonal.getNombre() %> <%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %> </th>
@@ -192,256 +172,70 @@
 		<input type="hidden" name="Accion"> 
 		<input type="hidden" name="CicloGrupoId" value="<%=cicloGrupoId%>"> 
 		<input type="hidden" name="CodigoAlumno" value="<%=codigoAlumno%>">
-						
-<!-- 		<table class="table table-condensed table-striped table-bordered table-condensed"> -->
-<!-- 			<thead> -->
-<!-- 			<tr> -->
-<!-- 				<th width="2%">#</th> -->
-<%-- 			    <th width="20%"><fmt:message key="aca.NombreMateria"/></th> --%>
-<%-- <% 
- 			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-					
- 				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
- 					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
- 						// Inserta columnas de evaluaciones
- 						out.print("<th class='text-center' width='2%' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");
- 					}
- 				}			// "+cicloPromedio.getValor()+"%   // <fmt:message key='aca.Puntos'/>
- 				// Inserta columna del promedio de las evaluaciones
- 				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'>"+cicloPromedio.getCorto()+"</th>");
- %>				 --%>
-<%-- 				<th class='text-center' width='2%' title='<%= cicloPromedio.getValor() %>%'><fmt:message key='aca.Puntos'/></th> --%>
-<%-- <%				
- 			}
- 			if (lisPromedio.size() > 1){
- 				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");
- 			}
- 			out.print("<th class='text-center' width='2%'><fmt:message key='aca.Actualizar'/></th>");
- %>			 --%>
-<!-- 			</tr> -->
-<!-- 			</thead> -->
-
-<%-- 		<% 
- 			int row = 0;
- 			for (aca.vista.AlumnoCurso alumCurso: lisAlumnoCurso) {
- 				row++;
-				
- 				aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
- 				// Si el alumno tiene el curso
- 				if (mapCurso.containsKey(alumCurso.getCursoId())){
- 					curso = mapCurso.get(alumCurso.getCursoId());		
- 				}    
- %> --%>
-<!-- 			<tr>  -->
-<%-- 		    	<td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td> --%>
-<%-- 		    	<td width="20%"><%=curso.getCursoNombre()%></td> --%>
-<%-- <% 
- 				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
- 					int evalCerradas = 0;
- 					for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
- 						if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
-							
- 							// Nota del alumno en la evaluacion
- 							double notaEval = 0;
- 							if (mapEval.containsKey(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
- 								notaEval = Double.parseDouble(mapEval.get(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
- 							}
- 							// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
- 							String estadoEval = "A";
- 							String nombreEval = "-";
- 							if (mapEvalCiclo.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
- 								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEstado();
- 								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
- 							}
- 							// Color de la evaluacion
- 							String colorEval = "color:blue;";
- 							if (estadoEval.equals("C")){
- 								evalCerradas++;
- 								colorEval = "color:black;";
- 							}
-							
- 							// Formato de la evaluacion
- 							String notaFormato = formato0.format(notaEval);
- 							if (cicloBloque.getDecimales().equals("1")) 
- 								notaFormato = formato1.format(notaEval);
-							
- 							// Inserta columnas de evaluaciones (Habilitado para modificar aunque este cerrado el bimestre)
- 							if(estadoEval.equals("A") || estadoEval.equals("C")){
-<%-- %> --%>
-<%-- 							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>						 --%>
-<%-- 								<%= notaFormato %>								 --%>
-<!-- 							</td> -->
-<%-- <%						 
- 							}else{
- %> --%>
-<%-- 							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'><%= notaFormato %></td> --%>
-<%-- <%	 
- 							}
- 						}
- 					}
-			
- 					// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
- 					double promEval = 0; 
- 					if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
- 						promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
- 					}
-				
- 					// Puntos del promedio
- 					double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
-					
- 					// Formato del promedio y los puntos (decimales usados)
- 					String promFormato		= formato1.format(promEval);
- 					String puntosFormato	= formato1.format(puntosEval);
-					if (cicloPromedio.getDecimales().equals("0")){
- 						promFormato 		= formato0.format(promEval);
- 						puntosFormato 		= formato0.format(puntosEval);
- 					}else if (cicloPromedio.getDecimales().equals("2")){
- 						promFormato 		= formato2.format(promEval);
- 						puntosFormato 		= formato2.format(puntosEval);
- 					}	
-					
- 					// Color del promedio
- 					String colorProm = "color:blue;";
- 					if (evalCerradas>0 && evalCerradas == lisBloque.size()){
-						colorProm = "color:black;";
- 					}
- 					evalcerradas = evalCerradas; 
- 					// Inserta columna del promedio de las evaluaciones
- 					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
-					
- 					// Inserta columna de los puntos
- 					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
- 				}
- 				if (lisPromedio.size() > 1){
- 					out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
- 				}
- 				if (evalcerradas>0 && evalcerradas == lisBloque.size()){
-<%-- %>				 --%>
-<!-- 				<td> -->
-<%-- 					<a href="notasMetodo.jsp?Accion=1&CursoId=<%=alumCurso.getCursoId()%>&CicloGrupoId=<%=cicloGrupoId %>&CodigoAlumno=<%=codigoAlumno %>&EvaluacionId=0" class="btn btn-primary btn-mini"> --%>
-<!-- 						<i class="icon-refresh icon-white"></i> -->
-<!-- 					</a> -->
-<!-- 				</td> -->
-
-<%-- 		<% 
- 				}else{
- %> --%>
-<!-- 				<td> -->
-<!-- 					<i class="icon-refresh icon-white"></i>					 -->
-<!-- 				</td>							 -->
-<%-- <%				} 
- 				evalcerradas = 0;
- 			}
- 			out.print("</tr>");
- 			out.print("<td colspan='2'>Promedio General:</td>");
-			
- 			double promCiclo 	= 0;
- 			int numProm 		= 0;
- 			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-				
- 				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
- 					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
-						double sumaEval = 0;
- 						if (mapEvalSumaTot.containsKey(cicloGrupoId+cicloBloque.getBloqueId())){
- 							sumaEval = Double.parseDouble(mapEvalSumaTot.get(cicloGrupoId+cicloBloque.getBloqueId()));
- 						}
- 						double cuentaEval = 0;
- 						if (mapEvalCuentaTot.containsKey(cicloGrupoId+cicloBloque.getBloqueId())){
- 							cuentaEval = Double.parseDouble(mapEvalCuentaTot.get(cicloGrupoId+cicloBloque.getBloqueId()));
- 						}
- 						double promEval = 0;
- 						if (cuentaEval>0 && sumaEval>0){
- 							promEval = sumaEval/cuentaEval;
- 							numProm++;
- 							promCiclo += promEval;
- 						}
- 						// Inserta columnas de evaluaciones
- 						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
- 					}
- 				}
-				
- 				if (numProm > 0) promCiclo = promCiclo / numProm;
- 				// Inserta columna del promedio de las evaluaciones
- 				out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
- 			}
- 			// Completa las columnas del renglon de promedio  
- 			out.print("<td colspan='20'></td>");
- %>			 --%>
-<!-- 		</table> -->
 
 <table class="table table-condensed table-striped table-bordered table-condensed">
 			<thead>
-			<th width="40%" rowspan="2">Asignatura</th>
-			<th width="20%" align="center" colspan="<%=lisBloque.size()%>">Calificación Trimestre</th>
-			<th width="10%">Promedio Acumulado</th>
-			<th width="30%">Asistencia y tardanzas Trimestre</th>
-			</tr>
-			<tr>
-<!-- 			    <th width="20%">Asignatura</th> -->
-				
+				<tr>
+					<th width="40%" rowspan="2">Asignatura</th>
+					<th width="20%" align="center" colspan="<%=lisBloque.size()%>">Calificación Trimestre</th>
+					<th width="10%">Promedio Acumulado</th>
+					<th width="30%" colspan="<%=lisBloque.size()+1%>">Asistencia y tardanzas Trimestre</th>
+				</tr>
+				<tr>
 <%
-			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+						
+					for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+						if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
+							// Inserta columnas de evaluaciones
+							out.print("<th class='text-center' width='2%' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");
+						}
+					}
+					// Inserta columna del promedio de las evaluaciones
+					out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'></th>");
+				}
+				if (lisPromedio.size() > 1){
+					out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");
+				}
+		
+				//segundo recorrido para insertar las ausencias y tardanzas del tromestre			
+				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 					
-				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
-					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
-						// Inserta columnas de evaluaciones
-						out.print("<th class='text-center' width='2%' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");
+					for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+						if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
+							// Inserta columnas de evaluaciones
+							out.print("<th class='text-center' colspan='2' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");
+						}
 					}
 				}
-				// Inserta columna del promedio de las evaluaciones
-				out.print("<th class='text-center' width='2%' title='"+cicloPromedio.getNombre()+"'></th>");
-			}
-			if (lisPromedio.size() > 1){
-				out.print("<th class='text-center' width='2%'><fmt:message key='aca.Nota'/></th>");
-			}
-			
-			
-			
-			
-			//segundo recorrido para insertar las ausencias y tardanzas del tromestre			
-			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-				
-				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
-					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
-						// Inserta columnas de evaluaciones
-						out.print("<th class='text-center' title='"+cicloBloque.getBloqueNombre()+"'>"+cicloBloque.getCorto()+"</th>");
-					}
-				}
-			}
-			//inserta total para las ausencias y tardanzas
-			out.print("<th class='text-center' >Total</th>");
-			
-			
+				//inserta total para las ausencias y tardanzas
+				out.print("<th class='text-center' colspan='2' >Total</th>");	
 %>			
-
-			</tr>
-			<tr>
-				<th></th>
-				<th colspan="<%=lisBloque.size()%>"></th>
-				<th></th>
-				
-				<%
-			//segundo recorrido para insertar las ausencias y tardanzas del tromestre			
-			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-				
-				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
-					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
-						// Inserta columnas de evaluaciones
-						out.print("<th class='text-center' >A T</th>");
+				</tr>
+				<tr>
+					<th></th>
+					<th colspan="<%=lisBloque.size()%>"></th>
+					<th></th>				
+<%
+				//segundo recorrido para insertar las ausencias y tardanzas del tromestre			
+				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
+					
+					for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+						if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
+							// Inserta columnas de asistencia y tardanza
+	 						out.print("<th >A</th><th>T</th>");
+						}
 					}
 				}
-			}
-				
-			//inserta total para las ausencias y tardanzas
-			out.print("<th class='text-center' >A T</th>");
-%>			
-				
-				
-			</tr>
-
-			
+					
+				//inserta total para las ausencias y tardanzas
+				out.print("<th class='text-center' >A</th>");
+				out.print("<th class='text-center' >T</th>");
+%>				
+				</tr>
 			</thead>
-		<%
+<%
+			int entra = 0;
 			int row = 0;
 			for (aca.vista.AlumnoCurso alumCurso: lisAlumnoCurso) {
 				row++;
@@ -527,60 +321,40 @@
 					evalcerradas = evalCerradas; 
 					// Inserta columna del promedio de las evaluaciones
 					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
-					
-					
-					
-				//Segundo recorrido para insertar ausencias y tardanzas	
-					for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
-						if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
-							
-							// Nota del alumno en la evaluacion
-							double notaEval = 0;
-							if (mapEval.containsKey(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-								notaEval = Double.parseDouble(mapEval.get(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
-							}
-							// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
-							String estadoEval = "A";
-							String nombreEval = "-";
-							if (mapEvalCiclo.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEstado();
-								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
-							}
-							// Color de la evaluacion
-							String colorEval = "color:blue;";
-							if (estadoEval.equals("C")){
-								evalCerradas++;
-								colorEval = "color:black;";
-							}
-							
-							// Formato de la evaluacion
-							String notaFormato = formato0.format(notaEval);
-							if (cicloBloque.getDecimales().equals("1")) 
-								notaFormato = formato1.format(notaEval);
-							
-							// Inserta columnas de evaluaciones (Habilitado para modificar aunque este cerrado el bimestre)
-							if(estadoEval.equals("A") || estadoEval.equals("C")){
+	
+					if(entra < 1){
+					//Segundo recorrido para insertar ausencias y tardanzas	
+						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
+						
+// 						System.out.println("CODIGO ALUMNO : "+codigoAlumno+" CICLO GRUPO : "+cicloGrupoId);		
 %>
 							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>						
-								<%= notaFormato %>								
+								<%= aca.kardex.KrdxAlumFalta.faltasPorCiclo(conElias, codigoAlumno, cicloGrupoId, cicloBloque.getBloqueId()) %>					
 							</td>
-<%						
-							}else{
-%>
-							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'><%= notaFormato %></td>
+							<td class='text-center' width='1%' title='<%=cicloBloque.getValor()%>' style='"+colorEval+"'>						
+								<%= aca.kardex.KrdxAlumFalta.tardanzasPorCiclo(conElias, codigoAlumno, cicloGrupoId, cicloBloque.getBloqueId()) %>					
+							</td>
 <%	
-							}
-						}
+						}				    
+					// Inserta columna total de ausencias 					
+%>
+					<td class='text-center' width='1%' title='Total ausencias' style='"+colorEval+"'>						
+						<%=   aca.kardex.KrdxAlumFalta.totalfaltas(conElias, codigoAlumno, cicloGrupoId) %>					
+					</td>
+<%
+					//Inserta columna total de  tardanzas
+%>
+					<td class='text-center' width='1%' title='Total tardanzas' style='"+colorEval+"'>						
+						<%=aca.kardex.KrdxAlumFalta.totalTardanzas(conElias, codigoAlumno, cicloGrupoId) %>					
+					</td>
+<%	
 					}
-// 					// Inserta columna total de asistencias y tardanzas
-					out.print("<td class='text-center' title='' style='"+colorProm+"'>"+promFormato+"</td>");
 					
 				}
-
+				entra++;
 				evalcerradas = 0;
 			}
 			out.print("</tr>");
-// 			out.print("<td colspan='2'>Promedio General:</td>");
 			out.print("<td >Promedio General:</td>");
 			
 			double promCiclo 	= 0;
@@ -619,24 +393,28 @@
 <!-- 		SEGUNDA TABLA PARA EVALUAR HABITOS Y ACTITUDES -->
 		<table class="table-condensed">
 			<thead>
+			<tr>
 				<th width="33%" align="left">Hábitos y Actitudes</th>
 				<th width="22%" align="center" colspan="<%=lisBloque.size()%>"></th>
 				<th width="8%"></th>
 				<th width="33%"></th>
+			</tr>
 			</thead>
 		<%
 			int row2 = 0;
-			for (aca.vista.AlumnoCurso alumCurso: lisAlumnoCurso) {
+// 			for (aca.vista.AlumnoCurso alumCurso: lisAlumnoCurso) {
+			for (aca.catalogo.CatAspectos aspecto : lisAspectos) {
 				row2++;
 				
-				aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
+// 				aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
+				
 				// Si el alumno tiene el curso
-				if (mapCurso.containsKey(alumCurso.getCursoId())){
-					curso = mapCurso.get(alumCurso.getCursoId());		
-				}    
+// 				if (mapCurso.containsKey(alumCurso.getCursoId())){
+// 					curso = mapCurso.get(alumCurso.getCursoId());		
+// 				}    
 %>
 			<tr> 
-		    	<td width="20%"><%=curso.getCursoNombre()%></td>
+		    	<td width="20%"><%=aspecto.getNombre()%></td>
 <%
 				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 					int evalCerradas = 0;
@@ -645,16 +423,16 @@
 							
 							// Nota del alumno en la evaluacion
 							double notaEval = 0;
-							if (mapEval.containsKey(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-								notaEval = Double.parseDouble(mapEval.get(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
-							}
+// 							if (mapEval.containsKey(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
+// 								notaEval = Double.parseDouble(mapEval.get(codigoAlumno+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
+// 							}
 							// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
 							String estadoEval = "A";
 							String nombreEval = "-";
-							if (mapEvalCiclo.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEstado();
-								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
-							}
+// 							if (mapEvalCiclo.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
+// 								estadoEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEstado();
+// 								nombreEval 	= mapEvalCiclo.get(cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getEvaluacionNombre();
+// 							}
 							// Color de la evaluacion
 							String colorEval = "color:blue;";
 							if (estadoEval.equals("C")){
@@ -684,9 +462,9 @@
 					
 					// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
 					double promEval = 0; 
-					if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
-						promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
-					}
+// 					if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
+// 						promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
+// 					}
 					
 					// Puntos del promedio
 					double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
@@ -712,22 +490,18 @@
 					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
 					
 				}
-
-
-
-
 				evalcerradas = 0;
 			}
-			out.print("</tr>");
-	
+			out.print("</tr>");	
 %>			
 		</table>
 		<br>
-		
 		<table class="table-condensed ">
 			<thead>
+			<tr>
 				<th align="left" width="75%" colspan="2">Observaciones</th>
 				<th width="25%" align="center">Hábitos y Actitudes se clasifican así:</th>
+			</tr>
 			</thead>
 			<tr>
 				<td width="4%">I</td>
@@ -745,27 +519,22 @@
 				<td>X= Deficiente</td>
 			</tr>
 		</table>
-		
-		
-
 	</form>
 	<br><br><br><br>
 	<div class="row">
 		<div class="span1"  style="align:center;"></div>
-		<div class="span5 signatures"  style="align:center;">
-			<center>
+		<div class="span5 signatures"  style="text-align:center;">
 			<br>
 			<%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE") %>
 			<br>
-			PROF. TITULAR</center>
+			PROF. TITULAR
 		</div>
 
-		<div class="span5 signatures" style="margin-left:20px;">
-			<center>
+		<div class="span5 signatures" style="text-align:center;">
 			<br>
 			<%=aca.empleado.EmpPersonal.getNombre(conElias, nivel.getDirector(conElias, escuelaId, Grupo.getNivelId()), "NOMBRE")%>
 			<br>
-			DIRECTOR (A)</center>
+			DIRECTOR (A)
 		</div>
 		
 		<style>
