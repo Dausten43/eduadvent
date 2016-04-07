@@ -95,7 +95,7 @@
 			BecAlum.setBeca(request.getParameter("Beca"));
 			BecAlum.setTipo(request.getParameter("Tipo"));
 			BecAlum.setUsuario(usuario);
-			
+			conElias.setAutoCommit(false);
 			if (BecAlum.existeRegBeca(conElias)){
 				// Modificar				
 				BecAlum.setBecaId(BecAlum.getBecaId(conElias, cicloId, periodoId, codigoAlumno, request.getParameter("EntidadId"), cuentaId));
@@ -110,6 +110,7 @@
 					conElias.commit();
 				}
 			}
+			conElias.setAutoCommit(true);
 			break;
 		}
 		case 2: { // Consultar
@@ -120,12 +121,14 @@
 			break;
 		}
 		case 3: { // Borrar
+			conElias.setAutoCommit(false);
 			BecAlum.setBecaId(request.getParameter("BecaId"));
 			if (BecAlum.existeReg(conElias)){
 				if (BecAlum.deleteReg(conElias)){
 					conElias.commit();
 				}
 			}
+			conElias.setAutoCommit(true);
 			break;
 			
 		}
