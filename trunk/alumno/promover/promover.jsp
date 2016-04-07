@@ -147,7 +147,7 @@
 		}
 		
 		/* END TRANSACTION */
-		conElias.setAutoCommit(false);
+		conElias.setAutoCommit(true);
 		
 	}
 	
