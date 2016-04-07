@@ -19,6 +19,7 @@
 	String cicloId		= request.getParameter("ciclo");
 	String resultado	= "";
 	String codigoAlumno = (String) session.getAttribute("codigoAlumno");
+	String salto		= "X";
 	
 	int accion 			= request.getParameter("Accion")==null?0:Integer.parseInt(request.getParameter("Accion"));
 	
@@ -36,7 +37,7 @@
             cicloGrupoArchivop.setAlumnos(cicloGrupoArchivop.getAlumnos().replaceFirst(codigoAlumno+"_N", codigoAlumno));
             cicloGrupoArchivop.updateRegAlumnos(conElias);
             session.setAttribute("archivo", buffer);
-			response.sendRedirect("../../bajar?nombre="+cicloGrupoArchivop.getNombre());
+			salto = "../../bajar?nombre="+cicloGrupoArchivop.getNombre();
 		}break;
 	}
 	// TO_DATE(FECHA, 'DD/MM/YYYY HH24:MI:SS')
@@ -107,4 +108,7 @@
 %>
 </table>
 </body>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

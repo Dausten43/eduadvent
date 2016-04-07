@@ -37,6 +37,7 @@
 	String sResultado		= "";
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String documentoId  	= documentoId = request.getParameter("DocumentoId");
+	String salto			= "X";
 	
 	
 	if(documentoId==null){
@@ -83,7 +84,7 @@
 				if (Doc.deleteReg(conElias)){
 					sResultado = "Eliminado";
 					conElias.commit();
-					response.sendRedirect("documento.jsp");
+					salto = "documento.jsp";
 				}else{
 					sResultado = "NoElimino ";
 				}	
@@ -145,4 +146,7 @@
 	</form>
 	
 </div>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

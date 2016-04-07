@@ -12,6 +12,7 @@
 	String ruta 			= application.getRealPath("/datos_alumno/fotocredencial/")+"/";
 	String nombre 			= "";
 	String dir				= application.getRealPath("/WEB-INF/fotos/"+codigoAlumno+".jpg");
+	String salto			= "X";
 	
 	boolean guardo = false;	
 	try{	
@@ -47,7 +48,10 @@
 <%
 	}
 	if (guardo){
-		response.sendRedirect("datos.jsp");
+		salto = "datos.jsp";
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_enoc.jsp" %>

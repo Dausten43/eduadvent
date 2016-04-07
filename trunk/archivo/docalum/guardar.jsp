@@ -14,6 +14,7 @@
 	String hoja			= request.getParameter("Hoja");
 	String nombre		= "";	
 	String ruta 		= application.getRealPath("/archivo/docalum/")+"/";		
+	String salto		= "X";
 	
 	boolean guardo = false;	
 	
@@ -65,7 +66,10 @@
 <%
 	}
 	if (guardo){ 
-		response.sendRedirect("docalum.jsp");
+		salto = "docalum.jsp";
 	}
 %>
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias_dir.jsp" %>

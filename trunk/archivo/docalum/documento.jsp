@@ -26,6 +26,7 @@
 	String documento 	= request.getParameter("documentoId")==null?"0":request.getParameter("documentoId");
 	String usuario 		= (String) session.getAttribute("codigoId");	
 	String tipoCodigo 	= request.getParameter("tipo");	
+	String salto		= "X";
 	int accion 			= request.getParameter("Accion") == null ?0: Integer.parseInt(request.getParameter("Accion"));
 	
 	String nivelAlumno  = aca.alumno.AlumPersonal.getNivel(conElias, codigoId)+"";
@@ -76,7 +77,7 @@
 			if (docA.existeReg(conElias) == true) {
 				if (docA.deleteReg(conElias)) {
 					Resultado = "Eliminado";					
-					response.sendRedirect("docalum.jsp");
+					salto = "docalum.jsp";
 				} else {
 					Resultado = "NoElimino";
 				}
@@ -156,5 +157,7 @@
 <script>
 	$('#fecha').datepicker();
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>

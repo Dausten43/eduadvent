@@ -56,6 +56,7 @@
 	int accion 			    = request.getParameter("Accion")==null?0:Integer.parseInt(request.getParameter("Accion"));
 	
 	String resultado		= "";
+	String salto			= "X";
 	
 	
 	if (accion == 1){ 
@@ -98,14 +99,14 @@
 					if(cicloGrupoActividad.existeReg(conElias) == false){//Grabar
 						if(cicloGrupoActividad.insertReg(conElias)){
 							resultado = "Guardado";
-							response.sendRedirect("metodo.jsp");
+							salto = "metodo.jsp";
 						}else{
 							resultado = "NoGuardo";
 						}
 					}else{//Modificar
 						if(cicloGrupoActividad.updateReg(conElias)){
 							resultado = "Modificado";
-							response.sendRedirect("metodo.jsp");
+							salto = "metodo.jsp";
 						}else{
 							resultado = "NoModifico";
 						}
@@ -142,7 +143,7 @@
 				if(cicloGrupoActividad.deleteReg(conElias)){
 					conElias.commit();
 					resultado = "Eliminado";
-					response.sendRedirect("metodo.jsp");
+					salto = "metodo.jsp";
 				}else{
 					resultado = "ErrorBorrar";
 				}
@@ -303,5 +304,7 @@
 	});
 	
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>

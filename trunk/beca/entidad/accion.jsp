@@ -41,6 +41,7 @@
 	String entidadId	= request.getParameter("EntidadId");
 	int nAccion			= Integer.parseInt(request.getParameter("Accion"));
 	String sResultado	= "";	
+	String salto		= "X";
 		
 	if ( nAccion != 1 && nAccion != 2 ){
 		Entidad.setEntidadId(entidadId);
@@ -96,7 +97,7 @@
 			if (Entidad.existeReg(conElias) == true){
 				if (Entidad.deleteReg(conElias)){
 					sResultado = "Eliminado";
-					response.sendRedirect("entidad.jsp");			
+					salto = "entidad.jsp";			
 				}else{
 					sResultado = "NoBorroEntidad";
 				}	
@@ -175,5 +176,7 @@
 		</div>
 	</form>
 </div>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>
