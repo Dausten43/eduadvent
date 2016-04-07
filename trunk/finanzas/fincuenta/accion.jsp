@@ -80,7 +80,8 @@
 			Cuenta.setBeca(request.getParameter("Beca"));
 			Cuenta.setTipo(tipo);
 			Cuenta.setCuentaSunPlus(request.getParameter("SunPlus"));
-			Cuenta.setPagoInicial(request.getParameter("PagoInicial"));			
+			Cuenta.setPagoInicial(request.getParameter("PagoInicial"));	
+			conElias.setAutoCommit(false);
 			if (Cuenta.existeReg(conElias) == false){
 				if (Cuenta.insertReg(conElias)){
 					resultado = "Guardado";
@@ -96,11 +97,11 @@
 					resultado = "NoModifico";
 				}
 			}
-			
+			conElias.setAutoCommit(true);
 			break;
 		}
 		case 4: { // Borrar		
-			
+			conElias.setAutoCommit(false);
 			if (Cuenta.existeReg(conElias) == true){				
 				if(!aca.fin.FinCosto.existeSoloCuenta(conElias, Cuenta.getCuentaId()) && !aca.fin.FinMovimientos.existeCuentaId(conElias, Cuenta.getCuentaId())){					
 					if (Cuenta.deleteReg(conElias)){						
@@ -115,7 +116,7 @@
 			}else{
 				resultado = "NoElimino";
 			}
-			
+			conElias.setAutoCommit(true);
 			break;
 			
 		}
