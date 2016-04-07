@@ -101,7 +101,8 @@
 				resultado = "NoModifico";
 			}
 		}
-	
+		costoId = "0";
+
 	}else if(accion.equals("2")){	// Situar todo para modificar		
 		
 		finCosto.mapeaRegId(conElias, cicloId, costoId);
@@ -136,13 +137,13 @@
 
 	<h2><fmt:message key="aca.CostosEnsenanza" /></h2>
 	
-	<% if (resultado.equals("Eliminado") || resultado.equals("Modificado") || resultado.equals("Guardado")){%>
+	<% if (resultado.equals("Modificado") || resultado.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!resultado.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
   	<%} %>
 			
-	<form id="forma" name="forma" method="post">
+	<form action="tabla.jsp" id="forma" name="forma" method="post">
 		
 		<input type="hidden" name="Accion" />
 		<input name="costo" type="hidden" value="<%=costoId%>">
