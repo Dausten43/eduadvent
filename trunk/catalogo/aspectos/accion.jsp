@@ -4,12 +4,10 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-
 <jsp:useBean id="CatAspectos" scope="page" class="aca.catalogo.CatAspectos"/>
 <jsp:useBean id="CatAreaU" scope="page" class="aca.catalogo.CatAreaLista"/>
 <jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 <jsp:useBean id="nivelU" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
-
 
 <head>
 
