@@ -35,7 +35,7 @@
 <html>
 	<head>
 		<link href="../../css/academico.css" rel="STYLESHEET" type="text/css">
-		<script language="javascript" type="text/javascript">
+		<script type="javascript" type="text/javascript">
 		
 			function Nuevo(){	
 				document.frmPersonal.Nombre.value			= "";
@@ -194,7 +194,7 @@
 			existeAlumno 	= false;
 			existePlan 		= false;
 		%>
-			<script language="JavaScript" type="text/javascript">
+			<script type="JavaScript" type="text/javascript">
 				parent.document.getElementById("CodigoAlumno").value = "<%=Personal.maximoReg(conElias,escuela) %>";
 			</script>
 		<%
@@ -250,7 +250,7 @@
 						conElias.rollback();
 					}				
 				%>
-					<script language="JavaScript" type="text/javascript">
+					<script type="JavaScript" type="text/javascript">
 						window.parent.document.location = window.parent.document.location;
 					</script>
 				<%
@@ -412,7 +412,7 @@
 	}
 	
 	if(Personal.existeReg(conElias) || nAccion == 1 || nAccion == 2 || nAccion == 3 || nAccion == 6){%>
-		<script language="javascript" type="text/javascript">
+		<script type="javascript" type="text/javascript">
 			function credencial(){
 				abrirVentana("credencial",405,285,0,0,"no","yes","no","no","no","credencial.jsp");
 			}
