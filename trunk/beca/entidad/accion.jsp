@@ -51,6 +51,7 @@
 	switch (nAccion){
 		
 		case 2: { // Grabar
+			conElias.setAutoCommit(false);
 			Entidad.setEntidadId(Entidad.maximoReg(conElias));
 			Entidad.setEntidadNombre(request.getParameter("EntidadNombre"));
 			Entidad.setReferente(request.getParameter("Referente"));
@@ -69,10 +70,11 @@
 			}else{
 				sResultado = "YaExisteEntidad";
 			}
-			
+			conElias.setAutoCommit(true);
 			break;
 		}
 		case 3: { // Modificar
+			conElias.setAutoCommit(false);
 			Entidad.setEntidadId(entidadId);
 			Entidad.mapeaRegId(conElias, entidadId);
 			Entidad.setEntidadNombre(request.getParameter("EntidadNombre"));
@@ -91,9 +93,12 @@
 			}else{
 				sResultado = "NoExisteEntidad";
 			}
+			conElias.setAutoCommit(true);
 			break;
+			
 		}
 		case 4: { // Borrar
+			conElias.setAutoCommit(false);
 			if (Entidad.existeReg(conElias) == true){
 				if (Entidad.deleteReg(conElias)){
 					sResultado = "Eliminado";
@@ -104,7 +109,9 @@
 			}else{
 				sResultado = "NoExisteEntidad";
 			}
+			conElias.setAutoCommit(true);
 			break;
+			
 		}
 		case 5: { // Consultar			
 			if (Entidad.existeReg(conElias) == true){
