@@ -961,6 +961,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 	//TREEMAP DE LOS PROMEDIOS DE LOS ALUMNOS EN LA MATERIA (de la vista de alum_prom)
 	treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
 	
+	planCurso.mapeaRegId(conElias, cursoId);
 %>
 
 <!--  ********************************************** HTML MARKUP **********************************************  -->
@@ -1017,7 +1018,19 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 	for (aca.ciclo.CicloPromedio promedio : lisPromedio){
 %>
 	<div class="alert alert-info">
-		<fmt:message key="aca.Estrategia" />: [ <%= promedio.getNombre() %> ] &nbsp;&nbsp; <fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>]
+		<fmt:message key="aca.Estrategia" />: [ <%= promedio.getNombre() %> ] &nbsp;&nbsp;
+		<fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>] &nbsp;
+<%		
+		if (planCurso.getAspectos().equals("S")){
+			if (nivelEvaluacion.equals("P")){
+%>		
+		<a class="btn btn-mobile btn-success btn-mini" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=promedio.getPromedioId()%>">
+			<i class="icon-star icon-white"></i>
+		</a>
+<%		 	
+			}
+		}	
+%>		
 	</div>
 		
 	<table class="table table-condensed table-bordered table-striped">
@@ -1032,7 +1045,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 					<th style="width:1%;"></th>
 				</tr>
 			</thead>
-			<%				
+			<%
 				for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
 					if (eval.getPromedioId().equals(promedio.getPromedioId())){
 						cont++;
@@ -1053,6 +1066,17 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 		 							<%=eval.getEvaluacionNombre() %>
 		 						<%}%>
 		 					<%}%>
+<%		
+							if (planCurso.getAspectos().equals("S")){
+								if (nivelEvaluacion.equals("E")){
+%>		
+							<a class="btn btn-mobile btn-success btn-mini" href="evaluarActitudes.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=eval.getPromedioId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
+								<i class="icon-star icon-white"></i>
+							</a>
+<%		 	
+								}
+							}	
+%>		 					
 						</td>
 						<td class="text-center"><%=eval.getFecha()%></td>
 						<td class="text-center"><%=eval.getValor()%>%</td>
@@ -1091,10 +1115,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 			<%}%>
 	</table>
 <%	} %>	
-<!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->
-	<%
-		planCurso.mapeaRegId(conElias, cursoId);
-	%>
+<!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->	
 	<div class="well text-center" style="overflow:visible;">
 	<%
 		if (planCurso.getFalta().equals("S")) {
