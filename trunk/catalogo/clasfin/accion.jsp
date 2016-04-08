@@ -7,7 +7,7 @@
 <jsp:useBean id="clasificacion" scope="page"
 	class="aca.catalogo.CatClasFin" />
 <head>
-<script language="javascript">
+<script type="javascript">
 	function Nuevo() {
 		document.frmClas.ClasfinId.value = " ";
 		document.frmClas.ClasfinNombre.value = " ";
