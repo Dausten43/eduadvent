@@ -9,7 +9,7 @@
 <jsp:useBean id="Empleado" scope="page" class="aca.empleado.EmpPersonal"/>
 <jsp:useBean id="EmpleadoLista" scope="page" class="aca.empleado.EmpPersonalLista"/>
 <head>
-	<script language="javascript">
+	<script type="javascript">
 	
 		function materias(empleadoId,cicloId){
 			document.location.href="materias.jsp?EmpleadoId="+empleadoId+"&CicloId="+cicloId;

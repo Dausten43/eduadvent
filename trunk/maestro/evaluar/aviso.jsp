@@ -15,7 +15,7 @@
 <jsp:useBean id="PadresAviso" scope="page" class="aca.ciclo.CicloGrupoAviso"/>
 <jsp:useBean id="cicloGrupoAvisoLista" scope="page" class="aca.ciclo.CicloGrupoAvisoLista"/>
 <head>
-<script language="Javascript">
+<script type="Javascript">
 	
 	function Guardar(){
 		if(document.forma.Aviso.value != ""){
