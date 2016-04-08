@@ -4,7 +4,7 @@
 <%@ include file= "../../head.jsp" %>
 
 <jsp:useBean id="contTipo" scope="page" class="aca.cont.ContTipo"></jsp:useBean>
-<script language="javascript">
+<script type="javascript">
 
 	function Nuevo()	{		
 		document.frmTipo.Id.value 		= " ";
