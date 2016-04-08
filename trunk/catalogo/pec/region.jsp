@@ -7,7 +7,7 @@
 <jsp:useBean id="EstadoLista" scope="page" class="aca.catalogo.CatEstadoLista"/>
 <jsp:useBean id="RegionL" scope="page" class="aca.catalogo.CatRegionLista"/>
 <head>
-<script language="javascript">
+<script type="javascript">
 	function Borrar( regionId, PaisId ){
 		if(confirm("<fmt:message key="js.Confirma" />")==true){
 	  		document.location="accion_r.jsp?Accion=4&RegionId="+regionId+"&PaisId="+PaisId;
