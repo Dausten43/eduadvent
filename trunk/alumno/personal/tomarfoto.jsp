@@ -13,7 +13,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<link href="../../academico.css" rel="STYLESHEET" type="text/css">	
 	<script type="text/javascript" src="../../js/webcam.js"></script>
-	<script language="JavaScript">
+	<script type="JavaScript">
         webcam.set_api_url( 'upload.jsp' );
         webcam.set_quality( 100 ); // JPEG quality (1 - 100)
         webcam.set_shutter_sound( true ); // play shutter click sound
@@ -53,7 +53,7 @@
             <div id="marco" align="center" style="width:400px; height:500px; margin-top:1em;-moz-border-radius:12px; background-color:#ddd;text-align:center;padding-top:20px;margin-bottom:1em;">
           	  <div align="center" id="cuadro" style="position:relative; left:20; width:360px; height:480px; overflow:hidden;">
 	      		<div id="webcam" style="position:relative; left: -140px;">
-		  		  <script language="JavaScript">
+		  		  <script type="JavaScript">
 	        		document.write( webcam.get_html(640, 480) );
 		  		  </script>
 		  		</div>
