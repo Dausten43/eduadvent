@@ -12,7 +12,7 @@
 
 <head>
 
-<script language="javascript">
+<script type="javascript">
 	function Nuevo() {
 		document.frmReporte.TipoId.value = "";
 		document.frmReporte.Fecha.value = "";

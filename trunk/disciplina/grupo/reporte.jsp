@@ -20,7 +20,7 @@
 <jsp:useBean id="NivelU" scope="page" class="aca.catalogo.CatNivelLista" />
 
 <head>
-<script language="javascript">
+<script type="javascript">
 	function MostrarDatos() {
 		document.frmReporte.submit();
 	}
