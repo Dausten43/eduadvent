@@ -6,7 +6,7 @@
 
 <jsp:useBean id="reporte" scope="page" class="aca.cond.CondTipoReporte" />
 <head>
-<script language="javascript">
+<script type="javascript">
 	
 	function Grabar() {
 
