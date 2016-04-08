@@ -9,7 +9,7 @@
 <head>
 <head>
 	<script src='../../js/jquery-1.7.1.min.js'></script>
-	<script language="javascript">
+	<script type="javascript">
 		
 		function Grabar(){
 			if(document.forma.Nivel.value!="" 
