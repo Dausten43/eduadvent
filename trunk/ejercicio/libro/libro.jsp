@@ -9,7 +9,7 @@
 	lisLibro 					= LibroLista.getListAll(conElias," ORDER BY LIBRO_NOMBRE");
 %>
 <head>
-	<script language="javascript">
+	<script type="javascript">
 		function Borrar( LibroId ){
 			if(confirm("Estas seguro de eliminar el registro: "+LibroId)==true){
 		  		document.location="accion.jsp?Accion=3&LibroId="+LibroId;
