@@ -12,6 +12,6 @@
 	<fmt:setLocale value="en" scope="session"/>
 <%}else{%>
 	<fmt:setLocale value="es" scope="session"/>
-<%} %>	
+<%} %>
 	
 <fmt:setBundle basename="aca.idioma.messages"/>
