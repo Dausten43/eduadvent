@@ -187,9 +187,9 @@
     <td align="center"><%=ejer.getEjercicioNombre() %></td>    
     <td align="center"><%=ejer.getEstado() %></td>
     </tr>
-  <%
+<%
 	}	
-	//lisEjercicio			= null;
+
 %>
 </table>
 </body>
