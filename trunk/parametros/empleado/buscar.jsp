@@ -3,31 +3,31 @@
 <%@ include file= "../../seguro.jsp" %>
 <%@ include file= "../../head.jsp" %>
 
-<%if(((String)session.getAttribute("codigoId")).contains("E") || ((String)session.getAttribute("codigoId")).equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){ %>
-
 <jsp:useBean id="empleado" scope="page" class="aca.empleado.EmpPersonal"/>
 <jsp:useBean id="empleadoLista" scope="page" class="aca.empleado.EmpPersonalLista"/>
 <jsp:useBean id="modulo" scope="page" class="aca.menu.Modulo"/>
 <jsp:useBean id="moduloOpcion" scope="page" class="aca.menu.ModuloOpcion"/>
 
 <%
-	String escuelaId	= (String) session.getAttribute("escuela");
-
+	String escuelaId		= (String) session.getAttribute("escuela");
 	String idJspOrigen		= (String) session.getAttribute("idJsp");
+	
 	String origen			= "";	
 	String carpeta 			= "";
 	String menu 			= "";
 	String salto			= "X";
 	
-	//Obtiene la opción del menu que mando llamar la busqueda
-	moduloOpcion.setOpcionId(idJspOrigen);
-	if (moduloOpcion.existeOpcion(conElias)){
-		moduloOpcion.mapeaRegId(conElias, idJspOrigen);
-		modulo.mapeaRegId(conElias, moduloOpcion.getModuloId());
-		origen 		= modulo.getUrl()+moduloOpcion.getUrl();
-		menu		= modulo.getModuloId();
-		carpeta 	= modulo.getUrl();
-	}	
+	if(((String)session.getAttribute("codigoId")).contains("E") || ((String)session.getAttribute("codigoId")).equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){
+
+		//Obtiene la opción del menu que mando llamar la busqueda
+		moduloOpcion.setOpcionId(idJspOrigen);
+		if (moduloOpcion.existeOpcion(conElias)){
+			moduloOpcion.mapeaRegId(conElias, idJspOrigen);
+			modulo.mapeaRegId(conElias, moduloOpcion.getModuloId());
+			origen 		= modulo.getUrl()+moduloOpcion.getUrl();
+			menu		= modulo.getModuloId();
+			carpeta 	= modulo.getUrl();
+		}
 %>
 <head>
 	<script language="javascript">
@@ -212,10 +212,10 @@
 </table>
 </body>
 <%
-	lisEmpleado 	= null;
+		lisEmpleado 	= null;
 %>
 
-<%} %>
+<%	} %>
 <% 	if (!salto.equals("X")){%>
 		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
 <% 	}%>
