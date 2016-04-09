@@ -51,16 +51,16 @@
 %>
 
 <div id="content">
-	<h2><fmt:message key="aca.Alumnos" /></h2>
-	
-	<div class="alert alert-info">
-		<h4>
+	<h3><fmt:message key="aca.Alumnos" />
+		<small>(
 			<%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId())%> |
-			<%=aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(Grupo.getGrado()))%> <%=Grupo.getGrupo()%>
-		</h4> 
-		<strong><fmt:message key="aca.Maestro" />:</strong> <%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE")%>
+			<%=aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(Grupo.getGrado()))%> <%=Grupo.getGrupo()%> |
+			<strong><fmt:message key="aca.Maestro"/>:</strong> <%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE")%> )
+		</small>
+	</h3>
+	<div class="well"> 
+		<a class="btn btn-primary" href="cursos.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
-	<br>
 	<%if(Resultado.equals("1")){ %>
 	<div class="alert alert-info">Los Datos han sido Modificados Correctamente</div>
 	<%}else if(Resultado.equals("2")){ %>
@@ -68,9 +68,7 @@
 	<%} else if(Resultado.equals("3")){ %>
 	<div class="alert alert-danger">Ya existe el registro</div>
 	<%} %>
-	<div class="well"> 
-		<a class="btn btn-primary" href="cursos.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-	</div>
+	
 	<form action="lista.jsp?accion=1&CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>" method="post" name="forma" target="_self">
 	<table class="table table-striped table-bordered table-condensed">
 		<thead>
