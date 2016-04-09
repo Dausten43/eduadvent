@@ -333,7 +333,7 @@
 		
 		if (FinCalculoDet.existeReg(conElias)){
 			if(FinCalculoDet.deleteReg(conElias)){
-				System.out.println("Antes de verificar los pagos:"+aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno));
+				//System.out.println("Antes de verificar los pagos:"+aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno));
 				// Si tiene pagos
 				if (aca.fin.FinCalculoPago.numPagosAlumno(conElias, cicloId, periodoId, codigoAlumno) > 0){
 					if (aca.fin.FinCalculoPago.deletePagosAlumno(conElias, cicloId, periodoId, codigoAlumno)){
@@ -656,8 +656,7 @@
 	FinCalculo.setCodigoId(codigoAlumno);
 	if (FinCalculo.existeReg(conElias)){
 		FinCalculo.mapeaRegId(conElias, cicloId, periodoId, codigoAlumno);
-	} 
-	
+	}	
 %>
 <div id="content">
 
@@ -667,10 +666,20 @@
 	</div>
 	<%}else{ %>
 
-	<h2>
+	<h3>
 		<fmt:message key="aca.CalculoDeCobro" />
-		<small><%=codigoAlumno%> | <%=nombreAlumno%></small>
-	</h2>
+		<small>
+		( <%=codigoAlumno%> | <%=nombreAlumno%> ) |
+		<strong><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></strong> |&nbsp;
+		<strong><%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(grado))%>|&nbsp; "<%=grupo%>"</strong>] &nbsp;
+		<fmt:message key="aca.ClasificacionFin" />
+		: [<strong><%=aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, clasFin)  %></strong>]
+		&nbsp;
+		<fmt:message key="aca.Saldo" />
+		: [<strong><%=formato.format(aca.fin.FinMovimiento.saldoAlumno(conElias, codigoAlumno, aca.util.Fecha.getHoy()))%></strong>]
+		&nbsp;
+		</small>
+	</h3>
 
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
 	<div class='alert alert-success'>
@@ -707,22 +716,7 @@
 			<fmt:message key="aca.Fecha" />
 			:&nbsp; <input name="Fecha" class="input-medium" type="text"
 				id="Fecha" value="<%=fecha%>" style="margin: 0;">
-		</div>
-
-		<div class="alert alert-info">
-			<fmt:message key="aca.Plan" />
-			: [<strong><%=aca.plan.Plan.getNombrePlan(conElias, planId)%></strong>]
-			&nbsp;
-			<fmt:message key="aca.Grado" />
-			: [<strong><%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(grado))%>
-				"<%=grupo%>"</strong>] &nbsp;
-			<fmt:message key="aca.ClasificacionFin" />
-			: [<strong><%=aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, clasFin)  %></strong>]
-			&nbsp;
-			<fmt:message key="aca.Saldo" />
-			: [<strong><%=formato.format(aca.fin.FinMovimiento.saldoAlumno(conElias, codigoAlumno, aca.util.Fecha.getHoy()))%></strong>]
-			&nbsp;
-		</div>
+		</div>	
 
 		<div>
 			<div class="alert alert-success">
