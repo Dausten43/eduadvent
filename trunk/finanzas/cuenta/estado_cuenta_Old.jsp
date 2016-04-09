@@ -77,7 +77,7 @@
 	alumPersonal.mapeaRegId(conElias, codigoId);
 %>
 <head>
-<script language="JavaScript" type="text/javascript" src="../../js/popcalendar.js"></script>
+<script type="JavaScript" type="text/javascript" src="../../js/popcalendar.js"></script>
 <script type="text/javascript">
 	function revisa(){
 		if(document.forma.descripcion.value != "" &&
