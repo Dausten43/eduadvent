@@ -1,0 +1,259 @@
+
+/* ====================== CUSTOMISATIONS ===================== */
+
+.ui-page{
+	background-color: #fff !important;
+}
+
+
+/* ---- HEADER ---- */
+
+.ui-header{
+	background: #268fc0 !important;
+}
+
+.ui-header h1{
+	color: white;
+	text-shadow: none !important;
+	font-weight: 100;
+}
+
+.ui-select>div{
+	background: #E6E6E6 !important;
+	color: black !important;
+}
+
+.ui-select{
+	margin:0 !important;
+}
+
+/* ---- MENU ---- */
+
+.ui-panel {
+	background: #1e272c !important;
+}
+
+.ui-panel-inner{
+	margin: 0;
+	padding: 0;
+}
+
+.menuPrincipal{
+	padding: 0;
+	margin: 0;
+}
+
+.menuPrincipal li{
+	list-style: none;
+	text-align: center;
+	padding: 17px;
+}
+
+.menuPrincipal li a{
+	text-decoration: none;
+	color: #61717A !important;
+	text-shadow: none !important;
+}
+
+.menuPrincipal li a.selected{
+	color: #fff !important;
+}
+
+.menuPrincipal li i{
+	display: block;
+	font-size: 30px;
+}
+
+.menuPrincipal li span{
+	font-size: 13px;
+	font-weight: 500;
+	margin-top: 10px;
+	display:block;
+}
+
+.ui-panel-wrapper{
+	margin: 0 !important;
+}
+
+/* ---- LOGIN ---- */
+
+.IniciarSesion{
+	color: white;
+	font-size: 32px;
+	text-decoration: none;
+	font-weight: 300;
+	text-shadow: none !important;
+}
+
+.SistemaAcademico{
+	color: white;
+	font-size: 15px;
+	font-weight: 100;
+	text-decoration: none;
+	text-shadow: none !important;
+}
+
+.login-form{
+	margin: 0 20px;
+}
+
+.ui-input-text{
+	-webkit-border-radius: 0px !important;
+	border-radius: 0px !important;
+	border-color: #ddd !important;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.07) !important;
+}
+
+.ui-input-text input{
+	font-weight: 100 !important;
+	background: #fff !important;
+	padding: 13px;
+	font-size: 18px;
+	color: #333 !important;
+}
+
+.login-form{
+	margin: 0 20px;
+}
+
+.ui-btn{
+	-webkit-border-radius: 0px !important;
+	border-radius: 0px !important;
+	background: #1e272c !important;
+	color: white !important;
+	text-shadow: none !important;
+	border: none !important;
+	font-weight: 100 !important;
+	font-size: 22px;
+	margin-top: 40px;
+}
+
+.ui-content{
+	padding: 0 !important;
+}
+
+/* ---- INICIO ---- */
+
+.inicio-header{
+	padding: 40px 30px 30px 30px;
+	background: #268fc0;
+}
+
+.nombreAlumno{
+	margin-top: 20px;
+	color: white !important;
+	text-shadow: none !important;
+	font-weight: 100 !important;
+	font-size: 26px;
+	text-transform: lowercase;
+}
+
+.nombreAlumno div{
+	display: inline-block;
+}
+
+.nombreAlumno div:first-letter {
+    text-transform: uppercase;
+}
+
+.nombreCarrera{
+	margin-top: 10px;
+	color: white !important;
+	text-shadow: none !important;
+	font-weight: 100 !important;
+	font-size: 12px;
+}
+
+.ui-collapsible-set{
+	margin: 0;
+}
+
+.informacionPersonal ul{
+	padding-left: 0px;
+	margin:0;
+}
+.informacionPersonal ul li{
+	list-style: none;
+	padding: 27px;
+	border-bottom: 1px solid #ddd;
+}
+
+
+/* ---- INICIO ---- */
+
+.ui-listview{
+	margin: 0 !important;	
+}
+
+.ui-listview li .ui-btn {
+	background: transparent !important;
+	color: black !important;
+	border-bottom: 1px solid #ddd !important;
+}
+
+.ui-listview li .ui-btn h5{
+	font-size: 16px;
+}
+
+.ui-listview li .ui-btn small{
+	font-size: 12px;	
+}
+
+/* ---- VERTICAL LIST ---- */
+
+.vertical-list{
+	padding: 0;
+	margin: 0;
+}
+
+.vertical-list li{
+	width: 33.33333333%;
+	float: left;
+	text-align: center;
+	font-size: 30px;
+	border-right: 1px solid #ddd !important;
+	border-bottom: 1px solid #ddd !important;
+	padding: 30px;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box; 
+	list-style: none;
+}
+
+.two-columns li{
+	width: 50% !important;
+	font-size: 19px;
+} 
+
+.vertical-list li:last-child{
+	/*border-right: 0px !important;*/
+}
+
+.vertical-list li small{
+	font-size: 11px;
+	display: block;
+}
+
+/* ---- HORARIO (COLAPSABLE) ---- */
+
+.ui-collapsible .ui-btn {
+	background: transparent !important;
+	color: black !important;
+	border-bottom: 1px solid #ddd !important;
+}
+
+.ui-collapsible-content{
+	padding: 0 !important;
+}
+
+/* ---- HORARIO (COLAPSABLE) ---- */
+
+.ui-responsive th{
+	border-bottom: 1px solid #ddd;
+	background: #E6E6E6 !important;
+}
+
+/* ----------- CUMPLEA�OS ---------- */
+
+
+
