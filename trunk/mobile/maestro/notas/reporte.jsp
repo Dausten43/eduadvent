@@ -15,7 +15,7 @@
 <jsp:useBean id="CicloBloqueLista" scope="page" class="aca.ciclo.CicloBloqueLista" />
 
 <head>
-<script language="javascript">
+<script type="javascript">
 		function materias(empleadoId,cicloId, nivelId, numMat){
 			document.location.href="repMaterias.jsp?EmpleadoId="+empleadoId+"&CicloId="+cicloId+"&NivelId="+nivelId+"&NumMateria="+numMat;
 		}
