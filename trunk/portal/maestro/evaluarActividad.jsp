@@ -72,6 +72,7 @@
 	
 	String redondeo			= aca.ciclo.Ciclo.getRedondeo(conElias, cicloId);
 	String decimales		= aca.ciclo.Ciclo.getDecimales(conElias, cicloId);
+	String calculaPromedio  = aca.ciclo.CicloBloque.getCalculo(conElias, cicloId, evaluacionId);
 	
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
@@ -150,15 +151,22 @@
 			
 			lisKrdxActiv = krdxAlumActivL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacionId, "ORDER BY ALUM_APELLIDO(CODIGO_ID), ACTIVIDAD_ID");
 		
-			for(aca.kardex.KrdxCursoAct krdxCursoAct: lisKardexAlumnos){ 
+			for(aca.kardex.KrdxCursoAct krdxCursoAct: lisKardexAlumnos){ 				
 				
 				//double valorActividadesTotal = 0;
 				BigDecimal valorActividadesTotal = new BigDecimal("0");
-				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
-					for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
-							//valorActividadesTotal += Double.parseDouble( cicloGrupoActividad.getValor() );
-							valorActividadesTotal = valorActividadesTotal.add( new BigDecimal(cicloGrupoActividad.getValor()) );
+				
+				// Coloca el mismo valor a todas las actividades 
+				if (calculaPromedio.equals("P")){
+					valorActividadesTotal = valorActividadesTotal.add( new BigDecimal("5") );
+				// Busca el valor de las actividades
+				}else{
+					for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
+						for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
+							if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
+								//valorActividadesTotal += Double.parseDouble( cicloGrupoActividad.getValor() );
+								valorActividadesTotal = valorActividadesTotal.add( new BigDecimal(cicloGrupoActividad.getValor()) );
+							}
 						}
 					}
 				}
