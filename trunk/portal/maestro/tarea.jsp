@@ -14,7 +14,7 @@
 	String modulo 			= request.getParameter("ModuloId");
 	String temaId			= request.getParameter("TemaId")==null?"0":request.getParameter("TemaId");
 	String tareaId			= request.getParameter("Tarea");
-	
+	String salto 			= "X";
 	
 	
 	int numAccion 				= 0;	
