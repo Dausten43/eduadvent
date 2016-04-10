@@ -364,18 +364,11 @@
 		<table class="table table-condensed table-bordered table-striped"">
 			<thead>
 				<tr>
-					<td colspan="20" class="text-center alert">
-<%-- 						<fmt:message key="aca.ActivdadesDeCeroACien"/> --%>
-						  
+					<td colspan="20" class="text-center alert">											  
 						 Las actividades se evalúan de 0 a <%= escala %>
 						&nbsp;&nbsp;
-<!-- 						| -->
-						&nbsp;&nbsp;
-						
-<%-- 						<fmt:message key="aca.EvaluacionConEnteros" /> --%>
 					</td>
-				</tr>
-				
+				</tr>				
 				<tr>
 					<th class="text-center">#</th>
 					<th class="text-center"><fmt:message key="aca.Codigo"/></th>
@@ -387,8 +380,7 @@
 					%>
 							<th style="width:4%;" class="text-center" title="<%=cicloGrupoActividad.getActividadNombre() %>"><%=cont %></th>
 					<%
-						}
-						
+						}					
 						
 						String txtEscala=notaMinima+" a "+escala+", "+(evaluaConPunto.equals("S")?"Evaluación con punto decimal":"Evaluación con enteros");
 					%>
