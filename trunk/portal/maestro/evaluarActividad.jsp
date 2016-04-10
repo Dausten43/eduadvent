@@ -70,6 +70,9 @@
 	String estado			= request.getParameter("estado")==null?"":request.getParameter("estado");
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
+	String redondeo			= aca.ciclo.Ciclo.getRedondeo(conElias, cicloId);
+	String decimales		= aca.ciclo.Ciclo.getDecimales(conElias, cicloId);
+	
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
 	
@@ -78,9 +81,7 @@
 	float notaAC 				= Float.parseFloat(aca.plan.PlanCurso.getNotaAC(conElias, cursoId)); /* La nota con la que se acredita el cursoId */	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	float notaMinima			= Float.parseFloat(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId )); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */
-	if (escala == 100){ //Si la escala es 100, entonces la nota minima debe multiplicarse por 10, por ejemplo en vez de 5 que sea 50
-		notaMinima = notaMinima * 10;	
-	}
+	
 	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
@@ -176,13 +177,16 @@
 				}
 				
 				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
-				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) ); 
-				
-				//--------COMPROBAR SI LA ESCALA ES 10----------
-				
-				if( escala == 10 ){
-					/* Convirtiendo la escala de 100 a 10 (ya que las actividades se evaluan de 0 a 100) */
-					promedioActividades = promedioActividades.divide(new BigDecimal("10"), 1, RoundingMode.DOWN);
+				//promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+				if(decimales.equals("0")){
+					promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+				}else if(decimales.equals("1")){
+					promedioActividades = new BigDecimal( frmDecimal.format(promedioActividades) );
+					if(redondeo.equals("A") ){
+						promedioActividades = promedioActividades.setScale(2, BigDecimal.ROUND_HALF_UP);
+					}else{
+						promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+					}
 				}
 				
 				//--------COMPROBAR SI TIENEN PUNTO DECIMAL----------
