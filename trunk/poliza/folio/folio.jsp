@@ -18,7 +18,7 @@
 <html>
 
 <head>
-<script language="javascript">
+<script type="javascript">
 			
 	function Guardar() {
 		var rIni = document.formFolio.reciboInicial.value;

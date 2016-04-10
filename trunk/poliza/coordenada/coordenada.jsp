@@ -6,7 +6,7 @@
 
 <jsp:useBean id="Coordenada" scope="page" class="aca.fin.FinCoordenada" />
 <head>
-<script language="javascript">
+<script type="javascript">
 	function Grabar() {
 		if (document.forma.clienteX.value != ""
 				&& document.forma.clienteY.value != ""
