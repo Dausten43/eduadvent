@@ -6,8 +6,8 @@
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario"/>
 
 <head>
-<script language="JavaScript" type="text/javascript" src="js/prototype-min.js"></script>
-<script language="JavaScript" type="text/javascript">
+<script type="JavaScript" type="text/javascript" src="js/prototype-min.js"></script>
+<script type="JavaScript" type="text/javascript">
 
 	
 	
