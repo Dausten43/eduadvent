@@ -270,7 +270,7 @@
 	ArrayList<aca.ciclo.CicloGrupoEval> lisEvaluacion   = cicloGrupoEvalLista.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
 	
 	// Lista de promedios en el ciclo
-	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
+	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
 			
 	// Lista de evaluaciones o bloques en el ciclo
 	ArrayList<aca.ciclo.CicloBloque> lisBloque 			= CicloBloqueL.getListCiclo(conElias, cicloId, " ORDER BY BLOQUE_ID");
@@ -1033,7 +1033,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 %>		
 	</div>
 		
-	<table class="table table-condensed table-bordered table-striped">
+	<table class="table table-fullcondensed table-bordered table-striped table-fontsmall">
 			<thead>
 				<tr>
 					<th class="text-center">#</th>
@@ -1048,6 +1048,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 			<%
 				for (aca.ciclo.CicloGrupoEval eval : lisEvaluacion) {
 					if (eval.getPromedioId().equals(promedio.getPromedioId())){
+						valor = eval.getValor();
 						cont++;
 			%>
 					<tr>
