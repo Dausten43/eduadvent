@@ -1031,9 +1031,10 @@ public static int getTotalEmpleadosActivos(Connection conn, String escuelaId ) t
 		int numEmp			= 0;
 		
 		try{
-			comando = "SELECT COUNT(CODIGO_ID) AS RESULTADO FROM EMP_PERSONAL"+
-					" WHERE ESCUELA_ID IN ("+escuelas+")";		
-					
+			comando = " SELECT COUNT(CODIGO_ID) AS RESULTADO FROM EMP_PERSONAL"
+					+ " WHERE ESCUELA_ID IN ("+escuelas+")"
+					+ " AND SUBSTR(CODIGO_ID,4,1) = 'E'";
+			
 			rs = st.executeQuery(comando);
 			if (rs.next()){
 				numEmp = rs.getInt("RESULTADO");
