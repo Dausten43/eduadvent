@@ -6,7 +6,7 @@
 
 <jsp:useBean id="EstadoLista" scope="page" class="aca.catalogo.CatEstadoLista"/>
 <head>
-<script type="javascript">
+<script>
 	function Borrar( EstadoId, PaisId ){
 		if(confirm("<fmt:message key="js.Confirma" />")==true){
 	  		document.location="accion_e.jsp?Accion=4&EstadoId="+EstadoId+"&PaisId="+PaisId;
