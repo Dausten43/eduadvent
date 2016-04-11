@@ -13,7 +13,7 @@
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 
 <head>
-<script type="javascript">
+<script>
 	function materia(cicloGrupoId,cursoId){
 		document.location.href="materia.jsp?CicloGrupoId="+cicloGrupoId+"&CursoId="+cursoId;
 	}
