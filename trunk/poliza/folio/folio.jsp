@@ -105,7 +105,6 @@
 				}
 			}
 		}
-
 		
 		TreeMap<String, aca.fin.FinEjercicio> listaEjercicios = FinEjercicioLista.getTreePorEscuela(conElias, escuelaId, "ORDER BY YEAR");
 		ArrayList<aca.fin.FinFolio> listaFolios = FinFolioLista.getListEjercicio(conElias, ejercicioId, "ORDER BY EJERCICIO_ID ");
@@ -169,16 +168,14 @@
 					<div class="well" style="overflow: hidden;">
 						<a class="btn btn-primary" href="folio.jsp"	align="right"><i class="icon-remove icon-white"></i> Cancelar</a>
 						<%if(accion.equals("2")){%>
-						<a class="btn btn-primary" onclick="javascript:Editar();"><i class="icon-ok icon-white"></i> Guardar</a>	
+						<a href="javascript:Editar();" class="btn btn-primary"><i class="icon-ok icon-white"></i> Guardar</a>	
 						<%}else if(accion.equals("1")){ %>
-						<a class="btn btn-primary" onclick="javascript:Guardar();"><i class="icon-ok icon-white"></i> Guardar</a>
+						<a href="javascript:Guardar();" class="btn btn-primary"><i class="icon-ok icon-white"></i> Guardar</a>
 						<%} %>
-					</div>
-				
+					</div>				
 			<%
 				}
 			%>
-
 			
 			<font color="#AE2113"><%=resultado.equals("") ? "" : resultado%></font>
 			
