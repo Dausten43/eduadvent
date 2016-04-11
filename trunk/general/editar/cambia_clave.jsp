@@ -112,6 +112,6 @@
 	}
 </script>
 <% 	if (!salto.equals("X")){%>
-		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+		<meta http-equiv="refresh" content="1; url=<%=salto%>" />
 <% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>
