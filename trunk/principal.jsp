@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%@ page import="aca.menu.*"%>
-<%@ page buffer="5kb" autoFlush="true"%>
+<%@ page buffer="8kb" autoFlush="true"%>
 <%@ include file="con_elias.jsp"%>
 
 <jsp:useBean id="usuario2" scope="page" class="aca.usuario.Usuario"/>
