@@ -71,7 +71,7 @@
 	</style>
 </head>
 <body>
-<script type="javascript">
+<script>
 	var ie  = document.all;
 
 	function Browser() {
