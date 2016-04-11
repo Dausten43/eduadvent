@@ -5,7 +5,7 @@
 
 <jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivel"/>
 <head>
-	<script type="javascript">
+	<script>
 		
 		function Nuevo()	{		
 			document.frmNivel.NivelId.value 		= " ";
