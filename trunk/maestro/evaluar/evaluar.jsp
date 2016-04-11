@@ -268,7 +268,7 @@
 	ArrayList<aca.ciclo.CicloGrupoEval> lisEvaluacion 	= cicloGrupoEvalLista.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
 	
 	// Lista de promedios en el ciclo
-	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
+	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
 		
 	// Lista de evaluaciones o bloques en el ciclo
 	ArrayList<aca.ciclo.CicloBloque> lisBloque 			= CicloBloqueL.getListCiclo(conElias, cicloId, " ORDER BY BLOQUE_ID");
@@ -1044,6 +1044,7 @@
 				<th><fmt:message key="aca.Descripcion" /></th>
 				<th class="text-center"><fmt:message key="aca.Fecha" /></th>
 				<th class="text-center"><fmt:message key="aca.Valor" /></th>
+				<th class="text-center"><fmt:message key="aca.Decimal" /></th>
 				<th class="text-center"><fmt:message key="aca.Estado" /></th>
 				<th style="width:1%;"></th>
 			</tr>
@@ -1070,7 +1071,7 @@
 							<%=eval.getEvaluacionNombre()%>
 						</a> 
 						<%	}else{%>
-									<%=eval.getEvaluacionNombre() %>
+								<%=eval.getEvaluacionNombre() %>
 						<%	}%>
 						<%}%>
 <%		
@@ -1087,6 +1088,7 @@
 					</td>
 					<td class="text-center" style="padding:0px;"><%=eval.getFecha()%></td>
 					<td class="text-center" style="padding:0px;"><%=eval.getValor()%>%</td>
+					<td class="text-center"><%=aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, eval.getEvaluacionId())%></td>
 					<td class="text-center" style="padding:0px;">
 						<%if (eval.getEstado().equals("A")) {%>
 							<span class="label label-success"><fmt:message key="aca.Abierto" /></span>								
