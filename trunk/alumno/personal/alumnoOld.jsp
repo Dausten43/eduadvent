@@ -33,7 +33,7 @@
 	}
 %>
 <head>
-  <script type="javascript" type="text/javascript">
+  <script type="text/javascript">
   
 	function ConsultarAlumno(){				
 		document.frmPersonal.Accion.value="1";
@@ -224,7 +224,7 @@
 			existeAlumno 	= false;
 			existePlan 		= false;
 		%>
-			<script type="JavaScript" type="text/javascript">
+			<script type="text/javascript">
 				parent.document.getElementById("CodigoAlumno").value = "<%=Personal.maximoReg(conElias,escuelaId) %>";
 			</script>
 		<%
@@ -282,7 +282,7 @@
 						conElias.rollback();
 					}				
 				%>
-					<script type="JavaScript" type="text/javascript">
+					<script type="text/javascript">
 						window.parent.document.location = window.parent.document.location;
 					</script>
 				<%
@@ -479,7 +479,7 @@
 	
 		if(Personal.existeReg(conElias) || accion == 2 || accion == 3 || accion == 4 || accion == 7){
 %>
-	<script type="javascript" type="text/javascript">
+	<script type="text/javascript">
 		function credencial(){
 			abrirVentana("credencial",405,285,0,0,"no","yes","no","no","no","credencial.jsp");
 		}
