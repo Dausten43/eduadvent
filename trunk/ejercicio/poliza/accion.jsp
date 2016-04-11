@@ -81,7 +81,7 @@
 	}	
 %>
 <head>
-	<script type="javascript">
+	<script>
 		function grabar(){
 			if(document.forma.fecha.value != "" &&
 			  document.forma.descripcion.value != "" &&

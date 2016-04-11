@@ -64,7 +64,7 @@
 	lisPoliza = contPolizaL.getListEjercicioLibroCcosto(conElias, strEjercicioId, strLibroId, ccostoId, (Usuario.esAdministrador(conElias, codigoId)?"":"AND US_REVISION = '"+codigoId+"'")+" ORDER BY FECHA, POLIZA_ID");
 %>
 <head>
-	<script type="javascript">
+	<script>
 		function Borrar(ejercicioId, libroId, polizaId){
 			if(confirm("¿Estas seguro de eliminar el registro: "+polizaId+"?")){
 		  		document.location="cabecera.jsp?Accion=3&Ejercicio="+ejercicioId+"&Libro="+libroId+"&polizaId="+polizaId+"&ccostoId="+<%=ccostoId %>;

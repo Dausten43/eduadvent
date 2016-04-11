@@ -5,7 +5,7 @@
 
 <jsp:useBean id="Libro" scope="page" class="aca.cont.ContLibro"/>
 <head>
-	<script type="javascript">
+	<script>
 		
 		function Nuevo()	{		
 			document.frmLibro.LibroId.value 		= " ";
