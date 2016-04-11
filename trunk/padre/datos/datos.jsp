@@ -6,7 +6,7 @@
 
 <%@ page import= "aca.empleado.EmpPersonal"%>
 <head>
-	<script type="javascript">	
+	<script>	
 		function Consultar(){				
 			document.frmEmpleado.Accion.value="1";
 			document.frmEmpleado.submit();

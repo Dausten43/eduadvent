@@ -134,7 +134,7 @@
 			strTipo = "Nuevo";
 		
 %>
-	<script type="JavaScript" type="text/javascript">
+	<script type="text/javascript">
 		parent.document.getElementById("CodigoEmpleado").value = "<%=Personal.maximoRegEmp(conElias,escuela) %>";
 	</script>
 <%	
