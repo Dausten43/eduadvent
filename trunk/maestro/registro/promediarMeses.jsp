@@ -14,7 +14,7 @@
 <jsp:useBean id="kardexLista" scope="page" class="aca.kardex.KrdxCursoActLista"/>
 
 <head>
-<script type="javascript">
+<script>
 	function materia(cicloGrupoId,cursoId){
 		document.location.href="materia.jsp?CicloGrupoId="+cicloGrupoId+"&CursoId="+cursoId;
 	}
