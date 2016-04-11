@@ -30,7 +30,7 @@
 		}
 %>
 <head>
-	<script type="javascript">
+	<script>
 	
 		function Consultar(){
 			document.frmalumno.Accion.value="1";
