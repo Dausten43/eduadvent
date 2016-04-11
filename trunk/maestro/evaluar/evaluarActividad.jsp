@@ -305,7 +305,7 @@
 <div id="content">
 	
 	<h2>
-		<fmt:message key="aca.Actividades" />***
+		<fmt:message key="aca.Actividades" />
 		<small>
 		( <%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%> |
 		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> |
