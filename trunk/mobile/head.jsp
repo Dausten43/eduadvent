@@ -1,7 +1,7 @@
 <!doctype html>
 <%@page errorPage="../paginaerror.jsp"%>
 <%@ include file= "../idioma.jsp" %>
-<%@page buffer="32kb"%>
+<%@page buffer="8kb"%>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
