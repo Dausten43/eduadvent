@@ -68,7 +68,7 @@
 <%		}
 	}else if(lisAlumnos.size()==0){
 %>
-	<script type="javascript">
+	<script>
 		alert("¡<fmt:message key="aca.AlumnonoInscrito"/>!")
 	</script>
 <%		
