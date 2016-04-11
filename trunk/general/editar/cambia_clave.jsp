@@ -4,28 +4,24 @@
 <%@ include file= "../../menu.jsp" %>
 
 <%@ page import= "aca.menu.*"%>
-<% 
-
-	String strModulob		= request.getParameter("moduloId");
-	if (strModulob==null)strModulob="";
-	String noMuestres 		= request.getParameter("noMuestres");
-	String strCarpetab		= request.getParameter("carpeta");
-	String salto			= "X";
-	
-	ModuloOpcion opcionb = new ModuloOpcion();
-	Modulo modulob = new Modulo();
-	opcionb.mapeaRegId(conElias,idJsp);
-	modulob.mapeaRegId(conElias,opcionb.getModuloId());
-	
-%>
 <%@ page import= "sun.misc.BASE64Encoder"%>
 <%@ page import= "java.security.MessageDigest" %>
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario"/>
 
-
-<%
-	String codigoId	= (String) session.getAttribute("codigoId");
-	String accion 	= request.getParameter("Accion");
+<% 
+	String codigoId			= (String) session.getAttribute("codigoId");
+	String accion 			= request.getParameter("Accion");
+	String strModulob		= request.getParameter("moduloId")==null?"":request.getParameter("moduloId");
+	String noMuestres 		= request.getParameter("noMuestres");
+	String strCarpetab		= request.getParameter("carpeta");
+	String salto			= "X";
+	
+	ModuloOpcion opcionb 	= new ModuloOpcion();
+	Modulo modulob 			= new Modulo();
+	
+	opcionb.mapeaRegId(conElias,idJsp);
+	modulob.mapeaRegId(conElias,opcionb.getModuloId());
+	
 	String msj      = "";
 	
 	if(accion == null)
@@ -52,7 +48,7 @@
 		    String claveDigest = (new BASE64Encoder()).encode(raw);
 			usuario.setClave(claveDigest);
 			if(usuario.updateReg(conElias)){
-				salto = "inicial.jsp";
+				salto = "../inicio/index.jsp";
 				//msj = "<div class='alert alert-success'><button class='close' data-dismiss='alert'>&times;</button> Se Actualizo tu Contraseña Correctamente</div>";
 				msj = "ActualizoPass";
 			}else{
@@ -81,9 +77,7 @@
 	<fieldset>
 		<div class="control-group ">
 	    	<label for="cuenta"><fmt:message key="aca.Cuenta" /><span class="required-indicator">*</span></label>
-	        <input type="text" id="cuenta" name="cuenta" value="<%=usuario.getCuenta()%>" <% if (codigoId.substring(3, 4).equals("E") == false){ out.print("readonly");}%>/>
-			
-		
+	        <input type="text" id="cuenta" name="cuenta" value="<%=usuario.getCuenta()%>" <% if (codigoId.substring(3, 4).equals("E") == false){ out.print("readonly");}%>/>	
 		</div>
 		<div class="control-group ">
 	    	<label for="nombre"><fmt:message key="pass.Pass" /><span class="required-indicator">*</span></label>
