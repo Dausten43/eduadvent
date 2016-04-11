@@ -1,4 +1,4 @@
-<%@ page buffer="32kb" autoFlush="true" %>
+<%@ page buffer="8kb" autoFlush="true" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="aca.menu.*"%>
 <%@ page import="java.util.ArrayList"%>
