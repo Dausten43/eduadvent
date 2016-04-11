@@ -6,7 +6,7 @@
 
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
-<script type="javascript">
+<script>
 	function recarga(){
 		document.frmEscuela.submit();
 	}
