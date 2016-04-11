@@ -9,7 +9,7 @@
 <jsp:useBean id="cicloGrupoLista" scope="page"
 	class="aca.ciclo.CicloGrupoLista" />
 <head>
-<script type="javascript">
+<script>
 	function cambiaCiclo() {
 		document.frmCiclo.action = "grupo.jsp";
 		document.frmCiclo.Accion.value = "1";
