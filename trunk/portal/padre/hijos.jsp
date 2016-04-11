@@ -12,7 +12,7 @@
 <html>
 <head>
 <script type="text/javascript" src="jquery-1.5.2.min.js"></script>
-<script type="JavaScript">
+<script>
 $(document).ready(function() {
 	
     $(".tabs .tab[id^=tab_menu]").hover(function() {
