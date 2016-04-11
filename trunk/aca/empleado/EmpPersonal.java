@@ -1003,8 +1003,10 @@ public static int getTotalEmpleadosActivos(Connection conn, String escuelaId ) t
 		int numAlum			= 0;
 		
 		try{
-			comando = "SELECT COUNT(CODIGO_ID) AS RESULTADO FROM EMP_PERSONAL"+
-					" WHERE ESCUELA_ID = '"+escuelaId+"' AND ESTADO = 'A'";		
+			comando = " SELECT COUNT(CODIGO_ID) AS RESULTADO FROM EMP_PERSONAL"
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
+					+ " AND ESTADO = 'A'"
+					+ " AND SUBSTR(CODIGO_ID, 4,1) = 'E'";
 					
 			rs = st.executeQuery(comando);
 			if (rs.next()){
