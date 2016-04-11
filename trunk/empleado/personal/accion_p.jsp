@@ -52,7 +52,7 @@
 	String codPers		= "";
 	boolean existe 		= false;
 %>
-	<script type="javascript">
+	<script>
 		
 		function Nuevo(){	
 			document.frmPersonal.Accion.value			="1";
@@ -159,7 +159,7 @@
 			Personal.setSsocial(request.getParameter("Ssocial"));
 			strTipo = "Nuevo";
 %>
-	<script type="JavaScript" type="text/javascript">
+	<script type="text/javascript">
 		parent.document.getElementById("CodigoEmpleado").value = "<%=Personal.maximoRegEmp(conElias,escuela) %>";
 	</script>
 <%
@@ -370,7 +370,7 @@
 	if(Personal.existeReg(conElias) || nAccion == 1 || nAccion == 2 || nAccion == 3){
 %>
 <head>
-<script type="javascript" type="text/javascript">
+<script type="text/javascript">
 	function credencial(){
 		abrirVentana("credencial",405,285,0,0,"no","yes","no","no","no","credencial.jsp");
 	}
