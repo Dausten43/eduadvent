@@ -444,19 +444,22 @@
 						<%
 							}//End for evaluaciones
 							
-							
-							//Calcula el promedio de la evaluacion de 0 a 100
-							//double valorActividadesTotal = 0;
 							BigDecimal valorActividadesTotal = new BigDecimal("0");
-							for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
-								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
-										//valorActividadesTotal += Double.parseDouble( cicloGrupoActividad.getValor() );
-										valorActividadesTotal = valorActividadesTotal.add( new BigDecimal(cicloGrupoActividad.getValor()) );
+							
+							// Coloca el mismo valor a todas las actividades 
+							if (calculaPromedio.equals("P")){
+								valorActividadesTotal = valorActividadesTotal.add( new BigDecimal("5") );
+							// Busca el valor de las actividades
+							}else{
+								for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
+									for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
+										if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
+											//valorActividadesTotal += Double.parseDouble( cicloGrupoActividad.getValor() );
+											valorActividadesTotal = valorActividadesTotal.add( new BigDecimal(cicloGrupoActividad.getValor()) );
+										}
 									}
 								}
 							}
-							
 							//float promedioActividades = 0f;
 							BigDecimal promedioActividades = new BigDecimal("0");
 							for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
