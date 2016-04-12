@@ -523,7 +523,7 @@ public class FinCosto {
             	" WHERE FCD.CICLO_ID = ?" +
             	" AND FCD.PERIODO_ID = TO_NUMBER(?, '99')"+
             	" AND FCD.CUENTA_ID = ?" +
-            	" AND FC.CLASFIN_ID = ?" +
+            	" AND FC.CLASFIN_ID = TO_NUMBER(?,'99')" +
             	" AND FC.PLAN_ID = ?" +
             	" AND FC.CICLO_ID = FCD.CICLO_ID" +
             	" AND FC.PERIODO_ID = FCD.PERIODO_ID");
