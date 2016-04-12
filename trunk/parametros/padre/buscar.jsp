@@ -17,6 +17,7 @@
 	String origen			= "";	
 	String carpeta 			= "";
 	String menu 			= "";
+	String salto 			= "X";
 	
 	//Obtiene la opción del menu que mando llamar la busqueda
 	moduloOpcion.setOpcionId(idJspOrigen);
@@ -62,10 +63,9 @@
 	</script>
 </head>
 <%
-	ArrayList lisEmpleado	 	= new ArrayList();
+	ArrayList lisEmpleado	= new ArrayList();
 		
-	String sAccion			= request.getParameter("Accion");
-	if (sAccion == null) sAccion = "0";
+	String sAccion			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	int nAccion 			= Integer.parseInt(sAccion);
 	String strResultado		= "Elija la opción de Consulta";
 	String strBgcolor			= "";
