@@ -160,9 +160,10 @@
 				
 				//double valorActividadesTotal = 0;
 				BigDecimal valorActividadesTotal = new BigDecimal("0");
-				
+				System.out.println("Calculo:"+calculaPromedio);
 				// Coloca el mismo valor a todas las actividades 
 				if (calculaPromedio.equals("P")){
+					System.out.println("Entre a promedios..!");
 					valorActividadesTotal = valorActividadesTotal.add( new BigDecimal("5") );
 				// Busca el valor de las actividades
 				}else{
@@ -176,6 +177,7 @@
 					}
 				}
 				
+				System.out.println("Valores:"+valorActividadesTotal);
 				
 				//float promedioActividades = 0f;
 				BigDecimal promedioActividades = new BigDecimal("0");
@@ -189,6 +191,7 @@
 						}
 					}
 				}
+				System.out.println("Valores:"+valorActividadesTotal);
 				
 				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
 // 				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
@@ -202,7 +205,7 @@
 						promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
 					}
 				}
-				
+				System.out.println("promedioActividades:"+promedioActividades);
 				
 				//--------COMPROBAR SI LA ESCALA ES 5----------				
 // 				if( escala == 5 ){
@@ -347,7 +350,14 @@
 						<%} %>
 					</td>
 					<td><%=cicloGrupoActividad.getFecha() %></td>
-					<td><%=cicloGrupoActividad.getValor() %></td>
+					<td>
+					<%	if (calculaPromedio.equals("V")){
+							out.print(cicloGrupoActividad.getValor());
+						}else{
+							out.print("Promedia");
+						}
+					%>
+					</td>
 				</tr>
 		<%
 			}
