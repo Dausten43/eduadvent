@@ -327,7 +327,14 @@
 						<%} %>
 					</td>
 					<td><%=cicloGrupoActividad.getFecha() %></td>
-					<td><%=cicloGrupoActividad.getValor() %></td>
+					<td>
+					<%	if (calculaPromedio.equals("V")){
+							out.print(cicloGrupoActividad.getValor());
+						}else{
+							out.print("Promedia");
+						}
+					%>
+					</td>
 					<td>0</td>
 				</tr>
 		<%
