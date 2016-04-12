@@ -202,7 +202,8 @@
 	  	</a>
 		</td>
   	</tr>	
-<%  		session.setAttribute("codigoEmpleado", empleado.getCodigoId());
+<%  		
+			session.setAttribute("codigoEmpleado", empleado.getCodigoId());
 			session.setAttribute("codigoReciente", empleado.getCodigoId());
 			strResultado = "Registrado en tú sesión: "+empleado.getCodigoId();
 			if( !origen.equals("X") && !carpeta.equals("X"))
