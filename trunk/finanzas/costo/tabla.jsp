@@ -4,7 +4,6 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-
 <jsp:useBean id="cicloL" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="cicloPeriodoL" scope="page" class="aca.ciclo.CicloPeriodoLista"/>
 <jsp:useBean id="nivelL" scope="page" class="aca.catalogo.CatNivelLista"/>
@@ -64,19 +63,20 @@
 		}	
 	}
 	
-	
-	
 	String accion		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String resultado 	= "";
 	
 	if(accion.equals("1")){	//	Guardar
-
-		if(costoId.equals("0")){
+		//System.out.println("Datos:"+cicloId+":"+periodoId+":"+planId+":"+cuentaId+":"+clasFin);
+		if(costoId.equals("0") ){
 			finCosto.setCostoId(finCosto.maxReg(conElias, cicloId));
+			//System.out.println("Maximo");
 		}else{
+			finCosto.setCostoId(costoId);
 			finCosto.mapeaRegId(conElias, cicloId, costoId);
+			//System.out.println("Mapea:"+costoId);
 		}
-	
+		
 		finCosto.setCicloId(cicloId);
 		finCosto.setPeriodoId(periodoId);		
 		finCosto.setPlanId(planId);
