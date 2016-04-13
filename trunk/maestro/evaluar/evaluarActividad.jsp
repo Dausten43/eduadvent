@@ -209,10 +209,8 @@
 						promedioActividades = new BigDecimal( frmDecimal1.format(promedioActividades) );
 					}
 				}
-				System.out.println("promedioActividades:"+promedioActividades);
 				
-				//--------COMPROBAR SI TIENEN PUNTO DECIMAL----------
-				
+				//--------COMPROBAR SI TIENEN PUNTO DECIMAL----------				
 				if(decimales.equals("0")){
 					/* Si tiene una nota reprobatoria entonces el redondeo es hacia abajo, por ejemplo: (5.9 a 5) (5.6 a 5) (4.9 a 4)  */
 					if( promedioActividades.compareTo( new BigDecimal(notaAC) ) == -1 ){// promedioActividades<notaAC
@@ -410,11 +408,14 @@
 								String strNota = "-";
 								
 								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(activ.getActividadId())){					
-										strNota = frmDecimal1.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(activ.getActividadId())){
+										if (decimales.equals("0")){
+											strNota = frmEntero.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+										}else{
+											strNota = frmDecimal1.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+										}										
 									}
 								}
-
 						%>
 						
 								<td class="text-center">
@@ -462,7 +463,6 @@
 								}
 							}								
 							
-							System.out.println("Valor Actividades:"+valorActividadesTotal);
 							//float promedioActividades = 0f;
 							BigDecimal promedioActividades = new BigDecimal("0");
 							for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
