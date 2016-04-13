@@ -644,11 +644,9 @@
 			}
 		}	
 			
-	}
-		
+	}		
 	
-	pageContext.setAttribute("resultado", msj);
-	
+	pageContext.setAttribute("resultado", msj);	
 	
 	// Actualiza FinCalculo
 	FinCalculo.setCicloId(cicloId);
@@ -888,20 +886,18 @@
 			</table>
 
 		</div>
-		<input name="InicialPagos" type="hidden" id="InicialPagos"
-			value="<%=totalPagoInicial%>"> <input name="InicialContado"
-			type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
-		<input name="Importe" type="hidden" id="Importe"
-			value="<%=totalImporteTotal%>">
+		<input name="InicialPagos" type="hidden" id="InicialPagos" value="<%=totalPagoInicial%>"> 
+		<input name="InicialContado" type="hidden" id="InicialContado" value="<%=totalPagoInicial%>">
+		<input name="Importe" type="hidden" id="Importe" value="<%=totalImporteTotal%>">
 
 		<%	if(!lisDetalles.isEmpty() && ( FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")) && (tipoPago.equals("P")) ){ %>
 
 		<div class="alert alert-success">
 			<h4>
 				<fmt:message key="aca.FechasPagos" />
-				&nbsp;&nbsp; <a id="Todos" onclick="javascript:Todos();"
-					class="btn btn-mini">Todos</a>&nbsp; <a id="Ninguno"
-					onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
+				&nbsp;&nbsp; 
+				<a id="Todos" onclick="javascript:Todos();" class="btn btn-mini">Todos</a>&nbsp;
+				<a id="Ninguno" onclick="javascript:Ninguno();" class="btn btn-mini">Ninguno</a>&nbsp;
 			</h4>
 		</div>
 		<table class="table table-bordered table-striped table-condensed">
@@ -935,7 +931,7 @@
 				<td><%=pago.getFecha() %></td>
 				<td><%=pago.getDescripcion() %></td>
 				<td><%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%></td>
-				<td><%=importe %></td>
+				<td><%=formato.format(importe)%></td>
 			</tr>
 			<%			cont++;
 		} 
