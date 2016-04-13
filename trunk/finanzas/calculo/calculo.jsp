@@ -955,7 +955,7 @@
 			<%}%>
 	<%	}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){ %>
 
-			<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')" target="_blank">
+			<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')">
 				<i class="icon-print icon-white"></i>
 				<fmt:message key="boton.Imprimir" />
 			</a>
