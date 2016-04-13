@@ -925,15 +925,15 @@
 		%>
 			<tr>
 				<td><%=cont %></td>
-				<td><input class="checkbox-pagos" type="checkbox"
-					name="fechaCobro<%=pago.getPagoId() %>"
-					value="<%=pago.getPagoId() %>" <%=checked%>></td>
+				<td>
+					<input class="checkbox-pagos" type="checkbox" name="fechaCobro<%=pago.getPagoId() %>" value="<%=pago.getPagoId() %>" <%=checked%>>
+				</td>
 				<td><%=pago.getFecha() %></td>
 				<td><%=pago.getDescripcion() %></td>
 				<td><%=pago.getTipo().equals("I")?"Inicial":"Ordinario"%></td>
 				<td><%=formato.format(importe)%></td>
 			</tr>
-			<%			cont++;
+<%			cont++;
 		} 
 %>
 		</table>
