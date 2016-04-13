@@ -68,6 +68,14 @@
 		}
 	}
 
+	function AplicarTodos() {
+		$(".checkbox-aplicar").prop('checked', true);
+	}
+
+	function AplicarNinguno() {
+		$(".checkbox-aplicar").prop('checked', false);
+	}
+	
 	function Todos() {
 		$(".checkbox-pagos").prop('checked', true);
 	}
@@ -719,11 +727,10 @@
 		<div>
 			<div class="alert alert-success">
 				<h4>
-					<fmt:message key="aca.CostoDisponibles" />
-					&nbsp;&nbsp;&nbsp;&nbsp;
+					<fmt:message key="aca.CostoDisponibles" />&nbsp;&nbsp;&nbsp;&nbsp;
 					<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
-					<a class="btn btn-primary" href="javascript:Grabar();"><fmt:message
-							key="boton.Aplicar" /> <i class="icon-arrow-right icon-white"></i></a>&nbsp;&nbsp;
+					<a class="btn btn-primary" href="javascript:Grabar();">
+					<fmt:message key="boton.Aplicar" /><i class="icon-arrow-right icon-white"></i></a>&nbsp;&nbsp;
 					<%} %>
 				</h4>
 			</div>
@@ -732,9 +739,14 @@
 				<thead>
 					<tr>
 						<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
-						<th rowspan="2">&nbsp;</th>
+						<th rowspan="2" width="10%">
+							<a id="Todos" onclick="javascript:AplicarTodos();" class="btn btn-mini">Todos</a>&nbsp;
+							<a id="Ninguno" onclick="javascript:AplicarNinguno();" class="btn btn-mini">Ninguno</a>
+						</th>
 						<%} %>
-						<th rowspan="2"><fmt:message key="aca.Cuenta" /></th>
+						<th rowspan="2">
+							<fmt:message key="aca.Cuenta" />&nbsp;
+						</th>
 						<th class="text-right" rowspan="2"><fmt:message
 								key="aca.Costo" /></th>
 						<th colspan="3" class="text-center alert"><fmt:message
@@ -769,8 +781,9 @@
 				%>
 				<tr>
 					<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){ %>
-					<td><input type="Checkbox" id="COSTO-<%=costo.getCostoId()%>"
-						name="COSTO-<%=costo.getCostoId()%>" value="S" /></td>
+					<td>
+						<input type="Checkbox" class="checkbox-aplicar" id="COSTO-<%=costo.getCostoId()%>" name="COSTO-<%=costo.getCostoId()%>" value="S" />
+					</td>
 					<%} %>
 					<td><%=nombreCuenta%></td>
 					<td class="text-right"><%=formato.format(importeTotal)%></td>
@@ -812,7 +825,9 @@
 						<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
 						<th rowspan="2"><fmt:message key="aca.Accion" /></th>
 						<%} %>
-						<th><fmt:message key="aca.Cuenta" /></th>
+						<th>
+							<fmt:message key="aca.Cuenta" />
+						</th>
 						<th class="text-right"><fmt:message key="aca.Costo" /></th>
 						<th class="text-right"><fmt:message key="aca.Beca" /></th>
 						<th class="text-right"><fmt:message key="aca.Total" /></th>
@@ -855,13 +870,15 @@
 						totalImporteBeca 	= totalImporteBeca.add(importeBeca);
 						totalImporteTotal 	= totalImporteTotal.add(importeTotal);
 						totalPagoInicial 	= totalPagoInicial.add(pagoInicial);
-						totalEnPagos 		= totalEnPagos.add(enPagos);								 
+						totalEnPagos 		= totalEnPagos.add(enPagos);						 
 				%>
 				<tr>
 					<%if(FinCalculo.getInscrito().equals("N")||FinCalculo.getInscrito().equals("C")){%>
-					<td><a
-						href="calculo.jsp?cicloId=<%=cicloId%>&PeriodoId=<%=periodoId%>&CuentaId=<%=detalle.getCuentaId()%>&Accion=3"><i
-							class="icon-remove icon-black"></i></a></td>
+					<td>
+						<a href="calculo.jsp?cicloId=<%=cicloId%>&PeriodoId=<%=periodoId%>&CuentaId=<%=detalle.getCuentaId()%>&Accion=3">
+						<i class="icon-remove icon-black"></i>
+						</a>
+					</td>
 					<%} %>
 					<td><%=nombreCuenta%></td>
 					<td class="text-right"><%=formato.format(importe) %></td>
