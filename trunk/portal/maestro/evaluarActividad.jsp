@@ -404,8 +404,12 @@
 								String strNota = "-";
 								
 								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(activ.getActividadId())){					
-										strNota = frmEntero.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(activ.getActividadId())){
+										if (decimales.equals("0")){
+											strNota = frmEntero.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+										}else{
+											strNota = frmDecimal1.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+										}				
 									}
 								}
 
@@ -423,7 +427,7 @@
 											<input 
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers" 
-												data-allow-decimal="no"
+												data-allow-decimal="si"
 												data-max-num="100"
 												type="text" 
 												tabindex="<%=i+1%>" 
