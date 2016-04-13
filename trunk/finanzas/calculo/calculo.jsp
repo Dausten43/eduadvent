@@ -944,26 +944,28 @@
 			<%	
 		if(FinCalculo.getInscrito().equals("N") || FinCalculo.getInscrito().equals("C")){
 	%>
-			<a href="javascript:Calcular()" class="btn btn-primary"><i
-				class="icon-refresh icon-white"></i> <fmt:message
-					key="aca.CalcularCobro" /></a>
+			<a href="javascript:Calcular()" class="btn btn-primary">
+				<i class="icon-refresh icon-white"></i> 
+				<fmt:message key="aca.CalcularCobro" />
+			</a>
 			<%if (FinCalculo.getInscrito().equals("C")){%>
-			<a href="javascript:CerrarCalculo()" class="btn btn-success"><i
-				class="icon-ok icon-white"></i> <fmt:message key="aca.CerrarCobro" /></a>
+			<a href="javascript:CerrarCalculo()" class="btn btn-success">
+			<i class="icon-ok icon-white"></i> <fmt:message key="aca.CerrarCobro" />
+			</a>
 			<%}%>
+	<%	}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){ %>
 
-			<%	}else if (FinCalculo.getInscrito().equals("G") || FinCalculo.getInscrito().equals("P")){ %>
-
-			<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')"><i
-				class="icon-print icon-white"></i> <fmt:message key="boton.Imprimir" /></a>
-
-			<%		if ( (esContable||esAdmin) && (!FinCalculo.getInscrito().equals("")) && FinCalculo.getInscrito().equals("P")==false){%>
-			<a class="btn btn-primary" href="javascript:AbrirCalculo()"><i
-				class="icon-eye-open icon-white"></i> <fmt:message key="boton.Abrir" /></a>
-			<%		}
+			<a class="btn btn-info" href="javascript:Formato('<%=periodoId%>')" target="_blank">
+				<i class="icon-print icon-white"></i>
+				<fmt:message key="boton.Imprimir" />
+			</a>
+			<%	if ( (esContable||esAdmin) && (!FinCalculo.getInscrito().equals("")) && FinCalculo.getInscrito().equals("P")==false){%>
+			<a class="btn btn-primary" href="javascript:AbrirCalculo()">
+				<i class="icon-eye-open icon-white"></i> <fmt:message key="boton.Abrir" />
+			</a>
+			<%	}
 		}
 	%>
-
 		</div>
 	</form>
 	<%}%>
