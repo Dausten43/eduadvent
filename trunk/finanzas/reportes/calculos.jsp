@@ -10,6 +10,7 @@
 <jsp:useBean id="cicloPeriodoL" scope="page" class="aca.ciclo.CicloPeriodoLista"/>
 <jsp:useBean id="planL" scope="page" class="aca.plan.PlanLista"/>
 <jsp:useBean id="FinCalculoL" scope="page" class="aca.fin.FinCalculoLista"/>
+<jsp:useBean id="AlumPersonalL" scope="page" class="aca.alumno.AlumPersonalLista"/>
 
 <html>
 <script type="text/javascript">
@@ -43,6 +44,9 @@
 	
 	// Trae los ciclos escolares
 	ArrayList<aca.fin.FinCalculo> lisCalculos 	= FinCalculoL.getListCalculos(conElias, cicloId, periodoId, " ORDER BY PLAN_ID, CODIGO_ID");
+	
+	/*Nombre de Alumnos*/
+	java.util.HashMap<String, String> mapAlumnos 		= AlumPersonalL.mapNombreLargo(conElias, escuelaId, "NOMBRE");
 %>
 <body>
 <div id="content">
@@ -71,21 +75,6 @@
 				}
 			%>
 		</select>
-		&nbsp;&nbsp;<fmt:message key="aca.Plan" />:&nbsp;
-		<select id="plan" name="plan" onchange="document.forma.submit();" class="input-xlarge">
-			<%
-				ArrayList<aca.plan.Plan> lisPlan = planL.getListPlanPermiso(conElias, cicloId, "ORDER BY NIVEL_ID");
-				if(planId.equals("0")){
-					if(lisPlan.size() > 0) planId = lisPlan.get(0).getPlanId();
-				}
-				
-				for(aca.plan.Plan plan : lisPlan){
-			%>
-					<option value="<%=plan.getPlanId() %>" <%if(planId.equals(plan.getPlanId())){out.print("selected");} %>><%=plan.getPlanNombre() %></option>
-			<%
-				}
-			%>
-		</select>
 		&nbsp;&nbsp;
 		<a href="javascript:Mostrar();" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Mostrar</a>
 	</div>
@@ -97,6 +86,7 @@
 			<th>Plan</th>
 			<th>Código</th>
 			<th>Alumno</th>
+			<th>Clasificación</th>
 			<th>Fecha</th>
 			<th>Inicial</th>
 			<th>Pagos</th>
@@ -105,12 +95,18 @@
 <%	
 	int cont = 1;
 	for(aca.fin.FinCalculo calculoAlumno : lisCalculos){
+		
+		String nombreAlumno = "-";
+		if(mapAlumnos.containsKey(calculoAlumno.getCodigoId())){
+				nombreAlumno = mapAlumnos.get(calculoAlumno.getCodigoId());
+		}
 %>
 	<tr>
 		<td><%=cont %></td>
-		<td><%=calculoAlumno.getPlanId() %></td>
+		<td><%= aca.plan.Plan.getNombrePlan(conElias, calculoAlumno.getPlanId()) %></td>
 		<td><%=calculoAlumno.getCodigoId() %></td>
-		<td><%=calculoAlumno.getCodigoId() %></td>
+		<td><%=nombreAlumno %></td>
+		<td><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, calculoAlumno.getClasFinId())%></td>
 		<td><%=calculoAlumno.getFecha() %></td>
 		<td><%=calculoAlumno.getPagoInicial() %></td>
 		<td><%=Double.parseDouble(calculoAlumno.getImporte())-Double.parseDouble(calculoAlumno.getPagoInicial())%></td>
