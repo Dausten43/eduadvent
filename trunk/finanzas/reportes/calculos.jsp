@@ -13,7 +13,7 @@
 
 <html>
 <script type="text/javascript">
-	function filtrar(){
+	function Mostrar(){
 		document.forma.Accion.value = "1";
 		document.forma.submit();
 	}
@@ -52,7 +52,7 @@
 	<div class="well">
 		<a href="menu.jsp" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
 		<fmt:message key="aca.Ciclo" />:&nbsp;
-		<select class="input-xlarge" id="ciclo" name="ciclo" onchange="document.location='tabla.jsp?ciclo='+this.options[this.selectedIndex].value;" class="input-xlarge">
+		<select class="input-xlarge" id="ciclo" name="ciclo" onchange="document.forma.submit();" class="input-xlarge">
 			<%for(aca.ciclo.Ciclo ciclo : lisCiclo){%>
 				<option value="<%=ciclo.getCicloId() %>" <%if(cicloId.equals(ciclo.getCicloId())){out.print("selected");} %>><%=ciclo.getCicloNombre() %></option>	
 			<%}%>
@@ -86,6 +86,8 @@
 				}
 			%>
 		</select>
+		&nbsp;&nbsp;
+		<a href="javascript:Mostrar();" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Mostrar</a>
 	</div>
 	</form>
 	
@@ -111,7 +113,7 @@
 		<td><%=calculoAlumno.getCodigoId() %></td>
 		<td><%=calculoAlumno.getFecha() %></td>
 		<td><%=calculoAlumno.getPagoInicial() %></td>
-		<td><%=calculoAlumno.getNumPagos()%></td>
+		<td><%=Double.parseDouble(calculoAlumno.getImporte())-Double.parseDouble(calculoAlumno.getPagoInicial())%></td>
 		<td><%=calculoAlumno.getImporte() %></td>
 	</tr>
 <%		cont++;
