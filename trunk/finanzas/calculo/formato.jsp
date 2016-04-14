@@ -22,9 +22,8 @@
 	alumno.mapeaRegId(conElias, codigoAlumno);	
 	
 	ArrayList<aca.fin.FinCalculoDet> lisDetalles	=  DetalleL.getListCalDet(conElias, cicloId, periodoId, codigoAlumno,"ORDER BY CUENTA_ID");
-	ArrayList<aca.fin.FinCalculoPago> listaPagos 	= FinCalculoPagoL.getListPagosAlumnoCuentas(conElias, cicloId, periodoId, codigoAlumno, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD')");
+	ArrayList<aca.fin.FinCalculoPago> listaPagos 	= FinCalculoPagoL.getListPagosAlumnoCuentas(conElias, cicloId, periodoId, codigoAlumno, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD'), ORDEN_PAGO(CICLO_ID,PERIODO_ID, PAGO_ID)");
 	java.text.DecimalFormat formato 			= new java.text.DecimalFormat("###,###,##0.00;-###,###,##0.00");
-
 %>
 
 <style>
