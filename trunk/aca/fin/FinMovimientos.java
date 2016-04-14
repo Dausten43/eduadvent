@@ -189,7 +189,7 @@ public class FinMovimientos {
                     + " REFERENCIA = ?,"
                     + " ESTADO = ?,"
                     + " FECHA = TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS'),"
-                    + " RECIBO_ID = TO_NUMBER(, '9999999'),"
+                    + " RECIBO_ID = TO_NUMBER(?, '9999999'),"
                     + " CICLO_ID = ?,"
                     + " PERIODO_ID = TO_NUMBER(?,'99'),"
                     + " TIPOMOV_ID = TO_NUMBER(?,'99')"
