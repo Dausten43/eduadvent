@@ -21,7 +21,7 @@
 	}
 	
 	
-	if(codigoId.equals("")){
+	if(codigoId.equals("0")){
 		ArrayList<aca.alumno.AlumPersonal> alumnos = AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
 		for(aca.alumno.AlumPersonal alum : alumnos){
 %>
