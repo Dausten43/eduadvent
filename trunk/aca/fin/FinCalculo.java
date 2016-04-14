@@ -18,12 +18,12 @@ public class FinCalculo {
 	private String cicloId;
 	private String periodoId;
 	private String codigoId;
-	private String planId;
-	private String clasFinId;
+	private String planId;	
 	private String tipoPago;
 	private String importe;
 	private String inscrito;
 	private String folio;
+	private String clasFinId;
 	private String numPagos;
 	private String pagoInicial;
 	private String fecha;

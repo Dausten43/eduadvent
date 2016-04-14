@@ -19,11 +19,12 @@ public class FinCalculoLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT COSTO_ID, CICLO_ID, PERIODO_ID, PLAN_ID," +
-					" CLASFIN_ID, CONCEPTO, IMPORTE, NUMPAGOS, PAGOINICIAL, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA" +
-					" FROM FIN_COSTO" +
-					" WHERE CICLO_ID = '"+cicloId+"'" +
-					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
+			comando = " SELECT CICLO_ID, PERIODO_ID, CODIGO_ID, PLAN_ID,"
+					+ " TIPO_PAGO, IMPORTE, INSCRITO, FOLIO, CLASFIN_ID, NUMPAGOS, PAGOINICIAL,"
+					+ " TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, IMPORTE_PAGO, PAGOS"
+					+ " FROM FIN_CALCULO"
+					+ " WHERE CICLO_ID = '"+cicloId+"'"
+					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
