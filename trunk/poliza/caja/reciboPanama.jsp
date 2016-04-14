@@ -25,7 +25,8 @@
 	String recibo 			= request.getParameter("Recibo"); 
 	String polizaId 		= request.getParameter("polizaId");
 	
-	String fechayHora	 	= aca.util.Fecha.getDateTime();	
+	String fechayHora	 	= aca.util.Fecha.getDateTime();
+	String fechaHoy	 		= aca.util.Fecha.getHoy();
 	
     String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
     String rutaLogo = "../../imagenes/logos/"+logoEscuela;
@@ -42,7 +43,6 @@
     
 	Escuela.mapeaRegId(conElias, escuelaId);	
 	finRecibo.mapeaRegId(conElias, recibo, ejercicioId);
-	
 	// Lista de movimientos en el recibo
 	ArrayList<aca.fin.FinMovimientos> lista 	= finML.getMovimientos(conElias,ejercicioId,polizaId,recibo," ORDER BY FECHA");
 %>
@@ -50,7 +50,7 @@
 	<table class="tabla" style="margin: 0 auto;">
 		<tr>
 			<td>
-				<img src="<%=rutaLogo%>" width="150">
+				<img src="<%=rutaLogo%>" width="100">
 			</td>		
 			<td align="center">
 				<h4><%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %></h4>
@@ -63,15 +63,18 @@
 			<td>&nbsp;</td>
 			<td align="center">
 				<strong>Fecha y Hora:</strong> [ <%=fechayHora %> ] &nbsp; &nbsp; 
-				<strong>No. Recibo:</strong> [ <%=finRecibo.getReciboId() %> ] &nbsp; &nbsp; 
+				<strong>No. Recibo:</strong> [ <%=finRecibo.getReciboId() %> ] &nbsp; &nbsp;
 				<strong>No. Folio:</strong>[ <%= polizaId %> ]
+<%				if (!fechaHoy.equals(finRecibo.getFecha())){ %>
+				<strong>Fecha Recibo:</strong>[ <%= finRecibo.getFecha() %> ]
+<% 				}%>				
 			</td>
 		</tr>			
 	</table>
 	<br>
 	&nbsp;<strong>Cliente:</strong> <%=finRecibo.getCliente() %>
 	<br>		
-	<table class="table table-condensed">
+	<table class="table table-fullcondensed">
 	<tr>
 		<th>Descripci&oacute;n</th>
 		<th>Monto Letra</th>
