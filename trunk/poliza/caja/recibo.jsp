@@ -11,12 +11,13 @@
 
 <script>
 	function Guardar(){
+		
 		if( document.forma.Cliente.value 		!= "" && 
-// 			document.forma.Domicilio.value 		!= "" &&
-// 			document.forma.Cheque.value 		!= "" && 
-// 			document.forma.Banco.value 			!= "" &&
-// 			document.forma.Observaciones.value 	!= "" &&
-// 			document.forma.rfc.value 			!= "" 
+ 			document.forma.Domicilio.value 		!= "" &&
+ 			document.forma.Cheque.value 		!= "" && 
+ 			document.forma.Banco.value 			!= "" &&
+ 			document.forma.Observaciones.value 	!= "" &&
+ 			document.forma.rfc.value 			!= "" 
 		){
 			
 				document.forma.Accion.value = "1";
