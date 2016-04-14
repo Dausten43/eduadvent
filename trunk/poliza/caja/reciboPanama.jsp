@@ -30,6 +30,16 @@
     String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
     String rutaLogo = "../../imagenes/logos/"+logoEscuela;
     
+ 	// Verifica si existe el logo
+ 	boolean tieneLogo = false;
+  	String dirFoto = application.getRealPath("/imagenes/logos/"+logoEscuela);
+  	java.io.File foto = new java.io.File(dirFoto);
+  	if (foto.exists()){
+  		tieneLogo = true;
+  	}else{
+  		rutaLogo = "../../imagenes/logos/logoIASD.png";
+  	}   
+    
 	Escuela.mapeaRegId(conElias, escuelaId);	
 	finRecibo.mapeaRegId(conElias, recibo, ejercicioId);
 	
@@ -95,7 +105,7 @@
 		pesos 		= finRecibo.getImporte().indexOf(".")>=0?finRecibo.getImporte().substring(0,finRecibo.getImporte().indexOf(".")):finRecibo.getImporte();
 		centavos 	= finRecibo.getImporte().indexOf(".")>=0?finRecibo.getImporte().substring(finRecibo.getImporte().indexOf(".")+1, finRecibo.getImporte().length()):"00";
 %>
-		<td><strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos))+" pesos. "+centavos+" /100" %></strong></td>
+		<td><strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos))+" balboas. "+centavos+" /100" %></strong></td>
 		<td style="text-align:right">$<%=formato.format(Double.parseDouble(finRecibo.getImporte())) %></td>
 	</tr>
 	</table>
