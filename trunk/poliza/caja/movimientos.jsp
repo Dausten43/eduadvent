@@ -130,16 +130,16 @@
 	pageContext.setAttribute("resultado", msj);
 	
 	/* PADRES */
-	ArrayList<aca.empleado.EmpPersonal> padres 	= empleadoU.getListEscuela(conElias, escuelaId," AND SUBSTR(CODIGO_ID,4,1)='P' AND (SELECT COUNT(*) FROM ALUM_PADRES WHERE CODIGO_PADRE= EMP_PERSONAL.CODIGO_ID OR CODIGO_MADRE = EMP_PERSONAL.CODIGO_ID OR CODIGO_TUTOR = EMP_PERSONAL.CODIGO_ID) > 0 ORDER BY SUBSTR(CODIGO_ID,1,3),APATERNO,AMATERNO,NOMBRE");
+	ArrayList<aca.empleado.EmpPersonal> padres 		= empleadoU.getListEscuela(conElias, escuelaId," AND SUBSTR(CODIGO_ID,4,1)='P' AND (SELECT COUNT(*) FROM ALUM_PADRES WHERE CODIGO_PADRE= EMP_PERSONAL.CODIGO_ID OR CODIGO_MADRE = EMP_PERSONAL.CODIGO_ID OR CODIGO_TUTOR = EMP_PERSONAL.CODIGO_ID) > 0 ORDER BY SUBSTR(CODIGO_ID,1,3),APATERNO,AMATERNO,NOMBRE");
 	
 	/* ALUMNOS */
-	ArrayList<aca.alumno.AlumPersonal> alumnos = AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
+	ArrayList<aca.alumno.AlumPersonal> alumnos 		= AlumPersonalLista.getListAllNombres(conElias, escuelaId, "");
 	
 	/* CUENTAS */
-	ArrayList<aca.fin.FinCuenta> cuentas = FinCuentaLista.getListCuentas(conElias, escuelaId, " ORDER BY CUENTA_ID");
+	ArrayList<aca.fin.FinCuenta> cuentas 			= FinCuentaLista.getListCuentas(conElias, escuelaId, " ORDER BY CUENTA_ID");
 	
 	/* MOVIMIENTOS DEL RECIBO ACTUAL */
-	ArrayList<aca.fin.FinMovimientos> movimientos = FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
+	ArrayList<aca.fin.FinMovimientos> movimientos 	= FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
 	
 	if(!movimientoId.equals("")){
 		FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);	
@@ -225,7 +225,7 @@
 								%>
 								<a href="#myModal2" role="button" data-toggle="modal"><label for="Auxiliar"><fmt:message key="aca.Padres" /> <i class="icon-question-sign"></i></label></a>
 								<select name="Padre" id="Padre" style="width:100%;">
-									<option value=""><fmt:message key="boton.Todos" /></option>
+									<option value="0"><fmt:message key="boton.Todos" /></option>
 									<%for(aca.empleado.EmpPersonal padre : padres){%>
 										<option value="<%=padre.getCodigoId() %>" <%if(PADRE.equals(padre.getCodigoId())){out.print("selected");}%>>
 											<%=padre.getCodigoId() %> | <%=padre.getNombre()+" "+padre.getApaterno()+" "+padre.getAmaterno() %>
