@@ -150,7 +150,6 @@
 	if(!movimientoId.equals("0") && movimientoId != null){
 		FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);
 	}
-
 %>
 
 <style>
