@@ -56,10 +56,10 @@
 	
 	<h2>
 		<fmt:message key="aca.Movimiento" />
-		<small>
+		<small>(
 			<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong>&nbsp;&nbsp;
 			<fmt:message key="aca.Poliza" />: <strong><%=polizaId %> | <%=FinPoliza.getDescripcion() %></strong>
-		</small>
+		)</small>
 	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
