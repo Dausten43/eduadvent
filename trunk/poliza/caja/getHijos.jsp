@@ -34,6 +34,4 @@
 	
 %>
 
-
-
 <%@ include file= "../../cierra_elias.jsp" %>
