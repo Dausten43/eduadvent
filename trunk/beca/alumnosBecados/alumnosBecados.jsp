@@ -65,7 +65,7 @@
 	ArrayList<aca.ciclo.CicloPeriodo> lisCicloPeriodo 	= cicloPeriodoL.getListCiclo(conElias, cicloId, "ORDER BY F_INICIO");	
 	
 	/* LISTA DE ENTIDADES */	
-	ArrayList<aca.beca.BecEntidad> lisEntidad			= BecEntidadL.getListEntidad(conElias, cicloId, periodoId, "ORDER BY ENTIDAD_NOMBRE");	
+	ArrayList<aca.beca.BecEntidad> lisEntidad			= BecEntidadL.getListEntidad(conElias, escuelaId, cicloId, periodoId, " ORDER BY ENTIDAD_NOMBRE");	
 	
 	/* LISTA DE BECAS */
 	ArrayList<aca.beca.BecAlumno> lisBeca;
