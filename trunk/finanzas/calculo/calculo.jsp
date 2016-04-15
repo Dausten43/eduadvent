@@ -448,9 +448,9 @@
 				}else{				
 					
 					for(aca.fin.FinCalculoDet det : lisDetalles){					
-						
+				
 						BigDecimal ImporteDetalle 		= new BigDecimal(det.getImporte());
-						BigDecimal ImporteDetalleBeca 	= new BigDecimal(det.getImporteBeca());
+						BigDecimal ImporteDetalleBeca 	= new BigDecimal(Double.parseDouble(det.getPagoInicialPorcentaje())!=100?det.getImporteBeca():"0");
 						BigDecimal importeInicialPagos  = new BigDecimal("0");
 						
 						/* MODIFICA EL PAGO INICIAL */
@@ -587,6 +587,7 @@
 			// Grabar el detalle del pago inicial por tipo pagarés  
 			FinPago.mapeaRegInicial(conElias, cicloId, periodoId);
 			for(aca.fin.FinCalculoDet detalleInicial : lisDetalles){
+				System.out.println("Datos:"+detalleInicial.getCuentaId()+":"+detalleInicial.getBecaCantidad());
 				FinCalculoPago.setCicloId(cicloId);
 				FinCalculoPago.setPeriodoId(periodoId);					
 				FinCalculoPago.setCodigoId(codigoAlumno);
@@ -594,7 +595,7 @@
 				FinCalculoPago.setCuentaId(detalleInicial.getCuentaId());					
 				FinCalculoPago.setFecha(FinPago.getFecha());
 				FinCalculoPago.setImporte( detalleInicial.getImporteInicial() );							
-				FinCalculoPago.setBeca( "0" );											
+				FinCalculoPago.setBeca( Double.parseDouble(detalleInicial.getImporteInicial())>0?detalleInicial.getBecaCantidad():"0" );
 				FinCalculoPago.setEstado("A");
 				FinCalculoPago.setPagado("N");
 				if (FinCalculoPago.insertReg(conElias)){
