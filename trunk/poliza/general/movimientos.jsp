@@ -133,168 +133,160 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.Movimiento" /></h2>
+	<h3>
+		<fmt:message key="aca.Movimiento" />&nbsp;&nbsp;
+		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong>&nbsp;&nbsp;
+		<fmt:message key="aca.Poliza" />: <strong><%=polizaId %> | <%=FinPoliza.getDescripcion() %></strong>
+	</h3>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
   	<%} %>
-	
-	<div class="alert alert-info">
-		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong>
-		<br>
-		<fmt:message key="aca.Poliza" />: <strong><%=polizaId %> | <%=FinPoliza.getDescripcion() %></strong>
+  	<div class="well">
+		<a href="poliza.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
 
 	<%if( !FinPoliza.getEstado().equals("A") ){ %>
-		
-		<div class="well">
-			<a href="poliza.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		</div>
-		
+			
 		<div class="alert">
 			<fmt:message key="aca.PolizaCerrada" />
 		</div>
 		
 	<%}else{ %>
-	
-			<div class="well">
-				<a href="poliza.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-			</div>
 			
-			<div class="row">
-				<div class="span5">
-					
-					<form action="" method="post" name="forma">
-						<input type="hidden" name="Accion" />
-						<input type="hidden" name="MovimientoId" />
-						
-						<div class="alert">
-							<fieldset>
-								<label for="Auxiliar"><fmt:message key="aca.Alumno" /></label>
-								<select name="Auxiliar" id="Auxiliar" style="width:100%;">
-									<option value="-"><fmt:message key="aca.NoAplica" /></option>
-									<%for(aca.alumno.AlumPersonal alumno : alumnos){ %>
-										<option value="<%=alumno.getCodigoId()%>" <%if(FinMov.getAuxiliar().equals(alumno.getCodigoId()))out.print("selected"); %>>
-											<%=alumno.getCodigoId()%> | <%=alumno.getNombre()+" "+alumno.getApaterno()+" "+alumno.getAmaterno() %>
-										</option>
-									<%} %>
-								</select>
-							</fieldset>
-								
-							<fieldset>
-								<label for="CuentaId"><fmt:message key="aca.Cuenta" /></label>
-								<select name="CuentaId" id="CuentaId" style="width:100%;">
-									<%for(aca.fin.FinCuenta cuenta : cuentas){%>
-										<option value="<%=cuenta.getCuentaId() %>" <%if(FinMov.getCuentaId().equals(cuenta.getCuentaId()))out.print("selected"); %>>
-											<%=cuenta.getCuentaId() %> | <%=cuenta.getCuentaNombre() %>
-										</option>
-									<%}%>
-								</select>
-							</fieldset>
-							
-							<fieldset>			
-								<label for="Importe"><fmt:message key="aca.Importe" /></label>
-								<input type="text" name="Importe" id="Importe" style="max-width:100%;" maxlength="8" value="<%=FinMov.getImporte() %>" />
-							</fieldset>
-							
-							<fieldset>
-								<label for="Descripcion"><fmt:message key="aca.Descripcion" /></label>
-								<textarea name="Descripcion" id="Descripcion" rows="2" cols="20" style="max-width:100%;width: 100%;box-sizing: border-box;"><%=FinMov.getDescripcion() %></textarea>
-							</fieldset>
-								
-							<fieldset>
-								<label for="Referencia"><fmt:message key="aca.Referencia" /></label>
-								<input type="text" name="Referencia" id="Referencia" maxlength="20" value="<%=FinMov.getReferencia() %>" />
-							</fieldset>
-							
-							<fieldset>
-								<label for="Naturaleza"><fmt:message key="aca.Naturaleza" /></label>
-								<select name="Naturaleza" id="Naturaleza">
-									<option value="D" <%if(FinMov.getNaturaleza().equals("D")){out.print("selected");} %>><fmt:message key="aca.Cargo" /></option>
-									<option value="C" <%if(FinMov.getNaturaleza().equals("C")){out.print("selected");} %>><fmt:message key="aca.Credito" /></option>
-								</select>
-							</fieldset>
-						
-						</div>
-						
-						<div class="well">
-							<a href="javascript:Guardar();" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
-							<%if(!movimientoId.equals("")){ %>
-								<a href="movimientos.jsp" class="btn btn-large"><i class="icon-file"></i> <fmt:message key="boton.Nuevo" /></a>
+	<div class="row">
+		<div class="span5">
+			
+			<form action="" method="post" name="forma">
+				<input type="hidden" name="Accion" />
+				<input type="hidden" name="MovimientoId" />
+				
+				<div class="alert">
+					<fieldset>
+						<label for="Auxiliar"><fmt:message key="aca.Alumno" /></label>
+						<select name="Auxiliar" id="Auxiliar" style="width:100%;">
+							<option value="-"><fmt:message key="aca.NoAplica" /></option>
+							<%for(aca.alumno.AlumPersonal alumno : alumnos){ %>
+								<option value="<%=alumno.getCodigoId()%>" <%if(FinMov.getAuxiliar().equals(alumno.getCodigoId()))out.print("selected"); %>>
+									<%=alumno.getCodigoId()%> | <%=alumno.getNombre()+" "+alumno.getApaterno()+" "+alumno.getAmaterno() %>
+								</option>
 							<%} %>
-						</div>
-					</form>
+						</select>
+					</fieldset>
+						
+					<fieldset>
+						<label for="CuentaId"><fmt:message key="aca.Cuenta" /></label>
+						<select name="CuentaId" id="CuentaId" style="width:100%;">
+							<%for(aca.fin.FinCuenta cuenta : cuentas){%>
+								<option value="<%=cuenta.getCuentaId() %>" <%if(FinMov.getCuentaId().equals(cuenta.getCuentaId()))out.print("selected"); %>>
+									<%=cuenta.getCuentaId() %> | <%=cuenta.getCuentaNombre() %>
+								</option>
+							<%}%>
+						</select>
+					</fieldset>
 					
+					<fieldset>			
+						<label for="Importe"><fmt:message key="aca.Importe" /></label>
+						<input type="text" name="Importe" id="Importe" style="max-width:100%;" maxlength="8" value="<%=FinMov.getImporte() %>" />
+					</fieldset>
+					
+					<fieldset>
+						<label for="Descripcion"><fmt:message key="aca.Descripcion" /></label>
+						<textarea name="Descripcion" id="Descripcion" rows="2" cols="20" style="max-width:100%;width: 100%;box-sizing: border-box;"><%=FinMov.getDescripcion() %></textarea>
+					</fieldset>
+						
+					<fieldset>
+						<label for="Referencia"><fmt:message key="aca.Referencia" /></label>
+						<input type="text" name="Referencia" id="Referencia" maxlength="20" value="<%=FinMov.getReferencia() %>" />
+					</fieldset>
+					
+					<fieldset>
+						<label for="Naturaleza"><fmt:message key="aca.Naturaleza" /></label>
+						<select name="Naturaleza" id="Naturaleza">
+							<option value="D" <%if(FinMov.getNaturaleza().equals("D")){out.print("selected");} %>><fmt:message key="aca.Cargo" /></option>
+							<option value="C" <%if(FinMov.getNaturaleza().equals("C")){out.print("selected");} %>><fmt:message key="aca.Credito" /></option>
+						</select>
+					</fieldset>
+				
 				</div>
 				
-				<div class="span7">
-					
-					<h4><fmt:message key="aca.Movimientos" /></h4>
-					
-					<table class="table table-condensed table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th><fmt:message key="aca.Alumno" /></th>
-								<th><fmt:message key="aca.Cuenta" /></th>
-								<th><fmt:message key="aca.Fecha" /></th>
-								<th><fmt:message key="aca.Descripcion" /></th>
-								<th><fmt:message key="aca.Referencia" /></th>
-								<th><fmt:message key="aca.Cargo" /></th>
-								<th><fmt:message key="aca.Creditos" /></th>
-							</tr>
-						</thead>
-						<%
-							float totalCargo	= 0;
-							float totalCredito 	= 0;
-							int cont = 0;
-							for(aca.fin.FinMovimientos mov : movimientos){
-								cont++;
-								
-								float importe = Float.parseFloat(mov.getImporte());
-								if(mov.getNaturaleza().equals("D") && !mov.getEstado().equals("C")){
-									totalCargo+=importe;
-								}else if(mov.getNaturaleza().equals("C") && !mov.getEstado().equals("C")){
-									totalCredito+=importe;
-								}
-						%>
-								<tr>
-									<td><%=cont %></td>
-									<td>
-										<a href=" javascript:Eliminar('<%=mov.getMovimientoId() %>'); "><i class="icon-remove"></i></a>
-										<a href="movimientos.jsp?MovimientoId=<%=mov.getMovimientoId() %>"><i class="icon-pencil"></i></a>
-										<%=aca.alumno.AlumPersonal.getNombre(conElias, mov.getAuxiliar(), "NOMBRE")  %>
-									</td>
-									<td><%=mov.getCuentaId() %></td>
-									<td><%=mov.getFecha() %></td>
-									<td><%=mov.getDescripcion() %></td>
-									<td><%=mov.getReferencia() %></td>
-									<td class="text-right">
-										<%if(mov.getNaturaleza().equals("D")){ %>
-											<%=getformato.format( importe ) %>
-										<%}%>
-									</td>
-									<td class="text-right">
-										<%if(mov.getNaturaleza().equals("C")){ %>
-											<%=getformato.format( importe ) %>
-										<%}%>
-									</td>
-								</tr>
-						<%
-							}
-						%>
-						<tr>
-							<th colspan="6"><fmt:message key="aca.Total" /></th>
-							<th class="text-right"><%=getformato.format( totalCargo) %></th>
-							<th class="text-right"><%=getformato.format( totalCredito) %></th>
-						</tr>
-					</table>
-			
-			
+				<div class="well">
+					<a href="javascript:Guardar();" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
+					<%if(!movimientoId.equals("")){ %>
+						<a href="movimientos.jsp" class="btn btn-large"><i class="icon-file"></i> <fmt:message key="boton.Nuevo" /></a>
+					<%} %>
 				</div>
-			</div>
+			</form>
+			
+		</div>
+		
+		<div class="span7">
+			
+			<h4><fmt:message key="aca.Movimientos" /></h4>
+			
+			<table class="table table-condensed table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th><fmt:message key="aca.Alumno" /></th>
+						<th><fmt:message key="aca.Cuenta" /></th>
+						<th><fmt:message key="aca.Fecha" /></th>
+						<th><fmt:message key="aca.Descripcion" /></th>
+						<th><fmt:message key="aca.Referencia" /></th>
+						<th><fmt:message key="aca.Cargo" /></th>
+						<th><fmt:message key="aca.Creditos" /></th>
+					</tr>
+				</thead>
+				<%
+					float totalCargo	= 0;
+					float totalCredito 	= 0;
+					int cont = 0;
+					for(aca.fin.FinMovimientos mov : movimientos){
+						cont++;
+						
+						float importe = Float.parseFloat(mov.getImporte());
+						if(mov.getNaturaleza().equals("D") && !mov.getEstado().equals("C")){
+							totalCargo+=importe;
+						}else if(mov.getNaturaleza().equals("C") && !mov.getEstado().equals("C")){
+							totalCredito+=importe;
+						}
+				%>
+						<tr>
+							<td><%=cont %></td>
+							<td>
+								<a href=" javascript:Eliminar('<%=mov.getMovimientoId() %>'); "><i class="icon-remove"></i></a>
+								<a href="movimientos.jsp?MovimientoId=<%=mov.getMovimientoId() %>"><i class="icon-pencil"></i></a>
+								<%=aca.alumno.AlumPersonal.getNombre(conElias, mov.getAuxiliar(), "NOMBRE")  %>
+							</td>
+							<td><%=mov.getCuentaId() %></td>
+							<td><%=mov.getFecha() %></td>
+							<td><%=mov.getDescripcion() %></td>
+							<td><%=mov.getReferencia() %></td>
+							<td class="text-right">
+								<%if(mov.getNaturaleza().equals("D")){ %>
+									<%=getformato.format( importe ) %>
+								<%}%>
+							</td>
+							<td class="text-right">
+								<%if(mov.getNaturaleza().equals("C")){ %>
+									<%=getformato.format( importe ) %>
+								<%}%>
+							</td>
+						</tr>
+				<%
+					}
+				%>
+				<tr>
+					<th colspan="6"><fmt:message key="aca.Total" /></th>
+					<th class="text-right"><%=getformato.format( totalCargo) %></th>
+					<th class="text-right"><%=getformato.format( totalCredito) %></th>
+				</tr>
+			</table>
+					
+		</div>
+	</div>
 	
 	<%} %>	
 	

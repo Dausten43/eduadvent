@@ -17,14 +17,13 @@
 		}
 		
 	}
-</script>
-	
+</script>	
 <%
-
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String ejercicioId 		= (String)session.getAttribute("ejercicioId");
 	String usuario 			= (String)session.getAttribute("codigoId");
-	String cuadrarPoliza	= "N"; 
+	String cuadrarPoliza	= "N";
+	boolean existeEjercicio = aca.fin.FinEjercicio.existeEjercicio(conElias, ejercicioId);
 	
 	//System.out.println("Datos:"+escuelaId+":"+ejercicioId+":"+usuario);
 	
@@ -89,27 +88,28 @@
 
 	<h2>
 		<fmt:message key="aca.PolizasAjuste" />
-	</h2>
-	
+		<small>(
+			<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong>
+		)</small>
+	</div>
+	</h2>	
 	<div class="well" style="overflow:hidden;">
 	 	<input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">
-	</div>	
-	
+	<%if(existeEjercicio){ %>
+		&nbsp;&nbsp;
+		<a href="accion.jsp" class="btn btn-primary">
+			<i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
+		</a>
+	<%} %>
+	</div>
+		
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!msj.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
   	<%} %>
 
-	<%if(aca.fin.FinEjercicio.existeEjercicio(conElias, ejercicioId)){ %>	
-	<div class="alert alert-info">
-		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong>
-	</div>
-	<div class="well">
-		<a href="accion.jsp" class="btn btn-primary">
-			<i class="icon-plus icon-white"></i> <fmt:message key="boton.Anadir" />
-		</a>
-	</div>
+	<%if(existeEjercicio){ %>
 	 	
 	<table class="table table-striped table-bordered" id="table">
 		<tr>
@@ -134,9 +134,11 @@
 				</td>
 				<td><%=poliza.getPolizaId().substring(2) %></td>
 				<td>
-					<a href="movimientos.jsp?polizaId=<%=poliza.getPolizaId() %>">
-						<%=poliza.getDescripcion() %>
-					</a>
+				<%	if(poliza.getEstado().equals("A")){%>
+					<a href="movimientos.jsp?polizaId=<%=poliza.getPolizaId() %>"><%=poliza.getDescripcion() %></a>
+				<%	}else{ %>
+					<a href="vermovimientos.jsp?polizaId=<%=poliza.getPolizaId() %>"><%=poliza.getDescripcion() %></a>
+				<%	} %>
 				</td>
 				<td><%=poliza.getFecha() %></td>
 				<td>
