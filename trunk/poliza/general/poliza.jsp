@@ -141,7 +141,7 @@
 				<td><%=poliza.getFecha() %></td>
 				<td>
 					<%if(poliza.getEstado().equals("A")){%>
-						<%if(cuadrarPoliza.equals("S") && aca.fin.FinMovimientos.getCPoliza(conElias, ejercicioId, poliza.getPolizaId()).equals(aca.fin.FinMovimientos.getDPoliza(conElias, ejercicioId, poliza.getPolizaId()))){ %>
+						<%if(cuadrarPoliza.equals("N") || aca.fin.FinMovimientos.getCPoliza(conElias, ejercicioId, poliza.getPolizaId()).equals(aca.fin.FinMovimientos.getDPoliza(conElias, ejercicioId, poliza.getPolizaId()))){ %>
 							<a href="javascript:cerrarPoliza('<%=poliza.getPolizaId() %>');" class="btn btn-mini btn-primary"><fmt:message key="aca.CerrarPoliza" /></a>
 						<%}else{ %>
 							<a disabled class="btn btn-mini btn-primary" title="<fmt:message key="aca.AunNoCuadra" />"><fmt:message key="aca.CerrarPoliza" /></a>
