@@ -78,7 +78,7 @@
 				
 	<div class="row">
 		
-		<div class="span7">
+		<div class="span9">
 			
 			<h4><fmt:message key="aca.Movimientos" /></h4>
 			
@@ -112,8 +112,6 @@
 						<tr>
 							<td><%=cont %></td>
 							<td>
-								<a href=" javascript:Eliminar('<%=mov.getMovimientoId() %>'); "><i class="icon-remove"></i></a>
-								<a href="movimientos.jsp?MovimientoId=<%=mov.getMovimientoId() %>"><i class="icon-pencil"></i></a>
 								<%=aca.alumno.AlumPersonal.getNombre(conElias, mov.getAuxiliar(), "NOMBRE")  %>
 							</td>
 							<td><%=mov.getCuentaId() %></td>

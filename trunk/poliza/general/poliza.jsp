@@ -87,7 +87,7 @@
 <div id="content">
 
 	<h2>
-		<fmt:message key="aca.PolizasAjuste" />
+		<fmt:message key="aca.PolizasGenerales" />
 		<small>(
 			<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","")%></strong>
 		)</small>
