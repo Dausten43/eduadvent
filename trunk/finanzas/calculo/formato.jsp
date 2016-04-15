@@ -11,19 +11,19 @@
 <jsp:useBean id="FinCalculoPagoL" scope="page" class="aca.fin.FinCalculoPagoLista"/>
 
 <%
-	
-	String escuelaId 		= (String) session.getAttribute("escuela");
-	String cicloId			= (String) session.getAttribute("cicloId");
-	String codigoAlumno 	= (String) session.getAttribute("codigoAlumno");
-	String periodoId		= request.getParameter("PeriodoId")==null?"1":request.getParameter("PeriodoId");
+	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,###,##0.00;-###,###,##0.00");
+
+	String escuelaId 				= (String) session.getAttribute("escuela");
+	String cicloId					= (String) session.getAttribute("cicloId");
+	String codigoAlumno 			= (String) session.getAttribute("codigoAlumno");
+	String periodoId				= request.getParameter("PeriodoId")==null?"1":request.getParameter("PeriodoId");
 		
 	finCalculo.mapeaRegId(conElias, cicloId, periodoId, codigoAlumno);	
 	Escuela.mapeaRegId(conElias, escuelaId);
 	alumno.mapeaRegId(conElias, codigoAlumno);	
 	
 	ArrayList<aca.fin.FinCalculoDet> lisDetalles	=  DetalleL.getListCalDet(conElias, cicloId, periodoId, codigoAlumno,"ORDER BY CUENTA_ID");
-	ArrayList<aca.fin.FinCalculoPago> listaPagos 	= FinCalculoPagoL.getListPagosAlumnoCuentas(conElias, cicloId, periodoId, codigoAlumno, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD'), ORDEN_PAGO(CICLO_ID,PERIODO_ID, PAGO_ID)");
-	java.text.DecimalFormat formato 			= new java.text.DecimalFormat("###,###,##0.00;-###,###,##0.00");
+	ArrayList<aca.fin.FinCalculoPago> listaPagos 	= FinCalculoPagoL.getListPagosAlumnoCuentas(conElias, cicloId, periodoId, codigoAlumno, " ORDER BY TO_CHAR(FECHA,'YYYY')||TO_CHAR(FECHA,'MM')||TO_CHAR(FECHA,'DD'), ORDEN_PAGO(CICLO_ID,PERIODO_ID, PAGO_ID)");	
 %>
 
 <style>
@@ -32,17 +32,16 @@
 	}
 </style>
 
-<div id="content">
+<div id="content">	
 	
-	
-	<h3><%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> <small>( <fmt:message key="aca.Fecha" />: <strong><%= aca.util.Fecha.getHoy() %></strong> )</small></h3>
-	
-	<p>
+	<h3>
+		<%= aca.catalogo.CatEscuela.getNombre(conElias, escuelaId) %> 
+		<small>( <fmt:message key="aca.Fecha" />: <strong><%= aca.util.Fecha.getHoy() %></strong> )</small>
+	</h3>	
+	<div class="alert">
 		<%=aca.ciclo.Ciclo.getCicloNombre(conElias, cicloId)%> |
 		 <%=aca.ciclo.CicloPeriodo.periodoNombre(conElias, cicloId, periodoId) %>	
-	</p>
-	
-	<hr />
+	</div>
 			
 	<table class="datosAlumno">
   	  <tr>
@@ -160,7 +159,7 @@
 				%>
 						<tr>
 							<td><%=cont%></td>
-		  					<td><%=pago.getFecha()%></td>
+		  					<td><%=pago.getFecha()%>-<%= pago.getPagoId() %></td>
 			  				<td><%=aca.fin.FinPago.getDescripcion(conElias, cicloId, periodoId, pago.getPagoId())%></td>
 			  				<td class="text-right"><%=pago.getImporte()%></td>
 							<td class="text-right"><%=pago.getBeca()%></td>
