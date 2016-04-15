@@ -17,16 +17,13 @@
 	String ejercicioId 	= (String)session.getAttribute("ejercicioId");
 	String usuario 		= (String)session.getAttribute("codigoId"); 
 	String salto		= "X";
-
 	
-	/* INFORMACION DE LA POLIZA */
-	
+	/* INFORMACION DE LA POLIZA */	
 	if(request.getParameter("polizaId") != null){
 		session.setAttribute("polizaId", request.getParameter("polizaId"));
 	}
 	
-	String polizaId 	= (String) session.getAttribute("polizaId");
-	
+	String polizaId 	= (String) session.getAttribute("polizaId");	
 	if( polizaId == null ){
 		salto = "poliza.jsp";
 	}
@@ -36,8 +33,8 @@
 	String movimientoId = request.getParameter("MovimientoId")==null?"":request.getParameter("MovimientoId");
 	
 	/* ACCIONES */
-	String accion 	= request.getParameter("Accion")==null?"":request.getParameter("Accion");
-	String msj 		= "";
+	String accion 		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String msj 			= "";
 	
 	pageContext.setAttribute("resultado", msj);
 	
@@ -53,7 +50,6 @@
 	if(!movimientoId.equals("")){
 		FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);	
 	}
-
 %>
 
 <div id="content">
