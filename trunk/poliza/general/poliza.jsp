@@ -21,9 +21,10 @@
 	
 <%
 
-	String escuelaId 	= (String) session.getAttribute("escuela");
-	String ejercicioId 	= (String)session.getAttribute("ejercicioId");
-	String usuario 		= (String)session.getAttribute("codigoId");
+	String escuelaId 		= (String) session.getAttribute("escuela");
+	String ejercicioId 		= (String)session.getAttribute("ejercicioId");
+	String usuario 			= (String)session.getAttribute("codigoId");
+	String cuadrarPoliza	= "N"; 
 	
 	//System.out.println("Datos:"+escuelaId+":"+ejercicioId+":"+usuario);
 	
@@ -54,10 +55,11 @@
 			error = true;
 		}
 		
-		if(aca.fin.FinMovimientos.getCPoliza(conElias, ejercicioId, polizaId).equals(aca.fin.FinMovimientos.getDPoliza(conElias, ejercicioId, polizaId)) == false){
-			error = true;
-		}
-		
+		if (cuadrarPoliza.equals("S")){
+			if(aca.fin.FinMovimientos.getCPoliza(conElias, ejercicioId, polizaId).equals(aca.fin.FinMovimientos.getDPoliza(conElias, ejercicioId, polizaId)) == false){
+				error = true;
+			}
+		}		
 		
 		if( error==true ){
 			conElias.rollback();
