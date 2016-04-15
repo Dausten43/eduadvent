@@ -42,7 +42,14 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.Recibo" /></h2>
+	<h3>
+		<fmt:message key="aca.Recibo" />
+		<small>(
+			<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong>&nbsp;
+			<fmt:message key="aca.Poliza" />: <strong><%=polizaId %> | <%=FinPoliza.getDescripcion() %></strong>&nbsp;
+			<fmt:message key="aca.Recibo" />: <strong><%=recibo %></strong>
+		)</small>
+	</h3>
 	
 	<div class="alert alert-info">
 		<fmt:message key="aca.EjercicioActual" />: <strong><%=ejercicioId.replace(escuelaId+"-","") %></strong>
