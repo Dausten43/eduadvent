@@ -76,6 +76,7 @@
     <th width="5%"><fmt:message key="aca.Operacion" /></th>
     <th width="8%"><fmt:message key="aca.Curso" /></th>
     <th width="28%"><fmt:message key="aca.Nombre" /></th>
+    <th width="28%"><fmt:message key="aca.Base" /></th>
     <th width="3%"><fmt:message key="aca.Hrs" /></th>
     <th width="3%"><fmt:message key="aca.Cred" /></th>
     <th width="10%"><fmt:message key="aca.Tipo" /></th>
@@ -92,6 +93,7 @@
 	ArrayList<aca.plan.PlanCurso> lisCurso		= PlanCursoLista.getListCurso(conElias, strPlanId, " ORDER BY GRADO, ORDEN");
 	for(int i=0; i<lisCurso.size();i++){
 		aca.plan.PlanCurso curso = (aca.plan.PlanCurso) lisCurso.get(i);
+		
 		String boleta = "";
 		if(curso.getBoleta()==null){
 			boleta = "No";
@@ -122,6 +124,7 @@
     </td>
     <td align="left"><%=curso.getCursoId() %></td>
     <td align="left"><%=curso.getCursoNombre() %></td>
+    <td align="left"><%=aca.plan.PlanCurso.getCursoNombre(conElias, curso.getCursoBase()) %></td>
     <td align="center"><%=curso.getHoras()%></td>
     <td align="center"><%=curso.getCreditos() %></td>
     <td align="center"><%=CatTipocurso.getNombre(conElias, curso.getTipocursoId())%></td>
