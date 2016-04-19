@@ -24,6 +24,7 @@
 		document.frmPlan.Falta.value = "S";
 		document.frmPlan.Aspectos.value = "N";
 		document.frmPlan.Accion.value = "1";
+		document.frmPlan.BoletaAparece.value = "S";
 		document.frmPlan.submit();
 	}
 
@@ -111,6 +112,8 @@
 			Curso.setEstado(request.getParameter("Estado"));
 			Curso.setTipoEvaluacion(request.getParameter("TipoEvaluacion"));
 			Curso.setCursoBase(request.getParameter("CursoBase"));
+			Curso.setBoleta(request.getParameter("BoletaAparece"));
+			System.out.println("Boleta "+request.getParameter("BoletaAparece"));
 
 			if (Curso.existeReg(conElias)) {
 
@@ -338,6 +341,17 @@
 <%
 						}		
 %>							
+						</div>
+						<div class="control-group ">
+							<label for="BoletaAparece"> <fmt:message key="aca.BoletaAparece" />: </label> <select
+								name="BoletaAparece" id="BoletaAparece">
+								<option value="S"
+									<%if (Curso.getBoleta().equals("S"))
+					out.print("selected=\"selected\"");%>><fmt:message key="aca.Si" /></option>
+								<option value="N"
+									<%if (Curso.getBoleta().equals("N"))
+					out.print("selected=\"selected\"");%>><fmt:message key="aca.Negacion" /></option>
+							</select>
 						</div>
 					</fieldset>
 				</div>

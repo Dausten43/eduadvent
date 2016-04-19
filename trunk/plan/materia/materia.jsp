@@ -85,22 +85,34 @@
 	<th width="3%"><fmt:message key="aca.Orden" /></th>
 	<th width="3%"><fmt:message key="aca.Decimal" /></th>
 	<th width="7%"><fmt:message key="aca.Estado" /></th>
+	<th width="7%"><fmt:message key="aca.BoletaAlumno" /></th>
 	<th width="9%"><fmt:message key="aca.TipoEval" /></th>
   </tr>
 <%
 	ArrayList<aca.plan.PlanCurso> lisCurso		= PlanCursoLista.getListCurso(conElias, strPlanId, " ORDER BY GRADO, ORDEN");
 	for(int i=0; i<lisCurso.size();i++){
 		aca.plan.PlanCurso curso = (aca.plan.PlanCurso) lisCurso.get(i);
+		String boleta = "";
+		if(curso.getBoleta()==null){
+			boleta = "No";
+		}else if(curso.getBoleta().equals("N")){
+			boleta = "No";
+		}else if(curso.getBoleta().equals("S")){
+			boleta = "Si";
+		}
 		if (Integer.parseInt(curso.getGrado())!=grado){
 		
 			grado = Integer.parseInt(curso.getGrado());	
 			String nombreGrado = aca.catalogo.CatEsquema.getNombreGrado(conElias, escuelaId, nivelId, curso.getGrado());
 			if (nombreGrado.equals("X")) nombreGrado = aca.catalogo.CatNivel.getGradoNombre(grado)+ titulo;
+			
 %>
   <tr> 
     <td style="border:1px solid gray;" colspan="13" align="center">&nbsp;<strong><%=nombreGrado%></strong></td>
   </tr>
-<%	} %>
+<%	}
+		
+		%>
   <tr> 
     <td align="center">
       <a class="icon-pencil" href="accion.jsp?Accion=5&CursoId=<%=curso.getCursoId().replaceAll("&", "}") %>&PlanId=<%=strPlanId %>">
@@ -119,6 +131,7 @@
 	<td align="center"><%=curso.getOrden() %></td>
 	<td align="center"><%=curso.getPunto().equals("S")?"SI":"NO"%></td>
 	<td align="center"><%=curso.getEstado().equals("A")?"Activo":"Inactivo"%></td>
+	<td align="center"><%=boleta%></td>
 	<td align="center"><%=curso.getTipoEvaluacion().equals("C")?"Calculado":"Pase"%></td>
   </tr>
 <%	} %>  

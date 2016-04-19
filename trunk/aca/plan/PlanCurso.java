@@ -21,6 +21,7 @@ public class PlanCurso{
 	private String tipoEvaluacion;
 	private String aspectos;
 	private String cursoBase;
+	private String boleta;
 	
 	
 	public PlanCurso(){
@@ -41,6 +42,7 @@ public class PlanCurso{
 		tipoEvaluacion	= "C";
 		aspectos		= "N";
 		cursoBase		= "000-00AAAA00";
+		boleta			= "";
 	}
 	
 	/**
@@ -241,6 +243,14 @@ public class PlanCurso{
 	public void setCursoBase(String cursoBase) {
 		this.cursoBase = cursoBase;
 	}
+	
+	public String getBoleta() {
+		return boleta;
+	}
+
+	public void setBoleta(String boleta) {
+		this.boleta = boleta;
+	}
 
 	/**
 	 * @param Connection the Connection to set
@@ -252,12 +262,12 @@ public class PlanCurso{
 		try{			
 			ps = conn.prepareStatement("INSERT INTO PLAN_CURSO"+
 				" (PLAN_ID, CURSO_ID, CURSO_NOMBRE, CURSO_CORTO, GRADO, NOTA_AC, TIPOCURSO_ID, FALTA, CONDUCTA, ORDEN, PUNTO, HORAS, CREDITOS, ESTADO, "+
-				" TIPO_EVALUACION, ASPECTOS, CURSO_BASE)" +
+				" TIPO_EVALUACION, ASPECTOS, CURSO_BASE, BOLETA)" +
 				" VALUES( ?, UPPER(?), ?, ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'999')," +
 				" TO_NUMBER(?, '99'), ?, ?, " +
 				" TO_NUMBER(?, '99'), ?," +
 				" TO_NUMBER(?, '99.9')," +
-				" TO_NUMBER(?, '99'), ?, ?, ?, ?)");	
+				" TO_NUMBER(?, '99'), ?, ?, ?, ?,?)");	
 					
 			ps.setString(1, planId);
 			ps.setString(2, cursoId);
@@ -276,6 +286,7 @@ public class PlanCurso{
 			ps.setString(15, tipoEvaluacion);
 			ps.setString(16, aspectos);
 			ps.setString(17, cursoBase);
+			ps.setString(18, boleta);
 			
 			if (ps.executeUpdate()== 1)
 				ok = true;				
@@ -310,7 +321,8 @@ public class PlanCurso{
 				" ESTADO = ?,"+
 				" TIPO_EVALUACION = ?," +
 				" ASPECTOS = ?, " +
-				" CURSO_BASE = ?"+
+				" CURSO_BASE = ?,"+
+				" BOLETA = ?"+
 				" WHERE CURSO_ID = ?");
 			
 			ps.setString(1, planId);			
@@ -329,7 +341,8 @@ public class PlanCurso{
 			ps.setString(14, tipoEvaluacion);
 			ps.setString(15, aspectos);
 			ps.setString(16, cursoBase);
-			ps.setString(17, cursoId);
+			ps.setString(17, boleta);
+			ps.setString(18, cursoId);
 			
 			if (ps.executeUpdate()== 1){
 				ok = true;				
@@ -401,6 +414,7 @@ public class PlanCurso{
 		tipoEvaluacion	= rs.getString("TIPO_EVALUACION");
 		aspectos		= rs.getString("ASPECTOS");
 		cursoBase		= rs.getString("CURSO_BASE");
+		boleta			= rs.getString("BOLETA");
 	}
 	
 	public void mapeaRegId( Connection conn, String cursoId) throws SQLException{
@@ -409,7 +423,7 @@ public class PlanCurso{
 		PreparedStatement ps = null; 
 		try{
 			ps = conn.prepareStatement("SELECT PLAN_ID, CURSO_ID, CURSO_NOMBRE," +
-					" CURSO_CORTO, GRADO, NOTA_AC, TIPOCURSO_ID, FALTA, CONDUCTA, ORDEN, PUNTO, HORAS, CREDITOS, ESTADO, TIPO_EVALUACION, ASPECTOS, CURSO_BASE" +
+					" CURSO_CORTO, GRADO, NOTA_AC, TIPOCURSO_ID, FALTA, CONDUCTA, ORDEN, PUNTO, HORAS, CREDITOS, ESTADO, TIPO_EVALUACION, ASPECTOS, CURSO_BASE, BOLETA" +
 					" FROM PLAN_CURSO" +
 					" WHERE CURSO_ID = ?");
 			ps.setString(1,cursoId);
