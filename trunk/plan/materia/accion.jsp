@@ -4,7 +4,6 @@
 <%@ include file="../../head.jsp"%>
 <%@ include file="../../menu.jsp"%>
 
-
 <jsp:useBean id="Curso" scope="page" class="aca.plan.PlanCurso" />
 <jsp:useBean id="PlanCursoLista"  class="aca.plan.PlanCursoLista" scope="page"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.CicloGrupoCurso" />
@@ -343,14 +342,11 @@
 %>							
 						</div>
 						<div class="control-group ">
-							<label for="BoletaAparece"> <fmt:message key="aca.BoletaAparece" />: </label> <select
-								name="BoletaAparece" id="BoletaAparece">
-								<option value="S"
-									<%if (Curso.getBoleta().equals("S"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Si" /></option>
-								<option value="N"
-									<%if (Curso.getBoleta().equals("N"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Negacion" /></option>
+							<label for="BoletaAparece"> 
+							<fmt:message key="aca.BoletaAparece" />: </label> 
+							<select name="BoletaAparece" id="BoletaAparece">
+								<option value="S" <%=Curso.getBoleta().equals("S")?" selected":""%>><fmt:message key="aca.Si" /></option>
+								<option value="N" <%=Curso.getBoleta().equals("N")?" selected":""%>><fmt:message key="aca.Negacion" /></option>
 							</select>
 						</div>
 					</fieldset>
