@@ -86,7 +86,7 @@ public class PlanCursoLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.plan.PlanCursoLista|getListCurso|:"+ex);
+			System.out.println("Error - aca.plan.PlanCursoLista|getListCursoActivo|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
