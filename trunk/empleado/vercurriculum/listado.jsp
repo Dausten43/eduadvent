@@ -6,16 +6,11 @@
 
 <jsp:useBean id="empCurriculum" class="aca.empleado.EmpCurriculum" scope="page"/>
 <jsp:useBean id="empCurriculumU" class="aca.empleado.EmpCurriculumLista" scope="page"/>
-<jsp:useBean id="Usuario" class="aca.usuario.Usuario" scope="page"/>
+
 <%
-	String codigoPersonal	= (String) session.getAttribute("codigoPersonal");
-	String salto			= "X";	
-	boolean esAdmin			= aca.usuario.Usuario.esAdministrador(conElias, codigoPersonal);
-	if( !esAdmin )
-		salto = "vitae.jsp";	
+	String codigoPersonal	= (String) session.getAttribute("codigoPersonal");		
 		
-	ArrayList<aca.empleado.EmpCurriculum> listCurriculum = empCurriculumU.getListAll(conElias, "ORDER BY EMP_NOMBRE(ID_EMPLEADO)");  
-	
+	ArrayList<aca.empleado.EmpCurriculum> listCurriculum = empCurriculumU.getListAll(conElias, "ORDER BY EMP_NOMBRE(ID_EMPLEADO)");	
 %>
 <body>
 <div id="content">
@@ -47,7 +42,4 @@
 </div>
 </body>
 <script src="../../js/search.js"></script>
-<% 	if (!salto.equals("X")){%>		
-		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
-<% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>
