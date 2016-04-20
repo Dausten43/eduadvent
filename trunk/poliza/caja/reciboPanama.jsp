@@ -64,10 +64,7 @@
 			<td align="center">
 				<strong>Fecha y Hora:</strong> [ <%=fechayHora %> ] &nbsp; &nbsp; 
 				<strong>No. Recibo:</strong> [ <%=finRecibo.getReciboId() %> ] &nbsp; &nbsp;
-				<strong>No. Folio:</strong>[ <%= polizaId %> ]
-<%				if (!fechaHoy.equals(finRecibo.getFecha())){ %>
-				<strong>Fecha Recibo:</strong>[ <%= finRecibo.getFecha() %> ]
-<% 				}%>				
+				<strong>Poliza:</strong>[ <%= polizaId %> ]
 			</td>
 		</tr>			
 	</table>
@@ -103,7 +100,7 @@
 	}
 %>	
 	<tr>	
-		<td><strong>Monto a Pagar: </strong> </td>
+		<td><strong>Total: </strong> </td>
 <%
 		pesos 		= finRecibo.getImporte().indexOf(".")>=0?finRecibo.getImporte().substring(0,finRecibo.getImporte().indexOf(".")):finRecibo.getImporte();
 		centavos 	= finRecibo.getImporte().indexOf(".")>=0?finRecibo.getImporte().substring(finRecibo.getImporte().indexOf(".")+1, finRecibo.getImporte().length()):"00";
@@ -115,7 +112,7 @@
 	<br>
 	<table class="tabla" style="margin: 0 auto;">
 	<tr>
-		<td class="center">Firma del Cajero: ____________________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Firma del Padre: ____________________________</td>
+		<td class="center">Firma del Cajero: ____________________________ </td>
 	</tr>
 	</table>	
 </div>

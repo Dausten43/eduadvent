@@ -91,6 +91,7 @@
 		Escuela.setZona(request.getParameter("Zona"));
 		Escuela.setBarrioId(request.getParameter("BarrioId"));
 		Escuela.setWww(request.getParameter("Www"));
+		Escuela.setRegistro(request.getParameter("registro"));
 	}
 	
 	String msj = "";
@@ -344,6 +345,10 @@
 				<fieldset>	
 					<label for="Www"> <fmt:message key="aca.Www" /></label>
 					<input name="Www" type="text" id="Www" value="<%=Escuela.getWww()==null?"":Escuela.getWww()%>" maxlength="30">
+				</fieldset>
+				<fieldset>	
+					<label for="registro"> <fmt:message key="aca.Registro" /></label>
+					<input name="registro" type="text" id="registro" value="<%=Escuela.getRegistro()==null?"":Escuela.getRegistro()%>" maxlength="30">
 				</fieldset>
 				
 			</div>
