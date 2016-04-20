@@ -102,6 +102,11 @@
 		}else if(curso.getBoleta().equals("S")){
 			boleta = "Si";
 		}
+		String cursoBase = "-";
+		if (!curso.getCursoBase().equals("-")){
+			cursoBase = aca.plan.PlanCurso.getCursoNombre(conElias, curso.getCursoBase());
+		}
+		
 		if (Integer.parseInt(curso.getGrado())!=grado){
 		
 			grado = Integer.parseInt(curso.getGrado());	
@@ -123,8 +128,7 @@
       </a> 
     </td>
     <td align="left"><%=curso.getCursoId() %></td>
-    <td align="left"><%=curso.getCursoNombre() %></td>
-    <td align="left"><%=aca.plan.PlanCurso.getCursoNombre(conElias, curso.getCursoBase()) %></td>
+    <td align="left"><%=curso.getCursoNombre() %></td>    
     <td align="center"><%=curso.getHoras()%></td>
     <td align="center"><%=curso.getCreditos() %></td>
     <td align="center"><%=CatTipocurso.getNombre(conElias, curso.getTipocursoId())%></td>
@@ -133,8 +137,9 @@
 	<td align="center"><%=curso.getConducta() %></td>
 	<td align="center"><%=curso.getOrden() %></td>
 	<td align="center"><%=curso.getPunto().equals("S")?"SI":"NO"%></td>
-	<td align="center"><%=curso.getEstado().equals("A")?"Activo":"Inactivo"%></td>
+	<td align="center"><%=curso.getEstado().equals("A")?"Activo":"Inactivo"%></td>	
 	<td align="center"><%=boleta%></td>
+	<td align="left"><%=cursoBase%></td>
 	<td align="center"><%=curso.getTipoEvaluacion().equals("C")?"Calculado":"Pase"%></td>
   </tr>
 <%	} %>  
