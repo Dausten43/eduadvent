@@ -15,10 +15,11 @@
 	//String accesos			= Acceso.getAccesos(conEnoc, codigoPersonal);
 	//boolean esAdmin			= Acceso.esAdministrador(conEnoc, codigoPersonal);
 	//if(!esAdmin && accesos.trim().equals(""))
-	 salto = "vitae.jsp";
+// 	 salto = "vitae.jsp";
 	
 		
 	ArrayList<EmpCurriculum> listCurriculum = empCurriculumU.getListAll(conElias, "ORDER BY EMP_NOMBRE(ID_EMPLEADO)");  
+	
 %>
 <body>
 <div id="content">
@@ -32,7 +33,8 @@
 <%
 	for(int i = 0; i < listCurriculum.size(); i++){
 		empCurriculum = (EmpCurriculum) listCurriculum.get(i);
-		if(((String)session.getAttribute("escuela")).equals(empCurriculum.getIdEmpleado().substring(1,3))){
+		
+		if(((String)session.getAttribute("escuela")).equals(empCurriculum.getIdEmpleado().substring(1,3))){		
 %>
 		<tr class="button" onclick="location.href='vitaePdf.jsp?codigoPersonal=<%=empCurriculum.getIdEmpleado() %>';">
 			<td width="30px" align="center"><%=i+1 %></td>
@@ -49,7 +51,7 @@
 </div>
 </body>
 <script src="../../js/search.js"></script>
-<% 	if (!salto.equals("X")){%>
+<% 	if (!salto.equals("X")){%>		
 		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
 <% 	}%>
 <%@ include file= "../../cierra_elias.jsp" %>
