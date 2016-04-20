@@ -33,7 +33,7 @@
 	document.setMargins(30,30,60,20);
 	
 	try{
-		String dir = application.getRealPath("/empleado/curriculum/")+"/"+"curriculum.pdf";
+		String dir = application.getRealPath("/empleado/vercurriculum/")+"/"+"curriculum.pdf";
 		PdfWriter pdf = PdfWriter.getInstance(document, new FileOutputStream(dir));
 		document.addAuthor("Direccion de Sistemas");
         document.addSubject("Curriculum de "+codigoPersonal);
