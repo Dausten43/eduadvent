@@ -111,8 +111,7 @@
 			Curso.setEstado(request.getParameter("Estado"));
 			Curso.setTipoEvaluacion(request.getParameter("TipoEvaluacion"));
 			Curso.setCursoBase(request.getParameter("CursoBase"));
-			Curso.setBoleta(request.getParameter("BoletaAparece"));
-			System.out.println("Boleta "+request.getParameter("BoletaAparece"));
+			Curso.setBoleta(request.getParameter("BoletaAparece"));			
 
 			if (Curso.existeReg(conElias)) {
 
