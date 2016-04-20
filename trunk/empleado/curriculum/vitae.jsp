@@ -54,7 +54,7 @@
 		}break;
 	}
 	
-	pageContext.setAttriubute("respuesta", respuesta);
+	pageContext.setAttribute("respuesta", respuesta);
 %>
 <head>
 	<script type="text/javascript">
