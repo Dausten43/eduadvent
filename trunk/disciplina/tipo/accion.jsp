@@ -5,6 +5,7 @@
 <%@ include file="../../menu.jsp"%>
 
 <jsp:useBean id="reporte" scope="page" class="aca.cond.CondTipoReporte" />
+
 <head>
 <script>
 	
@@ -85,7 +86,7 @@
 			if (reporte.updateReg(conElias)) {
 				sResultado = "Modificado";
 				conElias.commit();
-				salto = "tipo.jsp");
+				salto = "tipo.jsp";
 			} else {
 				sResultado = "NoModificado";
 			}
@@ -99,7 +100,7 @@
 			if (reporte.deleteReg(conElias)) {
 				sResultado = "Eliminado";
 				conElias.commit();
-				salto = "tipo.jsp");
+				salto = "tipo.jsp";
 			} else {
 				sResultado = "NoEliminado";
 			}
@@ -120,11 +121,12 @@
 		break;
 	}
 	}
+
 	pageContext.setAttribute("resultado", sResultado);
 %>
 <body>
 	<div id="content">
-		<h2><fmt:message key="catalogo.CatalogoReportes"/></h2>
+		<h2><fmt:message key="aca.Reportes"/></h2>
 	<%
 		if (!sResultado.equals("")){
 	%>
