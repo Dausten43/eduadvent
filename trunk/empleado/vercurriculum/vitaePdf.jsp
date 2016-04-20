@@ -18,11 +18,10 @@
 <jsp:useBean id="catPaisU" class="aca.catalogo.CatPaisLista" scope="page"/>
 <%	
 	String escuelaId 		= (String) session.getAttribute("escuela");
-
-	String codigoPersonal = request.getParameter("codigoPersonal");
-	String respuesta = "";
-	int accion = Integer.parseInt(request.getParameter("Accion")==null?"0":request.getParameter("Accion"));
-	boolean error = false;
+	String codigoPersonal 	= request.getParameter("codigoPersonal");
+	String respuesta 		= "";
+	int accion 				= Integer.parseInt(request.getParameter("Accion")==null?"0":request.getParameter("Accion"));
+	boolean error 			= false;
 
 	ArrayList<CatPais> listPais = catPaisU.getListAll(conElias, "ORDER BY PAIS_NOMBRE");
 	
