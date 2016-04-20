@@ -14,7 +14,7 @@
 	if( !esAdmin )
 		salto = "vitae.jsp";	
 		
-	ArrayList<EmpCurriculum> listCurriculum = empCurriculumU.getListAll(conElias, "ORDER BY EMP_NOMBRE(ID_EMPLEADO)");  
+	ArrayList<aca.empleado.EmpCurriculum> listCurriculum = empCurriculumU.getListAll(conElias, "ORDER BY EMP_NOMBRE(ID_EMPLEADO)");  
 	
 %>
 <body>
@@ -28,7 +28,7 @@
 		</tr>
 <%
 	for(int i = 0; i < listCurriculum.size(); i++){
-		empCurriculum = (EmpCurriculum) listCurriculum.get(i);
+		empCurriculum = (aca.empleado.EmpCurriculum) listCurriculum.get(i);
 		
 		if(((String)session.getAttribute("escuela")).equals(empCurriculum.getIdEmpleado().substring(1,3))){		
 %>
