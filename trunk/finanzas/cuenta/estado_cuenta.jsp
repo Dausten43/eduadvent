@@ -94,15 +94,17 @@
 				<th>Recibo</th>
 				<th>Descripción</th>
 				<th>Referencia</th>						
-				<th class="text-right">Cargo</th>
+				<th class="text-right">Débito</th>
 				<th class="text-right">Crédito</th>
 				<th class="text-right">Saldo</th>
+				<th class="text-right">Estado</th>
 			</tr>
 		</thead>
 	<%
 		// Consulta el saldo anterior del alumno
 		String saldoStr 	= aca.fin.FinMovimientos.getSaldoAnterior(conElias, codigoId, fechaInicio);
 		double saldoNum		= Double.valueOf(saldoStr);
+		String signoSaldo	= saldoNum>=0?"Crédito":"Débito"; 
 		
 		//System.out.println("Datos:"+saldoStr+":"+saldoNum);
 		
@@ -118,12 +120,13 @@
 			out.print("<td align='center'>-</td>");
 			if (saldoNum>0){
 				out.print("<td>&nbsp;</td>");
-				out.print("<td align='center' class='text-right'>"+formato.format(saldoNum)+"</td>");
+				out.print("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
 			}else{
-				out.print("<td align='center' class='text-right'>"+formato.format(saldoNum)+"</td>");
+				out.print("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
 				out.print("<td>&nbsp;</td>");
 			}
-			out.println("<td align='center' class='text-right'>"+formato.format(saldoNum)+"</td>");
+			out.println("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
+			out.println("<td class='text-right'>"+signoSaldo+"</td>");
 			out.println("</tr>");
 		}
 		float total = (float)saldoNum;			
@@ -139,7 +142,8 @@
 				total -= Float.parseFloat(movto.getImporte());
 			}else{
 				total += Float.parseFloat(movto.getImporte());
-			}	
+			}
+			signoSaldo	= total>=0?"Crédito":"Débito"; 
 	%>
 		<tr>
 			<td><%=movto.getPolizaId() %></td>
@@ -152,6 +156,7 @@
 			<td class="text-right"><%=movto.getNaturaleza().equals("D")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=movto.getNaturaleza().equals("C")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=formato.format(total) %></td>
+			<td class="text-right"><%=signoSaldo%></td>
 		</tr>
 	<%
 		}			
