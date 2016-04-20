@@ -75,10 +75,8 @@
   <tr> 
     <th width="5%"><fmt:message key="aca.Operacion" /></th>
     <th width="8%"><fmt:message key="aca.Curso" /></th>
-    <th width="28%"><fmt:message key="aca.Nombre" /></th>
-    <th width="28%"><fmt:message key="aca.Base" /></th>
-    <th width="3%"><fmt:message key="aca.Hrs" /></th>
-    <th width="3%"><fmt:message key="aca.Cred" /></th>
+    <th width="28%"><fmt:message key="aca.Nombre" /></th>    
+    <th width="3%"><fmt:message key="aca.Hrs" /></th>    
     <th width="10%"><fmt:message key="aca.Tipo" /></th>
     <th width="7%"><fmt:message key="aca.NotaAC" /></th>
 	<th width="7%"><fmt:message key="maestros.RegistrodeFaltas" /></th>
@@ -87,6 +85,7 @@
 	<th width="3%"><fmt:message key="aca.Decimal" /></th>
 	<th width="7%"><fmt:message key="aca.Estado" /></th>
 	<th width="7%"><fmt:message key="aca.BoletaAlumno" /></th>
+	<th width="28%"><fmt:message key="aca.Base" /></th>
 	<th width="9%"><fmt:message key="aca.TipoEval" /></th>
   </tr>
 <%
@@ -115,7 +114,7 @@
 			
 %>
   <tr> 
-    <td style="border:1px solid gray;" colspan="13" align="center">&nbsp;<strong><%=nombreGrado%></strong></td>
+    <td style="border:1px solid gray;" colspan="15" align="center">&nbsp;<strong><%=nombreGrado%></strong></td>
   </tr>
 <%	}
 		
@@ -129,8 +128,7 @@
     </td>
     <td align="left"><%=curso.getCursoId() %></td>
     <td align="left"><%=curso.getCursoNombre() %></td>    
-    <td align="center"><%=curso.getHoras()%></td>
-    <td align="center"><%=curso.getCreditos() %></td>
+    <td align="center"><%=curso.getHoras()%></td>    
     <td align="center"><%=CatTipocurso.getNombre(conElias, curso.getTipocursoId())%></td>
     <td align="center"><%=curso.getNotaAc() %></td>
 	<td align="center"><%=curso.getFalta() %></td>
