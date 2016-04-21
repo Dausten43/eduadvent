@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import aca.alumno.AlumPersonal;
+
 public class FinMovimientosLista {
 	
 	
@@ -451,6 +453,42 @@ public class FinMovimientosLista {
 		return list;
 	}
 	
+	public ArrayList<AlumPersonal> getListDeudores(Connection conn, String cicloId, String escuelaId, String orden ) throws SQLException{
+		ArrayList<AlumPersonal> list	= new ArrayList<AlumPersonal>();
+		Statement st 					= conn.createStatement();
+		ResultSet rs 					= null;
+		String comando					= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO, GENERO, CURP, TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY') AS F_NACIMIENTO,"
+					+ " PAIS_ID, ESTADO_ID, CIUDAD_ID, CLASFIN_ID, EMAIL, COLONIA, DIRECCION, TELEFONO, COTEJADO, ALUM_NIVEL_HISTORICO(CODIGO_ID, '"+cicloId+"', 1 ) AS NIVEL_ID,"
+					+ " ALUM_GRADO_HISTORICO( CODIGO_ID, '"+cicloId+"', 1 ) AS GRADO, ALUM_GRUPO_HISTORICO( CODIGO_ID, '"+cicloId+"', 1 ) AS GRUPO,"
+					+ " ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA, DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA, TIPO_SANGRE, TUTOR_CEDULA, BARRIO_ID"
+					+ " FROM ALUM_PERSONAL "
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
+					+ " AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO  WHERE CICLO_ID = '"+cicloId+"'  AND ESTADO = 'I')"
+					+ " AND CODIGO_ID IN (SELECT AUXILIAR AS CODIGO_ID FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = 'B01'"
+					+ " GROUP BY AUXILIAR having sum(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) < 0)"+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				AlumPersonal alumno = new AlumPersonal();
+				alumno.mapeaReg(rs);
+				list.add(alumno);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimientoLista|getListDeudores|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return list;
+	}
+	
+	
+	
 	public HashMap<String,String> getMapSaldos(Connection conn, String ejercicioId, String codigoId) throws SQLException{
 		
 		HashMap<String,String> map = new HashMap<String,String>();
@@ -503,6 +541,35 @@ public class FinMovimientosLista {
 		
 		return map;
 	}
+	
+	
+	public HashMap<String,String> getMapSaldosAlumDeudores(Connection conn, String codigoId) throws SQLException{
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+
+		try{
+			comando = "	SELECT AUXILIAR, SUM(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) AS SALDO "
+					+ " FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = '"+codigoId+"' GROUP BY AUXILIAR"
+					+ " HAVING SUM(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) < 0";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				map.put(rs.getString("AUXILIAR"), rs.getString("SALDO"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovmientosLista|getMapSaldosAlumDeudores|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
 	
 	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String estado, String tipo, String fechaIni, String fechaFin, String naturaleza, String tipoMov) throws SQLException{
 		
