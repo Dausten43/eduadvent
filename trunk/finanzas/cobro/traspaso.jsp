@@ -79,6 +79,7 @@
 			finPago.setDescripcion(lisFinPago.get(x).getDescripcion());
 			finPago.setTipo(lisFinPago.get(x).getTipo());
 			finPago.setOrden(lisFinPago.get(x).getOrden());
+			finPago.setFechaVence(lisFinPago.get(x).getFechaVence());
 			
 			//Busca el siguiente folio 
 			finPago.setPagoId(finPago.maximoReg(conElias, cicloRecibe, periodoRecibe));			
@@ -140,7 +141,8 @@
 					<tr>
 						<th>#</th>
 						<th><fmt:message key="aca.Descripcion" /></th>
-						<th><fmt:message key="aca.Fecha" /></th>
+						<th><fmt:message key="aca.FechaAplica" /></th>
+						<th><fmt:message key="aca.FechaVence" /></th>
 						<th><fmt:message key="aca.Tipo" /></th>
 						<th><fmt:message key="aca.Orden" /></th>
 					</tr>
@@ -159,6 +161,7 @@
 							</td>
 							<td><%=finPago.getDescripcion() %></td>
 							<td><%=finPago.getFecha() %></td>
+							<td><%=finPago.getFechaVence() %></td>
 							<td><%=finPago.getTipo().equals("I")?"Inicial":"Ordinario" %></td>
 							<td><%=finPago.getOrden()%></td>
 						</tr>
@@ -207,7 +210,8 @@
 					<tr>
 						<th>#</th>
 						<th><fmt:message key="aca.Descripcion" /></th>
-						<th><fmt:message key="aca.Fecha" /></th>
+						<th><fmt:message key="aca.FechaAplica" /></th>
+						<th><fmt:message key="aca.FechaVence" /></th>
 						<th><fmt:message key="aca.Tipo" /></th>
 						<th><fmt:message key="aca.Orden" /></th>
 					</tr>
@@ -226,6 +230,7 @@
 							</td>
 							<td><%=finPago.getDescripcion() %></td>
 							<td><%=finPago.getFecha() %></td>
+							<td><%=finPago.getFechaVence() %></td>
 							<td><%=finPago.getTipo().equals("I")?"Inicial":"Ordinario" %></td>
 							<td><%=finPago.getOrden()%></td>
 						</tr>

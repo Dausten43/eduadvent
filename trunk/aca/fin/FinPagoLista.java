@@ -21,7 +21,7 @@ public class FinPagoLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT PAGO_ID, CICLO_ID, PERIODO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN" +
+			comando = "SELECT PAGO_ID, CICLO_ID, PERIODO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN, TO_CHAR(FECHA_VENCE, 'DD/MM/YYYY') AS FECHA_VENCE" +
 					" FROM FIN_PAGO" +
 					" WHERE CICLO_ID = '"+cicloId+"'" +
 					" AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "+orden;
@@ -50,7 +50,7 @@ public class FinPagoLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT PAGO_ID, CICLO_ID, PERIODO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
+			comando = "SELECT PAGO_ID, CICLO_ID, PERIODO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN, TO_CHAR(FECHA_VENCE, 'DD/MM/YYYY') AS FECHA_VENCE"
 					+ " FROM FIN_PAGO"
 					+ " WHERE CICLO_ID = '"+cicloId+"'"
 					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')"

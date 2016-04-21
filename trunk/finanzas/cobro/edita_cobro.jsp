@@ -52,6 +52,7 @@
 		finPago.setDescripcion(request.getParameter("descripcion"));
 		finPago.setTipo(request.getParameter("tipo"));
 		finPago.setOrden(request.getParameter("orden"));
+		finPago.setFechaVence(request.getParameter("FechaVence"));
 		if(metodo.equals("Guardar")){	// Guardar	
 			//Busca el siguiente folio 
 			finPago.setPagoId(finPago.maximoReg(conElias, cicloId, periodoId));			
@@ -98,8 +99,13 @@
 		</fieldset>
 				
 		<fieldset>
-			<label for="fecha"><fmt:message key="aca.Fecha" /></label>
+			<label for="fecha"><fmt:message key="aca.FechaAplica" /></label>
 			<input type="text" id="fecha" name="fecha" value="<%=finPago.getFecha() %>" size="8" maxlength="10" />
+		</fieldset>
+		
+		<fieldset>
+			<label for="FechaVence"><fmt:message key="aca.FechaVence" /></label>
+			<input type="text" id="FechaVence" name="FechaVence" value="<%=finPago.getFechaVence() %>" size="8" maxlength="10" />
 		</fieldset>
 		
 		<fieldset>
@@ -129,5 +135,6 @@
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 <script>
 	$('#fecha').datepicker();
+	$('#FechaVence').datepicker();
 </script>
 <%@ include file= "../../cierra_elias.jsp" %>

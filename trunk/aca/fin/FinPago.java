@@ -20,6 +20,7 @@ public class FinPago {
 	private String descripcion;
 	private String tipo;
 	private String orden;
+	private String fechaVence;
 	
 	public FinPago(){
 		cicloId		= "";
@@ -29,6 +30,7 @@ public class FinPago {
 		descripcion	= "";
 		tipo 		= "P";
 		orden 		= "0"; 
+		fechaVence	= "";
 	}
 
 	/**
@@ -128,14 +130,22 @@ public class FinPago {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	
+	public String getFechaVence() {
+		return fechaVence;
+	}
+
+	public void setFechaVence(String fechaVence) {
+		this.fechaVence = fechaVence;
+	}
 
 	public boolean insertReg(Connection conn) throws SQLException{
         boolean ok = false;
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement(
-                    "INSERT INTO FIN_PAGO(CICLO_ID, PERIODO_ID, PAGO_ID, FECHA, DESCRIPCION, TIPO, ORDEN)" +
-                    " VALUES(?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_DATE(?, 'DD/MM/YYYY'), ?, ?, TO_NUMBER(?, '99'))");
+                    "INSERT INTO FIN_PAGO(CICLO_ID, PERIODO_ID, PAGO_ID, FECHA, DESCRIPCION, TIPO, ORDEN, FECHA_VENCE)" +
+                    " VALUES(?, TO_NUMBER(?, '99'), TO_NUMBER(?, '99'), TO_DATE(?, 'DD/MM/YYYY'), ?, ?, TO_NUMBER(?, '99'),TO_DATE(?, 'DD/MM/YYYY'))");
             
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
@@ -144,6 +154,7 @@ public class FinPago {
             ps.setString(5, descripcion);
             ps.setString(6, tipo);
             ps.setString(7, orden);
+            ps.setString(8, fechaVence);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -166,7 +177,7 @@ public class FinPago {
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement("UPDATE FIN_PAGO"
-            		+ " SET FECHA = TO_DATE(?, 'DD/MM/YYYY'), DESCRIPCION = ?, TIPO = ?, ORDEN = TO_NUMBER(?,'99')"
+            		+ " SET FECHA = TO_DATE(?, 'DD/MM/YYYY'), DESCRIPCION = ?, TIPO = ?, ORDEN = TO_NUMBER(?,'99'), FECHA_VENCE = TO_DATE(?, 'DD/MM/YYYY')"
             		+ " WHERE CICLO_ID = ?"
             		+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
             		+ " AND PAGO_ID = TO_NUMBER(?, '99')");
@@ -175,9 +186,10 @@ public class FinPago {
             ps.setString(2, descripcion);
             ps.setString(3, tipo);
             ps.setString(4, orden);
-            ps.setString(5, cicloId);
-            ps.setString(6, periodoId);
-            ps.setString(7, pagoId);
+            ps.setString(5, fechaVence);
+            ps.setString(6, cicloId);
+            ps.setString(7, periodoId);
+            ps.setString(8, pagoId);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -225,13 +237,14 @@ public class FinPago {
 		descripcion	= rs.getString("DESCRIPCION");
 		tipo		= rs.getString("TIPO");
 		orden 		= rs.getString("ORDEN");
+		fechaVence	= rs.getString("FECHA_VENCE");
     }
 
     public void mapeaRegId(Connection con, String cicloId, String periodoId, String pagoId) throws SQLException{
         ResultSet rs = null;
         PreparedStatement ps = null; 
         try{
-	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
+	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN, TO_CHAR(FECHA_VENCE, 'DD/MM/YYYY') AS FECHA_VENCE"
 	                + " FROM FIN_PAGO"
 	                + " WHERE CICLO_ID = ?"
 	                + " AND PERIODO_ID = TO_NUMBER(?,'99')"
@@ -256,7 +269,7 @@ public class FinPago {
         ResultSet rs = null;
         PreparedStatement ps = null; 
         try{
-	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN"
+	        ps = con.prepareStatement("SELECT CICLO_ID, PERIODO_ID, PAGO_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, TIPO, ORDEN, FECHA_VENCE"
 	                + " FROM FIN_PAGO"
 	                + " WHERE CICLO_ID = ?"
 	                + " AND PERIODO_ID = TO_NUMBER(?, '99')"

@@ -125,7 +125,8 @@
 						<th><fmt:message key="aca.Accion" /></th>
 						<th>#</th>
 						<th><fmt:message key="aca.Descripcion" /></th>
-						<th><fmt:message key="aca.Fecha" /></th>
+						<th><fmt:message key="aca.FechaAplica" /></th>
+						<th><fmt:message key="aca.FechaVence" /></th>
 						<th><fmt:message key="aca.Tipo" /></th>
 						<th><fmt:message key="aca.Orden" /></th>
 					</tr>
@@ -150,6 +151,7 @@
 							</td>
 							<td><%=finPago.getDescripcion() %></td>
 							<td><%=finPago.getFecha() %></td>
+							<td><%=finPago.getFechaVence() %></td>
 							<td><%=finPago.getTipo().equals("I")?"Inicial":"Ordinario" %></td>
 							<td><%=finPago.getOrden()%></td>
 						</tr>
