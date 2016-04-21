@@ -27,11 +27,17 @@
 	// Lista de ciclos activos en la escuela
 	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID");
 	
+	
+	//lista de ejerficio id
+	
+	
 	// Lista de Alumnos Inscritos en un ciclo escolar
 	ArrayList lisInscritos = AlumnoL.getListAlumnosInscritos(conElias,escuelaId,ciclo, " ORDER BY NIVEL_ID,GRADO,GRUPO,APATERNO,AMATERNO,NOMBRE");	
 	
 	HashMap<String, aca.alumno.AlumCiclo > mapaGradoGrupo =   aca.alumno.AlumCicloLista.getMapHistoria(conElias, "");
-	HashMap<String, String> mapaSaldo =  finMovimientosL.getMapSaldos(conElias, ejercicioId, escuelaId);
+	HashMap<String, String> mapaSaldo =  finMovimientosL.getMapSaldos(conElias, escuelaId);
+	
+	System.out.println(ejercicioId +" "+ciclo);
 %>
 <style>
 	body{
