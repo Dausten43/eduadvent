@@ -478,6 +478,32 @@ public class FinMovimientosLista {
 		return map;
 	}
 	
+	public HashMap<String,String> getMapSaldos(Connection conn, String codigoId) throws SQLException{
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+
+		try{
+			comando = "	SELECT AUXILIAR, SUM(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) AS SALDO" +
+					  " FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = '"+codigoId+"' GROUP BY AUXILIAR";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				map.put(rs.getString("AUXILIAR"), rs.getString("SALDO"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovmientosLista|getMapSaldos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
 	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String estado, String tipo, String fechaIni, String fechaFin, String naturaleza, String tipoMov) throws SQLException{
 		
 		Statement st			= conn.createStatement();
