@@ -46,7 +46,7 @@
 
 <div id="content">	
 	<h2>Reporte de Alumnos Inscritos</h2>
-	<form name="forma" action="reporte.jsp" method='post'>
+	<form name="forma" action="reporte_deudor.jsp" method='post'>
 		<div class="well">
 			<select id="ciclo" name="ciclo" onchange="document.forma.submit();" style="width:360px;margin-bottom:0px;">
 				<%for(aca.ciclo.Ciclo c : lisCiclo){%>
@@ -113,12 +113,12 @@
 				%>
 
 				<tr>
-				  <td><%= cont %></td>
-				  <td><%= inscrito.getCodigoId() %></td>
-				  <td><%= inscrito.getApaterno()+" "+inscrito.getAmaterno()+", "+inscrito.getNombre()%></td>
-				  <td><%= grado%></td>
-				  <td><%= grupo%></td>
-				  <td><%=formato.format(total) %></td>
+				  <td width="5%"><%= cont %></td>
+				  <td width="10%"><%= inscrito.getCodigoId() %></td>
+				  <td width="50%"><%= inscrito.getApaterno()+" "+inscrito.getAmaterno()+", "+inscrito.getNombre()%></td>
+				  <td width="5%"><%= grado%></td>
+				  <td width="5%"><%= grupo%></td>
+				  <td width="10%"><%=formato.format(total) %></td>
 				  
 				</tr>
 				
