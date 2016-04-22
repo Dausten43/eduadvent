@@ -1132,13 +1132,13 @@
 			if (nivelEvaluacion.equals("E")){
 	%>
 			<a class="btn btn-mobile" href="evaluarFaltas.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-				<fmt:message key="maestros.RegistrodeFaltas" />
+				<fmt:message key="maestros.RegistrodeAsistencia" />
 			</a> 
 	<%
 			}else if (nivelEvaluacion.equals("P")){
 	%>
 			<a class="btn btn-mobile" href="evaluarFaltasProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-				<fmt:message key="maestros.RegistrodeFaltas" />
+				<fmt:message key="maestros.RegistrodeAsistencia" />
 			</a>
 	<%				
 			}
