@@ -32,7 +32,7 @@
 	ArrayList lisInscritos = finMovimientosL.getListDeudores(conElias, ciclo, escuelaId, " ORDER BY NIVEL_ID,GRADO,GRUPO,APATERNO,AMATERNO,NOMBRE");	
 	
 	HashMap<String, aca.alumno.AlumCiclo >	mapaGradoGrupo	= aca.alumno.AlumCicloLista.getMapHistoria(conElias, "");
-	HashMap<String, String> 				mapaSaldo		= finMovimientosL.getMapSaldosAlumDeudores(conElias, escuelaId);	
+	HashMap<String, String> 				mapaSaldo		= finMovimientosL.getMapSaldosAlumDeudores(conElias, escuelaId);
 %>
 <style>
 	body{
@@ -56,76 +56,72 @@
 		 </div>
 	 </form>
 	 
-	<%	 	
-			String gradoAndGrupo = "0";
-			java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
-			float total = 0f;
-			for(int i=0; i<lisInscritos.size();i++){
-				cont++;			
-				aca.alumno.AlumPersonal inscrito = (aca.alumno.AlumPersonal) lisInscritos.get(i);
-				
-				if (mapaGradoGrupo.containsKey(inscrito.getCodigoId()+ciclo+"1")){
-					aca.alumno.AlumCiclo historia = (aca.alumno.AlumCiclo) mapaGradoGrupo.get(inscrito.getCodigoId()+ciclo+"1");
-					
-					grado		= aca.catalogo.CatEsquemaLista.getGradoYGrupo(conElias, escuelaId, historia.getNivel(), historia.getGrado());
-					grupo 		= historia.getGrupo();			 
-									
-				}else{
-					grado = "-"; grupo = "-";
-				}
-				if(!gradoAndGrupo.equals(grado+grupo)){
-					
-				    cont=1;
-				    gradoAndGrupo = grado+grupo;
-					
-					
-					if(!nivelTemp.equals(inscrito.getNivelId())){
-						nivelTemp = inscrito.getNivelId();
-						 
-					%>
-					<div class="alert alert-info">
-	  				<h4><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, inscrito.getNivelId())%></h4>
-	  				</div>
-	<%  			} %>				
-					<div class="alert" width="10%">
-					  	<div style="font-size:11pt; "><b><%=grado%> "<%= grupo%>"</b></div>
-				  	</div>
-				<table class="table  table-fontsmall table-striped">
-				<tr>
-				    <th>#</th>
-				    <th>Matr&iacute;cula</th>
-				    <th>Nombre</th>
-				    <th>Grado</th>
-				    <th>Grupo</th>
-				    <th>Saldo</th>
-				 </tr>
-					
-			<%	}
-	
-				if (mapaSaldo.containsKey(inscrito.getCodigoId())){
-					String saldo =  mapaSaldo.get(inscrito.getCodigoId());
-					total = Float.parseFloat(saldo);
-					
-					%>
-
-					<%
-					
+<%	 	
+	String gradoAndGrupo = "0";
+	java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	float total = 0f;
+	for(int i=0; i<lisInscritos.size();i++){
+		cont++;			
+		aca.alumno.AlumPersonal inscrito = (aca.alumno.AlumPersonal) lisInscritos.get(i);
+		
+		if (mapaGradoGrupo.containsKey(inscrito.getCodigoId()+ciclo+"1")){
+			aca.alumno.AlumCiclo historia = (aca.alumno.AlumCiclo) mapaGradoGrupo.get(inscrito.getCodigoId()+ciclo+"1");
+			
+			grado		= aca.catalogo.CatEsquemaLista.getGradoYGrupo(conElias, escuelaId, historia.getNivel(), historia.getGrado());
+			grupo 		= historia.getGrupo();			 
+							
+		}else{
+			grado = "-"; grupo = "-";
+		}
+		if(!gradoAndGrupo.equals(grado+grupo)){
+			
+		    cont=1;
+		    gradoAndGrupo = grado+grupo;
+			
+			
+			if(!nivelTemp.equals(inscrito.getNivelId())){
+				nivelTemp = inscrito.getNivelId();
+					 
 				%>
+				<div class="alert alert-info">
+  				<h4><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, inscrito.getNivelId())%></h4>
+  				</div>
+<%  		} %>				
+				<div class="alert" width="10%">
+				  	<div style="font-size:11pt; "><b><%=grado%> "<%= grupo%>"</b></div>
+			  	</div>
+			<table class="table  table-fontsmall table-striped">
+			<tr>
+			    <th>#</th>
+			    <th>Matr&iacute;cula</th>
+			    <th>Nombre</th>
+			    <th>Grado</th>
+			    <th>Grupo</th>
+			    <th>Saldo</th>
+			 </tr>
+				
+<%		}
 
-				<tr>
-				  <td width="5%"><%= cont %></td>
-				  <td width="10%"><%= inscrito.getCodigoId() %></td>
-				  <td width="50%"><%= inscrito.getApaterno()+" "+inscrito.getAmaterno()+", "+inscrito.getNombre()%></td>
-				  <td width="5%"><%= grado%></td>
-				  <td width="5%"><%= grupo%></td>
-				  <td width="10%"><%=formato.format(total) %></td>
-				  
-				</tr>
-				
-				<% 		
-					}%>
-				
-				<% } %>
+		if (mapaSaldo.containsKey(inscrito.getCodigoId())){
+			String saldo =  mapaSaldo.get(inscrito.getCodigoId());
+			total = Float.parseFloat(saldo);	
+								
+%>
+
+			<tr>
+			  <td width="5%"><%= cont %></td>
+			  <td width="10%"><%= inscrito.getCodigoId() %></td>
+			  <td width="50%"><%= inscrito.getApaterno()+" "+inscrito.getAmaterno()+", "+inscrito.getNombre()%></td>
+			  <td width="5%"><%= grado%></td>
+			  <td width="5%"><%= grupo%></td>
+			  <td width="10%"><%=formato.format(total) %></td>
+			  
+			</tr>
+			
+<% 		
+		}%>
+		
+<%	} %>
 </table>
 </div>
 <%@ include file="../../cierra_elias.jsp" %>
