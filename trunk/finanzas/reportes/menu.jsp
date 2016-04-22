@@ -10,8 +10,8 @@
           <div class="well well-small">
             <ul class="nav nav-list">
               <li><a href="calculos.jsp"><i class="icon-chevron-right"></i>Cálculos</a></li>
-              <li><a href="reporte.jsp"><i class="icon-chevron-right"></i>Reporte de alumnos inscritos</a></li>
-              <li><a href="reporte_deudor.jsp"><i class="icon-chevron-right"></i>Reporte de alumnos Deudores</a></li>
+              <li><a href="reporte.jsp"><i class="icon-chevron-right"></i>Saldos de inscritos</a></li>
+              <li><a href="reporte_deudor.jsp"><i class="icon-chevron-right"></i>Alumnos Deudores</a></li>
             </ul>
         </div>
 	</div>
