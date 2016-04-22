@@ -5,7 +5,7 @@
 <%@ include file= "../../menu.jsp" %>
 
 <div id="content">
-	<h1>Reportes</h1>
+	<h1><fmt:message key="aca.Reportes" /></h1>
 	<div class="row-fluid">
           <div class="well well-small">
             <ul class="nav nav-list">
