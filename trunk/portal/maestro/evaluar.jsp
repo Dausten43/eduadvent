@@ -1158,13 +1158,13 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 	  		if (nivelEvaluacion.equals("E")){	  		
 	 %> 
 	  		<a class="btn btn-mobile" href="evaluarActitudes.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-	  			Evaluar Actitudes
+	  			Evaluar Aptitudes
 	  		</a> 
 	  <%
 	  		}else if (nivelEvaluacion.equals("P")){
 	  %>		
 	  		<a class="btn btn-mobile" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>">
-	  			Evaluar Actitudes
+	  			Evaluar Aptitudes
 	  		</a>
 	  <%		 	
 	  		}
