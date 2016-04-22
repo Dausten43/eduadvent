@@ -45,7 +45,7 @@
 </style>
 
 <div id="content">	
-	<h2>Reporte de Alumnos Inscritos</h2>
+	<h2>Alumnos con deuda</h2>
 	<form name="forma" action="reporte_deudor.jsp" method='post'>
 		<div class="well">
 		<a href="menu.jsp" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
