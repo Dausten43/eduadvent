@@ -32,8 +32,7 @@
 	ArrayList lisInscritos = finMovimientosL.getListDeudores(conElias, ciclo, escuelaId, " ORDER BY NIVEL_ID,GRADO,GRUPO,APATERNO,AMATERNO,NOMBRE");	
 	
 	HashMap<String, aca.alumno.AlumCiclo >	mapaGradoGrupo	= aca.alumno.AlumCicloLista.getMapHistoria(conElias, "");
-	HashMap<String, String> 				mapaSaldo		= finMovimientosL.getMapSaldosAlumDeudores(conElias, escuelaId);
-	System.out.println(ciclo +" " +escuelaId);
+	HashMap<String, String> 				mapaSaldo		= finMovimientosL.getMapSaldosAlumDeudores(conElias, escuelaId);	
 %>
 <style>
 	body{
