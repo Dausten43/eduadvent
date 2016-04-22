@@ -467,7 +467,7 @@ public class FinMovimientosLista {
 					+ " FROM ALUM_PERSONAL "
 					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
 					+ " AND CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO  WHERE CICLO_ID = '"+cicloId+"')"
-					+ " AND CODIGO_ID IN (SELECT AUXILIAR AS CODIGO_ID FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = 'B01'"
+					+ " AND CODIGO_ID IN (SELECT AUXILIAR AS CODIGO_ID FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = '"+escuelaId+"'"
 					+ " GROUP BY AUXILIAR having sum(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) < 0)"+orden;
 			
 			rs = st.executeQuery(comando);			
@@ -516,7 +516,7 @@ public class FinMovimientosLista {
 		return map;
 	}
 	
-	public HashMap<String,String> getMapSaldos(Connection conn, String codigoId) throws SQLException{
+	public HashMap<String,String> getMapSaldos(Connection conn, String escuelaId) throws SQLException{
 		
 		HashMap<String,String> map = new HashMap<String,String>();
 		Statement st 				= conn.createStatement();
@@ -525,7 +525,7 @@ public class FinMovimientosLista {
 
 		try{
 			comando = "	SELECT AUXILIAR, SUM(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) AS SALDO" +
-					  " FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = '"+codigoId+"' GROUP BY AUXILIAR";
+					  " FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = '"+escuelaId+"' GROUP BY AUXILIAR";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
