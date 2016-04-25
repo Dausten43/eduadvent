@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AlumnoSaldoLista {
-	public ArrayList<AlumnoProm> getListAll(Connection conn, String escuelaId) throws SQLException{
-		ArrayList<AlumnoProm> lisAlumno 	= new ArrayList<AlumnoProm>();
+	public ArrayList<AlumnoSaldo> getListAll(Connection conn, String escuelaId) throws SQLException{
+		ArrayList<AlumnoSaldo> lisAlumno 	= new ArrayList<AlumnoSaldo>();
 		Statement st 		= conn.createStatement();
 		ResultSet rs 		= null;
 		String comando		= "";
@@ -21,7 +21,7 @@ public class AlumnoSaldoLista {
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
-				AlumnoProm ac = new AlumnoProm();			
+				AlumnoSaldo ac = new AlumnoSaldo();			
 				ac.mapeaReg(rs);
 				lisAlumno.add(ac);
 			}
