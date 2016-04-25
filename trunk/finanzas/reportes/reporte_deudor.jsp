@@ -54,7 +54,7 @@
 		<tr>
 		  <td width="5%"><%=cont%></td>
 		  <td width="10%"><%=listAlumSaldo.get(i).getCodigoId()%></td>
-		  <td width="50%"><%=aca.alumno.AlumPersonal.getNombre(conElias, listAlumSaldo.get(i).getCodigoId(), "NOMBRE")%></td>
+		  <td width="50%"><%=aca.alumno.AlumPersonal.getNombre(conElias, listAlumSaldo.get(i).getCodigoId(), "APELLIDO")%></td>
 		  <td width="10%" style="text-align:right"><%=listAlumSaldo.get(i).getSaldo() %></td>	  
 		</tr>
 <%
