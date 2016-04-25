@@ -17,9 +17,7 @@ public class AlumnoSaldoLista {
 		String comando		= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, ESCUELA_ID, NIVEL_ID, GRADO, GRUPO, SALDO" +
-				" FROM ALUMNO_SALDO" +
-				" WHERE SUBSTR(CODIGO_ID,1,3) = '"+escuelaId+"' "+orden;
+			comando = "SELECT * FROM ALUMNO_SALDO WHERE ESCUELA_ID='"+escuelaId+"' AND SALDO < 0 ORDER BY NIVEL_ID, GRADO, GRUPO, ALUM_APELLIDO(CODIGO_ID)";
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -38,7 +36,7 @@ public class AlumnoSaldoLista {
 		return lisAlumno;
 	}
 	
-	public HashMap<String,AlumnoSaldo> mapAlumSaldo(Connection conn, String codigoId, String orden ) throws SQLException{
+	public HashMap<String,AlumnoSaldo> mapAlumSaldo(Connection conn, String escuelaId ) throws SQLException{
 		
 		HashMap<String,AlumnoSaldo> mapAlumProm 	= new HashMap<String,AlumnoSaldo>();
 		Statement st 		= conn.createStatement();
@@ -47,9 +45,7 @@ public class AlumnoSaldoLista {
 		String llave		= "";
 		
 		try{
-			comando = "SELECT CODIGO_ID, ESCUELA_ID, NIVEL_ID, GRADO, GRUPO, SALDO" +
-				" FROM ALUMNO_SALDO" +
-				" WHERE CODIGO_ID = '"+codigoId+"' " +orden;
+			comando = "SELECT * FROM ALUMNO_SALDO WHERE ESCUELA_ID='"+escuelaId+"' AND SALDO < 0 ORDER BY NIVEL_ID, GRADO, GRUPO, ALUM_APELLIDO(CODIGO_ID)";
 			rs = st.executeQuery(comando);			
 			while (rs.next()){				 
 				AlumnoSaldo ac = new AlumnoSaldo();		
@@ -59,7 +55,7 @@ public class AlumnoSaldoLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.vista.AlumnoSaldoLista|getTreeAlumno|:"+ex);
+			System.out.println("Error - aca.vista.AlumnoSaldoLista|mapAlumSaldo|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
