@@ -46,7 +46,7 @@
 			<table class="table  table-fontsmall table-striped">
 				<tr>
 				    <th>#</th>
-				    <th>Matr&iacute;cula</th>
+				    <th>Matr&iacute;cula</th> 
 				    <th>Nombre</th>
 				    <th style="text-align:right">Saldo</th>
 				 </tr>
