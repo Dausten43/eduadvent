@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AlumnoSaldoLista {
-	public ArrayList<AlumnoProm> getListAll(Connection conn, String escuelaId, String orden ) throws SQLException{
+	public ArrayList<AlumnoProm> getListAll(Connection conn, String escuelaId) throws SQLException{
 		ArrayList<AlumnoProm> lisAlumno 	= new ArrayList<AlumnoProm>();
 		Statement st 		= conn.createStatement();
 		ResultSet rs 		= null;
