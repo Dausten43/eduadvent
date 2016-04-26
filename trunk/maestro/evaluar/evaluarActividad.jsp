@@ -188,13 +188,18 @@
 							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 								if (calculaPromedio.equals("P")){									
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );										
 								}else{
 									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );							
-								}
+								}								
 							}
 						}
 					}
+				}
+				
+				// Si no es Panama promediar en base a 10
+				if (!escuelaId.substring(0,1).equals("H")){
+					promedioActividades = promedioActividades.divide(new BigDecimal("10"));
 				}
 				
 				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
@@ -264,10 +269,8 @@
 						}else{
 							error = true; break;
 						}
-					}
-					
+					}					
 				}					
-					
 			}//End for alumnos
 		}
 		
