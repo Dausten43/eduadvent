@@ -82,7 +82,7 @@
 					grupoG = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, "G");					
 					grupoX = aca.alumno.AlumPersonal.getCantidad(conElias,cicloId, Integer.parseInt(nivel.getNivelId()), j, " ");
 				
-					totGrado = grupoA+grupoB+grupoC+grupoD+grupoU;
+					totGrado = grupoA+grupoB+grupoC+grupoD+grupoE+grupoF+grupoG;
 					totA += grupoA;
 					totB += grupoB;
 					totC += grupoC;
