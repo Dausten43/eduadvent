@@ -192,6 +192,11 @@
 					}
 				}
 				
+				// Si no es Panama promediar en base a 10
+				if (!escuelaId.substring(0,1).equals("H")){
+					promedioActividades = promedioActividades.divide(new BigDecimal("10"));
+				}
+				
 				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
 				//promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
 				if(decimales.equals("0")){
