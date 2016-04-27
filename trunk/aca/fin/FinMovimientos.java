@@ -422,6 +422,30 @@ public class FinMovimientos {
 			if (ps!=null) ps.close();
 		}
     }
+
+    public static boolean existeAlumno(Connection conn, String auxiliar) throws SQLException {
+        boolean ok = false;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement("SELECT * FROM FIN_MOVIMIENTOS" +
+            		" WHERE auxiliar = ? ");
+            
+	        ps.setString(1, auxiliar);
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+                ok = true;
+            }
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinMovimientos|existeCuentaId|:" +ex);
+        }finally{
+	        if(rs != null) rs.close();
+	        if(ps != null) ps.close();
+        }
+        return ok;
+    }
     
     public static boolean existeCuentaId(Connection conn, String cuentaId) throws SQLException {
         boolean ok = false;
