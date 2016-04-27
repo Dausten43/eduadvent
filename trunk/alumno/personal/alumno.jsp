@@ -488,7 +488,7 @@
 					<%if(existeAlumno){%>
 		            	<a class="btn btn-primary"  id="modificar" onclick="javascript:Modificar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></a>
 		            	
-		            	<%if(!KrdxCursoAct.tieneMaterias(conElias, codigoAlumno) && inscrito==false){ %>
+		            	<%if(!KrdxCursoAct.tieneMaterias(conElias, codigoAlumno) && inscrito==false && !aca.fin.FinMovimientos.existeAlumno(conElias, codigoAlumno)){ %>
 		            		<button class="btn btn-danger"  id="borrar" onclick="javascript:Borrar()"><i class="icon-remove icon-white"></i> <fmt:message key="boton.Eliminar"/></button>
 		            	<%} %> 
 					<%}%>
