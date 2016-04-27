@@ -22,6 +22,7 @@
 <jsp:useBean id="paisL" scope="page" class="aca.catalogo.CatPaisLista"/>
 <jsp:useBean id="estadoL" scope="page" class="aca.catalogo.CatEstadoLista"/>
 <jsp:useBean id="ciudadL" scope="page" class="aca.catalogo.CatCiudadLista"/>
+<jsp:useBean id="FinP" scope="page" class="aca.fin.FinPoliza"/>
 
 
 <%
@@ -331,7 +332,7 @@
 			              		<a class="btn btn-primary" id="grabar" onclick="javascript:Grabar()" style="cursor:pointer"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a> 
 			              	<%}else{%>
 			              		<a class="btn btn-primary" id="modificar" onclick="javascript:Modificar()" style="cursor:pointer"><i class="icon-edit icon-white"></i> <fmt:message key="boton.Modificar" /></a>
-			              		<%if(!cicloGrupoCurso.existeMaestro(conElias, strCodigo)){ //Si el maestro no tiene materias asignadas puede borrar %>
+			              		<%if(!cicloGrupoCurso.existeMaestro(conElias, strCodigo)&&!FinP.existeUsuario(conElias, strCodigo)){ //Si el maestro no tiene materias asignadas puede borrar %>
 			              			<a class="btn btn-danger" id="borrar" onclick="javascript:Borrar()" style="cursor:pointer"><i class="icon-remove icon-white"></i> <fmt:message key="boton.Eliminar" /></a>
 			              		<%} %>
 			              	<%}%>
