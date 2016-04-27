@@ -318,6 +318,29 @@ public class FinPoliza {
         return ok;
     }
     
+     public boolean existeUsuario(Connection conn, String usuario) throws SQLException {
+        boolean ok = false;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement("SELECT * FROM FIN_POLIZA" +
+            		" WHERE USUARIO = ? ");
+	        ps.setString(1, usuario);
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+                ok = true;
+            }
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinPoliza|existeReg|:" +ex);
+        }finally{
+	        if(rs != null) rs.close();
+	        if(ps != null) ps.close();
+        }
+        return ok;
+    }
+    
     public String maximoReg(Connection conn, String ejercicioId) throws SQLException{
 		
 		PreparedStatement ps	= null;
