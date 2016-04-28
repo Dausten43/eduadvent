@@ -178,10 +178,10 @@ public class CatSeguro {
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
-		String nombre 			= "";
+		String nombre 			= "X";
 		
 		try{
-			ps = conn.prepareStatement("SELECT POLIZA FROM CAT_SEGURO "
+			ps = conn.prepareStatement("SELECT COALESCE(POLIZA,'X') AS POLIZA FROM CAT_SEGURO"
 					+ " WHERE ESCUELA_ID = ? AND YEAR = TO_NUMBER(?, '9999') ");
 			ps.setString(1, escuelaId);
 			ps.setString(2, year);
