@@ -495,13 +495,13 @@
 				</div>
 				
 				<%
-				if(!aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraAño).equals("")){
+				// Dato capturado en las escuelas de Panamá
+				String polizaSeguro = aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraAño);
+				
+				//Si son escuelas de Panamá
+				if(escuelaId.substring(0,1).equals("H")){
 				%>	
-					<h3>Poliza : <%=aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraAño ) %></h3>
-				<%	
-				}else{
-				%>
-					<h3>Poliza : No registrada</h3>
+					<h3>Poliza : <%=polizaSeguro.equals("X")?"¡Sin Registrar!":polizaSeguro%></h3>			
 				<%	
 				}
 				%>
