@@ -26,7 +26,7 @@
 <script src="../../js-plugins/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
 
 <div id="content">
-	<h2><fmt:message key="aca.Importar"/> <small><fmt:message key="aca.Alumno"/></small></h2>
+	<h2><fmt:message key="aca.Importar"/>( <small><fmt:message key="aca.Alumno"/></small> )</h2>
 	<hr>
 	<h4>Estructura del archivo</h4>
 	<table class="table table-striped">
