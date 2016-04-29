@@ -205,7 +205,11 @@
 				/* Quitar decimales, por ejemplo (88.6 a 88) (80.1 a 80) */
 // 				promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
 				if(decimales.equals("0")){
-					promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+					if(redondeo.equals("A") ){
+						promedioActividades = promedioActividades.setScale(1, BigDecimal.ROUND_HALF_UP);
+					}else{
+						promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+					}					
 				}else if(decimales.equals("1")){
 					promedioActividades = new BigDecimal( frmDecimal1.format(promedioActividades) );
 					if(redondeo.equals("A") ){
