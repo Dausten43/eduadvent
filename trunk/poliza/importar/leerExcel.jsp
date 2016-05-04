@@ -130,15 +130,15 @@
 				    	// Validar los campos
 				    	
 				    	String strRecibo	= "0";
-				    	if (reciboId != null){
-				    		
+				    	if (reciboId != null && !reciboId.toString().matches("\\D+")){
 				    		strRecibo = aca.util.Utilerias.removeEmptyDecimalPoints(reciboId.toString());
 				    	}else{
 				    		errorRecibo = true;
 				    	}
+				    	System.out.println(errorRecibo);
 				    	
 				    	String strImporte	= "0";
-				    	if (importe != null){
+				    	if (importe != null && !importe.toString().matches("\\D+")){
 				    		strImporte = importe.toString();
 				    	}else{
 				    		errorImporte = true;
@@ -159,7 +159,7 @@
 				    	}
 				    	
 				    	String strFolio	= "0";
-				    	if (folio != null){
+				    	if (folio != null && !folio.toString().matches("\\D+")){
 				    		strFolio= aca.util.Utilerias.removeEmptyDecimalPoints(folio.toString());
 				    	}else{
 				    		errorFolio = true;
@@ -198,16 +198,16 @@
 					    %>
 					    <tr>
 					    	<td "style='background-color:red;'"><b><%=linea%></b></td>
-					    	<td <% if (errorRecibo) out.print("style='background-color:red;'");%>><b><%=strRecibo%></b></td>
-					    	<td<% if (errorFecha) out.print("style='background-color:red;'");%>><b><%=fechaRecibo%></b></td>
+					    	<td <% if (errorRecibo) out.print("style='background-color:red;'");%>><b><%=reciboId%></b></td>
+					    	<td <% if (errorFecha) out.print("style='background-color:red;'");%>><b><%="Formato esperado ("+fechaRecibo+") -- encontro("+ fecha.toString()+")"%></b></td>
 					    	<td><b><%=strCliente%></b></td>
 					    	<td><b><%=strCuenta%></b></td>
 					    	<td><b><%=strAuxiliar%></b></td>
 					    	<td><b><%=strDescripcion%></b></td>
-					    	<td><b><%=strImporte%></b></td>
+					    	<td <% if (errorImporte) out.print("style='background-color:red;'");%>><b><%=importe%></b></td>
 					    	<td><b><%=strReferencia%></b></td>
 					    	<td><b><%=strEscuela%></b></td>
-					    	<td><b><%=strFolio%></b></td>
+					    	<td  <% if (errorFolio) out.print("style='background-color:red;'");%>><b><%=folio%></b></td>
 					    </tr>	
 					    <%
 					    }else{
