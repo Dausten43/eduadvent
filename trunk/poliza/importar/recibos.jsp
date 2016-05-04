@@ -103,7 +103,7 @@
 	<form enctype="multipart/form-data" action="leerExcel.jsp" method="post">
 		
 		<p>
-			<input type="file"  id="archivo" name="archivo" /><br>
+			<input type="file"  id="archivo" name="archivo" required/><br>
 		</p>			
 		<div class="well">
 			<button class="btn btn-primary btn-large"> Subir</button> &nbsp;&nbsp; <%=mensaje%>
