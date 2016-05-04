@@ -48,14 +48,14 @@
 	java.util.List<FileItem> items 	= upload.parseRequest(request);
 	
 	// lista para almacenar los datos de los alumnos que se van a grabar
-	ArrayList<aca.alumno.AlumPersonal> lisAlumnos		= new ArrayList<aca.alumno.AlumPersonal>();
+	ArrayList<aca.fin.FinReciboTemp> lisRecibos	= new ArrayList<aca.fin.FinReciboTemp>();
 
 /* VALIDACIÓN DE LOS DATOS**/
 
 	// Recorre los archivos que se van a subir
 	java.util.Iterator<FileItem> iter = items.iterator();	
 	while (iter.hasNext()) {
-		
+		System.out.println("iter:"+items.size());
 	    FileItem item = iter.next();
 	 	// Get the inputs that have files = <input type="file" />
 	    String fieldname 	= item.getFieldName();
@@ -86,25 +86,22 @@
 			    java.util.Iterator<Row> rowIterator = sheet.iterator();
 			    while(rowIterator.hasNext()) {			    	
 			        Row row = rowIterator.next();
-			        
+			        System.out.println("linea:"+linea);
 			        linea++;
 			        
 			        // Obtener los datos de las columnas en el renglón actual
 			        
-			        Cell grabar		= row.getCell(0);
-			    	Cell nombre		= row.getCell(1);
-			    	Cell apaterno 	= row.getCell(2);
-			    	Cell amaterno  	= row.getCell(3);			    	
-			    	Cell nacimiento = row.getCell(4);			    	
-			    	Cell genero 	= row.getCell(5);
-			    	Cell correo 	= row.getCell(6);
-			    	Cell colonia 	= row.getCell(7);
-			    	Cell direccion 	= row.getCell(8);
-			    	Cell telefono 	= row.getCell(9);
-			    	Cell celular 	= row.getCell(10);
-			    	Cell nivelId 	= row.getCell(11);			    
-			    	Cell grado 		= row.getCell(12);
-			    	Cell grupo 		= row.getCell(13);
+			        Cell grabar			= row.getCell(0);
+			    	Cell reciboId		= row.getCell(1);
+			    	Cell fecha		 	= row.getCell(2);
+			    	Cell cliente	  	= row.getCell(3);			    	
+			    	Cell cuentaId 		= row.getCell(4);			    	
+			    	Cell auxiliar	 	= row.getCell(5);
+			    	Cell descripcion 	= row.getCell(6);
+			    	Cell importe 		= row.getCell(7);
+			    	Cell referencia 	= row.getCell(8);
+			    	Cell escuela		= row.getCell(9);
+			    	Cell folio 			= row.getCell(10);
 			    	
 			    	// Si el renglon tiene la bandera de grabar
 			    	if ( grabar!=null && grabar.getCellType()==HSSFCell.CELL_TYPE_STRING ){
@@ -113,166 +110,128 @@
 				   
 				    	/* Formatear y validar el campo de fecha */
 				    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-				    	String fechaNac = "01/01/1950";
-				    	if(nacimiento.getCellType()== HSSFCell.CELL_TYPE_NUMERIC){
-			            	if (nacimiento.getCellStyle().getDataFormat()==0){
+				    	String fechaRecibo = "01/01/1950";
+				    	if(fecha.getCellType()== HSSFCell.CELL_TYPE_NUMERIC){
+			            	if (fecha.getCellStyle().getDataFormat()==0){
 			            		errorFecha = true;
-			            		fechaNac = formato.format(nacimiento.getNumericCellValue());
+			            		fechaRecibo = formato.format(fecha.getNumericCellValue());
 			            	}else{
-			            		fechaNac = sdf.format(nacimiento.getDateCellValue());
+			            		fechaRecibo = sdf.format(fecha.getDateCellValue());
 			            	}
 			            }else{
 			            	errorFecha=true;
 			            }			    	
 				    	
 				    	// Variables boolean para validación
-				    	boolean errorNombre = false, errorGenero = false, errorNivel = false, errorGrado = false, errorGrupo = false, errorApaterno = false, errorCelular = false;
-				    	boolean errorAmaterno = false, errorNacimiento = false, errorCorreo = false, errorColonia = false, errorDireccion = false, errorTelefono = false;
+				    	boolean errorRecibo = false, errorCliente = false, errorCuenta = false, errorAuxiliar = false, errorDescripcion = false, errorImporte = false, errorReferencia = false;
+				    	boolean errorEscuela = false, errorFFecha = false, errorFolio = false;
 				    	
 				    	
 				    	// Validar los campos
 				    	
-				    	String strNombre	= "-";
-				    	if (nombre != null){
-				    		strNombre = nombre.toString();
+				    	String strRecibo	= "0";
+				    	if (reciboId != null && numberUtils){
+				    		
+				    		strRecibo = aca.util.Utilerias.removeEmptyDecimalPoints(reciboId.toString());
 				    	}else{
-				    		errorNombre = true;
+				    		errorRecibo = true;
 				    	}
 				    	
-				    	String strPaterno	= "-";
-				    	if (apaterno != null){
-				    		strPaterno = apaterno.toString();
-				    		if (strPaterno.equals("*")) strPaterno = " ";
+				    	String strImporte	= "0";
+				    	if (importe != null){
+				    		strImporte = aca.util.Utilerias.removeEmptyDecimalPoints(importe.toString());
 				    	}else{
-				    		errorApaterno = true;
+				    		errorImporte = true;
 				    	}
 				    	
-				    	String strMaterno	= "-";		    	
-				    	if (amaterno != null){
-				    		strMaterno = amaterno.toString().trim();
-				    		if (strMaterno.equals("*")) strMaterno = " ";
+				    	String strEscuela	= "-";		    	
+				    	if (escuela != null){
+				    		strEscuela = escuela.toString();
 				    	}else{
-				    		errorAmaterno = true; 
+				    		errorEscuela = true; 
 				    	}
 				    	
-				    	String strGenero	= "M";
-				    	if (genero != null){
-				    		strGenero = genero.toString().trim();
-				    		if (!strGenero.equals("M") && !strGenero.equals("F")) errorGenero = true;
+				    	String strCliente	= "-";
+				    	if (cliente != null){
+				    		strCliente = cliente.toString();
 				    	}else{
-				    		errorGenero = true;
+				    		errorCliente = true;
 				    	}
 				    	
-				    	String strCorreo	= "@";
-				    	if (correo != null){
-				    		strCorreo = correo.toString();
+				    	String strFolio	= "0";
+				    	if (folio != null){
+				    		strFolio= folio.toString();
 				    	}else{
-				    		errorCorreo = true;
+				    		errorFolio = true;
 				    	}
 				    	
-				    	String strColonia	= "-";
-				    	if (colonia != null){
-				    		strColonia = colonia.toString();
+				    	String strReferencia	= "-";			    
+				    	if (referencia != null){
+				    		strReferencia = referencia.toString();
 				    	}else{
-				    		errorColonia = true;
+				    		errorReferencia = true;
 				    	}
 				    	
-				    	String strDireccion	= "-";
-				    	if (direccion != null){
-				    		strDireccion = direccion.toString();
+					    String strCuenta		= "-";
+					    if (cuentaId != null){
+					    	strCuenta = cuentaId.toString();
 				    	}else{
-				    		errorDireccion = true;
-				    	}
-				    				    	
-				    	String strTelefono	= "-";
-				    	if (telefono != null ){
-				    		if(telefono.getCellType() == XSSFCell.CELL_TYPE_NUMERIC ){
-					    		strTelefono = aca.util.Utilerias.removeEmptyDecimalPoints( ((long) telefono.getNumericCellValue()) + "").trim();
-				    		}else if(telefono.getCellType() == XSSFCell.CELL_TYPE_STRING ){
-					    		strTelefono = telefono.toString()==null?"-":telefono.toString();
-					    	}else{
-					    		errorTelefono = true;
-					    	}
-				    	}
-				    	
-				    	String strCelular	= "-";			    
-				    	if (celular != null){
-				    		strCelular = aca.util.Utilerias.removeEmptyDecimalPoints(celular.toString()).trim();
-				    	}else{
-				    		errorCelular = true;
-				    	}
-				    	
-					    String strNivel		= "0";
-					    if (nivelId != null){
-				    		strNivel = aca.util.Utilerias.removeEmptyDecimalPoints(nivelId.toString()).trim();
-				    		if ( !strNivel.equals("0") && !strNivel.equals("1") && !strNivel.equals("2") && !strNivel.equals("3") && !strNivel.equals("4")) errorNivel = true;
-				    	}else{
-				    		errorNivel = true;
+				    		errorCuenta = true;
 				    	}
 					    
-					    String strGrado		= "0";
-					    if (grado != null ){
-				    		strGrado = aca.util.Utilerias.removeEmptyDecimalPoints(grado.toString()).trim();
-				    		if (
-				    			!strGrado.equals("1") && !strGrado.equals("2") && !strGrado.equals("3") && !strGrado.equals("4") && !strGrado.equals("5") &&
-				    			!strGrado.equals("6") && !strGrado.equals("7") && !strGrado.equals("8") && !strGrado.equals("9") && !strGrado.equals("10") &&
-				    			!strGrado.equals("11")&& !strGrado.equals("12")
-				    			){
-				    			errorGrado = true;
-				    		}
+					    String strAuxiliar		= "-";
+					    if (auxiliar!= null ){
+					    	strAuxiliar = auxiliar.toString();
 				    	}else{
-				    		errorGrado = true;
+				    		errorAuxiliar = true;
 				    	}
 					    
-					    String strGrupo		= "X";
-					    if ( grupo != null){
-					    	strGrupo = grupo.toString().trim();
-					    	if ( !strGrupo.equals("A") && !strGrupo.equals("B") && !strGrupo.equals("C") && !strGrupo.equals("D") && !strGrupo.equals("E") && !strGrupo.equals("F") && !strGrupo.equals("G")) errorGrupo = true;
+					    String strDescripcion	= "X";
+					    if ( descripcion != null){
+					    	strDescripcion = descripcion.toString();
 					    }else{
-					    	errorGrupo = true;
+					    	errorDescripcion = true;
 					    }
-					    if ( errorNombre || errorFecha || errorGenero || errorNivel || errorGrado || errorGrupo || errorCelular || errorTelefono ||
-					    	 errorApaterno || errorAmaterno || errorCorreo || errorColonia || errorColonia || errorDireccion){
+					    if ( errorRecibo || errorFecha || errorCliente || errorCuenta || errorAuxiliar || errorDescripcion || errorReferencia ||
+					    	 errorImporte || errorEscuela || errorFolio){
 					    	validaDatos = false;
 					    %>
 					    <tr>
 					    	<td "style='background-color:red;'"><b><%=linea%></b></td>
-					    	<td <% if (errorNombre) out.print("style='background-color:red;'");%>><b><%=strNombre%></b></td>
-					    	<td><b><%=strPaterno%></b></td>
-					    	<td><b><%=strMaterno%></b></td>
-					    	<td <% if (errorFecha) out.print("style='background-color:red;'");%>><b><%=fechaNac%></b></td>
-					    	<td <% if (errorGenero) out.print("style='background-color:red;'");%>><b><%=strGenero%></b></td>
-					    	<td><b><%=strCorreo%></b></td>
-					    	<td><b><%=strColonia%></b></td>
-					    	<td><b><%=strDireccion%></b></td>
-					    	<td><b><%=strTelefono%></b></td>
-					    	<td><b><%=strCelular%></b></td>
-					    	<td <% if (errorNivel) out.print("style='background-color:red;'");%>><b><%=strNivel%></b></td>
-					    	<td <% if (errorGrado) out.print("style='background-color:red;'");%>><b><%=strGrado%></b></td>
-					    	<td <% if (errorGrupo) out.print("style='background-color:red;'");%>><b><%=strGrupo%></b></td>
+					    	<td <% if (errorRecibo) out.print("style='background-color:red;'");%>><b><%=strRecibo%></b></td>
+					    	<td<% if (errorFecha) out.print("style='background-color:red;'");%>><b><%=fechaRecibo%></b></td>
+					    	<td><b><%=strCliente%></b></td>
+					    	<td><b><%=strCuenta%></b></td>
+					    	<td><b><%=strAuxiliar%></b></td>
+					    	<td><b><%=strDescripcion%></b></td>
+					    	<td><b><%=strImporte%></b></td>
+					    	<td><b><%=strReferencia%></b></td>
+					    	<td><b><%=strEscuela%></b></td>
+					    	<td><b><%=strFolio%></b></td>
 					    </tr>	
 					    <%
 					    }else{
+					    	System.out.println(strCuenta);
 					    	// Instancia del alumno
-					    	aca.alumno.AlumPersonal AlumPersonal = new aca.alumno.AlumPersonal();
+					    	aca.fin.FinReciboTemp recibo = new aca.fin.FinReciboTemp();
 					    	//System.out.println("Agregar alumno"+linea+":"+strNombre+":"+strPaterno+":"+strMaterno+":"+strGenero+":"+strCorreo+":"+
 					    	//strColonia+":"+strDireccion+":"+strTelefono+":"+strCelular+":"+strNivel+":"+strGrado+":"+strGrupo);
-					    	AlumPersonal.setNombre(strNombre);
-					    	AlumPersonal.setApaterno(strPaterno);
-					    	AlumPersonal.setAmaterno(strMaterno);
-					    	AlumPersonal.setFNacimiento(fechaNac);
-					    	AlumPersonal.setGenero(strGenero);
-					    	AlumPersonal.setCorreo(strCorreo);
-					    	AlumPersonal.setColonia(strColonia);
-					    	AlumPersonal.setDireccion(strDireccion);
-					    	AlumPersonal.setTelefono(strTelefono);
-					    	AlumPersonal.setCelular(strCelular);
-					    	AlumPersonal.setNivelId(strNivel);
-					    	AlumPersonal.setGrado(strGrado);
-					    	AlumPersonal.setGrupo(strGrupo);
-					    	AlumPersonal.setEscuelaId(escuelaId);
-					    	AlumPersonal.setCodigoId(codigoId);
-					    	lisAlumnos.add(AlumPersonal);
+					    	System.out.println(strRecibo);
+					    	recibo.setReciboId(strRecibo);
+							recibo.setFecha(fechaRecibo);
+							recibo.setCliente(strCliente);
+							recibo.setCuentaId(strCuenta);
+							recibo.setAuxiliar(strAuxiliar);
+							recibo.setDescripcion(strDescripcion);
+							recibo.setImporte(strImporte);
+							recibo.setReferencia(strReferencia);
+							recibo.setEscuelaId(strEscuela);
+							recibo.setFolio(strFolio);
+							
+					    	if ( recibo.insertReg(conElias) ){
+					    		//conElias.commit();
+					    	}
+
 					    }		    	
 					    
 			    	} // si tiene la bandera de grabar
@@ -293,22 +252,22 @@
 	}
 	
 	if (validaDatos){
-		for(aca.alumno.AlumPersonal alumno : lisAlumnos){
-			
+		System.out.print("save");
+		int x=0;
+
+		for(aca.fin.FinReciboTemp recibo : lisRecibos){
+			System.out.println(x++);
 			// Buscar el siguiente numero de codigo del alumno
-	   		String codigoId	= alumno.maximoReg(conElias, escuelaId);
-			alumno.setCodigoId(codigoId);
+
 			
 			// Insert del alumno
 			
-	    	if ( alumno.insertTraspaso(conElias) ){
-	    		//conElias.commit();
-	    	}
+
 			
 		}
-		String mensaje = "Se han registrado: "+lisAlumnos.size()+" alumnos en tu escuela";		
+		String mensaje = "Se han registrado: "+lisRecibos.size()+" alumnos en tu escuela";		
 	}	
 %>
 </div>
 <%@ include file="../../cierra_elias.jsp"%>
-<meta http-equiv="refresh" content="1"; url="datos.jsp?mensaje=<%=mensaje%>" />
+
