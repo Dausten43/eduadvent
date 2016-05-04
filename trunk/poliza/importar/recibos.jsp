@@ -26,7 +26,7 @@
 <script src="../../js-plugins/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
 
 <div id="content">
-	<h2><fmt:message key="aca.Importar"/>( <small><fmt:message key="aca.Alumno"/></small> )</h2>
+	<h2><fmt:message key="aca.Importar"/>( <small><fmt:message key="aca.Recibo"/></small> )</h2>
 	<hr>
 	<h4>Estructura del archivo</h4>
 	<table class="table table-striped">
@@ -43,62 +43,46 @@
 				<th>H</th>	
 				<th>I</th>
 				<th>J</th>
-				<th>K</th>
-				<th>L</th>
-				<th>M</th>
-				<th>N</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td><b>Dato</b></td>
-				<td>Grabar</td>
-				<td>Nombre</td>
-				<td>Apellido Paterno</td>
-				<td>Apellido Materno</td>
-				<td>Fecha Nacimiento</td>
-				<td>Genero</td>
-				<td>Correo</td>
-				<td>Colonia</td>
-				<td>Dirección</td>
-				<td>Tel. Casa</td>
-				<td>Celular</td>
-				<td>Nivel</td>
-				<td>Grado</td>
-				<td>Grupo</td>
+				<td><b>Dato<b></td>
+				<td>Recibo ID</td>
+				<td>Fecha</td>
+				<td>Cliente</td>
+				<td>Cuenta ID</td>
+				<td>Auxiliar</td>
+				<td>Descripcion</td>
+				<td>Importe</td>
+				<td>Referencia</td>
+				<td>Escuela ID</td>
+				<td>Folio</td>
 			</tr>
 			<tr>
 				<td><b>Formato</b></td>
 				<td>Texto</td>
-				<td>Texto</td>
-				<td>Texto</td>
-				<td>Texto</td>
 				<td>DD/MM/YYYY</td>
-				<td>Letra</td>
-				<td>Texto</td>
 				<td>Texto</td>
 				<td>Texto</td>
 				<td>Texto</td>
 				<td>Texto</td>
 				<td>Número</td>
-				<td>Numero</td>
-				<td>Letra</td>				
+				<td>Texto</td>
+				<td>Texto</td>
+				<td>Número</td>
 			</tr>
 			<tr>
 				<td><b>Valores</b></td>
 				<td>G</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
 				<td>M,F</td>
-				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>0,1,2,3,4</td>
 				<td>1,2,3,4,5,6</td>
+				<td>A,B,C,D</td>
 				<td>A,B,C,D</td>				
 			</tr>
 			<tr>
@@ -112,10 +96,6 @@
 				<td>jorgeluis05@hotmail.com</td>
 				<td>Cumbres</td>
 				<td>Calle La Fuente # 206</td>
-				<td>(826)2635298</td>
-				<td>8261069854</td>
-				<td>2</td>
-				<td>3</td>
 				<td>A</td>				
 			</tr>
 		</tbody>
