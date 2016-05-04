@@ -61,7 +61,7 @@
 			</tr>
 			<tr>
 				<td><b>Formato</b></td>
-				<td>Texto</td>
+				<td>Número</td>
 				<td>DD/MM/YYYY</td>
 				<td>Texto</td>
 				<td>Texto</td>
@@ -74,29 +74,29 @@
 			</tr>
 			<tr>
 				<td><b>Valores</b></td>
-				<td>G</td>
-				<td>M,F</td>
+				<td>1</td>
+				<td>01/01/1950</td>
+				<td>T</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
+				<td>1</td>
+				<td>T</td>
 				<td>&nbsp;</td>
-				<td>0,1,2,3,4</td>
-				<td>1,2,3,4,5,6</td>
-				<td>A,B,C,D</td>
-				<td>A,B,C,D</td>				
+				<td>1</td>				
 			</tr>
 			<tr>
 				<td><b>Ejemplo</b></td>
-				<td>G</td>
-				<td>Jorge Luis</td>
+				<td>1</td>
+				<td>01/01/1950</td>
 				<td>Martínez</td>
-				<td>Garcia</td>
-				<td>30/06/2005</td>
-				<td>M</td>
-				<td>jorgeluis05@hotmail.com</td>
+				<td>123456</td>
+				<td>B01E0002</td>
+				<td>Descripcion</td>
+				<td>1250</td>
 				<td>Cumbres</td>
-				<td>Calle La Fuente # 206</td>
-				<td>A</td>				
+				<td>B01</td>
+				<td>9</td>				
 			</tr>
 		</tbody>
 	</table>
