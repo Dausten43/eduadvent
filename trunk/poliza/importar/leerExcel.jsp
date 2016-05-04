@@ -130,7 +130,7 @@
 				    	// Validar los campos
 				    	
 				    	String strRecibo	= "0";
-				    	if (reciboId != null && numberUtils){
+				    	if (reciboId != null){
 				    		
 				    		strRecibo = aca.util.Utilerias.removeEmptyDecimalPoints(reciboId.toString());
 				    	}else{
@@ -139,7 +139,7 @@
 				    	
 				    	String strImporte	= "0";
 				    	if (importe != null){
-				    		strImporte = aca.util.Utilerias.removeEmptyDecimalPoints(importe.toString());
+				    		strImporte = importe.toString();
 				    	}else{
 				    		errorImporte = true;
 				    	}
@@ -160,7 +160,7 @@
 				    	
 				    	String strFolio	= "0";
 				    	if (folio != null){
-				    		strFolio= folio.toString();
+				    		strFolio= aca.util.Utilerias.removeEmptyDecimalPoints(folio.toString());
 				    	}else{
 				    		errorFolio = true;
 				    	}
