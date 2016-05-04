@@ -34,6 +34,10 @@
 
 <div id="content">
 
+  	<div class="well">
+		<a href="recibos.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+	</div>
+
 <%
 	java.text.DecimalFormat formato = new java.text.DecimalFormat("####;-####");
 	// APACHE FILE UPLOAD ------------------------------------------>	
@@ -250,23 +254,13 @@
 	    }
 	    
 	}
+	if(validaDatos){
+%>
 	
-	if (validaDatos){
-		System.out.print("save");
-		int x=0;
-
-		for(aca.fin.FinReciboTemp recibo : lisRecibos){
-			System.out.println(x++);
-			// Buscar el siguiente numero de codigo del alumno
-
-			
-			// Insert del alumno
-			
-
-			
-		}
-		String mensaje = "Se han registrado: "+lisRecibos.size()+" alumnos en tu escuela";		
-	}	
+	<script>
+	    window.location.assign("recibos.jsp")
+	</script>
+<%	} 
 %>
 </div>
 <%@ include file="../../cierra_elias.jsp"%>
