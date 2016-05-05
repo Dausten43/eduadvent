@@ -163,13 +163,13 @@
 			<td>Recibo Final:</td>
 			<td><input type="number" value="<%=FinFolio.getReciboFinal() == null ? "" : FinFolio.getReciboFinal()%>"   maxlength="7" id="reciboFinal" name="reciboFinal"></td>
 		</tr>
-		<%if(accion.equals("2")){ %>	
+		<%if(accion.equals("2")){ %>
 		<tr>
 			<td>Estado:</td>
 			<td>
 				<select name="Estado" id="Estado" style="width:10%;">
-					<option value="I" ><%=FinFolio.getEstado().equals("I")?"Inactivo":"Activo"%></option>
-					<option value="A" ><%=FinFolio.getEstado().equals("I")?"Activo":"Inactivo"%></option>
+					<option value="A" <%=FinFolio.getEstado().equals("A")?"selected":""%>>Activo</option>
+					<option value="I" <%=FinFolio.getEstado().equals("I")?"selected":""%>>Inactivo</option>
 				</select>
 			</td>
 		</tr>
