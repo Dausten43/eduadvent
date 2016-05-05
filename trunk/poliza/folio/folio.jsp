@@ -69,7 +69,7 @@
 
 	if (!accion.equals("")) {
 		if (accion.equals("2")) {
-			FinFolio.mapeaRegId(conElias, ejercicioId, request.getParameter("Usuario"));
+			FinFolio.mapeaRegId(conElias, ejercicioId, request.getParameter("Usuario"), request.getParameter("Folio"));
 		} else if (accion.equals("3")) {
 			FinFolio.setEjercicioId(ejercicioId);
 			FinFolio.setUsuario(request.getParameter("Usuario"));
@@ -82,7 +82,7 @@
 			FinFolio.setReciboFinal(request.getParameter("reciboFinal"));
 			FinFolio.setReciboActual(request.getParameter("reciboInicial"));
 			FinFolio.setUsuario(request.getParameter("Usuario"));
-			FinFolio.setEstado(request.getParameter("Estado"));
+			FinFolio.setEstado("I");
 			FinFolio.setFolio(FinFolio.maxReg(conElias, ejercicioId, request.getParameter("Usuario")));
 
 			if (!FinFolio.existeReg(conElias)) {
@@ -99,12 +99,15 @@
 			FinFolio.setReciboInicial(request.getParameter("reciboInicial"));
 			FinFolio.setReciboFinal(request.getParameter("reciboFinal"));
 			FinFolio.setUsuario(request.getParameter("Usuario"));
-			FinFolio.setEstado(request.getParameter("Estado").equals("I")?"I":request.getParameter("Estado"));
+			FinFolio.setEstado(request.getParameter("Estado"));
 			FinFolio.setFolio(request.getParameter("Folio"));
-			
-			System.out.println("ENTRA : "+request.getParameter("Estado"));
 
-			if (!FinFolio.updateReg(conElias)) {
+			if (FinFolio.updateReg(conElias)) {
+				if (!FinFolio.updateEstatusInactivos(conElias)){
+					resultado = "Error al editar el estado de las inactivas";
+					accion = "2";
+				}
+			}else {
 				resultado = "Error al editar el registro";
 				accion = "2";
 			}
@@ -207,7 +210,7 @@
 	%>
 		<tr class="tr2">
 			<td align="center">
-				<a href="folio.jsp?Accion=2&EjercicioId=<%=folio.getEjercicioId()%>&Usuario=<%=folio.getUsuario()%>"><i class="icon-pencil"></i></a> &nbsp;
+				<a href="folio.jsp?Accion=2&EjercicioId=<%=folio.getEjercicioId()%>&Usuario=<%=folio.getUsuario()%>&Folio=<%=folio.getFolio()%>"><i class="icon-pencil"></i></a> &nbsp;
 				<%if(!FinRecibo.existeUsuario(conElias, folio.getUsuario())){ %> 
 					<a href="javascript:Eliminar('<%=folio.getEjercicioId()%>', '<%=folio.getUsuario()%>')"> <i class="icon-remove"></i></a>
 				<%} %>
