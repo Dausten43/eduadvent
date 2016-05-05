@@ -176,11 +176,14 @@ public class FinFolio {
         try{
             ps = conn.prepareStatement("UPDATE FIN_FOLIO "
             		+ " SET RECIBO_ACTUAL = TO_NUMBER(?, '9999999') "
-            		+ " WHERE EJERCICIO_ID = ? AND USUARIO = ?");            
+            		+ " WHERE EJERCICIO_ID = ?"
+            		+ " AND USUARIO = ?"
+            		+ " AND FOLIO = TO_NUMBER(?,'99')");            
             
             ps.setString(1, reciboActual);
             ps.setString(2, ejercicioId);
             ps.setString(3, usuario);
+            ps.setString(4, folio);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -201,9 +204,10 @@ public class FinFolio {
         boolean ok = false;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("DELETE FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ?");            
+            ps = conn.prepareStatement("DELETE FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ? AND FOLIO = TO_NUMBER(?,'99')");
             ps.setString(1, ejercicioId);
             ps.setString(2, usuario);
+            ps.setString(3, folio);
           
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -231,13 +235,20 @@ public class FinFolio {
 		folio			= rs.getString("FOLIO");
     }
         
-    public void mapeaRegId(Connection conn, String ejercicioId, String usuario) throws SQLException{
-        ResultSet rs = null;
-        PreparedStatement ps = null; 
+    public void mapeaRegId(Connection conn, String ejercicioId, String usuario, String folio) throws SQLException{
+    	
+    	PreparedStatement ps 	= null;
+        ResultSet rs 			= null;
+         
         try{
-	        ps = conn.prepareStatement("SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL, ESTADO, FOLIO FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ?");
+	        ps = conn.prepareStatement("SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL, ESTADO, FOLIO "
+	        		+ " FROM FIN_FOLIO "
+	        		+ " WHERE EJERCICIO_ID = ? "
+	        		+ " AND USUARIO = ?"
+	        		+ " AND FOLIO = TO_NUMBER(?,'99')");
 	        ps.setString(1, ejercicioId);
 	        ps.setString(2, usuario);
+	        ps.setString(3, folio);
 	        
 	        rs = ps.executeQuery();
 	        if(rs.next()){
