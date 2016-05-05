@@ -131,9 +131,9 @@ public class CatNivelEscuelaLista {
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				
-				CatNivelEscuela obj = new CatNivelEscuela();				
+				CatNivelEscuela obj = new CatNivelEscuela();
 				obj.mapeaReg(rs);
-				map.put(obj.getEscuelaId(), obj );
+				map.put(obj.getNivelId(), obj );
 			}
 			
 		}catch(Exception ex){
