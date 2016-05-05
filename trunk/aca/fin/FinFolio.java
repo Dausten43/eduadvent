@@ -12,6 +12,8 @@ public class FinFolio {
 	private String reciboInicial;
 	private String reciboFinal;
 	private String reciboActual;
+	private String estado;
+	private String folio;
 	
 	public FinFolio(){
 		ejercicioId		= "";
@@ -19,6 +21,8 @@ public class FinFolio {
 		reciboInicial	= "";
 		reciboFinal		= "";
 		reciboActual	= "-1";
+		estado			= "I";
+		folio			= "";
 	}
 	
 	/**
@@ -90,20 +94,38 @@ public class FinFolio {
 	public void setReciboActual(String reciboActual) {
 		this.reciboActual = reciboActual;
 	}
+	
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getFolio() {
+		return folio;
+	}
+
+	public void setFolio(String folio) {
+		this.folio = folio;
+	}
 
 	public boolean insertReg(Connection conn) throws SQLException{
         boolean ok = false;
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement(
-                    "INSERT INTO FIN_FOLIO(EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL)" +
-                    " VALUES(?, ?, TO_NUMBER(?, '9999999'), TO_NUMBER(?, '9999999'), TO_NUMBER(?, '9999999'))");
+                    "INSERT INTO FIN_FOLIO(EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL, ESTADO, FOLIO)" +
+                    " VALUES(?, ?, TO_NUMBER(?, '9999999'), TO_NUMBER(?, '9999999'), TO_NUMBER(?, '9999999'), ?, TO_NUMBER(?, '99'))");
            
             ps.setString(1, ejercicioId);           
             ps.setString(2, usuario);
             ps.setString(3, reciboInicial);
             ps.setString(4, reciboFinal);
             ps.setString(5, reciboActual);
+            ps.setString(6, estado);
+            ps.setString(7, folio);
             
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -125,11 +147,14 @@ public class FinFolio {
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement("UPDATE FIN_FOLIO SET RECIBO_INICIAL = TO_NUMBER(?, '9999999'), " +
-            		"RECIBO_FINAL  = TO_NUMBER(?, '9999999') WHERE EJERCICIO_ID = ? AND USUARIO = ?");            
+            		"RECIBO_FINAL  = TO_NUMBER(?, '9999999'), ESTADO = ? WHERE EJERCICIO_ID = ? AND USUARIO = ? AND FOLIO = TO_NUMBER(?, '99') ");            
             ps.setString(1, reciboInicial);
             ps.setString(2, reciboFinal);
-            ps.setString(3, ejercicioId);
-            ps.setString(4, usuario);
+            ps.setString(3, estado);
+            ps.setString(4, ejercicioId);
+            ps.setString(5, usuario);
+            ps.setString(6, folio);
+            
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -202,13 +227,15 @@ public class FinFolio {
 		reciboInicial	= rs.getString("RECIBO_INICIAL");
 		reciboFinal		= rs.getString("RECIBO_FINAL");
 		reciboActual	= rs.getString("RECIBO_ACTUAL");
+		estado			= rs.getString("ESTADO");
+		folio			= rs.getString("FOLIO");
     }
         
     public void mapeaRegId(Connection conn, String ejercicioId, String usuario) throws SQLException{
         ResultSet rs = null;
         PreparedStatement ps = null; 
         try{
-	        ps = conn.prepareStatement("SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ?");
+	        ps = conn.prepareStatement("SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL, ESTADO, FOLIO FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ?");
 	        ps.setString(1, ejercicioId);
 	        ps.setString(2, usuario);
 	        
@@ -233,9 +260,10 @@ public class FinFolio {
 
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ?");            
+            ps = conn.prepareStatement("SELECT * FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ? AND FOLIO = TO_NUMBER(?, '99')");            
             ps.setString(1, ejercicioId);
             ps.setString(2, usuario);
+            ps.setString(3, folio);
             
             
             rs = ps.executeQuery();
@@ -251,4 +279,27 @@ public class FinFolio {
         
         return ok;
     } 
+    
+    public String maxReg(Connection conn, String ejercicioId, String usuario) throws SQLException {
+        String maximo			= "1";
+        ResultSet rs			= null;
+        PreparedStatement ps	= null;
+
+        try {
+            ps = conn.prepareStatement("SELECT COALESCE(MAX(FOLIO)+1,1) AS MAXIMO FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ?");
+            ps.setString(1, ejercicioId);
+            ps.setString(2, usuario);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                maximo = rs.getString("MAXIMO");
+            }
+            
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinFolio|maxReg|:" +ex);
+        }finally{
+	        if(rs != null) rs.close();
+	        if(ps != null) ps.close();
+        }
+        return maximo;
+    }
 }

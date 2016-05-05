@@ -14,7 +14,7 @@ public class FinFolioLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL FROM FIN_FOLIO "+orden;			
+			comando = "SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL, ESTADO, FOLIO FROM FIN_FOLIO "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
 				FinFolio folio = new FinFolio();				
@@ -39,7 +39,7 @@ public class FinFolioLista {
 		String comando	= "";
 		
 		try{			
-			comando = " SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL FROM FIN_FOLIO" +
+			comando = " SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL, ESTADO, FOLIO FROM FIN_FOLIO" +
 					  " WHERE EJERCICIO_ID = '"+ejercicioId+"' "+orden;			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){			
@@ -49,7 +49,7 @@ public class FinFolioLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.FinFolioLista|getListAll|:"+ex);
+			System.out.println("Error - aca.catalogo.FinFolioLista|getListEjercicio|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
