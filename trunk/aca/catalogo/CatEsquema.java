@@ -270,7 +270,7 @@ public class CatEsquema {
 		return resultado;
 	}
 	
-	/* OBTIENE EL NOMBRE DEL GRADO EN EL NIVEL DE UN A ESCUELA */
+	/* OBTIENE EL NOMBRE DEL GRADO EN EL NIVEL DE UNA ESCUELA */
 	public static String getNombreGrado(Connection conn, String escuelaId, String nivelId, String grado) throws SQLException{
 		
 		PreparedStatement ps 	= null;

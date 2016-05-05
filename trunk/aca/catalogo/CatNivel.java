@@ -444,18 +444,18 @@ public class CatNivel {
 		
 		try{
 			switch (grado){
-			case 1: { strGrado = "PRIMER "; break; }
-			case 2: { strGrado = "SEGUNDO "; break; }
-			case 3: { strGrado = "TERCER "; break; }
-			case 4: { strGrado = "CUARTO "; break; }
-			case 5: { strGrado = "QUINTO "; break; }
-			case 6: { strGrado = "SEXTO "; break; }
-			case 7: { strGrado = "SEPTIMO "; break; }
-			case 8: { strGrado = "OCTAVO "; break; }
-			case 9: { strGrado = "NOVENO "; break; }
-			case 10:{ strGrado = "DECIMO "; break; }
-			case 11:{ strGrado = "UNDECIMO "; break; }
-			case 12:{ strGrado = "DUODECIMO "; break; }
+			case 1: { strGrado = "PRIMER"; break; }
+			case 2: { strGrado = "SEGUNDO"; break; }
+			case 3: { strGrado = "TERCER"; break; }
+			case 4: { strGrado = "CUARTO"; break; }
+			case 5: { strGrado = "QUINTO"; break; }
+			case 6: { strGrado = "SEXTO"; break; }
+			case 7: { strGrado = "SEPTIMO"; break; }
+			case 8: { strGrado = "OCTAVO"; break; }
+			case 9: { strGrado = "NOVENO"; break; }
+			case 10:{ strGrado = "DECIMO"; break; }
+			case 11:{ strGrado = "UNDECIMO"; break; }
+			case 12:{ strGrado = "DUODECIMO"; break; }
 		} 
 		}catch(Exception ex){
 			System.out.println("Error - aca.catalogo.CatNivel|getGradoNombre|:"+ex);
