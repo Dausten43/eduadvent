@@ -7,6 +7,7 @@
 <%@ include file= "../../menu.jsp" %>
 
 <jsp:useBean id="inscritosLista" scope="page" class="aca.vista.AlumInscritoLista"/>
+<jsp:useBean id="nivelEscuela" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
 
 <%
 	String codigoPersonal	= (String) session.getAttribute("codigoPersonal");
@@ -15,8 +16,11 @@
 	
 	//LISTA DE ESCUELAS
 	ArrayList<aca.vista.AlumInscrito> lisInscritos 	= inscritosLista.getListaInscritos(conElias, escuelaId, " ORDER BY NIVEL, GRADO, GRUPO, NOMBRE,APATERNO,AMATERNO");
+	
+	// Lista de niveles
+	java.util.HashMap<String,aca.catalogo.CatNivelEscuela> mapNiveles = nivelEscuela.mapNivelesEscuela(conElias, escuelaId);
 
-	Calendar año = new GregorianCalendar();
+	Calendar year = new GregorianCalendar();
 	
 %>
 <div id="content">
@@ -36,12 +40,10 @@
 			<td width="10%" class="text-left"><fmt:message key="aca.Foto" /></td>
 			<td width="10%" class="text-left"><fmt:message key="aca.Poliza" /></td>
 	  	</tr>
-<%	
-
-
-String codigoAlumno			= "";
-String tieneFoto 			= "No";
-String muestraAño			= String.valueOf(año.get(Calendar.YEAR));
+<%
+	String codigoAlumno			= "";
+	String tieneFoto 			= "No";
+	String muestraYear			= String.valueOf(year.get(Calendar.YEAR));
 
 	for(aca.vista.AlumInscrito inscrito : lisInscritos){	
 		// Verifica si existe la imagen	
@@ -54,7 +56,7 @@ String muestraAño			= String.valueOf(año.get(Calendar.YEAR));
 		}
 %>		
 		<tr>
-		<td class='text-left'><%= inscrito.getNivel() %></td>
+		<td class='text-left'><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, inscrito.getNivel())%></td>
 		<td class='text-left'><%= inscrito.getGrado() %></td>
 		<td class='text-left'><%= inscrito.getGrupo() %></td>
 		<td class='text-left'><%= inscrito.getCodigoId() %></td>
@@ -62,7 +64,7 @@ String muestraAño			= String.valueOf(año.get(Calendar.YEAR));
 		<td class='text-left'><%= inscrito.getCurp() %></td>
 		<td class='text-left'><%= inscrito.getTipoSangre() %></td>
 		<td class='text-left'><%= tieneFoto %></td>
-		<td class='text-left'><%= aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraAño ) %></td>
+		<td class='text-left'><%= aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraYear ) %></td>
 		</tr>
 <%		
 	}
