@@ -82,6 +82,8 @@
 			FinFolio.setReciboFinal(request.getParameter("reciboFinal"));
 			FinFolio.setReciboActual(request.getParameter("reciboInicial"));
 			FinFolio.setUsuario(request.getParameter("Usuario"));
+			FinFolio.setEstado(request.getParameter("Estado"));
+			FinFolio.setFolio(FinFolio.maxReg(conElias, ejercicioId, request.getParameter("Usuario")));
 
 			if (!FinFolio.existeReg(conElias)) {
 				if (!FinFolio.insertReg(conElias)) {
@@ -97,6 +99,10 @@
 			FinFolio.setReciboInicial(request.getParameter("reciboInicial"));
 			FinFolio.setReciboFinal(request.getParameter("reciboFinal"));
 			FinFolio.setUsuario(request.getParameter("Usuario"));
+			FinFolio.setEstado(request.getParameter("Estado").equals("I")?"I":request.getParameter("Estado"));
+			FinFolio.setFolio(request.getParameter("Folio"));
+			
+			System.out.println("ENTRA : "+request.getParameter("Estado"));
 
 			if (!FinFolio.updateReg(conElias)) {
 				resultado = "Error al editar el registro";
@@ -144,6 +150,7 @@
 				</select>
 				<%if(accion.equals("2")){ %>
 				<input name="Usuario" type="hidden" value="<%=FinFolio.getUsuario()%>"/>
+				<input name="Folio" type="hidden" value="<%=FinFolio.getFolio()%>"/>
 				<%} %>
 			</td>
 		</tr>
@@ -156,6 +163,17 @@
 			<td>Recibo Final:</td>
 			<td><input type="number" value="<%=FinFolio.getReciboFinal() == null ? "" : FinFolio.getReciboFinal()%>"   maxlength="7" id="reciboFinal" name="reciboFinal"></td>
 		</tr>
+		<%if(accion.equals("2")){ %>	
+		<tr>
+			<td>Estado:</td>
+			<td>
+				<select name="Estado" id="Estado" style="width:10%;">
+					<option value="I" ><%=FinFolio.getEstado().equals("I")?"Inactivo":"Activo"%></option>
+					<option value="A" ><%=FinFolio.getEstado().equals("I")?"Activo":"Inactivo"%></option>
+				</select>
+			</td>
+		</tr>
+	<%} %>		
 	</table>
 	
 	<div class="well" style="overflow: hidden;">
@@ -180,6 +198,8 @@
 			<th>Recibo Inicial</th>
 			<th>Recibo Final</th>
 			<th>Recibo Actual</th>
+			<th>Estado</th>
+			<th>Folio</th>
 		</tr>
 
 	<%
@@ -197,6 +217,8 @@
 			<td>&nbsp;&nbsp;&nbsp;<%=folio.getReciboInicial()%></td>
 			<td>&nbsp;&nbsp;&nbsp;<%=folio.getReciboFinal()%></td>
 			<td>&nbsp;&nbsp;&nbsp;<%=folio.getReciboActual()%></td>
+			<td>&nbsp;&nbsp;&nbsp;<%=folio.getEstado().equals("I")?"Inactivo":"Activo"%></td>
+			<td>&nbsp;&nbsp;&nbsp;<%=folio.getFolio()%></td>
 		</tr>
 		<%
 		}
