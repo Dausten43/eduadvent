@@ -54,6 +54,24 @@
 		}else {
 			tieneFoto = "No";
 		}
+		
+		String strGrado = "-";
+		int grado 		= Integer.parseInt(inscrito.getGrado());
+		
+		switch (grado){
+			case 1: { strGrado = "PRIMERO "; break; }
+			case 2: { strGrado = "SEGUNDO "; break; }
+			case 3: { strGrado = "TERCERO "; break; }
+			case 4: { strGrado = "CUARTO "; break; }
+			case 5: { strGrado = "QUINTO "; break; }
+			case 6: { strGrado = "SEXTO "; break; }
+			case 7: { strGrado = "SEPTIMO "; break; }
+			case 8: { strGrado = "OCTAVO "; break; }
+			case 9: { strGrado = "NOVENO "; break; }
+			case 10:{ strGrado = "DECIMO "; break; }
+			case 11:{ strGrado = "UNDECIMO "; break; }
+			case 12:{ strGrado = "DUODECIMO "; break; }
+		}
 %>		
 		<tr>
 		<td class='text-left'><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, inscrito.getNivel())%></td>
