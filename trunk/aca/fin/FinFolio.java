@@ -169,6 +169,29 @@ public class FinFolio {
 
         return ok;
     }
+    
+    public boolean updateEstatusInactivos(Connection conn) throws SQLException{
+        boolean ok = false;
+        PreparedStatement ps = null;
+        try{
+            ps = conn.prepareStatement("UPDATE FIN_FOLIO SET ESTADO = 'I' WHERE EJERCICIO_ID = ? AND USUARIO = ? AND FOLIO != TO_NUMBER(?, '99') ");            
+            ps.setString(1, ejercicioId);
+            ps.setString(2, usuario);
+            ps.setString(3, folio);
+        
+            if(ps.executeUpdate() >= 1){
+                ok = true;
+            }
+        }catch (Exception ex){
+            System.out.println("Error - aca.fin.FinFolio|updateEstatusInactivos|:" + ex);
+        }finally{
+        	 if(ps != null){
+                 ps.close();
+             }
+        }
+
+        return ok;
+    }
 
     public boolean updateReciboActual(Connection conn) throws SQLException{
         boolean ok = false;
