@@ -365,4 +365,27 @@ public class FinFolio {
         }
         return maximo;
     }
+    
+    public boolean verificaFolio(Connection conn, String ejercicioId, String usuario, String valor) throws SQLException {
+    	PreparedStatement ps	= null;
+        ResultSet rs			= null;
+        boolean ok 				= false;
+
+        try {
+            ps = conn.prepareStatement("SELECT * FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ? AND ? BETWEEN RECIBO_INICIAL AND RECIBO_FINAL");
+            ps.setString(1, ejercicioId);
+            ps.setString(2, usuario);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                ok = true;
+            }
+            
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinFolio|verificaFolio|:" +ex);
+        }finally{
+	        if(rs != null) rs.close();
+	        if(ps != null) ps.close();
+        }
+        return ok;
+    }
 }
