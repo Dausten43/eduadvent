@@ -443,7 +443,7 @@ public class FinRecibo {
 
         try {
             ps = conn.prepareStatement("SELECT * FROM FIN_RECIBO" +
-                    " WHERE USUARIO = ? ");
+                    " WHERE USUARIO = ?");
             
             ps.setString(1, usuario);
             
@@ -459,7 +459,7 @@ public class FinRecibo {
         }
 
         return ok;
-    }
+    }   
     
     public static String sumaConceptos(Connection conn, String reciboId, String ejercicioId) throws SQLException {
         

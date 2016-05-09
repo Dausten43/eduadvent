@@ -312,6 +312,35 @@ public class FinFolio {
         }
         
         return ok;
+    }
+    
+    public boolean tieneRecibo(Connection conn, String ejercicioId, String usuario, String folio) throws SQLException {
+    	PreparedStatement ps 	= null;
+    	ResultSet rs 			= null;
+        boolean ok 				= false;
+        
+        try {
+            ps = conn.prepareStatement("SELECT * FROM FIN_FOLIO"
+            		+ " WHERE EJERCICIO_ID = ? "
+            		+ " AND USUARIO = ?"
+            		+ " AND FOLIO = TO_NUMBER(?, '99')"
+            		+ " AND VALIDA_FOLIO(EJERCICIO_ID,USUARIO,FOLIO) = 'S'");
+            ps.setString(1, ejercicioId);
+            ps.setString(2, usuario);
+            ps.setString(3, folio);            
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+                ok = true;
+            }
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinFolio|tieneRecibo|:" +ex);
+        }finally{
+	        if(rs != null) rs.close();
+	        if(ps != null) ps.close();
+        }
+        
+        return ok;
     } 
     
     public String maxReg(Connection conn, String ejercicioId, String usuario) throws SQLException {
