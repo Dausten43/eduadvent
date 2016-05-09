@@ -52,18 +52,19 @@
 		}
 	}
 	
-	function Eliminar(ejercicioId, usuario){
+	function Eliminar(ejercicioId, usuario, folio){
 		if(confirm("¿Desea eliminar el ejercicio seleccionado?")){
-			document.location.href="folio.jsp?Accion=3&EjercicioId="+ejercicioId+"&Usuario="+usuario;
+			document.location.href="folio.jsp?Accion=3&EjercicioId="+ejercicioId+"&Usuario="+usuario+"&Folio="+folio;
 		}
 	}
 </script>
 </head>
 <%
-	String escuelaId 		= (String) session.getAttribute("escuela");
-	String accion 			= request.getParameter("Accion") == null ? "" : request.getParameter("Accion");
+	String escuelaId 		= (String) session.getAttribute("escuela");	
 	String usuario 			= (String) session.getAttribute("codigoId");
 	String ejercicioId 	 	= (String) session.getAttribute("ejercicioId");
+	
+	String accion 			= request.getParameter("Accion") == null ?"0":request.getParameter("Accion");
 
 	String resultado = "";
 
@@ -73,7 +74,8 @@
 		} else if (accion.equals("3")) {
 			FinFolio.setEjercicioId(ejercicioId);
 			FinFolio.setUsuario(request.getParameter("Usuario"));
-
+			FinFolio.setFolio(request.getParameter("Folio"));
+			
 			if (!FinFolio.deleteReg(conElias))
 				resultado = "Error al eliminar el registro";
 		} else if (accion.equals("4")) {
@@ -156,8 +158,7 @@
 				<input name="Folio" type="hidden" value="<%=FinFolio.getFolio()%>"/>
 				<%} %>
 			</td>
-		</tr>
-		
+		</tr>		
 		<tr>
 			<td>Recibo Inicial:</td>
 			<td><input type="number" value="<%=FinFolio.getReciboInicial() == null ? "" : FinFolio.getReciboInicial()%>"  maxlength="7" id="reciboInicial" name="reciboInicial"></td>
@@ -211,8 +212,10 @@
 		<tr class="tr2">
 			<td align="center">
 				<a href="folio.jsp?Accion=2&EjercicioId=<%=folio.getEjercicioId()%>&Usuario=<%=folio.getUsuario()%>&Folio=<%=folio.getFolio()%>"><i class="icon-pencil"></i></a> &nbsp;
-				<%if(!FinRecibo.existeUsuario(conElias, folio.getUsuario())){ %> 
-					<a href="javascript:Eliminar('<%=folio.getEjercicioId()%>', '<%=folio.getUsuario()%>')"> <i class="icon-remove"></i></a>
+				<%if(!folio.tieneRecibo(conElias, folio.getEjercicioId(), folio.getUsuario(), folio.getFolio())){ %> 
+					<a href="javascript:Eliminar('<%=folio.getEjercicioId()%>','<%=folio.getUsuario()%>','<%=folio.getFolio()%>')">
+						<i class="icon-remove"></i>
+					</a>
 				<%} %>
 			</td>
 			<td align="right"><%=folio.getEjercicioId()%>&nbsp;&nbsp;&nbsp;</td>
