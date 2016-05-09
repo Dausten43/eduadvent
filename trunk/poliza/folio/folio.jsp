@@ -99,11 +99,11 @@
 						accion = "1";
 					}
 				}else{
-					resultado = "Recibo inicial o final estan dentro de un rango existente";
+					resultado = "Recibo final están dentro de un rango existente";
 					accion = "1";
 				}
 			}else{
-				resultado = "Recibo inicial o final estan dentro de un rango existente";
+				resultado = "Recibo inicial están dentro de un rango existente";
 				accion = "1";
 			}
 		} else if (accion.equals("5")) {
