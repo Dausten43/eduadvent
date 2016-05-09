@@ -372,9 +372,10 @@ public class FinFolio {
         boolean ok 				= false;
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ? AND ? BETWEEN RECIBO_INICIAL AND RECIBO_FINAL");
+            ps = conn.prepareStatement("SELECT * FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ? AND TO_NUMBER(?,'99') BETWEEN RECIBO_INICIAL AND RECIBO_FINAL");
             ps.setString(1, ejercicioId);
             ps.setString(2, usuario);
+            ps.setString(3, valor);
             rs = ps.executeQuery();
             if(rs.next()){
                 ok = true;

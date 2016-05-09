@@ -87,13 +87,23 @@
 			FinFolio.setEstado("I");
 			FinFolio.setFolio(FinFolio.maxReg(conElias, ejercicioId, request.getParameter("Usuario")));
 
-			if (!FinFolio.existeReg(conElias)) {
-				if (!FinFolio.insertReg(conElias)) {
-					resultado = "Error al guardar el registro";
+			if(FinFolio.verificaFolio(conElias, ejercicioId, usuario, request.getParameter("reciboInicial"))) {
+				if(FinFolio.verificaFolio(conElias, ejercicioId, usuario, request.getParameter("reciboFinal"))){	
+					if (!FinFolio.existeReg(conElias)) {
+						if (!FinFolio.insertReg(conElias)) {
+							resultado = "Error al guardar el registro";
+							accion = "1";
+						}
+					} else {
+						resultado = "La póliza ya existe";
+						accion = "1";
+					}
+				}else{
+					resultado = "Recibo inicial o final estan dentro de un rango existente";
 					accion = "1";
 				}
-			} else {
-				resultado = "La póliza ya existe";
+			}else{
+				resultado = "Recibo inicial o final estan dentro de un rango existente";
 				accion = "1";
 			}
 		} else if (accion.equals("5")) {
