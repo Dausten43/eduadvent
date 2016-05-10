@@ -87,8 +87,8 @@
 			FinFolio.setEstado("I");
 			FinFolio.setFolio(FinFolio.maxReg(conElias, ejercicioId, request.getParameter("Usuario")));
 
-			if(FinFolio.verificaFolio(conElias, ejercicioId, usuario, request.getParameter("reciboInicial"))) {
-				if(FinFolio.verificaFolio(conElias, ejercicioId, usuario, request.getParameter("reciboFinal"))){	
+			if(!FinFolio.verificaFolio(conElias, request.getParameter("reciboInicial"))) {
+				if(!FinFolio.verificaFolio(conElias, request.getParameter("reciboFinal"))){	
 					if (!FinFolio.existeReg(conElias)) {
 						if (!FinFolio.insertReg(conElias)) {
 							resultado = "Error al guardar el registro";
@@ -99,11 +99,11 @@
 						accion = "1";
 					}
 				}else{
-					resultado = "Recibo final están dentro de un rango existente";
+					resultado = "Recibo final está dentro de un rango existente";
 					accion = "1";
 				}
 			}else{
-				resultado = "Recibo inicial están dentro de un rango existente";
+				resultado = "Recibo inicial está dentro de un rango existente";
 				accion = "1";
 			}
 		} else if (accion.equals("5")) {

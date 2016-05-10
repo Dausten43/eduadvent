@@ -366,16 +366,14 @@ public class FinFolio {
         return maximo;
     }
     
-    public boolean verificaFolio(Connection conn, String ejercicioId, String usuario, String valor) throws SQLException {
+    public boolean verificaFolio(Connection conn, String valor) throws SQLException {
     	PreparedStatement ps	= null;
         ResultSet rs			= null;
         boolean ok 				= false;
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_FOLIO WHERE EJERCICIO_ID = ? AND USUARIO = ? AND TO_NUMBER(?,'9999999') BETWEEN RECIBO_INICIAL AND RECIBO_FINAL");
-            ps.setString(1, ejercicioId);
-            ps.setString(2, usuario);
-            ps.setString(3, valor);
+            ps = conn.prepareStatement("SELECT * FROM FIN_FOLIO WHERE TO_NUMBER(?,'9999999') BETWEEN RECIBO_INICIAL AND RECIBO_FINAL");
+            ps.setString(1, valor);
             rs = ps.executeQuery();
             if(rs.next()){
                 ok = true;
