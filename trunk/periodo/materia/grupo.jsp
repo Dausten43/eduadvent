@@ -52,15 +52,17 @@
 			break;
 		}
 		case 2: { 
+			conElias.setAutoCommit(false);
 			CicloGrupo.setCicloGrupoId(request.getParameter("CicloGrupoId"));			
 			if (CicloGrupo.existeReg(conElias)){				
 				if (CicloGrupo.deleteReg(conElias)){
 					resultado = "¡ Borrado !";
 					conElias.commit();
 				}else{
-					resultado = "¡ Error al Borrar !";	
+					resultado = "¡ Error al Borrar !";
 				}
-			}			
+			}
+			conElias.setAutoCommit(false);
 			break;
 		}
 	}
