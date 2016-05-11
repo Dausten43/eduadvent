@@ -101,7 +101,7 @@ public class CatAspectos {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CAT_ASPECTOS" +
 					" (ESCUELA_ID, ASPECTOS_ID, NOMBRE, ORDEN, NIVEL_ID, AREA_ID)" +
-					" VALUES(?,TO_NUMBER(?, '99'), ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'99'),TO_NUMBER(?,'99'))");
+					" VALUES(?,TO_NUMBER(?, '999'), ?, TO_NUMBER(?,'99'), TO_NUMBER(?,'99'),TO_NUMBER(?,'99'))");
 							
 			ps.setString(1, escuelaId);
 			ps.setString(2, aspectosId);
@@ -132,7 +132,7 @@ public class CatAspectos {
 			ps = conn.prepareStatement("UPDATE CAT_ASPECTOS"
 					+ " SET NOMBRE = ?, ORDEN = TO_NUMBER(?, '99'), NIVEL_ID = TO_NUMBER(?, '99'), AREA_ID = TO_NUMBER(?, '99')"
 					+ " WHERE ESCUELA_ID = ?"
-					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99')");
+					+ " AND ASPECTOS_ID = TO_NUMBER(?, '999')");
 			
 			ps.setString(1, nombre);
 			ps.setString(2, orden);
@@ -161,7 +161,7 @@ public class CatAspectos {
 		try{
 			ps = conn.prepareStatement("DELETE FROM CAT_ASPECTOS"
 					+ " WHERE ESCUELA_ID = ?"
-					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99')");
+					+ " AND ASPECTOS_ID = TO_NUMBER(?, '999')");
 			ps.setString(1, escuelaId);
 			ps.setString(2, aspectosId);
 			
@@ -196,7 +196,7 @@ public class CatAspectos {
 			ps = con.prepareStatement("SELECT ASPECTOS_ID, NOMBRE, ORDEN, NIVEL_ID, AREA_ID, ESCUELA_ID"
 					+ " FROM CAT_ASPECTOS"
 					+ " WHERE ESCUELA_ID = ?"
-					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99') ");
+					+ " AND ASPECTOS_ID = TO_NUMBER(?, '999') ");
 			ps.setString(1, escuelaId);
 			ps.setString(2, aspectosId);
 			
@@ -221,7 +221,7 @@ public class CatAspectos {
 		try{
 			ps = conn.prepareStatement("SELECT * FROM CAT_ASPECTOS"
 					+ " WHERE ESCUELA_ID = ?"
-					+ " AND ASPECTOS_ID = TO_NUMBER(?, '99')");
+					+ " AND ASPECTOS_ID = TO_NUMBER(?, '999')");
 			ps.setString(1, escuelaId);
 			ps.setString(2, aspectosId);
 			rs= ps.executeQuery();		
