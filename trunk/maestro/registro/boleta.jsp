@@ -624,29 +624,29 @@
 			    				double promedioF = 0.0;
 			    				boolean promedioporDos = false;
 			    				if(!estanTodasCerradas){
-			    					double nota = 0.0, notaDos = 0.0, notaTres = 0.0;	
+			    					double nota = 0.0, notaDos = 0.0, notaTres = 0.0;
 			    					if(cantidadBimestres!=0){
-				    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1")){
-				    							nota = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1").getNota());
-					    					}
-				    						if(nota == 0.0){
-				    							promedioporDos = true;
-				    						}
-				    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"2")){
-				    							notaDos = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"2").getNota());
-					    					}
-				    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"3")){
-				    							notaTres = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"3").getNota());
-					    					}
-				    						
-				    						if(promedioporDos){
-				    							promedioF = (nota+notaDos+notaTres)/2;
-				    						}else if(nota != 0.0){
-				    							promedioF = nota;
-				    						}else{
-				    							promedioF = (nota+notaDos+notaTres)/3;
-				    						}
+			    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1")){
+			    							nota = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"1").getNota());
+				    					}
+			    						if(nota == 0.0){
+			    							promedioporDos = true;
 			    						}
+			    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"2")){
+			    							notaDos = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"2").getNota());
+				    					}
+			    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"3")){
+			    							notaTres = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"3").getNota());
+				    					}
+			    						
+			    						if(promedioporDos){
+			    							promedioF = (nota+notaDos+notaTres)/2;
+			    						}else if(nota != 0.0){
+			    							promedioF = nota;
+			    						}else{
+			    							promedioF = (nota+notaDos+notaTres)/3;
+			    						}
+		    						}
 				    					
 			    					// Colocar formato con una decimal
 			    					promedio = frm1.format(promedioF);
@@ -658,7 +658,7 @@
 			    					double notaP = 0.0;
 			    					int contP = 0;
 			    					if(nota!=null){
-			    						nota=nota.trim();
+			    						nota = nota.trim();
 			    					}else{
 			    						for(int g = 1; g<11; g++){
 				    						if (g ==1 && !alumnoCurso.getCal1().equals("-") && Double.parseDouble(alumnoCurso.getCal1())>1 ){
