@@ -638,8 +638,11 @@
 				    						if (mapPromAlumno.containsKey(alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"3")){
 				    							notaTres = Double.parseDouble(mapPromAlumno.get( alumnoCurso.getCodigoId()+alumnoCurso.getCursoId()+"3").getNota());
 					    					}
+				    						
 				    						if(promedioporDos){
 				    							promedioF = (nota+notaDos+notaTres)/2;
+				    						}else if(nota != 0.0){
+				    							promedioF = nota;
 				    						}else{
 				    							promedioF = (nota+notaDos+notaTres)/3;
 				    						}
