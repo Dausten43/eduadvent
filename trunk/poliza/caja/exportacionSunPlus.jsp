@@ -92,6 +92,10 @@
 		
 			boolean cuentasAsociadasConSunPlus 		= true; 
 			ArrayList<String> cuentasNoAsociadas 	= new ArrayList<String>();
+			
+			String fondo 	= aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId);
+			String orgId	= aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId);
+			String distrito = aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId);
 		
 			for(aca.fin.FinMovimientos mov : movimientos){
 				if(mov.getEstado().equals("C")){ continue; }
@@ -116,19 +120,20 @@
 					
 					
 				if( cuentaSunPlus.equals("621110") ){
+					String fondo = aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId);
 		%>
 						<tr>
 							<td><%=FinPoliza.getDescripcion() %></td>
 							<td>101110</td>
 							<td>CAJA</td>
 							<td></td>
-							<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+							<td><%=fondo%></td>
 							<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 							<td>01</td>
-							<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+							<td><%=orgId%></td>
 							<td></td>
 							<td></td>
-							<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+							<td><%=distrito%></td>
 							<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 							<td class="text-right">-<%=getformato.format( importe ) %></td>
 							<td>DOP1</td>
@@ -141,13 +146,13 @@
 							<td>621110</td>
 							<td><%=cuentasSunPlus.containsKey("621110")==true ? cuentasSunPlus.get("621110") : "-" %></td>
 							<td></td>
-							<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+							<td><%=fondo%></td>
 							<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 							<td>01</td>
-							<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+							<td><%=orgId%></td>
 							<td></td>
 							<td></td>
-							<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+							<td><%=distrito%></td>
 							<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 							<td class="text-right"><%=getformato.format( importe ) %></td>
 							<td>DOP1</td>
@@ -160,13 +165,13 @@
 							<td>370120</td>
 							<td>INGRESOS DIFERIDOS POR ENSEÑANZA</td>
 							<td></td>
-							<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+							<td><%=fondo%></td>
 							<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 							<td>01</td>
-							<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+							<td><%=orgId%></td>
 							<td></td>
 							<td></td>
-							<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+							<td><%=distrito%></td>
 							<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 							<td class="text-right">-<%=getformato.format( importe ) %></td>
 							<td>DOP1</td>
@@ -179,13 +184,13 @@
 							<td>134ALUM01</td>
 							<td>ALUMNO</td>
 							<td></td>
-							<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+							<td><%=fondo%></td>
 							<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 							<td>01</td>
-							<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+							<td><%=orgId%></td>
 							<td></td>
 							<td></td>
-							<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+							<td><%=distrito%></td>
 							<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 							<td class="text-right"><%=getformato.format( importe ) %></td>
 							<td>DOP1</td>
@@ -206,13 +211,13 @@
 							<td>101110</td>
 							<td>CAJA</td>
 							<td></td>
-							<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+							<td><%=fondo%></td>
 							<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 							<td>01</td>
-							<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+							<td><%=orgId%></td>
 							<td></td>
 							<td></td>
-							<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+							<td><%=distrito%></td>
 							<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 							<td class="text-right">-<%=getformato.format( importe ) %></td>
 							<td>DOP1</td>
@@ -225,13 +230,13 @@
 							<td>622110</td>
 							<td><%=cuentasSunPlus.containsKey("622110")==true ? cuentasSunPlus.get("622110") : "-" %></td>
 							<td></td>
-							<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+							<td><%=fondo%></td>
 							<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 							<td>01</td>
-							<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+							<td><%=orgId%></td>
 							<td></td>
 							<td></td>
-							<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+							<td><%=distrito%></td>
 							<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 							<td class="text-right"><%=getformato.format( importe ) %></td>
 							<td>DOP1</td>
@@ -253,13 +258,13 @@
 							<td>101110</td>
 							<td>CAJA</td>
 							<td></td>
-							<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+							<td><%=fondo%></td>
 							<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 							<td>01</td>
-							<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+							<td><%=orgId%></td>
 							<td></td>
 							<td></td>
-							<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+							<td><%=dstrito%></td>
 							<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 							<td class="text-right">-<%=getformato.format( importe ) %></td>
 							<td>DOP1</td>
@@ -272,13 +277,13 @@
 							<td>601110</td>
 							<td><%=cuentasSunPlus.containsKey("601110")==true ? cuentasSunPlus.get("601110") : "-" %></td>
 							<td></td>
-							<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+							<td><%=fondo%></td>
 							<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 							<td>01</td>
-							<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+							<td><%=orgId%></td>
 							<td></td>
 							<td></td>
-							<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+							<td><%=dstrito%></td>
 							<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 							<td class="text-right"><%=getformato.format( importe ) %></td>
 							<td>DOP1</td>
@@ -300,13 +305,13 @@
 						<td>101110</td>
 						<td>CAJA</td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId%></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito%></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right">-<%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -319,13 +324,13 @@
 						<td>601120</td>
 						<td><%=cuentasSunPlus.containsKey("601120")==true ? cuentasSunPlus.get("601120") : "-" %></td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right"><%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -347,13 +352,13 @@
 						<td>101110</td>
 						<td>CAJA</td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right">-<%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -366,13 +371,13 @@
 						<td>671140</td>
 						<td><%=cuentasSunPlus.containsKey("671140")==true ? cuentasSunPlus.get("671140") : "-" %></td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right"><%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -394,13 +399,13 @@
 						<td>101110</td>
 						<td>CAJA</td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right">-<%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -413,13 +418,13 @@
 						<td>622120</td>
 						<td><%=cuentasSunPlus.containsKey("622120")==true ? cuentasSunPlus.get("622120") : "-" %></td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right"><%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -441,13 +446,13 @@
 						<td>101110</td>
 						<td>CAJA</td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right">-<%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -460,13 +465,13 @@
 						<td>622140</td>
 						<td><%=cuentasSunPlus.containsKey("622140")==true ? cuentasSunPlus.get("622140") : "-" %></td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right"><%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -488,13 +493,13 @@
 						<td>101110</td>
 						<td>CAJA</td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right">-<%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -507,13 +512,13 @@
 						<td>622150</td>
 						<td><%=cuentasSunPlus.containsKey("622150")==true ? cuentasSunPlus.get("622150") : "-" %></td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right"><%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -535,13 +540,13 @@
 						<td>134ALUMN01</td>
 						<td>ALUMNO</td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right">-<%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
@@ -554,13 +559,13 @@
 						<td>671120</td>
 						<td><%=cuentasSunPlus.containsKey("671120")==true ? cuentasSunPlus.get("671120") : "-" %></td>
 						<td></td>
-						<td><%=aca.catalogo.CatAsociacion.getFondoIdEscuela(conElias, escuelaId) %></td>
+						<td><%=fondo %></td>
 						<td><%=aca.catalogo.CatNivelEscuela.getFuncionId(conElias, escuelaId, aca.alumno.AlumPersonal.getNivel(conElias, mov.getAuxiliar())+"")  %></td>
 						<td>01</td>
-						<td><%=aca.catalogo.CatEscuela.getOrgId(conElias, escuelaId) %></td>
+						<td><%=orgId %></td>
 						<td></td>
 						<td></td>
-						<td><%=aca.catalogo.CatEscuela.getDistrito(conElias, escuelaId) %></td>
+						<td><%=distrito %></td>
 						<td><%=mov.getDescripcion() %> | <%=mov.getAuxiliar() %></td>
 						<td class="text-right"><%=getformato.format( importe ) %></td>
 						<td>DOP1</td>
