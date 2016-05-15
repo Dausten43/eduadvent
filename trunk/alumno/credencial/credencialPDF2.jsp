@@ -18,17 +18,13 @@
 
 <%
 	String escuelaId		= (String)session.getAttribute("escuela");
-
-	String codigoAlumno		= "";
-	String cicloId			= (String)session.getAttribute("cicloId");
-	//String cicloId			= Ciclo.getCargaActual(conElias, escuelaId);
+	String cicloId			= (String)session.getAttribute("cicloId");	
 	
 	String vigIni 			= request.getParameter("VigIni").equals("")?" ":request.getParameter("VigIni");
-	String vigFin 			= request.getParameter("VigFin").equals("")?" ":request.getParameter("VigFin");
-	
-	
+	String vigFin 			= request.getParameter("VigFin").equals("")?" ":request.getParameter("VigFin");	
 	int cantidad			= Integer.parseInt(request.getParameter("cantidad"));
 	int extra				= 0;
+	String codigoAlumno		= "";
 	
 	String cicloEscolar 	= "20"+aca.ciclo.Ciclo.getCicloEscolar(conElias, cicloId).substring(0, 2)+"-20"+aca.ciclo.Ciclo.getCicloEscolar(conElias, cicloId).substring(2,4 );
 	
@@ -42,7 +38,8 @@
         document.open();
         
         for(int i = 1; i <= cantidad; i++){
-        	codigoAlumno = request.getParameter("matricula-"+i);
+        	codigoAlumno 		= request.getParameter("matricula-"+i);
+	    	int nivelAlumno 	= AlumPlan.getNivelAlumno(conElias, codigoAlumno);
 	    	
 	    	alumPersonal.mapeaRegId(conElias, codigoAlumno);
 	    	
@@ -115,11 +112,10 @@
 				tieneFirma = false;
 				jpg = Image.getInstance(dirFirmas+"/firma.png");
 			}
-			//System.out.println("Despues de firma");
+			
 			jpg.scaleAbsolute(50f, 30f);			
 			jpg.setAbsolutePosition(475, 650+extra);
-			document.add(jpg);
-			
+			document.add(jpg);			
 			
 			float[] columnDefinitionSize = { 100F };
 			PdfPTable topTable = new PdfPTable(columnDefinitionSize);
@@ -167,7 +163,7 @@
 			dataTable.addCell(celda);
 			
 			frase = new Phrase(alumPersonal.getGrado()+"° "+
-					aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), AlumPlan.getNivelAlumno(conElias, codigoAlumno)+""),
+					aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, String.valueOf(nivelAlumno)),
 					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
 			celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
