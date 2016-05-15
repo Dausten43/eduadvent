@@ -91,7 +91,7 @@ public String modificarColor(String color, int cambio){
 		int g = Integer.parseInt(color.substring(2,4), 16);
 		int b = Integer.parseInt(color.substring(4,6), 16);
 		
-		if((cambio+"").charAt(0)=='-'){
+		if((String.valueOf(cambio)).charAt(0)=='-'){
 			cambio = cambio*-1;
 			if((r-cambio)<0){
 				r=0;
