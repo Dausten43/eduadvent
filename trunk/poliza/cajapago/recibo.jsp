@@ -75,7 +75,7 @@
 			
 			mov.setEstado("R");
 			if(mov.updateEstado(conElias)){
-				//Actualizado
+				//ActualizadoD 
 			}else{
 				error = true;
 			}
@@ -86,7 +86,7 @@
 		
 		FinRecibo.setReciboId(reciboActual);
 		FinRecibo.setEjercicioId(ejercicioId);
-		FinRecibo.setImporte(importeTotal+"");
+		FinRecibo.setImporte(String.valueOf(importeTotal));
 		FinRecibo.setFecha(aca.util.Fecha.getDateTime());
 		FinRecibo.setCliente(request.getParameter("Cliente"));
 		FinRecibo.setDomicilio(request.getParameter("Domicilio"));
