@@ -29,7 +29,7 @@
 	String salto		= "X";
 	int accion 			= request.getParameter("Accion") == null ?0: Integer.parseInt(request.getParameter("Accion"));
 	
-	String nivelAlumno  = aca.alumno.AlumPersonal.getNivel(conElias, codigoId)+"";
+	String nivelAlumno  = String.valueOf(aca.alumno.AlumPersonal.getNivel(conElias, codigoId));
 	
 	ArrayList<aca.archivo.ArchDocumento> lisDoc 		= docU.getListArchDocumentoNivel(conElias, escuelaId, nivelAlumno, " ORDER BY DOCUMENTO_ID");
 	ArrayList<aca.archivo.ArchDocAlum> lisDocumentos 	= docAlumL.getListArchDocAlum(conElias, codigoId, "ORDER BY DOCUMENTO_ID");
