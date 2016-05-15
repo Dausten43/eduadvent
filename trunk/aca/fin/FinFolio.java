@@ -285,6 +285,33 @@ public class FinFolio {
 			if (ps!=null) ps.close();
 		}	
     }
+    
+    public void mapeaRegId(Connection conn, String ejercicioId, String usuario) throws SQLException{
+    	
+    	PreparedStatement ps 	= null;
+        ResultSet rs 			= null;
+         
+        try{
+	        ps = conn.prepareStatement("SELECT EJERCICIO_ID, USUARIO, RECIBO_INICIAL, RECIBO_FINAL, RECIBO_ACTUAL, ESTADO, FOLIO "
+	        		+ " FROM FIN_FOLIO "
+	        		+ " WHERE EJERCICIO_ID = ? "
+	        		+ " AND USUARIO = ?"
+	        		+ " AND ESTADO = 'A'");
+	        ps.setString(1, ejercicioId);
+	        ps.setString(2, usuario);	        
+	        
+	        rs = ps.executeQuery();
+	        if(rs.next()){
+	            mapeaReg(rs);
+	        }
+        }catch(Exception ex){
+			System.out.println("Error - aca.fin.FinFolio|mapeaRegId|:"+ex);
+			ex.printStackTrace();
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}	
+    }
 
     public boolean existeReg(Connection conn) throws SQLException {
         boolean ok = false;
