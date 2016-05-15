@@ -316,7 +316,7 @@
 							FinMov.setCuentaId(pago.getCuentaId());
 							FinMov.setAuxiliar(pago.getCodigoId());
 							FinMov.setDescripcion("PAGO "+pagoId+" - "+cuentaNombre +" - "+ pago.getCodigoId() +" - "+ nombreAlumno);
-							FinMov.setImporte(costoPago+"");
+							FinMov.setImporte(costoPago.toString());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
 							FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
