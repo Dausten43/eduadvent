@@ -17,7 +17,8 @@
 	String cicloId					= (String) session.getAttribute("cicloId");
 	String codigoAlumno 			= (String) session.getAttribute("codigoAlumno");
 	String periodoId				= request.getParameter("PeriodoId")==null?"1":request.getParameter("PeriodoId");
-		
+	
+	int nivelAlumno 				= aca.alumno.AlumPlan.getNivelAlumno(conElias, codigoAlumno);
 	finCalculo.mapeaRegId(conElias, cicloId, periodoId, codigoAlumno);	
 	Escuela.mapeaRegId(conElias, escuelaId);
 	alumno.mapeaRegId(conElias, codigoAlumno);	
@@ -56,7 +57,7 @@
 	    <td style="border-bottom: 1px solid #666666;"><%= aca.plan.Plan.getNombrePlan(conElias, aca.alumno.AlumPlan.getPlanActual(conElias, codigoAlumno)) %></td>
 	    <td>&nbsp;</td>
 	    <td><strong><fmt:message key="aca.Nivel" /></strong></td>  
-	    <td style="border-bottom: 1px solid #666666;"><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, aca.alumno.AlumPlan.getNivelAlumno(conElias, codigoAlumno)+"") %></td>
+	    <td style="border-bottom: 1px solid #666666;"><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, String.valueOf(nivelAlumno))%></td>
   	  </tr>
   	  <tr>
 	    <td><strong><fmt:message key="aca.Grado" /></strong></td>
