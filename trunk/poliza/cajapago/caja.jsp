@@ -96,7 +96,7 @@
 		FinMovs.setCuentaId("0");
 		FinMovs.setAuxiliar("-");
 		FinMovs.setDescripcion("Diario de caja");
-		FinMovs.setImporte(totalImporte+"");
+		FinMovs.setImporte(String.valueOf(totalImporte));
 		FinMovs.setNaturaleza("D"); /* Debito */
 		FinMovs.setReferencia("-");
 		FinMovs.setEstado("R"); /* Recibo */
