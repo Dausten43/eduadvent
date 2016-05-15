@@ -294,12 +294,12 @@
 					FinCalculoDet.setCodigoId(codigoAlumno);
 					FinCalculoDet.setCuentaId(costo.getCuentaId());					
 					FinCalculoDet.setFecha(aca.util.Fecha.getHoy());
-					FinCalculoDet.setImporte(importe+"");
-					FinCalculoDet.setBecaPorcentaje(becaPorcentaje+"");
-					FinCalculoDet.setBecaCantidad(becaCantidad+"");
-					FinCalculoDet.setImporteBeca(importeBeca+"");
-					FinCalculoDet.setPagoInicialPorcentaje(porcentajePagoInicial+"");
-					FinCalculoDet.setImporteInicial(importeInicialPagos+"");
+					FinCalculoDet.setImporte(importe.toString());
+					FinCalculoDet.setBecaPorcentaje(becaPorcentaje.toString());
+					FinCalculoDet.setBecaCantidad(becaCantidad.toString());
+					FinCalculoDet.setImporteBeca(importeBeca.toString());
+					FinCalculoDet.setPagoInicialPorcentaje(porcentajePagoInicial.toString());
+					FinCalculoDet.setImporteInicial(importeInicialPagos.toString());
 					
 					if (FinCalculoDet.insertReg(conElias)){
 												
