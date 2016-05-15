@@ -46,7 +46,7 @@
 	String polizaId 	= (String) session.getAttribute("polizaId");
 	
 	if( polizaId == null ){
-		String = "ingresos.jsp";
+		salto = "ingresos.jsp";
 	}
 	
 	FinPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
