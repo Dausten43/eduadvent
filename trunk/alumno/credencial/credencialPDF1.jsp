@@ -44,7 +44,7 @@
         
         for(int i = 1; i <= cantidad; i++){
         	codigoAlumno = request.getParameter("matricula-"+i);
-	    	
+	    	int nivelAlumno = AlumPlan.getNivelAlumno(conElias, codigoAlumno);
 	    	alumPersonal.mapeaRegId(conElias, codigoAlumno);
 	    	
 	    	// La posición x=0, y=0 se encuentra ubicada en la esquina inferior izquierda
@@ -174,7 +174,7 @@
 			dataTable.addCell(celda);
 			
 			frase = new Phrase(alumPersonal.getGrado()+"° "+
-					aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), AlumPlan.getNivelAlumno(conElias, codigoAlumno)+""),
+					aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, String.valueOf(nivelAlumno)),
 					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
 			celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
