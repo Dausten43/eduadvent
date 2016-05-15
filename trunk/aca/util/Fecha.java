@@ -332,19 +332,19 @@ public class Fecha{
 	}
 	
 	public static String getHora(){	
-		return new GregorianCalendar().get(Calendar.HOUR)+"";
+		return String.valueOf(new GregorianCalendar().get(Calendar.HOUR));
 	}
 	
 	public static String getHoraDelDia(){	
-		return new GregorianCalendar().get(Calendar.HOUR_OF_DAY)+"";
+		return String.valueOf(new GregorianCalendar().get(Calendar.HOUR_OF_DAY));
 	}
 	
 	public static String getMinutos(){	
-		return new GregorianCalendar().get(Calendar.MINUTE)+"";
+		return String.valueOf(new GregorianCalendar().get(Calendar.MINUTE));
 	}
 	
 	public static String getSegundos(){	
-		return new GregorianCalendar().get(Calendar.SECOND)+"";
+		return String.valueOf(new GregorianCalendar().get(Calendar.SECOND));
 	}
 	
 	public static int getAMPM(){
