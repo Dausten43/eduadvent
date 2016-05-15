@@ -103,7 +103,7 @@
 				
 				FinFolio.setEjercicioId(ejercicioId);
 				FinFolio.setUsuario(usuario);
-				FinFolio.setReciboActual( (Integer.parseInt(reciboActual)+1)+"" );
+				FinFolio.setReciboActual( String.valueOf((Integer.parseInt(reciboActual)+1)));
 				if(FinFolio.updateReciboActual(conElias)){
 					//Guardado
 				}else{
