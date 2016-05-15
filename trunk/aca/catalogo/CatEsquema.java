@@ -234,7 +234,7 @@ public class CatEsquema {
 		String resultado = "";
 		
 		if(aca.util.Utilerias.isNumeric(nota)){
-			nota = new Double(nota).intValue()+"";
+			nota = String.valueOf(new Double(nota).intValue());
 		}
 			
 		if(nota.equals("10")){
@@ -254,7 +254,7 @@ public class CatEsquema {
 		String resultado = "";
 		
 		if(aca.util.Utilerias.isNumeric(nota)){
-			nota = new Double(nota).intValue()+"";
+			nota = String.valueOf(new Double(nota).intValue());
 		}
 		
 		if(nota.equals("10")){
