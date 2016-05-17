@@ -33,10 +33,12 @@
 		<tr>     
 			<td width="10%" class="text-left"><fmt:message key="aca.Codigo" /></td>
 			<td width="40%" class="text-left"><fmt:message key="aca.Nombre" /></td>
-			<td width="10%" class="text-left">RFC</td>
-			<td width="10%" class="text-left"><fmt:message key="aca.Sangre" /></td>
-			<td width="10%" class="text-left"><fmt:message key="aca.Foto" /></td>
 			<td width="10%" class="text-left"><fmt:message key="aca.Poliza" /></td>
+			<td width="10%" class="text-left"><fmt:message key="aca.Sangre" /></td>
+			<td width="10%" class="text-left"><fmt:message key="aca.Ocupacion" /></td>
+			<td width="10%" class="text-left"><fmt:message key="aca.CIP" /></td>
+			<td width="10%" class="text-left"><fmt:message key="aca.Foto" /></td>
+			
 	  	</tr>
 <%
 	String codigoAlumno			= "";
@@ -57,10 +59,11 @@
 		<tr>		
 		<td class='text-left'><%= empleado.getCodigoId() %></td>
 		<td class='text-left'><%= empleado.getNombre()+" "+empleado.getApaterno()+" "+empleado.getAmaterno() %></td>
-		<td class='text-left'><%= empleado.getRfc() %></td>
-		<td class='text-left'><%= empleado.getColonia() %></td>
-		<td class='text-left'><%= tieneFoto %></td>
 		<td class='text-left'><%= aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraYear ) %></td>
+		<td class='text-left'><%= empleado.getColonia() %></td>
+		<td class='text-left'><%= empleado.getOcupacion() %> </td>
+		<td class='text-left'><%= empleado.getRfc() %></td>
+		<td class='text-left'><%= tieneFoto %></td>
 		</tr>
 <%		
 	}
