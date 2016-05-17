@@ -682,7 +682,35 @@ public class EmpPersonalLista{
 		return map;
 	}
 	
-public ArrayList<EmpPersonal> getListCumpleEmpleados(Connection conn, String escuelaId, String mes, String dia, String orden ) throws SQLException{
+	public static HashMap<String, String> mapEmpleadosPorEscuela(Connection conn, String estados) throws SQLException{
+		
+		HashMap<String,String> map 	= new HashMap<String,String>();
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";		
+		
+		try{
+			comando = " SELECT ESCUELA_ID, COUNT(CODIGO_ID) AS TOTAL FROM EMP_PERSONAL"
+					+ " WHERE ESTADO IN("+estados+")"
+					+ " GROUP BY ESCUELA_ID";
+					
+			rs = st.executeQuery(comando);
+			
+			while (rs.next()){				
+				map.put(rs.getString("ESCUELA_ID"), rs.getString("TOTAL"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.empleado.EmpPersonalLista|mapEmpleadosPorEscuela|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}				
+		
+		return map;
+	}
+	
+	public ArrayList<EmpPersonal> getListCumpleEmpleados(Connection conn, String escuelaId, String mes, String dia, String orden ) throws SQLException{
 		
 		ArrayList<EmpPersonal> lisEmpleadosPersonal		= new ArrayList<EmpPersonal>();
 		Statement st 			= conn.createStatement();
