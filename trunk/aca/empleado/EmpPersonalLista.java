@@ -713,7 +713,7 @@ public class EmpPersonalLista{
 		return map;
 	}
 	
-	public static HashMap<String, String> mapEmpleadosPorEscuela(Connection conn) throws SQLException{
+	public static HashMap<String, String> mapEmpleadosPorEscuela(Connection conn, String estados) throws SQLException{
 		
 		HashMap<String,String> map 	= new HashMap<String,String>();
 		Statement st 		= conn.createStatement();
@@ -722,7 +722,7 @@ public class EmpPersonalLista{
 		
 		try{
 			comando = " SELECT ESCUELA_ID, COUNT(CODIGO_ID) AS TOTAL FROM EMP_PERSONAL"
-					+ " WHERE ESTADO IN('A')"
+					+ " WHERE ESTADO IN("+estados+")"
 					+ " GROUP BY ESCUELA_ID";
 					
 			rs = st.executeQuery(comando);
