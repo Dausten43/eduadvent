@@ -50,7 +50,7 @@ public class CatActividadEtiquetaLista {
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
-				CatActividadEtiqueta obj = new CatActividadEtiqueta();				
+				CatActividadEtiqueta obj = new CatActividadEtiqueta();
 				obj.mapeaReg(rs);
 				list.add(obj);
 			}
