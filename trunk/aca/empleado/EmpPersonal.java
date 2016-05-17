@@ -727,9 +727,8 @@ public class EmpPersonal {
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				ok = true;
-			}else{
-				ok = false;
 			}
+			
 		}catch(Exception ex){
 			System.out.println("Error - aca.empleado.EmpPersonal|existeReg|:"+ex);
 		}finally{
