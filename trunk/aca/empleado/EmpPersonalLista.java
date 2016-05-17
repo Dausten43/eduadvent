@@ -41,6 +41,37 @@ public class EmpPersonalLista{
 		return lisEmpleado;
 	}
 	
+	public ArrayList<EmpPersonal> getListAllActivos(Connection Conn, String escuelaId, String orden ) throws SQLException{
+		
+		ArrayList<EmpPersonal> lisEmpleado 	= new ArrayList<EmpPersonal>();
+		Statement st 		= Conn.createStatement();
+		ResultSet rs 		= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, ESCUELA_ID, NOMBRE," +
+			" APATERNO, AMATERNO, GENERO, TO_CHAR(F_NACIMIENTO, 'DD/MM/YYYY') AS F_NACIMIENTO," +
+			" PAIS_ID, ESTADO_ID, CIUDAD_ID, EMAIL, COLONIA, DIRECCION, TELEFONO, ESTADO, ESTADO_CIVIL, TIPO_ID, OCUPACION, RFC, SSOCIAL, PUBLICAR, IGLESIA" +
+			" FROM EMP_PERSONAL " +
+			" WHERE ESCUELA_ID = '"+escuelaId+"' AND ESTADO = 'A' " +orden;
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				
+				EmpPersonal emp = new EmpPersonal();
+				emp.mapeaReg(rs);
+				lisEmpleado.add(emp);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.empleado.EmpPersonalLista|getListAllActivos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return lisEmpleado;
+	}
+	
 	
 	public ArrayList<EmpPersonal> getArrayList(Connection conn, String escuelaId, String nombre, String paterno, String materno, String orden ) throws SQLException{
 		
@@ -682,7 +713,7 @@ public class EmpPersonalLista{
 		return map;
 	}
 	
-	public static HashMap<String, String> mapEmpleadosPorEscuela(Connection conn, String estados) throws SQLException{
+	public static HashMap<String, String> mapEmpleadosPorEscuela(Connection conn) throws SQLException{
 		
 		HashMap<String,String> map 	= new HashMap<String,String>();
 		Statement st 		= conn.createStatement();
@@ -691,7 +722,7 @@ public class EmpPersonalLista{
 		
 		try{
 			comando = " SELECT ESCUELA_ID, COUNT(CODIGO_ID) AS TOTAL FROM EMP_PERSONAL"
-					+ " WHERE ESTADO IN("+estados+")"
+					+ " WHERE ESTADO IN('A')"
 					+ " GROUP BY ESCUELA_ID";
 					
 			rs = st.executeQuery(comando);
