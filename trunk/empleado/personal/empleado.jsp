@@ -24,7 +24,6 @@
 <jsp:useBean id="ciudadL" scope="page" class="aca.catalogo.CatCiudadLista"/>
 <jsp:useBean id="FinP" scope="page" class="aca.fin.FinPoliza"/>
 
-
 <%
 	String escuelaId	= (String) session.getAttribute("escuela");
 	String accion 		= request.getParameter("Accion")==null?"5":request.getParameter("Accion");
@@ -209,8 +208,9 @@
 		}
 		
 	}else if(accion.equals("5")){// Consultar
-		
+		System.out.println("Antes de existe");
 		if (Personal.existeReg(conElias) == true){
+			System.out.println("Antes de mapea");
 			Personal.mapeaRegId(conElias, strCodigo);
 			strTipo = "Consulta";
 		}else{
