@@ -24,9 +24,11 @@
 	
 </script>
 </head>
-<%
+<%	
 	String escuelaId 	= (String) session.getAttribute("escuela");
+	String ejercicioId 	= (String)session.getAttribute("ejercicioId");
 	String codigoId 	= (String) session.getAttribute("codigoId");
+	
 	String tipo			= request.getParameter("Tipo");
 	String accion 		= request.getParameter("Accion")==null?"1":request.getParameter("Accion");
  	String recibo		= request.getParameter("Recibo")==null?"0":request.getParameter("Recibo");
@@ -55,8 +57,8 @@
 		
 		if (finReciboDet.existeReg(conElias) == false){
 			if (finReciboDet.insertReg(conElias)){
-				sumaImp = aca.fin.FinRecibo.sumaConceptos(conElias, finReciboDet.getReciboId() );
-				if (aca.fin.FinRecibo.updateImporte(conElias, finReciboDet.getReciboId(), sumaImp)){
+				sumaImp = aca.fin.FinRecibo.sumaConceptos(conElias, finReciboDet.getReciboId(), ejercicioId );
+				if (aca.fin.FinRecibo.updateImporte(conElias, finReciboDet.getReciboId(), ejercicioId, sumaImp)){
 					sResultado = "Grabado: "+finReciboDet.getReciboId()+"-"+folio;
 					conElias.commit();
 				}else{
@@ -68,8 +70,8 @@
 			}			
 		}else{
 			if (finReciboDet.updateReg(conElias)){
-				sumaImp = aca.fin.FinRecibo.sumaConceptos(conElias, finReciboDet.getReciboId());
-				if (aca.fin.FinRecibo.updateImporte(conElias, finReciboDet.getReciboId(), sumaImp)){
+				sumaImp = aca.fin.FinRecibo.sumaConceptos(conElias, finReciboDet.getReciboId(), ejercicioId);
+				if (aca.fin.FinRecibo.updateImporte(conElias, finReciboDet.getReciboId(), ejercicioId, sumaImp)){
 					sResultado = "Modificado: "+finReciboDet.getReciboId()+"-"+folio;
 					conElias.commit();
 				}else{
@@ -90,8 +92,8 @@
 		
 		if (finReciboDet.existeReg(conElias)){
 			if (finReciboDet.deleteReg(conElias)){
-				sumaImp = aca.fin.FinRecibo.sumaConceptos(conElias, finReciboDet.getReciboId());
-				if (aca.fin.FinRecibo.updateImporte(conElias, finReciboDet.getReciboId(), sumaImp)){
+				sumaImp = aca.fin.FinRecibo.sumaConceptos(conElias, finReciboDet.getReciboId(), ejercicioId);
+				if (aca.fin.FinRecibo.updateImporte(conElias, finReciboDet.getReciboId(), ejercicioId, sumaImp)){
 					sResultado = "Borrado: "+finReciboDet.getReciboId()+"-"+folio;
 					conElias.commit();
 				}else{
