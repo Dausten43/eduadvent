@@ -20,6 +20,8 @@
 	
 	// Lista de niveles
 	java.util.HashMap<String,aca.catalogo.CatNivelEscuela> mapNiveles = nivelEscuela.mapNivelesEscuela(conElias, escuelaId);
+	
+	java.util.HashMap<String,String> mapTipoEmpleados = aca.empleado.EmpTipoLista.mapTipoEmpleados(conElias, "ORDER BY TIPO_ID");
 
 	Calendar year = new GregorianCalendar();
 	
@@ -35,7 +37,7 @@
 			<td width="40%" class="text-left"><fmt:message key="aca.Nombre" /></td>
 			<td width="10%" class="text-left"><fmt:message key="aca.Poliza" /></td>
 			<td width="10%" class="text-left"><fmt:message key="aca.Sangre" /></td>
-			<td width="10%" class="text-left"><fmt:message key="aca.Ocupacion" /></td>
+			<td width="10%" class="text-left"><fmt:message key="aca.Cargo" /></td>
 			<td width="10%" class="text-left"><fmt:message key="aca.CIP" /></td>
 			<td width="10%" class="text-left"><fmt:message key="aca.Foto" /></td>
 			
@@ -61,7 +63,7 @@
 		<td class='text-left'><%= empleado.getNombre()+" "+empleado.getApaterno()+" "+empleado.getAmaterno() %></td>
 		<td class='text-left'><%= aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraYear ) %></td>
 		<td class='text-left'><%= empleado.getTipoSangre() %></td>
-		<td class='text-left'><%= empleado.getOcupacion() %> </td>
+		<td class='text-left'><%= mapTipoEmpleados.get(empleado.getTipoId()) %> </td>
 		<td class='text-left'><%= empleado.getRfc() %></td>
 		<td class='text-left'><%= tieneFoto %></td>
 		</tr>
