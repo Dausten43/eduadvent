@@ -397,7 +397,7 @@
 			              	
 			              	<select name="TipoSangre" class="input-medium">
 			              		<%for(String sangre : listTipoSangre){ %>
-				    				<option value="<%=sangre %>" <%if(Personal.getTipoSangre().equals(sangre+"")){out.print("selected");} %>><%=sangre %></option>
+				    				<option value="<%=sangre %>" <%=Personal.getTipoSangre().equals(sangre)?"selected":""%>><%=sangre %></option>
 				    			<%}%>
 			              	</select>
 			            </p>
