@@ -30,7 +30,8 @@
 </script>
 
 <%
-	java.text.DecimalFormat getformato = new java.text.DecimalFormat("##0.00;(##0.00)");	
+	java.text.DecimalFormat getFormato 	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+	java.text.DecimalFormat frmSimple 	= new java.text.DecimalFormat("#####0.00;(#####0.00)");
 
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String ejercicioId 	= (String)session.getAttribute("ejercicioId");
@@ -70,9 +71,9 @@
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
 		boolean error = false;
 		
-		float importeTotal = 0;
+		BigDecimal importeTotal  = new BigDecimal("0");
 		for(aca.fin.FinMovimientos mov : movimientos){
-			importeTotal += Float.parseFloat(mov.getImporte());
+			importeTotal = importeTotal.add(new BigDecimal(mov.getImporte()));
 			
 			mov.setEstado("R");
 			if(mov.updateEstado(conElias)){
@@ -87,7 +88,7 @@
 		
 		FinRecibo.setReciboId(reciboActual);
 		FinRecibo.setEjercicioId(ejercicioId);
-		FinRecibo.setImporte(String.valueOf(importeTotal));
+		FinRecibo.setImporte(frmSimple.format(importeTotal));
 		FinRecibo.setFecha(aca.util.Fecha.getDateTime());
 		FinRecibo.setCliente(request.getParameter("Cliente"));
 		FinRecibo.setDomicilio(request.getParameter("Domicilio"));
@@ -251,14 +252,14 @@
 									<td><%=mov.getFecha() %></td>
 									<td><%=mov.getDescripcion() %></td>
 									<td><%=mov.getReferencia() %></td>
-									<td class="text-right"><%=getformato.format( importe ) %></td>
+									<td class="text-right"><%=getFormato.format( importe ) %></td>
 								</tr>
 						<%
 							}
 						%>
 						<tr>
 							<th colspan="6"><fmt:message key="aca.Total" /></th>
-							<th class="text-right"><%=getformato.format( total ) %></th>
+							<th class="text-right"><%=getFormato.format( total ) %></th>
 						</tr>
 					</table>	
 						
