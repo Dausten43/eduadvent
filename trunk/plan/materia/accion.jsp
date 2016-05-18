@@ -340,9 +340,12 @@
 						}		
 %>							
 						</div>
-						<div class="control-group ">
-							<label for="BoletaAparece"> 
-							<fmt:message key="aca.BoletaAparece" />: </label> 
+						<div class="control-group ">									
+							<%if (!escuelaId.contains("H")){%>
+							<label for="BoletaAparece"><fmt:message key="aca.BoletaAparece" />: </label> 
+							<%}else{%>
+								<label for="BoletaAparece"> Aparece en boletin: </label> 
+							<%} %>							
 							<select name="BoletaAparece" id="BoletaAparece">
 								<option value="S" <%=Curso.getBoleta().equals("S")?" selected":""%>><fmt:message key="aca.Si" /></option>
 								<option value="N" <%=Curso.getBoleta().equals("N")?" selected":""%>><fmt:message key="aca.Negacion" /></option>
