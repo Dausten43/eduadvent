@@ -72,6 +72,40 @@ public class EmpPersonalLista{
 		return lisEmpleado;
 	}
 	
+	public ArrayList<EmpPersonal> listEmpleados(Connection Conn, String escuelaId, String tipos, String estado, String orden ) throws SQLException{
+		
+		ArrayList<EmpPersonal> lisEmpleado 	= new ArrayList<EmpPersonal>();
+		Statement st 		= Conn.createStatement();
+		ResultSet rs 		= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, ESCUELA_ID, NOMBRE,"
+					+ " APATERNO, AMATERNO, GENERO, TO_CHAR(F_NACIMIENTO, 'DD/MM/YYYY') AS F_NACIMIENTO,"
+					+ " PAIS_ID, ESTADO_ID, CIUDAD_ID, EMAIL, COLONIA, DIRECCION, TELEFONO, ESTADO,"
+					+ " ESTADO_CIVIL, TIPO_ID, OCUPACION, RFC, SSOCIAL, PUBLICAR, IGLESIA, TIPO_SANGRE"
+					+ " FROM EMP_PERSONAL"
+					+ " WHERE ESCUELA_ID = '"+escuelaId+"'"
+					+ " AND ESTADO IN ("+estado+")"
+					+ " AND SUBSTRING(CODIGO_ID,4,1) IN ("+tipos+")" +orden;
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				
+				EmpPersonal emp = new EmpPersonal();
+				emp.mapeaReg(rs);
+				lisEmpleado.add(emp);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.empleado.EmpPersonalLista|listEmpleados|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return lisEmpleado;
+	}
+	
 	
 	public ArrayList<EmpPersonal> getArrayList(Connection conn, String escuelaId, String nombre, String paterno, String materno, String orden ) throws SQLException{
 		
@@ -713,7 +747,7 @@ public class EmpPersonalLista{
 		return map;
 	}
 	
-	public static HashMap<String, String> mapEmpleadosPorEscuela(Connection conn, String estados) throws SQLException{
+	public static HashMap<String, String> mapEmpleadosPorEscuela(Connection conn, String estados, String tipos) throws SQLException{
 		
 		HashMap<String,String> map 	= new HashMap<String,String>();
 		Statement st 		= conn.createStatement();
@@ -723,6 +757,7 @@ public class EmpPersonalLista{
 		try{
 			comando = " SELECT ESCUELA_ID, COUNT(CODIGO_ID) AS TOTAL FROM EMP_PERSONAL"
 					+ " WHERE ESTADO IN("+estados+")"
+					+ " AND SUBSTRING(CODIGO_ID,4,1) IN ("+tipos+")"
 					+ " GROUP BY ESCUELA_ID";
 					
 			rs = st.executeQuery(comando);
