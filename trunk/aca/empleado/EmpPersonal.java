@@ -633,8 +633,9 @@ public class EmpPersonal {
 			ps.setString(19, ssocial);
 			ps.setString(20, publicar);
 			ps.setString(21, iglesia);
-			ps.setString(22, codigoId);
-			ps.setString(23, tipoSangre);
+			ps.setString(22, tipoSangre);
+			ps.setString(23, codigoId);
+			
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
