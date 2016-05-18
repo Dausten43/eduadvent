@@ -16,7 +16,7 @@
 	String cicloId			= aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
 	
 	//LISTA DE ESCUELAS
-	ArrayList<aca.empleado.EmpPersonal> lisEmpleadosActivos 	= empeladosLista.getListAllActivos(conElias, escuelaId, " ORDER BY NOMBRE,APATERNO,AMATERNO");
+	ArrayList<aca.empleado.EmpPersonal> lisEmpleadosActivos 	= empeladosLista.listEmpleados(conElias, escuelaId, "'E'","'A'", "ORDER BY NOMBRE,APATERNO,AMATERNO");
 	
 	// Lista de niveles
 	java.util.HashMap<String,aca.catalogo.CatNivelEscuela> mapNiveles = nivelEscuela.mapNivelesEscuela(conElias, escuelaId);

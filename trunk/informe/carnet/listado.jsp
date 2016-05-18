@@ -16,7 +16,7 @@
 	//LISTA DE ESCUELAS
 	ArrayList<aca.catalogo.CatEscuela> lisEscuelas 	= listaEscuelas.getListUnion(conElias, unionId, "ORDER BY ESCUELA_NOMBRE");	
 	
-	java.util.HashMap<String,String> mapEmpleadosPorEscuela 	= aca.empleado.EmpPersonalLista.mapEmpleadosPorEscuela(conElias,"'A'");
+	java.util.HashMap<String,String> mapEmpleadosPorEscuela 	= aca.empleado.EmpPersonalLista.mapEmpleadosPorEscuela(conElias,"'A'","'E'");
 %>
 <div id="content">
 	<h1>Carnet<small>( <%= aca.catalogo.CatUnion.getNombre(conElias, unionId) %>)</small></h1>	
