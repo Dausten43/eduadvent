@@ -15,6 +15,8 @@
     if(strPlanId == null){
     	strPlanId = "Selecciona" ;
     }
+    
+    String unionId = "";
 	
 	String nivelId 		= aca.plan.Plan.getNivel(conElias,strPlanId);
 	String titulo 		= aca.plan.Plan.getTitulo(conElias, strPlanId);
@@ -84,7 +86,13 @@
 	<th width="3%"><fmt:message key="aca.Orden" /></th>
 	<th width="3%"><fmt:message key="aca.Decimal" /></th>
 	<th width="7%"><fmt:message key="aca.Estado" /></th>
-	<th width="7%"><fmt:message key="aca.BoletaAlumno" /></th>
+	<th width="7%">
+	<%if (!escuelaId.contains("H")){%>
+		<fmt:message key="aca.BoletaAlumno" />
+	<%}else{%>
+		Boletin
+	<%} %>
+	</th>	
 	<th width="28%"><fmt:message key="aca.Base" /></th>
 	<th width="9%"><fmt:message key="aca.TipoEval" /></th>
   </tr>
