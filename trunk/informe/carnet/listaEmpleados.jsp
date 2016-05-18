@@ -60,7 +60,7 @@
 		<td class='text-left'><%= empleado.getCodigoId() %></td>
 		<td class='text-left'><%= empleado.getNombre()+" "+empleado.getApaterno()+" "+empleado.getAmaterno() %></td>
 		<td class='text-left'><%= aca.catalogo.CatSeguro.getPoliza(conElias, escuelaId, muestraYear ) %></td>
-		<td class='text-left'><%= empleado.getColonia() %></td>
+		<td class='text-left'><%= empleado.getTipoSangre() %></td>
 		<td class='text-left'><%= empleado.getOcupacion() %> </td>
 		<td class='text-left'><%= empleado.getRfc() %></td>
 		<td class='text-left'><%= tieneFoto %></td>
