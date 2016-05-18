@@ -56,6 +56,18 @@
 	String codPers		= "";
 	boolean existe 		= false;
 	
+	ArrayList<String> listTipoSangre 		= new ArrayList<String>();
+	
+	listTipoSangre.add("--");
+	listTipoSangre.add("O+");
+	listTipoSangre.add("O-");
+	listTipoSangre.add("A+");
+	listTipoSangre.add("A-");
+	listTipoSangre.add("B+");
+	listTipoSangre.add("B-");
+	listTipoSangre.add("AB+");
+	listTipoSangre.add("AB-");
+	
 	Personal.setCodigoId(strCodigo);
 	// Operaciones a realizar en la pantalla
 	if(accion.equals("1")){// Nuevo
@@ -84,6 +96,7 @@
 		Personal.setTipoId(request.getParameter("tipoId"));
 		Personal.setRfc(request.getParameter("Rfc"));
 		Personal.setSsocial(request.getParameter("Ssocial"));
+		Personal.setTipoSangre(request.getParameter("TipoSangre"));
 		strTipo = "Nuevo";
 	
 	}else if(accion.equals("2")){// Grabar	
@@ -112,6 +125,7 @@
 		Personal.setRfc(request.getParameter("Rfc"));
 		Personal.setSsocial(request.getParameter("Ssocial"));
 		Personal.setEstado(request.getParameter("Estado"));
+		Personal.setTipoSangre(request.getParameter("TipoSangre"));
 		
 		if (strCodigo.substring(3,4).equals("E")){ 		
 			if (Personal.existeReg(conElias) == false){				
@@ -163,7 +177,9 @@
 		//Personal.setEstado("A");
 		Personal.setEstado(request.getParameter("Estado"));
 		Personal.setIglesia(request.getParameter("Iglesia"));
+		Personal.setTipoSangre(request.getParameter("TipoSangre"));
 
+		System.out.println("SANGRE : "+request.getParameter("TipoSangre"));
 		
 		if (Personal.existeReg(conElias)){
 			if (Personal.updateReg(conElias)){
@@ -332,7 +348,7 @@
 			              		<a class="btn btn-primary" id="grabar" onclick="javascript:Grabar()" style="cursor:pointer"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a> 
 			              	<%}else{%>
 			              		<a class="btn btn-primary" id="modificar" onclick="javascript:Modificar()" style="cursor:pointer"><i class="icon-edit icon-white"></i> <fmt:message key="boton.Modificar" /></a>
-			              		<%if(!cicloGrupoCurso.existeMaestro(conElias, strCodigo)&&!FinP.existeUsuario(conElias, strCodigo)){ //Si el maestro no tiene materias asignadas puede borrar %>
+			             <%   if(!cicloGrupoCurso.existeMaestro(conElias, strCodigo) && !FinP.existeUsuario(conElias, strCodigo)){ //Si el maestro no tiene materias asignadas puede borrar %>
 			              			<a class="btn btn-danger" id="borrar" onclick="javascript:Borrar()" style="cursor:pointer"><i class="icon-remove icon-white"></i> <fmt:message key="boton.Eliminar" /></a>
 			              		<%} %>
 			              	<%}%>
@@ -374,6 +390,17 @@
 							<input name="FNacimiento" type="text" id="FNacimiento" size="10" maxlength="10" value="<%=Personal.getFNacimiento()%>">
 						</p>
 				
+						<p>
+		         			<label>
+		         				<fmt:message key="aca.TipoSangre"/>
+		         			</label> 
+			              	
+			              	<select name="TipoSangre" class="input-medium">
+			              		<%for(String sangre : listTipoSangre){ %>
+				    				<option value="<%=sangre %>" <%if(Personal.getTipoSangre().equals(sangre+"")){out.print("selected");} %>><%=sangre %></option>
+				    			<%}%>
+			              	</select>
+			            </p>
 					</div>
 					<div class="span3">		
 						
