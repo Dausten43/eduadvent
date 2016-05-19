@@ -56,15 +56,13 @@
 		frm = new java.text.DecimalFormat("###,##0;(###,##0)");
 	}
 	
-	frm.setRoundingMode(java.math.RoundingMode.DOWN);
-	
+	frm.setRoundingMode(java.math.RoundingMode.DOWN);	
 	
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
 	String subnivel = aca.catalogo.CatEsquemaLista.getSubNivel(conElias, escuela, Grupo.getNivelId(), Grupo.getGrado());
 	if(!subnivel.equals("")){
 		subnivel = "Ciclo: ["+subnivel+"] - ";
-	}
-	
+	}	
 	
 	java.util.HashMap<String, String> mapNotaActividades = aca.ciclo.CicloGrupoActividadLista.getMapNotaActividadCursos(conElias, cicloGrupoId);	
 	
@@ -82,16 +80,13 @@
 		for(aca.ciclo.CicloBloqueActividad actividad : actividades){
 			totalActividades++;	
 			strActividades += actividad.getActividadId()+"&&"+actividad.getActividadNombre()+"@";
-		}
-		System.out.println(strActividades);
+		}		
 		
 		if(!strActividades.equals("")){
 			strActividades = strActividades.substring(0, strActividades.length()-1);
 			mapActividades.put(bloque.getBloqueId(), strActividades);
 		}
 		/* ***** END ACTIVIDADES DE CADA EVALUACION (BLOQUE) ***** */	
-		
-		
 		
 		ArrayList<aca.catalogo.CatActividadEtiqueta> etiquetas = CatActividadEtiquetaLista.getListBloque(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")), cicloId, bloque.getBloqueId(), "ORDER BY ORDEN");
 		/* ***** ACTIVIDADES DE CADA EVALUACION (BLOQUE) ***** */
@@ -357,9 +352,7 @@
 			    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 			    						celda.setColspan(arr.length+1+length);
 			    						tabla.addCell(celda);
-									}
-		    						
-		    						
+									}	    						
 		    						
 		    						celda = new PdfPCell(new Phrase("Nota", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -408,7 +401,7 @@
 
 		    									if(etiq.equals(etiqAct)){
 		    									
-				    								celda = new PdfPCell(new Phrase(nombreAct, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+				    								celda = new PdfPCell(new Phrase(nombreAct+"*", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 						    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						    						tabla.addCell(celda);
 						    						
@@ -416,7 +409,7 @@
 			    							}
 		    								
 		    								if(!etiq.equals("0")){//La etiqueta 0 es la de "no aplica" por lo tanto no se despliega
-		    									celda = new PdfPCell(new Phrase(nombreEtiq, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    									celda = new PdfPCell(new Phrase(nombreEtiq+"x", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 				    							celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    							tabla.addCell(celda);
 		    								}
@@ -430,7 +423,7 @@
 		    									
 		    									String etiqAct =  etiquetas.containsKey(lisBloque.get(l).getBloqueId()+"@@"+actividadId)==true ? etiquetas.get(lisBloque.get(l).getBloqueId()+"@@"+actividadId) : "";
 
-			    								celda = new PdfPCell(new Phrase(nombreAct, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+			    								celda = new PdfPCell(new Phrase(nombreAct+"Z", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 					    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 					    						tabla.addCell(celda);
 			    							}
