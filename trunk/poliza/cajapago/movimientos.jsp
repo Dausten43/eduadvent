@@ -85,7 +85,7 @@
 	
 	// Guardar
 	if( accion.equals("1") ){
-		if(movimientoId.equals("")){
+		if(movimientoId.equals("") || movimientoId.equals("0")){
 			movimientoId = FinMov.maxReg(conElias, ejercicioId, polizaId);
 		}
 		
@@ -120,7 +120,7 @@
 		}
 		
 		FinMov = new aca.fin.FinMovimientos();
-		movimientoId = "";
+		movimientoId = "0";
 		
 	}else if( accion.equals("2") ){//Eliminar
 		conElias.setAutoCommit(false);
@@ -147,7 +147,7 @@
 		
 		conElias.setAutoCommit(true);
 		FinMov = new aca.fin.FinMovimientos();
-		movimientoId = "";
+		movimientoId = "0";
 	}
 	
 	pageContext.setAttribute("resultado", msj);
@@ -176,8 +176,8 @@
 	/* MAP DE IMPORTE DE CADA PAGO DEL ALUMNO (TOTAL DE IMPORTE-BECA POR PAGO)*/
 	java.util.HashMap<String,String> mapaPago 			= FinPagoLista.mapPagoFecha(conElias, alumnoCaja,"'N'");
 	
-	if(!movimientoId.equals("")){
-		FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);	
+	if(!movimientoId.equals("") && !movimientoId.equals("0")){
+		FinMov.mapeaRegId(conElias, ejercicioId, polizaId, movimientoId);
 	}
 	
 	if (accion.equals("4")){
