@@ -385,6 +385,33 @@ public class FinCalculoPago {
         return ok;
     }
     
+    /* Verifica si el alumno tiene pagos */
+    public static boolean existeEnPagos(Connection conn, String codigoId) throws SQLException {
+    	PreparedStatement ps	= null;        
+        ResultSet rs			= null;
+        boolean ok				= false;
+        
+        try {
+        	ps = conn.prepareStatement("SELECT COUNT(*) FROM FIN_CALCULO_PAGO "
+        			+ " WHERE CODIGO_ID = ? ");
+        	
+            ps.setString(1, codigoId);           
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	ok = true;
+            }
+
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinCalculoPago|existeEnPagos|:" +ex);
+        }finally{
+        	if(rs != null){ rs.close(); }
+            if(ps != null){ ps.close(); }
+        }
+        
+        return ok;
+    }
+    
     public static int numPagosAlumnoCuenta(Connection conn, String cicloId, String periodoId, String codigoId, String cuentaId) throws SQLException {
               
         PreparedStatement ps	= null;
