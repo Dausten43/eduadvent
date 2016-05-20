@@ -525,7 +525,7 @@ public class FinCalculo {
         }
         
         return cantidad;
-    }
+    }   
     
     public static String pendientesPago(Connection conn, String cicloId, String periodoId, String pagoId) throws SQLException {
     	PreparedStatement ps	= null;        
