@@ -474,9 +474,14 @@
 	<form action="alumno.jsp" method="post" name="frmPersonal" target="_self">
 		<input type="hidden" name="Accion">
 		<input type="hidden" name="Pec">
-		<input type="hidden" name="tipo" value="<%=sTipo%>">    
+		<input type="hidden" name="tipo" value="<%=sTipo%>">
 <%		
 	if(Personal.existeReg(conElias)){
+		
+		boolean tieneMaterias 	= KrdxCursoAct.tieneMaterias(conElias, codigoAlumno);		
+		boolean tieneMovtos		= aca.fin.FinMovimientos.existeAlumno(conElias, codigoAlumno);
+		boolean tienePagos 		= aca.fin.FinCalculoPago.existeEnPagos(conElias, codigoAlumno);
+		
 %>		
 		<div class="row">
 			<div class="span3">
@@ -488,7 +493,7 @@
 					<%if(existeAlumno){%>
 		            	<a class="btn btn-primary"  id="modificar" onclick="javascript:Modificar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></a>
 		            	
-		            	<%if(!KrdxCursoAct.tieneMaterias(conElias, codigoAlumno) && inscrito==false && !aca.fin.FinMovimientos.existeAlumno(conElias, codigoAlumno)){ %>
+		            	<%if(!tieneMaterias && inscrito==false && !tieneMovtos && !tienePagos){ %>
 		            		<button class="btn btn-danger"  id="borrar" onclick="javascript:Borrar()"><i class="icon-remove icon-white"></i> <fmt:message key="boton.Eliminar"/></button>
 		            	<%} %> 
 					<%}%>
