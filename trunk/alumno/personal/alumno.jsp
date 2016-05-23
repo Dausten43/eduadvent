@@ -462,7 +462,6 @@
 		font-weight: 300;
 	}
 </style>
-
 <div id="content">
 
 	<h2><fmt:message key="alumnos.InformaciondelAlumno" /></h2>
@@ -476,12 +475,10 @@
 		<input type="hidden" name="Pec">
 		<input type="hidden" name="tipo" value="<%=sTipo%>">
 <%		
-	if(Personal.existeReg(conElias)){
-		
+	if(Personal.existeReg(conElias)){		
 		boolean tieneMaterias 	= KrdxCursoAct.tieneMaterias(conElias, codigoAlumno);		
 		boolean tieneMovtos		= aca.fin.FinMovimientos.existeAlumno(conElias, codigoAlumno);
-		boolean tienePagos 		= aca.fin.FinCalculoPago.existeEnPagos(conElias, codigoAlumno);
-		
+		boolean tienePagos 		= aca.fin.FinCalculoPago.existeEnPagos(conElias, codigoAlumno);		
 %>		
 		<div class="row">
 			<div class="span3">
