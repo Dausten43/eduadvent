@@ -187,7 +187,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("PAGO INICIAL - "+cuentaNombre +" - "+detalle.getCodigoId() +" - "+ nombreAlumno);
+							FinMov.setDescripcion("COBRO INICIAL - "+cuentaNombre +" - "+detalle.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(detalle.getImporte());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -211,7 +211,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("BECA DE PAGO INICIAL - "+cuentaNombre +" - "+ detalle.getCodigoId() +" - "+ nombreAlumno);
+							FinMov.setDescripcion("BECA DE COBRO INICIAL - "+cuentaNombre +" - "+ detalle.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(detalle.getImporteBeca());
 							FinMov.setNaturaleza("C"); /* Crédito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -315,7 +315,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(pago.getCuentaId());
 							FinMov.setAuxiliar(pago.getCodigoId());
-							FinMov.setDescripcion("PAGO "+pagoId+" - "+cuentaNombre +" - "+ pago.getCodigoId() +" - "+ nombreAlumno);
+							FinMov.setDescripcion("COBRO "+pagoId+" - "+cuentaNombre +" - "+ pago.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(costoPago.toString());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
@@ -346,7 +346,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(pago.getCuentaId());
 							FinMov.setAuxiliar(pago.getCodigoId());
-							FinMov.setDescripcion("BECA DE PAGO "+pagoId+" - "+cuentaNombre+" - "+pago.getCodigoId() +" - "+ nombreAlumno);
+							FinMov.setDescripcion("BECA DE COBRO "+pagoId+" - "+cuentaNombre+" - "+pago.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(becaPago+"");
 							FinMov.setNaturaleza("C"); /* Créditos */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
