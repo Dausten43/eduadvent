@@ -79,11 +79,17 @@
 	
 	//CONDICIONES DE LAS NOTAS ---------------------------->
 	//String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
-	float notaAC 				= Float.parseFloat(aca.plan.PlanCurso.getNotaAC(conElias, cursoId)); /* La nota con la que se acredita el cursoId */	
-	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
-	if (!escuelaId.substring(0,1).equals("H")) escala = 100;
-	float notaMinima			= Float.parseFloat(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId )); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */
+	float notaAC 				= Float.parseFloat(aca.plan.PlanCurso.getNotaAC(conElias, cursoId)); /* La nota con la que se acredita el cursoId */
+	int escalaCiclo				= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
+	int escala 					= 0;
 	
+	// En Panama respetamos la configuracion del sistema, en México y Dominicana evaluacion de 0-100 pero promediamos en 10 
+	if (!escuelaId.substring(0,1).equals("H")) 
+		escala = 100;
+	else
+		escala = escalaCiclo;	
+	
+	float notaMinima			= Float.parseFloat(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId )); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */	
 	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
@@ -194,7 +200,7 @@
 				
 				// Si no es Panama promediar en base a 10
 				if (!escuelaId.substring(0,1).equals("H")){
-					if (escala==10){					
+					if (escalaCiclo == 10){					
 						promedioActividades = promedioActividades.divide(new BigDecimal("10"));
 					}	
 				}
