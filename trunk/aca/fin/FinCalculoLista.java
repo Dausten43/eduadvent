@@ -80,14 +80,14 @@ public class FinCalculoLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT * FROM FIN_CALCULO"
+			comando = " SELECT * FROM FIN_CALCULO"
 					+ " WHERE CICLO_ID = '"+cicloId+"' "
-					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99') "
+					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')"
 					+ " AND INSCRITO IN ("+inscrito+") "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
-				FinCalculo fc = new FinCalculo();				
+				FinCalculo fc = new FinCalculo();
 				fc.mapeaReg(rs);
 				lisCalculo.add(fc);
 			}
