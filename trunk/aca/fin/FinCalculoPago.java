@@ -484,7 +484,7 @@ public class FinCalculoPago {
             		" WHERE CICLO_ID = ? " +
                     " AND PERIODO_ID = TO_NUMBER(?,'99') " +
                     " AND CODIGO_ID  = ? "+
-                    " AND PAGO_ID = ? AND CUENTA_ID = ? ");
+                    " AND PAGO_ID = TO_NUMBER(?,'99') AND CUENTA_ID = ? ");
         	
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
