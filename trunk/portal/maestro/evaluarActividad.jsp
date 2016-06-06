@@ -377,7 +377,7 @@
 			<thead>
 				<tr>
 					<td colspan="20" class="text-center alert">					
-						Las actividades se evalúan de <%=notaMinima%> a <%= escala %>
+						Las actividades se evalúan de <%=frmEntero.format(notaMinima)%> a <%= escala %>
 						&nbsp;&nbsp;
 					</td>
 				</tr>		
@@ -489,10 +489,9 @@
 										//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 										if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 											if (calculaPromedio.equals("P")){
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );
-											}else{
-												System.out.println("Datos:"+krdxAlumActiv.getNota()+"*"+valorActividad+"/"+valorActividadesTotal);								
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+											}else{																				
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
 											}											
 										}
 									}
