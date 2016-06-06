@@ -377,7 +377,7 @@
 			<thead>
 				<tr>
 					<td colspan="20" class="text-center alert">					
-						Las actividades se evalúan de 0 a <%= escala %>
+						Las actividades se evalúan de <%=notaMinima%> a <%= escala %>
 						&nbsp;&nbsp;
 					</td>
 				</tr>		
