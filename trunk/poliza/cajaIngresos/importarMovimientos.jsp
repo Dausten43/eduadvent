@@ -57,22 +57,21 @@
 	String cicloId 			= (String) session.getAttribute("cicloId");
 	java.util.HashMap<String, String> mapAlum = Alumno.mapNombreCorto(conElias, escuelaId, cicloId,"NOMBRE");
 	
-	if(request.getParameter("cicloId")!=null){
+	if( request.getParameter("cicloId") != null ){
 		cicloId = request.getParameter("cicloId");
 		session.setAttribute("cicloId", cicloId);
 	}
-
 	
 	boolean encontroCiclo 	= false;
 	for(aca.ciclo.Ciclo ciclo : lisCiclo){
 		if(ciclo.getCicloId().equals(cicloId))encontroCiclo=true;
 	}
-	if(encontroCiclo==false && lisCiclo.size()>0){
+	if(encontroCiclo == false && lisCiclo.size() > 0){
 		cicloId = lisCiclo.get(0).getCicloId();
 	}
 	
 	/* ******** PERIODO ******** */
-	ArrayList<aca.ciclo.CicloPeriodo> lisPeriodo 	= CicloPeriodoL.getListCiclo(conElias, cicloId, "ORDER BY CICLO_PERIODO.F_INICIO");
+	ArrayList<aca.ciclo.CicloPeriodo> lisPeriodo 	= CicloPeriodoL.getListCiclo(conElias, cicloId, "ORDER BY CICLO_PERIODO,F_INICIO");
 	
 	String periodoId		= (String) session.getAttribute("periodoId")==null?"0":(String) session.getAttribute("periodoId");
 	
@@ -89,15 +88,13 @@
 		periodoId = lisPeriodo.get(0).getPeriodoId();
 	}
 	
-	
 	/* LISTA DE FECHAS DE COBRO*/
-	ArrayList<aca.fin.FinPago> lisFinPago 					= finPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, "ORDER BY FIN_PAGO.FECHA, DESCRIPCION");
+	ArrayList<aca.fin.FinPago> lisFinPago 					= finPagoL.getListCicloPeriodo(conElias, cicloId, periodoId, " ORDER BY TO_CHAR(FECHA,'YYYY-MM-DD'), DESCRIPCION");
 	
 	/* MAP DE CUENTAS DE LA ESCUELA */
 	java.util.HashMap<String, aca.fin.FinCuenta> mapCuenta 	= FinCuentaL.mapCuentasEscuela(conElias, escuelaId);
 	
-	/* ******** ACCIONES ******** */
-	
+	/* ******** ACCIONES ******** */	
 	String accion 		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String msj 			= "";
 	String pagoId 		= request.getParameter("pagoId")==null?"0":request.getParameter("pagoId");
@@ -126,7 +123,7 @@
 			
 			String nombreAlumno = "";
 			
-			for(aca.fin.FinCalculo alumno : alumnos){				
+			for(aca.fin.FinCalculo alumno : alumnos){
 				 
 				if(mapAlum.containsKey(alumno.getCodigoId())){
 					nombreAlumno = mapAlum.get(alumno.getCodigoId()).toString();
@@ -245,10 +242,8 @@
 				}
 				
 				// Actualizar el estado del calculo de cobro (Estado anterior "G" se cambia a "P" )
-				if(aca.fin.FinCalculo.updateInscrito(conElias, cicloId, periodoId, alumno.getCodigoId(), "P")){
-					//Estado actualizado
-				}else{
-					//error = true;
+				if(!aca.fin.FinCalculo.updateInscrito(conElias, cicloId, periodoId, alumno.getCodigoId(), "P")){					
+					error = true;
 				}
 			}
 			
@@ -266,7 +261,7 @@
 		/* ************ O T R O S   P A G O S ************ */
 		
 		// Si se selecciono alguno de los pagos (por lo tanto no el pago inicial)
-		if( !esPagoIni ){			
+		if( !esPagoIni ){
 			
 			/*DETALLES FIN CALCULO */
 			ArrayList<aca.fin.FinCalculoPago> pagosAlumno	= CalculoPagoL.getListPagos(conElias, cicloId, periodoId, pagoId, "'A'","ORDER BY CODIGO_ID, CUENTA_ID");
@@ -280,7 +275,7 @@
 			
 			String nombreAlumno = "-"  ;
 			for(aca.fin.FinCalculo alumno : alumnos){
-				// System.out.println("Datos:"+alumno.getCodigoId()+":"+pagoId+":"+alumno.getNumPagos()+":"+pagosAlumno.size());
+				//System.out.println("Datos:"+alumno.getCodigoId()+":"+pagoId+":"+alumno.getNumPagos()+":"+pagosAlumno.size());
 				
 				for(aca.fin.FinCalculoPago pago : pagosAlumno){
 					
@@ -308,8 +303,7 @@
 						/* Si el costo es mayor que cero entonces guarda el movimiento */
 						if(costoPago.compareTo(BigDecimal.ZERO) > 0){
 							
-							/* ==== GRABAR MOVIMIENTO DE COSTO ==== */
-							
+							/* ==== GRABAR MOVIMIENTO DE COSTO ==== */							
 							FinMov.setEjercicioId(ejercicioId);						
 							FinMov.setPolizaId(polizaId);
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
