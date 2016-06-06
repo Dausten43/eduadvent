@@ -79,7 +79,8 @@
 	String decimales		= aca.ciclo.Ciclo.getDecimales(conElias, cicloId);
 	String calculaPromedio  = aca.ciclo.CicloBloque.getCalculo(conElias, cicloId, evaluacionId);	
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
-	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
+	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);	
+	
 	
 	//CONDICIONES DE LAS NOTAS ---------------------------->
 	//String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
@@ -93,8 +94,8 @@
 	else
 		escala = escalaCiclo;
 	
-	//System.out.println("Escala:"+escala+":"+escalaCiclo);
-	float notaMinima			= Float.parseFloat(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId )); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */
+	/* La nota minima que puede sacar un alumno, depende del nivel de la escuela */
+	float notaMinima			= Float.parseFloat(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId )); 
 	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);	
@@ -193,7 +194,7 @@
 							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 								if (calculaPromedio.equals("P")){									
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );										
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );									
 								}else{
 									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.DOWN) );							
 								}								
@@ -376,7 +377,7 @@
 			<thead>
 				<tr>
 					<td colspan="20" class="text-center alert">											  
-						 Las actividades se evalúan de 0 a <%= escala %>
+						 Las actividades se evalúan de <%=notaMinima%> a <%= escala %>
 						&nbsp;&nbsp;
 					</td>
 				</tr>				
