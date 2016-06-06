@@ -376,7 +376,7 @@
 			<thead>
 				<tr>
 					<td colspan="20" class="text-center alert">											  
-						 Las actividades se evalúan de <%=frmEntero.parse(String.valueOf(notaMinima)) %> a <%= escala %>
+						 Las actividades se evalúan de <%=frmEntero.format(notaMinima)%> a <%= escala %>
 						&nbsp;&nbsp;
 					</td>
 				</tr>				
