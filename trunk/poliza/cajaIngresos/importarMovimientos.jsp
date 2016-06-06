@@ -170,7 +170,7 @@
 							FinMov.setTipoMovId("5");
 							
 							if(!FinMov.existeReg(conElias)){
-								if(FinMov.insertReg(conElias)){								
+								if(FinMov.insertReg(conElias)){
 									// Actualizar el estado del pago a Contabilizado ("C")
 									if(aca.fin.FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, detalle.getCuentaId(), "C") ){
 										//System.out.println("1. Estado actualizado en:"+cicloId+":"+periodoId+":"+alumno.getCodigoId()+":"+pagoId+":"+detalle.getCuentaId());
