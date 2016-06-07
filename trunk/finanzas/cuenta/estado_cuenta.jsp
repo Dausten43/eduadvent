@@ -30,7 +30,7 @@
 	AlumPersonal.mapeaRegId(conElias, codigoId);
 	
 	// Movimientos registrados en EduAdvent
-	ArrayList<aca.fin.FinMovimientos> lisMovimientos = MovimientosL.getListAlumnoAll(conElias, codigoId, fechaInicio, fechaFinal, "'A','R'","ORDER BY TO_CHAR(FECHA,'YYYY'),TO_CHAR(FECHA,'MM'),TO_CHAR(FECHA,'DD')");
+	ArrayList<aca.fin.FinMovimientos> lisMovimientos = MovimientosL.getListAlumnoAll(conElias, codigoId, fechaInicio, fechaFinal, "'A','R'"," ORDER BY TO_CHAR(FECHA,'YYYY-MM-DD')");
 	
 	// Movimientos registrados en SunPlus
 	ArrayList<aca.sunplus.AdvASalfldg> lisMovimientosSunPlus = null;
