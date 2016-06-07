@@ -512,6 +512,26 @@ public class PlanCurso{
 		return nombre;
 	}
 	
+	public static String getCursoBase(Connection conn, String cursoId ) throws SQLException{
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		String nombre = "x"; 
+		try{
+			ps = conn.prepareStatement("SELECT CURSO_BASE FROM PLAN_CURSO WHERE CURSO_ID = ?");
+			ps.setString(1, cursoId);
+			rs = ps.executeQuery();
+			if (rs.next())
+				nombre = rs.getString("CURSO_BASE");
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.plan.PlanCurso|getCursoBase|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		return nombre;
+	}
+	
 	public static String getPlanId(Connection conn, String cursoId ) throws SQLException{
 		
 		PreparedStatement ps = null;
