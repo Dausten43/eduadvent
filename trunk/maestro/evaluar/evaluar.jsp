@@ -19,6 +19,7 @@
 <jsp:useBean id="kardexEval" scope="page" class="aca.kardex.KrdxAlumEval" />
 <jsp:useBean id="kardexProm" scope="page" class="aca.kardex.KrdxAlumProm" />
 <jsp:useBean id="planCurso" scope="page" class="aca.plan.PlanCurso" />
+<jsp:useBean id="planCursoLista" scope="page" class="aca.plan.PlanCursoLista" />
 <jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="CicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista"/>
@@ -212,6 +213,14 @@
 		document.forma.submit();
 	}
 	
+	/*
+	 * EVALUAR DERIVADAS
+	 */
+	function evaluarDerivadas(){
+		document.forma.Derivadas.value = "1";
+		document.forma.submit();
+	}
+	
 </script>
 <%	
 	//FORMATOS ---------------------------->
@@ -235,6 +244,8 @@
 	boolean muestraBotonGuardarExtra3 = false;
 	boolean muestraBotonGuardarExtra4 = false;
 	boolean muestraBotonGuardarExtra5 = false;
+	
+	String evaluarDerivadas	= request.getParameter("Derivadas") == null?"0":request.getParameter("Derivadas");
 
 	String accion 			= request.getParameter("Accion") == null?"0":request.getParameter("Accion");
 	String cicloGrupoId	 	= request.getParameter("CicloGrupoId");
@@ -290,7 +301,10 @@
 	ArrayList<aca.kardex.KrdxAlumExtra> lisKardexAlumnosExtra	= kardexAlumnoExtra.getAlumnoExtra(conElias, codigoId, cicloGrupoId, cursoId);
 	
 	//LISTA EXTRAS
-	ArrayList<aca.ciclo.CicloExtra> lisTodosLosExtras					= cicloExtra.getTodosLosCiclosExtras(conElias, cicloId);
+	ArrayList<aca.ciclo.CicloExtra> lisTodosLosExtras			= cicloExtra.getTodosLosCiclosExtras(conElias, cicloId);
+	
+	//LISTA CURSOS DERIVADOS
+	ArrayList<aca.plan.PlanCurso> listaMateriasDerivadas		= planCursoLista.getMateriasHijas(conElias, cursoId);
 	
 	// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
 	java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNota = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, cursoId, "");
@@ -1219,13 +1233,23 @@
 <%				
 			}
 		}
-	%>
+		
+	/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
+		if(listaMateriasDerivadas.size() > 0){
+%>
+			<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
+			<button class="btn btn-mobile" onclick="javaScript:evaluarDerivadas()">
+				Promediar materias derivadas
+			</button>			
+<%	
+		}	
+%>
 	</div>
 	
 <!---------------------- TABLA DE ALUMNOS ---------------------->
 	
 	<form action="evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
-	
+		<input type="hidden" name="Derivadas" />
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="Evaluacion" />
 		<input type="hidden" name="Promedio" />
@@ -1239,7 +1263,7 @@
 							<fmt:message key="aca.SeEvalua" /> <strong><%=frmEntero.format(notaMinima)%> <fmt:message key="aca.RangoA" /> <%=escala%></strong>
 						</span>  
 						
-						<fmt:message key="aca.YSeAcreditaCon" /> <strong><%=notaAC %></strong>
+						<fmt:message key="aca.YSeAcreditaCon" /> <strong><%=frmEntero.format(notaAC) %></strong>
 						
 						&nbsp;&nbsp;
 						|
@@ -1506,6 +1530,48 @@
 										evalCerradas++;
 										colorEval = "color:black;";
 									}
+									
+									
+									
+									
+									
+									
+									if(evaluarDerivadas.equals("1")){ /** EVALUA A TRAVES DE LAS HIJAS **/									
+										
+										for(aca.plan.PlanCurso derivada : listaMateriasDerivadas){
+											
+											// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
+											java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaDerivada = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, derivada.getCursoId(), "");
+											
+											strNota = "-*-";
+											
+	 										if (treeNotaDerivada.containsKey(cicloGrupoId + derivada.getCursoId() + cicloBloque.getBloqueId() + kardex.getCodigoId())) {
+	 											notaEval = Double.parseDouble(treeNotaDerivada.get(cicloGrupoId+derivada.getCursoId()+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());							
+												
+	 											// Formato de la evaluacion
+	 											strNota = formato0.format(notaEval);
+	 											if (cicloBloque.getDecimales().equals("1")) 
+	 												strNota = formato1.format(notaEval);
+	 											
+	 										}
+											
+// 											System.out.println("IMPRIME 1 : "+cicloGrupoId+" * "+derivada.getCursoId()+" * "+cicloBloque.getBloqueId()+" * "+kardex.getCodigoId());																			
+											
+										}
+										
+										
+										
+									}
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
 						%>
 								<td class="text-center" style="<%=colorEval%>"><div><%=strNota%></div>
 									<!-- INPUT PARA EDITAR LAS NOTAS (ESCONDIDO POR DEFAULT) -->
