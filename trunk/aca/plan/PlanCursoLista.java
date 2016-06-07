@@ -164,7 +164,7 @@ public class PlanCursoLista {
 			ps = conn.prepareStatement("SELECT * FROM PLAN_CURSO WHERE CURSO_BASE = ?");					
 			ps.setString(1, cursoBase);
 			rs = ps.executeQuery();
-			if (rs.next()){			
+			while (rs.next()){
 				PlanCurso curso = new PlanCurso();			
 				curso.mapeaReg(rs);
 				lisCurso.add(curso);
