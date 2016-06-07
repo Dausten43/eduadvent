@@ -155,7 +155,7 @@
 							FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
 							FinMov.setCuentaId(detalle.getCuentaId());
 							FinMov.setAuxiliar(detalle.getCodigoId());
-							FinMov.setDescripcion("PAGO INICIAL DE CONTADO - "+ cuentaNombre +" - "+ detalle.getCodigoId() +" - "+ nombreAlumno);
+							FinMov.setDescripcion("COBRO INICIAL DE CONTADO - "+ cuentaNombre +" - "+ detalle.getCodigoId() +" - "+ nombreAlumno);
 							FinMov.setImporte(detalle.getImporteInicial());
 							FinMov.setNaturaleza("D"); /* Debito */
 							FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
