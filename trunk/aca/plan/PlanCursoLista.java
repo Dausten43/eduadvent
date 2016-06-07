@@ -155,6 +155,30 @@ public class PlanCursoLista {
 		return lisCurso;
 	}
 	
+	public ArrayList<PlanCurso> getMateriasHijas( Connection conn, String cursoBase) throws SQLException, Exception{
+		ArrayList<PlanCurso> lisCurso = new ArrayList<PlanCurso>();
+		ResultSet 		rs		= null;
+		PreparedStatement ps	= null;	
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM PLAN_CURSO WHERE CURSO_BASE = ?");					
+			ps.setString(1, cursoBase);
+			rs = ps.executeQuery();
+			if (rs.next()){			
+				PlanCurso curso = new PlanCurso();			
+				curso.mapeaReg(rs);
+				lisCurso.add(curso);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.plan.PlanCursoLista|getMateriasHijas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}			
+		return lisCurso;
+	}
+	
 	public static HashMap<String,PlanCurso> mapPlanCursos(Connection conn, String planId ) throws SQLException{
 		
 		HashMap<String,PlanCurso> mapa = new HashMap<String,PlanCurso>();
