@@ -1532,45 +1532,56 @@
 									}
 									
 									
-									
-									
-									
-									
-									if(evaluarDerivadas.equals("1")){ /** EVALUA A TRAVES DE LAS HIJAS **/									
+									if(evaluarDerivadas.equals("1")){ /** EVALUA A TRAVES DE LAS HIJAS **/	
+										
+										String tmpDerivada = "";	
 										
 										for(aca.plan.PlanCurso derivada : listaMateriasDerivadas){
 											
 											// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
-											java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaDerivada = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, derivada.getCursoId(), "");
+											java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaDerivada = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, derivada.getCursoId(), "");																																											
 											
 											strNota = "-*-";
 											
 	 										if (treeNotaDerivada.containsKey(cicloGrupoId + derivada.getCursoId() + cicloBloque.getBloqueId() + kardex.getCodigoId())) {
-	 											notaEval = Double.parseDouble(treeNotaDerivada.get(cicloGrupoId+derivada.getCursoId()+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());							
-												
+	 											notaEval = Double.parseDouble(treeNotaDerivada.get(cicloGrupoId+derivada.getCursoId()+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
+
+	 											if(tmpDerivada.equals("")){ 	 									 										
+													tmpDerivada = derivada.getCursoId();
+												}else{	 	
+													// TREEMAP TEMPORAL DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
+													java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaTmp = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, tmpDerivada, "");																									
+													
+													if (treeNotaTmp.containsKey(cicloGrupoId + tmpDerivada + cicloBloque.getBloqueId() + kardex.getCodigoId())) {														
+														notaEval = notaEval + Double.parseDouble(treeNotaTmp.get(cicloGrupoId+tmpDerivada+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
+														notaEval = notaEval/listaMateriasDerivadas.size();														
+													}
+												}
+
 	 											// Formato de la evaluacion
 	 											strNota = formato0.format(notaEval);
 	 											if (cicloBloque.getDecimales().equals("1")) 
 	 												strNota = formato1.format(notaEval);
 	 											
+	 										}else{
+	 											
+	 										// TREEMAP TEMPORAL DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
+												java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaTmp = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, tmpDerivada, "");						
+	 										
+	 											if (treeNotaTmp.containsKey(cicloGrupoId + tmpDerivada + cicloBloque.getBloqueId() + kardex.getCodigoId())) {													
+													notaEval = Double.parseDouble(treeNotaTmp.get(cicloGrupoId+tmpDerivada+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());																										
+												
+													// Formato de la evaluacion
+		 											strNota = formato0.format(notaEval);
+		 											if (cicloBloque.getDecimales().equals("1")) 
+		 												strNota = formato1.format(notaEval);
+	 											}
 	 										}
-											
-// 											System.out.println("IMPRIME 1 : "+cicloGrupoId+" * "+derivada.getCursoId()+" * "+cicloBloque.getBloqueId()+" * "+kardex.getCodigoId());																			
-											
+																					
 										}
-										
-										
-										
+
 									}
-									
-									
-									
-									
-									
-									
-									
-									
-									
+			
 									
 						%>
 								<td class="text-center" style="<%=colorEval%>"><div><%=strNota%></div>
