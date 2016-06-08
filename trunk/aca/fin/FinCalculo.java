@@ -565,4 +565,35 @@ public class FinCalculo {
         
         return cantidad;
     }
+    
+    public String getInscrito(Connection conn, String cicloId, String periodoId, String codigoId) throws SQLException {
+    	PreparedStatement ps	= null;        
+        ResultSet rs			= null;
+        String estado			= "0";
+        
+        try {
+        	ps = conn.prepareStatement("SELECT INSCRITO FROM FIN_CALCULO"
+        			+ " WHERE CICLO_ID = ?"
+        			+ " AND PERIODO_ID = TO_NUMBER(?,'99')"
+            		+ " CODIGO_ID = ?");
+        	
+            ps.setString(1, cicloId);
+            ps.setString(2, cicloId);
+            ps.setString(3, codigoId);
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+                estado = rs.getString("INSCRITO");
+            }
+            	
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinCalculo|getInscrito|:" +ex);
+        }finally{
+        	if(rs != null){ rs.close(); }
+            if(ps != null){ ps.close(); }
+        }
+        
+        return estado;
+    }
+    
 }
