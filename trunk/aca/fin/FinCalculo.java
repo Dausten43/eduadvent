@@ -566,7 +566,7 @@ public class FinCalculo {
         return cantidad;
     }
     
-    public String getInscrito(Connection conn, String cicloId, String periodoId, String codigoId) throws SQLException {
+    public static String getInscrito(Connection conn, String cicloId, String periodoId, String codigoId) throws SQLException {
     	PreparedStatement ps	= null;        
         ResultSet rs			= null;
         String estado			= "0";
@@ -575,7 +575,7 @@ public class FinCalculo {
         	ps = conn.prepareStatement("SELECT INSCRITO FROM FIN_CALCULO"
         			+ " WHERE CICLO_ID = ?"
         			+ " AND PERIODO_ID = TO_NUMBER(?,'99')"
-            		+ " CODIGO_ID = ?");
+            		+ " AND CODIGO_ID = ?");
         	
             ps.setString(1, cicloId);
             ps.setString(2, cicloId);
