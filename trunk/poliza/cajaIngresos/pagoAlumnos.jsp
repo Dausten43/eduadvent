@@ -7,11 +7,9 @@
 <jsp:useBean id="FinCalculoLista" scope="page" class="aca.fin.FinCalculoLista"/>
 
 <script>	
-	
 	function cambiaCiclo(){
 		document.forma.submit();
 	}	
-
 </script>
 
 <%
@@ -30,7 +28,7 @@
 	if(view.equals("1")){
 		opcion="'A'";
 	}else if(view.equals("2")){
-		opcion="'C'";		
+		opcion="'C'";
 	}else{
 		opcion="'A', 'C'";
 	}	
@@ -62,11 +60,10 @@
 	<tr>
 		<th>#</th>
 		<th>Matricula</th>
-		<th>Nombre</th>		
-		<th style="text-align:right">Importe</th>
-		
+		<th>Nombre</th>
+		<th>Calculo</th>		
+		<th style="text-align:right">Importe</th>	
 	</tr>
-
 <% 	
 	int numero = 0;
 	for(String alumno:lisAlumnos){
@@ -75,12 +72,18 @@
 		if (mapPago.containsKey(alumno)){
 			importe = Double.parseDouble(mapPago.get(alumno));
 		}
-		 String nombreAlumno = aca.alumno.AlumPersonal.getNombre(conElias, alumno, "NOMBRE");
+		 String nombreAlumno 	= aca.alumno.AlumPersonal.getNombre(conElias, alumno, "NOMBRE");
+		 String estadoCalculo 	= aca.fin.FinCalculo.getInscrito(conElias, cicloId, periodoId, alumno); 
+		 String estadoNombre 	= "";
+		 if (estadoCalculo.equals("C") || estadoCalculo.equals("N")) estadoNombre = "Abierto";		 
+		 if (estadoCalculo.equals("G")) estadoNombre = "Grabado";
+		 if (estadoCalculo.equals("P")) estadoNombre = "Registrado";
 		%>		
 			<tr>
 				<td><%=numero%></td>
 				<td><%=alumno%></td>
 				<td><%=nombreAlumno%></td>				
+				<td><%=estadoNombre%></td>
 				<td style="text-align:right"><%=formato.format(importe)%></td>
 			</tr>
 		<%	
