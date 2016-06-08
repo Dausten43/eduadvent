@@ -27,7 +27,7 @@
 <jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
 
 <script>
-	
+	 
 	/*
 	 * ABRIR INPUTS PARA EDITAR LAS NOTAS
 	 */
