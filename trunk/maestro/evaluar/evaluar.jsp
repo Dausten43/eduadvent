@@ -216,8 +216,9 @@
 	/*
 	 * EVALUAR DERIVADAS
 	 */
-	function evaluarDerivadas(){
+	function evaluarDerivadas(bloque){		
 		document.forma.Derivadas.value = "1";
+		document.forma.DerivadasTrimestre.value = bloque;
 		document.forma.submit();
 	}
 	
@@ -246,6 +247,7 @@
 	boolean muestraBotonGuardarExtra5 = false;
 	
 	String evaluarDerivadas	= request.getParameter("Derivadas") == null?"0":request.getParameter("Derivadas");
+	String deriTrimestre	= request.getParameter("DerivadasTrimestre") == null?"0":request.getParameter("DerivadasTrimestre");
 
 	String accion 			= request.getParameter("Accion") == null?"0":request.getParameter("Accion");
 	String cicloGrupoId	 	= request.getParameter("CicloGrupoId");
@@ -383,6 +385,12 @@
 		// Actualizar los promedios (CICLO_PROMEDIO)
 		mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);		
 	}
+	
+	//------------- GUARDA CALIFICACIONES DE UNA MATERIA DRIVADA ------------->
+		if (evaluarDerivadas.equals("1")) {
+			
+				
+		}
 //------------- BORRA CALIFICACIONES DE UNA EVALUACION ------------->
 	else if (accion.equals("2")) {
 		if (aca.kardex.KrdxAlumEval.deleteNotasEval(conElias, cicloGrupoId, cursoId, request.getParameter("Evaluacion"))) {
@@ -1032,7 +1040,7 @@
 	
 <!--  -------------------- TABLA DE EVALUACIONES -------------------- -->
 <%
-	int cont = 0;
+	int cont 	= 0;
 	for (aca.ciclo.CicloPromedio promedio : lisPromedio){
 %>	
 	<div class="alert alert-info">
@@ -1047,8 +1055,18 @@
 		</a>
 <%		 	
 			}
+		}
+
+		/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
+		if(listaMateriasDerivadas.size() > 0){
+%>
+		<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
+		<button class="btn btn-mobile" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>)">
+			Promediar derivadas [ <%= promedio.getNombre() %> ]
+		</button>			
+<%	
 		}	
-%>		
+%>			
 	</div>
 		
 	<table class="table table-fullcondensed table-bordered table-striped table-fontsmall">
@@ -1233,16 +1251,6 @@
 <%				
 			}
 		}
-		
-	/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
-		if(listaMateriasDerivadas.size() > 0){
-%>
-			<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
-			<button class="btn btn-mobile" onclick="javaScript:evaluarDerivadas()">
-				Promediar materias derivadas
-			</button>			
-<%	
-		}	
 %>
 	</div>
 	
@@ -1250,6 +1258,7 @@
 	
 	<form action="evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
 		<input type="hidden" name="Derivadas" />
+		<input type="hidden" name="DerivadasTrimestre" />
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="Evaluacion" />
 		<input type="hidden" name="Promedio" />
@@ -1534,54 +1543,51 @@
 									
 									if(evaluarDerivadas.equals("1")){ /** EVALUA A TRAVES DE LAS HIJAS **/	
 										
-										String tmpDerivada = "";	
-										
-										for(aca.plan.PlanCurso derivada : listaMateriasDerivadas){
-											
-											// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
-											java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaDerivada = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, derivada.getCursoId(), "");																																											
-											
-											strNota = "-*-";
-											
-	 										if (treeNotaDerivada.containsKey(cicloGrupoId + derivada.getCursoId() + cicloBloque.getBloqueId() + kardex.getCodigoId())) {
-	 											notaEval = Double.parseDouble(treeNotaDerivada.get(cicloGrupoId+derivada.getCursoId()+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
-
-	 											if(tmpDerivada.equals("")){ 	 									 										
-													tmpDerivada = derivada.getCursoId();
-												}else{	 	
-													// TREEMAP TEMPORAL DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
-													java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaTmp = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, tmpDerivada, "");																									
-													
-													if (treeNotaTmp.containsKey(cicloGrupoId + tmpDerivada + cicloBloque.getBloqueId() + kardex.getCodigoId())) {														
-														notaEval = notaEval + Double.parseDouble(treeNotaTmp.get(cicloGrupoId+tmpDerivada+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
-														notaEval = notaEval/listaMateriasDerivadas.size();														
-													}
-												}
-
-	 											// Formato de la evaluacion
-	 											strNota = formato0.format(notaEval);
-	 											if (cicloBloque.getDecimales().equals("1")) 
-	 												strNota = formato1.format(notaEval);
-	 											
-	 										}else{
-	 											
-	 										// TREEMAP TEMPORAL DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
-												java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaTmp = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, tmpDerivada, "");						
-	 										
-	 											if (treeNotaTmp.containsKey(cicloGrupoId + tmpDerivada + cicloBloque.getBloqueId() + kardex.getCodigoId())) {													
-													notaEval = Double.parseDouble(treeNotaTmp.get(cicloGrupoId+tmpDerivada+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());																										
+										if(deriTrimestre.equals(cicloPromedio.getPromedioId())){ //* Pregunta si el trimestre que escogio evaluar coincide con el trimestre que se esta evaluando actualmente
+											String tmpDerivada = "";	
 												
-													// Formato de la evaluacion
+											for(aca.plan.PlanCurso derivada : listaMateriasDerivadas){
+												
+												// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
+												java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaDerivada = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, derivada.getCursoId(), "");																																											
+												
+												strNota = "-";
+												
+												if (treeNotaDerivada.containsKey(cicloGrupoId + derivada.getCursoId() + cicloBloque.getBloqueId() + kardex.getCodigoId())) {
+			 										notaEval = Double.parseDouble(treeNotaDerivada.get(cicloGrupoId+derivada.getCursoId()+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
+					 											if(tmpDerivada.equals("")){ 	 									 										
+														tmpDerivada = derivada.getCursoId();
+													}else{	 	
+														// TREEMAP TEMPORAL DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
+														java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaTmp = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, tmpDerivada, "");																									
+														
+														if (treeNotaTmp.containsKey(cicloGrupoId + tmpDerivada + cicloBloque.getBloqueId() + kardex.getCodigoId())) {														
+															notaEval = notaEval + Double.parseDouble(treeNotaTmp.get(cicloGrupoId+tmpDerivada+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
+															notaEval = notaEval/listaMateriasDerivadas.size();														
+														}
+													}
+					 											// Formato de la evaluacion
 		 											strNota = formato0.format(notaEval);
 		 											if (cicloBloque.getDecimales().equals("1")) 
 		 												strNota = formato1.format(notaEval);
-	 											}
-	 										}
-																					
+		 											
+		 										}else{
+		 											
+		 										// TREEMAP TEMPORAL DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
+													java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNotaTmp = kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, tmpDerivada, "");						
+		 										
+		 											if (treeNotaTmp.containsKey(cicloGrupoId + tmpDerivada + cicloBloque.getBloqueId() + kardex.getCodigoId())) {													
+														notaEval = Double.parseDouble(treeNotaTmp.get(cicloGrupoId+tmpDerivada+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());																										
+													
+														// Formato de la evaluacion
+			 											strNota = formato0.format(notaEval);
+			 											if (cicloBloque.getDecimales().equals("1")) 
+			 												strNota = formato1.format(notaEval);
+		 											}
+		 										}										
+												}
+											}
 										}
-
-									}
-			
 									
 						%>
 								<td class="text-center" style="<%=colorEval%>"><div><%=strNota%></div>
