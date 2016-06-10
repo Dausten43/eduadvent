@@ -7,6 +7,8 @@
 
 <jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
 <jsp:useBean id="AlumP" scope="page" class="aca.alumno.AlumPersonal"/>
+<jsp:useBean id="alumPadres" scope="page" class="aca.alumno.AlumPadres"/>
+<jsp:useBean id="Personal" scope="page" class="aca.empleado.EmpPersonal"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="CicloLista" scope="page" class="aca.alumno.AlumCicloLista"/>
@@ -145,10 +147,25 @@
 				    <th><fmt:message key="aca.Tutor" /></th>    
 			     	<th><fmt:message key="aca.Celular" /></th> 
 			     	<th><fmt:message key="aca.Correo" /></th>   
-			     	<th><fmt:message key="aca.Iglesia" /></th> 
+			     	<th><fmt:message key="aca.Iglesia" /></th>
+			     	<th><fmt:message key="aca.Padre" /></th>
+			     	<th><fmt:message key="aca.Ocupacion" /> <fmt:message key="aca.Padre" /></th> 
 				  </tr>		  
 <%
   			for(aca.alumno.AlumPersonal inscrito : lisInscritos){
+  				
+  				alumPadres.mapeaRegId(conElias, inscrito.getCodigoId());
+  				
+  				String padre     = "";
+  				String ocupacion = "";
+  				
+  				if(!alumPadres.getCodigoPadre().equals("-")){
+  					padre = alumPadres.getCodigoPadre();
+  				}else{
+  					padre = alumPadres.getCodigoMadre();
+  				}
+  				
+  				Personal.mapeaRegId(conElias, padre);
 
   				if (mapaGradoGrupo.containsKey(inscrito.getCodigoId()+ciclo+"1")){
   					aca.alumno.AlumCiclo historia = (aca.alumno.AlumCiclo) mapaGradoGrupo.get(inscrito.getCodigoId()+ciclo+"1");
@@ -182,6 +199,8 @@
 					  <td align="left"><%= inscrito.getCelular()%></td> 
 					  <td align="left"><%= AlumP.getEmail()%></td> 
 					  <td align="left"><%= inscrito.getIglesia()%></td> 
+					  <td align="left"><%= Personal.getNombre()+" "+Personal.getAmaterno() %></td> 
+					  <td align="left"><%= Personal.getOcupacion()%></td> 
 				</tr> 				
 <% 				
   				}
