@@ -172,7 +172,13 @@
 		    </label>
 		    <select name="director" id="director" class="input input-xlarge"> 			
 				<%for(aca.empleado.EmpPersonal empleado: lisEmpleados){%>
-					<option value="<%=empleado.getCodigoId()%>" <%if(nivel.getDirector().equals(empleado.getCodigoId())){out.print("selected");} %>>
+					<option value="<%=empleado.getCodigoId()%>" <%
+					if(nivel.getDirector() != null ){
+						if(nivel.getDirector().equals(empleado.getCodigoId())){
+							out.print("selected");
+						}
+					}
+					%>>
 						<%=empleado.getNombre()+" "+empleado.getApaterno()+" "+empleado.getAmaterno() %>
 					</option>
 				<%} %>
