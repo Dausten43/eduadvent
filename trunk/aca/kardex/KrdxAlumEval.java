@@ -96,6 +96,32 @@ public class KrdxAlumEval {
 		}
 		return ok;
 	}
+
+	public boolean insertReg(Connection conn, String cursoBase ) throws SQLException{
+		boolean ok = false;
+		PreparedStatement ps = null;
+		try{
+			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_EVAL"
+					+ " (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, NOTA, FALTA, CONDUCTA, PROMEDIO_ID)"
+					+ " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, CAST(AVG(NOTA) AS DECIMAL(10,2)) AS NOTA, FALTA, CONDUCTA, PROMEDIO_ID   FROM  krdx_alum_eval"
+					+ "WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '?')"
+					+ "GROUP BY CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID,EVALUACION_ID, FALTA, CONDUCTA, PROMEDIO_ID");
+
+			ps.setString(1, cursoBase);
+			
+			if ( ps.executeUpdate()== 1){
+				ok = true;
+			}else{
+				ok = false;
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEval|insertReg|:"+ex);
+		}finally{
+			if (ps!=null) ps.close();
+		}
+		return ok;
+	}
 	
 	public boolean updateReg(Connection conn ) throws SQLException{
 		boolean ok = false;
