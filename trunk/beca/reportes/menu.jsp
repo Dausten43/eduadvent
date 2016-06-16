@@ -13,12 +13,6 @@
           <div class="well well-small">
             <ul class="nav nav-list">
               <li><a href="becaTipo.jsp"><i class="icon-chevron-right"></i>Tipo de Becas</a></li>
-            </ul>
-        </div>
-	</div>
-	<div class="row-fluid">
-          <div class="well well-small">
-            <ul class="nav nav-list">
               <li><a href="becaPorEntidad.jsp"><i class="icon-chevron-right"></i>Becas por entidad</a></li>
             </ul>
         </div>
