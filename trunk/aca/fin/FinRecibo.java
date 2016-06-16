@@ -26,6 +26,7 @@ public class FinRecibo {
 	private String rfc;
 	private String tipo;
 	private String estado;
+	private String tipoPago;
 	
 	public FinRecibo(){
 		reciboId		= "";
@@ -41,6 +42,7 @@ public class FinRecibo {
 		rfc				= "";
 		tipo 			= "";
 		estado 			= "";
+		tipoPago		= "";
 	}
 
 	/**
@@ -212,6 +214,14 @@ public class FinRecibo {
 	public void setEjercicioId(String ejercicioId) {
 		this.ejercicioId = ejercicioId;
 	}
+	
+	public String getTipoPag() {
+		return tipoPago;
+	}
+
+	public void setTipoPago(String tipoPago) {
+		this.tipoPago = tipoPago;
+	}
 
 	public boolean insertReg(Connection conn) throws SQLException{
         boolean ok = false;
@@ -219,11 +229,11 @@ public class FinRecibo {
         try{
             ps = conn.prepareStatement(
                     "INSERT INTO FIN_RECIBO(RECIBO_ID, EJERCICIO_ID, IMPORTE, FECHA, CLIENTE," +
-                    " DOMICILIO, CHEQUE, BANCO, OBSERVACIONES, USUARIO, RFC, TIPO, ESTADO)" +
+                    " DOMICILIO, CHEQUE, BANCO, OBSERVACIONES, USUARIO, RFC, TIPO, ESTADO, TIPOPAGO)" +
                     " VALUES(TO_NUMBER(?, '9999999'), ?, " +
                     " TO_NUMBER(?, '999999.99')," +
                     " TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS')," +
-                    " ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             ps.setString(1, reciboId);
             ps.setString(2, ejercicioId);
@@ -238,6 +248,7 @@ public class FinRecibo {
             ps.setString(11, rfc);
             ps.setString(12, tipo);
             ps.setString(13, estado);
+            ps.setString(14, tipoPago);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -268,6 +279,7 @@ public class FinRecibo {
                     " RFC = ?," +
                     " TIPO = ?," +
                     " ESTADO = ?" +
+                    " TIPOPAGO = ?" +
                     " WHERE RECIBO_ID = TO_NUMBER(?, '9999999') AND EJERCICIO_ID = ? ");
             
             ps.setString(1, importe);
@@ -281,8 +293,9 @@ public class FinRecibo {
             ps.setString(9, rfc);
             ps.setString(10, tipo);
             ps.setString(11, estado);
-            ps.setString(12, reciboId);
-            ps.setString(13, ejercicioId);
+            ps.setString(12, tipoPago);
+            ps.setString(13, reciboId);
+            ps.setString(14, ejercicioId);
 
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -383,6 +396,7 @@ public class FinRecibo {
 		rfc				= rs.getString("RFC");
 		tipo			= rs.getString("TIPO");
 		estado			= rs.getString("ESTADO");
+		tipoPago		= rs.getString("TIPOPAGO");
     }
 
     public void mapeaRegId(Connection con, String reciboId, String ejercicioId) throws SQLException{
@@ -391,7 +405,7 @@ public class FinRecibo {
         try{
 	        ps = con.prepareStatement(
 	                "SELECT RECIBO_ID, EJERCICIO_ID, IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, CLIENTE," +
-	                " DOMICILIO, CHEQUE, BANCO, OBSERVACIONES, USUARIO, RFC, TIPO, ESTADO" +
+	                " DOMICILIO, CHEQUE, BANCO, OBSERVACIONES, USUARIO, RFC, TIPO, ESTADO, TIPOPAGO " +
 	                " FROM FIN_RECIBO" +
 	                " WHERE RECIBO_ID = TO_NUMBER(?, '9999999') AND EJERCICIO_ID = ? ");        
 	        ps.setString(1, reciboId);
