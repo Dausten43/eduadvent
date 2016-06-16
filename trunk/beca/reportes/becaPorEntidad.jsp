@@ -9,62 +9,51 @@
 
 <jsp:useBean id="entidadL" scope="page" class="aca.beca.BecEntidadLista"/>
 <jsp:useBean id="entidad" scope="page" class="aca.beca.BecEntidad"/>
+<jsp:useBean id="becaAlumno" scope="page" class="aca.beca.BecAlumno"/>
 <html>
-<script type="text/javascript">
-	function buscar(){
-		document.forma.Accion.value = "1";
-		document.forma.submit();
-	}
-</script>
+
 <%
 	java.text.DecimalFormat formato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String ejercicioId 		= (String) session.getAttribute("ejercicioId");
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
-	String entidadId		= request.getParameter("EntidadId")==null?"0":request.getParameter("EntidadId");
 	
-	ArrayList<aca.beca.BecEntidad> listaEntidades		= entidadL.getListAll(conElias, escuelaId, "ORDER BY ENTIDAD_ID");
+	ArrayList<aca.beca.BecEntidad> listaEntidades	= entidadL.getListAll(conElias, escuelaId, "ORDER BY ENTIDAD_ID");
 	
-	
+	int con 				= 1;
+	float total 			= 0;
 %>
 <div id="content">
-	<h2>Entidad</h2>
-	<form name="forma" id="forma" method="post" action="becaPorEntidad.jsp">
-	<input type="hidden" name="Accion" />
+	<h2>Entidades</h2>
 	<div class="well">
 		<a href="menu.jsp" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
-		Entidades:
-		<select name="EntidadId" id="EntidadId" style="width:350px;">
-		<%
-		for(aca.beca.BecEntidad entidad : listaEntidades){
-		%>
-			<option value="<%=entidad.getEntidadId()%>" ><%= entidad.getEntidadNombre() %></option>
-		<%	
-		}
-		%>	
-		</select>
-		&nbsp;&nbsp;
-		<a href="javascript:buscar()" class="btn btn-primary"><i class="icon-white icon-search"></i> Buscar</a>
 	</div>
-	</form>		
-<%
-	if(accion.equals("1")){
-		entidad.mapeaRegId(conElias, entidadId);
-%>
 	<table class="table table-striped">
 		<tr>
+			<th>#</th>
 			<th>Entidad</th>
 			<th>Total beca</th>
 		</tr>
+<%
+	for(aca.beca.BecEntidad entidades : listaEntidades){
+		entidad.mapeaRegId(conElias, entidades.getEntidadId());
+		String cantidad = becaAlumno.cantidadTotalBecas(conElias, entidades.getEntidadId())==null?"0":becaAlumno.cantidadTotalBecas(conElias, entidades.getEntidadId());			
+		total = total + Float.parseFloat(cantidad);
+%>
 		<tr>
+			<td><%=con++ %></td>
 			<td><%=entidad.getEntidadNombre() %></td>
-			<td><%=entidad.getEntidadNombre()  %></td>
+			<td><%=cantidad  %></td>
+		</tr>
+<%	
+	}
+%>
+		<tr>
+			<td colspan="2" ><h3>Total</h3></td>
+			<td><h3><%=total %></h3></td>
 		</tr>
 	</table>
-<%	
-	}else
-	out.print("<h3>Elija la entidad</h3>");
-%>
+
 </div>
 <%@ include file= "../../cierra_elias.jsp" %>
