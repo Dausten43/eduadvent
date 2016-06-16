@@ -514,4 +514,41 @@ public class KrdxAlumEvalLista {
 		return map;
 	}
 	
+	
+	public boolean checkMateriasHijas(Connection conn, String cicloGrupoId, String curosBase, String promedioId, String estado) throws SQLException{
+		
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		boolean existe	= false;	
+		try{
+			comando = "SELECT CASE WHEN EXISTS ( SELECT * FROM CICLO_GRUPO_EVAL "
+					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+curosBase+"')"
+					+ " AND PROMEDIO_ID='"+promedioId+"' AND ESTADO = '"+estado+"')"
+					+ " THEN CAST(1 AS BIT)"
+					+ " ELSE CAST(0 AS BIT) END";
+			
+			rs = st.executeQuery(comando);			
+			//System.out.println(rs.getBoolean("CASE"));
+			if (rs.next()){				 				
+				existe = rs.getBoolean("CASE");
+			}
+			
+			
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalSumaNotasTot|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		
+		return existe;
+		
+		
+	}
+	
+	
+	
 }
