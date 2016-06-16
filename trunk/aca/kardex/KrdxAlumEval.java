@@ -97,20 +97,30 @@ public class KrdxAlumEval {
 		return ok;
 	}
 
-	public boolean insertReg(Connection conn, String cursoBase ) throws SQLException{
+	public boolean insertReg(Connection conn, String cursoBase, String decimal ) throws SQLException{
 		boolean ok = false;
 		PreparedStatement ps = null;
 		
-		
+		System.out.println(cursoBase);
 		
 		try{
-			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_EVAL"
-					+ " (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, NOTA, FALTA, CONDUCTA, PROMEDIO_ID)"
-					+ " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, CAST(AVG(NOTA) AS DECIMAL(10,2)) AS NOTA, FALTA, CONDUCTA, PROMEDIO_ID   FROM  krdx_alum_eval"
-					+ "WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '?')"
-					+ "GROUP BY CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID,EVALUACION_ID, FALTA, CONDUCTA, PROMEDIO_ID");
+			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_EVAL(CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, NOTA, FALTA, CONDUCTA, PROMEDIO_ID)"
+					+ " SELECT "
+					+ " CODIGO_ID, "
+					+ " CICLO_GRUPO_ID, "
+					+ " '?' AS CURSO_ID, "
+					+ " EVALUACION_ID,"
+					+ " CAST(AVG(NOTA) AS DECIMAL(10,2)) AS NOTA,"
+					+ " CAST(AVG(FALTA) AS DECIMAL(10, 2)) AS FALTA,"
+					+ " CAST(AVG(CONDUCTA) AS DECIMAL(10, 2)) AS CONDUCTA, "
+					+ " PROMEDIO_ID"
+					+ " FROM krdx_alum_eval "
+					+ " WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '?')"
+					+ " GROUP BY CODIGO_ID, CICLO_GRUPO_ID, EVALUACION_ID, "
+					+ " PROMEDIO_ID ORDER BY CODIGO_ID");
 
 			ps.setString(1, cursoBase);
+			ps.setString(2, cursoBase);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
