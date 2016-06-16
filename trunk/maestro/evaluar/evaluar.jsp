@@ -388,8 +388,15 @@
 	
 	//------------- GUARDA CALIFICACIONES DE UNA MATERIA DRIVADA ------------->
 		if (evaluarDerivadas.equals("1")) {
-			
-				
+			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A")){
+				System.out.println("save");
+				//kardexEval.insertReg(conElias, cursoId);
+			}
+			%>
+			<script>
+				alert("No estan cerradas las evaluaciones de la materia hija");
+			</script>
+			<% 	
 		}
 //------------- BORRA CALIFICACIONES DE UNA EVALUACION ------------->
 	else if (accion.equals("2")) {
