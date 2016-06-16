@@ -445,4 +445,28 @@ public class BecAlumno {
 		}
 		return maximo;
 	}
+	
+	public String cantidadTotalBecas(Connection conn, String entidadId ) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String cantidad 		= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT SUM(IMPORTE_BECA) AS CANTIDAD FROM FIN_CALCULO_DET AS FC, BEC_ALUMNO AS BA "
+									+ " WHERE FC.CODIGO_ID = BA.CODIGO_ID AND FC.CICLO_ID = BA.CICLO_ID AND FC.PERIODO_ID = BA.PERIODO_ID "
+									+ " AND FC.CUENTA_ID = BA.CUENTA_ID AND BA.ENTIDAD_ID = TO_NUMBER(?,'99999')");
+			ps.setString(1, entidadId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				cantidad = rs.getString("CANTIDAD");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.beca.BecAlumno|cantidadTotalBecas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return cantidad;
+	}
 }
