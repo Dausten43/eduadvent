@@ -100,6 +100,9 @@ public class KrdxAlumEval {
 	public boolean insertReg(Connection conn, String cursoBase ) throws SQLException{
 		boolean ok = false;
 		PreparedStatement ps = null;
+		
+		
+		
 		try{
 			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_EVAL"
 					+ " (CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, NOTA, FALTA, CONDUCTA, PROMEDIO_ID)"
