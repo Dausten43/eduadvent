@@ -1,3 +1,5 @@
+<%@page import="aca.kardex.KrdxAlumEval"%>
+<%@page import="aca.ciclo.CicloPromedio"%>
 <%@page import="aca.kardex.KrdxAlumExtra"%>
 <%@page import="aca.kardex.KrdxAlumActiv"%>
 <%@ include file="../../con_elias.jsp"%>
@@ -388,15 +390,29 @@
 	
 	//------------- GUARDA CALIFICACIONES DE UNA MATERIA DRIVADA ------------->
 		if (evaluarDerivadas.equals("1")) {
-			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A")){
-				System.out.println("save");
-				//kardexEval.insertReg(conElias, cursoId);
-			}
+			System.out.println(cursoId+" " + aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre));
+			ArrayList<aca.kardex.KrdxAlumEval> listEval = kardexEvalLista.getListHija(conElias, cursoId, aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre));
+			
+			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A")){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
+				System.out.println(listEval.size());
+				
+					for(aca.kardex.KrdxAlumEval evalua:  listEval){
+						if(evalua.updateReg(conElias)){
+							//System.out.println("update");
+						}
+						else{
+							evalua.insertReg(conElias);
+							//System.out.println("Insert");
+						}
+					}
+
+			}else{
 			%>
 			<script>
 				alert("No estan cerradas las evaluaciones de la materia hija");
 			</script>
 			<% 	
+			}
 		}
 //------------- BORRA CALIFICACIONES DE UNA EVALUACION ------------->
 	else if (accion.equals("2")) {
@@ -1068,8 +1084,8 @@
 		if(listaMateriasDerivadas.size() > 0){
 %>
 		<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
-		<button class="btn btn-mobile" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>)">
-			Promediar derivadas [ <%= promedio.getNombre() %> ]
+		<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>)">
+			Promediar derivadas
 		</button>			
 <%	
 		}	
