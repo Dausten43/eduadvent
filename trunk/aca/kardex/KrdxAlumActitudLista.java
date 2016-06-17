@@ -68,4 +68,35 @@ public class KrdxAlumActitudLista {
 		
 		return map;
 	}
+	
+	public ArrayList<KrdxAlumActitud> getListAspectosAlumno(Connection conn, String codigoId, String cicloGrupoId, String orden ) throws SQLException{
+		ArrayList<KrdxAlumActitud> list 	= new ArrayList<KrdxAlumActitud>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID,"
+					+ " PROMEDIO_ID, EVALUACION_ID, ASPECTOS_ID, NOTA"
+					+ " FROM KRDX_ALUM_ACTITUD"
+					+ " WHERE CODIGO_ID = '"+codigoId+"'"
+					+ " AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				
+				KrdxAlumActitud obj = new KrdxAlumActitud();				
+				obj.mapeaReg(rs);
+				list.add(obj);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumActitudLista|getListAspectosAlumno|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return list;
+	}
 }

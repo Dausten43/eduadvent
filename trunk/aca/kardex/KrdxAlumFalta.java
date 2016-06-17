@@ -196,7 +196,7 @@ public class KrdxAlumFalta {
 		PreparedStatement ps = null; 
 		try{
 			ps = con.prepareStatement("SELECT CODIGO_ID, CICLO_GRUPO_ID," 
-					+ " CURSO_ID, EVALUACION_ID, FALTA, TARDANZA " 
+					+ " CURSO_ID, PROMEDIO_ID, EVALUACION_ID, FALTA, TARDANZA " 
 					+ " FROM KRDX_ALUM_FALTA" 
 					+ " WHERE CODIGO_ID = ?" 
 					+ " AND CICLO_GRUPO_ID = ?" 

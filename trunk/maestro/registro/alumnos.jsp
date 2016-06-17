@@ -68,7 +68,8 @@
 		}
 %>		
 		<a class="btn btn-info" href="<%=boleta %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoleta" /></a>
-		<a class="btn btn-info" href="<%=boletaActividad %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaConActividades" /></a>		
+		<a class="btn btn-info" href="<%=boletaActividad %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaConActividades" /></a>
+		<a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a>		
 	</div>
 		
 	<table class="table table-striped table-bordered table-condensed">
