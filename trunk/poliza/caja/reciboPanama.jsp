@@ -12,6 +12,7 @@
 <%@ page import="com.itextpdf.text.pdf.*"%>
 
 <jsp:useBean id="finRecibo" scope="page" class="aca.fin.FinRecibo" />
+<jsp:useBean id="finPoliza" scope="page" class="aca.fin.FinPoliza" />
 <jsp:useBean id="finML" scope="page" class="aca.fin.FinMovimientosLista" />
 <jsp:useBean id="Coordenada" scope="page" class="aca.fin.FinCoordenada" />
 <jsp:useBean id="Escuela" scope="page" class="aca.catalogo.CatEscuela" />
@@ -45,13 +46,19 @@
 
 		String recibo = request.getParameter("Recibo");
 		String polizaId = request.getParameter("polizaId");
-
+		
+		
 		String fechayHora = aca.util.Fecha.getDateTime();
 		String fechaHoy = aca.util.Fecha.getHoy();
 
 		String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
 		String rutaLogo = "../../imagenes/logos/" + logoEscuela;
 
+		finPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
+		
+		
+		String usuarioPoliza = finPoliza.getUsuario();
+		
 		// Verifica si existe el logo
 		boolean tieneLogo = false;
 		String dirFoto = application.getRealPath("/imagenes/logos/" + logoEscuela);
@@ -85,16 +92,16 @@
 			<td style="width: 20%; text-align: center;"><img
 				src="<%=rutaLogo%>" width="50%"></td>
 			<td style="width: 50%; text-align: center;">
-				<h4><%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%></h4>
+				<h2><%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%></h2>
 				<strong>Direcci&oacute;n:</strong> <%=Escuela.getDireccion()%>, <%=Escuela.getColonia()%>
 				<br> <strong>Tel&eacute;fono: </strong><%=Escuela.getTelefono()%>
 			</td>
 			<td style="width: 30%; text-align: right;">
 				<h4>
-					No. Recibo: [
+					No. Recibo<br> [
 					<%=finRecibo.getReciboId()%>
 					]
-				</h4> <span style="font-size: 11px;"></span><strong>Poliza:</strong>[ <%=polizaId%>
+				</h4> <span style="font-size: 11px;"></span><strong>Póliza:</strong>[ <%=polizaId%>
 				]</span><br> <span style="font-size: 11px;"><strong>Fecha
 						y Hora:</strong> [ <%=fechayHora%> ]</span><br> <span
 				style="text-align: right; font-size: 16px"><strong>Por:
@@ -105,8 +112,8 @@
 		<tr>
 		<tr>
 			<td colspan="3"
-				style="font-size: 14px; text-align: center; padding-top: 10px; padding-bottom: 10px;''"><strong>Recibimos
-					de :</strong> <%=finRecibo.getCliente()%> <strong>La cantidad de:</strong>
+				style="font-size: 14px; text-align: left; padding-top: 10px; padding-bottom: 10px;''"><strong>Recibimos
+					de :<%=finRecibo.getCliente()%> <br>La cantidad de:</strong>
 				<strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos)).toUpperCase() + " BALBOAS. "
 						+ centavos + " /100"%></strong></td>
 
@@ -169,9 +176,17 @@
 	</table>
 	<br>
 	<table class="tabla" style="margin: 0 auto;">
+	
 		<tr>
-			<td class="center">Firma del Cajero:
-				____________________________</td>
+			<td style="text-align: center;">
+				____________________________
+				<p ><%= aca.vista.UsuariosLista.getNombreCorto(conElias, usuarioPoliza) %></p></td>
+		</tr>
+		<tr>
+			<td style="font-style: italic; text-align: center; font-size: 12px;">Nulo sin sello y firma del cajero</td>
+		</tr>
+		<tr>
+			<td style="font-style: italic; text-align: center; font-size: 14px;">G R A C I A S</td>
 		</tr>
 	</table>
 </div>
