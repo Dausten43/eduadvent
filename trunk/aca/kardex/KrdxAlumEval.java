@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * @author Elifo
@@ -98,40 +99,36 @@ public class KrdxAlumEval {
 	}
 
 	public boolean insertReg(Connection conn, String cursoBase, String decimal ) throws SQLException{
-		boolean ok = false;
-		PreparedStatement ps = null;
 		
-		System.out.println(cursoBase);
+		//PreparedStatement ps = null;
+		Statement st = conn.createStatement();
+		String comando						= "";
+		int rs 								= 0;
+		boolean ok 							= false;
 		
 		try{
-			ps = conn.prepareStatement("INSERT INTO KRDX_ALUM_EVAL(CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, NOTA, FALTA, CONDUCTA, PROMEDIO_ID)"
+			comando = "INSERT INTO KRDX_ALUM_EVAL(CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, NOTA, FALTA, CONDUCTA, PROMEDIO_ID)"
 					+ " SELECT "
 					+ " CODIGO_ID, "
 					+ " CICLO_GRUPO_ID, "
-					+ " '?' AS CURSO_ID, "
+					+ " '"+cursoBase+"' AS CURSO_ID, "
 					+ " EVALUACION_ID,"
-					+ " CAST(AVG(NOTA) AS DECIMAL(10,2)) AS NOTA,"
-					+ " CAST(AVG(FALTA) AS DECIMAL(10, 2)) AS FALTA,"
-					+ " CAST(AVG(CONDUCTA) AS DECIMAL(10, 2)) AS CONDUCTA, "
+					+ " CAST(AVG(NOTA) AS DECIMAL(10,"+decimal+")) AS NOTA,"
+					+ " CAST(AVG(FALTA) AS DECIMAL(10, "+decimal+")) AS FALTA,"
+					+ " CAST(AVG(CONDUCTA) AS DECIMAL(10, "+decimal+")) AS CONDUCTA, "
 					+ " PROMEDIO_ID"
 					+ " FROM krdx_alum_eval "
-					+ " WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '?')"
+					+ " WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+cursoBase+"')"
 					+ " GROUP BY CODIGO_ID, CICLO_GRUPO_ID, EVALUACION_ID, "
-					+ " PROMEDIO_ID ORDER BY CODIGO_ID");
-
-			ps.setString(1, cursoBase);
-			ps.setString(2, cursoBase);
+					+ " PROMEDIO_ID ORDER BY CODIGO_ID";
 			
-			if ( ps.executeUpdate()== 1){
-				ok = true;
-			}else{
-				ok = false;
-			}
+			
+			st.executeUpdate(comando);
 			
 		}catch(Exception ex){
 			System.out.println("Error - aca.kardex.KrdxAlumEval|insertReg|:"+ex);
 		}finally{
-			if (ps!=null) ps.close();
+			st.close();
 		}
 		return ok;
 	}
@@ -375,6 +372,36 @@ public class KrdxAlumEval {
 		
 		return ok;
 	}
+	
+	
+	public boolean existeReg(Connection conn, String cursoId) throws SQLException{
+		boolean ok 			= false;
+		ResultSet rs 			= null;
+		PreparedStatement ps	= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM KRDX_ALUM_EVAL" +
+					" WHERE CURSO_ID = ?");
+			ps.setString(1, cursoId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				ok = true;
+			}else{
+				ok = false;
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEval|existeReg|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return ok;
+	}
+	
+	
+	
 	
 	public static boolean existeReg(Connection conn, String codigoId, String cicloGrupoId, String cursoId) throws SQLException{
 		boolean ok 			= false;
