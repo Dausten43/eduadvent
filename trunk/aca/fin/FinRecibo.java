@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author elifo
@@ -219,6 +221,16 @@ public class FinRecibo {
 		return tipoPago;
 	}
 
+	public String getTipoPag(String id_tipopago) {
+		Map<String, String> mapTipoPago= new HashMap<String, String>();
+		mapTipoPago.put("1", "Efectivo");
+		mapTipoPago.put("2", "Cheque");
+		mapTipoPago.put("3", "Tarjeta Bancaria");
+		mapTipoPago.put("4", "Otro");
+		String salida =  mapTipoPago.containsKey(id_tipopago) ? mapTipoPago.get(id_tipopago) : "Ninguno";
+		return salida;
+	}
+	
 	public void setTipoPago(String tipoPago) {
 		this.tipoPago = tipoPago;
 	}
