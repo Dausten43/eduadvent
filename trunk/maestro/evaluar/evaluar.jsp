@@ -395,9 +395,9 @@
 			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A")){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
 				
 					for(aca.kardex.KrdxAlumEval evalua:  listEval){
-						if(evalua.existeReg(conElias)){
+						if(evalua.updateReg(conElias)){ //SE DEMORA UNOS SEGUNDOS MAS SI MANDAMOS A CORRER EL EXISTEREG ANTES DE HACERLO UPDATE; 
 							//System.out.println("update");
-							evalua.updateReg(conElias);
+							//evalua.updateReg(conElias);
 						}
 						else{
 							evalua.insertReg(conElias);
