@@ -17,7 +17,8 @@
  			document.forma.Cheque.value 		!= "" && 
  			document.forma.Banco.value 			!= "" &&
  			document.forma.Observaciones.value 	!= "" &&
- 			document.forma.rfc.value 			!= "" 
+ 			document.forma.rfc.value 			!= "" &&
+ 			document.forma.tipoPago.value		!= ""
 		){
 			
 				document.forma.Accion.value = "1";
@@ -99,6 +100,7 @@
 		FinRecibo.setRfc(request.getParameter("rfc"));
 		FinRecibo.setTipo("R");
 		FinRecibo.setEstado("A");
+		FinRecibo.setTipoPago(request.getParameter("tipoPago"));
 		
 		if(!FinRecibo.existeReg(conElias)){
 			if(FinRecibo.insertReg(conElias)){
@@ -189,6 +191,17 @@
 							<fieldset>
 								<label for="Domicilio"><fmt:message key="aca.Domicilio" /></label>
 								<input type="text" name="Domicilio" id="Domicilio" maxlength="100" value="" />
+							</fieldset>
+							
+							<fieldset>
+								<label for="tipoPago"><fmt:message key="aca.tipoPago" /></label>
+								<select name="tipoPago" id="tipoPago">
+									<option value=""></option>
+									<option value="1">Efectivo</option>
+									<option value="2">Cheque</option>
+									<option value="3">Tarjeta Bancaria</option>
+									<option value="4">Otro</option>
+								</select>
 							</fieldset>
 							
 							<fieldset>

@@ -99,7 +99,7 @@
 						y Hora:</strong> [ <%=fechayHora%> ]</span><br> <span
 				style="text-align: right; font-size: 16px"><strong>Por:
 						<%=formato.format(Double.parseDouble(finRecibo.getImporte()))%></strong></span><br>
-				<span style="font-size: 11px;"><strong><%=finRecibo.getTipo()%></strong></span>
+				<span style="font-size: 11px;"><strong>Tipo Pago: </strong><%= finRecibo.getTipoPag(finRecibo.getTipoPag()) %></span>
 			</td>
 		</tr>
 		<tr>
@@ -124,6 +124,15 @@
 			
 		</tr>
 		<%
+		
+		String complTipoPago = "";
+		if(finRecibo.getTipoPag()!=null && finRecibo.getTipoPag().equals("2")){
+			complTipoPago = "CHEQUE " + finRecibo.getCheque();
+		}
+		if(finRecibo.getTipoPag()!=null && finRecibo.getTipoPag().equals("3")){
+			complTipoPago = "BANCO " + finRecibo.getBanco();
+		}
+		
 			for (FinMovimientos movimientos : lista) {
 				
 				String saldoStr = aca.fin.FinMovimientos.getSaldoAnterior(conElias, movimientos.getAuxiliar(), movimientos.getFecha().substring(0,10));
@@ -152,7 +161,7 @@
 			}
 		%>
 		<tr class="totalFinal">
-			<td colspan="2" ></td>
+			<td colspan="2" ><%= complTipoPago %> </td>
 			<td style="text-align: right;"> <strong>Total Pagado: </strong></td>
 			<td style="text-align: right"><%=formato.format(Double.parseDouble(finRecibo.getImporte()))%></td>
 			<td></td>
