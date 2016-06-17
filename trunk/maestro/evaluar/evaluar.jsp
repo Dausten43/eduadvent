@@ -390,15 +390,14 @@
 	
 	//------------- GUARDA CALIFICACIONES DE UNA MATERIA DRIVADA ------------->
 		if (evaluarDerivadas.equals("1")) {
-			System.out.println(cursoId+" " + aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre));
 			ArrayList<aca.kardex.KrdxAlumEval> listEval = kardexEvalLista.getListHija(conElias, cursoId, aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre));
 			
 			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A")){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
-				System.out.println(listEval.size());
 				
 					for(aca.kardex.KrdxAlumEval evalua:  listEval){
-						if(evalua.updateReg(conElias)){
+						if(evalua.existeReg(conElias)){
 							//System.out.println("update");
+							evalua.updateReg(conElias);
 						}
 						else{
 							evalua.insertReg(conElias);
