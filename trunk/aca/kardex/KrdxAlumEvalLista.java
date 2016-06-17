@@ -77,6 +77,38 @@ public class KrdxAlumEvalLista {
 		return lisEval;
 	}
 	
+	
+	public ArrayList<KrdxAlumEval> getListHija(Connection conn, String cursoBase, String decimal ) throws SQLException{
+		ArrayList<KrdxAlumEval> lisEval 	= new ArrayList<KrdxAlumEval>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, '"+cursoBase+"' AS CURSO_ID, EVALUACION_ID,  CAST(AVG(NOTA) AS DECIMAL(10,"+decimal+")) NOTA, "
+					+ " CAST(AVG(FALTA) AS DECIMAL(10,"+decimal+"))  FALTA,  CAST(AVG(CONDUCTA) AS DECIMAL(10,"+decimal+")) CONDUCTA, PROMEDIO_ID"
+					+ " FROM krdx_alum_eval WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+cursoBase+"')"
+					+ " GROUP BY CODIGO_ID, CICLO_GRUPO_ID, EVALUACION_ID, PROMEDIO_ID ORDER BY CODIGO_ID";
+			
+			rs = st.executeQuery(comando);		
+			while (rs.next()){
+				
+				KrdxAlumEval kae = new KrdxAlumEval();		
+				kae.mapeaReg(rs);
+				lisEval.add(kae);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|getListAlumMat|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisEval;
+	}
+	
+	
 	public static HashMap<String, KrdxAlumEval> mapEvalAlumno(Connection conn, String codigoId) throws SQLException{
 		HashMap<String,KrdxAlumEval> map 			= new HashMap<String, KrdxAlumEval>();
 		Statement st 						= conn.createStatement();
@@ -513,6 +545,46 @@ public class KrdxAlumEvalLista {
 		
 		return map;
 	}
+	
+	
+	public HashMap<String, KrdxAlumEval> mapEvalHija(Connection conn, String cursoBase, String decimal) throws SQLException{
+		HashMap<String,KrdxAlumEval> map 	= new HashMap<String, KrdxAlumEval>();
+		Statement st 						= conn.createStatement();
+		ResultSet rs 						= null;
+		String comando						= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, '"+cursoBase+"' AS CURSO_ID, EVALUACION_ID,  CAST(AVG(NOTA) AS DECIMAL(10,"+decimal+")) NOTA, "
+					+ " CAST(AVG(FALTA) AS DECIMAL(10,"+decimal+"))  FALTA,  CAST(AVG(CONDUCTA) AS DECIMAL(10,"+decimal+")) CONDUCTA, PROMEDIO_ID"
+					+ " FROM krdx_alum_eval WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+cursoBase+"')"
+					+ " GROUP BY CODIGO_ID, CICLO_GRUPO_ID, EVALUACION_ID, PROMEDIO_ID ORDER BY CODIGO_ID";
+						
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				KrdxAlumEval eval = new KrdxAlumEval();
+				eval.setCodigoId(rs.getString("CODIGO_ID"));
+				eval.setCicloGrupoId(rs.getString("CICLO_GRUPO_ID"));
+				eval.setCursoId(rs.getString("CURSO_ID"));
+				eval.setEvaluacionId(rs.getString("EVALUACION_ID"));
+				eval.setNota(rs.getString("EVALUACION_ID"));
+				
+				map.put(rs.getString("CODIGO_ID")+rs.getString("CICLO_GRUPO_ID")+rs.getString("CURSO_ID")+rs.getString("EVALUACION_ID"), eval);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalSumaNotasTot|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
+	
+	
+	
+	
 	
 	
 	public boolean checkMateriasHijas(Connection conn, String cicloGrupoId, String curosBase, String promedioId, String estado) throws SQLException{
