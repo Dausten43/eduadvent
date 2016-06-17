@@ -87,8 +87,8 @@
 			FinFolio.setEstado("I");
 			FinFolio.setFolio(FinFolio.maxReg(conElias, ejercicioId, request.getParameter("Usuario")));
 
-			if(!FinFolio.verificaFolio(conElias, request.getParameter("reciboInicial"))) {
-				if(!FinFolio.verificaFolio(conElias, request.getParameter("reciboFinal"))){	
+			if(!FinFolio.verificaFolio(conElias, escuelaId, request.getParameter("reciboInicial"))) {
+				if(!FinFolio.verificaFolio(conElias, escuelaId, request.getParameter("reciboFinal"))){	
 					if (!FinFolio.existeReg(conElias)) {
 						if (!FinFolio.insertReg(conElias)) {
 							resultado = "Error al guardar el registro";
