@@ -90,7 +90,7 @@
 			krdxAlumActitud.setAspectosId(aspectoId);
 			
 			String nota 		= request.getParameter("aspecto" + cont + "-" + aspectoId);
-				
+			
 			if ( nota != null ){
 				
 				// Valida aspecto
@@ -234,16 +234,9 @@
 									
 							String nota = "0";
 							
-							System.out.println("CODIGO : "+kardex.getCodigoId());
-							System.out.println("PROMEDIO : "+promedio);
-							System.out.println("ASPECTO : "+aspecto.getAspectosId());
-							System.out.println("ASPECTO : "+aspecto.getAspectosId());
-							cicloGrupo.getNivelId()
-							
 							if (mapActitud.containsKey(kardex.getCodigoId()+promedio+"0"+aspecto.getAspectosId())){
 								krdxAlumActitud = (aca.kardex.KrdxAlumActitud)mapActitud.get(kardex.getCodigoId()+promedio+"0"+aspecto.getAspectosId());
 								nota = krdxAlumActitud.getNota();
-								System.out.println("NOTA : "+nota);
 								sumaAspectos += Float.parseFloat(krdxAlumActitud.getNota());
 								cantidadAspectos++;
 							}	
