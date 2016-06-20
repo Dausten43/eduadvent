@@ -64,7 +64,7 @@
 	ArrayList<aca.catalogo.CatAspectos> lisAspectos 	= AspectosL.getListAspectos(conElias, escuelaId, cicloGrupo.getNivelId(), " ORDER BY ORDEN");
 	
 	// Lista de promedios	
-	ArrayList<aca.catalogo.CatAspectosCal> lisAspectosCal 	= AspectosCalL.getListPorNivel(conElias, escuelaId, cicloGrupo.getNivelId()," ORDER BY CAL_ID");
+	ArrayList<aca.catalogo.CatAspectosCal> lisAspectosCal 	= AspectosCalL.getListPorNivel(conElias, escuelaId, cicloGrupo.getNivelId()," ORDER BY CAL_ID DESC");
 	
 	// Lista de alumnos en la materia
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos	= kardexLista.getListAll(conElias,escuelaId, "AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
@@ -233,12 +233,20 @@
 						for(aca.catalogo.CatAspectos aspecto : lisAspectos){
 									
 							String nota = "0";
+							
+							System.out.println("CODIGO : "+kardex.getCodigoId());
+							System.out.println("PROMEDIO : "+promedio);
+							System.out.println("ASPECTO : "+aspecto.getAspectosId());
+							System.out.println("ASPECTO : "+aspecto.getAspectosId());
+							cicloGrupo.getNivelId()
+							
 							if (mapActitud.containsKey(kardex.getCodigoId()+promedio+"0"+aspecto.getAspectosId())){
 								krdxAlumActitud = (aca.kardex.KrdxAlumActitud)mapActitud.get(kardex.getCodigoId()+promedio+"0"+aspecto.getAspectosId());
 								nota = krdxAlumActitud.getNota();
+								System.out.println("NOTA : "+nota);
 								sumaAspectos += Float.parseFloat(krdxAlumActitud.getNota());
 								cantidadAspectos++;
-							}														
+							}	
 							
 					%>
 					<td class="text-center">
