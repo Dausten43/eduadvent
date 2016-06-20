@@ -1857,7 +1857,21 @@
 						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
 			    celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 			    celda.setBorder(0);
-				t.addCell(celda);				
+				t.addCell(celda);
+				
+				celda = new PdfPCell(new Phrase(" "
+						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
+	            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				celda.setBorder(0);
+				celda.setColspan(2);
+				t.addCell(celda);
+				
+				celda = new PdfPCell(new Phrase(" "
+						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
+	            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				celda.setBorder(0);
+				celda.setColspan(2);
+				t.addCell(celda);			
 				
 				celda = new PdfPCell(new Phrase("ACUDIENTE:__________________________________\n"
 						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
