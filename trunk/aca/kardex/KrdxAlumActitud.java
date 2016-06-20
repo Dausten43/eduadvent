@@ -98,7 +98,7 @@ public class KrdxAlumActitud {
 					+ " VALUES(?, ?, ?,"
 					+ " TO_NUMBER(?, '99'),"
 					+ " TO_NUMBER(?, '99'),"
-					+ " TO_NUMBER(?, '99'),"
+					+ " TO_NUMBER(?, '999'),"
 					+ " TO_NUMBER(?, '999.99'))");
 			
 			ps.setString(1, codigoId);
@@ -135,7 +135,7 @@ public class KrdxAlumActitud {
 					" AND CURSO_ID = ?" +
 					" AND PROMEDIO_ID = TO_NUMBER(?, '99')" +
 					" AND EVALUACION_ID = TO_NUMBER(?, '99')" +
-					" AND ASPECTOS_ID = TO_NUMBER(?,'99')");		
+					" AND ASPECTOS_ID = TO_NUMBER(?,'999')");		
 			
 			ps.setString(1, nota);
 			ps.setString(2, codigoId);			
@@ -168,7 +168,7 @@ public class KrdxAlumActitud {
 					" AND CURSO_ID = ?" +
 					" AND PROMEDIO_ID = TO_NUMBER(?,'99')"+
 					" AND EVALUACION_ID = TO_NUMBER(?,'99')"+
-					" AND ASPECTOS_ID = TO_NUMBER(?,'99')");
+					" AND ASPECTOS_ID = TO_NUMBER(?,'999')");
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
@@ -213,7 +213,7 @@ public class KrdxAlumActitud {
 					" AND CURSO_ID = ?"+
 					" AND PROMEDIO_ID = TO_NUMBER(?,'99')"+
 					" AND EVALUACION_ID = TO_NUMBER(?,'99')"+
-					" AND ASPECTOS_ID = TO_NUMBER(?,99)");
+					" AND ASPECTOS_ID = TO_NUMBER(?,999)");
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
@@ -246,7 +246,7 @@ public class KrdxAlumActitud {
 					" AND CURSO_ID = ?" +
 					" AND PROMEDIO_ID = TO_NUMBER(?, '99')"+
 					" AND EVALUACION_ID = TO_NUMBER(?, '99')"+
-					" AND ASPECTOS_ID = TO_NUMBER(?, '99')");
+					" AND ASPECTOS_ID = TO_NUMBER(?, '999')");
 			ps.setString(1, codigoId);
 			ps.setString(2, cicloGrupoId);
 			ps.setString(3, cursoId);
