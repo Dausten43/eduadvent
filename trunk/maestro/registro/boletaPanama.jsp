@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
 <%@ include file= "../../con_elias.jsp" %>
@@ -1225,24 +1226,24 @@
 									}
 								}
 			    		        if(sumaFaltas > 0){//Si la suma de faltas es mayor que cero
-				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaFaltas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaFaltas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    		        }
 			    		        
 			    		        if(sumaTardanzas > 0){//Si la suma de tardanzas es mayor que cero
-				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaTardanzas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaTardanzas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -1866,7 +1867,8 @@
 				celda.setBorder(0);
 				t.addCell(celda);	
 				
-				celda = new PdfPCell(new Phrase(" "
+				String fecha = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+				celda = new PdfPCell(new Phrase("FECHA: "+fecha
 						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
 	            celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 				celda.setBorder(0);
