@@ -19,6 +19,10 @@ double saldoAlumno 		= aca.fin.FinMovimientos.saldoAlumno(conElias, auxiliar, fe
 CatParametro.mapeaRegId(conElias, escuela);
 double deudaLimite = Double.parseDouble(CatParametro.getBloqueaPortal()) * -1;
 //System.out.println("Datos:"+saldoAlumno+":"+deudaLimite);
+
+
+
+
 %>
 
 <ul class="nav nav-tabs">	
@@ -28,9 +32,8 @@ double deudaLimite = Double.parseDouble(CatParametro.getBloqueaPortal()) * -1;
 	  <li class="documentos"><a href="docalum.jsp">Documentos</a></li>
 	  <li class="materias"><a href="materias.jsp"><fmt:message key="aca.Materias"/></a></li>
 	  <li class="notas"><a href="notas.jsp"><fmt:message key="aca.Notas"/></a></li>
-	  <li class="disciplina"><a href="disciplina.jsp"><fmt:message key="aca.Mentoria"/></a></li>	  
+	  <li class="disciplina"><a href="disciplina.jsp"><fmt:message key="aca.Mentoria"/></a></li>	
+<%	} %>	  
 	  <li class="tareas"><a href="tareas.jsp"><fmt:message key="portal.Tareas"/></a></li>
-<%
-	}
-%>	  
+  
 </ul>
