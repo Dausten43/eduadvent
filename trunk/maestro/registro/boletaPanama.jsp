@@ -156,6 +156,7 @@
 				wrapTable.setWidthPercentage(100f);
 				wrapTable.setKeepTogether(true);
 				wrapTable.setSpacingBefore(30f);
+				wrapTable.setSplitLate(false);
 				
 				float headerwidths[] = {10f, 90f};
 				PdfPTable topTable = new PdfPTable(headerwidths);
@@ -197,7 +198,7 @@
 				CatEscuela ce = new CatEscuela();
 				ce.mapeaRegId(conElias, escuela);
 	            
-	            cell = new PdfPCell(new Phrase(ce.getEscuelaNombre(), FontFactory.getFont(FontFactory.COURIER_OBLIQUE, 12, Font.BOLD, new BaseColor(0,0,0))));
+	            cell = new PdfPCell(new Phrase(ce.getEscuelaNombre(), FontFactory.getFont(FontFactory.HELVETICA, 20, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(borde);
 				topTable.addCell(cell);
