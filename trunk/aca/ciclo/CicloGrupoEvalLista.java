@@ -112,6 +112,7 @@ public class CicloGrupoEvalLista {
 		try{
 			comando = "SELECT "+
 				" CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, EVALUACION_NOMBRE,"+
+				" TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, VALOR, TIPO, ESTADO, CALCULO, ORDEN, PROMEDIO_ID"+
 				" FROM CICLO_GRUPO_EVAL"+
 				" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' "+ orden;
 			
