@@ -338,17 +338,14 @@
 				}
 	            
 	    		//int colsWidth[] = {3, 12, 25, 3, 3, 3, 3, 3, 5, 7, 5, 7, 3, 3, 3, 3, 3, 6};
-	    		float colsWidth[] = new float[8+(cantidadTrimestres*3)];
+	    		float colsWidth[] = new float[5+(cantidadTrimestres*3)];
 	    		int cont = 0;
 	    		colsWidth[cont++] = 3;//0
-	    		colsWidth[cont++] = 25;//2
+	    		colsWidth[cont++] = 43;//2
 	    		for(int j = 0; j < cantidadTrimestres; j++){
-	    			colsWidth[cont++] = 42/cantidadTrimestres;
+	    			colsWidth[cont++] = 30/cantidadTrimestres;
 	    		}
-	    		colsWidth[cont++] = 6;
-	    		colsWidth[cont++] = 6;
-	    		colsWidth[cont++] = 6;
-	    		colsWidth[cont++] = 6;
+	    		colsWidth[cont++] = 18;
 	    		for(int j = 0; j < cantidadTrimestres*2; j++){
 	    			colsWidth[cont++] = 30/(cantidadTrimestres*2);
 	    		}
@@ -461,7 +458,7 @@
 		    						celda = new PdfPCell(new Phrase());
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
-		    						celda.setColspan(4);
+		    						//celda.setColspan(4);
 		    						tabla.addCell(celda);
 		    						
 		    						celda = new PdfPCell(new Phrase("AUSENCIAS-TARDANZAS", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
@@ -497,11 +494,11 @@
 		    						celda.setBorder(0);
 		    						tabla.addCell(celda);
 		    						
-		    						celda = new PdfPCell(new Phrase());
+		    						/*celda = new PdfPCell(new Phrase());
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 		    						celda.setColspan(3);
-		    						tabla.addCell(celda);
+		    						tabla.addCell(celda);*/
 		    						
 		    						if(ciclo.getNivelEval().equals("P")){
 		    		 					for(CicloPromedio cp: cicloPromedioList){
@@ -558,7 +555,7 @@
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
-		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						/*celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
@@ -569,7 +566,7 @@
 		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
-		    						tabla.addCell(celda);
+		    						tabla.addCell(celda);*/
 		    						
 		    						if(ciclo.getNivelEval().equals("P")){
 		    		 					for(CicloPromedio cp: cicloPromedioList){
@@ -660,7 +657,7 @@
 		    	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	        				tabla.addCell(celda);
 		    	    		    	}
-		    	    		    	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+		    	    		    	/*celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	    				tabla.addCell(celda);
 		    	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
@@ -668,7 +665,7 @@
 		    	    				tabla.addCell(celda);
 		    	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    	    				tabla.addCell(celda);
+		    	    				tabla.addCell(celda);*/
 		    	   	    	    				
 		    	    				for(int l = 0; l < lisBloque.size(); l++){
 		    	    					if(faltasPorBimestre[l] > 0){
@@ -970,7 +967,7 @@
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    				}
-			    		        if(!estanTodasCerradas){
+			    		        /*if(!estanTodasCerradas){
 			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
@@ -1002,7 +999,7 @@
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
-			    		        }
+			    		        }*/
 			    		        //for(int l = 0; l < lisBloque.size(); l++){
 			    		        /*for(int l = 0; l < cantidadTrimestres; l++){
 			    		        	switch(l+1){
@@ -1274,7 +1271,7 @@
 		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     						celda.setBorder(0);
 		    				tabla.addCell(celda);
-		    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+		    				/*celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     						celda.setBorder(0);
 		    				tabla.addCell(celda);
@@ -1285,7 +1282,7 @@
 		    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     						celda.setBorder(0);
-		    				tabla.addCell(celda);
+		    				tabla.addCell(celda);*/
 		    				//for(int l = 0; l < lisBloque.size(); l++){
 		    				for(int l = 0; l < cantidadTrimestres; l++){
 		    					celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
@@ -1477,7 +1474,7 @@
 	    		    	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(0);
-						celda.setColspan(5+(cantidadTrimestres*2));
+						celda.setColspan(2+(cantidadTrimestres*2));
 	    				tabla.addCell(celda);
 	    				
 	    				boolean todasTienenCalificacion = true;
@@ -1534,7 +1531,7 @@
 	    		    	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(2);
-						celda.setColspan(5+(cantidadTrimestres*2));
+						celda.setColspan(2+(cantidadTrimestres*2));
 	    				tabla.addCell(celda);
 	    				
     					oficial = curso.getTipocursoId();
