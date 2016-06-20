@@ -10,7 +10,7 @@
 </style>
 
 <%
-String auxiliar		= session.getAttribute("codigoId").toString();
+String auxiliar		= session.getAttribute("codigoAlumno").toString();
 String escuela		= (String) session.getAttribute("escuela");
 String fechaHoy 	= aca.util.Fecha.getHoy();
 
