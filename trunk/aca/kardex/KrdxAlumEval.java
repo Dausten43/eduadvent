@@ -102,8 +102,7 @@ public class KrdxAlumEval {
 		
 		//PreparedStatement ps = null;
 		Statement st = conn.createStatement();
-		String comando						= "";
-		int rs 								= 0;
+		String comando						= "";		
 		boolean ok 							= false;
 		
 		try{
