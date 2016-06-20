@@ -450,7 +450,7 @@
 		    						celda.setBorder(0);
 		    						tabla.addCell(celda);
 		    						
-	    							celda = new PdfPCell(new Phrase("Calificaciones", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
+	    							celda = new PdfPCell(new Phrase("CALIFICACIONES", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 		    						celda.setColspan(cantidadTrimestres);
@@ -462,13 +462,13 @@
 		    						celda.setColspan(4);
 		    						tabla.addCell(celda);
 		    						
-		    						celda = new PdfPCell(new Phrase("Ausencias-Tardanzas", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("AUSENCIAS-TARDANZAS", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 		    						celda.setColspan((cantidadTrimestres*2));
 		    						tabla.addCell(celda);
 		    						
-		    						celda = new PdfPCell(new Phrase("Total", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 		    						celda.setColspan(2);
@@ -484,7 +484,7 @@
 		    						celda.setBorder(0);
 		    						tabla.addCell(celda);
 		    						
-	    							celda = new PdfPCell(new Phrase("Trimestres", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
+	    							celda = new PdfPCell(new Phrase("TRIMESTRES", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 		    						celda.setColspan(cantidadTrimestres);
@@ -519,7 +519,7 @@
 		    							}
 		    						}
 		    						
-		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("TOTAL", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 		    						celda.setColspan(2);
@@ -531,7 +531,7 @@
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
 		    						
-		    						celda = new PdfPCell(new Phrase("Asignaturas", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("ASIGNATURAS", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
@@ -556,15 +556,15 @@
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
-		    						celda = new PdfPCell(new Phrase("Fecha", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
-		    						celda = new PdfPCell(new Phrase("Ext.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
-		    						celda = new PdfPCell(new Phrase("Fecha", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
@@ -969,7 +969,7 @@
 				    				tabla.addCell(celda);
 			    				}
 			    		        if(!estanTodasCerradas){
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -980,7 +980,7 @@
 				    				tabla.addCell(celda);
 			    		        }
 			    		        if(alumnoCurso.getNotaExtra() == null){//Si no tiene nota de extraordinario
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -991,7 +991,7 @@
 				    				tabla.addCell(celda);
 			    		        }
 			    		        if(alumnoCurso.getFExtra() == null){//Si no tiene nota de extraordinario
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -1839,54 +1839,52 @@
  				wrapTable.addCell(cell);
 				
 				String firma = "";
-				int contFirmas = 0;
+				int contFirmas = 2;
 				boolean tablaVacia = false;
-				
-				if ((firmaDirector) || (firmaPadre)){					  
-					if (firmaDirector){ 
-						firma = "Firma Director"; 
-						contFirmas++; 
-					}
-					if (firmaPadre){
-						firma = "Firma Padre";
-						contFirmas++; 
-					}
-				}else{
-					contFirmas = 1;
-					tablaVacia = true;
-				}				
+								
 				
 				PdfPTable t = new PdfPTable(contFirmas);
 				
-				if(contFirmas == 1 && tablaVacia==false){
-					
-					celda = new PdfPCell(new Phrase("_______________________________\n" + firma
-							, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
-					celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-					celda.setBorder(0);
-					t.addCell(celda);					
-					
-				}else if(contFirmas == 2){
+				
+
+	            
+	            celda = new PdfPCell(new Phrase("CONSEJERO(A):_______________________________\n"
+						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
+	            celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+				celda.setBorder(0);
+				t.addCell(celda);	
 										    
-					    celda = new PdfPCell(new Phrase("_______________________________\nFirma Director"
-								, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
-					    celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-					    celda.setBorder(0);
-						t.addCell(celda);
-					    
-			            PdfPCell celda2 = null;
-			            
-			            celda2 = new PdfPCell(new Phrase("_______________________________\nFirma Padre"
-								, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
-			            celda2.setHorizontalAlignment(Element.ALIGN_CENTER);
-						celda2.setBorder(0);
-						t.addCell(celda2);					
-				}else if (tablaVacia){
-					celda = new PdfPCell(new Phrase(" " + firma
-							, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));					
-					celda.setBorder(0);
-					t.addCell(celda);
-				}
+			    celda = new PdfPCell(new Phrase("DIRECTOR(A):_______________________________\n"
+						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+			    celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+			    celda.setBorder(0);
+				t.addCell(celda);				
+				
+				celda = new PdfPCell(new Phrase("ACUDIENTE:__________________________________\n"
+						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
+	            celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+				celda.setBorder(0);
+				t.addCell(celda);	
+				
+				celda = new PdfPCell(new Phrase(" "
+						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
+	            celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+				celda.setBorder(0);
+				t.addCell(celda);
+				
+				celda = new PdfPCell(new Phrase(" "
+						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
+	            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				celda.setBorder(0);
+				celda.setColspan(2);
+				t.addCell(celda);
+				
+				celda = new PdfPCell(new Phrase("Cristo Viene Pronto... !Prepárate!"
+						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
+	            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				celda.setBorder(0);
+				celda.setColspan(2);
+				t.addCell(celda);	
 				
 				
 				wrapTable.addCell(t);
