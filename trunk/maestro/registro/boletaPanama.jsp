@@ -893,10 +893,12 @@
 											if(curso.getTipocursoId().equals("3"))
 												sumaPorTrimestreIngles[l] += Float.parseFloat(valor);
 											valor = String.valueOf(frm.format(Double.parseDouble(valor)));
+											
 											if(Float.parseFloat(valor) == 0){
 												materiasSinNota[l]++;
-												if(curso.getTipocursoId().equals("3"))
+												if(curso.getTipocursoId().equals("3")){
 													materiasSinNotaIngles[l]++;
+												}
 											}
 										}else{
 											materiasSinNota[l]++;
@@ -926,13 +928,15 @@
 												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
 												if(Float.parseFloat(valor) == 0){
 													materiasSinNota[contador]++;
-													if(curso.getTipocursoId().equals("3"))
+													if(curso.getTipocursoId().equals("3")){
 														materiasSinNotaIngles[contador]++;
+													}
 												}
 											}else{
 												materiasSinNota[contador]++;
-												if(curso.getTipocursoId().equals("3"))
+												if(curso.getTipocursoId().equals("3")){
 													materiasSinNotaIngles[contador]++;
+												}
 											}
 											
 											celda = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
@@ -1432,7 +1436,6 @@
 	    				tabla.addCell(celda);
 	    				
 	    				for(int l = 0; l < cantidadTrimestres; l++){
-	    					
 	    					if(sumaPorTrimestreIngles[l] > 0 && cantidadMaterias > 0){
 	    						int materiasTmp = materiasIngles;
 	    						materiasTmp = materiasTmp-materiasSinNotaIngles[l];
