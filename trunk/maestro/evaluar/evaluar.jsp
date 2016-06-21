@@ -70,8 +70,6 @@
 	function cerrarEvaluacion(evaluacion, notasConCero){
 		if(confirm("<fmt:message key="js.CerrarEvaluacion"/>")==true){
 	  		if(notasConCero == 'NO' || confirm("<fmt:message key="js.FaltanNotasPorIngresar"/>")){
-
-	  		}else{
 	  			document.forma.Evaluacion.value = evaluacion;
 				document.forma.Accion.value = "3";
 				document.forma.submit();	
@@ -338,9 +336,9 @@
 			
 			if (nota != null) {
 				if (nota.equals("")){//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota 
-					
 					if(kardexEval.existeReg(conElias)){
-						if(kardexEval.deleteReg(conElias)){
+						kardexEval.setNota("0");
+						if(kardexEval.updateReg(conElias)){
 							//Elimino correctamente
 						}else{
 							error = true; break;
@@ -1155,7 +1153,7 @@
 					</td>
 					<td style="padding:0px;">
 						<%if (eval.getEstado().equals("A")) {
-							String notasConCero = "SI";
+							String notasConCero = "NO";
 							if (aca.ciclo.CicloGrupoEval.tieneNotasConCero(conElias, cicloGrupoId, cursoId, eval.getEvaluacionId()).equals(lisKardexAlumnos.size()+"")) {
 								notasConCero = "NO";
 							}
