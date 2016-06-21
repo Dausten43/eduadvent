@@ -13,6 +13,7 @@ public class FinCuenta {
 	private String beca;
 	private String tipo;
 	private String pagoInicial;
+	private String muestraSaldoRecibo;
 	
 	public FinCuenta(){
 		escuelaId		= "0";
@@ -22,6 +23,7 @@ public class FinCuenta {
 		beca			= "N";
 		tipo			= "";
 		pagoInicial		= "0";
+		muestraSaldoRecibo = "N";
 	}
 	
 	/**
@@ -122,14 +124,24 @@ public class FinCuenta {
 		this.pagoInicial = pagoInicial;
 	}
 	
+	
+	
+
+	public String getMuestraSaldoRecibo() {
+		return muestraSaldoRecibo;
+	}
+
+	public void setMuestraSaldoRecibo(String muestraSaldoRecibo) {
+		this.muestraSaldoRecibo = muestraSaldoRecibo;
+	}
 
 	public boolean insertReg(Connection conn) throws SQLException{
         boolean ok = false;
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement(
-                    "INSERT INTO FIN_CUENTA(ESCUELA_ID, CUENTA_ID, CUENTA_NOMBRE, CUENTA_SUNPLUS, BECA, TIPO, PAGO_INICIAL)" +
-                    " VALUES(?, ?, ?, ?, ?, ?, TO_NUMBER(?,'999.99'))");
+                    "INSERT INTO FIN_CUENTA(ESCUELA_ID, CUENTA_ID, CUENTA_NOMBRE, CUENTA_SUNPLUS, BECA, TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO)" +
+                    " VALUES(?, ?, ?, ?, ?, ?, TO_NUMBER(?,'999.99'),?)");
             
             ps.setString(1, escuelaId);
             ps.setString(2, cuentaId);
@@ -138,6 +150,7 @@ public class FinCuenta {
             ps.setString(5, beca);
             ps.setString(6, tipo);
             ps.setString(7, pagoInicial);
+            ps.setString(8, muestraSaldoRecibo);
             
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -159,7 +172,7 @@ public class FinCuenta {
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement(" UPDATE FIN_CUENTA " +
-            	" SET CUENTA_NOMBRE = ?, CUENTA_SUNPLUS = ?, ESCUELA_ID = ?, BECA = ?, TIPO = ?, PAGO_INICIAL = TO_NUMBER(?,'999.99')" +
+            	" SET CUENTA_NOMBRE = ?, CUENTA_SUNPLUS = ?, ESCUELA_ID = ?, BECA = ?, TIPO = ?, PAGO_INICIAL = TO_NUMBER(?,'999.99'), MUESTRA_SALDO_RECIBO=?" +
             	" WHERE CUENTA_ID = ?");
             ps.setString(1, cuentaNombre);
             ps.setString(2, cuentaSunPlus);
@@ -167,14 +180,15 @@ public class FinCuenta {
             ps.setString(4, beca);
             ps.setString(5, tipo);
             ps.setString(6, pagoInicial);
-            ps.setString(7, cuentaId);
-
+            ps.setString(8, cuentaId);
+            ps.setString(7, muestraSaldoRecibo);
+            System.out.println("saldo recibo " + muestraSaldoRecibo);
             if(ps.executeUpdate() == 1){
                 ok = true;
             }
 
         }catch (Exception ex){
-            System.out.println("Error - aca.fin.FinCuenta|updateReg|:" + ex);
+            System.err.println("Error - aca.fin.FinCuenta|updateReg|:" + ex);
         }finally{
         	 if(ps != null){
                  ps.close();
@@ -214,6 +228,7 @@ public class FinCuenta {
 		beca			= rs.getString("BECA");
 		tipo			= rs.getString("TIPO");
 		pagoInicial		= rs.getString("PAGO_INICIAL");
+		muestraSaldoRecibo = rs.getString("MUESTRA_SALDO_RECIBO");
     }
         
     public void mapeaRegId(Connection con, String cuentaId) throws SQLException{
@@ -221,7 +236,7 @@ public class FinCuenta {
         PreparedStatement ps = null; 
         try{
 	        ps = con.prepareStatement("SELECT ESCUELA_ID, CUENTA_ID, CUENTA_NOMBRE, CUENTA_SUNPLUS, BECA," +
-	        		" COALESCE(TIPO,'-') AS TIPO, COALESCE(PAGO_INICIAL,0) AS PAGO_INICIAL" +
+	        		" COALESCE(TIPO,'-') AS TIPO, COALESCE(PAGO_INICIAL,0) AS PAGO_INICIAL, MUESTRA_SALDO_RECIBO" +
 	        		" FROM FIN_CUENTA WHERE CUENTA_ID = ?");
 	        ps.setString(1, cuentaId); 
 	        

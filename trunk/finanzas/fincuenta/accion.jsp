@@ -16,6 +16,7 @@
 		document.frmCuenta.Accion.value="1";
 		document.frmCuenta.Caja.value=" ";
 		document.frmCuenta.Alumno.value=" ";
+		document.frmCuenta.muestraSaldoRecibo.value="";
 		document.frmCuenta.submit();
 	}
 	
@@ -81,6 +82,8 @@
 			Cuenta.setTipo(tipo);
 			Cuenta.setCuentaSunPlus(request.getParameter("SunPlus"));
 			Cuenta.setPagoInicial(request.getParameter("PagoInicial"));	
+			String muestraSaldo = request.getParameter("muestraSaldoRecibo")!=null ? request.getParameter("muestraSaldoRecibo") : "N" ;
+			Cuenta.setMuestraSaldoRecibo(muestraSaldo); 
 			conElias.setAutoCommit(false);
 			if (Cuenta.existeReg(conElias) == false){
 				if (Cuenta.insertReg(conElias)){
@@ -190,6 +193,10 @@
 	        	% <fmt:message key="aca.PagoInicial" />
 	        </label>
 	        <input class="input-small" name="PagoInicial" type="text" id="PagoInicial" value="<%=Cuenta.getPagoInicial()%>" size="5" maxlength="5">
+		</fieldset>
+	
+		<fieldset>
+	    	<input type="checkbox" class="tipo" id="muestraSaldoRecibo" name="muestraSaldoRecibo" value="S" <%if(Cuenta.getMuestraSaldoRecibo()!=null && Cuenta.getMuestraSaldoRecibo().contains("S")) out.print("Checked");%> /> <fmt:message key="aca.MuestraSaldoRecibo" />
 		</fieldset>
 	
 		<div class="well">
