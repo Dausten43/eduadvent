@@ -70,6 +70,8 @@
 	function cerrarEvaluacion(evaluacion, notasConCero){
 		if(confirm("<fmt:message key="js.CerrarEvaluacion"/>")==true){
 	  		if(notasConCero == 'NO' || confirm("<fmt:message key="js.FaltanNotasPorIngresar"/>")){
+
+	  		}else{
 	  			document.forma.Evaluacion.value = evaluacion;
 				document.forma.Accion.value = "3";
 				document.forma.submit();	
@@ -1153,7 +1155,7 @@
 					</td>
 					<td style="padding:0px;">
 						<%if (eval.getEstado().equals("A")) {
-							String notasConCero = "NO";
+							String notasConCero = "SI";
 							if (aca.ciclo.CicloGrupoEval.tieneNotasConCero(conElias, cicloGrupoId, cursoId, eval.getEvaluacionId()).equals(lisKardexAlumnos.size()+"")) {
 								notasConCero = "NO";
 							}
