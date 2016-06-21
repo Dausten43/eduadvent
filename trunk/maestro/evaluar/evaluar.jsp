@@ -333,6 +333,7 @@
 			kardexEval.setCursoId(cursoId);
 			kardexEval.setEvaluacionId(evaluacion);
 			String nota = request.getParameter("nota" + cont + "-" + evaluacion);
+			
 			if (nota != null) {
 				if (nota.equals("")){//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota 
 					
@@ -429,7 +430,6 @@
 	else if(accion.equals("3")){
 		
 		String evaluacion = request.getParameter("Evaluacion");
-		
 		conElias.setAutoCommit(false);//** END TRANSACTION **
 		boolean error = false;
 		
@@ -462,6 +462,7 @@
 				}
 				
 				/* Guardar promedio del alumno en krdx_curso_act */
+				
 				kardex.setNota(frmDecimal.format(promedio));
 				kardex.setFNota(aca.util.Fecha.getHoy());
 				
@@ -1152,7 +1153,7 @@
 					</td>
 					<td style="padding:0px;">
 						<%if (eval.getEstado().equals("A")) {
-							String notasConCero = "SI";
+							String notasConCero = "NO";
 							if (aca.ciclo.CicloGrupoEval.tieneNotasConCero(conElias, cicloGrupoId, cursoId, eval.getEvaluacionId()).equals(lisKardexAlumnos.size()+"")) {
 								notasConCero = "NO";
 							}
