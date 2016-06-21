@@ -17,6 +17,7 @@
 <jsp:useBean id="Coordenada" scope="page" class="aca.fin.FinCoordenada" />
 <jsp:useBean id="Escuela" scope="page" class="aca.catalogo.CatEscuela" />
 <jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonal" />
+<jsp:useBean id="Cuenta" scope="page" class="aca.fin.FinCuenta"/>
 <style>
 @media print , screen {
 	
@@ -61,8 +62,11 @@
 		
 		// Verifica si existe el logo
 		boolean tieneLogo = false;
+		
 		String dirFoto = application.getRealPath("/imagenes/logos/" + logoEscuela);
+		
 		java.io.File foto = new java.io.File(dirFoto);
+		
 		if (foto.exists()) {
 			tieneLogo = true;
 		} else {
@@ -88,20 +92,22 @@
 %>
 <div id="content">
 	<table class="tabla" style="margin: 0 auto; width: 95%">
+	<tr>
+		<td colspan="3" style="text-align: center;"><h2><%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%></h2></td>
+	</tr>
 		<tr class="encabezado">
-			<td style="width: 20%; text-align: center;"><img
-				src="<%=rutaLogo%>" width="50%"></td>
-			<td style="width: 50%; text-align: center;">
-				<h2><%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%></h2>
+			<td style="width: 30%; text-align: center; "><img
+				src="<%=rutaLogo%>" width="40%" style="vertical-align:super;"></td>
+			<td style="width: 40%; text-align: center; vertical-align: text-top;">
+				
 				<strong>Direcci&oacute;n:</strong> <%=Escuela.getDireccion()%>, <%=Escuela.getColonia()%>
 				<br> <strong>Tel&eacute;fono: </strong><%=Escuela.getTelefono()%>
 			</td>
 			<td style="width: 30%; text-align: right;">
-				<h4>
-					No. Recibo<br> [
+					<span style="font-size: 11px;"># Recibo</span><h4> [
 					<%=finRecibo.getReciboId()%>
 					]
-				</h4> <span style="font-size: 11px;"></span><strong>Póliza:</strong>[ <%=polizaId%>
+				</h4> <span style="font-size: 12px;"></span><strong>Póliza:</strong>[ <%=polizaId%>
 				]</span><br> <span style="font-size: 11px;"><strong>Fecha
 						y Hora:</strong> [ <%=fechayHora%> ]</span><br> <span
 				style="text-align: right; font-size: 16px"><strong>Por:
@@ -123,7 +129,7 @@
 
 	<table class="table table-fullcondensed"  style="margin: 0 auto; width: 95%">
 		<tr class="headerTabla">
-			<th>Cuenta</th>
+			
 			<th>Descripcion</th>
 			<th style="text-align: right;">Saldo</th>
 			<th style="text-align: right;">Monto</th>
@@ -142,7 +148,15 @@
 		
 			for (FinMovimientos movimientos : lista) {
 				
-				String saldoStr = aca.fin.FinMovimientos.getSaldoAnterior(conElias, movimientos.getAuxiliar(), movimientos.getFecha().substring(0,10));
+				String saldoStr = "0";
+				String saldoFormat ="-";
+				
+				Cuenta.mapeaRegId(conElias, movimientos.getCuentaId());
+				
+				if(Cuenta.getMuestraSaldoRecibo().equals("S")){
+					saldoStr = aca.fin.FinMovimientos.getSaldoAnterior(conElias, movimientos.getAuxiliar(), movimientos.getFecha().substring(0,10));
+					saldoFormat=saldoFormat =formato.format(Double.parseDouble(saldoStr));
+				}
 
 					//for( int i=0; i<lista.size(); i++){
 					//aca.fin.FinMovimientos movimientos= (aca.fin.FinMovimientos)lista.get(i);
@@ -157,10 +171,10 @@
 							movimientos.getPolizaId());
 		%>
 		<tr style="font-size: 11px">
-			<td><%=movimientos.getAuxiliar()%></td>
-			<td><%=Alumno.getNombre(conElias, movimientos.getAuxiliar(), "NOMBRE")%>
+
+			<td><%=movimientos.getAuxiliar()%>-<%=Alumno.getNombre(conElias, movimientos.getAuxiliar(), "NOMBRE")%>-<%= Cuenta.getCuentaNombre() %> 
 				<%=movimientos.getDescripcion()%></td>
-			<td style="text-align: right"><%=formato.format(Double.parseDouble(saldoStr))%></td>
+			<td style="text-align: right"><%= saldoFormat %></td>
 			<td style="text-align: right"><%=formato.format(Double.parseDouble(movimientos.getImporte()))%></td>
 			<td style="text-align: right"><%= formato.format(new BigDecimal(movimientos.getImporte()).add(new BigDecimal(saldoStr))) %></td>
 		</tr>
@@ -168,8 +182,8 @@
 			}
 		%>
 		<tr class="totalFinal">
-			<td colspan="2" ><%= complTipoPago %> </td>
-			<td style="text-align: right;"> <strong>Total Pagado: </strong></td>
+			<td colspan="1" ><%= complTipoPago %> </td>
+			<td style="text-align: right; font-size: 11px;"> <strong>Total Pagado: </strong></td>
 			<td style="text-align: right"><%=formato.format(Double.parseDouble(finRecibo.getImporte()))%></td>
 			<td></td>
 		</tr>
