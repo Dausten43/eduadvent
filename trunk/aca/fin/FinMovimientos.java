@@ -608,7 +608,7 @@ public class FinMovimientos {
 
         try {
             ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN 1 ELSE -1 END),0) AS SALDO" +
-            		" FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD/MM/YYYY')");
+            		" FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD/MM/YYYY') and estado<>'C'");
             
             ps.setString(1, auxiliar);
 	        ps.setString(2, fecha);
@@ -664,7 +664,7 @@ public class FinMovimientos {
 					+ " WHERE POLIZA_ID IN "
 					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estadoPoliza+") AND TIPO IN ("+tipoPoliza+") "
 					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
-					+ " AND NATURALEZA = '"+naturaleza+"'";				
+					+ " AND NATURALEZA = '"+naturaleza+"' and and estado<>'C'";				
 			
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
@@ -750,7 +750,7 @@ public class FinMovimientos {
 			comando = " SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'D' THEN -1 ELSE 1 END),0) AS SALDO"
 					+ " FROM FIN_MOVIMIENTOS"
 					+ " WHERE AUXILIAR = '"+auxiliar+"'"
-					+ " AND FECHA <= TO_DATE('"+fecha+"','DD/MM/YYYY')";
+					+ " AND FECHA <= TO_DATE('"+fecha+"','DD/MM/YYYY') and estado<>'C'";
 								
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
