@@ -1441,8 +1441,8 @@
 	    						materiasTmp = materiasTmp-materiasSinNotaIngles[l];
 	    						
 	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasTmp"+materiasTmp);
-	    						sumaPorTrimestre[l] = new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 1, RoundingMode.DOWN).floatValue();
-    	    					celda = new PdfPCell(new Phrase( frm3.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    						sumaPorTrimestreIngles[l] = new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 1, RoundingMode.DOWN).floatValue();
+    	    					celda = new PdfPCell(new Phrase( frm3.format(sumaPorTrimestreIngles[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(0);
     	        				tabla.addCell(celda);
@@ -1497,7 +1497,7 @@
 	    						int materiasTmp = materias;
 	    						materiasTmp = materiasTmp-materiasSinNota[l];
 	    						
-	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasTmp"+materiasTmp);
+	    						System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasTmp"+materiasTmp);
 	    						sumaPorTrimestre[l] = new BigDecimal(sumaPorTrimestre[l]+"").divide(new BigDecimal(materiasTmp+""), 1, RoundingMode.DOWN).floatValue();
     	    					celda = new PdfPCell(new Phrase( frm3.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1582,7 +1582,7 @@
  				aspectosTable.addCell(cell);
  				
  				if(ciclo.getNivelEval().equals("P")){
- 					System.out.println("ciclo.getNiveEval() = P");
+ 					//System.out.println("ciclo.getNiveEval() = P");
  					for(int k = 0; k < cicloPromedioList.size(); k++){
 						cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
 						
@@ -1593,7 +1593,7 @@
 		 				aspectosTable.addCell(cell);
 					}
 				}else if(ciclo.getNivelEval().equals("E")){
-					System.out.println("ciclo.getNiveEval() = E");
+					//System.out.println("ciclo.getNiveEval() = E");
 					for(CicloBloque cb: lisBloque){
 						cell = new PdfPCell(new Phrase(cb.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
