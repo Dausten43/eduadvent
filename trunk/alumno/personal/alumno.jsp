@@ -89,7 +89,7 @@
 		if(document.frmPersonal.CodigoPersonal.value!=""){
 			if(confirm("<fmt:message key="aca.EliminarRegistro" />")==true){
 	  			document.frmPersonal.Accion.value	= "5";
-				document.frmPersonal.submit();
+				document.frm.submit();
 			}			
 		}else{
 			alert("<fmt:message key="js.EscribaClave" />");
@@ -234,6 +234,7 @@
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));		
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
 			Personal.setTipoSangre(request.getParameter("TipoSangre"));
+			Personal.setEstado(request.getParameter("Status").equals("")?"A":request.getParameter("Status"));
 			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			conElias.setAutoCommit(false);
@@ -299,6 +300,7 @@
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
 			Personal.setTipoSangre(request.getParameter("TipoSangre"));
+			Personal.setEstado(request.getParameter("Status").equals("")?"A":request.getParameter("Status"));
 			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			Personal.setDiscapacidad("-");
@@ -431,7 +433,7 @@
 			Personal.setTelefono(request.getParameter("Telefono"));
 			Personal.setCotejado(request.getParameter("Cotejado"));
 			Personal.setGrado(request.getParameter("Grado"));
-			Personal.setEstado("A");
+			Personal.setEstado(request.getParameter("Status"));
 			Personal.setGrupo(request.getParameter("Grupo"));
 			Personal.setActa(request.getParameter("Acta")==null?"-":request.getParameter("Acta"));
 			Personal.setCrip(request.getParameter("Crip")==null?"-":request.getParameter("Crip"));
@@ -774,6 +776,16 @@
 		            	<input name="Iglesia" type="hidden" value="<%=Personal.getIglesia()%>" /> 
 	              	<% } %>
 				</p>
+				
+				<p>
+	            	<label>
+	            		Status
+	            	</label> 
+					<select name="Status" class="input-medium" <%if(inscrito){out.print("Disabled");} %>>
+	            		<option value="A" <%if(Personal.getEstado().equals("A")) out.print("Selected"); %>>Activo</option>
+	            		<option value="I" <%if(Personal.getEstado().equals("I")) out.print("Selected"); %>>Inactivo</option>
+	              	</select>
+	            </p>
 			</div>
 		</div>
 		
