@@ -64,7 +64,7 @@
 	ArrayList<aca.catalogo.CatAspectos> lisAspectos 	= AspectosL.getListAspectos(conElias, escuelaId, cicloGrupo.getNivelId(), " ORDER BY ORDEN");
 	
 	// Lista de promedios	
-	ArrayList<aca.catalogo.CatAspectosCal> lisAspectosCal 	= AspectosCalL.getListPorNivel(conElias, escuelaId, cicloGrupo.getNivelId()," ORDER BY CAL_ID");
+	ArrayList<aca.catalogo.CatAspectosCal> lisAspectosCal 	= AspectosCalL.getListPorNivel(conElias, escuelaId, cicloGrupo.getNivelId()," ORDER BY CAL_ID DESC");
 	
 	// Lista de alumnos en la materia
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos	= kardexLista.getListAll(conElias,escuelaId, "AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)");
