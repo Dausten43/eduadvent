@@ -336,13 +336,26 @@
 			
 			if (nota != null) {
 				if (nota.equals("")){//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota 
-					if(kardexEval.existeReg(conElias)){
-						kardexEval.setNota("0");
-						if(kardexEval.updateReg(conElias)){
-							//Elimino correctamente
-						}else{
-							error = true; break;
-						}	
+					
+					if(!aca.plan.PlanCurso.getCursoBase(conElias, kardex.getCursoId()).equals("-")){
+						if(kardexEval.existeReg(conElias)){
+							kardexEval.setNota(Float.toString(notaMinima));
+							if(kardexEval.updateReg(conElias)){
+								//Elimino correctamente
+							}else{
+								error = true; break;
+							}	
+						}
+					}else{
+						
+						if(kardexEval.existeReg(conElias)){
+							if(kardexEval.deleteReg(conElias)){
+								//Elimino correctamente
+							}else{
+								error = true; break;
+							}	
+						}
+						
 					}
 					
 				}else{//Si tiene nota entonces guardarla
@@ -1153,7 +1166,7 @@
 					</td>
 					<td style="padding:0px;">
 						<%if (eval.getEstado().equals("A")) {
-							String notasConCero = "NO";
+							String notasConCero = "SI";
 							if (aca.ciclo.CicloGrupoEval.tieneNotasConCero(conElias, cicloGrupoId, cursoId, eval.getEvaluacionId()).equals(lisKardexAlumnos.size()+"")) {
 								notasConCero = "NO";
 							}
