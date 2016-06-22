@@ -317,7 +317,7 @@
 	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
 	
 /* ********************************** ACCIONES ********************************** */
-	String msj = "";	
+	String msj = request.getParameter("msj")==null?"":request.getParameter("msj");	
 
 //------------- GUARDA CALIFICACIONES DE UNA EVALUACION ------------->
 	if (accion.equals("1")) {
@@ -419,6 +419,12 @@
 						}
 					}
 				msj = "Guardado";
+				
+				%>
+				<script>
+					document.location = "evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>&msj=Guardado";
+				</script>
+				<%
 
 			}else{
 			%>
