@@ -807,11 +807,17 @@
 	    						celda.setBorder(0);
 			    				tabla.addCell(celda);
 			    				
-			    				
-			    				celda = new PdfPCell(new Phrase(curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
-			    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-	    						celda.setBorder(0);
-			    				tabla.addCell(celda);
+			    				if(curso.getCursoBase().equals("-")){
+				    				celda = new PdfPCell(new Phrase(curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+		    						celda.setBorder(0);
+				    				tabla.addCell(celda);
+			    				}else{//Si es materia hija
+			    					celda = new PdfPCell(new Phrase("   "+curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+		    						celda.setBorder(0);
+				    				tabla.addCell(celda);
+			    				}
 			    				materias++;
 			    				if(curso.getTipocursoId().equals("3"))
 			    					materiasIngles++;
