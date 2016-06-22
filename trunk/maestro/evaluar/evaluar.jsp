@@ -218,9 +218,10 @@
 	/*
 	 * EVALUAR DERIVADAS
 	 */
-	function evaluarDerivadas(bloque){		
+	function evaluarDerivadas(bloque, evalId){		
 		document.forma.Derivadas.value = "1";
 		document.forma.DerivadasTrimestre.value = bloque;
+		document.forma.EvalId.value = evalId;
 		document.forma.submit();
 	}
 	
@@ -250,7 +251,10 @@
 	
 	String evaluarDerivadas	= request.getParameter("Derivadas") == null?"0":request.getParameter("Derivadas");
 	String deriTrimestre	= request.getParameter("DerivadasTrimestre") == null?"0":request.getParameter("DerivadasTrimestre");
-
+	String evalId			= request.getParameter("EvalId") == null?"0":request.getParameter("EvalId");
+	
+	System.out.println(evalId);
+	
 	String accion 			= request.getParameter("Accion") == null?"0":request.getParameter("Accion");
 	String cicloGrupoId	 	= request.getParameter("CicloGrupoId");
 	String cursoId 			= request.getParameter("CursoId");
@@ -406,7 +410,7 @@
 		if (evaluarDerivadas.equals("1")) {
 			ArrayList<aca.kardex.KrdxAlumEval> listEval = kardexEvalLista.getListHija(conElias, cursoId, aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre));
 			
-			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A")){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
+			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A", "P", evalId)){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
 				
 					for(aca.kardex.KrdxAlumEval evalua:  listEval){
 						if(evalua.updateReg(conElias)){ //SE DEMORA UNOS SEGUNDOS MAS SI MANDAMOS A CORRER EL EXISTEREG ANTES DE HACERLO UPDATE; 
@@ -1145,6 +1149,18 @@
 						<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
 							<%=eval.getEvaluacionNombre()%>
 						</a> 
+													<%
+									/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
+								if(listaMateriasDerivadas.size() > 0){
+%>
+								<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
+								<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,<%=eval.getEvaluacionId()%> )">
+									Promediar derivadas
+								</button>			
+<%	
+								}	
+%>		
+	
 						<%	}else{%>
 								<%=eval.getEvaluacionNombre() %>
 						<%	}%>
@@ -1302,6 +1318,7 @@
 	<form action="evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
 		<input type="hidden" name="Derivadas" />
 		<input type="hidden" name="DerivadasTrimestre" />
+		<input type="hidden" name="EvalId" />
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="Evaluacion" />
 		<input type="hidden" name="Promedio" />
