@@ -78,18 +78,28 @@ public class KrdxAlumEvalLista {
 	}
 	
 	
-	public ArrayList<KrdxAlumEval> getListHija(Connection conn, String cursoBase, String decimal ) throws SQLException{
+	public ArrayList<KrdxAlumEval> getListHija(Connection conn, String cursoBase, String decimal, String redTrunc ) throws SQLException{
 		ArrayList<KrdxAlumEval> lisEval 	= new ArrayList<KrdxAlumEval>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
+		
+		
 		try{
-			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, '"+cursoBase+"' AS CURSO_ID, EVALUACION_ID,  CAST(AVG(NOTA) AS DECIMAL(10,"+decimal+")) NOTA, "
-					+ " CAST(AVG(FALTA) AS DECIMAL(10,"+decimal+"))  FALTA,  CAST(AVG(CONDUCTA) AS DECIMAL(10,"+decimal+")) CONDUCTA, PROMEDIO_ID"
-					+ " FROM krdx_alum_eval WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+cursoBase+"')"
-					+ " GROUP BY CODIGO_ID, CICLO_GRUPO_ID, EVALUACION_ID, PROMEDIO_ID ORDER BY CODIGO_ID";
 			
+			if(redTrunc.equals("T")){
+				comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, '"+cursoBase+"' AS CURSO_ID, EVALUACION_ID,  TRUNC(AVG(NOTA),"+decimal+") NOTA, "
+						+ " TRUNC(AVG(FALTA), "+decimal+")  FALTA,  TRUNC(AVG(CONDUCTA),"+decimal+") CONDUCTA, PROMEDIO_ID"
+						+ " FROM krdx_alum_eval WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+cursoBase+"')"
+						+ " GROUP BY CODIGO_ID, CICLO_GRUPO_ID, EVALUACION_ID, PROMEDIO_ID ORDER BY CODIGO_ID";
+			}else{
+				comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, '"+cursoBase+"' AS CURSO_ID, EVALUACION_ID,  CAST(AVG(NOTA) AS DECIMAL(10,"+decimal+")) NOTA, "
+						+ " CAST(AVG(FALTA) AS DECIMAL(10,"+decimal+"))  FALTA,  CAST(AVG(CONDUCTA) AS DECIMAL(10,"+decimal+")) CONDUCTA, PROMEDIO_ID"
+						+ " FROM krdx_alum_eval WHERE CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+cursoBase+"')"
+						+ " GROUP BY CODIGO_ID, CICLO_GRUPO_ID, EVALUACION_ID, PROMEDIO_ID ORDER BY CODIGO_ID";
+				
+			}
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
 				
@@ -595,7 +605,7 @@ public class KrdxAlumEvalLista {
 		boolean existe	= false;	
 		try{ 
 			
-			if (!tipo.equals(tipo)){
+			if (tipo.equals("P")){
 			comando = "SELECT CASE WHEN EXISTS ( SELECT * FROM CICLO_GRUPO_EVAL "
 					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+curosBase+"')"
 					+ " AND PROMEDIO_ID='"+promedioId+"' AND ESTADO = '"+estado+"')"
