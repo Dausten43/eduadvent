@@ -266,7 +266,7 @@
 				cell.setBorder(1);
 				alumnoTable.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("CEDULA : ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase("CÉDULA : ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(2);
@@ -1434,7 +1434,7 @@
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(0);
 	    				tabla.addCell(celda);
-	    				celda = new PdfPCell(new Phrase("Promedio de Ingles", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    				celda = new PdfPCell(new Phrase("Promedio de Inglés", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(0);
 	    				tabla.addCell(celda);
@@ -1579,7 +1579,7 @@
 				aspectosTable.setHorizontalAlignment(Element.ALIGN_CENTER);
 				aspectosTable.setSpacingAfter(5f);
 				
-				cell = new PdfPCell(new Phrase("ASPECTOS DE HABITOS Y ACTITUDES", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase("ASPECTOS DE HÁBITOS Y APTITUDES", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(0);
@@ -1820,7 +1820,7 @@
  				cell.setBorder(0);
  				notesTable.addCell(cell);
  				
- 				cell = new PdfPCell(new Phrase("Hábitos y Actitudes se califican así\n"+
+ 				cell = new PdfPCell(new Phrase("Hábitos y Aptitudes se califican así\n"+
  						"S = Satisfactorio\n"+
  						"R = Regular\n"+
  						"X = No Satisfactorio", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
