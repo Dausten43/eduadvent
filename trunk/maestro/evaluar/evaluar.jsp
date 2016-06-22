@@ -418,6 +418,7 @@
 							//System.out.println("Insert");
 						}
 					}
+				msj = "Guardado";
 
 			}else{
 			%>
