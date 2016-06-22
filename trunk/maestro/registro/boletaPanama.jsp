@@ -1451,8 +1451,8 @@
 	    						materiasTmp = materiasTmp-materiasSinNotaIngles[l];
 	    						
 	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasTmp"+materiasTmp);
-	    						sumaPorTrimestreIngles[l] = new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 1, RoundingMode.DOWN).floatValue();
-    	    					celda = new PdfPCell(new Phrase( frm3.format(sumaPorTrimestreIngles[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    						double resultado = Math.round(((float) sumaPorTrimestreIngles[l])/((float)materiasTmp) * 100.0) / 100.0;//new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 1, RoundingMode.DOWN).floatValue();
+    	    					celda = new PdfPCell(new Phrase( frm3.format(resultado), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(0);
     	        				tabla.addCell(celda);
@@ -1638,7 +1638,7 @@
 				
 				for(int j = 0; j < aspectosList.size(); j++){
 					catAspectos = (aca.catalogo.CatAspectos) aspectosList.get(j);
-					
+					System.out.println(catAspectos.getNombre());
 					cell = new PdfPCell(new Phrase(catAspectos.getNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
@@ -1678,28 +1678,32 @@
 							}else if(ciclo.getNivelEval().equals("E")){
 								System.out.println("E");
 								//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
-								for(CicloBloque cb: lisBloque){
-									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-									float valor = 0f;
-									String resultado = "-";
-									for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
-										//System.out.println(krdxAlumActitud.getAspectos());
-										if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
-												krdxAlumActitud.getPromedioId().equals(cb.getPromedioId()) &&
-												krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-											valor = Float.parseFloat(krdxAlumActitud.getNota());
-											resultado = valor==1?"X":resultado;
-											resultado = valor==2?"R":resultado;
-											resultado = valor==3?"S":resultado;
-											break;
+								//for(CicloBloque cb: lisBloque){
+								for(CicloGrupoEval cge: listaCicloGrupoEval){
+									if(cge.getCicloGrupoId().equals(cicloGrupoId) &&
+											cge.getCursoId().equals(curso.getCursoId())){
+										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
+										float valor = 0f;
+										String resultado = "-";
+										for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
+											//System.out.println(krdxAlumActitud.getAspectos());
+											if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
+													krdxAlumActitud.getEvaluacionId().equals(cge.getEvaluacionId()) &&
+													krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
+												valor = Float.parseFloat(krdxAlumActitud.getNota());
+												resultado = valor==1?"X":resultado;
+												resultado = valor==2?"R":resultado;
+												resultado = valor==3?"S":resultado;
+												break;
+											}
 										}
-									}
 									
-									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
-					 				cell.setBorder(0);
-					 				aspectosTable.addCell(cell);
+										cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+						 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+										cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+						 				cell.setBorder(0);
+						 				aspectosTable.addCell(cell);
+									}
 								}
 							}
 							
@@ -1738,33 +1742,37 @@
 								}
 							}else if(ciclo.getNivelEval().equals("E")){
 								//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
-								for(CicloBloque cb: lisBloque){
-									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-									float valor = 0f;
-									
-									for(aca.plan.PlanCurso c: cursos){
-										for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
-											//System.out.println(krdxAlumActitud.getAspectos());
-											if(krdxAlumActitud.getCursoId().equals(c.getCursoId()) && 
-													krdxAlumActitud.getPromedioId().equals(cb.getPromedioId()) &&
-													krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-												valor += Float.parseFloat(krdxAlumActitud.getNota());
-												break;
+								//for(CicloBloque cb: lisBloque){
+								for(CicloGrupoEval cge: listaCicloGrupoEval){
+									if(cge.getCicloGrupoId().equals(cicloGrupoId) &&
+											cge.getCursoId().equals(curso.getCursoId())){
+										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
+										float valor = 0f;
+										
+										for(aca.plan.PlanCurso c: cursos){
+											for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
+												//System.out.println(krdxAlumActitud.getAspectos());
+												if(krdxAlumActitud.getCursoId().equals(c.getCursoId()) && 
+														krdxAlumActitud.getEvaluacionId().equals(cge.getEvaluacionId()) &&
+														krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
+													valor += Float.parseFloat(krdxAlumActitud.getNota());
+													break;
+												}
 											}
 										}
+										valor = valor/(float)cursos.size();
+										valor = Math.round(valor);
+										String resultado = "-";
+										resultado = valor==1?"X":resultado;
+										resultado = valor==2?"R":resultado;
+										resultado = valor==3?"S":resultado;
+										
+										cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+						 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+										cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+						 				cell.setBorder(0);
+						 				aspectosTable.addCell(cell);
 									}
-									valor = valor/(float)cursos.size();
-									valor = Math.round(valor);
-									String resultado = "-";
-									resultado = valor==1?"X":resultado;
-									resultado = valor==2?"R":resultado;
-									resultado = valor==3?"S":resultado;
-									
-									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
-					 				cell.setBorder(0);
-					 				aspectosTable.addCell(cell);
 								}
 							}
 						}else{//No hay ninguna materia con aspectos materiasConASpectos = 0
@@ -1928,9 +1936,10 @@
 			
 		document.close();
 %>
-	<head>
+	<!--  head>
 		<meta http-equiv='REFRESH' content='0; url=boleta<%=cicloGrupoId %>.pdf'>
-	</head>
+	</head -->
+	<iframe src="boleta<%=cicloGrupoId %>.pdf" style="position: absolute; top: 50px; width: 99%; height:93%;"></iframe>
 <%
 	}else{
 %>
