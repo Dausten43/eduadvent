@@ -1,3 +1,4 @@
+<%@page import="aca.ciclo.CicloBloque"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
 <%@page import="aca.ciclo.CicloPromedio"%>
 <%@page import="aca.kardex.KrdxAlumExtra"%>
@@ -406,11 +407,19 @@
 		mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);		
 	}
 	
+
+	
+	
 	//------------- GUARDA CALIFICACIONES DE UNA MATERIA DRIVADA ------------->
 		if (evaluarDerivadas.equals("1")) {
-			ArrayList<aca.kardex.KrdxAlumEval> listEval = kardexEvalLista.getListHija(conElias, cursoId, aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre));
 			
-			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A", "P", evalId)){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
+			String decimales = nivelEvaluacion=="P"?aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, evalId):aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre);
+			String redondeo	= nivelEvaluacion=="P"?aca.ciclo.CicloBloque.getRedondeo(conElias, cicloId, evalId):aca.ciclo.CicloPromedio.getRedondeo(conElias, cicloId, deriTrimestre);
+			
+			System.out.println(redondeo);
+			ArrayList<aca.kardex.KrdxAlumEval> listEval = kardexEvalLista.getListHija(conElias, cursoId, decimales, redondeo);
+			
+			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A", nivelEvaluacion, evalId)){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
 				
 					for(aca.kardex.KrdxAlumEval evalua:  listEval){
 						if(evalua.updateReg(conElias)){ //SE DEMORA UNOS SEGUNDOS MAS SI MANDAMOS A CORRER EL EXISTEREG ANTES DE HACERLO UPDATE; 
@@ -1108,7 +1117,7 @@
 		if(listaMateriasDerivadas.size() > 0){
 %>
 		<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
-		<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>)">
+		<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,'')">
 			Promediar derivadas
 		</button>			
 <%	
