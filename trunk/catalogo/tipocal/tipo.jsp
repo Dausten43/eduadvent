@@ -52,7 +52,7 @@
 		}
 	}
 	
-	ArrayList<aca.catalogo.CatAspectosCal> aspectos		= AspectosCalL.getListAll(conElias,escuela, "");	
+	ArrayList<aca.catalogo.CatAspectosCal> aspectos		= AspectosCalL.getListAll(conElias,escuela, "ORDER BY NIVEL_ID, CAL_ID");	
 %>
 
 <div id="content">
