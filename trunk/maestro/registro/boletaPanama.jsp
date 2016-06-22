@@ -147,6 +147,7 @@
 				
 				planClase.mapeaRegId(conElias, plan);
 				
+				System.out.println(plan);
 				ArrayList<aca.plan.PlanCurso> lisCurso;
 				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND BOLETA = 'S' AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, ORDEN");
 				ArrayList lisAlumnoCurso = alumnoCursoLista.getListAll(conElias, escuela," AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
@@ -410,7 +411,8 @@
 		    				alumnoCurso.setCal10( alumnoCurso.getCal10().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal10())) );
 		    				
 		    				//System.out.println("Paso 4.1:"+codigoAlumno+":"+curso.getCursoNombre()+":"+);
-		    				if(alumnoCurso.getCursoId().equals(curso.getCursoId()) && cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
+		    				//if(alumnoCurso.getCursoId().equals(curso.getCursoId()) && cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
+		    				if(cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
 		    					
 		    					if (Integer.parseInt(curso.getGrado()) != numGrado){
 		    	    				numGrado = 	Integer.parseInt(curso.getGrado());
@@ -804,6 +806,8 @@
 			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 	    						celda.setBorder(0);
 			    				tabla.addCell(celda);
+			    				
+			    				
 			    				celda = new PdfPCell(new Phrase(curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 			    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 	    						celda.setBorder(0);
@@ -1638,50 +1642,54 @@
 					
 						
 						if(materiasConAspectos == 1){//Una sola materia
-							//System.out.println("una materia - materiasConAspectos = "+materiasConAspectos);
+							System.out.println("una materia - materiasConAspectos = "+materiasConAspectos);
 							if(ciclo.getNivelEval().equals("P")){
-			 					for(int k = 0; k < cicloPromedioList.size(); k++){
+			 					System.out.println("P");
+								for(int k = 0; k < cicloPromedioList.size(); k++){
 									cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
 									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-									String valor = "-";
+									float valor = 0f;
+									String resultado = "-";
 									for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
 										//System.out.println(krdxAlumActitud.getAspectos());
 										if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
 												krdxAlumActitud.getPromedioId().equals(cicloPromedio.getPromedioId()) &&
 												krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-											valor = krdxAlumActitud.getNota();
-											valor = valor.equals("1")?"X":valor;
-											valor = valor.equals("2")?"R":valor;
-											valor = valor.equals("3")?"S":valor;
+											valor = Float.parseFloat(krdxAlumActitud.getNota());
+											resultado = valor==1?"X":resultado;
+											resultado = valor==2?"R":resultado;
+											resultado = valor==3?"S":resultado;
 											break;
 										}
 									}
 									
-									cell = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 					 				cell.setBorder(0);
 					 				aspectosTable.addCell(cell);
 								}
 							}else if(ciclo.getNivelEval().equals("E")){
+								System.out.println("E");
 								//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
 								for(CicloBloque cb: lisBloque){
 									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-									String valor = "-";
+									float valor = 0f;
+									String resultado = "-";
 									for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
 										//System.out.println(krdxAlumActitud.getAspectos());
 										if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
 												krdxAlumActitud.getPromedioId().equals(cb.getPromedioId()) &&
 												krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-											valor = krdxAlumActitud.getNota();
-											valor = valor.equals("1")?"X":valor;
-											valor = valor.equals("2")?"R":valor;
-											valor = valor.equals("3")?"S":valor;
+											valor = Float.parseFloat(krdxAlumActitud.getNota());
+											resultado = valor==1?"X":resultado;
+											resultado = valor==2?"R":resultado;
+											resultado = valor==3?"S":resultado;
 											break;
 										}
 									}
 									
-									cell = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 					 				cell.setBorder(0);
@@ -1691,7 +1699,7 @@
 							
 							
 						}else if(materiasConAspectos > 1){//Mas de una materia para promediar
-							//System.out.println("muchas materias - materiasConAspectos = "+materiasConAspectos);
+							System.out.println("muchas materias - materiasConAspectos = "+materiasConAspectos);
 							if(ciclo.getNivelEval().equals("P")){
 								for(int k = 0; k < cicloPromedioList.size(); k++){
 									cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
