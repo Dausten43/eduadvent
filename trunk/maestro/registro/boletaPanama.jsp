@@ -898,17 +898,19 @@
 										if(mapPromAlumno.containsKey(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId())){
 											valor = mapPromAlumno.get(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()).getNota();
 											sumaNotas += Float.parseFloat(valor);
-											trimestresConNota++;
 											sumaPorTrimestre[l] += Float.parseFloat(valor);
 											if(curso.getTipocursoId().equals("3"))
 												sumaPorTrimestreIngles[l] += Float.parseFloat(valor);
 											valor = String.valueOf(frm.format(Double.parseDouble(valor)));
 											
 											if(Float.parseFloat(valor) == 0){
+												valor ="--";
 												materiasSinNota[l]++;
 												if(curso.getTipocursoId().equals("3")){
 													materiasSinNotaIngles[l]++;
 												}
+											}else{
+												trimestresConNota++;
 											}
 										}else{
 											materiasSinNota[l]++;
@@ -937,10 +939,13 @@
 													sumaPorTrimestreIngles[contador] += Float.parseFloat(valor);
 												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
 												if(Float.parseFloat(valor) == 0){
+													valor ="--";
 													materiasSinNota[contador]++;
 													if(curso.getTipocursoId().equals("3")){
 														materiasSinNotaIngles[contador]++;
 													}
+												}else{
+													trimestresConNota++;
 												}
 											}else{
 												materiasSinNota[contador]++;
