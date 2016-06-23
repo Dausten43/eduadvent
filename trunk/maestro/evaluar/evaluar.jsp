@@ -1104,17 +1104,15 @@
 		<fmt:message key="aca.Valor" />: [<%= promedio.getValor() %>] &nbsp;
 <%		
 		if (planCurso.getAspectos().equals("S")){
-			if (nivelEvaluacion.equals("P")){
 %>		
 		<a class="btn btn-mobile btn-success btn-mini" href="evaluarActitudesProm.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>&PromedioId=<%=promedio.getPromedioId()%>">
 			<i class="icon-star icon-white"></i>
 		</a>
 <%		 	
-			}
 		}
 
 		/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
-		if(listaMateriasDerivadas.size() > 0){
+		if(listaMateriasDerivadas.size() > 0 && nivelEvaluacion.equals("P")){
 %>
 		<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
 		<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,'')">
@@ -1160,7 +1158,7 @@
 						</a> 
 													<%
 									/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
-								if(listaMateriasDerivadas.size() > 0){
+								if(listaMateriasDerivadas.size() > 0 && nivelEvaluacion.equals("E")){
 %>
 								<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
 								<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,<%=eval.getEvaluacionId()%> )">
