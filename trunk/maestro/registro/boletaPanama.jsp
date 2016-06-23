@@ -147,7 +147,7 @@
 				
 				planClase.mapeaRegId(conElias, plan);
 				
-				System.out.println(plan);
+				//System.out.println(plan);
 				ArrayList<aca.plan.PlanCurso> lisCurso;
 				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, ORDEN");
 				ArrayList lisAlumnoCurso = alumnoCursoLista.getListAll(conElias, escuela," AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
@@ -1643,7 +1643,7 @@
 				
 				for(int j = 0; j < aspectosList.size(); j++){
 					catAspectos = (aca.catalogo.CatAspectos) aspectosList.get(j);
-					System.out.println(catAspectos.getNombre());
+					
 					cell = new PdfPCell(new Phrase(catAspectos.getNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
@@ -1653,9 +1653,9 @@
 					
 						
 						if(materiasConAspectos == 1){//Una sola materia
-							System.out.println("una materia - materiasConAspectos = "+materiasConAspectos);
+							//System.out.println("una materia - materiasConAspectos = "+materiasConAspectos);
 							if(ciclo.getNivelEval().equals("P")){
-			 					System.out.println("P");
+			 					//System.out.println("P");
 								for(int k = 0; k < cicloPromedioList.size(); k++){
 									cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
 									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
@@ -1681,7 +1681,7 @@
 					 				aspectosTable.addCell(cell);
 								}
 							}else if(ciclo.getNivelEval().equals("E")){
-								System.out.println("E");
+								//System.out.println("E");
 								//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
 								//for(CicloBloque cb: lisBloque){
 								for(CicloGrupoEval cge: listaCicloGrupoEval){
@@ -1763,14 +1763,14 @@
 														krdxAlumActitud.getEvaluacionId().equals(cge.getEvaluacionId()) &&
 														krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
 													valor += Float.parseFloat(krdxAlumActitud.getNota());
-													System.out.println(krdxAlumActitud.getNota());
+													//System.out.println(krdxAlumActitud.getNota());
 													break;
 												}
 											}
 										}
 										valor = valor/(float)cursos.size();
 										valor = Math.round(valor);
-										System.out.println("Aspectos: "+valor);
+										//System.out.println("Aspectos: "+valor);
 										String resultado = "-";
 										resultado = valor==1?"X":resultado;
 										resultado = valor==2?"R":resultado;
@@ -1785,7 +1785,7 @@
 								}
 							}
 						}else{//No hay ninguna materia con aspectos materiasConASpectos = 0
-							System.out.println("sin materias - materiasConAspectos = "+materiasConAspectos);
+							//System.out.println("sin materias - materiasConAspectos = "+materiasConAspectos);
 							if(ciclo.getNivelEval().equals("P")){
 								for(int k = 0; k < cicloPromedioList.size(); k++){
 									cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
