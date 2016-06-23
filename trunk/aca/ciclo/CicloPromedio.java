@@ -437,5 +437,31 @@ public class CicloPromedio {
 		return total;
 	}
 	
+	public static String getRedondeo(Connection conn, String cicloId, String promedioId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String total 			= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT REDONDEO FROM CICLO_PROMEDIO WHERE CICLO_ID = ? AND PROMEDIO_ID = TO_NUMBER(?,'99')");
+			ps.setString(1, cicloId);
+			ps.setString(2, promedioId);
+			
+			rs= ps.executeQuery();	
+			if(rs.next()){
+				total = rs.getString("REDONDEO");
+			}	
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloPromedio|getRedondeo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return total;
+	}
+	
+	
 }
 
