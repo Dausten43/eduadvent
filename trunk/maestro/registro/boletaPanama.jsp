@@ -149,7 +149,7 @@
 				
 				System.out.println(plan);
 				ArrayList<aca.plan.PlanCurso> lisCurso;
-				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND BOLETA = 'S' AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, ORDEN");
+				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, ORDEN");
 				ArrayList lisAlumnoCurso = alumnoCursoLista.getListAll(conElias, escuela," AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 				float wrapwidth[] = {100f};
 				PdfPTable wrapTable = new PdfPTable(wrapwidth);
@@ -390,7 +390,7 @@
 	    				}
 	    			}
  			
-	    			if(cursoEncontrado){
+	    			if(cursoEncontrado && curso.getBoleta().equals("S")){
 						
 	    				
 		    			cantidadMaterias++;
