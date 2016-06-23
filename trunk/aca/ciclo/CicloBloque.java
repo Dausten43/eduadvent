@@ -507,6 +507,33 @@ public class CicloBloque {
 		return decimales;
 	}
 	
+	public static String getRedondeo(Connection conn, String cicloId, String bloqueId) throws SQLException{
+		
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String decimales		= "0";
+		
+		try{
+			ps = conn.prepareStatement("SELECT REDONDEO FROM CICLO_BLOQUE" +
+					" WHERE CICLO_ID = ? AND BLOQUE_ID = TO_NUMBER(?, '99')");
+			ps.setString(1, cicloId);
+			ps.setString(2, bloqueId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				decimales = rs.getString("REDONDEO");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloBloque|getRedondeo|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return decimales;
+	}
+	
 	public static String getCalculo(Connection conn, String cicloId, String bloqueId) throws SQLException{
 		
 		PreparedStatement ps	= null;
