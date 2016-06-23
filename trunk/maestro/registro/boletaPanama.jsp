@@ -1709,8 +1709,9 @@
 							
 							
 						}else if(materiasConAspectos > 1){//Mas de una materia para promediar
-							System.out.println("muchas materias - materiasConAspectos = "+materiasConAspectos);
+							//System.out.println("muchas materias - materiasConAspectos = "+materiasConAspectos);
 							if(ciclo.getNivelEval().equals("P")){
+								//System.out.println("muchas materias - P");
 								for(int k = 0; k < cicloPromedioList.size(); k++){
 									cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
 									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
@@ -1741,6 +1742,7 @@
 					 				aspectosTable.addCell(cell);
 								}
 							}else if(ciclo.getNivelEval().equals("E")){
+								//System.out.println("muchas materias - E");
 								//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
 								//for(CicloBloque cb: lisBloque){
 								for(CicloGrupoEval cge: listaCicloGrupoEval){
@@ -1756,12 +1758,14 @@
 														krdxAlumActitud.getEvaluacionId().equals(cge.getEvaluacionId()) &&
 														krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
 													valor += Float.parseFloat(krdxAlumActitud.getNota());
+													System.out.println(krdxAlumActitud.getNota());
 													break;
 												}
 											}
 										}
 										valor = valor/(float)cursos.size();
 										valor = Math.round(valor);
+										System.out.println("Aspectos: "+valor);
 										String resultado = "-";
 										resultado = valor==1?"X":resultado;
 										resultado = valor==2?"R":resultado;
