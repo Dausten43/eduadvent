@@ -270,6 +270,8 @@
 		}break;
 		case 4: { // Modificar
 		
+			System.out.println("Status"+request.getParameter("Cedula"));
+				
 			strPlanId = request.getParameter("Plan");		
 			Personal.setEscuelaId(escuelaId);
 			Personal.setNombre(request.getParameter("Nombre"));
@@ -300,8 +302,8 @@
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
 			Personal.setTipoSangre(request.getParameter("TipoSangre"));
-			Personal.setEstado(request.getParameter("Status").equals("")?"A":request.getParameter("Status"));
-			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
+			Personal.setEstado(request.getParameter("Status")==null?"A":request.getParameter("Status"));
+			Personal.setTutorCedula(request.getParameter("Cedula")==null?"-":request.getParameter("Cedula"));
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			Personal.setDiscapacidad("-");
 			
