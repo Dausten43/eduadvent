@@ -1,4 +1,9 @@
 <%@page import="aca.util.Fecha"%>
+<%@ page import= "java.io.BufferedReader" %>
+<%@ page import= "java.io.FileNotFoundException"  %>
+<%@ page import= "java.io.FileReader" %>
+<%@ page import= "java.io.IOException" %>
+
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -10,6 +15,8 @@
 <jsp:useBean id="MovimientosL" scope="page" class="aca.fin.FinMovimientosLista"/>
 <jsp:useBean id="MovsSunPlusL" scope="page" class="aca.sunplus.AdvASalfldgLista"/>
 <jsp:useBean id="CatParametro" scope="page"	class="aca.catalogo.CatParametro" />
+<jsp:useBean id="escuela" scope="page"	class="aca.catalogo.CatEscuela" />
+
 <link rel="stylesheet" href="../../bootstrap/datepicker/datepicker.css" />
 <script type="text/javascript" src="../../bootstrap/datepicker/datepicker.js"></script>
 <%
@@ -22,11 +29,17 @@
 	String accion 		= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	String resultado	= "";
 	boolean usaSunPlus	= aca.catalogo.CatParametro.esSunPlus(conElias, escuelaId);
-	
+
 	String fechaHoy 		= aca.util.Fecha.getHoy();
 	String fechaInicio 		= request.getParameter("fechaInicio")==null?"01/01/"+aca.util.Fecha.getYearNum():request.getParameter("fechaInicio");
 	String fechaFinal		= request.getParameter("fechaFinal")==null?"31/12/"+aca.util.Fecha.getYearNum():request.getParameter("fechaFinal");
-	
+	String txtPersonalizado ="";
+	String archivo = "textopersonalizado.txt";
+    //System.out.println(archivo);
+	FileReader f = new FileReader(getServletContext().getRealPath("/")+"finanzas/cuenta/"+archivo);
+    BufferedReader b = new BufferedReader(f);
+	escuela.mapeaRegId(conElias, escuelaId.toString());
+		
 	AlumPersonal.mapeaRegId(conElias, codigoId);
 	
 	// Movimientos registrados en EduAdvent
@@ -34,6 +47,7 @@
 	
 	// Movimientos registrados en SunPlus
 	ArrayList<aca.sunplus.AdvASalfldg> lisMovimientosSunPlus = null;
+	
 	
 	// Valida si usa el sunplus y activa la conexión
 	if (usaSunPlus){
@@ -50,6 +64,7 @@
 %>
 
 <div id="content">
+	<center></center><h3><%=escuela.getEscuelaNombre() %></h3></center>
 	<h2>
 		Estado de cuenta 
 		<small> <%=codigoId %> | <%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %> <%=AlumPersonal.getNombre() %></small>
@@ -167,6 +182,14 @@
 		
 	</table>
 	
+	<%
+	String cadena="";
+    while((cadena = b.readLine())!=null) {
+        txtPersonalizado = txtPersonalizado+cadena;
+    }
+    b.close();	
+	
+	if (total< 0 && escuelaId.toString().contains("H")) { %><table class="table table-condensed table-bordered"><tr><td><%=txtPersonalizado %></td></tr></table><% } %>
 </div>
 <script>
 	jQuery('#fechaInicio').datepicker();
