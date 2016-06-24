@@ -189,7 +189,7 @@
     }
     b.close();	
 	
-	if (total< 0 && escuelaId.toString().contains("H")) { %><table class="table table-condensed table-bordered"><tr><td><%=txtPersonalizado %></td></tr></table><% } %>
+	if (total< 0 && escuelaId.toString().contains("H") && txtPersonalizado.substring(0,2).equalsIgnoreCase("SI")) { %><table class="table table-condensed table-bordered"><tr><td><%=txtPersonalizado.substring(3) %></td></tr></table><% } %>
 </div>
 <script>
 	jQuery('#fechaInicio').datepicker();
