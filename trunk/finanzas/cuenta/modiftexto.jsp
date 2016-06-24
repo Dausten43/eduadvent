@@ -71,7 +71,7 @@ if (nuevotexto!=null && nuevotexto!=""){
 <form name="frmtexto" id="frmtexto" method="post" action="modiftexto.jsp">
 <table class="table table-condensed table-bordered table-striped">
 <tr><td><textarea id="textopersonalizado" name="textopersonalizado" cols="500" rows="10"><%=txtPersonalizado%></textarea></td></tr>
-<tr><td><input type="checkbox" class="checkbox"  id="chk_mostrar" name="chk_mostrar" value="SI" <% if (txtMostrar.equalsIgnoreCase("SI")){out.println("checked='checked'");} %>> Mostrar Mensaje a los deudores</td></tr>
+<tr><td><div class="checkbox checkbox-primary"><input onclick="javascript:document.frmtexto.submit();" type="checkbox" id="chk_mostrar" name="chk_mostrar" value="SI" <% if (txtMostrar.equalsIgnoreCase("SI")){out.println("checked='checked'");} %>><label for="chk_mostrar">Mostrar Mensaje a los deudores</label> </div></td></tr>
 <tr><td><a class="btn btn-success" onclick="javascript:document.frmtexto.submit();">Modificar texto</a></td></tr>
 </table>
 </form>
