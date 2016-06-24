@@ -1,1 +1,2 @@
-Su cuenta presenta un atraso favor de hacer los pagos correspondientes,<br> si usted ya hizo el pago favor de hacer caso omiso a este mensaje gracias
+SI:Su cuenta presenta pagos atrasados, favor de pasar a hacer arreglos. 
+Si usted ya realizó los pagos, favor de hacer caso omiso a este mensaje
