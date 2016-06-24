@@ -933,7 +933,6 @@
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno)){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
 												sumaNotas += Float.parseFloat(valor);
-												trimestresConNota++;
 												sumaPorTrimestre[contador] += Float.parseFloat(valor);
 												if(curso.getTipocursoId().equals("3"))
 													sumaPorTrimestreIngles[contador] += Float.parseFloat(valor);
