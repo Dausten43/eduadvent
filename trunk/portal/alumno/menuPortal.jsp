@@ -1,3 +1,4 @@
+<%@page import="aca.fin.FinProrrogas"%>
 <jsp:useBean id="CatParametro" scope="page" class="aca.catalogo.CatParametro"/>
 
 <style>
@@ -19,7 +20,11 @@ double saldoAlumno 		= aca.fin.FinMovimientos.saldoAlumno(conElias, auxiliar, fe
 CatParametro.mapeaRegId(conElias, escuela);
 double deudaLimite = Double.parseDouble(CatParametro.getBloqueaPortal()) * -1;
 //System.out.println("Datos:"+saldoAlumno+":"+deudaLimite);
-
+FinProrrogas fp = new FinProrrogas();
+if(fp.existeReg(conElias, escuela, auxiliar, "", "")){
+	saldoAlumno = Double.parseDouble("0.00");
+	System.out.println("Accion el saldo se puso en cero por el saldo :"+saldoAlumno+":"+deudaLimite);
+}
 
 
 
