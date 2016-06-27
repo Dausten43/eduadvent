@@ -3,9 +3,11 @@
 <%@ include file="../../seguro.jsp"%>
 <%@ include file="../../head.jsp"%>
 <%@ include file="../../menu.jsp"%>
+<%@page import="aca.catalogo.CatParametro"%>
 
 <jsp:useBean id="Grupo" scope="page" class="aca.ciclo.CicloGrupo" />
 <jsp:useBean id="CursoActLista" scope="page" class="aca.kardex.KrdxCursoActLista" />
+<jsp:useBean id="catParametro" scope="page" class="aca.catalogo.CatParametro" />
 
 <script>
 	function notas(cicloGrupoId, codigoAlumno) {
@@ -32,6 +34,7 @@
 <%
 	String codigoId 	= (String) session.getAttribute("codigoId");
 	String cicloId 		= (String) session.getAttribute("cicloId");
+	String escuela		= (String)session.getAttribute("escuela");
 	String cicloGrupoId = (String) request.getParameter("CicloGrupoId");
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
@@ -63,13 +66,24 @@
 			boleta 			= "boletaCompetencias.jsp";
 			boletaActividad = "boletaActividadCompetencias.jsp";
 		}
-		if(tipoBoleta.equals("3")){
-			boleta = "boletaPanama.jsp";
-		}
+		if(tipoBoleta.equals("1")){
 %>		
 		<a class="btn btn-info" href="<%=boleta %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoleta" /></a>
 		<a class="btn btn-info" href="<%=boletaActividad %>?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaConActividades" /></a>
-		<a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a>		
+<%
+		}
+		if(tipoBoleta.equals("2")){
+%>
+		<a class="btn btn-info" href="boletaDominicanaPrimSec.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaDominicana1" /></a>
+		<a class="btn btn-info" href="boletaDominicanaSec2.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaDominicana2" /></a>
+<%
+		}
+		if(tipoBoleta.equals("3")){
+%>
+		<a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a>
+<%
+		}
+%>
 	</div>
 		
 	<table class="table table-striped table-bordered table-condensed">
