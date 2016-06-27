@@ -133,8 +133,8 @@
 	        //document.setFooter(footer);
 	        document.open();
 	        
-	        //for(int i = 0; i < lisAlum.size(); i++){
-	        for(int i = 0; i < 1; i++){
+	        for(int i = 0; i < lisAlum.size(); i++){
+	        //for(int i = 0; i < 1; i++){
 	        	codigoAlumno = (String) lisAlum.get(i);
 	        	
 	        	//Map que suma las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
