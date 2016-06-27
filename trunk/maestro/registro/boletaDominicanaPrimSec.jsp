@@ -220,7 +220,7 @@
 	cell.setBorder(0);
 	topTable.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase("BOLETIN DE NOTAS", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase("RECORD DE NOTAS", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(0);
 				cell.setBorderColorBottom(BaseColor.BLACK);
@@ -559,8 +559,9 @@
 									String nota = "0";
 			    					//System.out.println("float calculo = "+sumaNotas+"/"+trimestresConNota+";");
 			    					float calculo = sumaNotas>0?sumaNotas/contador:0f;
-									sumaFinales += calculo;
 			    					nota = String.valueOf(calculo);
+			    					nota = frm.format(Double.parseDouble(nota));
+									sumaFinales += Float.parseFloat(nota);
 			    					
 									celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, new BaseColor(0,0,0))));
 									celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -576,7 +577,7 @@
 			    					float calculo = sumaFinales>0?sumaFinales/2:0f;
 			    					nota = String.valueOf(calculo);
 			    					// Colocar formato con una decimal
-			    					nota = frm3.format(Double.parseDouble(nota));
+			    					nota = frm.format(Double.parseDouble(nota));
 			    					
 			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1015,52 +1016,32 @@
 	            celda.setColspan(4);
 				celda.setBorder(0);
 				t.addCell(celda);
-				
-				celda = new PdfPCell(new Phrase(" "
-						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
-	            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				celda.setBorder(0);
-				t.addCell(celda);
 										    
 			    celda = new PdfPCell(new Phrase("_____________________________________________"
 						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
 			    celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    celda.setColspan(2);
 			    celda.setBorder(0);
 				t.addCell(celda);
 			    
 				celda = new PdfPCell(new Phrase("_____________________________________________"
 				, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
 				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				celda.setBorder(0);
-				t.addCell(celda);
-				
-				celda = new PdfPCell(new Phrase(" "
-						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
-	            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				celda.setBorder(0);
-				t.addCell(celda);
-				
-				celda = new PdfPCell(new Phrase(" "
-						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
-	            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    celda.setColspan(2);
 				celda.setBorder(0);
 				t.addCell(celda);
 										    
-			    celda = new PdfPCell(new Phrase("NOMBRE DEL MAESTRO GUIA"
+			    celda = new PdfPCell(new Phrase(aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(),"NOMBRE")
 						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
 			    celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    celda.setColspan(2);
 			    celda.setBorder(0);
 				t.addCell(celda);
 			    
 				celda = new PdfPCell(new Phrase("NOMBRE DIRECTOR"
 				, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
 				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				celda.setBorder(0);
-				t.addCell(celda);
-				
-				celda = new PdfPCell(new Phrase(" "
-						, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));            
-	            celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    celda.setColspan(2);
 				celda.setBorder(0);
 				t.addCell(celda);
 				
