@@ -808,7 +808,9 @@
 			    				tabla.addCell(celda);
 			    				
 			    				if(curso.getCursoBase().equals("-")){
-				    				celda = new PdfPCell(new Phrase(curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				    				materias++;
+			    					
+			    					celda = new PdfPCell(new Phrase(curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -818,7 +820,7 @@
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    				}
-			    				materias++;
+			    				
 			    				if(curso.getTipocursoId().equals("3"))
 			    					materiasIngles++;
 			    				//for(int l = 0; l < lisBloque.size(); l++){
@@ -898,7 +900,8 @@
 										if(mapPromAlumno.containsKey(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId())){
 											valor = mapPromAlumno.get(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()).getNota();
 											sumaNotas += Float.parseFloat(valor);
-											sumaPorTrimestre[l] += Float.parseFloat(valor);
+											if(curso.getCursoBase().equals("-"))//Si es materia madre o materia sin hijas
+												sumaPorTrimestre[l] += Float.parseFloat(valor);
 											if(curso.getTipocursoId().equals("3"))
 												sumaPorTrimestreIngles[l] += Float.parseFloat(valor);
 											valor = String.valueOf(frm.format(Double.parseDouble(valor)));
@@ -933,7 +936,8 @@
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno)){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
 												sumaNotas += Float.parseFloat(valor);
-												sumaPorTrimestre[contador] += Float.parseFloat(valor);
+												if(curso.getCursoBase().equals("-"))//Si es materia madre o materia sin hijas
+													sumaPorTrimestre[contador] += Float.parseFloat(valor);
 												if(curso.getTipocursoId().equals("3"))
 													sumaPorTrimestreIngles[contador] += Float.parseFloat(valor);
 												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
