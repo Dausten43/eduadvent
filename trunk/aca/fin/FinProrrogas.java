@@ -384,7 +384,7 @@ public class FinProrrogas {
 		try{
 			comando = "SELECT id, id_escuela, id_alumno, id_padre, to_char(fecha_vence,'DD-MM-YYYY') fecha_vence, observacion,        "
 					+ "usuario_crea,  to_char(fecha_creado,'DD-MM-YYYY') fecha_creado , status  FROM fin_prorrogas where id is not null "
-					+ " and fecha_vence>=now() and status='A' ";
+					+ " and fecha_vence>=current_date and status='A' ";
 			
 			if(!idEscuela.isEmpty()){
 				comando+= " and id_escuela='"+idEscuela+"' ";

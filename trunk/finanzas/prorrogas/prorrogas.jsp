@@ -61,7 +61,7 @@
 	
 <div id="content">
 <div class="well">
-	<h3>Prorrogas o convenios para permitir acceso al sistema</h3>
+	<h3>Pr&oacute;rrogas o convenios para permitir acceso al sistema</h3>
 </div>
 <%
 	if(mapAlumnos.containsKey(alumno)){
@@ -79,8 +79,8 @@
 			padre = alumPadres.getCodigoPadre();
 		}
 %>
-Acreditar prorroga al alumno: <strong><%= mapAlumnos.get(alumno).getNombre() +" " + mapAlumnos.get(alumno).getApaterno() +" " + mapAlumnos.get(alumno).getAmaterno() %></strong>
-
+Acreditar pr&oacute;rroga al alumno: <strong> [<%= alumno %>] <%= mapAlumnos.get(alumno).getNombre() +" " + mapAlumnos.get(alumno).getApaterno() +" " + mapAlumnos.get(alumno).getAmaterno() %></strong>
+<br><br><br>
 
 <form id="frmRecibo" name="frmRecibo" action="" method="post">
 <input type="hidden" name="idEscuela" value="<%= escuelaId %>">
@@ -88,11 +88,11 @@ Acreditar prorroga al alumno: <strong><%= mapAlumnos.get(alumno).getNombre() +" 
 <input type="hidden" name="idPadre" value="<%=padre %>">
 <input type="hidden" name="usuarioCrea" value="<%= usuario %>">
 <div>
-<label>Fecha Vencimiento de la prorroga</label>
+<label><strong>Fecha vencimiento de la pr&oacute;rroga</strong></label>
 <input type="text" name="fechaVence" id="fechaVence">
 </div>
 <div>
-<label>Observaciones</label>
+<label><strong>Observaciones</strong></label>
 <textarea rows="5" cols="" name="observacion"></textarea>
 </div>
 <div>
@@ -127,7 +127,7 @@ Acreditar prorroga al alumno: <strong><%= mapAlumnos.get(alumno).getNombre() +" 
 	}
 	%>
 	<tr>
-	<td colspan="6">Inactivas Historico </td>
+	<td colspan="6">Inactivas Hist&oacute;rico </td>
 	</tr>
 	<%
 	for(FinProrrogas p : pro){
@@ -151,7 +151,7 @@ Acreditar prorroga al alumno: <strong><%= mapAlumnos.get(alumno).getNombre() +" 
 <%
 	}else{
 %>
-	<h2>Tiene que elegir un alumno para acreditar una prorroga</h2>
+	<h2>Tiene que elegir un alumno para acreditar una pr&oacute;rroga</h2>
 <%
 	}
 %>
