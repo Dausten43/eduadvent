@@ -956,6 +956,33 @@ public class EmpPersonal {
  		return nombre;
  	}
 	
+	public static String getDirectorEscuela(Connection conn, String escuela) throws SQLException{
+ 		
+ 		ResultSet 		rs		= null;
+ 		PreparedStatement ps	= null;
+ 		String nombre			= ""; 		
+ 				
+ 		try{ 							
+		 			ps = conn.prepareStatement("SELECT * FROM EMP_PERSONAL" +
+		 					" WHERE CODIGO_ID LIKE '"+escuela+"'||'%'" +
+		 					" AND TIPO_ID = 17");
+		 			
+		 			rs = ps.executeQuery();
+		 			if (rs.next())
+		 				nombre = rs.getString("NOMBRE")+" "+rs.getString("APATERNO")+" "+rs.getString("AMATERNO");		
+		 			else
+		 				nombre = "0000000";
+ 			} 			
+ 			catch(Exception ex){
+ 			System.out.println("Error - aca.empleado.EmpPersonal|getDirectorEscuela|:"+ex);
+ 		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+ 		}
+		
+ 		return nombre;
+ 	}
+	
 	public static int numMaestroGenero(Connection conn, String genero) throws SQLException{
 		ResultSet 		rs		= null;
 		PreparedStatement ps	= null;
