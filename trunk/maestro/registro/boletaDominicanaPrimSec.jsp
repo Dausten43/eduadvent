@@ -56,6 +56,7 @@
 	String grado		= "";
 	String grupo		= "";
 	String fecha 		= new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
+	String nombreDirector = aca.empleado.EmpPersonal.getDirectorEscuela(conElias, escuela);
 	int borde 			= 0; 
 	int numGrado 			= 0;	
 	boolean hayAbiertas = CicloGrupoCurso.hayAbiertas(conElias, cicloGrupoId);
@@ -1038,7 +1039,8 @@
 			    celda.setBorder(0);
 				t.addCell(celda);
 			    
-				celda = new PdfPCell(new Phrase("NOMBRE DIRECTOR"
+				
+				celda = new PdfPCell(new Phrase(nombreDirector
 				, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
 				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 			    celda.setColspan(2);
