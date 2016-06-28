@@ -1,3 +1,4 @@
+<%@page import="aca.ciclo.CicloExtra"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
@@ -42,6 +43,8 @@
 <jsp:useBean id="cicloPromedio" scope="page" class="aca.ciclo.CicloPromedio"/>
 <jsp:useBean id="cicloPromedioU" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
+<jsp:useBean id="cicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista" />
 
 <%
 
@@ -66,6 +69,7 @@
 	ArrayList<CicloPromedio>  cicloPromedioList	= cicloPromedioU.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
 	ArrayList <KrdxAlumFalta> listaKrdxAlumFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'");
 	ArrayList <CicloGrupoEval> listaCicloGrupoEval = cicloGrupoEvalLista.getEvalGrupo(conElias, cicloGrupoId, "ORDER BY CICLO_GRUPO_ID, ORDEN");
+	ArrayList <CicloExtra> listaCicloExtra = cicloExtraL.getListCiclo(conElias, cicloId, "ORDER BY OPORTUNIDAD");
 	
 	ciclo.mapeaRegId(conElias, cicloId);
 	
@@ -203,6 +207,7 @@
 	            
 	            cell = new PdfPCell(new Phrase(ce.getEscuelaNombre().toUpperCase(), FontFactory.getFont(FontFactory.HELVETICA, 20, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingLeft(-60f);
 				cell.setBorder(borde);
 				topTable.addCell(cell);
 				
@@ -223,6 +228,7 @@
 				
 				cell = new PdfPCell(new Phrase("RECORD DE NOTAS", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingLeft(-60f);
 				cell.setBorder(0);
 				cell.setBorderColorBottom(BaseColor.BLACK);
 				topTable.addCell(cell);
@@ -230,6 +236,7 @@
 				cell = new PdfPCell(new Phrase(ciclo.getCicloNombre(), 
 						FontFactory.getFont(FontFactory.COURIER_OBLIQUE, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setPaddingLeft(-60f);
 				cell.setBorder(0);
 				cell.setBorderColorBottom(BaseColor.BLACK);
 				topTable.addCell(cell);
