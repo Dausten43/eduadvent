@@ -1,3 +1,4 @@
+<%@page import="java.io.IOException"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -60,9 +61,15 @@
 		// Cerrar los objetos
 		if (fos!=null) fos.close();
 		if (fis!=null) fis.close();
+		
+		if(Math.round(Math.ceil(fi.length()/1024.0)) > 150){
+			throw new IOException();
+		}
+		
 		fi.delete();		
 		guardo 	= true;
 		salto	= "alumno.jsp";
+		
 	    
 	}catch(java.io.IOException e){
 		//System.out.println("Error al subir el archivo: "+e);
@@ -90,7 +97,8 @@
 		System.gc();		
 	}
 %>
-<%@ include file="../../cierra_elias.jsp" %>
 <% 	if (!salto.equals("X")){%>
 		<meta http-equiv="refresh" content="0"; url="<%=salto%>" />
 <% 	}%>
+
+<%@ include file="../../cierra_elias.jsp" %>
