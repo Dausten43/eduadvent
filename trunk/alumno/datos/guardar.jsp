@@ -43,8 +43,7 @@
 	    	medidas = true;
 	    }else{
 	    	fi.delete();
-	    }
-	    
+	    }	    
 	    
 	    FileInputStream fis = new FileInputStream(fi);
 	    
@@ -66,11 +65,12 @@
 		if(Math.round(Math.ceil(fi.length()/1024.0)) <= 150){
 			tamano = true;
 		}
-		//System.out.println("Datos:"+width+":"+height+":"+medidas+":"+tamano);		 
-		//if (medidas == false) fi.delete();
-		if (medidas && tamano ) salto	= "alumno.jsp";	
+		
+		if (fi.exists()) fi.delete();
+		if (medidas && tamano ) salto	= "alumno.jsp";
 	    
-	}catch(java.io.IOException e){		
+	}catch(java.io.IOException e){
+		System.out.println("Error:"+e);
 %>
 	<div id="content">
 		<div class="alert alert-danger">
