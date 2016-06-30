@@ -333,14 +333,13 @@
 	            int cantidadTrimestres = lisBloque.size();
 	            
 	    		//int colsWidth[] = {3, 12, 25, 3, 3, 3, 3, 3, 5, 7, 5, 7, 3, 3, 3, 3, 3, 6};
-	    		float colsWidth[] = new float[2+(cantidadTrimestres)+4+(listaCicloExtra.size()*3)+1];
+	    		float colsWidth[] = new float[2+(cantidadTrimestres)+4+(listaCicloExtra.size()*4)];
 	    		int cont = 0;
 	    		colsWidth[cont++] = 3;//0
 	    		colsWidth[cont++] = 23;//2
-	    		for(int j = 0; j < cantidadTrimestres+4+(listaCicloExtra.size()*3); j++){
-	    			colsWidth[cont++] = 59/(cantidadTrimestres+4+(listaCicloExtra.size()*3));
+	    		for(int j = 0; j < cantidadTrimestres+4+(listaCicloExtra.size()*4); j++){
+	    			colsWidth[cont++] = 68/(cantidadTrimestres+4+(listaCicloExtra.size()*4));
 	    		}
-	    		colsWidth[cont++] = 9;
 	    		/*for(int j = 0; j < cantidadTrimestres*2; j++){
 	    			colsWidth[cont++] = 30/(cantidadTrimestres*2);
 	    		}
@@ -487,7 +486,7 @@
 				    						}
 		    							}
 		    						//}
-		    						
+		    							int contExtra = 0;
 		    							for(CicloExtra cicloExtra: listaCicloExtra){
 											celda = new PdfPCell(new Phrase(cicloExtra.getValorAnterior()+"%", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -503,12 +502,18 @@
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    						celda.setBorder(Rectangle.BOX);
 				    						tabla.addCell(celda);
+				    						if(contExtra++ == 0){
+					    						celda = new PdfPCell(new Phrase("CC", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+					    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+					    						celda.setBorder(Rectangle.BOX);
+					    						tabla.addCell(celda);
+				    						}else{
+				    							celda = new PdfPCell(new Phrase("C. EXTR", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+					    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+					    						celda.setBorder(Rectangle.BOX);
+					    						tabla.addCell(celda);
+				    						}
 										}
-		    						
-		    						celda = new PdfPCell(new Phrase("Fin de Año", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(Rectangle.BOX);
-		    						tabla.addCell(celda);
 		    						
 		    						
 		    						
@@ -627,7 +632,7 @@
 													krdxAlumExtra.getCursoId().equals(curso.getCursoId()) &&
 													krdxAlumExtra.getOportunidad().equals(cicloExtra.getOportunidad())){	
 						 						float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
-								 				celda = new PdfPCell(new Phrase(String.valueOf(anteriorPorcientoPCP)+"-"+krdxAlumExtra.getNotaAnterior(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+								 				celda = new PdfPCell(new Phrase(String.valueOf(anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
@@ -639,6 +644,11 @@
 								 				
 								 				float notaExtra = (Float.parseFloat(krdxAlumExtra.getNotaExtra())*Float.parseFloat(cicloExtra.getValorExtra()))/100;
 								 				celda = new PdfPCell(new Phrase(String.valueOf(notaExtra), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+												celda.setBorder(2);
+								 				tabla.addCell(celda);
+								 				
+								 				celda = new PdfPCell(new Phrase(String.valueOf(notaExtra+anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
@@ -662,6 +672,12 @@
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(2);
 							 				tabla.addCell(celda);
+							 				
+							 				celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+											celda.setBorder(2);
+							 				tabla.addCell(celda);
+							 				
 							 				tieneNotaExtra = true;
 										}
 									}
@@ -682,7 +698,7 @@
 			    				/*boolean estanTodasCerradas = CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, alumnoCurso.getCursoId());
 			    				
 			    				if(!estanTodasCerradas){*/
-			    					String nota = "0";
+			    					/*String nota = "0";
 			    					//System.out.println("float calculo = "+sumaNotas+"/"+trimestresConNota+";");
 			    					float calculo = sumaFinales>0?sumaFinales/2:0f;
 			    					nota = String.valueOf(calculo);
@@ -692,7 +708,7 @@
 			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
-				    				tabla.addCell(celda);
+				    				tabla.addCell(celda);*/
 			    				/*}else{
 			    					String nota = "0a";
 			    					float calculo = sumaNotas>0?sumaNotas/cantidadTrimestres:0f;
