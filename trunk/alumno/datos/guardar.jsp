@@ -17,31 +17,32 @@
 	int heightImage			= 0;
 	String salto 			= "X";
 	
-	boolean guardo = false;	
+	boolean medidas	= false;	
+	boolean tamano 	= false;
+	
 	try{		
-		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, 150*1024);
+		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, 200*1024);
 	    nombre			= multi.getFilesystemName("archivo");
 	    
 	    // Leer el archivo en objeto File y FileInputStream
 	    File fi = new File(ruta+nombre);
 	    
 	    java.awt.image.BufferedImage bimg = javax.imageio.ImageIO.read(fi);
-	    int width	=  widthImage    = bimg.getWidth();
-	    int height	= heightImage     = bimg.getHeight();
+	    int width	= widthImage    = bimg.getWidth();
+	    int height	= heightImage   = bimg.getHeight();
 	    
 	    if( width==360 && height==480 ){
-			// correct dimensions
+			medidas = true;
 	    }else if( width==480 && height==640){
-	    	// correct dimensions
+	    	medidas = true;
 	    }else if( width==600 && height==800 ){
-	    	// correct dimensions
+	    	medidas = true;
 	    }else if( width==720 && height==960 ){
-	    	// correct dimensions
+	    	medidas = true;
 	    }else if( width==768 && height==1024 ){
-	    	// correct dimensions
+	    	medidas = true;
 	    }else{
 	    	fi.delete();
-	    	throw new IllegalArgumentException();
 	    }
 	    
 	    
@@ -62,39 +63,47 @@
 		if (fos!=null) fos.close();
 		if (fis!=null) fis.close();
 		
-		if(Math.round(Math.ceil(fi.length()/1024.0)) > 150){
-			throw new IOException();
+		if(Math.round(Math.ceil(fi.length()/1024.0)) <= 150){
+			tamano = true;
 		}
-		
-		fi.delete();		
-		guardo 	= true;
-		salto	= "alumno.jsp";
-		
+		//System.out.println("Datos:"+width+":"+height+":"+medidas+":"+tamano);		 
+		//if (medidas == false) fi.delete();
+		if (medidas && tamano ) salto	= "alumno.jsp";	
 	    
-	}catch(java.io.IOException e){
-		//System.out.println("Error al subir el archivo: "+e);
+	}catch(java.io.IOException e){		
 %>
-		<div id="content">
-			<div class="alert alert-danger">
-				<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.ErrorGrandeImagen"/>
-				<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
-			</div>
+	<div id="content">
+		<div class="alert alert-danger">
+			<strong><fmt:message key="aca.Error"/></strong>
+			<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
 		</div>
+	</div>
 <%
-	}catch(IllegalArgumentException e){
-		//System.out.println("Error de dimensiones");
+	}
+	//System.out.println("Datos2:"+medidas+":"+tamano);
+	if (medidas==false){
 %>
-		<div id="content">
-			<div class="alert alert-danger">
-				<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.LasDimensionesDeLaImageSon" /> <strong><%=widthImage %>x<%=heightImage %></strong> <fmt:message key="aca.LasCualesSonIncorrectas" />
-				<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
-			</div>	
-		</div>
+	<div id="content">
+		<div class="alert alert-danger">
+			<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.LasDimensionesDeLaImageSon" /> <strong><%=widthImage %>x<%=heightImage %></strong> <fmt:message key="aca.LasCualesSonIncorrectas" />
+			<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
+		</div>	
+	</div>
+<%		
+	}
+	if (tamano==false){
+%>
+	<div id="content">
+		<div class="alert alert-danger">
+			<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.ErrorGrandeImagen"/>
+			<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
+		</div>	
+	</div>
 <%		
 	}
 	
-	if (guardo){ 
-		System.gc();		
+	if ( medidas && tamano ){
+		System.gc();
 	}
 %>
 <% 	if (!salto.equals("X")){%>

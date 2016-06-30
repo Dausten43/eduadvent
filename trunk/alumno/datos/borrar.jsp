@@ -1,9 +1,4 @@
 <%@ include file= "../../con_elias.jsp" %>
-<table class="goback">
-	<tr>
-		<td><a href="datos.jsp">&lsaquo;&lsaquo; Regresar</a></td>
-	</tr>
-</table>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
 <%@ include file= "../../head.jsp" %>
