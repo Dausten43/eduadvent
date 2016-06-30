@@ -14,14 +14,13 @@
 	String nombre 			= "";
 	String dir				= application.getRealPath("/WEB-INF/fotos/"+codigoAlumno+".jpg");
 	int widthImage     		= 0;
-	int heightImage			= 0;
-	String salto 			= "X";
+	int heightImage			= 0;	
 	
 	boolean medidas	= false;	
 	boolean tamano 	= false;
 	
 	try{		
-		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, 200*1024);
+		com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, 150*1024);
 	    nombre			= multi.getFilesystemName("archivo");
 	    
 	    // Leer el archivo en objeto File y FileInputStream
@@ -44,70 +43,59 @@
 	    }else{
 	    	fi.delete();
 	    }	    
+	    if(Math.round(Math.ceil(fi.length()/1024.0)) <= 150){
+			tamano = true;
+		}
 	    
 	    FileInputStream fis = new FileInputStream(fi);
 	    
-	    // crear un arreglo de bytes con la longitud del archivo 
+	    // crear un arreglo de bytes con la longitud del archivo
 		byte buf[] = new byte[(int)fi.length()];
 		
 		// llenar el arreglo de bytes con los bytes del archivo
 		fis.read(buf,0,(int)fi.length());
 		
-		// Escribir el archivo en el directorio del servidor de aplicaciones con el objeto FileOutputStream 
-		FileOutputStream fos = new FileOutputStream(dir);
-		fos.write(buf,0,(int)fi.length());		
-		fos.flush();	
+		// Graba la imagen en el server
+		if (medidas && tamano ){			
+			
+ 
+			// Escribir el archivo en el directorio del servidor de aplicaciones con el objeto FileOutputStream 
+			FileOutputStream fos = new FileOutputStream(dir);
+			fos.write(buf,0,(int)fi.length());		
+			fos.flush();
 		
-		// Cerrar los objetos
-		if (fos!=null) fos.close();
-		if (fis!=null) fis.close();
-		
-		if(Math.round(Math.ceil(fi.length()/1024.0)) <= 150){
-			tamano = true;
+			// Cerrar los objetos
+			if (fos!=null) fos.close();
 		}
-		
+		if (fis!=null) fis.close();		
 		if (fi.exists()) fi.delete();
-		if (medidas && tamano ) salto	= "alumno.jsp";
-	    
+		
+		if (medidas==false){
+		%>
+			<div id="content">
+				<div class="alert alert-danger">
+					<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.LasDimensionesDeLaImageSon" /> <strong><%=widthImage %>x<%=heightImage %></strong> <fmt:message key="aca.LasCualesSonIncorrectas" />
+					<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
+				</div>	
+			</div>
+		<%
+		}
+		if( tamano==false ){
+		%>
+			<div id="content">
+				<div class="alert alert-danger">
+					<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.ErrorGrandeImagen"/>
+					<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
+				</div>	
+			</div>
+		<%		
+		}
+		//System.out.println("Datos1:"+medidas+":"+tamano);
 	}catch(java.io.IOException e){
 		System.out.println("Error:"+e);
-%>
-	<div id="content">
-		<div class="alert alert-danger">
-			<strong><fmt:message key="aca.Error"/></strong>
-			<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
-		</div>
-	</div>
-<%
 	}
-	//System.out.println("Datos2:"+medidas+":"+tamano);
-	if (medidas==false){
+	//System.out.println("Datos2:"+medidas+":"+tamano);	
 %>
-	<div id="content">
-		<div class="alert alert-danger">
-			<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.LasDimensionesDeLaImageSon" /> <strong><%=widthImage %>x<%=heightImage %></strong> <fmt:message key="aca.LasCualesSonIncorrectas" />
-			<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
-		</div>	
-	</div>
-<%		
-	}
-	if (tamano==false){
-%>
-	<div id="content">
-		<div class="alert alert-danger">
-			<strong><fmt:message key="aca.Error"/></strong>	<fmt:message key="aca.ErrorGrandeImagen"/>
-			<a href="subir.jsp"><fmt:message key="aca.IntentarDeNuevo"/></a>
-		</div>	
-	</div>
-<%		
-	}
-	
-	if ( medidas && tamano ){
-		System.gc();
-	}
-%>
-<% 	if (!salto.equals("X")){%>
-		<meta http-equiv="refresh" content="0"; url="<%=salto%>" />
-<% 	}%>
+	<meta http-equiv="refresh" content="1; url=alumno.jsp" />
 
 <%@ include file="../../cierra_elias.jsp" %>

@@ -52,7 +52,7 @@
 			  <a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><fmt:message key="boton.Quitar" /></a>
 			</div>			
 		</div>
-		
+		<textarea name="descripcion" id="descripcion" rows="2" placeholder="Descripcion" ></textarea>
 		<div class="well">
 			<button type="button" id="btnGuardar" class="btn btn-primary btn-large" onclick="guardar();"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></button>
 		</div>
