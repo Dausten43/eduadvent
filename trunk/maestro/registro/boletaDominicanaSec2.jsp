@@ -1,4 +1,3 @@
-<%@page import="aca.ciclo.CicloExtra"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
@@ -23,6 +22,8 @@
 <%@page import="aca.kardex.KrdxAlumActitud"%>
 <%@page import="aca.kardex.KrdxAlumFalta"%>
 <%@page import="aca.catalogo.CatEscuela"%>
+<%@page import="aca.ciclo.CicloExtra"%>
+<%@page import="aca.kardex.KrdxAlumExtra"%>
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="planClase" scope="page" class="aca.plan.Plan"/>
 <jsp:useBean id="curso" scope="page" class="aca.plan.PlanCurso"/>
@@ -43,9 +44,8 @@
 <jsp:useBean id="cicloPromedio" scope="page" class="aca.ciclo.CicloPromedio"/>
 <jsp:useBean id="cicloPromedioU" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
-<jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
 <jsp:useBean id="cicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista" />
-
+<jsp:useBean id="krdxAlumExtraL" scope="page" class="aca.kardex.KrdxAlumExtraLista"/>
 <%
 
 	String escuela		= (String)session.getAttribute("escuela");
@@ -70,6 +70,7 @@
 	ArrayList <KrdxAlumFalta> listaKrdxAlumFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'");
 	ArrayList <CicloGrupoEval> listaCicloGrupoEval = cicloGrupoEvalLista.getEvalGrupo(conElias, cicloGrupoId, "ORDER BY CICLO_GRUPO_ID, ORDEN");
 	ArrayList <CicloExtra> listaCicloExtra = cicloExtraL.getListCiclo(conElias, cicloId, "ORDER BY OPORTUNIDAD");
+	ArrayList <KrdxAlumExtra> listaKrdxAlumExtra = krdxAlumExtraL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY OPORTUNIDAD");
 	
 	ciclo.mapeaRegId(conElias, cicloId);
 	
@@ -332,14 +333,13 @@
 	            int cantidadTrimestres = lisBloque.size();
 	            
 	    		//int colsWidth[] = {3, 12, 25, 3, 3, 3, 3, 3, 5, 7, 5, 7, 3, 3, 3, 3, 3, 6};
-	    		float colsWidth[] = new float[2+(cantidadTrimestres)+5+2];
+	    		float colsWidth[] = new float[2+(cantidadTrimestres)+4+(listaCicloExtra.size()*3)+1];
 	    		int cont = 0;
 	    		colsWidth[cont++] = 3;//0
-	    		colsWidth[cont++] = 33;//2
-	    		for(int j = 0; j < cantidadTrimestres+5; j++){
-	    			colsWidth[cont++] = 40/(cantidadTrimestres+5);
+	    		colsWidth[cont++] = 23;//2
+	    		for(int j = 0; j < cantidadTrimestres+4+(listaCicloExtra.size()*3); j++){
+	    			colsWidth[cont++] = 59/(cantidadTrimestres+4+(listaCicloExtra.size()*3));
 	    		}
-	    		colsWidth[cont++] = 9;
 	    		colsWidth[cont++] = 9;
 	    		/*for(int j = 0; j < cantidadTrimestres*2; j++){
 	    			colsWidth[cont++] = 30/(cantidadTrimestres*2);
@@ -484,21 +484,28 @@
 			    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 					    						celda.setBorder(Rectangle.BOX);
 					    						tabla.addCell(celda);
-					    						
-					    						celda = new PdfPCell(new Phrase("50%", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-			    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-					    						celda.setBorder(Rectangle.BOX);
-					    						tabla.addCell(celda);
 				    						}
 		    							}
 		    						//}
 		    						
-		    						celda = new PdfPCell(new Phrase("Fin de Año", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(Rectangle.BOX);
-		    						tabla.addCell(celda);
+		    							for(CicloExtra cicloExtra: listaCicloExtra){
+											celda = new PdfPCell(new Phrase(cicloExtra.getValorAnterior()+"%", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				    						celda.setBorder(Rectangle.BOX);
+				    						tabla.addCell(celda);
+				    						
+		    								celda = new PdfPCell(new Phrase(cicloExtra.getOportunidadNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				    						celda.setBorder(Rectangle.BOX);
+				    						tabla.addCell(celda);
+				    						
+				    						celda = new PdfPCell(new Phrase(cicloExtra.getValorExtra()+"%", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+				    						celda.setBorder(Rectangle.BOX);
+				    						tabla.addCell(celda);
+										}
 		    						
-		    						celda = new PdfPCell(new Phrase("COMPLETIVA", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("Fin de Año", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(Rectangle.BOX);
 		    						tabla.addCell(celda);
@@ -607,15 +614,55 @@
 								 				float notaFinal = setentaPorcientoPCP + treintaPorciento;
 								 				celda = new PdfPCell(new Phrase(String.valueOf(notaFinal), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-												celda.setBorder(10);
-								 				tabla.addCell(celda);
-								 				
-								 				float cincuentaPorcientoPCP = pcp*0.5f;
-								 				celda = new PdfPCell(new Phrase(String.valueOf(cincuentaPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
 							 				}
+										}
+									}
+									
+									for(CicloExtra cicloExtra: listaCicloExtra){
+						 				boolean tieneNotaExtra = false;
+										for(KrdxAlumExtra krdxAlumExtra: listaKrdxAlumExtra){
+											if(krdxAlumExtra.getCodigoId().equals(codigoAlumno) &&
+													krdxAlumExtra.getCursoId().equals(curso.getCursoId()) &&
+													krdxAlumExtra.getOportunidad().equals(cicloExtra.getOportunidad())){	
+						 						float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
+								 				celda = new PdfPCell(new Phrase(String.valueOf(anteriorPorcientoPCP)+"-"+krdxAlumExtra.getNotaAnterior(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+												celda.setBorder(2);
+								 				tabla.addCell(celda);
+								 				
+												celda = new PdfPCell(new Phrase(cicloExtra.getOportunidadNombre(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+												celda.setBorder(2);
+								 				tabla.addCell(celda);
+								 				
+								 				float notaExtra = (Float.parseFloat(krdxAlumExtra.getNotaExtra())*Float.parseFloat(cicloExtra.getValorExtra()))/100;
+								 				celda = new PdfPCell(new Phrase(String.valueOf(notaExtra), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+												celda.setBorder(2);
+								 				tabla.addCell(celda);
+								 				
+								 				tieneNotaExtra = true;
+											}
+						 				}
+										if(!tieneNotaExtra){
+											float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
+											celda = new PdfPCell(new Phrase(String.valueOf(anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+											celda.setBorder(6);
+							 				tabla.addCell(celda);
+							 				
+											celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+											celda.setBorder(2);
+							 				tabla.addCell(celda);
+							 				
+											celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+											celda.setBorder(2);
+							 				tabla.addCell(celda);
+							 				tieneNotaExtra = true;
 										}
 									}
 									
@@ -656,97 +703,9 @@
 		    						celda.setBorder(2);
 				    				tabla.addCell(celda);
 			    				}*/
-			    				
-			    				celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-	    						celda.setBorder(2);
-			    				tabla.addCell(celda);
 			    		        
 			    		        
-			    		        /*if(ciclo.getNivelEval().equals("P")){
-				 					for(int l = 0; l < cicloPromedioList.size(); l++){
-										cicloPromedio = (CicloPromedio) cicloPromedioList.get(l);
-										int faltas = 0, tardanzas = 0;
-										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-										for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
-											if(kaf.getCodigoId().equals(codigoAlumno) && 
-													kaf.getCursoId().equals(curso.getCursoId()) &&
-													kaf.getPromedioId().equals(cicloPromedio.getPromedioId())){
-												faltas += Integer.valueOf(kaf.getFalta());
-												tardanzas += Integer.valueOf(kaf.getTardanza());
-											}
-										}
-										
-										celda = new PdfPCell(new Phrase(String.valueOf(faltas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-										celda.setBorder(0);
-						 				tabla.addCell(celda);
-						 				
-						 				celda = new PdfPCell(new Phrase(String.valueOf(tardanzas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-										celda.setBorder(0);
-						 				tabla.addCell(celda);
-									}
-								}else if(ciclo.getNivelEval().equals("E")){
-									//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
-									for(CicloGrupoEval cge: listaCicloGrupoEval){
-										if(cge.getCicloGrupoId().equals(cicloGrupoId) &&
-												cge.getCursoId().equals(curso.getCursoId())){
-											int faltas = 0, tardanzas = 0;
-											
-											for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
-												if(kaf.getCodigoId().equals(codigoAlumno) && 
-														kaf.getCursoId().equals(curso.getCursoId()) &&
-														kaf.getEvaluacionId().equals(cge.getEvaluacionId())){
-													faltas += Integer.valueOf(kaf.getFalta());
-													tardanzas += Integer.valueOf(kaf.getTardanza());
-												}
-											}
-											
-											celda = new PdfPCell(new Phrase(String.valueOf(faltas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-											celda.setBorder(0);
-							 				tabla.addCell(celda);
-							 				
-							 				celda = new PdfPCell(new Phrase(String.valueOf(tardanzas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-											celda.setBorder(0);
-							 				tabla.addCell(celda);
-										}
-									}
-								}
-			    		        
-			    		        int sumaFaltas = 0, sumaTardanzas = 0;
-			    		        for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
-									if(kaf.getCodigoId().equals(codigoAlumno) && 
-											kaf.getCursoId().equals(curso.getCursoId())){
-										sumaFaltas += Integer.valueOf(kaf.getFalta());
-										sumaTardanzas += Integer.valueOf(kaf.getTardanza());
-									}
-								}
-			    		        if(sumaFaltas > 0){//Si la suma de faltas es mayor que cero
-				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaFaltas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }
-			    		        
-			    		        if(sumaTardanzas > 0){//Si la suma de tardanzas es mayor que cero
-				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaTardanzas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }*/
+			    		      
 			    		        
 		    					k = lisAlumnoCurso.size();
 		    					encontro = true;
