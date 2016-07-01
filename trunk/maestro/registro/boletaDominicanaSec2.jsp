@@ -24,6 +24,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
+<%@page import="java.math.MathContext"%>
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="planClase" scope="page" class="aca.plan.Plan"/>
 <jsp:useBean id="curso" scope="page" class="aca.plan.PlanCurso"/>
@@ -569,10 +570,10 @@
 					    						setentaPorcientoPCP = (pcp*70f)/100;
 					    						//valor = frm3.format(setentaPorcientoPCP);
 					    						//setentaPorcientoPCP = Float.parseFloat(valor);
-					    						MathContext m = new MathContext(2, RoundingMode.HALF_UP);
+					    						MathContext m = new MathContext(4, RoundingMode.HALF_UP);
 					    						BigDecimal b = new BigDecimal(pcp, m);
 					    						b = b.multiply(BigDecimal.valueOf(70), m).divide(BigDecimal.valueOf(100), m);
-					    						celda = new PdfPCell(new Phrase(BigDecimal.valueOf(setentaPorcientoPCP).setScale(12, BigDecimal.ROUND_HALF_EVEN).toString(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+					    						celda = new PdfPCell(new Phrase(b.toString(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 			    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 					    						celda.setBorder(2);
 					    						tabla.addCell(celda);
@@ -617,7 +618,7 @@
 							 				if(cge.getEvaluacionNombre().toUpperCase().equals("EXAMEN")){
 							 					float examen = Float.parseFloat(valor);
 							 					float treintaPorciento = examen*0.3f;
-							 					celda = new PdfPCell(new Phrase(String.valueOf(treintaPorciento), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+							 					celda = new PdfPCell(new Phrase(frm3.format(treintaPorciento), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
@@ -638,7 +639,7 @@
 													krdxAlumExtra.getCursoId().equals(curso.getCursoId()) &&
 													krdxAlumExtra.getOportunidad().equals(cicloExtra.getOportunidad())){	
 						 						float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
-								 				celda = new PdfPCell(new Phrase(String.valueOf(anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+								 				celda = new PdfPCell(new Phrase(frm3.format(anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
@@ -664,7 +665,7 @@
 						 				}
 										if(!tieneNotaExtra){
 											float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
-											celda = new PdfPCell(new Phrase(String.valueOf(anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+											celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(6);
 							 				tabla.addCell(celda);
