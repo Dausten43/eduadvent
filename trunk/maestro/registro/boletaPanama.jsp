@@ -1509,14 +1509,16 @@
 						celda.setBorder(2);
 	    				tabla.addCell(celda);
 	    				
+	    				int trimestresConNota = 0;
 	    				for(int l = 0; l < cantidadTrimestres; l++){
 	    					
 	    					if(sumaPorTrimestre[l] > 0 && cantidadMaterias > 0){
 	    						int materiasTmp = materias;
 	    						materiasTmp = materiasTmp-materiasSinNota[l];
+	    						trimestresConNota++;
 	    						
 	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasTmp"+materiasTmp);
-	    						sumaPorTrimestre[l] = new BigDecimal(sumaPorTrimestre[l]+"").divide(new BigDecimal(materiasTmp+""), 8, RoundingMode.DOWN).floatValue();
+	    						sumaPorTrimestre[l] = new BigDecimal(sumaPorTrimestre[l]+"").divide(new BigDecimal(materiasTmp+""), 8, RoundingMode.HALF_UP).floatValue();
     	    					celda = new PdfPCell(new Phrase( frm3.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(2);
@@ -1530,7 +1532,7 @@
     	    				}
 						}
 	    				
-	    		    	if(todasTienenCalificacion ){
+	    		    	//if(todasTienenCalificacion ){
 	    		    		float notaDeTodas = 0;
 	    		    		for(int l=0; l<cantidadTrimestres; l++){
 	    		    			notaDeTodas += sumaPorTrimestre[l];
@@ -1538,17 +1540,18 @@
 	    		    		/*if(lisBloque.size()!=0){
 	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
 	    		    		}*/
-	    		    		notaDeTodas = (notaDeTodas/cantidadTrimestres);
-	    		    		celda = new PdfPCell(new Phrase( frm4.format(notaDeTodas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    		    		//notaDeTodas = (notaDeTodas/trimestresConNota);
+	    		    		BigDecimal promedioTrimestres = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(trimestresConNota+""), 8, RoundingMode.HALF_UP);
+	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres.floatValue()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(2);
 	        				tabla.addCell(celda);
-	    		    	}else{
+	    		    	/*}else{
 	    		    		celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(2);
 	        				tabla.addCell(celda);
-	    		    	}
+	    		    	}*/
 	    		    	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(2);
