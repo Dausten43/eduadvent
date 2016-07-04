@@ -140,8 +140,8 @@
 	        //document.setFooter(footer);
 	        document.open();
 	        
-	        //for(int i = 0; i < lisAlum.size(); i++){
-	        for(int i = 0; i < 1; i++){
+	        for(int i = 0; i < lisAlum.size(); i++){
+	        //for(int i = 0; i < 1; i++){
 	        	codigoAlumno = (String) lisAlum.get(i);
 	        	
 	        	//Map que suma las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
@@ -598,6 +598,9 @@
 													}
 												}else{
 													trimestresConNota++;
+									 				
+									 				contPCP++;
+									 				sumaPCP += Integer.parseInt(valor);
 												}
 											}else{
 												materiasSinNota[contador]++;
@@ -611,9 +614,6 @@
 											celda.setBorder(2);
 							 				tabla.addCell(celda);
 							 				contador++;
-							 				
-							 				contPCP++;
-							 				sumaPCP += Integer.parseInt(valor);
 							 				
 							 				if(cge.getEvaluacionNombre().toUpperCase().equals("EXAMEN")){
 							 					float examen = Float.parseFloat(valor);
