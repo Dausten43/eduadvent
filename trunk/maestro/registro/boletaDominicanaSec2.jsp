@@ -396,7 +396,7 @@
 		    				alumnoCurso = (AlumnoCurso) lisAlumnoCurso.get(k);
 		    				
 		    				/* Darle formato a las calificaciones antes de hacer operaciones con ellas */
-		    				alumnoCurso.setCal1( alumnoCurso.getCal1().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal1())) );
+		    				/*alumnoCurso.setCal1( alumnoCurso.getCal1().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal1())) );
 		    				alumnoCurso.setCal2( alumnoCurso.getCal2().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal2())) );
 		    				alumnoCurso.setCal3( alumnoCurso.getCal3().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal3())) );
 		    				alumnoCurso.setCal4( alumnoCurso.getCal4().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal4())) );
@@ -405,14 +405,15 @@
 		    				alumnoCurso.setCal7( alumnoCurso.getCal7().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal7())) );
 		    				alumnoCurso.setCal8( alumnoCurso.getCal8().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal8())) );
 		    				alumnoCurso.setCal9( alumnoCurso.getCal9().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal9())) );
-		    				alumnoCurso.setCal10( alumnoCurso.getCal10().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal10())) );
+		    				alumnoCurso.setCal10( alumnoCurso.getCal10().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal10())) );*/
 		    				
 		    				//System.out.println("Paso 4.1:"+codigoAlumno+":"+curso.getCursoNombre()+":"+);
 		    				//if(alumnoCurso.getCursoId().equals(curso.getCursoId()) && cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
 		    				if(cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
-		    					
+
+	    	    				System.out.println("curso.getGrado() = "+curso.getGrado());
 		    					if (Integer.parseInt(curso.getGrado()) != numGrado){
-		    	    				numGrado = 	Integer.parseInt(curso.getGrado());
+		    						numGrado = 	Integer.parseInt(curso.getGrado());
 		    	    				oficial = "1";
 		    	    				cantidadMaterias = 0;
 		    	    				
@@ -559,8 +560,11 @@
 												cge.getCursoId().equals(curso.getCursoId()) ){
 											
 											if(cge.getEvaluacionNombre().toUpperCase().equals("EXAMEN")){
-		    									pcp = (float)sumaPCP/contPCP;
+		    									System.out.println("pcp = (float)"+sumaPCP+"/"+contPCP);
+		    									if(sumaPCP > 0 && contPCP > 0)
+													pcp = (float)sumaPCP/contPCP;
 		    									String valor = frm3.format(pcp);
+		    									System.out.println("pcp(valor)="+valor);
 												pcp = Float.parseFloat(valor);
 												celda = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 			    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -585,6 +589,7 @@
 											String valor = "--";
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno)){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
+												System.out.println("sumaNotas(valor) = "+valor);
 												sumaNotas += Float.parseFloat(valor);
 												//sumaPorTrimestre[contador] += Float.parseFloat(valor);
 												if(curso.getTipocursoId().equals("3"))
@@ -616,18 +621,31 @@
 							 				contador++;
 							 				
 							 				if(cge.getEvaluacionNombre().toUpperCase().equals("EXAMEN")){
-							 					float examen = Float.parseFloat(valor);
-							 					float treintaPorciento = examen*0.3f;
-							 					celda = new PdfPCell(new Phrase(frm3.format(treintaPorciento), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-												celda.setBorder(2);
-								 				tabla.addCell(celda);
-								 				
-								 				float notaFinal = setentaPorcientoPCP + treintaPorciento;
-								 				celda = new PdfPCell(new Phrase(String.valueOf(frm.format(notaFinal)), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-												celda.setBorder(2);
-								 				tabla.addCell(celda);
+							 					if(!valor.equals("--")){
+								 					System.out.println("examen(valor)="+valor);
+								 					float examen = Float.parseFloat(valor);
+								 					float treintaPorciento = examen*0.3f;
+								 					celda = new PdfPCell(new Phrase(frm3.format(treintaPorciento), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+													celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+													celda.setBorder(2);
+									 				tabla.addCell(celda);
+									 				
+									 				float notaFinal = setentaPorcientoPCP + treintaPorciento;
+									 				celda = new PdfPCell(new Phrase(String.valueOf(frm.format(notaFinal)), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+													celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+													celda.setBorder(2);
+									 				tabla.addCell(celda);
+							 					}else{
+								 					celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+													celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+													celda.setBorder(2);
+									 				tabla.addCell(celda);
+									 				
+									 				celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+													celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+													celda.setBorder(2);
+									 				tabla.addCell(celda);
+							 					}
 							 				}
 										}
 									}
@@ -638,7 +656,8 @@
 											if(krdxAlumExtra.getCodigoId().equals(codigoAlumno) &&
 													krdxAlumExtra.getCursoId().equals(curso.getCursoId()) &&
 													krdxAlumExtra.getOportunidad().equals(cicloExtra.getOportunidad())){	
-						 						float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
+						 						System.out.println("anteriorPoricentoPCP(valorAnterior)="+cicloExtra.getValorAnterior());
+												float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
 								 				celda = new PdfPCell(new Phrase(frm3.format(anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
@@ -649,6 +668,8 @@
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
 								 				
+								 				System.out.println("krdxAlumExtra.getNotaExtra()="+krdxAlumExtra.getNotaExtra());
+								 				System.out.println("cicloExtra.getValorExtra()="+cicloExtra.getValorExtra());
 								 				float notaExtra = (Float.parseFloat(krdxAlumExtra.getNotaExtra())*Float.parseFloat(cicloExtra.getValorExtra()))/100;
 								 				celda = new PdfPCell(new Phrase(String.valueOf(notaExtra), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -664,6 +685,7 @@
 											}
 						 				}
 										if(!tieneNotaExtra){
+											System.out.println("!tieneNotaExtra="+cicloExtra.getValorAnterior());
 											float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
 											celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
