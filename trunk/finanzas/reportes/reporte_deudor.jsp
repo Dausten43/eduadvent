@@ -16,8 +16,8 @@
 	String ciclo			= request.getParameter("ciclo")==null?aca.ciclo.Ciclo.getCargaActual(conElias,escuelaId):request.getParameter("ciclo");
 
 	String nivel 	="-";
-	String grado 	= "";
-	String grupo 	= "";
+	String grado 	= "-";
+	String grupo 	= "-";
 	int cont		= 1;	
 	// Lista de Alumnos deudores
 	ArrayList <aca.vista.AlumnoSaldo> listAlumSaldo		= AlumSaldoL.getListAll(conElias, escuelaId);	
@@ -34,14 +34,25 @@
 <% 	
 	
 	for(int i=0; i<listAlumSaldo.size(); i++){
+		System.out.println(i);
 		if(!nivel.equals(listAlumSaldo.get(i).getNivelId())){
 		nivel=listAlumSaldo.get(i).getNivelId();
-		out.print("</table><div class='alert alert-info'>Nivel:"+nivel+"</div>");
+		if(i>=1){
+			out.print("</table>");
 		}
-			if(!grado.equals(listAlumSaldo.get(i).getGrado())||!grupo.equals(listAlumSaldo.get(i).getGrupo())){
+		out.print("<div class='alert alert-info'>Nivel:"+nivel+"</div>");
+		grado="-";
+		grupo="-";
+		}
+		System.out.println(grado+" "+listAlumSaldo.get(i).getGrado()+grupo+" "+listAlumSaldo.get(i).getGrupo());
+		if(!grado.equals(listAlumSaldo.get(i).getGrado())||!grupo.equals(listAlumSaldo.get(i).getGrupo())){
 				grado=listAlumSaldo.get(i).getGrado();
 				grupo = listAlumSaldo.get(i).getGrupo();
+				if (!grupo.equals(listAlumSaldo.get(i).getGrupo())){
+					out.print("</table>");
+				}
 				out.print("</table><div class='alert' >Grado: "+grado+" Grupo: "+grupo+"</div>");
+	
 %>
 			<table class="table  table-fontsmall table-striped">
 				<tr>
@@ -55,7 +66,7 @@
 		  <td width="5%"><%=cont%></td>
 		  <td width="10%"><%=listAlumSaldo.get(i).getCodigoId()%></td>
 		  <td width="50%"><%=aca.alumno.AlumPersonal.getNombre(conElias, listAlumSaldo.get(i).getCodigoId(), "APELLIDO")%></td>
-		  <td width="10%" style="text-align:right"><%=listAlumSaldo.get(i).getSaldo() %></td>	  
+		  <td width="10%" style="text-align:right"><%=listAlumSaldo.get(i).getSaldo() %></td>	 
 		</tr>
 <%
 cont++;}%>
