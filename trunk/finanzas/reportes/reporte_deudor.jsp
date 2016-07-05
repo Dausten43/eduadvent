@@ -34,7 +34,6 @@
 <% 	
 	
 	for(int i=0; i<listAlumSaldo.size(); i++){
-		System.out.println(i);
 		if(!nivel.equals(listAlumSaldo.get(i).getNivelId())){
 		nivel=listAlumSaldo.get(i).getNivelId();
 		if(i>=1){
