@@ -6,18 +6,19 @@
 
 <%@page import="aca.ciclo.Ciclo"%>
 
-<jsp:useBean id="Nivel" scope="page" class="aca.usuario.Usuario" />
 <jsp:useBean id="EmpPersonalL" scope="page" class="aca.empleado.EmpPersonalLista" />
 <jsp:useBean id="CicloLista" scope="page" class="aca.ciclo.CicloLista" />
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo" />
+
+
+<jsp:useBean id="nivelU" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
+<jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 <%
 	String codigoId 		= (String) session.getAttribute("codigoId");
 	String escuelaId 		= (String) session.getAttribute("escuela");
-	
 	String cicloId 			= request.getParameter("ciclo") == null ? Ciclo.getCargaActual(conElias, escuelaId) : request.getParameter("ciclo");
-	String nivel 			= Nivel.getNivel(conElias, codigoId);
 	
-	String[] listaNivel 	= nivel.split("-");
+	ArrayList<aca.catalogo.CatNivelEscuela> niveles = nivelU.getListEscuela(conElias, escuelaId, "ORDER BY 2");
 %>
 <body>
 	<div id="content">
@@ -40,20 +41,21 @@
 		</form>
 		<br>
 		<%
-			for (int j = 1; j < listaNivel.length; j++) {
-				ArrayList<aca.empleado.EmpPersonal> lisMaestro = EmpPersonalL.getListMaestroxNivel(conElias, escuelaId, listaNivel[j], cicloId, " ORDER BY NOMBRE");			
+			for (aca.catalogo.CatNivelEscuela nivel: niveles) {
+				
+				ArrayList<aca.empleado.EmpPersonal> lisMaestro = EmpPersonalL.getListMaestroxNivel(conElias, escuelaId, nivel.getNivelId(), cicloId, " ORDER BY NOMBRE");			
 				if (lisMaestro.size() > 0) {
 		%>
 		<table width="50%" border="0" align="center" class="table table-condensed">
 			<tr>
-				<th colspan="3"><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, listaNivel[j] + "")%></th>
+				<th colspan="3"><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivel.getNivelId() + "")%></th>
 			</tr>
 
 			<%
 				for (int i = 0; i < lisMaestro.size(); i++) {
 			%>
 			<tr class=button
-				onclick="location='materias.jsp?EmpleadoId=<%=lisMaestro.get(i).getCodigoId()%>&NivelId=<%=listaNivel[j]%>&cicloId=<%=cicloId%>'">
+				onclick="location='materias.jsp?EmpleadoId=<%=lisMaestro.get(i).getCodigoId()%>&NivelId=<%=nivel.getNivelId()%>&cicloId=<%=cicloId%>'">
 				<td align="center" width="1%"><%=i + 1%></td>
 				<td align="center" width="1%"><%=lisMaestro.get(i).getCodigoId()%></td>
 				<td width="5%"><%=lisMaestro.get(i).getNombre() + " "
