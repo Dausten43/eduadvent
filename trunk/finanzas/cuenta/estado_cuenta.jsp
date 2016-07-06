@@ -64,10 +64,11 @@
 %>
 
 <div id="content">
-	<center></center><h3><%=escuela.getEscuelaNombre() %></h3></center>
+	<center><h3><%=escuela.getEscuelaNombre() %></h3></center>
 	<h2>
-		Estado de cuenta 
+		<center>Estado de cuenta 
 		<small> <%=codigoId %> | <%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %> <%=AlumPersonal.getNombre() %></small>
+		</center>
 	</h2>
 	<form name="frmEstado" id="frmEstado" method="post" action="estado_cuenta.jsp">
 		<div class="well">
