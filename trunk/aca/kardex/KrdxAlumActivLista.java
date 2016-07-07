@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -46,6 +47,68 @@ public class KrdxAlumActivLista {
 		
 		return lisActiv;
 	}
+	
+	public static double getPromAlum(Connection conn, String cicloGrupoId, String cursoId, String evaluacionId, String codigoId) throws SQLException{
+		
+		
+		double promedio = 0.00;
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, AVG(NOTA) AS NOTA" +
+                " FROM KRDX_ALUM_ACTIV" +
+                " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
+                " AND CURSO_ID = '"+cursoId+"'" +
+                " AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') AND CODIGO_ID = '"+codigoId+"' GROUP BY CODIGO_ID";
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				promedio= rs.getDouble("NOTA");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumActivLista|getPromAlum|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return promedio;
+		
+	}
+	
+	public HashMap<String, Double> mapPromAlum(Connection conn, String cicloGrupoId, String cursoId, String evaluacionId, String codigoId) throws SQLException{
+		HashMap<String, Double> map 	= new HashMap<String, Double>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, AVG(NOTA) AS NOTA" +
+                " FROM KRDX_ALUM_ACTIV" +
+                " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
+                " AND CURSO_ID = '"+cursoId+"'" +
+                " AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') GROUP BY CODIGO_ID";
+			
+			rs = st.executeQuery(comando);		
+			while (rs.next()){
+	
+				map.put( rs.getString("CODIGO_ID"), rs.getDouble("NOTA"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumActivLista|mapPromAlum|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return map;
+	}
+	
+	
 	
 	
 	public ArrayList<KrdxAlumActiv> getEvaluacionesAlumno(Connection conn,String codigoId, String cicloGrupoId, String cursoId, String evaluacionId, String orden ) throws SQLException{
