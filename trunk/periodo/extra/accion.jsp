@@ -33,11 +33,11 @@
 		cicloExtra.setCicloId(cicloId);
 		cicloExtra.setOportunidad(oportunidad);
 		
-		cicloExtra.setValorAnterior(request.getParameter("ValorAnterior").substring(0,2));
-		cicloExtra.setValorExtra(request.getParameter("ValorExtra").substring(0,2));
+		cicloExtra.setValorAnterior(request.getParameter("ValorAnterior"));
+		cicloExtra.setValorExtra(request.getParameter("ValorExtra"));
 		cicloExtra.setOportunidadNombre(request.getParameter("OportunidadNombre"));
 
-		int total = Integer.parseInt(cicloExtra.getValorAnterior())+Integer.parseInt(cicloExtra.getValorExtra());
+		double total = Double.parseDouble(cicloExtra.getValorAnterior())+Double.parseDouble(cicloExtra.getValorExtra());
 		
 		if(total == 100){
 			if(!cicloExtra.existeReg(conElias)){
@@ -94,12 +94,12 @@
 		
 		<fieldset>
 				<label for="ValorAnterior"><fmt:message key="aca.ValorAnteriorCalificacionPorcentaje"/> % </label>
-	        	<input type="text" id="ValorAnterior" name="ValorAnterior" value="<%=cicloExtra.getValorAnterior() %>" size="8" maxlength="10" />
+	        	<input type="number" min="0" mad="100" step="0.01"id="ValorAnterior" name="ValorAnterior" value="<%=cicloExtra.getValorAnterior()%>" size="8" maxlength="10" />
 		</fieldset>
 		
 		<fieldset>
 				<label for="ValorExtra"><fmt:message key="aca.ValorOportunidadPorcentaje" /> % </label>
-	        	<input type="text" id="ValorExtra" name="ValorExtra" value="<%=cicloExtra.getValorExtra()%>" size="8" maxlength="10" />
+	        	<input type="number"  min="0" step="0.01" mad="100" id="ValorExtra" name="ValorExtra" value="<%=cicloExtra.getValorExtra()%>" size="8" maxlength="10" />
 		</fieldset>
 		
 		<fieldset>
