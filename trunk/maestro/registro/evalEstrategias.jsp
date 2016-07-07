@@ -14,12 +14,9 @@
 <script>
 	function Guardar(opcion) {
 		if (opcion == "1") {
-			if (document.frmNotas.NotaAct.value != "") {
 				document.frmNotas.action += "&Accion=1";
 				return true;
-			} else {
-				alert("<fmt:message key="js.Completar" />");
-			}
+			
 		} else {
 			if (document.frmNotas.NotaEval.value != "") {
 				document.frmNotas.action += "&Accion=2";
@@ -98,7 +95,7 @@
 					}
 				}
 			}
-
+			System.out.println("error:" +error);
 			// Si no hay errores al grabar las actividades
 			if (error == 0) {
 
@@ -237,7 +234,7 @@
 						KrdxActiv.mapeaRegId(conElias, codigoAlumno, cicloGrupoId, cursoId, evaluacion, act.getActividadId());
 				%>
 						<td>
-							<input class="input-mini" type="text" id="NotaAct" name="NotaAct<%=act.getActividadId()%>" value="<%=KrdxActiv.getNota()%>" maxlength="3" size="3" />
+							<input class="input-mini" required type="text" id="NotaAct" name="NotaAct<%=act.getActividadId()%>" value="<%=KrdxActiv.getNota()%>" maxlength="3" size="3" />
 						</td>
 				<%
 					}
