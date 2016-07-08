@@ -79,18 +79,36 @@ public class KrdxAlumActivLista {
 		
 	}
 	
-	public HashMap<String, Double> mapPromAlum(Connection conn, String cicloGrupoId, String cursoId, String evaluacionId, String codigoId) throws SQLException{
+	public HashMap<String, Double> mapPromAlum(Connection conn, String cicloGrupoId, String cursoId, String evaluacionId, String codigoId, String decimales, String redondeo) throws SQLException{
 		HashMap<String, Double> map 	= new HashMap<String, Double>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;
 		String comando	= "";
 		
+
+		
 		try{
-			comando = "SELECT CODIGO_ID, AVG(NOTA) AS NOTA" +
-                " FROM KRDX_ALUM_ACTIV" +
-                " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
-                " AND CURSO_ID = '"+cursoId+"'" +
-                " AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') GROUP BY CODIGO_ID";
+			
+			
+			if(redondeo.equals("T")){
+				
+				comando = "SELECT CODIGO_ID, TRUNC(AVG(NOTA), '"+decimales+"')AS NOTA"+
+		                " FROM KRDX_ALUM_ACTIV" +
+		                " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
+		                " AND CURSO_ID = '"+cursoId+"'" +
+		                " AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') GROUP BY CODIGO_ID";
+		
+			}else{
+				comando = "SELECT CODIGO_ID, ROUND(AVG(NOTA), '"+decimales+"')AS NOTA"+
+		                " FROM KRDX_ALUM_ACTIV" +
+		                " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
+		                " AND CURSO_ID = '"+cursoId+"'" +
+		                " AND EVALUACION_ID = TO_NUMBER('"+evaluacionId+"', '99') GROUP BY CODIGO_ID";
+			}
+			
+			
+			
+
 			
 			rs = st.executeQuery(comando);		
 			while (rs.next()){
