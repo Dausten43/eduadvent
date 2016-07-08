@@ -81,12 +81,15 @@
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);	
 	
+	java.util.HashMap<String, Double> mapProm  =  krdxAlumActivL.mapPromAlum(conElias, cicloGrupoId, cursoId, evaluacionId, codigoId, decimales, redondeo);
 	
 	//CONDICIONES DE LAS NOTAS ---------------------------->
 	//String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
 	float notaAC 				= Float.parseFloat(aca.plan.PlanCurso.getNotaAC(conElias, cursoId)); /* La nota con la que se acredita el cursoId */	
 	int escalaCiclo				= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */	
 	int escala 					= 0;
+	
+	int decimal				= Integer.parseInt(decimales);
 	
 	// En Panama respetamos la configuracion del sistema, en México y Dominicana evaluacion de 0-100 pero promediamos en 10
 	if (!escuelaId.substring(0,1).equals("H")) 
@@ -478,28 +481,43 @@
 							}								
 							
 							//float promedioActividades = 0f;
-							BigDecimal promedioActividades = new BigDecimal("0");
+							String round = "";
+							if(redondeo.equals("T")){
+								round="RoundingMode.HALF_DOWN";
+							}else if(redondeo.equals("R")){
+								round="RoundingMode.HALF_DOWN";
+							}
+							/*BigDecimal promedioActividades = new BigDecimal("0");
 							for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
 								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
 									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){							
 										//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 										if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 											if (calculaPromedio.equals("P")){
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, decimal, round) );
 											}else{
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, decimal, round) );
 											}
 										}
 									}
 								}
+							}*/
+							
+							double promedioActividades = 0.00;
+							if(mapProm.containsKey(kardex.getCodigoId())){
+								promedioActividades = mapProm.get(kardex.getCodigoId());
 							}
+							
+							
 						%>
 
 							<td class="text-center">
 							<% 	if (decimales.equals("0")){
 									out.print(frmEntero.format(promedioActividades));
+									System.out.println(promedioActividades);
 								}else{
 									out.print(frmDecimal1.format(promedioActividades));
+									System.out.println(promedioActividades);
 								}%>
 							</td>
 
@@ -510,9 +528,11 @@
 							String strProm = "-";
 							if( promedio != null && !promedio.equals("-") ){
 								if(decimales.equals("0")){
-									strProm = frmEntero.format(Double.parseDouble(promedio)).replaceAll(",", ".");									
+									strProm = frmEntero.format(Double.parseDouble(promedio)).replaceAll(",", ".");
+									
 								}else{
 									strProm = frmDecimal1.format(Double.parseDouble(promedio)).replaceAll(",", ".");
+									
 								}
 							}
 						%>
