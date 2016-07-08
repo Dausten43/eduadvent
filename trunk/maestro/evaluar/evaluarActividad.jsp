@@ -514,10 +514,8 @@
 							<td class="text-center">
 							<% 	if (decimales.equals("0")){
 									out.print(frmEntero.format(promedioActividades));
-									System.out.println(promedioActividades);
 								}else{
 									out.print(frmDecimal1.format(promedioActividades));
-									System.out.println(promedioActividades);
 								}%>
 							</td>
 
