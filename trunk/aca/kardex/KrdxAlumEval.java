@@ -494,6 +494,53 @@ public class KrdxAlumEval {
 		return nota;
 	}
 	
+	public static String getNotaEval(Connection conn, String codigoId, String cicloGrupoId, String cursoId, int evaluacionId, String decimales, String redondeo) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String nota	 			= "-";
+		
+		try{
+			
+			if(redondeo.equals("T")){
+				ps = conn.prepareStatement("SELECT TRUNC(AVG(NOTA),'"+decimales+"') AS CAL FROM KRDX_ALUM_EVAL" +
+						" WHERE CODIGO_ID = ?" +
+						" AND CICLO_GRUPO_ID = ?" +
+						" AND CURSO_ID = ?" +
+						" AND EVALUACION_ID = ?");	
+				ps.setString(1, codigoId);
+				ps.setString(2, cicloGrupoId);
+				ps.setString(3, cursoId);
+				ps.setInt(4, evaluacionId);
+			}else{
+				ps = conn.prepareStatement("SELECT ROUND(AVG(NOTA),'"+decimales+"') AS CAL FROM KRDX_ALUM_EVAL" +
+						" WHERE CODIGO_ID = ?" +
+						" AND CICLO_GRUPO_ID = ?" +
+						" AND CURSO_ID = ?" +
+						" AND EVALUACION_ID = ?");	
+				ps.setString(1, codigoId);
+				ps.setString(2, cicloGrupoId);
+				ps.setString(3, cursoId);
+				ps.setInt(4, evaluacionId);
+			}
+			
+
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				nota = rs.getString("CAL");				
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEval|getNotaEval|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return nota;
+	}
+	
+	
 	public static float alumNotaEvalPuntoDecimal(Connection conn, String codigoId, String cicloGrupoId, String cursoId, String evaluacionId) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
@@ -621,6 +668,50 @@ public class KrdxAlumEval {
 				" AND EVALUACION_ID = TO_NUMBER(?, '99')" +
 				" AND CODIGO_ID = ?" +
 				" AND NOTA != 0");
+			ps.setString(1, cicloGrupoId);
+			ps.setString(2, cursoId);
+			ps.setString(3, evaluacionId);
+			ps.setString(4, codigoId);
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				promedio = rs.getDouble("PROMEDIO");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumEval|calculoPorPromedio|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return promedio;
+	}
+	
+	
+	public static double calculoPorPromedio(Connection conn, String cicloGrupoId, String cursoId, String evaluacionId, String codigoId, String decimales, String redondeo) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		double promedio			= 0;
+		
+		try{
+			if(redondeo.equals("TRUNK")){
+			ps = conn.prepareStatement("SELECT TRUNC(AVG(NOTA),'"+decimales+"') AS PROMEDIO " +
+				" FROM KRDX_ALUM_ACTIV" +
+				" WHERE CICLO_GRUPO_ID = ?" +
+				" AND CURSO_ID = ?" +
+				" AND EVALUACION_ID = TO_NUMBER(?, '99')" +
+				" AND CODIGO_ID = ?" +
+				" AND NOTA != 0");
+			}else{
+				ps = conn.prepareStatement("SELECT ROUND(AVG(NOTA),'"+decimales+"') AS PROMEDIO " +
+						" FROM KRDX_ALUM_ACTIV" +
+						" WHERE CICLO_GRUPO_ID = ?" +
+						" AND CURSO_ID = ?" +
+						" AND EVALUACION_ID = TO_NUMBER(?, '99')" +
+						" AND CODIGO_ID = ?" +
+						" AND NOTA != 0");
+			}
 			ps.setString(1, cicloGrupoId);
 			ps.setString(2, cursoId);
 			ps.setString(3, evaluacionId);
