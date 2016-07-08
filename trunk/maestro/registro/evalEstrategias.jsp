@@ -39,6 +39,9 @@
 	String cursoId = request.getParameter("materia");
 	String evaluacion = request.getParameter("evaluacionId");
 	String codigoAlumno = (String) request.getParameter("codigoAlumno");
+	
+	String redondeo			= aca.ciclo.CicloBloqueLista.getRedondeo(conElias, cicloId, evaluacion);
+	String decimales		= aca.ciclo.CicloBloqueLista.getDecimales(conElias, cicloId, evaluacion);
 
 	String calculo = aca.ciclo.CicloGrupoEval.getCalculo(conElias, cicloGrupoId, cursoId, evaluacion);
 	int escala = aca.ciclo.Ciclo.getEscala(conElias, cicloId);
@@ -99,7 +102,7 @@
 			// Si no hay errores al grabar las actividades
 			if (error == 0) {
 
-				int prom = 0;
+				double prom = 0;
 				// Recalcula y graba el promedio de la evaluacion
 				KrdxEval.setCicloGrupoId(cicloGrupoId);
 				KrdxEval.setCursoId(cursoId);
@@ -111,9 +114,9 @@
 					promedio = promedio + .5;
 					prom = (int) promedio;
 				} else {
-					promedio = aca.kardex.KrdxAlumEval.calculoPorPromedio(conElias, cicloGrupoId, cursoId, evaluacion, codigoAlumno);
-					promedio = promedio + .5;
-					prom = (int) promedio;
+					promedio = aca.kardex.KrdxAlumEval.calculoPorPromedio(conElias, cicloGrupoId, cursoId, evaluacion, codigoAlumno, decimales, redondeo);
+					//promedio = promedio + .5;
+					prom = promedio;
 				}
 				KrdxEval.setNota(String.valueOf(prom));
 				
