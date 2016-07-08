@@ -74,9 +74,11 @@
 	String evaluacionId		= request.getParameter("EvaluacionId");
 	String estado			= request.getParameter("estado")==null?"":request.getParameter("estado");
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	String bloqueId			= request.getParameter("bloqueId")==null?"":request.getParameter("bloqueId");
 	
-	String redondeo			= aca.ciclo.Ciclo.getRedondeo(conElias, cicloId);
-	String decimales		= aca.ciclo.Ciclo.getDecimales(conElias, cicloId);
+	System.out.println(evaluacionId);
+	String redondeo			= aca.ciclo.CicloBloqueLista.getRedondeo(conElias, cicloId, evaluacionId);
+	String decimales		= aca.ciclo.CicloBloqueLista.getDecimales(conElias, cicloId, evaluacionId);
 	String calculaPromedio  = aca.ciclo.CicloBloque.getCalculo(conElias, cicloId, evaluacionId);	
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);	
@@ -521,8 +523,7 @@
 
 						<%
 							// obtiene el promedio de la evaluacion que esta en la BD
-							String promedio =  aca.kardex.KrdxAlumEval.getNotaEval(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, Integer.parseInt(evaluacionId));		
-						
+							String promedio =  aca.kardex.KrdxAlumEval.getNotaEval(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, Integer.parseInt(evaluacionId), decimales, redondeo);		
 							String strProm = "-";
 							if( promedio != null && !promedio.equals("-") ){
 								if(decimales.equals("0")){
