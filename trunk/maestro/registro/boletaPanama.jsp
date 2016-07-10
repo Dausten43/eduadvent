@@ -79,6 +79,13 @@
 	}else{
 		frm.setRoundingMode(java.math.RoundingMode.DOWN);	
 	}
+	if(ciclo.getRedondeo().equals("T")){//Si se trunca
+		frm3.setRoundingMode(java.math.RoundingMode.DOWN);
+		frm4.setRoundingMode(java.math.RoundingMode.DOWN);
+	}else{//Si se redondea
+		frm3.setRoundingMode(java.math.RoundingMode.HALF_UP);
+		frm4.setRoundingMode(java.math.RoundingMode.HALF_UP);
+	}
 		
 	CatParametro.setEscuelaId(escuela);
 	boolean firmaDirector = false;
@@ -1457,9 +1464,15 @@
 	    					if(sumaPorTrimestreIngles[l] > 0 && cantidadMaterias > 0){
 	    						int materiasTmp = materiasIngles;
 	    						materiasTmp = materiasTmp-materiasSinNotaIngles[l];
+	    						double resultado =  0d;
 	    						
-	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasTmp"+materiasTmp);
-	    						double resultado = Math.round(((float) sumaPorTrimestreIngles[l])/((float)materiasTmp) * 100.0) / 100.0;//new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 1, RoundingMode.DOWN).floatValue();
+	    						if(ciclo.getRedondeo().equals("T")){
+	    							resultado = new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 8, RoundingMode.DOWN).doubleValue();
+	    						}else{ //Si es redondeado
+	    						    resultado = new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 8, RoundingMode.HALF_UP).doubleValue();
+	    						}
+	    						//System.out.println("resultado Ingles: "+resultado);
+	    						
     	    					celda = new PdfPCell(new Phrase( frm3.format(resultado), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(0);
@@ -1482,7 +1495,9 @@
 	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
 	    		    		}*/
 	    		    		notaDeTodas = (notaDeTodas/cantidadTrimestres);
-	    		    		celda = new PdfPCell(new Phrase( frm4.format(notaDeTodas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    		    		
+	    		    		String texto = frm4.format(notaDeTodas);
+	    		    		celda = new PdfPCell(new Phrase( texto, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(0);
 	        				tabla.addCell(celda);
@@ -1542,6 +1557,7 @@
 	    		    		}*/
 	    		    		//notaDeTodas = (notaDeTodas/trimestresConNota);
 	    		    		BigDecimal promedioTrimestres = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(trimestresConNota+""), 8, RoundingMode.HALF_UP);
+	    		    		//System.out.println(promedioTrimestres.floatValue());
 	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres.floatValue()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(2);
