@@ -1477,6 +1477,8 @@
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(0);
     	        				tabla.addCell(celda);
+    	        				
+    	        				sumaPorTrimestreIngles[l] = Float.parseFloat(frm3.format(resultado));
     	    				}else{ 
     	    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1486,27 +1488,33 @@
     	    				}
 						}
 	    				
-	    		    	if(todasTienenCalificacionIngles ){
+	    		    	//if(todasTienenCalificacionIngles ){
 	    		    		float notaDeTodas = 0;
+	    		    		int trimestresSinNotaIngles = 0;
 	    		    		for(int l=0; l<cantidadTrimestres; l++){
 	    		    			notaDeTodas += sumaPorTrimestreIngles[l];
+	    		    			//System.out.println(sumaPorTrimestreIngles[l]);
+	    		    			if(sumaPorTrimestreIngles[l] == 0)
+	    		    				trimestresSinNotaIngles++;
 	    		    		}
 	    		    		/*if(lisBloque.size()!=0){
 	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
 	    		    		}*/
-	    		    		notaDeTodas = (notaDeTodas/cantidadTrimestres);
+	    		    		//System.out.println("notaDeTodas = ("+notaDeTodas+"/("+cantidadTrimestres+"-"+trimestresSinNotaIngles+"));");
+	    		    		//notaDeTodas = (notaDeTodas/(float)(cantidadTrimestres-trimestresSinNotaIngles));
+	    		    		double totalIngles = new BigDecimal(notaDeTodas+"").divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+""), 8, RoundingMode.HALF_UP).doubleValue();
+	    		    		//System.out.println(notaDeTodas+" format = "+frm3.format(Double.parseDouble(String.valueOf(notaDeTodas))));
 	    		    		
-	    		    		String texto = frm4.format(notaDeTodas);
-	    		    		celda = new PdfPCell(new Phrase( texto, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    		    		celda = new PdfPCell(new Phrase( frm3.format(totalIngles), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(0);
 	        				tabla.addCell(celda);
-	    		    	}else{
+	    		    	/*}else{
 	    		    		celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(0);
 	        				tabla.addCell(celda);
-	    		    	}
+	    		    	}*/
 	    		    	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(0);
@@ -1548,7 +1556,7 @@
 						}
 	    				
 	    		    	//if(todasTienenCalificacion ){
-	    		    		float notaDeTodas = 0;
+	    		    		notaDeTodas = 0;
 	    		    		for(int l=0; l<cantidadTrimestres; l++){
 	    		    			notaDeTodas += sumaPorTrimestre[l];
 	    		    		}
