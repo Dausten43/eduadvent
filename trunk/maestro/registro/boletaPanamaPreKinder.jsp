@@ -125,7 +125,7 @@
 	
 	if (lisAlum.size() > 0){		
 		
-		Document document = new Document(PageSize.LETTER); //Crea un objeto para el documento PDF
+		Document document = new Document(PageSize.LETTER.rotate()); //Crea un objeto para el documento PDF
 		// left, Right, top, bottom
 		document.setMargins(25,25,20,20);
 		
@@ -134,13 +134,13 @@
 			String dir = application.getRealPath("/maestro/registro/")+"/"+"boleta"+cicloGrupoId+".pdf";
 			PdfWriter pdf = PdfWriter.getInstance(document, new FileOutputStream(dir));
 			document.addAuthor("Sistema Escolar");
-	        document.addSubject("Boleta de "+alumPersonal.getNombre());
+	        document.addSubject("Boletas de "+cicloGrupoId);
 			//HeaderFooter footer = new HeaderFooter(new Phrase("Nota: Cr=Creditos; HT=Hrs teóricas; HP=Hrs prácticas; Tipo= de nota[Ext=Extraordinaria; Conv=Convalidacion; TS=Título Suficiencia; CD=Calif. Diferida]; Edo=Estado", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD)), true);
 	        //document.setFooter(footer);
 	        document.open();
 	        
-	        for(int i = 0; i < lisAlum.size(); i++){
-	        //for(int i = 0; i < 1; i++){
+	        //for(int i = 0; i < lisAlum.size(); i++){
+	        for(int i = 0; i < 1; i++){
 	        	codigoAlumno = (String) lisAlum.get(i);
 	        	
 	        	//Map que suma las notas de un alumno en un bloque o bimestre (por cada tipo de curso)
@@ -158,6 +158,437 @@
 				ArrayList<aca.plan.PlanCurso> lisCurso;
 				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, ORDEN");
 				ArrayList lisAlumnoCurso = alumnoCursoLista.getListAll(conElias, escuela," AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
+				
+				float columnasWidth[] = {33f, 33f, 34f};
+				PdfPTable columnasTable = new PdfPTable(columnasWidth);
+				columnasTable.getDefaultCell().setBorder(0);
+				columnasTable.setWidthPercentage(100f);
+				columnasTable.setKeepTogether(true);
+				columnasTable.setSpacingBefore(30f);
+				columnasTable.setSplitLate(false);
+				
+				
+	            PdfPCell cell = null;
+	            
+				PdfPTable izquierdaTable;
+				
+				//Esta seccion espara la columna de la izquierda
+				{
+					float izquierdaWidth[] = {16f, 17f, 17f, 16f, 17f, 17f};
+					izquierdaTable = new PdfPTable(izquierdaWidth);
+					izquierdaTable.getDefaultCell().setBorder(0);
+					izquierdaTable.setWidthPercentage(100f);
+					izquierdaTable.setKeepTogether(true);
+					izquierdaTable.setSpacingBefore(30f);
+					izquierdaTable.setSplitLate(false);
+					
+					cell = new PdfPCell(new Phrase("Antecedentes de Salud", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				cell.setBorder(0);
+	 				cell.setColspan(6);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("Control de crecimiento", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				cell.setBorder(0);
+	 				cell.setColspan(6);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("Edad al 1° de abril /_____/_____/_____/", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				cell.setBorder(0);
+	 				cell.setColspan(6);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("Fecha", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("Peso (lbs)", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("Talla (cms)", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(2);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("Tipo de sangre:__________", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				cell.setBorder(0);
+	 				cell.setColspan(6);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("Registro de vacunas", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				cell.setBorder(0);
+	 				cell.setColspan(6);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("Polio oral Trivalente (sabín)", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("D.P.T. (Disfteria-Tosferina-Tétanos)", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("RN", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("1ra.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("2m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("1ra.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("2 m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("2da.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("4m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("2da.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("4 m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("3ra.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("6m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("3ra.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("6 m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("1er R", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("2m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("RN", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("1ra.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("2m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("RN", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("1ra.", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase("2m", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+	 				
+	 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+	 				//cell.setBorder(0);
+	 				//cell.setColspan(3);
+	 				izquierdaTable.addCell(cell);
+				}
+				
+				
+				cell = new PdfPCell(izquierdaTable);
+ 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+ 				//cell.setBorder(1);
+ 				columnasTable.addCell(cell);
+ 				
+ 				cell = new PdfPCell(new Phrase("Derechos Universales de los niños y las niñas", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+ 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+ 				//cell.setBorder(1);
+ 				columnasTable.addCell(cell);
+ 				
+ 				cell = new PdfPCell(new Phrase("NOMBRE DE LA ESCUELA ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+ 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+ 				//cell.setBorder(1);
+ 				columnasTable.addCell(cell);
+				
+				document.add(columnasTable);
+				
 				float wrapwidth[] = {100f};
 				PdfPTable wrapTable = new PdfPTable(wrapwidth);
 				wrapTable.getDefaultCell().setBorder(0);
@@ -171,8 +602,6 @@
 				topTable.setWidthPercentage(80f);
 				topTable.setHorizontalAlignment(Element.ALIGN_CENTER);
 				topTable.setSpacingAfter(5f);
-				
-	            PdfPCell cell = null;
 	            
 	            
 	           
@@ -629,7 +1058,7 @@
 		    	    				float[] sumaPorBimestreTmp = new float[10];
 		    	    				for(int l = 0; l < lisBloque.size(); l++){
 		    	    					float tmp = 0;
-		    	    					if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){ 
+		    	    					if(sumaPorBimestre[l] > 0 && (cantidadMaterias-materiasSinNota[l]) > 0){ 
 		    	    						tmp = sumaPorBimestre[l];
 		    	    						int cantidadMateriasTmp = cantidadMaterias;
 		    	    						cantidadMateriasTmp = cantidadMateriasTmp-materiasSinNota[l];
@@ -704,110 +1133,7 @@
 		    					int cantidadBimestres = 0;
 		    					BigDecimal sumaBimestres = new BigDecimal("0");
 		    					
-		    					/*if(!alumnoCurso.getCal1().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal1()) );
-		    						sumaPorBimestre[0] += Float.parseFloat(alumnoCurso.getCal1());
-		    					}else{
-		    						materiasSinNota[0] = materiasSinNota[0]+1;
-		    					}
-		    					if(!alumnoCurso.getCal2().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal2()) );
-		    						sumaPorBimestre[1] += Float.parseFloat(alumnoCurso.getCal2());
-		    					}else{
-		    						materiasSinNota[1] = materiasSinNota[1]+1;
-		    					}
-		    					if(!alumnoCurso.getCal3().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal3()) );
-		    						sumaPorBimestre[2] += Float.parseFloat(alumnoCurso.getCal3());
-		    					}else{
-		    						materiasSinNota[2] = materiasSinNota[2]+1;
-		    					}
-		    					if(!alumnoCurso.getCal4().equals("-")){
-		    						cantidadBimestres++;
-		    						//System.out.println("Datos:"+codigoAlumno+":"+alumnoCurso.getCal4());
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal4()) );
-		    						sumaPorBimestre[3] += Float.parseFloat(alumnoCurso.getCal4());
-		    					}else{
-		    						materiasSinNota[3] = materiasSinNota[3]+1;
-		    					}
-		    					if(!alumnoCurso.getCal5().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal5()) );
-		    						sumaPorBimestre[4] += Float.parseFloat(alumnoCurso.getCal5());
-		    					}else{
-		    						materiasSinNota[4] = materiasSinNota[4]+1;
-		    					}
-		    					
-		    					if(!alumnoCurso.getCal6().equals("-")){
-		    						cantidadBimestres++;	    							    
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal6()) );
-		    						sumaPorBimestre[5] += Float.parseFloat(alumnoCurso.getCal6());
-		    					}else{
-		    						materiasSinNota[5] = materiasSinNota[5]+1;
-		    					}
-		    					
-		    					if(!alumnoCurso.getCal7().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal7()) );
-		    						sumaPorBimestre[6] += Float.parseFloat(alumnoCurso.getCal7());
-		    					}else{
-		    						materiasSinNota[6] = materiasSinNota[6]+1;
-		    					}
-		    					if(!alumnoCurso.getCal8().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal8()) );
-		    						sumaPorBimestre[7] += Float.parseFloat(alumnoCurso.getCal8());
-		    					}else{
-		    						materiasSinNota[7] = materiasSinNota[7]+1;
-		    					}    					
-		    					if(!alumnoCurso.getCal9().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal9()) );
-		    						sumaPorBimestre[8] += Float.parseFloat(alumnoCurso.getCal9());
-		    					}else{
-		    						materiasSinNota[8] = materiasSinNota[8]+1;
-		    					}    					
-		    					if(!alumnoCurso.getCal10().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal10()) );
-		    						sumaPorBimestre[9] += Float.parseFloat(alumnoCurso.getCal10());
-		    					}else{
-		    						materiasSinNota[9] = materiasSinNota[9]+1;
-		    					}	    					
 		    					    					
-		    					if(!alumnoCurso.getFalta1().equals("0")){
-		    						faltasPorBimestre[0] += Float.parseFloat(alumnoCurso.getFalta1());
-		    					}
-		    					if(!alumnoCurso.getFalta2().equals("0")){
-		    						faltasPorBimestre[1] += Float.parseFloat(alumnoCurso.getFalta2());
-		    					}
-		    					if(!alumnoCurso.getFalta3().equals("0")){
-		    						faltasPorBimestre[2] += Float.parseFloat(alumnoCurso.getFalta3());
-		    					}
-		    					if(!alumnoCurso.getFalta4().equals("0")){
-		    						faltasPorBimestre[3] += Float.parseFloat(alumnoCurso.getFalta4());
-		    					}
-		    					if(!alumnoCurso.getFalta5().equals("0")){
-		    						faltasPorBimestre[4] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta6().equals("0")){
-		    						faltasPorBimestre[5] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta7().equals("0")){
-		    						faltasPorBimestre[6] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta8().equals("0")){
-		    						faltasPorBimestre[7] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta9().equals("0")){
-		    						faltasPorBimestre[8] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta10().equals("0")){
-		    						faltasPorBimestre[9] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}*/    					
 		    						    					
 		    					celda = new PdfPCell(new Phrase(String.valueOf(materias+1), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1464,7 +1790,7 @@
 	    				tabla.addCell(celda);
 	    				
 	    				for(int l = 0; l < cantidadTrimestres; l++){
-	    					if(sumaPorTrimestreIngles[l] > 0 && cantidadMaterias > 0){
+	    					if(sumaPorTrimestreIngles[l] > 0 && (cantidadMaterias-materiasSinNotaIngles[l]) > 0){
 	    						int materiasTmp = materiasIngles;
 	    						materiasTmp = materiasTmp-materiasSinNotaIngles[l];
 	    						double resultado =  0d;
@@ -1507,7 +1833,7 @@
 	    		    		System.out.println("notaDeTodas = ("+notaDeTodas+"/("+cantidadTrimestres+"-"+trimestresSinNotaIngles+"));");
 	    		    		//notaDeTodas = (notaDeTodas/(float)(cantidadTrimestres-trimestresSinNotaIngles));
 	    		    		double totalIngles = 0d;
-	    		    		if(notaDeTodas > 0)
+	    		    		if(notaDeTodas > 0 && (cantidadTrimestres-trimestresSinNotaIngles) > 0)
 	    		    			totalIngles = new BigDecimal(notaDeTodas+"").divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+""), 8, RoundingMode.HALF_UP).doubleValue();
 	    		    		//System.out.println(notaDeTodas+" format = "+frm3.format(Double.parseDouble(String.valueOf(notaDeTodas))));
 	    		    		
@@ -1571,7 +1897,9 @@
 	    		    		}*/
 	    		    		System.out.println(codigoAlumno+"total de curso en todas las materias");
 	    		    		//notaDeTodas = (notaDeTodas/trimestresConNota);
-	    		    		BigDecimal promedioTrimestres = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(trimestresConNota+""), 8, RoundingMode.HALF_UP);
+	    		    		BigDecimal promedioTrimestres = new BigDecimal(0);
+	    		    		if(notaDeTodas > 0 && trimestresConNota > 0)
+	    		    			promedioTrimestres= new BigDecimal(notaDeTodas+"").divide(new BigDecimal(trimestresConNota+""), 8, RoundingMode.HALF_UP);
 	    		    		//System.out.println(promedioTrimestres.floatValue());
 	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres.floatValue()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
