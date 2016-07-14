@@ -912,7 +912,7 @@
 											if(curso.getTipocursoId().equals("3"))
 												sumaPorTrimestreIngles[l] += Float.parseFloat(valor);
 											valor = String.valueOf(frm.format(Double.parseDouble(valor)));
-											
+											System.out.println("Trimestre "+l+"; nota = "+valor);
 											if(Float.parseFloat(valor) == 0){
 												valor ="--";
 												materiasSinNota[l]++;
@@ -923,11 +923,13 @@
 												trimestresConNota++;
 											}
 										}else{
+											System.out.println("Trimestre "+l+"; nota = "+valor);
 											materiasSinNota[l]++;
 											if(curso.getTipocursoId().equals("3"))
 												materiasSinNotaIngles[l]++;
 										}
 										
+										System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+" materiasSinNota[l] = "+materiasSinNota[l]);
 										celda = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 										celda.setBorder(0);
@@ -948,6 +950,7 @@
 												if(curso.getTipocursoId().equals("3"))
 													sumaPorTrimestreIngles[contador] += Float.parseFloat(valor);
 												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
+												
 												if(Float.parseFloat(valor) == 0){
 													valor ="--";
 													materiasSinNota[contador]++;
@@ -1500,9 +1503,12 @@
 	    		    		/*if(lisBloque.size()!=0){
 	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
 	    		    		}*/
-	    		    		//System.out.println("notaDeTodas = ("+notaDeTodas+"/("+cantidadTrimestres+"-"+trimestresSinNotaIngles+"));");
+	    		    		System.out.println(codigoAlumno+" Total Ingles");
+	    		    		System.out.println("notaDeTodas = ("+notaDeTodas+"/("+cantidadTrimestres+"-"+trimestresSinNotaIngles+"));");
 	    		    		//notaDeTodas = (notaDeTodas/(float)(cantidadTrimestres-trimestresSinNotaIngles));
-	    		    		double totalIngles = new BigDecimal(notaDeTodas+"").divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+""), 8, RoundingMode.HALF_UP).doubleValue();
+	    		    		double totalIngles = 0d;
+	    		    		if(notaDeTodas > 0)
+	    		    			totalIngles = new BigDecimal(notaDeTodas+"").divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+""), 8, RoundingMode.HALF_UP).doubleValue();
 	    		    		//System.out.println(notaDeTodas+" format = "+frm3.format(Double.parseDouble(String.valueOf(notaDeTodas))));
 	    		    		
 	    		    		celda = new PdfPCell(new Phrase( frm3.format(totalIngles), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
@@ -1535,12 +1541,12 @@
 	    				int trimestresConNota = 0;
 	    				for(int l = 0; l < cantidadTrimestres; l++){
 	    					
-	    					if(sumaPorTrimestre[l] > 0 && cantidadMaterias > 0){
+	    					if(sumaPorTrimestre[l] > 0 && materias > materiasSinNota[l]){
 	    						int materiasTmp = materias;
 	    						materiasTmp = materiasTmp-materiasSinNota[l];
 	    						trimestresConNota++;
 	    						
-	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasTmp"+materiasTmp);
+	    						System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasSinNota[l] = "+materiasSinNota[l]+"; materiasTmp"+materiasTmp);
 	    						sumaPorTrimestre[l] = new BigDecimal(sumaPorTrimestre[l]+"").divide(new BigDecimal(materiasTmp+""), 8, RoundingMode.HALF_UP).floatValue();
     	    					celda = new PdfPCell(new Phrase( frm3.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1563,6 +1569,7 @@
 	    		    		/*if(lisBloque.size()!=0){
 	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
 	    		    		}*/
+	    		    		System.out.println(codigoAlumno+"total de curso en todas las materias");
 	    		    		//notaDeTodas = (notaDeTodas/trimestresConNota);
 	    		    		BigDecimal promedioTrimestres = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(trimestresConNota+""), 8, RoundingMode.HALF_UP);
 	    		    		//System.out.println(promedioTrimestres.floatValue());
