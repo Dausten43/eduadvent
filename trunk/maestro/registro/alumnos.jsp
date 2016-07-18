@@ -81,6 +81,7 @@
 		if(tipoBoleta.equals("3")){
 %>
 		<a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a>
+		<a class="btn btn-info" href="boletaPanamaPreKinder.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanamaPreKinder" /></a>
 <%
 		}
 %>
