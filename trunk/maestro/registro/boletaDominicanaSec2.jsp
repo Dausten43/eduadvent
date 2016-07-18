@@ -82,7 +82,7 @@
 	java.text.DecimalFormat frm4 = new java.text.DecimalFormat("###,##0.0000;(###,##0.0000)");
 	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
-	System.out.println(escala);
+	
 	if(escala == 100){
 		frm = new java.text.DecimalFormat("###,##0;(###,##0)");
 		frm3.setRoundingMode(java.math.RoundingMode.HALF_UP);
