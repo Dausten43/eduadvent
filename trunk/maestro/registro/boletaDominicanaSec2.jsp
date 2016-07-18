@@ -657,7 +657,8 @@
 										for(KrdxAlumExtra krdxAlumExtra: listaKrdxAlumExtra){
 											if(krdxAlumExtra.getCodigoId().equals(codigoAlumno) &&
 													krdxAlumExtra.getCursoId().equals(curso.getCursoId()) &&
-													krdxAlumExtra.getOportunidad().equals(cicloExtra.getOportunidad())){	
+													krdxAlumExtra.getOportunidad().equals(cicloExtra.getOportunidad()) &&
+													Float.parseFloat(krdxAlumExtra.getNotaExtra()) > 0){	
 						 						//System.out.println("anteriorPoricentoPCP(valorAnterior)="+cicloExtra.getValorAnterior());
 												float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
 								 				celda = new PdfPCell(new Phrase(frm3.format(anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
