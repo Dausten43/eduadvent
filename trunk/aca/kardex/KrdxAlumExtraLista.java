@@ -16,7 +16,8 @@ public class KrdxAlumExtraLista {
 		
 		try{
 			comando = "SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID," +
-                " OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO" +
+                " OPORTUNIDAD, NOTA_ANTERIOR, NOTA_EXTRA, PROMEDIO,"+ 
+                " FECHA" +
                 " FROM KRDX_ALUM_EXTRA "+orden;
 			
 			rs = st.executeQuery(comando);			
