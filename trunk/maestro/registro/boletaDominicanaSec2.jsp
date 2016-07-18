@@ -411,7 +411,7 @@
 		    				//if(alumnoCurso.getCursoId().equals(curso.getCursoId()) && cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
 		    				if(cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
 
-	    	    				System.out.println("curso.getGrado() = "+curso.getGrado());
+	    	    				//System.out.println("curso.getGrado() = "+curso.getGrado());
 		    					if (Integer.parseInt(curso.getGrado()) != numGrado){
 		    						numGrado = 	Integer.parseInt(curso.getGrado());
 		    	    				oficial = "1";
@@ -560,11 +560,11 @@
 												cge.getCursoId().equals(curso.getCursoId()) ){
 											
 											if(cge.getEvaluacionNombre().toUpperCase().equals("EXAMEN")){
-		    									System.out.println("pcp = (float)"+sumaPCP+"/"+contPCP);
+		    									//System.out.println("pcp = (float)"+sumaPCP+"/"+contPCP);
 		    									if(sumaPCP > 0 && contPCP > 0)
 													pcp = (float)sumaPCP/contPCP;
 		    									String valor = frm3.format(pcp);
-		    									System.out.println("pcp(valor)="+valor);
+		    									//System.out.println("pcp(valor)="+valor);
 												pcp = Float.parseFloat(valor);
 												celda = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 			    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -589,7 +589,7 @@
 											String valor = "--";
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno)){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
-												System.out.println("sumaNotas(valor) = "+valor);
+												//System.out.println("sumaNotas(valor) = "+valor);
 												sumaNotas += Float.parseFloat(valor);
 												//sumaPorTrimestre[contador] += Float.parseFloat(valor);
 												if(curso.getTipocursoId().equals("3"))
@@ -622,7 +622,7 @@
 							 				
 							 				if(cge.getEvaluacionNombre().toUpperCase().equals("EXAMEN")){
 							 					if(!valor.equals("--")){
-								 					System.out.println("examen(valor)="+valor);
+								 					//System.out.println("examen(valor)="+valor);
 								 					float examen = Float.parseFloat(valor);
 								 					float treintaPorciento = examen*0.3f;
 								 					celda = new PdfPCell(new Phrase(frm3.format(treintaPorciento), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
@@ -656,11 +656,11 @@
 											if(krdxAlumExtra.getCodigoId().equals(codigoAlumno) &&
 													krdxAlumExtra.getCursoId().equals(curso.getCursoId()) &&
 													krdxAlumExtra.getOportunidad().equals(cicloExtra.getOportunidad())){	
-						 						System.out.println("anteriorPoricentoPCP(valorAnterior)="+cicloExtra.getValorAnterior());
+						 						//System.out.println("anteriorPoricentoPCP(valorAnterior)="+cicloExtra.getValorAnterior());
 												float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
 								 				celda = new PdfPCell(new Phrase(frm3.format(anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-												celda.setBorder(2);
+												celda.setBorder(6);
 								 				tabla.addCell(celda);
 								 				
 												celda = new PdfPCell(new Phrase(cicloExtra.getOportunidadNombre(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
@@ -668,8 +668,8 @@
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
 								 				
-								 				System.out.println("krdxAlumExtra.getNotaExtra()="+krdxAlumExtra.getNotaExtra());
-								 				System.out.println("cicloExtra.getValorExtra()="+cicloExtra.getValorExtra());
+								 				//System.out.println("krdxAlumExtra.getNotaExtra()="+krdxAlumExtra.getNotaExtra());
+								 				//System.out.println("cicloExtra.getValorExtra()="+cicloExtra.getValorExtra());
 								 				float notaExtra = (Float.parseFloat(krdxAlumExtra.getNotaExtra())*Float.parseFloat(cicloExtra.getValorExtra()))/100;
 								 				celda = new PdfPCell(new Phrase(String.valueOf(notaExtra), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -685,7 +685,7 @@
 											}
 						 				}
 										if(!tieneNotaExtra){
-											System.out.println("!tieneNotaExtra="+cicloExtra.getValorAnterior());
+											//System.out.println("!tieneNotaExtra="+cicloExtra.getValorAnterior());
 											float anteriorPorcientoPCP = (pcp*Float.parseFloat(cicloExtra.getValorAnterior()))/100;
 											celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
