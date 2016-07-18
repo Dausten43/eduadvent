@@ -82,8 +82,10 @@
 	java.text.DecimalFormat frm4 = new java.text.DecimalFormat("###,##0.0000;(###,##0.0000)");
 	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
+	System.out.println(escala);
 	if(escala == 100){
 		frm = new java.text.DecimalFormat("###,##0;(###,##0)");
+		frm3.setRoundingMode(java.math.RoundingMode.HALF_UP);
 	}else{
 		frm.setRoundingMode(java.math.RoundingMode.DOWN);	
 	}
@@ -577,7 +579,7 @@
 					    						MathContext m = new MathContext(4, RoundingMode.HALF_UP);
 					    						BigDecimal b = new BigDecimal(pcp, m);
 					    						b = b.multiply(BigDecimal.valueOf(70), m).divide(BigDecimal.valueOf(100), m);
-					    						celda = new PdfPCell(new Phrase(b.toString(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+					    						celda = new PdfPCell(new Phrase(frm3.format(b.floatValue()), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 			    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 					    						celda.setBorder(2);
 					    						tabla.addCell(celda);
@@ -663,7 +665,7 @@
 												celda.setBorder(6);
 								 				tabla.addCell(celda);
 								 				
-												celda = new PdfPCell(new Phrase(cicloExtra.getOportunidadNombre(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+												celda = new PdfPCell(new Phrase(krdxAlumExtra.getNotaExtra(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
@@ -671,12 +673,12 @@
 								 				//System.out.println("krdxAlumExtra.getNotaExtra()="+krdxAlumExtra.getNotaExtra());
 								 				//System.out.println("cicloExtra.getValorExtra()="+cicloExtra.getValorExtra());
 								 				float notaExtra = (Float.parseFloat(krdxAlumExtra.getNotaExtra())*Float.parseFloat(cicloExtra.getValorExtra()))/100;
-								 				celda = new PdfPCell(new Phrase(String.valueOf(notaExtra), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+								 				celda = new PdfPCell(new Phrase(frm3.format(notaExtra), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
 								 				
-								 				celda = new PdfPCell(new Phrase(String.valueOf(notaExtra+anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+								 				celda = new PdfPCell(new Phrase(frm3.format(notaExtra+anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
