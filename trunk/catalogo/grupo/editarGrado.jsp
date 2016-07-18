@@ -86,12 +86,12 @@
 		
 		<fieldset>
 			<label for="nombreGrado"><fmt:message key="aca.NombreGrado" /></label>
-			<input type="text" name="nombreGrado" value="<%=aca.catalogo.CatEsquemaLista.getNombreGrado(conElias, escuelaId, nivelId, grado, false) %>" />
+			<input type="text" name="nombreGrado" value="<%=aca.catalogo.CatEsquemaLista.getNombreGrado(conElias, escuelaId, nivelId, grado, false) %>" required/>
 		</fieldset>
 		
 		<fieldset>
 			<label for="nombreSemestre"><fmt:message key="aca.NombreSemestre" /></label>
-			<input type="text" name="nombreSemestre" value="<%=aca.catalogo.CatEsquemaLista.getNombreSemestre(conElias, escuelaId, nivelId, grado) %>" />
+			<input type="text" name="nombreSemestre" value="<%=aca.catalogo.CatEsquemaLista.getNombreSemestre(conElias, escuelaId, nivelId, grado) %>"/>
 		</fieldset>
 		
 		<fieldset>
