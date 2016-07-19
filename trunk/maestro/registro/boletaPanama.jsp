@@ -809,19 +809,26 @@
 		    						faltasPorBimestre[9] += Float.parseFloat(alumnoCurso.getFalta5());
 		    					}*/    					
 		    						    					
-		    					celda = new PdfPCell(new Phrase(String.valueOf(materias+1), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
-			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-	    						celda.setBorder(0);
-			    				tabla.addCell(celda);
+		    					
 			    				
 			    				if(curso.getCursoBase().equals("-")){
-				    				materias++;
+			    					celda = new PdfPCell(new Phrase(String.valueOf(materias+1), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		    						celda.setBorder(0);
+				    				tabla.addCell(celda);
+			    					
+			    					materias++;
 			    					
 			    					celda = new PdfPCell(new Phrase(curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    				}else{//Si es materia hija
+			    					celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		    						celda.setBorder(0);
+				    				tabla.addCell(celda);
+			    					
 			    					celda = new PdfPCell(new Phrase("   "+curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    						celda.setBorder(0);
@@ -1571,9 +1578,12 @@
 	    		    		}*/
 	    		    		System.out.println(codigoAlumno+"total de curso en todas las materias");
 	    		    		//notaDeTodas = (notaDeTodas/trimestresConNota);
-	    		    		BigDecimal promedioTrimestres = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(trimestresConNota+""), 8, RoundingMode.HALF_UP);
+	    		    		System.out.println("("+notaDeTodas+"/"+trimestresConNota+")");
+	    		    		float promedioTrimestres = 0f;
+	    		    		if(notaDeTodas > 0 && trimestresConNota > 0)
+	    		    			promedioTrimestres = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(trimestresConNota+""), 8, RoundingMode.HALF_UP).floatValue();
 	    		    		//System.out.println(promedioTrimestres.floatValue());
-	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres.floatValue()), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(2);
 	        				tabla.addCell(celda);
@@ -1590,11 +1600,12 @@
 	    				tabla.addCell(celda);
 	    				
     					oficial = curso.getTipocursoId();
+    					System.out.println(codigoAlumno+" despues del oficial que ni se para que sea");
 	    			}
 	    			
 	    			
 	    		}
-				
+	    		System.out.println(codigoAlumno+" Promedio Acumulado");
 				celda = new PdfPCell(new Phrase("Promedio Acumulado", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				tabla.addCell(celda);
@@ -1673,7 +1684,7 @@
  						cursos.add(c);
  					}
  				}
- 				//System.out.println("krdxAlumActitudL.getListAspectosAlumno(conElias, "+codigoAlumno+", "+cicloGrupoId+", );");
+ 				System.out.println("krdxAlumActitudL.getListAspectosAlumno(conElias, "+codigoAlumno+", "+cicloGrupoId+", );");
 				
  				ArrayList <aca.kardex.KrdxAlumActitud>listaKrdxAlumActitud = krdxAlumActitudL.getListAspectosAlumno(conElias, codigoAlumno, cicloGrupoId, "");
 				ArrayList<aca.catalogo.CatAspectos> aspectosList	= catAspectosU.getListAspectos(conElias, escuela, nivel, "ORDER BY ORDEN");
