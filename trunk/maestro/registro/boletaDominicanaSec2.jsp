@@ -85,6 +85,7 @@
 	
 	if(escala == 100){
 		frm = new java.text.DecimalFormat("###,##0;(###,##0)");
+		frm.setRoundingMode(java.math.RoundingMode.HALF_UP);
 		frm3.setRoundingMode(java.math.RoundingMode.HALF_UP);
 	}else{
 		frm.setRoundingMode(java.math.RoundingMode.DOWN);	
@@ -666,7 +667,7 @@
 												celda.setBorder(6);
 								 				tabla.addCell(celda);
 								 				
-												celda = new PdfPCell(new Phrase(krdxAlumExtra.getNotaExtra(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+												celda = new PdfPCell(new Phrase(frm.format(Float.parseFloat(krdxAlumExtra.getNotaExtra())), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
@@ -679,7 +680,7 @@
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
 								 				
-								 				celda = new PdfPCell(new Phrase(frm3.format(notaExtra+anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+								 				celda = new PdfPCell(new Phrase(frm.format(notaExtra+anteriorPorcientoPCP), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(2);
 								 				tabla.addCell(celda);
