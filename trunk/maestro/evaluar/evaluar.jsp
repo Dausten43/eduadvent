@@ -324,6 +324,49 @@
 /* ********************************** ACCIONES ********************************** */
 	String msj = request.getParameter("msj")==null?"":request.getParameter("msj");	
 
+
+	
+
+	
+	
+	//------------- GUARDA CALIFICACIONES DE UNA MATERIA DRIVADA ------------->
+		if (evaluarDerivadas.equals("1")) {
+			
+			String decimales = nivelEvaluacion=="P"?aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre):aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, evalId);
+			String redondeo	= nivelEvaluacion=="P"?aca.ciclo.CicloPromedio.getRedondeo(conElias, cicloId, deriTrimestre):aca.ciclo.CicloBloque.getRedondeo(conElias, cicloId, evalId);
+			
+			//System.out.println(redondeo);
+			ArrayList<aca.kardex.KrdxAlumEval> listEval = kardexEvalLista.getListHija(conElias, cursoId, decimales, redondeo);
+			
+			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A", nivelEvaluacion, evalId)){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
+				
+					for(aca.kardex.KrdxAlumEval evalua:  listEval){
+						if(evalua.updateReg(conElias)){ //SE DEMORA UNOS SEGUNDOS MAS SI MANDAMOS A CORRER EL EXISTEREG ANTES DE HACERLO UPDATE; 
+							//System.out.println("update");
+							//evalua.updateReg(conElias);
+						}
+						else{
+							evalua.insertReg(conElias);
+							//System.out.println("Insert");
+						}
+					}
+				msj = "Guardado";
+				
+				%>
+				<script>
+					document.location = "evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>&msj=Guardado";
+				</script>
+				<%
+
+			}else{
+			%>
+			<script>
+				alert("No estan cerradas las evaluaciones de la materia hija");
+			</script>
+			<% 	
+			}
+		}
+
 //------------- GUARDA CALIFICACIONES DE UNA EVALUACION ------------->
 	if (accion.equals("1")) {
 		String evaluacion 		= request.getParameter("Evaluacion");
@@ -406,47 +449,6 @@
 		// Actualizar los promedios (CICLO_PROMEDIO)
 		mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);		
 	}
-	
-
-	
-	
-	//------------- GUARDA CALIFICACIONES DE UNA MATERIA DRIVADA ------------->
-		if (evaluarDerivadas.equals("1")) {
-			
-			String decimales = nivelEvaluacion=="P"?aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, evalId):aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre);
-			String redondeo	= nivelEvaluacion=="P"?aca.ciclo.CicloBloque.getRedondeo(conElias, cicloId, evalId):aca.ciclo.CicloPromedio.getRedondeo(conElias, cicloId, deriTrimestre);
-			
-			System.out.println(redondeo);
-			ArrayList<aca.kardex.KrdxAlumEval> listEval = kardexEvalLista.getListHija(conElias, cursoId, decimales, redondeo);
-			
-			if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A", nivelEvaluacion, evalId)){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
-				
-					for(aca.kardex.KrdxAlumEval evalua:  listEval){
-						if(evalua.updateReg(conElias)){ //SE DEMORA UNOS SEGUNDOS MAS SI MANDAMOS A CORRER EL EXISTEREG ANTES DE HACERLO UPDATE; 
-							//System.out.println("update");
-							//evalua.updateReg(conElias);
-						}
-						else{
-							evalua.insertReg(conElias);
-							//System.out.println("Insert");
-						}
-					}
-				msj = "Guardado";
-				
-				%>
-				<script>
-					document.location = "evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>&msj=Guardado";
-				</script>
-				<%
-
-			}else{
-			%>
-			<script>
-				alert("No estan cerradas las evaluaciones de la materia hija");
-			</script>
-			<% 	
-			}
-		}
 //------------- BORRA CALIFICACIONES DE UNA EVALUACION ------------->
 	else if (accion.equals("2")) {
 		if (aca.kardex.KrdxAlumEval.deleteNotasEval(conElias, cicloGrupoId, cursoId, request.getParameter("Evaluacion"))) {
@@ -1111,8 +1113,10 @@
 <%		 	
 		}
 
+		boolean materiaMadreP = false;
 		/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
 		if(listaMateriasDerivadas.size() > 0 && nivelEvaluacion.equals("P")){
+			materiaMadreP = true;
 %>
 		<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
 		<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,'')">
@@ -1147,12 +1151,12 @@
 				<tr>
 					<td class="text-center" style="width:100px; padding:0px;"><%=cont%></td>
 					<td style="padding:0px;">
-						<%if (aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, eval.getCicloGrupoId(), eval.getCursoId(), eval.getEvaluacionId())) {%>
+						<%if (aca.ciclo.CicloGrupoActividad.tieneActividades(conElias, eval.getCicloGrupoId(), eval.getCursoId(), eval.getEvaluacionId()) && !materiaMadreP) {%>
 						<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
 							<%=eval.getEvaluacionNombre()%>
 						</a> 
 						<%} else {%>
-						<%	if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A")) {%> 
+						<%	if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A") && !materiaMadreP) {%> 
 						<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
 							<%=eval.getEvaluacionNombre()%>
 						</a> 
@@ -1160,10 +1164,10 @@
 									/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
 								if(listaMateriasDerivadas.size() > 0 && nivelEvaluacion.equals("E")){
 %>
-								<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
-								<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,<%=eval.getEvaluacionId()%> )">
-									Promediar derivadas
-								</button>			
+									<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
+									<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,<%=eval.getEvaluacionId()%> )">
+										Promediar derivadas
+									</button>			
 <%	
 								}	
 %>		
