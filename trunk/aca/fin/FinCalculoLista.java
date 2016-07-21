@@ -83,7 +83,50 @@ public class FinCalculoLista {
 			comando = " SELECT * FROM FIN_CALCULO"
 					+ " WHERE CICLO_ID = '"+cicloId+"' "
 					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')"
-					+ " AND INSCRITO IN ("+inscrito+") "+orden;
+					+ " AND INSCRITO IN ("+inscrito+")"
+					+ " AND CODIGO_ID IN "
+					+ "		(SELECT CODIGO_ID FROM FIN_CALCULO_PAGO "
+					+ "		WHERE CICLO_ID = '"+cicloId+"'"
+					+ " 	AND PERIODO_ID = TO_NUMBER(?, '99')"
+        			+ " 	AND PAGO_ID = TO_NUMBER(?,'99')"
+        			+ " AND ESTADO = 'A'"
+					+ "		AND )"+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				FinCalculo fc = new FinCalculo();
+				fc.mapeaReg(rs);
+				lisCalculo.add(fc);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinCostoLista|getListAlumnos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisCalculo;
+	}
+	
+	public ArrayList<FinCalculo> getListAlumnos(Connection conn, String cicloId, String periodoId, String inscrito, String pagoId, String orden ) throws SQLException{
+		ArrayList<FinCalculo> lisCalculo 	= new ArrayList<FinCalculo>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT * FROM FIN_CALCULO"
+					+ " WHERE CICLO_ID = '"+cicloId+"' "
+					+ " AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')"
+					+ " AND INSCRITO IN ("+inscrito+")"
+					+ " AND CODIGO_ID IN "
+					+ "		(SELECT CODIGO_ID FROM FIN_CALCULO_PAGO"
+					+ "		WHERE CICLO_ID = '"+cicloId+"'"
+					+ " 	AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')"
+        			+ " 	AND PAGO_ID = TO_NUMBER('"+pagoId+"','99')"
+        			+ "		AND ESTADO = 'A'"
+					+ "		AND IMPORTE > 0) "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){

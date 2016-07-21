@@ -537,12 +537,12 @@ public class FinCalculo {
         			+ " WHERE CICLO_ID = ? "
         			+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
         			+ " AND PAGO_ID = TO_NUMBER(?,'99')"
-        			+ " AND ESTADO = 'A'" /* Que no se hayan tomado en cuenta en alguna poliza (que no hayan sido Contabilizado) */
+        			+ " AND ESTADO = 'A'" /* Que no se hayan tomado en cuenta en alguna poliza (que no hayan sido Contabilizados) */
         			+ " AND IMPORTE > 0"
         			+ " AND CODIGO_ID IN"
         				+ " (SELECT CODIGO_ID FROM FIN_CALCULO"
         				+ " WHERE CICLO_ID = ?"
-        				+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
+        				+ " AND PERIODO_ID = TO_NUMBER(?,'99')"
         				+ " AND INSCRITO IN ('G','P'))"); 
         	
             ps.setString(1, cicloId);
