@@ -115,7 +115,7 @@
 			ArrayList<aca.fin.FinCalculoDet> lisDetalles	= DetalleL.getListCalDetTodosAlumnos(conElias, cicloId, periodoId, "ORDER BY CODIGO_ID, CUENTA_ID");
 			
 			// Lista de alumnos sin pago inicial
-			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G','P'","");
+			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G','P'", pagoId, "");
 			
 			/* BEGIN TRANSACTION */
 			conElias.setAutoCommit(false);
@@ -131,7 +131,7 @@
 					nombreAlumno = "-";
 				}
 				
-				for(aca.fin.FinCalculoDet detalle : lisDetalles){					
+				for(aca.fin.FinCalculoDet detalle : lisDetalles){
 					
 					 /* Solo los detalles del alumno actual */
 					if(detalle.getCodigoId().equals(alumno.getCodigoId()) == false ){
@@ -385,9 +385,7 @@
 				msj = "Guardado";
 			}
 			conElias.setAutoCommit(true);
-			
-		}		
-		
+		}
 	}
 	
 	pageContext.setAttribute("resultado", msj);
@@ -427,14 +425,12 @@
 			
 			<div class="well">
 				<a href="ingresos.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-				
-				
+								
 				<select name="cicloId" id="cicloId" onchange='javascript:cambiaCiclo()' class="input-xxlarge">
 				<%for(aca.ciclo.Ciclo ciclo : lisCiclo){%>
 					<option value="<%=ciclo.getCicloId() %>" <%if(ciclo.getCicloId().equals(cicloId)){out.print("selected");} %>>[<%=ciclo.getCicloId() %>] <%=ciclo.getCicloNombre() %></option>
 				<%}%>
-				</select>
-			
+				</select>			
 				
 				<select name="periodoId" id="periodoId" onchange='javascript:cambiaPeriodo()' class="input-xlarge">
 				<%for(aca.ciclo.CicloPeriodo periodo : lisPeriodo){%>
