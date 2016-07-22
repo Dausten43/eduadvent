@@ -23,7 +23,7 @@
 	}
 	
 	//LISTA PARA EL COMBO DE CICLOS
-	ArrayList<aca.ciclo.Ciclo> lisCiclo	= CicloLista.getListAll(conElias, escuelaId, "ORDER BY CICLO_ID");
+	ArrayList<aca.ciclo.Ciclo> lisCiclo	= CicloLista.getListAll(conElias, escuelaId, "AND ESTADO NOT IN ('I') ORDER BY CICLO_ID");
 	//LISTA PARA EL COMBO DE BLOQUES
 	ArrayList<aca.ciclo.CicloBloque> lisCicloBloque = CicloBloqueL.getListCiclo(conElias, cicloId, "ORDER BY BLOQUE_ID");
 	if(bloqueId == null||bloqueId.equals("")){
