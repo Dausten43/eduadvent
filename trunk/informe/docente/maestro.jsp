@@ -48,7 +48,7 @@
 <div class="well">
 	<select id="ciclo" name="ciclo" onchange="document.frmMaestro.submit();" style="width:310px;">
 <%
-	ArrayList<aca.ciclo.Ciclo> lisCiclo = CicloLista.getListAll(conElias, escuelaId, "ORDER BY CICLO_ID DESC");
+	ArrayList<aca.ciclo.Ciclo> lisCiclo = CicloLista.getListAll(conElias, escuelaId, "AND ESTADO NOT IN ('I') ORDER BY CICLO_ID DESC");
 
 	for(int i = 0; i < lisCiclo.size(); i++){
 		ciclo = (aca.ciclo.Ciclo) lisCiclo.get(i);
