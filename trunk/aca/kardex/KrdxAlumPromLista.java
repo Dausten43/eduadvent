@@ -38,6 +38,37 @@ public class KrdxAlumPromLista {
 		
 		return lis;
 	}
+	
+	public ArrayList<KrdxAlumProm> getListHijas(Connection conn, String cicloGrupoId, String cursoBase, String orden ) throws SQLException{
+		ArrayList<KrdxAlumProm> lis 	= new ArrayList<KrdxAlumProm>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID, PROMEDIO_ID, NOTA, VALOR"
+					+ " FROM KRDX_ALUM_PROM"
+					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'"
+					+ " AND CURSO_ID IN (SELECT CURSO_ID FROM PLAN_CURSO WHERE CURSO_BASE = '"+cursoBase+"') "+orden;
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				
+				KrdxAlumProm obj = new KrdxAlumProm();				
+				obj.mapeaReg(rs);
+				lis.add(obj);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumPromLista|getListCurso|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lis;
+	}
+	
 	/* OBTIENE EL PROMEDIO DEL ALUMNO EN UN PERIODO O PROMEDIO DE LA MATERIA */
 	public static HashMap<String,KrdxAlumProm> mapPromAlumno(Connection conn, String codigoId) throws SQLException{
 		HashMap<String,KrdxAlumProm> map 	= new HashMap<String, KrdxAlumProm>();
