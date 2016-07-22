@@ -53,7 +53,7 @@
 	String numPagos		= request.getParameter("numPagos")	== null ? "0" : request.getParameter("numPagos");
 	
 	// Trae los ciclos escolares
-	ArrayList<aca.ciclo.Ciclo> lisCiclo 	= cicloL.getListAll(conElias, escuelaId, "ORDER BY CICLO_ID");
+	ArrayList<aca.ciclo.Ciclo> lisCiclo 	= cicloL.getListAll(conElias, escuelaId, "AND ESTADO NOT IN ('I') ORDER BY CICLO_ID");
 	
 	// Verifica que tenga un ciclo valido en session.
 	if (cicloId.equals("XXXXXXX")){
