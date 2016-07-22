@@ -23,7 +23,7 @@
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String cicloId 		= request.getParameter("ciclo");
 
-	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloL.getListAll(conElias, escuelaId, "ORDER BY F_INICIAL");
+	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloL.getListAll(conElias, escuelaId, "AND ESTADO NOT IN ('I') ORDER BY F_INICIAL");
 
 	if (cicloId == null) {
 		cicloId = (String) session.getAttribute("cicloId");
