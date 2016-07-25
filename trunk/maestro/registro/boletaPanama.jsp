@@ -829,7 +829,7 @@
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    					
-				    				espacioHija = "      ";
+				    				espacioHija = "";
 			    					celda = new PdfPCell(new Phrase("   "+curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    						celda.setBorder(0);
