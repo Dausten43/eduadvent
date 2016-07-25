@@ -1,3 +1,6 @@
+<%@page import="aca.ciclo.CicloBloque"%>
+<%@page import="aca.kardex.KrdxAlumEval"%>
+<%@page import="aca.ciclo.CicloPromedio"%>
 <%@page import="aca.kardex.KrdxAlumExtra"%>
 <%@page import="aca.kardex.KrdxAlumActiv"%>
 <%@ include file="../../con_elias.jsp"%>
@@ -18,10 +21,12 @@
 <jsp:useBean id="kardexConductaLista" scope="page" class="aca.kardex.KrdxAlumConductaLista" />
 <jsp:useBean id="kardexEval" scope="page" class="aca.kardex.KrdxAlumEval" />
 <jsp:useBean id="kardexProm" scope="page" class="aca.kardex.KrdxAlumProm" />
+<jsp:useBean id="krdxAlumPromL" scope="page" class="aca.kardex.KrdxAlumPromLista" />
 <jsp:useBean id="planCurso" scope="page" class="aca.plan.PlanCurso" />
+<jsp:useBean id="planCursoLista" scope="page" class="aca.plan.PlanCursoLista" />
 <jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
-<jsp:useBean id="CicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista" />
+<jsp:useBean id="CicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista"/>
 <jsp:useBean id="kardexAlumnoExtra" scope="page" class="aca.kardex.KrdxAlumExtra" />
 <jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
 
@@ -212,10 +217,18 @@
 		document.forma.submit();
 	}
 	
-</script>
-
-<%
+	/*
+	 * EVALUAR DERIVADAS
+	 */
+	function evaluarDerivadas(bloque, evalId){		
+		document.forma.Derivadas.value = "1";
+		document.forma.DerivadasTrimestre.value = bloque;
+		document.forma.EvalId.value = evalId;
+		document.forma.submit();
+	}
 	
+</script>
+<%
 	//FORMATOS ---------------------------->
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -237,6 +250,12 @@
 	boolean muestraBotonGuardarExtra3 = false;
 	boolean muestraBotonGuardarExtra4 = false;
 	boolean muestraBotonGuardarExtra5 = false;
+	
+	String evaluarDerivadas	= request.getParameter("Derivadas") == null?"0":request.getParameter("Derivadas");
+	String deriTrimestre	= request.getParameter("DerivadasTrimestre") == null?"0":request.getParameter("DerivadasTrimestre");
+	String evalId			= request.getParameter("EvalId") == null?"0":request.getParameter("EvalId");
+	
+	System.out.println(evalId);
 
 	String accion 			= request.getParameter("Accion") == null?"0":request.getParameter("Accion");
 	String cicloGrupoId	 	= request.getParameter("CicloGrupoId");
@@ -292,7 +311,10 @@
 	ArrayList<aca.kardex.KrdxAlumExtra> lisKardexAlumnosExtra	= kardexAlumnoExtra.getAlumnoExtra(conElias, codigoId, cicloGrupoId, cursoId);
 	
 	//LISTA EXTRAS
-	ArrayList<aca.ciclo.CicloExtra> lisTodosLosExtras					= cicloExtra.getTodosLosCiclosExtras(conElias, cicloId);
+	ArrayList<aca.ciclo.CicloExtra> lisTodosLosExtras			= cicloExtra.getTodosLosCiclosExtras(conElias, cicloId);
+	
+	//LISTA CURSOS DERIVADOS
+	ArrayList<aca.plan.PlanCurso> listaMateriasDerivadas		= planCursoLista.getMateriasHijas(conElias, cursoId);
 	
 	// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
 	java.util.TreeMap<String, aca.kardex.KrdxAlumEval> treeNota = kardexEvalLista.getTreeMateria(conElias,	cicloGrupoId, cursoId, "");
@@ -301,7 +323,138 @@
 	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
 	
 /* ********************************** ACCIONES ********************************** */
-	String msj = "";	
+	String msj = request.getParameter("msj")==null?"":request.getParameter("msj");	
+
+
+
+
+
+
+//------------- GUARDA CALIFICACIONES DE UNA MATERIA DRIVADA ------------->
+	if (evaluarDerivadas.equals("1")) {
+		//System.out.println("CicloPromedio.getDecimales(conElias, "+cicloId+", "+deriTrimestre+")");
+		String decimales = nivelEvaluacion.equals("P")?aca.ciclo.CicloPromedio.getDecimales(conElias, cicloId, deriTrimestre):aca.ciclo.CicloBloque.getDecimales(conElias, cicloId, evalId);
+		String redondeo	= nivelEvaluacion.equals("P")?aca.ciclo.CicloPromedio.getRedondeo(conElias, cicloId, deriTrimestre):aca.ciclo.CicloBloque.getRedondeo(conElias, cicloId, evalId);
+		String promedioId = deriTrimestre;
+		boolean guardado = true;
+		//System.out.println(decimales);
+		//System.out.println("++"+redondeo+"++");
+		
+		
+		if(!kardexEvalLista.checkMateriasHijas(conElias, cicloGrupoId, cursoId, deriTrimestre, "A", nivelEvaluacion, evalId)){ //CHECKS FOR MATERIAS HIJAS NO CERRADAS
+			if(nivelEvaluacion.equals("P")){
+				ArrayList<aca.kardex.KrdxAlumProm> listKAP = krdxAlumPromL.getListHijas(conElias, cicloGrupoId, cursoId, "ORDER BY CODIGO_ID, CURSO_ID");
+				aca.ciclo.CicloPromedio cp = new aca.ciclo.CicloPromedio();
+				cp.mapeaRegId(conElias, cicloId, promedioId);
+				String alumno = "";
+				java.math.MathContext mc;
+				
+				java.text.DecimalFormat frm = new java.text.DecimalFormat("##0.0;-##0.0");
+				if(decimales.equals("1"))
+					frm	= new java.text.DecimalFormat("##0.0;-##0.0");
+				if(decimales.equals("2"))
+					frm	= new java.text.DecimalFormat("##0.00;-##0.00");
+				if(redondeo.equals("T")){
+					frm.setRoundingMode(java.math.RoundingMode.DOWN);
+					mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
+				}else{
+					frm.setRoundingMode(java.math.RoundingMode.HALF_UP);
+					mc = new java.math.MathContext(4, RoundingMode.HALF_UP);
+				}
+
+				BigDecimal sumaNota = new BigDecimal(0,mc), sumaValor = new BigDecimal(0,mc);
+				
+				for(aca.kardex.KrdxAlumProm z: listKAP){
+					if(alumno.equals(""))
+						alumno = z.getCodigoId();
+					if(!alumno.equals(z.getCodigoId())){// Al cambiar de alumno se guarda el promedio en el curso base (materia madre)
+						
+						String total = frm.format(sumaNota.divide(sumaValor,8,RoundingMode.HALF_EVEN).doubleValue());
+						
+						kardexProm.setCodigoId(alumno);
+						kardexProm.setCicloGrupoId(cicloGrupoId);
+						kardexProm.setCursoId(cursoId);
+						kardexProm.setPromedioId(promedioId);
+						//System.out.println("total = "+total +"; Sin formato = "+(sumaNota.divide(sumaValor,8,RoundingMode.HALF_EVEN).doubleValue()));
+						if(kardexProm.existeReg(conElias)){
+							kardexProm.setNota(total);
+							kardexProm.setValor(cp.getValor());
+							if(!kardexProm.updateReg(conElias))
+								guardado &= false;
+						}else{
+							kardexProm.setNota(total);
+							kardexProm.setValor(cp.getValor());
+							if(!kardexProm.insertReg(conElias))
+								guardado &= false;
+						}
+						
+						alumno = z.getCodigoId();
+						sumaNota = new BigDecimal(0);
+						sumaValor = new BigDecimal(0);
+					}
+					if(z.getPromedioId().equals(promedioId)){
+						sumaNota = sumaNota.add((new BigDecimal(Float.parseFloat(z.getNota()),mc).multiply(new BigDecimal(Float.parseFloat(z.getValor()),mc))));
+						sumaValor = sumaValor.add(new BigDecimal(Float.parseFloat(z.getValor()),mc));
+						//System.out.println("Nota = "+new BigDecimal(Float.parseFloat(z.getNota()),mc)+"; operacion = "+(new BigDecimal(Float.parseFloat(z.getNota()),mc).multiply(new BigDecimal(Float.parseFloat(z.getValor()),mc)))+"; sumaNota = "+sumaNota+"; sumaValor = "+sumaValor);
+					}
+				}
+				
+				String total = frm.format(sumaNota.divide(sumaValor,8,RoundingMode.HALF_EVEN).doubleValue());
+				
+				kardexProm.setCodigoId(alumno);
+				kardexProm.setCicloGrupoId(cicloGrupoId);
+				kardexProm.setCursoId(cursoId);
+				kardexProm.setPromedioId(promedioId);
+				//System.out.println("total = "+total +"; Sin formato = "+(sumaNota.divide(sumaValor,8,RoundingMode.HALF_EVEN).doubleValue()));
+				if(kardexProm.existeReg(conElias)){
+					kardexProm.setNota(total);
+					kardexProm.setValor(cp.getValor());
+					if(!kardexProm.updateReg(conElias))
+						guardado &= false;
+				}else{
+					kardexProm.setNota(total);
+					kardexProm.setValor(cp.getValor());
+					if(!kardexProm.insertReg(conElias))
+						guardado &= false;
+				}
+			}else{
+				ArrayList<aca.kardex.KrdxAlumEval> listEval = kardexEvalLista.getListHija(conElias, cursoId, decimales, redondeo);
+				for(aca.kardex.KrdxAlumEval evalua:  listEval){
+					if(evalua.existeReg(conElias)){
+						//System.out.println("update");
+						if(!evalua.updateReg(conElias))
+							guardado &= false;
+					}
+					else{
+						if(!evalua.insertReg(conElias))
+							guardado &= false;
+						//System.out.println("Insert");
+					}
+				}
+			}
+			if(guardado){
+%>
+				<script>
+					document.location = "evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>&msj=Guardado";
+				</script>
+<%
+			}else{
+%>
+				<script>
+					document.location = "evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>&msj=ErrorAlPromediar";
+				</script>
+<%
+			}
+
+		}else{
+		%>
+		<script>
+			alert("No estan cerradas las evaluaciones de la materia hija");
+		</script>
+		<% 	
+		}
+	}
+
 
 //------------- GUARDA CALIFICACIONES DE UNA EVALUACION ------------->
 	if (accion.equals("1")) {
@@ -1029,7 +1182,19 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 		</a>
 <%		 	
 			}
-		}	
+		}
+
+		boolean materiaMadreP = false;
+		/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
+		if(listaMateriasDerivadas.size() > 0 && nivelEvaluacion.equals("P")){
+			materiaMadreP = true;
+%>
+			<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
+			<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,'')">
+				Promediar derivadas
+			</button>			
+<%	
+		}
 %>		
 	</div>
 		
@@ -1058,11 +1223,22 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 								<a href="evaluarActividad.jsp?estado=<%=eval.getEstado()%>&CicloGrupoId=<%=eval.getCicloGrupoId()%>&CursoId=<%=eval.getCursoId()%>&EvaluacionId=<%=eval.getEvaluacionId()%>">
 									<%=eval.getEvaluacionNombre()%>
 								</a> 
-							<%} else {%>
-		 						<%if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A")) {%> 
+							<%}else {
+		 						if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A") && !materiaMadreP) {%> 
 									<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
 										<%=eval.getEvaluacionNombre()%>
 									</a> 
+									<%
+									/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
+									if(listaMateriasDerivadas.size() > 0 && nivelEvaluacion.equals("E")){
+%>
+										<!-- CALCULA EL PROMEDIO LAS MATERIAS QUE TIENEN MATERIAS DERIVADAS --> 
+										<button class="btn btn-info" onclick="javaScript:evaluarDerivadas(<%=promedio.getPromedioId() %>,<%=eval.getEvaluacionId()%> )">
+											Promediar derivadas
+										</button>			
+<%	
+									}	
+%>		
 								<%}else{%>
 		 							<%=eval.getEvaluacionNombre() %>
 		 						<%}%>
@@ -1580,8 +1756,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
 							eval++;
 							
-						} //End for Promedios
-						
+						}//End for de promedio
 						
 						if (lisPromedio.size() > 1){
 							
@@ -1673,7 +1848,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 
 									if (kardexAlumnoExtra.existeReg(conElias)) {
 										kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "2");
-										strExtra2 = kardexAlumnoExtra.getNotaExtra();
+										strExtra2 			= kardexAlumnoExtra.getNotaExtra();
 										promedioFinalExtra 	= kardexAlumnoExtra.getPromedio();
 	 								} else {
 	 									strExtra2 = "-";
@@ -1919,7 +2094,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 						</div>
 					</td>
 					<%
-					} else{
+					}else{
 						out.print("<td>&nbsp;</td>");
 						out.print("<td>&nbsp;</td>");
 					}
@@ -1934,7 +2109,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 						</div>
 					</td>
 					<%
-					} else{
+					}else{
 						out.print("<td>&nbsp;</td>");
 						out.print("<td>&nbsp;</td>");
 					}
@@ -1950,7 +2125,8 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							</div>
 						</td>
 					<%
-					}				
+					}
+					
 					if(lisTodosLosExtras.size() >= 4 && muestraBotonGuardarExtra4){
 					%>	
 					<!-- BOTON DE NOTA EXTRA 4 -->
@@ -1961,7 +2137,8 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							</div>
 						</td>
 					<%
-					}				
+					}
+					
 					if(lisTodosLosExtras.size() >= 5 && muestraBotonGuardarExtra5){
 					%>
 					<!-- BOTON DE NOTA EXTRA 5 -->
@@ -1978,10 +2155,6 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 		</table>
 	</form>
 
-
 </div>
-
-
-
 
 <%@ include file="../../cierra_elias.jsp"%>
