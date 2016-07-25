@@ -810,7 +810,7 @@
 		    					}*/    					
 		    						    					
 		    					
-			    				
+			    				String espacioHija = "";
 			    				if(curso.getCursoBase().equals("-")){
 			    					celda = new PdfPCell(new Phrase(String.valueOf(materias+1), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -829,6 +829,7 @@
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    					
+				    				espacioHija = "      ";
 			    					celda = new PdfPCell(new Phrase("   "+curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    						celda.setBorder(0);
@@ -937,7 +938,7 @@
 										}
 										
 										System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+" materiasSinNota[l] = "+materiasSinNota[l]);
-										celda = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+										celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 										celda.setBorder(0);
 						 				tabla.addCell(celda);
@@ -974,7 +975,7 @@
 												}
 											}
 											
-											celda = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+											celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(0);
 							 				tabla.addCell(celda);
@@ -1469,6 +1470,12 @@
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(0);
 	    				tabla.addCell(celda);
+	    				java.math.MathContext mc;
+	    				if(ciclo.getRedondeo().equals("T")){
+							mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
+						}else{
+							mc = new java.math.MathContext(4, RoundingMode.HALF_UP);
+						}
 	    				
 	    				for(int l = 0; l < cantidadTrimestres; l++){
 	    					if(sumaPorTrimestreIngles[l] > 0 && cantidadMaterias > 0){
@@ -1477,9 +1484,9 @@
 	    						double resultado =  0d;
 	    						
 	    						if(ciclo.getRedondeo().equals("T")){
-	    							resultado = new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 8, RoundingMode.DOWN).doubleValue();
+	    							resultado = new BigDecimal(sumaPorTrimestreIngles[l]+"",mc).divide(new BigDecimal(materiasTmp+"",mc), 8, RoundingMode.DOWN).doubleValue();
 	    						}else{ //Si es redondeado
-	    						    resultado = new BigDecimal(sumaPorTrimestreIngles[l]+"").divide(new BigDecimal(materiasTmp+""), 8, RoundingMode.HALF_UP).doubleValue();
+	    						    resultado = new BigDecimal(sumaPorTrimestreIngles[l]+"",mc).divide(new BigDecimal(materiasTmp+"",mc), 8, RoundingMode.HALF_UP).doubleValue();
 	    						}
 	    						//System.out.println("resultado Ingles: "+resultado);
 	    						
