@@ -165,21 +165,21 @@
 					int totalEmp	= 0;
 					int totalEmpDoc	= 0;
 					for (int i=0; i<EscuelasUsuario.size();i++){
-						String nombre = aca.catalogo.CatEscuela.getNombre(conElias, EscuelasUsuario.get(i));
-						int inscritosAsoc = AlumPersonal.getNumInscritosPorEscuela(conElias, EscuelasUsuario.get(i));
-						int registrosAsoc = AlumPersonal.getTotalRegistros(conElias, EscuelasUsuario.get(i));
-						System.out.println(EscuelasUsuario.get(i));
-						int empTotEsc	  = aca.empleado.EmpPersonal.getTotalEmpleadosActivos(conElias, EscuelasUsuario.get(i));
-						int empDocenciaEsc =0;
-						if(mapEmpDoc.containsKey(EscuelasUsuario.get(i))){
-							empDocenciaEsc = Integer.parseInt(mapEmpDoc.get(EscuelasUsuario.get(i)));
-						}
-						total		+=inscritosAsoc;
-						totalReg 	+= registrosAsoc;
-						totalEmp	+=empTotEsc;
-						totalEmpDoc += empDocenciaEsc;
+						if(aca.catalogo.CatEscuela.getStatus(conElias, EscuelasUsuario.get(i)).equals("A")){
+							String nombre = aca.catalogo.CatEscuela.getNombre(conElias, EscuelasUsuario.get(i));
+							int inscritosAsoc = AlumPersonal.getNumInscritosPorEscuela(conElias, EscuelasUsuario.get(i));
+							int registrosAsoc = AlumPersonal.getTotalRegistros(conElias, EscuelasUsuario.get(i));
+							
+							int empTotEsc	  = aca.empleado.EmpPersonal.getTotalEmpleadosActivos(conElias, EscuelasUsuario.get(i));
+							int empDocenciaEsc =0;
+							if(mapEmpDoc.containsKey(EscuelasUsuario.get(i))){
+								empDocenciaEsc = Integer.parseInt(mapEmpDoc.get(EscuelasUsuario.get(i)));
+							}
+							total		+=inscritosAsoc;
+							totalReg 	+= registrosAsoc;
+							totalEmp	+=empTotEsc;
+							totalEmpDoc += empDocenciaEsc;
 						%>
-						
 						<tr style="cursor:pointer;" onclick="document.location='graficaEscuela.jsp?EscuelaId=<%=EscuelasUsuario.get(i)%>&AsociacionId=<%=asociacionId%>'"
 							class="button">
 							<td><%=nombre %></td>
@@ -188,7 +188,8 @@
 							<td><%=empTotEsc %></td>
 							<td><%=empDocenciaEsc %></td>
 						</tr>
-					<%} %>
+					<%	}
+					} %>
 					<tr>
 						<td><strong><fmt:message key="aca.Total" /></strong></td>
 						<td><strong><%=totalReg %></strong></td>
