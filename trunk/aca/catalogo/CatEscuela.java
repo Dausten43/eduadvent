@@ -641,8 +641,7 @@ public class CatEscuela {
 		}finally{
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
-		}		
-		
+		}			
 		return nombre;
 	}
 	
@@ -664,8 +663,28 @@ public class CatEscuela {
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
 		}		
-		
 		return nombre;
+	}
+	
+	public static String getStatus(Connection conn, String escuelaId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String status			= "X";		
+		
+		try{
+			ps = conn.prepareStatement("SELECT ESTADO FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
+			ps.setString(1, escuelaId);
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				status = rs.getString("ESTADO");
+			}			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatEscuela|getStatus|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		return status;
 	}
 	
 	public static String getNombreCorto(Connection conn, String escuelaId) throws SQLException{
