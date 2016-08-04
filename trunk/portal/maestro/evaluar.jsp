@@ -449,7 +449,7 @@
 		}else{
 		%>
 		<script>
-			alert("No estan cerradas las evaluaciones de la materia hija");
+			alert("No estan cerradas las evaluaciones de la(s) materia(s) hija(s), por lo tanto no se realizó el cálculo");
 		</script>
 		<% 	
 		}
@@ -1412,9 +1412,12 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 <!--  -------------------- TABLA DE ALUMNOS -------------------- -->
 	
 	<form action="evaluar.jsp?CursoId=<%=cursoId %>&CicloGrupoId=<%=cicloGrupoId %>" name="forma" method="post">
-	
+		<input type="hidden" name="Derivadas" />
+		<input type="hidden" name="DerivadasTrimestre" />
+		<input type="hidden" name="EvalId" />
 		<input type="hidden" name="Accion" />
 		<input type="hidden" name="Evaluacion" />
+		<input type="hidden" name="Promedio" />
 
 		<table class="table table-condensed table-bordered table-striped">
 			
