@@ -449,7 +449,7 @@
 		}else{
 		%>
 		<script>
-			alert("No estan cerradas las evaluaciones de la materia hija");
+			alert("No estan cerradas las evaluaciones de la(s) materia(s) hija(s), por lo tanto no se realizó el cálculo");
 		</script>
 		<% 	
 		}
