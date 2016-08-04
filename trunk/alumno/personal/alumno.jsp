@@ -610,11 +610,13 @@
 				    <select name="EstadoId" id="EstadoId" onChange= "javascript:PEC('2','<%=sTipo%>')">
 	                <%	
 						ArrayList<aca.catalogo.CatEstado> lisEstado = EstadoL.getArrayList(conElias, Personal.getPaisId(), "ORDER BY 1,3");
+	                	System.out.println("provincias: "+lisEstado.size());
 						for(aca.catalogo.CatEstado estado: lisEstado){
 					%>
 							<option value="<%=estado.getEstadoId() %>" <%if(estado.getEstadoId().equals(Personal.getEstadoId())){out.print("selected");} %>><%=estado.getEstadoNombre() %></option>
 					<%							
 						}
+						System.out.println("provincias2: "+lisEstado.size());
 					%>
 					</select>
 				</p>
@@ -628,11 +630,13 @@
           			<select name="CiudadId" id="CiudadId" onchange="javascript:PEC('3','<%=sTipo%>')">
               	<%	
 					ArrayList<aca.catalogo.CatCiudad> lisCiudad = CiudadL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(), "ORDER BY 4");
+              		System.out.println("ciudades: "+lisCiudad.size());
 					for(aca.catalogo.CatCiudad ciudad: lisCiudad){
 				%>	
 						<option value="<%=ciudad.getCiudadId() %>" <%if(ciudad.getCiudadId().equals(Personal.getCiudadId())){out.print("selected");} %>><%=ciudad.getCiudadNombre() %></option>
 				<%						
 					}
+					System.out.println("ciudades2: "+lisCiudad.size());
 				%>
             		</select>
 				</p>				
@@ -645,11 +649,13 @@
           			<select name="BarrioId" id="BarrioId" tabindex="9">
               	<%              		
 					ArrayList<aca.catalogo.CatBarrio> lisBarrio = BarrioL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(),Personal.getCiudadId(), "ORDER BY BARRIO_NOMBRE");
+              		System.out.println("barrio: "+lisBarrio.size());
 					for(aca.catalogo.CatBarrio barrio: lisBarrio){
 				%>	
 						<option value="<%=barrio.getBarrioId() %>" <%if(barrio.getBarrioId().equals(Personal.getBarrioId())){ out.print("selected");} %>><%=barrio.getBarrioNombre() %></option>
 				<%						
 					}
+					System.out.println("barrio2: "+lisBarrio.size());
 				%>
             		</select>
 				</p>
@@ -667,11 +673,13 @@
 					<select name="ClasificacionFin" id="ClasificacionFin">
 				    <%
 				    	ArrayList<aca.catalogo.CatClasFin> clasificaciones = ClasFinLista.getListEscuela(conElias, escuelaId, "ORDER BY CLASFIN_ID");
+				    	System.out.println("classFin: "+clasificaciones.size());
 						for(aca.catalogo.CatClasFin clasificacion : clasificaciones){
 					%>
 							<option value="<%=clasificacion.getClasfinId() %>" <%if(Personal.getClasfinId().equals(clasificacion.getClasfinId())){out.print("selected");} %>><%=clasificacion.getClasfinNombre() %></option>
 					<%
-						}				
+						}
+						System.out.println("classFin2: "+clasificaciones.size());
 				    %>
 				    </select>
 				</p>
