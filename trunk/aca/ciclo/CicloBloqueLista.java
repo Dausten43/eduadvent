@@ -130,4 +130,53 @@ public class CicloBloqueLista {
 		return lisCicloBloque;
 	}
 	
+	
+	public static String getRedondeo( Connection conn, String cicloId, String bloqueId) throws SQLException, Exception {
+		
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		String redondeo	= "0";
+		
+		try{
+			comando = "SELECT REDONDEO FROM CICLO_BLOQUE WHERE CICLO_ID='"+cicloId+"' AND BLOQUE_ID= TO_NUMBER('"+bloqueId+"', '99')";
+			
+			rs = st.executeQuery(comando);	
+			while (rs.next()){
+				redondeo = rs.getString("REDONDEO");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloBloqueLista|getRedondeo|:"+ex);
+		}finally{		
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		return redondeo;
+	}
+	
+	
+	public static String getDecimales( Connection conn, String cicloId, String bloqueId) throws SQLException, Exception {
+		
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		String decimales		= "0";
+		
+		try{
+			comando = "SELECT DECIMALES FROM CICLO_BLOQUE WHERE CICLO_ID='"+cicloId+"' AND BLOQUE_ID= TO_NUMBER('"+bloqueId+"', '99')";
+
+			
+			rs = st.executeQuery(comando);	
+			while (rs.next()){
+				decimales = rs.getString("DECIMALES");
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloBloqueLista|getDecimales|:"+ex);
+		}finally{		
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		return decimales;
+	}
+	
 }
