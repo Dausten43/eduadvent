@@ -11,7 +11,7 @@
 <jsp:useBean id="KrdxEval" scope="page" class="aca.kardex.KrdxAlumEval" />
 <jsp:useBean id="KrdxActiv" scope="page" class="aca.kardex.KrdxAlumActiv" />
 
-<script>
+<script> 
 	function Guardar(opcion) {
 		if (opcion == "1") {
 				document.frmNotas.action += "&Accion=1";
