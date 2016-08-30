@@ -429,7 +429,7 @@ public class FinMovimientos {
         PreparedStatement ps = null;
 
         try {
-            ps = conn.prepareStatement("SELECT * FROM FIN_MOVIMIENTOS"
+            ps = conn.prepareStatement("SELECT * FROM FIN_MOVIMIENTOS" 
             		+ " WHERE auxiliar = ? ");
             
 	        ps.setString(1, auxiliar);
