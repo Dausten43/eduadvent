@@ -35,6 +35,7 @@
 				<th><fmt:message key="aca.FechadeNacimiento" /></th>
 				<th><fmt:message key="aca.Genero" /></th>
 				<th><fmt:message key="aca.Direccion" /></th>
+				<th><fmt:message key="aca.Telefono" /></th>
 				<th><fmt:message key="aca.CelularTutor" /></th>
 				<th><fmt:message key="aca.Tutor" /></th>
 				<th><fmt:message key="aca.CIP" /></th>
@@ -54,6 +55,7 @@
 				<td><%=alumno.getGenero() %></td>
 				<td><%=alumno.getDireccion() %></td>
 				<td><%=alumno.getCelular() %></td>
+				<td><%=alumno.getTelefono() %></td>
 				<td><%=alumno.getTutor() %></td>
 				<td><%=alumno.getCurp() %></td>
 			</tr>
