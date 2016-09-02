@@ -51,7 +51,7 @@
 	    	<th><fmt:message key="aca.Edad"/></th>
 	    	<th><fmt:message key="aca.Colonia"/></th>
 	    	<th><fmt:message key="aca.Direccion"/></th>
-	    	<th><fmt:message key="aca.Telefono"/></th>
+	    	<th><fmt:message key="aca.CelularTutor"/></th>
 	  	</tr>  
 		<%		
 			String genero;
@@ -74,7 +74,7 @@
 						<td><%=aca.alumno.AlumPersonal.getEdad(conElias, alumno.getCodigoId())%></td>
 						<td><%=alumno.getColonia()%></td>
 						<td><%=alumno.getDireccion()%></td>
-						<td><%=alumno.getTelefono()%></td>
+						<td><%=alumno.getCelular()%></td>
 				 	</tr>  
 		<%			
 				}
