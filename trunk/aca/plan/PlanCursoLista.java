@@ -189,9 +189,10 @@ public class PlanCursoLista {
 			ps = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM PLAN_CURSO WHERE PLAN_ID= ? AND CURSO_BASE !='-' ");					
 			ps.setString(1, planId);
 			rs = ps.executeQuery();
-
-			if(!rs.getString("TOTAL").equals("0")){
-				esMateriaMadre=true;
+			if (rs.next()){
+				if(!rs.getString("TOTAL").equals("0")){
+					esMateriaMadre=true;
+				}
 			}
 			
 		}catch(Exception ex){
