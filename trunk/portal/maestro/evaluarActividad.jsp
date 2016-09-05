@@ -1,3 +1,4 @@
+<%@page import="java.math.MathContext"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -58,6 +59,7 @@
 	
 	frmEntero.setRoundingMode(java.math.RoundingMode.DOWN);
 	frmDecimal1.setRoundingMode(java.math.RoundingMode.DOWN);
+	MathContext MATH_CTX = new MathContext(12,RoundingMode.HALF_EVEN);
 	
 	//VARIABLES ---------------------------->
 	String escuelaId 		= (String) session.getAttribute("escuela");
@@ -88,8 +90,8 @@
 		escala = 100;
 	else
 		escala = escalaCiclo;	
-	
-	float notaMinima			= Float.parseFloat(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId )); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */	
+	BigDecimal notaMinima = BigDecimal.ZERO;
+	notaMinima			=  notaMinima.add(new BigDecimal(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId ),MATH_CTX)); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */	
 	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
@@ -161,9 +163,9 @@
 			for(aca.kardex.KrdxCursoAct krdxCursoAct: lisKardexAlumnos){ 				
 				
 				//double valorActividadesTotal = 0;
-				BigDecimal valorActividadesTotal = new BigDecimal("0");
+				BigDecimal valorActividadesTotal = BigDecimal.ZERO;
 				// Valor de la actividad
-				BigDecimal valorActividad = new BigDecimal("0");
+				BigDecimal valorActividad = BigDecimal.ZERO;
 				
 				// Coloca el mismo valor a todas las actividades				
 				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
@@ -182,16 +184,16 @@
 				
 				
 				//float promedioActividades = 0f;
-				BigDecimal promedioActividades = new BigDecimal("0");
+				BigDecimal promedioActividades = BigDecimal.ZERO;
 				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
 					for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
 						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
 							
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 								if (calculaPromedio.equals("P")){									
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5"),MATH_CTX ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
 								}else{
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );			
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor()),MATH_CTX ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );			
 								}
 							}
 						}
@@ -201,7 +203,7 @@
 				// Si no es Panama promediar en base a 10
 				if (!escuelaId.substring(0,1).equals("H")){
 					if (escalaCiclo == 10){					
-						promedioActividades = promedioActividades.divide(new BigDecimal("10"));
+						promedioActividades = promedioActividades.divide(new BigDecimal("10"),6,RoundingMode.HALF_EVEN);
 					}	
 				}
 				
@@ -211,14 +213,14 @@
 					if(redondeo.equals("A") ){
 						promedioActividades = promedioActividades.setScale(1, BigDecimal.ROUND_HALF_UP);
 					}else{
-						promedioActividades = new BigDecimal( frmEntero.format(promedioActividades) );
+						promedioActividades = new BigDecimal( frmEntero.format(promedioActividades),MATH_CTX );
 					}					
 				}else if(decimales.equals("1")){
-					promedioActividades = new BigDecimal( frmDecimal1.format(promedioActividades) );
+					promedioActividades = new BigDecimal( frmDecimal1.format(promedioActividades),MATH_CTX );
 					if(redondeo.equals("A") ){
 						promedioActividades = promedioActividades.setScale(2, BigDecimal.ROUND_HALF_UP);
 					}else{
-						promedioActividades = new BigDecimal( frmDecimal1.format(promedioActividades) );
+						promedioActividades = new BigDecimal( frmDecimal1.format(promedioActividades),MATH_CTX );
 					}
 				}
 				
@@ -227,18 +229,18 @@
 				if(decimales.equals("0")){
 					/* Si tiene una nota reprobatoria entonces el redondeo es hacia abajo, por ejemplo: (5.9 a 5) (5.6 a 5) (4.9 a 4)  */
 					if( promedioActividades.compareTo( new BigDecimal(notaAC) ) == -1 ){// promedioActividades<notaAC
-						promedioActividades = new BigDecimal( frmEntero.format( promedioActividades.setScale(0, RoundingMode.FLOOR) ) );
+						promedioActividades = new BigDecimal( frmEntero.format( promedioActividades.setScale(0, RoundingMode.FLOOR) ),MATH_CTX );
 					}
 					/* Si tiene una nota aprobatoria entonces el redondeo es normal, por ejemplo: (6.4 a 6) (6.6 a 7)  */
 					else{
-						promedioActividades = new BigDecimal( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ) );
+						promedioActividades = new BigDecimal( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ),MATH_CTX );
 					}
 				}	
 						
 				//--------VERIFICAR LA NOTAMINIMA PARA EL NIVEL----------
 				
-				if( promedioActividades.compareTo( new BigDecimal(notaMinima) ) == -1 ){// promedioActividades<notaMinima
-					promedioActividades = new BigDecimal(notaMinima);
+				if( promedioActividades.compareTo( notaMinima ) == -1 ){// promedioActividades<notaMinima
+					promedioActividades = promedioActividades.add(notaMinima);
 				}
 				
 				//--------GUARDAR PROMEDIO DE LAS ACTIVIDADES EN LA EVALUACION----------
