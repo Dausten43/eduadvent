@@ -251,7 +251,7 @@
 					}
 				%>
 				<td>
-					<input class="input-mini" type="text" id="NotaEval" name="NotaEval" value="<%=frmNum.format(Double.parseDouble(KrdxEval.getNota().equals("") ? "0" : KrdxEval.getNota()))%>" maxlength="3" size="3" <%=strTexto%> />
+					<input <% if(aca.plan.PlanCursoLista.esMateriaMadre(conElias, cursoId)){out.print("disabled");} out.print(aca.plan.PlanCursoLista.esMateriaMadre(conElias, cursoId)); %>class="input-mini" type="text" id="NotaEval" name="NotaEval" value="<%=frmNum.format(Double.parseDouble(KrdxEval.getNota().equals("") ? "0" : KrdxEval.getNota()))%>" maxlength="3" size="3" <%=strTexto%> />
 				</td>
 			</tr>
 		</table>
