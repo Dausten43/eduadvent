@@ -186,11 +186,12 @@ public class PlanCursoLista {
 		PreparedStatement ps	= null;	
 		
 		try{
-			ps = conn.prepareStatement("SELECT * FROM PLAN_CURSO WHERE PLAN_ID= ? AND CURSO_BASE !='-' ");					
+			ps = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM PLAN_CURSO WHERE PLAN_ID= ? AND CURSO_BASE !='-' ");					
 			ps.setString(1, planId);
 			rs = ps.executeQuery();
-			while (rs.next()){
-				esMateriaMadre = true;
+
+			if(!rs.getString("TOTAL").equals("0")){
+				esMateriaMadre=true;
 			}
 			
 		}catch(Exception ex){
