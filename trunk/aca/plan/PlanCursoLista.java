@@ -180,14 +180,14 @@ public class PlanCursoLista {
 	}
 
 	
-	public static boolean esMateriaMadre( Connection conn, String planId) throws SQLException, Exception{
+	public static boolean esMateriaMadre( Connection conn, String cursoId) throws SQLException, Exception{
 		boolean esMateriaMadre 	= false;
 		ResultSet 		rs		= null;
 		PreparedStatement ps	= null;	
 		
 		try{
-			ps = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM PLAN_CURSO WHERE PLAN_ID= ? AND CURSO_BASE !='-' ");					
-			ps.setString(1, planId);
+			ps = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM PLAN_CURSO WHERE CURSO_ID= ? AND CURSO_BASE !='-' ");					
+			ps.setString(1, cursoId);
 			rs = ps.executeQuery();
 			if (rs.next()){
 				if(!rs.getString("TOTAL").equals("0")){
