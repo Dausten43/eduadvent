@@ -178,6 +178,32 @@ public class PlanCursoLista {
 		}			
 		return lisCurso;
 	}
+
+	
+	public static boolean esMateriaMadre( Connection conn, String planId) throws SQLException, Exception{
+		boolean esMateriaMadre 	= false;
+		ResultSet 		rs		= null;
+		PreparedStatement ps	= null;	
+		
+		try{
+			ps = conn.prepareStatement("SELECT * FROM PLAN_CURSO WHERE PLAN_ID= ? AND CURSO_BASE !='-' ");					
+			ps.setString(1, planId);
+			rs = ps.executeQuery();
+			while (rs.next()){
+				esMateriaMadre = true;
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.plan.PlanCursoLista|esMateriaMadre|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}			
+		return esMateriaMadre;
+	}
+	
+
+		
 	
 	public static HashMap<String,PlanCurso> mapPlanCursos(Connection conn, String planId ) throws SQLException{
 		
