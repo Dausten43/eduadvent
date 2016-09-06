@@ -426,9 +426,9 @@
 								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
 									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(activ.getActividadId())){
 										if (decimales.equals("0")){
-											strNota = frmEntero.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+											strNota = frmEntero.format(new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX)).replaceAll(",", ".");
 										}else{
-											strNota = frmDecimal1.format(Double.parseDouble(krdxAlumActiv.getNota())).replaceAll(",", ".");
+											strNota = frmDecimal1.format(new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX)).replaceAll(",", ".");
 										}				
 									}
 								}
@@ -463,10 +463,10 @@
 							}//End for evaluaciones							
 							
 							// Valor de la actividad
-							BigDecimal valorActividad = new BigDecimal("0");
+							BigDecimal valorActividad = new BigDecimal("0",MATH_CTX);
 									
 							//double valorActividadesTotal = 0;
-							BigDecimal valorActividadesTotal = new BigDecimal("0");							
+							BigDecimal valorActividadesTotal = new BigDecimal("0",MATH_CTX);							
 							
 							// Coloca el mismo valor a todas las actividades 
 							for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
@@ -476,7 +476,7 @@
 											valorActividad = new BigDecimal("5");
 											valorActividadesTotal = valorActividadesTotal.add( valorActividad );									
 										}else{
-											valorActividad = new BigDecimal( cicloGrupoActividad.getValor());
+											valorActividad = new BigDecimal( cicloGrupoActividad.getValor(),MATH_CTX);
 											valorActividadesTotal = valorActividadesTotal.add( valorActividad );											
 										}										
 									}
@@ -484,16 +484,16 @@
 							}							
 							
 							//float promedioActividades = 0f;
-							BigDecimal promedioActividades = new BigDecimal("0");
+							BigDecimal promedioActividades = new BigDecimal("0",MATH_CTX);
 							for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
 								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
 									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
 										//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 										if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 											if (calculaPromedio.equals("P")){
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
 											}else{																				
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
 											}											
 										}
 									}
@@ -514,9 +514,9 @@
 							String strProm = "-";
 							if( promedio != null && !promedio.equals("-") ){
 								if(decimales.equals("0")){
-									strProm = frmEntero.format(Double.parseDouble(promedio)).replaceAll(",", ".");
+									strProm = frmEntero.format(new BigDecimal(promedio,MATH_CTX)).replaceAll(",", ".");
 								}else{
-									strProm = frmDecimal1.format(Double.parseDouble(promedio)).replaceAll(",", ".");									
+									strProm = frmDecimal1.format(new BigDecimal(promedio,MATH_CTX)).replaceAll(",", ".");									
 								}
 							}
 						%>
