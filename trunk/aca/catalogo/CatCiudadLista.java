@@ -70,9 +70,9 @@ public class CatCiudadLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT PAIS_ID,ESTADO_ID,CIUDAD_ID, CIUDAD_NOMBRE FROM CAT_CIUDAD "+
-				" WHERE PAIS_ID = TO_NUMBER('"+paisId+"','999')"+
-				" AND ESTADO_ID = TO_NUMBER('"+estadoId+"','999') "+ orden;
+			comando = "SELECT PAIS_ID,ESTADO_ID,CIUDAD_ID, CIUDAD_NOMBRE FROM CAT_CIUDAD "
+					+ "WHERE PAIS_ID = TO_NUMBER('"+paisId+"','999')"
+					+ "AND ESTADO_ID = TO_NUMBER('"+estadoId+"','999')  "+ orden;
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
@@ -83,7 +83,7 @@ public class CatCiudadLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.catalogo.CiudadUtil|getArrayList|:"+ex);
+			System.out.println("Error - aca.catalogo.CatCiudadLista|getArrayList|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
