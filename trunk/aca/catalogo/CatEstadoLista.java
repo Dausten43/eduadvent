@@ -70,9 +70,9 @@ public class CatEstadoLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT PAIS_ID, ESTADO_ID, ESTADO_NOMBRE, CLAVE " +
-					"FROM CAT_ESTADO " +
-					"WHERE PAIS_ID = TO_NUMBER('"+paisId+"','999') "+ orden;
+			comando = "SELECT PAIS_ID, ESTADO_ID, ESTADO_NOMBRE, CLAVE "
+					+ "FROM CAT_ESTADO "
+					+ "WHERE PAIS_ID = TO_NUMBER('"+paisId+"','999') "+ orden;
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				
