@@ -392,14 +392,16 @@ public class FinCalculoPago {
         boolean ok				= false;
         
         try {
-        	ps = conn.prepareStatement("SELECT COUNT(*) FROM FIN_CALCULO_PAGO "
+        	ps = conn.prepareStatement("SELECT COUNT(*)AS TOTAL FROM FIN_CALCULO_PAGO "
         			+ " WHERE CODIGO_ID = ? ");
         	
             ps.setString(1, codigoId);           
             
             rs = ps.executeQuery();
             if(rs.next()){
-            	ok = true;
+            	if(!rs.getString("TOTAL").equals("0")){
+            		ok = true;
+            	}
             }
 
         }catch(Exception ex){
