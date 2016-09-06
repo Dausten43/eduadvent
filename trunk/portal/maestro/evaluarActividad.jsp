@@ -160,7 +160,8 @@
 			
 			lisKrdxActiv = krdxAlumActivL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacionId, "ORDER BY ALUM_APELLIDO(CODIGO_ID), ACTIVIDAD_ID");
 		
-			for(aca.kardex.KrdxCursoAct krdxCursoAct: lisKardexAlumnos){ 				
+			for(aca.kardex.KrdxCursoAct krdxCursoAct: lisKardexAlumnos){ 
+				
 				
 				//double valorActividadesTotal = 0;
 				BigDecimal valorActividadesTotal = BigDecimal.ZERO;
@@ -191,14 +192,16 @@
 							
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 								if (calculaPromedio.equals("P")){									
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5"),MATH_CTX ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5"),MATH_CTX ).divide(valorActividadesTotal, 6, RoundingMode.HALF_DOWN) );
 								}else{
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor()),MATH_CTX ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );			
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor()),MATH_CTX ).divide(valorActividadesTotal, 6, RoundingMode.HALF_DOWN) );			
 								}
 							}
 						}
 					}
 				}
+				
+				
 				
 				// Si no es Panama promediar en base a 10
 				if (!escuelaId.substring(0,1).equals("H")){
@@ -263,6 +266,8 @@
 					}
 					
 				}else{//Si tiene evaluada alguna actividad entonces guarda el promedio
+					
+					
 					
 					if(kardexEval.existeReg(conElias)){
 						kardexEval.mapeaRegId(conElias, krdxCursoAct.getCodigoId(), cicloGrupoId, cursoId, evaluacionId);
@@ -491,9 +496,9 @@
 										//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 										if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 											if (calculaPromedio.equals("P")){
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 6, RoundingMode.HALF_DOWN) );
 											}else{																				
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 2, RoundingMode.HALF_DOWN) );
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 6, RoundingMode.HALF_DOWN) );
 											}											
 										}
 									}
