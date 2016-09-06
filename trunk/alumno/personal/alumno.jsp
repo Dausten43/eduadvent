@@ -9,7 +9,7 @@
 <%@page import="aca.catalogo.CatReligion"%>
 <%@page import="aca.alumno.AlumCiclo"%>
 <%@page import="aca.kardex.KrdxCursoAct"%>
-
+ 
 <jsp:useBean id="Personal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="PaisL" scope="page" class="aca.catalogo.CatPaisLista"/>
 <jsp:useBean id="EstadoL" scope="page" class="aca.catalogo.CatEstadoLista"/>
@@ -493,7 +493,7 @@
 				<div class="well" style="text-align:center;">
 					<%if(existeAlumno){%>
 		            	<a class="btn btn-primary"  id="modificar" onclick="javascript:Modificar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></a>
-		            	
+		            	<%//System.out.println("tieneMaterias: " +tieneMaterias+ " inscrito: "+inscrito+" tienePagos: "+ tienePagos); %>
 		            	<%if(!tieneMaterias && inscrito==false && !tieneMovtos && !tienePagos){ %>
 		            		<button class="btn btn-danger"  id="borrar" onclick="javascript:Borrar()"><i class="icon-remove icon-white"></i> <fmt:message key="boton.Eliminar"/></button>
 		            	<%} %> 
