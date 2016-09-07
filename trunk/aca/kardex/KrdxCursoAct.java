@@ -653,7 +653,7 @@ public class KrdxCursoAct {
 		boolean 			ok 	= false;
 		ResultSet 		rs		= null;
 		PreparedStatement ps= null;
-		
+		 
 		try{
 			ps = conn.prepareStatement("SELECT * FROM KRDX_CURSO_ACT "+
 				"WHERE CODIGO_ID = ?");
