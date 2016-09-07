@@ -89,7 +89,7 @@
 		if(document.frmPersonal.CodigoPersonal.value!=""){
 			if(confirm("<fmt:message key="aca.EliminarRegistro" />")==true){
 	  			document.frmPersonal.Accion.value	= "5";
-				document.frmPersonal.submit();
+				document.frm.submit();
 			}			
 		}else{
 			alert("<fmt:message key="js.EscribaClave" />");
@@ -117,6 +117,7 @@
 	
 	String strAccion 		= request.getParameter("Accion")==null?"6":request.getParameter("Accion");	
 	int accion				= Integer.parseInt(strAccion);	
+	
 	String cicloId 			= aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
 	String periodoId		= aca.ciclo.CicloPeriodo.periodoActual(conElias, cicloId);		
 	 
@@ -234,6 +235,7 @@
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));		
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
 			Personal.setTipoSangre(request.getParameter("TipoSangre"));
+			Personal.setEstado(request.getParameter("Status").equals("")?"A":request.getParameter("Status"));
 			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			conElias.setAutoCommit(false);
@@ -277,7 +279,7 @@
 			Personal.setGenero(request.getParameter("Sexo"));
 			Personal.setCurp(request.getParameter("Curp"));
 			Personal.setFNacimiento(request.getParameter("FNacimiento"));
-			Personal.setPaisId(request.getParameter("PaisId"));
+			Personal.setPaisId(request.getParameter("PaisId")==null?"0":request.getParameter("PaisId"));
 			Personal.setEstadoId(request.getParameter("EstadoId")==null?"0":request.getParameter("EstadoId"));
 			Personal.setCiudadId(request.getParameter("CiudadId")==null?"0":request.getParameter("CiudadId"));
 			Personal.setClasfinId(request.getParameter("ClasificacionFin"));
@@ -299,6 +301,7 @@
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
 			Personal.setTipoSangre(request.getParameter("TipoSangre"));
+			Personal.setEstado(request.getParameter("Status")==null?"A":request.getParameter("Status"));
 			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			Personal.setDiscapacidad("-");
@@ -431,7 +434,7 @@
 			Personal.setTelefono(request.getParameter("Telefono"));
 			Personal.setCotejado(request.getParameter("Cotejado"));
 			Personal.setGrado(request.getParameter("Grado"));
-			Personal.setEstado("A");
+			Personal.setEstado(request.getParameter("Status")==null?"A":request.getParameter("Status"));
 			Personal.setGrupo(request.getParameter("Grupo"));
 			Personal.setActa(request.getParameter("Acta")==null?"-":request.getParameter("Acta"));
 			Personal.setCrip(request.getParameter("Crip")==null?"-":request.getParameter("Crip"));
@@ -585,7 +588,8 @@
 				
 				<p>
 					<label><fmt:message key="aca.Pais"/></label>
-			        <select name="PaisId" id="PaisId" onChange = "PEC('1','<%=sTipo%>')" tabindex="7">
+					
+			        <select name="PaisId" id="PaisId" onChange = "javascript:PEC('1','<%=sTipo%>')" tabindex="7">
 				<%	
 					ArrayList<aca.catalogo.CatPais> lisPais = PaisL.getListAll(conElias,"ORDER BY 2");
 					for(aca.catalogo.CatPais pais: lisPais){
@@ -598,14 +602,16 @@
 				</p>
 				
 				<p>
-				<%	if (!escuelaId.contains("H")){%>
+				<%	
+					if (!escuelaId.contains("H")){%>
 					<label><fmt:message key="aca.Estado"/></label>
+					
 				<%	}else{ %>
 					<label><fmt:message key="aca.Provincia"/></label>
 				<%	} %>					
 				    <select name="EstadoId" id="EstadoId" onChange= "javascript:PEC('2','<%=sTipo%>')">
-	                <%	//System.out.println("Pais ID: " +Personal.getPaisId());
-						ArrayList<aca.catalogo.CatEstado> lisEstado = EstadoL.getArrayList(conElias, Personal.getPaisId(), "ORDER BY 1, 3");
+	                <%	
+						ArrayList<aca.catalogo.CatEstado> lisEstado = EstadoL.getArrayList(conElias, Personal.getPaisId(), "ORDER BY 1,3");
 						for(aca.catalogo.CatEstado estado: lisEstado){
 					%>
 							<option value="<%=estado.getEstadoId() %>" <%if(estado.getEstadoId().equals(Personal.getEstadoId())){out.print("selected");} %>><%=estado.getEstadoNombre() %></option>
@@ -622,7 +628,7 @@
 					<label><fmt:message key="aca.Distrito"/></label>
 				<%	} %>	
           			<select name="CiudadId" id="CiudadId" onchange="javascript:PEC('3','<%=sTipo%>')">
-              	<%	//System.out.println("Pais ID: " +Personal.getPaisId()+" Estado ID: " +Personal.getEstadoId()+" Ciudad Id "+Personal.getCiudadId());
+              	<%	
 					ArrayList<aca.catalogo.CatCiudad> lisCiudad = CiudadL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(), "ORDER BY 4");
 					for(aca.catalogo.CatCiudad ciudad: lisCiudad){
 				%>	
@@ -774,6 +780,16 @@
 		            	<input name="Iglesia" type="hidden" value="<%=Personal.getIglesia()%>" /> 
 	              	<% } %>
 				</p>
+				
+				<p>
+	            	<label>
+	            		Status
+	            	</label> 
+					<select name="Status" class="input-medium" <%if(inscrito){out.print("Disabled");} %>>
+	            		<option value="A" <%if(Personal.getEstado().equals("A")) out.print("Selected"); %>>Activo</option>
+	            		<option value="I" <%if(Personal.getEstado().equals("I")) out.print("Selected"); %>>Inactivo</option>
+	              	</select>
+	            </p>
 			</div>
 		</div>
 		
