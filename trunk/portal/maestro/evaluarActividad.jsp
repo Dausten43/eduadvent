@@ -176,7 +176,7 @@
 								valorActividad = new BigDecimal("5");
 								valorActividadesTotal = valorActividadesTotal.add( valorActividad );
 							}else{
-								valorActividad = new BigDecimal( cicloGrupoActividad.getValor());
+								valorActividad = new BigDecimal( cicloGrupoActividad.getValor(),MATH_CTX);
 								valorActividadesTotal = valorActividadesTotal.add( valorActividad );	
 							}							
 						}
@@ -478,7 +478,7 @@
 								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
 									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
 										if (calculaPromedio.equals("P")){
-											valorActividad = new BigDecimal("5");
+											valorActividad = new BigDecimal("5",MATH_CTX);
 											valorActividadesTotal = valorActividadesTotal.add( valorActividad );									
 										}else{
 											valorActividad = new BigDecimal( cicloGrupoActividad.getValor(),MATH_CTX);
