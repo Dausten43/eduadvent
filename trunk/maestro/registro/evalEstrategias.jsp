@@ -10,6 +10,7 @@
 <jsp:useBean id="KrdxActivL" scope="page" class="aca.kardex.KrdxAlumActivLista" />
 <jsp:useBean id="KrdxEval" scope="page" class="aca.kardex.KrdxAlumEval" />
 <jsp:useBean id="KrdxActiv" scope="page" class="aca.kardex.KrdxAlumActiv" />
+<jsp:useBean id="planCursoLista" scope="page" class="aca.plan.PlanCursoLista" />
 
 <script> 
 	function Guardar(opcion) {
@@ -180,6 +181,10 @@
 	
 	pageContext.setAttribute("resultado", Resultado);
 %>
+<%
+//LISTA CURSOS DERIVADOS
+	ArrayList<aca.plan.PlanCurso> listaMateriasDerivadas		= planCursoLista.getMateriasHijas(conElias, cursoId);
+%>
 
 <div id="content">
 	<h2>
@@ -251,7 +256,14 @@
 					}
 				%>
 				<td>
-					<input <%if (aca.plan.PlanCursoLista.esMateriaMadre(conElias, cursoId)== true) {out.print("disabled");}%> class="input-mini" type="text" id="NotaEval" name="NotaEval" value="<%=frmNum.format(Double.parseDouble(KrdxEval.getNota().equals("") ? "0" : KrdxEval.getNota())) %>" maxlength="3" size="3" <%=strTexto%> />
+					<input <%if (listaMateriasDerivadas.size() > 0){
+						out.print("disabled");%>
+						class="input-mini" type="text" id="NotaEval" name="NotaEval" value="<%=frmNum.format(Double.parseDouble(KrdxEval.getNota().equals("") ? "0" : KrdxEval.getNota())) %>" maxlength="3" size="3" <%=strTexto%> />
+						 <p> No se puede editar porque es materia Madre</p>
+						<%}else{%>
+						class="input-mini" type="text" id="NotaEval" name="NotaEval" value="<%=frmNum.format(Double.parseDouble(KrdxEval.getNota().equals("") ? "0" : KrdxEval.getNota())) %>" maxlength="3" size="3" <%=strTexto%> />
+						<%}%>
+					 
 				</td>
 			</tr>
 		</table>
