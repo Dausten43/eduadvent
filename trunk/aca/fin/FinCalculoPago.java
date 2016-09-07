@@ -403,7 +403,7 @@ public class FinCalculoPago {
             		ok = true;
             	}
             }
-
+ 
         }catch(Exception ex){
             System.out.println("Error - aca.fin.FinCalculoPago|existeEnPagos|:" +ex);
         }finally{
