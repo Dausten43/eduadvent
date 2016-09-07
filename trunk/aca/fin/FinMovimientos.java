@@ -427,7 +427,7 @@ public class FinMovimientos {
         boolean ok = false;
         ResultSet rs = null;
         PreparedStatement ps = null;
-
+ 
         try {
             ps = conn.prepareStatement("SELECT * FROM FIN_MOVIMIENTOS" 
             		+ " WHERE auxiliar = ? ");
