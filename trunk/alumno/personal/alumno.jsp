@@ -89,7 +89,7 @@
 		if(document.frmPersonal.CodigoPersonal.value!=""){
 			if(confirm("<fmt:message key="aca.EliminarRegistro" />")==true){
 	  			document.frmPersonal.Accion.value	= "5";
-				document.frm.submit();
+				document.frmPersonal.submit();
 			}			
 		}else{
 			alert("<fmt:message key="js.EscribaClave" />");
