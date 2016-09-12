@@ -1,9 +1,10 @@
-<%@page import="java.math.MathContext"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
 <%@ include file="../../head.jsp"%>
 <%@ include file="../../menu.jsp"%>
+
+<%@page import="java.math.MathContext"%>
 
 <jsp:useBean id="empPersonal" scope="page" class="aca.empleado.EmpPersonal"/>
 <jsp:useBean id="cicloGrupoActividadL" scope="page" class="aca.ciclo.CicloGrupoActividadLista"/>
@@ -64,7 +65,7 @@
 	
 	frmEntero.setRoundingMode(java.math.RoundingMode.DOWN);
 	frmDecimal1.setRoundingMode(java.math.RoundingMode.DOWN);
-	MathContext MATH_CTX = new MathContext(12,RoundingMode.HALF_EVEN);
+	MathContext MATH_CTX = new MathContext(12,RoundingMode.HALF_UP);
 	
 	//VARIABLES ---------------------------->
 	String escuelaId 		= (String) session.getAttribute("escuela");
@@ -182,28 +183,28 @@
 						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
 							// Coloca el mismo valor a todas las actividades
 							if (calculaPromedio.equals("P")){								
-								valorActividad = new BigDecimal("5");
-								valorActividadesTotal = valorActividadesTotal.add( valorActividad );
+								valorActividad = new BigDecimal("5",MATH_CTX);
+								valorActividadesTotal = valorActividadesTotal.add( valorActividad,MATH_CTX );
 							}else{
 								//valorActividadesTotal += Double.parseDouble( cicloGrupoActividad.getValor() );
 								valorActividad = new BigDecimal( cicloGrupoActividad.getValor(),MATH_CTX);
-								valorActividadesTotal = valorActividadesTotal.add( valorActividad );
+								valorActividadesTotal = valorActividadesTotal.add( valorActividad,MATH_CTX );
 							}								
 						}
 					}
 				}
 				
 				//float promedioActividades = 0f;
-				BigDecimal promedioActividades = new BigDecimal("0");
+				BigDecimal promedioActividades = new BigDecimal("0",MATH_CTX);
 				for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
 					for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
 						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){				
 							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
-								if (calculaPromedio.equals("P")){									
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, 6, RoundingMode.HALF_DOWN) );									
+								if (calculaPromedio.equals("P")){
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5",MATH_CTX),MATH_CTX ).divide(valorActividadesTotal,MATH_CTX), MATH_CTX );									
 								}else{
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, 6, RoundingMode.HALF_DOWN) );							
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor(),MATH_CTX),MATH_CTX ).divide(valorActividadesTotal,MATH_CTX),MATH_CTX );							
 								}								
 							}
 						}
@@ -213,7 +214,7 @@
 				// Si no es Panama promediar en base a 10
 				if (!escuelaId.substring(0,1).equals("H")){
 					if (escalaCiclo==10){
-						promedioActividades = promedioActividades.divide(new BigDecimal("10"));
+						promedioActividades = promedioActividades.divide(new BigDecimal("10",MATH_CTX),MATH_CTX);
 					}			
 				}
 				
