@@ -79,7 +79,7 @@
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String bloqueId			= request.getParameter("bloqueId")==null?"":request.getParameter("bloqueId");
 	
-	System.out.println(evaluacionId);
+	//System.out.println(evaluacionId);
 	String redondeo			= aca.ciclo.CicloBloqueLista.getRedondeo(conElias, cicloId, evaluacionId);
 	String decimales		= aca.ciclo.CicloBloqueLista.getDecimales(conElias, cicloId, evaluacionId);
 	String calculaPromedio  = aca.ciclo.CicloBloque.getCalculo(conElias, cicloId, evaluacionId);	
@@ -183,7 +183,7 @@
 						if(krdxAlumActiv.getCodigoId().equals(krdxCursoAct.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){
 							// Coloca el mismo valor a todas las actividades
 							if (calculaPromedio.equals("P")){								
-								valorActividad = new BigDecimal("5",MATH_CTX);
+								valorActividad = new BigDecimal("1",MATH_CTX);
 								valorActividadesTotal = valorActividadesTotal.add( valorActividad,MATH_CTX );
 							}else{
 								//valorActividadesTotal += Double.parseDouble( cicloGrupoActividad.getValor() );
@@ -202,13 +202,18 @@
 							//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 								if (calculaPromedio.equals("P")){
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5",MATH_CTX),MATH_CTX ).divide(valorActividadesTotal,MATH_CTX), MATH_CTX );									
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("1",MATH_CTX),MATH_CTX ), MATH_CTX );
+									//System.out.println("promedioActividades: "+promedioActividades);
 								}else{
-									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor(),MATH_CTX),MATH_CTX ).divide(valorActividadesTotal,MATH_CTX),MATH_CTX );							
+									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor(),MATH_CTX),MATH_CTX ),MATH_CTX );							
 								}								
 							}
 						}
 					}
+				}
+				if(promedioActividades.floatValue() > 0){
+					promedioActividades = promedioActividades.divide(valorActividadesTotal,MATH_CTX);
+					//System.out.println("Alumno: "+krdxCursoAct.getCodigoId()+"; promedioActividades: "+promedioActividades);
 				}
 				
 				// Si no es Panama promediar en base a 10
