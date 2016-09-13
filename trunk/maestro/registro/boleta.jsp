@@ -345,7 +345,7 @@
 		    						tabla.addCell(celda);
 		    						
 		    						 int op = Integer.parseInt(cicloExtra.maximo(conElias, cicloId)); 
-					    		    for(int g = 1; g<=op; g++){
+					    		    for(int g = 0; g<=op; g++){
 		    						String nombre = cicloExtra.getNombreOp(conElias, cicloId, Integer.toString(g));
 		    						celda = new PdfPCell(new Phrase(nombre, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
