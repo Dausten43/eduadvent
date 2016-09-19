@@ -86,6 +86,10 @@
 	<th width="3%"><fmt:message key="aca.Orden" /></th>
 	<th width="3%"><fmt:message key="aca.Decimal" /></th>
 	<th width="7%"><fmt:message key="aca.Estado" /></th>
+	<th width="28%"><fmt:message key="aca.Base" /></th>
+	<th width="9%"><fmt:message key="aca.TipoEval" /></th>
+	
+	
 	<th width="7%">
 	<%if (!escuelaId.contains("H")){%>
 		<fmt:message key="aca.BoletaAlumno" />
@@ -93,8 +97,8 @@
 		Boletin
 	<%} %>
 	</th>	
-	<th width="28%"><fmt:message key="aca.Base" /></th>
-	<th width="9%"><fmt:message key="aca.TipoEval" /></th>
+	<th width="3%"><fmt:message key="aca.TipoCurso" /></th>
+	<th width="3%"><fmt:message key="aca.HabilidadesyActitudes" /></th>
   </tr>
 <%
 	ArrayList<aca.plan.PlanCurso> lisCurso		= PlanCursoLista.getListCurso(conElias, strPlanId, " ORDER BY GRADO, ORDEN");
@@ -122,7 +126,7 @@
 			
 %>
   <tr> 
-    <td style="border:1px solid gray;" colspan="15" align="center">&nbsp;<strong><%=nombreGrado%></strong></td>
+    <td style="border:1px solid gray;" colspan="16" align="center">&nbsp;<strong><%=nombreGrado%></strong></td>
   </tr>
 <%	}
 		
@@ -137,16 +141,22 @@
     <td align="left"><%=curso.getCursoId() %></td>
     <td align="left"><%=curso.getCursoNombre() %></td>    
     <td align="center"><%=curso.getHoras()%></td>    
-    <td align="center"><%=CatTipocurso.getNombre(conElias, curso.getTipocursoId())%></td>
+    <td align="center"><%=CatTipocurso.getNombre(conElias, curso.getTipocursoId())%></td>    
     <td align="center"><%=curso.getNotaAc() %></td>
 	<td align="center"><%=curso.getFalta() %></td>
 	<td align="center"><%=curso.getConducta() %></td>
 	<td align="center"><%=curso.getOrden() %></td>
 	<td align="center"><%=curso.getPunto().equals("S")?"SI":"NO"%></td>
-	<td align="center"><%=curso.getEstado().equals("A")?"Activo":"Inactivo"%></td>	
-	<td align="center"><%=boleta%></td>
+	<td align="center"><%=curso.getEstado().equals("A")?"Activo":"Inactivo"%></td>
 	<td align="left"><%=cursoBase%></td>
 	<td align="center"><%=curso.getTipoEvaluacion().equals("C")?"Calculado":"Pase"%></td>
+	<td align="center"><%=boleta%></td>
+    <td align="center"><%if (curso.getTipocursoId().equals("1")){%><fmt:message key='aca.Oficial' />
+    					<%}else if (curso.getTipocursoId().equals("2")){%><fmt:message key='aca.NoOficial' />
+    					<%}else if (curso.getTipocursoId().equals("3")){%><fmt:message key='aca.Ingles' />
+    					<%} %>
+    					
+	 <td align="center"><%=curso.getAspectos()%></td>
   </tr>
 <%	} %>  
 </table>
