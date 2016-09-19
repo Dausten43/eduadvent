@@ -100,7 +100,7 @@
 			Curso.setCursoCorto(request.getParameter("CursoCorto"));
 			Curso.setGrado(request.getParameter("Grado"));
 			Curso.setNotaAc(request.getParameter("NotaAC"));
-			Curso.setTipocursoId(request.getParameter("Tipocurso"));
+			Curso.setTipocursoId(request.getParameter("TipoCurso"));
 			Curso.setFalta(request.getParameter("Falta"));			
 			Curso.setAspectos(request.getParameter("Aspectos"));
 			Curso.setConducta(request.getParameter("Conducta"));
@@ -189,7 +189,7 @@
 		<div class="well" style="overflow: hidden;">
 		<a href="materia.jsp?PlanId=<%=planId%>"class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		</div>
-
+	
 		<form action="accion.jsp" method="post" name="frmPlan">
 			<input type="hidden" name="Accion">
 			<input type="hidden" name="PlanId" value=<%=planId%>>
@@ -281,7 +281,7 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Aspectos"> <fmt:message key="aca.HabitosyActitudes" />: </label>
+							<label for="Aspectos"> <fmt:message key="aca.HabilidadesyActitudes" />: </label>
 							<select name="Aspectos" id="Aspectos">
 								<option value="S" <%=Curso.getAspectos().equals("S")?" Selected":""%>><fmt:message key="aca.Si" /></option>
 								<option value="N" <%=Curso.getAspectos().equals("N")?" Selected":""%>><fmt:message key="aca.Negacion" /></option>
