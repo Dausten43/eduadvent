@@ -100,7 +100,7 @@
 			Curso.setCursoCorto(request.getParameter("CursoCorto"));
 			Curso.setGrado(request.getParameter("Grado"));
 			Curso.setNotaAc(request.getParameter("NotaAC"));
-			Curso.setTipocursoId(request.getParameter("TipoCurso"));
+			Curso.setTipocursoId(request.getParameter("Tipocurso"));
 			Curso.setFalta(request.getParameter("Falta"));			
 			Curso.setAspectos(request.getParameter("Aspectos"));
 			Curso.setConducta(request.getParameter("Conducta"));
