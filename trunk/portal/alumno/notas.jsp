@@ -13,6 +13,8 @@
 <jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="AlumnoCursoL" scope="page" class="aca.vista.AlumnoCursoLista"/>
+<jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
+
 <%	
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -201,7 +203,7 @@
 		    <td width="20%"><%=curso.getCursoNombre()%></td>
 <%
 					double promedioFinal = 0;
-
+					int trimestres = 0;
 					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 						int evalCerradas = 0;
 						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
@@ -240,6 +242,9 @@
 						double promEval = 0; 
 						if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
 							promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
+							if (promEval>Nivel.getNotaMinima(conElias, nivelId, escuelaId) ){
+							trimestres++;
+							}
 						}
 						
 						// Puntos del promedio
@@ -266,17 +271,19 @@
 						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
 						
 						// Puntos del promedio
-						
+						System.out.println(promEval);
 						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+formato0.format(Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval)+"</td>");
 						//System.out.println("promedio"+ cicloPromedio.getValor()+ "escala"+ escalaEval);
 						
 						// Inserta columna de los puntos
 						//out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
+						System.out.println("PromFinal: "+ promedioFinal + "PuntosEval: " +puntosEval);
+						promedioFinal = promedioFinal + promEval;
 						
-						promedioFinal = promedioFinal + puntosEval;
+						
 						
 					}
-					
+					promedioFinal=promedioFinal/trimestres;
 					String muestraPromedioFinal = formato2.format(promedioFinal);
 					
 					if (lisPromedio.size() > 1){
