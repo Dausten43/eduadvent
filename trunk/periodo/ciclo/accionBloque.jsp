@@ -292,8 +292,8 @@
 		<fieldset>
 			<label for="Redondeo"><fmt:message key="aca.Redondeo" /></label>
 			<select name="Redondeo" id="Redondeo" class="input input-small">
-				<option value="A" <% if (Bloque.getDecimales().equals("A")){out.print(" selected");}%>>Arriba</option>
-				<option value="T" <% if (Bloque.getDecimales().equals("T")){out.print(" selected");}%>>Truncado</option>
+				<option value="A" <% if (Bloque.getRedondeo().equals("A")){out.print(" selected");}%>>Arriba</option>
+				<option value="T" <% if (Bloque.getRedondeo().equals("T")){out.print(" selected");}%>>Truncado</option>
 			</select>
 		</fieldset>
 		
