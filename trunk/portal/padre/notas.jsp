@@ -285,7 +285,7 @@
 						}else if (escalaEval == 10){
 							promedioFinal = (promedioFinal * 10)/sumaValor;
 						}							
-						String muestraPromedioFinal = formato1.format(promedioFinal);
+						String muestraPromedioFinal = formato2.format(promedioFinal);
 					
 						//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
 						out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
