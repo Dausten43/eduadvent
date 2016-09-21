@@ -13,8 +13,7 @@
 <jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="AlumnoCursoL" scope="page" class="aca.vista.AlumnoCursoLista"/>
-<jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
-
+<jsp:useBean id="kardexProm" scope="page" class="aca.kardex.KrdxAlumProm" />
 <%	
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -203,7 +202,8 @@
 		    <td width="20%"><%=curso.getCursoNombre()%></td>
 <%
 					double promedioFinal = 0;
-					int trimestres = 0;
+					double sumaValor = 0;
+
 					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 						int evalCerradas = 0;
 						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
@@ -239,56 +239,59 @@
 						}
 						
 						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
+						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
 						double promEval = 0; 
 						if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
 							promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
-							if (promEval>Nivel.getNotaMinima(conElias, nivelId, escuelaId) ){
-							trimestres++;
-							}
 						}
 						
-						// Puntos del promedio
-						double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
+						// Suma los valores de todos los promedios en ciclo_promedio para calcular la nota final
+						// Considera solamente los evaluados
+						if (promEval > 0){
+							sumaValor += Double.parseDouble(cicloPromedio.getValor());
+						}
+						
+						// Puntos del promedio en escala de 100 (considerando el valor de cada promedio en escala de 0-100)
+						double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;						
 						
 						// Formato del promedio y los puntos (decimales usados)
 						String promFormato		= formato1.format(promEval);
-						String puntosFormato	= formato1.format(puntosEval);
+						String puntosFormato	= formato1.format(puntosEval);							
+						
 						if (cicloPromedio.getDecimales().equals("0")){
 							promFormato 		= formato0.format(promEval);
 							puntosFormato 		= formato0.format(puntosEval);
 						}else if (cicloPromedio.getDecimales().equals("2")){
 							promFormato 		= formato2.format(promEval);
 							puntosFormato 		= formato2.format(puntosEval);
-						}	
+						}			
 						
-						// Color del promedio
-						String colorProm = "color:blue;";
-						if (evalCerradas>0 && evalCerradas == lisBloque.size()){
-							colorProm = "color:black;";
-						}
-						
+						//puntosFormato = Double.toString((Double.parseDouble(puntosFormato) * 5)/Double.parseDouble(valor));
 						// Inserta columna del promedio de las evaluaciones
-						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+promFormato+"</td>");
-						
-						// Puntos del promedio
-						System.out.println(promEval);
-						out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+formato0.format(Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval)+"</td>");
-						//System.out.println("promedio"+ cicloPromedio.getValor()+ "escala"+ escalaEval);
+						out.print("<td class='text-center' width='2%'  >"+promFormato+"</td>");
 						
 						// Inserta columna de los puntos
-						//out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
-						System.out.println("PromFinal: "+ promedioFinal + "PuntosEval: " +puntosEval);
-						promedioFinal = promedioFinal + promEval;
+						out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
+						
+						promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
 						
 						
-						
-					}
-					promedioFinal=promedioFinal/trimestres;
-					String muestraPromedioFinal = formato2.format(promedioFinal);
+					}//End for de promedio						
 					
 					if (lisPromedio.size() > 1){
+					
+						double puntosEscala = 0;
+						if (escalaEval == 5){
+							promedioFinal = (promedioFinal * 5)/sumaValor;
+						}else if (escalaEval == 10){
+							promedioFinal = (promedioFinal * 10)/sumaValor;
+						}							
+						String muestraPromedioFinal = formato1.format(promedioFinal);
+					
+						//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
 						out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
 					}
+
 %>
 			<td class="text-center" width="5%"><%if(alumCurso.getFNota() == null) out.print("-"); else out.print(alumCurso.getFNota()); %></td>
 			<td class="text-center" width="5%"><%if(alumCurso.getNotaExtra() == null) out.print("-"); else out.print(alumCurso.getNotaExtra()); %></td>
