@@ -22,6 +22,7 @@
 <jsp:useBean id="LisAspectos" scope="page" class="aca.catalogo.CatAspectosLista"/>
 <jsp:useBean id="AlumFalta" scope="page" class="aca.kardex.KrdxAlumFalta" />
 <jsp:useBean id="AlumAspecto" scope="page" class="aca.kardex.KrdxAlumActitud" />
+<jsp:useBean id="planClase" scope="page" class="aca.plan.Plan"/>
 <%
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -34,15 +35,18 @@
 	String codigoAlumno 	= request.getParameter("CodigoAlumno");	 
 	String empleadoId	 	= request.getParameter("empleadoId");	 
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
+
+	// Plan actual del alumno
+	String planId 			= aca.alumno.AlumPlan.getPlanActual(conElias, codigoAlumno);
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
+	planClase.mapeaRegId(conElias, planId);
 	
 	AlumPersonal.setCodigoId(codigoAlumno);
 	AlumPersonal.mapeaRegId(conElias, codigoAlumno);
 	
-	// Plan actual del alumno
-	String planId 			= aca.alumno.AlumPlan.getPlanActual(conElias, codigoAlumno);
+
 	// Escala
 	int escalaEval 			= 100;// aca.ciclo.Ciclo.getEscala(conElias, cicloId );
 	int evalcerradas		= 0;
@@ -133,9 +137,9 @@
 %>
 
 <div id="content">	
-	<table class="table" style="width:70%; margin:0 auto;">
+	<table class="table" style="width:70%; margin:auto;">
 		<tr>
-			<td width="10%"> 
+			<td width="1%"> 
 				<a class="btn btn-primary" href="alumnos.jsp?CicloGrupoId=<%=cicloGrupoId%>"><i class="icon-arrow-left icon-white"></i></a>
 			</td>
 			<td width="20%"> 
@@ -155,16 +159,17 @@
 	</table>
 	<table >
 		<tr>
-			<th width="1%" align="left">Estudiante :</th>
-			<th width="20%" align="center" style="border-bottom: 1px solid black;"> <%=AlumPersonal.getNombre() %> <%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %> </th>
+			<th width="1%" align="left">NOMBRE :</th>
+			<th width="20%" align="center" style="border-bottom: 1px solid black;"> <%="["+codigoAlumno+"] "+AlumPersonal.getNombre() %> <%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %> </th>
 			<th width="20%" ></th>
-			<th width="15%" align="left">Año Lectivo : <%= aca.ciclo.Ciclo.getCicloNombre(conElias, cicloId)%></th>
+			<th width="15%" align="left">UBICACIÓN :<%aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), nivel); %> GRADO:<%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado()))+
+                    " "+Grupo.getGrupo() %></th>
 		</tr>
 		<tr>
-			<th width="1%" align="left">Cédula :</th>
-			<th width="20%" align="center" style="border-bottom: 1px solid black;"><%=AlumPersonal.getNombre() %> <%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %> </th>
+			<th width="1%" align="left">CÉDULA :</th>
+			<th width="20%" align="center" style="border-bottom: 1px solid black;"><%=AlumPersonal.getCurp() %></th>
 			<th width="20%"></th>
-			<th width="15%" align="left">Grupo : <%=Grupo.getGrupo() %></th>
+			<th width="15%" align="left">ESPECIALIDAD : <%= planClase.getPlanNombre()%></th>
 		</tr>
 		
 	</table>
