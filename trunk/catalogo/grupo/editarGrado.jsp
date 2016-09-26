@@ -27,11 +27,6 @@
 	String sResultado 		= "";
 	
 	if(accion.equals("1")){
-		
-		//dar una condicion, donde nombreGrado si esta vacio no permitir
-		
-		
-		
 		conElias.setAutoCommit(false);
 		CatEsquema.setEscuelaId(escuelaId);
 		CatEsquema.setEsquemaEvaluacion(request.getParameter("esquema"));
@@ -49,19 +44,14 @@
 				sResultado = "NoGuardo";
 			}
 		}else{//Modifica
-			if(CatEsquema.getGradoNombre().equals("")){
-				CatEsquema.deleteReg(conElias);
-			}else{	
-				if(CatEsquema.updateReg(conElias)){
-					conElias.commit();
-					sResultado = "Modificado";
-				}else{
-					sResultado = "NoModifico";
-				}
+			if(CatEsquema.updateReg(conElias)){
+				conElias.commit();
+				sResultado = "Modificado";
+			}else{
+				sResultado = "NoModifico";
 			}
 			
 		}
-		
 		conElias.setAutoCommit(true);
 	}
 	
