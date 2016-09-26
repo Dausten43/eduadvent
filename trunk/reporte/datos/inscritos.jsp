@@ -6,7 +6,6 @@
 
 
 <jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
-<jsp:useBean id="AlumP" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="alumPadres" scope="page" class="aca.alumno.AlumPadres"/>
 <jsp:useBean id="Personal" scope="page" class="aca.empleado.EmpPersonal"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
@@ -77,9 +76,9 @@
 <%
 			}
 %>
-			</select>
-			&nbsp; &nbsp; 			
-			<a onclick="location='inscritos_grupo.jsp?ciclo=<%=ciclo %>'" class="btn btn-primary"><i class="icon-th-list icon-white"></i> <fmt:message key="boton.ListaGrado" /></a>
+		</select>
+		&nbsp; &nbsp; 			
+		<a onclick="location='inscritos_grupo.jsp?ciclo=<%=ciclo %>'" class="btn btn-primary"><i class="icon-th-list icon-white"></i> <fmt:message key="boton.ListaGrado" /></a>
 	</div>
   </form>
 <%  
@@ -147,6 +146,7 @@
 				    <th><fmt:message key="aca.Tutor" /></th>    
 			     	<th><fmt:message key="aca.Celular" /></th> 
 			     	<th><fmt:message key="aca.Correo" /></th>   
+			     	<th><fmt:message key="aca.CorreoAlumno" /></th>  
 			     	<th><fmt:message key="aca.Iglesia" /></th>
 			     	<th><fmt:message key="aca.Padre" /></th>
 			     	<th><fmt:message key="aca.Ocupacion" /> <fmt:message key="aca.Padre" /></th> 
@@ -197,7 +197,8 @@
 					  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,inscrito.getReligion())%></td>
 					  <td align="left"><%= inscrito.getTutor()%></td> 
 					  <td align="left"><%= inscrito.getCelular()%></td> 
-					  <td align="left"><%= AlumP.getEmail()%></td> 
+					  <td align="left"><%= inscrito.getEmail()%></td>
+					  <td align="left"><%= inscrito.getCorreo()%></td>
 					  <td align="left"><%= inscrito.getIglesia()%></td> 
 					  <td align="left"><%= Personal.getNombre()+" "+Personal.getAmaterno() %></td> 
 					  <td align="left"><%= Personal.getOcupacion()%></td> 
