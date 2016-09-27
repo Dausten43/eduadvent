@@ -350,13 +350,13 @@
 	    		float colsWidth[] = new float[5+(cantidadTrimestres*3)];
 	    		int cont = 0;
 	    		colsWidth[cont++] = 3;//0
-	    		colsWidth[cont++] = 43;//2
+	    		colsWidth[cont++] = 27;//2
 	    		for(int j = 0; j < cantidadTrimestres; j++){
 	    			colsWidth[cont++] = 30/cantidadTrimestres;
 	    		}
-	    		colsWidth[cont++] = 18;
+	    		colsWidth[cont++] = 8;
 	    		for(int j = 0; j < cantidadTrimestres*2; j++){
-	    			colsWidth[cont++] = 30/(cantidadTrimestres*2);
+	    			colsWidth[cont++] = 26/(cantidadTrimestres*2);
 	    		}
 	    		colsWidth[cont++] = 3;
 	    		colsWidth[cont] = 3;
@@ -499,7 +499,7 @@
 		    						celda.setColspan(cantidadTrimestres);
 		    						tabla.addCell(celda);
 		    						
-		    						celda = new PdfPCell(new Phrase("Prom", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("Prom", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 		    						tabla.addCell(celda);
@@ -512,7 +512,7 @@
 		    						
 		    						if(ciclo.getNivelEval().equals("P")){
 		    		 					for(CicloPromedio cp: cicloPromedioList){
-		    								celda = new PdfPCell(new Phrase(cp.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda = new PdfPCell(new Phrase(cp.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    								celda.setColspan(2);
 				    						celda.setBorder(0);
@@ -520,7 +520,7 @@
 		    							}
 		    						}else if(ciclo.getNivelEval().equals("E")){
 		    							for(CicloBloque cb: lisBloque){
-		    								celda = new PdfPCell(new Phrase(cb.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda = new PdfPCell(new Phrase(cb.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    								celda.setColspan(2);
 				    						celda.setBorder(0);
@@ -528,40 +528,40 @@
 		    							}
 		    						}
 		    						
-		    						celda = new PdfPCell(new Phrase("TOTAL", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("TOTAL", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 		    						celda.setColspan(2);
 		    						tabla.addCell(celda);
 		    	    				//Termina indicacion de notas y faltas
 		    						
-		    						celda = new PdfPCell(new Phrase("#", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("#", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
 		    						
-		    						celda = new PdfPCell(new Phrase("ASIGNATURAS", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("ASIGNATURAS", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
 		    						
 		    						if(ciclo.getNivelEval().equals("P")){
 		    		 					for(CicloPromedio cp: cicloPromedioList){
-		    								celda = new PdfPCell(new Phrase(cp.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda = new PdfPCell(new Phrase(cp.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    						celda.setBorder(2);
 				    						tabla.addCell(celda);
 		    							}
 		    						}else if(ciclo.getNivelEval().equals("E")){
 		    							for(CicloBloque cb: lisBloque){
-		    								celda = new PdfPCell(new Phrase(cb.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda = new PdfPCell(new Phrase(cb.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				    						celda.setBorder(2);
 				    						tabla.addCell(celda);
 		    							}
 		    						}
 		    						
-		    						celda = new PdfPCell(new Phrase("Acum", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("Acum", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
@@ -580,36 +580,36 @@
 		    						
 		    						if(ciclo.getNivelEval().equals("P")){
 		    		 					for(CicloPromedio cp: cicloPromedioList){
-		    								celda = new PdfPCell(new Phrase("A", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda = new PdfPCell(new Phrase("A", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    								celda.setBorder(2);
 				    						tabla.addCell(celda);
 				    						
-				    						celda = new PdfPCell(new Phrase("T", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+				    						celda = new PdfPCell(new Phrase("T", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    								celda.setBorder(2);
 				    						tabla.addCell(celda);
 		    							}
 		    						}else if(ciclo.getNivelEval().equals("E")){
 		    							for(CicloBloque cb: lisBloque){
-		    								celda = new PdfPCell(new Phrase("A", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    								celda = new PdfPCell(new Phrase("A", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    								celda.setBorder(2);
 				    						tabla.addCell(celda);
 				    						
-				    						celda = new PdfPCell(new Phrase("T", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+				    						celda = new PdfPCell(new Phrase("T", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    								celda.setBorder(2);
 				    						tabla.addCell(celda);
 		    							}
 		    						}
 		    						
-		    						celda = new PdfPCell(new Phrase("A", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("A", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
 		    						
-		    						celda = new PdfPCell(new Phrase("T", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+		    						celda = new PdfPCell(new Phrase("T", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
@@ -813,25 +813,25 @@
 		    					
 			    				String espacioHija = "";
 			    				if(curso.getCursoBase().equals("-")){
-			    					celda = new PdfPCell(new Phrase(String.valueOf(materias+1), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+			    					celda = new PdfPCell(new Phrase(String.valueOf(materias+1), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    					
 			    					materias++;
 			    					
-			    					celda = new PdfPCell(new Phrase(curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+			    					celda = new PdfPCell(new Phrase(curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    				}else{//Si es materia hija
-			    					celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+			    					celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    					
 				    				espacioHija = "";
-			    					celda = new PdfPCell(new Phrase("   "+curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+			    					celda = new PdfPCell(new Phrase("   "+curso.getCursoNombre(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -939,7 +939,7 @@
 										}
 										
 										//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+" materiasSinNota[l] = "+materiasSinNota[l]);
-										celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+										celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 										celda.setBorder(0);
 						 				tabla.addCell(celda);
@@ -976,7 +976,7 @@
 												}
 											}
 											
-											celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+											celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(0);
 							 				tabla.addCell(celda);
@@ -994,7 +994,7 @@
 			    					nota = String.valueOf(calculo);
 			    					// Colocar formato con una decimal
 			    					nota = frm3.format(Double.parseDouble(nota));
-			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -1003,7 +1003,7 @@
 			    					float calculo = sumaNotas>0?sumaNotas/cantidadTrimestres:0f;
 			    					nota = String.valueOf(calculo);
 			    					nota = frm3.format(Double.parseDouble(nota));
-			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -1195,12 +1195,12 @@
 											}
 										}
 										
-										celda = new PdfPCell(new Phrase(String.valueOf(faltas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+										celda = new PdfPCell(new Phrase(String.valueOf(faltas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 										celda.setBorder(0);
 						 				tabla.addCell(celda);
 						 				
-						 				celda = new PdfPCell(new Phrase(String.valueOf(tardanzas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+						 				celda = new PdfPCell(new Phrase(String.valueOf(tardanzas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 										celda.setBorder(0);
 						 				tabla.addCell(celda);
@@ -1221,12 +1221,12 @@
 												}
 											}
 											
-											celda = new PdfPCell(new Phrase(String.valueOf(faltas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+											celda = new PdfPCell(new Phrase(String.valueOf(faltas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(0);
 							 				tabla.addCell(celda);
 							 				
-							 				celda = new PdfPCell(new Phrase(String.valueOf(tardanzas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+							 				celda = new PdfPCell(new Phrase(String.valueOf(tardanzas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(0);
 							 				tabla.addCell(celda);
@@ -1265,24 +1265,24 @@
 									}
 								}
 			    		        if(sumaFaltas > 0){//Si la suma de faltas es mayor que cero
-				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaFaltas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaFaltas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    		        }
 			    		        
 			    		        if(sumaTardanzas > 0){//Si la suma de tardanzas es mayor que cero
-				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaTardanzas), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaTardanzas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
 			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+			    		        	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -1637,16 +1637,16 @@
 	    		cont = 0;
 	    		colsAspectosWidth[cont++] = 30;//0
 	    		for(int j = 0; j < cantidadTrimestres; j++){
-	    			colsAspectosWidth[cont++] = 30/cantidadTrimestres;
+	    			colsAspectosWidth[cont++] = 32/cantidadTrimestres;
 	    		}
-	    		colsAspectosWidth[cont++] = 40;
+	    		colsAspectosWidth[cont++] = 38;
 				
 				PdfPTable aspectosTable = new PdfPTable(colsAspectosWidth);
 				aspectosTable.setWidthPercentage(80f);
 				aspectosTable.setHorizontalAlignment(Element.ALIGN_CENTER);
 				aspectosTable.setSpacingAfter(5f);
 				
-				cell = new PdfPCell(new Phrase("ASPECTOS DE HÁBITOS Y APTITUDES", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase("ASPECTOS DE HÁBITOS Y APTITUDES", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(0);
@@ -1657,7 +1657,7 @@
  					for(int k = 0; k < cicloPromedioList.size(); k++){
 						cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
 						
-						cell = new PdfPCell(new Phrase(cicloPromedio.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+						cell = new PdfPCell(new Phrase(cicloPromedio.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 		 				cell.setBorder(0);
@@ -1666,7 +1666,7 @@
 				}else if(ciclo.getNivelEval().equals("E")){
 					//System.out.println("ciclo.getNiveEval() = E");
 					for(CicloBloque cb: lisBloque){
-						cell = new PdfPCell(new Phrase(cb.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+						cell = new PdfPCell(new Phrase(cb.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 						cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 		 				cell.setBorder(0);
@@ -1676,7 +1676,7 @@
  				
 	 				
  				
- 				cell = new PdfPCell(new Phrase("OBSERVACIONES", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+ 				cell = new PdfPCell(new Phrase("OBSERVACIONES", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(0);
@@ -1700,7 +1700,7 @@
 				for(int j = 0; j < aspectosList.size(); j++){
 					catAspectos = (aca.catalogo.CatAspectos) aspectosList.get(j);
 					
-					cell = new PdfPCell(new Phrase(catAspectos.getNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+					cell = new PdfPCell(new Phrase(catAspectos.getNombre(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 	 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 	 				cell.setBorder(0);
@@ -1730,7 +1730,7 @@
 										}
 									}
 									
-									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 					 				cell.setBorder(0);
@@ -1759,7 +1759,7 @@
 											}
 										}
 									
-										cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+										cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 						 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 										cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 						 				cell.setBorder(0);
@@ -1796,7 +1796,7 @@
 									resultado = valor==2?"R":resultado;
 									resultado = valor==3?"S":resultado;
 									
-									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 					 				cell.setBorder(0);
@@ -1832,7 +1832,7 @@
 										resultado = valor==2?"R":resultado;
 										resultado = valor==3?"S":resultado;
 										
-										cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+										cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 						 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 										cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 						 				cell.setBorder(0);
@@ -1847,7 +1847,7 @@
 									cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
 									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
 																		
-									cell = new PdfPCell(new Phrase("-", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+									cell = new PdfPCell(new Phrase("-", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 					 				cell.setBorder(0);
@@ -1855,7 +1855,7 @@
 								}
 							}else if(ciclo.getNivelEval().equals("E")){
 								for(CicloBloque cb: lisBloque){
-									cell = new PdfPCell(new Phrase("-", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+									cell = new PdfPCell(new Phrase("-", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 					 				cell.setBorder(0);
@@ -1865,7 +1865,7 @@
 						}
 					
 					
-					cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+					cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 	 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 	 				cell.setBorder(0);
@@ -1874,7 +1874,7 @@
 				
 				wrapTable.addCell(aspectosTable);
 				
-				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(2);
@@ -1915,13 +1915,13 @@
 				*
 				*/
 				
-				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(0);
  				wrapTable.addCell(cell);
  				
- 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+ 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(0);
