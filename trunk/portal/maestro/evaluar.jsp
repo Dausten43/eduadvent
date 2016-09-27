@@ -255,7 +255,7 @@
 	String deriTrimestre	= request.getParameter("DerivadasTrimestre") == null?"0":request.getParameter("DerivadasTrimestre");
 	String evalId			= request.getParameter("EvalId") == null?"0":request.getParameter("EvalId");
 	
-	System.out.println(evalId);
+	
 
 	String accion 			= request.getParameter("Accion") == null?"0":request.getParameter("Accion");
 	String cicloGrupoId	 	= request.getParameter("CicloGrupoId");
@@ -368,8 +368,9 @@
 					if(alumno.equals(""))
 						alumno = z.getCodigoId();
 					if(!alumno.equals(z.getCodigoId())){// Al cambiar de alumno se guarda el promedio en el curso base (materia madre)
-						
-						String total = frm.format(sumaNota.divide(sumaValor,8,RoundingMode.HALF_EVEN).doubleValue());
+						String total = frm.format(0.0d); 
+						if(sumaNota.floatValue() > 0f && sumaValor.floatValue() > 0f)
+							total = frm.format(sumaNota.divide(sumaValor,8,RoundingMode.HALF_EVEN).doubleValue());
 						
 						kardexProm.setCodigoId(alumno);
 						kardexProm.setCicloGrupoId(cicloGrupoId);
