@@ -86,7 +86,7 @@
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);	
 	
-	java.util.HashMap<String, Double> mapProm  =  krdxAlumActivL.mapPromAlum(conElias, cicloGrupoId, cursoId, evaluacionId, codigoId, decimales, redondeo);
+	//java.util.HashMap<String, Double> mapProm  =  krdxAlumActivL.mapPromAlum(conElias, cicloGrupoId, cursoId, evaluacionId, codigoId, decimales, redondeo);
 	
 	//CONDICIONES DE LAS NOTAS ---------------------------->
 	//String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
@@ -492,36 +492,25 @@
 							}								
 							
 							//float promedioActividades = 0f;
-							String round = "";
-							if(redondeo.equals("T")){
-								round="RoundingMode.HALF_DOWN";
-							}else if(redondeo.equals("R")){
-								round="RoundingMode.HALF_DOWN";
-							}
-							/*BigDecimal promedioActividades = new BigDecimal("0");
+							BigDecimal promedioActividades = new BigDecimal("0",MATH_CTX);
 							for(aca.ciclo.CicloGrupoActividad cicloGrupoActividad : lisActividad){
 								for(aca.kardex.KrdxAlumActiv krdxAlumActiv : lisKrdxActiv){
-									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){							
+									if(krdxAlumActiv.getCodigoId().equals(kardex.getCodigoId()) && krdxAlumActiv.getActividadId().equals(cicloGrupoActividad.getActividadId())){								
 										//promedioActividades += (Float.parseFloat(krdxAlumActiv.getNota())*Float.parseFloat(cicloGrupoActividad.getValor()))/valorActividadesTotal;
 										if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 											if (calculaPromedio.equals("P")){
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal("5") ).divide(valorActividadesTotal, decimal, round) );
-											}else{
-												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota()).multiply( new BigDecimal(cicloGrupoActividad.getValor()) ).divide(valorActividadesTotal, decimal, round) );
-											}
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("5",MATH_CTX), MATH_CTX), MATH_CTX);
+											}else{																				
+												promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor(),MATH_CTX), MATH_CTX), MATH_CTX);
+											}											
 										}
 									}
 								}
-							}*/
-							
-							double promedioActividades = 0.00;
-							if(mapProm.containsKey(kardex.getCodigoId())){
-								promedioActividades = mapProm.get(kardex.getCodigoId());
 							}
-							
-							
+							if(promedioActividades.floatValue() > 0){
+								promedioActividades = promedioActividades.divide(valorActividadesTotal,MATH_CTX);
+							}
 						%>
-
 							<td class="text-center">
 							<% 	if (decimales.equals("0")){
 									out.print(frmEntero.format(promedioActividades));
@@ -529,7 +518,6 @@
 									out.print(frmDecimal1.format(promedioActividades));
 								}%>
 							</td>
-
 						<%
 							// obtiene el promedio de la evaluacion que esta en la BD
 							String promedio =  aca.kardex.KrdxAlumEval.getNotaEval(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, Integer.parseInt(evaluacionId), decimales, redondeo);		
