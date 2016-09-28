@@ -92,7 +92,7 @@
 	else
 		escala = escalaCiclo;	
 	BigDecimal notaMinima = BigDecimal.ZERO;
-	notaMinima			=  notaMinima.add(new BigDecimal(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId ),MATH_CTX)); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */	
+	notaMinima			=  notaMinima.add(new BigDecimal(aca.catalogo.CatNivelEscuela.getNotaMinima(conElias, nivelId, escuelaId ),MATH_CTX),MATH_CTX); /* La nota minima que puede sacar un alumno, depende del nivel de la escuela */	
 	
 	//INFORMACION DEL MAESTRO
 	empPersonal.mapeaRegId(conElias, codigoId);
@@ -246,7 +246,7 @@
 				//--------VERIFICAR LA NOTAMINIMA PARA EL NIVEL----------
 				
 				if( promedioActividades.compareTo( notaMinima ) == -1 ){// promedioActividades<notaMinima
-					promedioActividades = promedioActividades.add(notaMinima);
+					promedioActividades = notaMinima;
 				}
 				
 				//--------GUARDAR PROMEDIO DE LAS ACTIVIDADES EN LA EVALUACION----------
@@ -512,11 +512,18 @@
 							}
 						%>
 							<td class="text-center">
-							<% 	if (decimales.equals("0")){
-									out.print(frmEntero.format(promedioActividades));
-								}else{
-									out.print(frmDecimal1.format(promedioActividades));
-								}%>
+							<%
+							if(decimales.equals("0")){
+								/* Si tiene una nota reprobatoria entonces el redondeo es hacia abajo, por ejemplo: (5.9 a 5) (5.6 a 5) (4.9 a 4)  */
+								if( promedioActividades.compareTo( new BigDecimal(notaAC) ) == -1 ){// promedioActividades<notaAC
+									out.print( frmEntero.format( promedioActividades.setScale(0, RoundingMode.FLOOR) ));
+								}
+								/* Si tiene una nota aprobatoria entonces el redondeo es normal, por ejemplo: (6.4 a 6) (6.6 a 7)  */
+								else{
+									out.print( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ));
+								}
+							}
+								%>
 							</td>
 						<%
 							// obtiene el promedio de la evaluacion que esta en la BD
