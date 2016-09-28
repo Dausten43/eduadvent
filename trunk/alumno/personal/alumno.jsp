@@ -1,3 +1,4 @@
+
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -24,6 +25,7 @@
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario"/>
 <jsp:useBean id="usuarioMenu" scope="page" class="aca.usuario.UsuarioMenu"/>
 <jsp:useBean id="ClasFinLista" scope="page" class="aca.catalogo.CatClasFinLista"/>
+<jsp:useBean id="finMovtosLista" scope="page" class="aca.fin.FinMovimientosLista"/>
 
 <script>
 	
@@ -338,7 +340,7 @@
 		case 5: { // Borrar
 			
 			if (Personal.existeReg(conElias) == true){
-				if(!KrdxCursoAct.tieneMaterias(conElias, codigoAlumno)){//Si el alumno no tiene materias puede pasar a borrar
+				if(!KrdxCursoAct.tieneMaterias(conElias, codigoAlumno) && finMovtosLista.getMovimientosAlumno(conElias, codigoAlumno, "").isEmpty() ){//Si el alumno no tiene materias puede pasar a borrar
 					
 					conElias.setAutoCommit(false);
 				
