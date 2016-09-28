@@ -1,4 +1,4 @@
-<%@ include file="../../con_elias.jsp"%>
+
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
 
@@ -15,6 +15,7 @@
 	try{
 		 
 		File f = new File(dir+"respaldo.zip");
+		System.out.println("Aqui vamos");
 		if(f.exists() && !f.isDirectory()) { 
  			//Everything cool man :D
 		}else{
@@ -32,5 +33,3 @@
 		out.print("<div class='error'>Error</div>");
 	}
 %>
-
-<%@ include file="../../cierra_elias.jsp"%>
