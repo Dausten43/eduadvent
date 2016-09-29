@@ -520,7 +520,10 @@
 								}
 								/* Si tiene una nota aprobatoria entonces el redondeo es normal, por ejemplo: (6.4 a 6) (6.6 a 7)  */
 								else{
-									out.print( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ));
+									if(escuelaId.substring(0, 1).equals("H") || escuelaId.substring(0, 1).equals("G"))
+										out.print( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ));
+									else
+										out.print( frmDecimal1.format( promedioActividades.setScale(1, RoundingMode.HALF_UP) ));
 								}
 							}
 								%>
