@@ -84,7 +84,7 @@
 	String decimales		= aca.ciclo.CicloBloqueLista.getDecimales(conElias, cicloId, evaluacionId);
 	String calculaPromedio  = aca.ciclo.CicloBloque.getCalculo(conElias, cicloId, evaluacionId);	
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
-	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);	
+	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
 	
 	//java.util.HashMap<String, Double> mapProm  =  krdxAlumActivL.mapPromAlum(conElias, cicloGrupoId, cursoId, evaluacionId, codigoId, decimales, redondeo);
 	
@@ -166,7 +166,7 @@
 			
 			i++;
 		}
-		
+		System.out.println("guardo notas");
 		if(error == false){//Si no hay error entonces grabar el promedio de las actividades en las evaluaciones
 			
 			lisKrdxActiv = krdxAlumActivL.getListEvaluacion(conElias, cicloGrupoId, cursoId, evaluacionId, "ORDER BY ALUM_APELLIDO(CODIGO_ID), ACTIVIDAD_ID");
@@ -204,7 +204,7 @@
 							if(valorActividadesTotal.compareTo(BigDecimal.ZERO) != 0){
 								if (calculaPromedio.equals("P")){
 									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal("1",MATH_CTX),MATH_CTX ), MATH_CTX );
-									System.out.println("promedioActividades: "+promedioActividades);
+									//System.out.println("promedioActividades: "+promedioActividades);
 								}else{
 									System.out.println(new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor(),MATH_CTX),MATH_CTX ));
 									promedioActividades = promedioActividades.add( new BigDecimal(krdxAlumActiv.getNota(),MATH_CTX).multiply( new BigDecimal(cicloGrupoActividad.getValor(),MATH_CTX),MATH_CTX ),MATH_CTX );							
@@ -213,12 +213,12 @@
 						}
 					}
 				}
-				System.out.println("promedioActividades:"+promedioActividades);
-				System.out.println("valorActividadesTotal:"+valorActividadesTotal);
+				//System.out.println("promedioActividades:"+promedioActividades);
+				//System.out.println("valorActividadesTotal:"+valorActividadesTotal);
 				if(promedioActividades.floatValue() > 0){
 					promedioActividades = promedioActividades.divide(valorActividadesTotal,MATH_CTX);
 					//System.out.println("Alumno: "+krdxCursoAct.getCodigoId()+"; promedioActividades: "+promedioActividades);
-					System.out.println("Nota Fina: "+promedioActividades);
+					//System.out.println("Nota Fina: "+promedioActividades);
 				}
 				
 				// Si no es Panama promediar en base a 10
@@ -258,7 +258,7 @@
 				}	
 						
 				//--------VERIFICAR LA NOTAMINIMA PARA EL NIVEL----------
-				System.out.println("++++"+promedioActividades);
+				//System.out.println("++++"+promedioActividades);
 				System.out.println(notaMinima);
 				if( promedioActividades.compareTo( notaMinima ) == -1 ){// promedioActividades<notaMinima
 					promedioActividades = notaMinima;
@@ -272,7 +272,7 @@
 				kardexEval.setEvaluacionId(evaluacionId);
 				
 				int numActiv		= aca.kardex.KrdxAlumActiv.getNumActividades(conElias, cicloGrupoId, cursoId, evaluacionId, krdxCursoAct.getCodigoId());
-				System.out.println("-----"+promedioActividades);
+				//System.out.println("-----"+promedioActividades);
 				if(numActiv<=0){//Si no tiene evaluada alguna actividad entonces eliminala si es que existe, si no pues ignora ese promedio
 					
 					if(kardexEval.existeReg(conElias)){
@@ -526,7 +526,10 @@
 								}
 								/* Si tiene una nota aprobatoria entonces el redondeo es normal, por ejemplo: (6.4 a 6) (6.6 a 7)  */
 								else{
-									out.print( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ));
+									if(escuelaId.substring(0, 1).equals("H") || escuelaId.substring(0, 1).equals("G"))
+										out.print( frmEntero.format( promedioActividades.setScale(0, RoundingMode.HALF_UP) ));
+									else
+										out.print( frmDecimal1.format( promedioActividades.setScale(1, RoundingMode.HALF_UP) ));
 								}
 							}
 								%>
