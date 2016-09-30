@@ -20,8 +20,6 @@ public class FinReciboTemp {
 	private String referencia;
 	private String escuelaId;
 	private String folio;
-
-
 	private String formaPago;
 	
 	public FinReciboTemp(){
@@ -133,13 +131,13 @@ public class FinReciboTemp {
         try{
             ps = conn.prepareStatement(
                     "INSERT INTO FIN_RECIBO_TEMP(RECIBO_ID, FECHA, CLIENTE, CUENTA_ID, AUXILIAR,"
-                    +" DESCRIPCION, IMPORTE, REFERENCIA, ESCUELA_ID, FOLIO)"
+                    +" DESCRIPCION, IMPORTE, REFERENCIA, ESCUELA_ID, FOLIO, FORMA_PAGO)"
                     +" VALUES(TO_NUMBER(?, '9999999'),"
                     +" TO_DATE(?,'DD/MM/YYYY'),"
                     +" ?, ?, ?, ?,"
                     +" TO_NUMBER(?, '99999999.99'),"
                     + "?, ?,"
-                    + "TO_NUMBER(?, '99'))");
+                    + "TO_NUMBER(?, '99'),?)");
             
             ps.setString(1, reciboId);
             ps.setString(2, fecha);
