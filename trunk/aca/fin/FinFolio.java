@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FinFolio {
 	
@@ -391,6 +393,28 @@ public class FinFolio {
 	        if(ps != null) ps.close();
         }
         return maximo;
+    }
+    
+    public boolean verificaFolio(Connection conn, String escuela, String ejercicioid, String valorini, String valorfin )throws SQLException{
+    	Integer vini = new Integer(valorini);
+    	Integer vfin = new Integer(valorfin);
+    	boolean salida = false;
+    	FinFolioLista ffl = new FinFolioLista();
+    	List<FinFolio> lsFolios = new ArrayList();
+    	lsFolios.addAll(ffl.getListEjercicio(conn, ejercicioid, ""));
+    	Integer finalMaximo = 0;
+    	if(vini.compareTo(vfin)<0){
+    		for(FinFolio ff : lsFolios){
+        		if(new Integer(ff.getReciboFinal()).compareTo(finalMaximo)>0){
+        			finalMaximo = new Integer(ff.getReciboFinal());
+        		}
+        	}
+    		if(vfin.compareTo(finalMaximo)>0){
+    			salida=true;
+    		}
+    	}
+    	return salida;
+    	
     }
     
     public boolean verificaFolio(Connection conn, String escuela, String valor) throws SQLException {

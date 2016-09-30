@@ -435,6 +435,33 @@ public class FinRecibo {
 			if (ps!=null) ps.close();
 		}	
     }
+    
+    public boolean existeReg(Connection conn, String usuario) throws SQLException {
+        boolean ok = false;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement("SELECT * FROM FIN_RECIBO" +
+                    " WHERE RECIBO_ID = TO_NUMBER(?, '9999999') AND EJERCICIO_ID = ? and USUARIO=? ");
+            
+            ps.setString(1, reciboId);
+            ps.setString(2, ejercicioId);
+            ps.setString(3, usuario);
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+                ok = true;
+            }
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinRecibo|existeReg|:" +ex);
+        }finally{
+	        if(rs!=null)rs.close();	
+	        if(ps!=null)ps.close();
+        }
+
+        return ok;
+    }
 
     public boolean existeReg(Connection conn) throws SQLException {
         boolean ok = false;
