@@ -227,6 +227,30 @@ public class FinReciboTemp {
 
         return ok;
     }
+    
+    
+    public boolean deleteReg(Connection conn, String reciboId, String folio) throws SQLException{
+        boolean ok = false;
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(
+                    "DELETE FROM FIN_RECIBO_TEMP" +
+                    " WHERE RECIBO_ID = TO_NUMBER(?, '9999999') AND FOLIO = TO_NUMBER(?, '99')");
+            
+            ps.setString(1, reciboId);
+            ps.setString(2, folio);
+          
+            if(ps.executeUpdate() == 1){
+                ok = true;
+            }
+        }catch (Exception ex){
+            System.out.println("Error - aca.fin.FineReciboTemp|deleteReg|:" + ex);
+        }finally{
+        	if(ps!=null)ps.close();
+        }
+
+        return ok;
+    }
 
     public void mapeaReg(ResultSet rs) throws SQLException {
         reciboId	= rs.getString("RECIBO_ID");
