@@ -106,12 +106,33 @@
 			    	Cell referencia 	= row.getCell(8);
 			    	Cell escuela		= row.getCell(9);
 			    	Cell folio 			= row.getCell(10);
+			    	Cell pago 			= row.getCell(11);
 			    	
 			    	// Si el renglon tiene la bandera de grabar
 			    	if ( grabar!=null && grabar.getCellType()==HSSFCell.CELL_TYPE_STRING ){
 			    	System.out.println("Entre..."+linea);
+			    	
+				    	
+				    	// Variables boolean para validación
+				    	boolean errorRecibo = false, errorCliente = false, errorCuenta = false, errorAuxiliar = false, errorDescripcion = false, errorImporte = false, errorReferencia = false;
+				    	boolean errorEscuela = false, errorFFecha = false, errorFolio = false, errorPago = false;
+				    	
+				    	
+				    	// Validar los campos
+				    	
+				    	
+				    	
+				    	String strRecibo	= "0";
+				    	if (reciboId != null && !reciboId.toString().matches("\\D+")){
+				    		strRecibo = aca.util.Utilerias.removeEmptyDecimalPoints(reciboId.toString());
+				    	}else{
+				    		errorRecibo = true;
+				    	}
+				    	System.out.println(errorRecibo);
+				    
 				    	boolean errorFecha = false;
-				   
+				    	
+						   
 				    	/* Formatear y validar el campo de fecha */
 				    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
 				    	String fechaRecibo = "01/01/1950";
@@ -124,36 +145,7 @@
 			            	}
 			            }else{
 			            	errorFecha=true;
-			            }			    	
-				    	
-				    	// Variables boolean para validación
-				    	boolean errorRecibo = false, errorCliente = false, errorCuenta = false, errorAuxiliar = false, errorDescripcion = false, errorImporte = false, errorReferencia = false;
-				    	boolean errorEscuela = false, errorFFecha = false, errorFolio = false;
-				    	
-				    	
-				    	// Validar los campos
-				    	
-				    	String strRecibo	= "0";
-				    	if (reciboId != null && !reciboId.toString().matches("\\D+")){
-				    		strRecibo = aca.util.Utilerias.removeEmptyDecimalPoints(reciboId.toString());
-				    	}else{
-				    		errorRecibo = true;
-				    	}
-				    	System.out.println(errorRecibo);
-				    	
-				    	String strImporte	= "0";
-				    	if (importe != null && !importe.toString().matches("\\D+")){
-				    		strImporte = importe.toString();
-				    	}else{
-				    		errorImporte = true;
-				    	}
-				    	
-				    	String strEscuela	= "-";		    	
-				    	if (escuela != null){
-				    		strEscuela = escuela.toString();
-				    	}else{
-				    		errorEscuela = true; 
-				    	}
+			            }	
 				    	
 				    	String strCliente	= "-";
 				    	if (cliente != null){
@@ -162,12 +154,36 @@
 				    		errorCliente = true;
 				    	}
 				    	
-				    	String strFolio	= "0";
-				    	if (folio != null && !folio.toString().matches("\\D+")){
-				    		strFolio= aca.util.Utilerias.removeEmptyDecimalPoints(folio.toString());
+				    	
+					    String strCuenta		= "-";
+					    if (cuentaId != null){
+					    	strCuenta = cuentaId.toString();
 				    	}else{
-				    		errorFolio = true;
+				    		errorCuenta = true;
 				    	}
+				    	
+					    String strAuxiliar		= "-";
+					    if (auxiliar!= null ){
+					    	strAuxiliar = auxiliar.toString();
+				    	}else{
+				    		errorAuxiliar = true;
+				    	}
+				    	
+					    String strDescripcion	= "X";
+					    if ( descripcion != null){
+					    	strDescripcion = descripcion.toString();
+					    }else{
+					    	errorDescripcion = true;
+					    }
+					    
+				    	String strImporte	= "0";
+				    	if (importe != null && !importe.toString().matches("\\D+")){
+				    		strImporte = importe.toString();
+				    	}else{
+				    		errorImporte = true;
+				    	}
+				    	
+				    	
 				    	
 				    	String strReferencia	= "-";			    
 				    	if (referencia != null){
@@ -176,26 +192,32 @@
 				    		errorReferencia = true;
 				    	}
 				    	
-					    String strCuenta		= "-";
-					    if (cuentaId != null){
-					    	strCuenta = cuentaId.toString();
+				    	
+				    	String strEscuela	= "-";		    	
+				    	if (escuela != null){
+				    		strEscuela = escuela.toString();
 				    	}else{
-				    		errorCuenta = true;
+				    		errorEscuela = true; 
+				    	}
+				    	
+				    	
+				    	String strFolio	= "0";
+				    	if (folio != null && !folio.toString().matches("\\D+")){
+				    		strFolio= aca.util.Utilerias.removeEmptyDecimalPoints(folio.toString());
+				    	}else{
+				    		errorFolio = true;
+				    	}
+
+				    	String strPago	= "0";
+				    	if (folio != null && !folio.toString().matches("\\D+")){
+				    		strPago= aca.util.Utilerias.removeEmptyDecimalPoints(pago.toString());
+				    	}else{
+				    		errorPago = true;
 				    	}
 					    
-					    String strAuxiliar		= "-";
-					    if (auxiliar!= null ){
-					    	strAuxiliar = auxiliar.toString();
-				    	}else{
-				    		errorAuxiliar = true;
-				    	}
+
 					    
-					    String strDescripcion	= "X";
-					    if ( descripcion != null){
-					    	strDescripcion = descripcion.toString();
-					    }else{
-					    	errorDescripcion = true;
-					    }
+
 					    if ( errorRecibo || errorFecha || errorCliente || errorCuenta || errorAuxiliar || errorDescripcion || errorReferencia ||
 					    	 errorImporte || errorEscuela || errorFolio){
 					    	validaDatos = false;
@@ -231,6 +253,7 @@
 							recibo.setReferencia(strReferencia);
 							recibo.setEscuelaId(strEscuela);
 							recibo.setFolio(strFolio);
+							recibo.setFormaPago(strPago);
 							
 					    	if ( recibo.insertReg(conElias) ){
 					    		//conElias.commit();
