@@ -1,13 +1,17 @@
+<%@page import="aca.fin.FinReciboTempLista"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
 <%@ include file="../../head.jsp"%>
 <%@ include file="../../menu.jsp"%>
 
+<jsp:useBean id="FinReciboTempLista" scope="page" class="aca.fin.FinReciboTempLista" />
 <%
 	String escuelaId		= (String) session.getAttribute("escuela");
 	String codigoId			= (String) session.getAttribute("codigoPersonal");
 	String mensaje			= request.getParameter("mensaje")==null?" ":request.getParameter("mensaje");
+	
+	ArrayList<aca.fin.FinReciboTemp> finReciboTempList   = FinReciboTempLista.getListAll(conElias, escuelaId, "");
 %>
 
 <script>
@@ -58,6 +62,7 @@
 				<td>Referencia</td>
 				<td>Escuela ID</td>
 				<td>Folio</td>
+				<td>Forma Pago</td>
 			</tr>
 			<tr>
 				<td><b>Formato</b></td>
@@ -71,6 +76,7 @@
 				<td>Texto</td>
 				<td>Texto</td>
 				<td>Número</td>
+				<td>Texto</td>
 			</tr>
 			<tr>
 				<td><b>Valores</b></td>
@@ -83,7 +89,8 @@
 				<td>1</td>
 				<td>T</td>
 				<td>&nbsp;</td>
-				<td>1</td>				
+				<td>1</td>
+				<td>T</td>				
 			</tr>
 			<tr>
 				<td><b>Ejemplo</b></td>
@@ -96,7 +103,8 @@
 				<td>1250</td>
 				<td>Cumbres</td>
 				<td>B01</td>
-				<td>9</td>				
+				<td>9</td>	
+				<td>C</td>			
 			</tr>
 		</tbody>
 	</table>
@@ -110,5 +118,44 @@
 		</div>
 				
 	</form>
+	
+	
+		<table class="table table-striped">
+		<thead>
+			<tr>
+				<td><b>Recibo ID</b></td>
+				<td><b>Fecha</b></td>
+				<td><b>Cliente</b></td>
+				<td><b>Cuenta ID</b></td>
+				<td><b>Auxiliar</b></td>
+				<td><b>Descripcion</b></td>
+				<td><b>Importe</b></td>
+				<td><b>Referencia</b></td>
+				<td><b>Escuela ID</b></td>
+				<td><b>Folio</b></td>
+				<td><b>Forma Pago</b></td>
+			</tr>
+		</thead>
+		<tbody>
+
+<% 		for (int x=0; x<finReciboTempList.size();x++){%>
+			<tr>
+
+				<td><%=finReciboTempList.get(x).getReciboId() %></td>
+				<td><%=finReciboTempList.get(x).getFecha() %></td>
+				<td><%=finReciboTempList.get(x).getCliente() %></td>
+				<td><%=finReciboTempList.get(x).getCuentaId() %></td>
+				<td><%=finReciboTempList.get(x).getAuxiliar() %></td>
+				<td><%=finReciboTempList.get(x).getDescripcion() %></td>
+				<td><%=finReciboTempList.get(x).getImporte() %></td>
+				<td><%=finReciboTempList.get(x).getReferencia()%></td>
+				<td><%=finReciboTempList.get(x).getEscuelaId()%></td>
+				<td><%=finReciboTempList.get(x).getFolio() %></td>	
+				<td><%=finReciboTempList.get(x).getFormaPago() %></td>			
+			</tr>
+<% 		}%>			
+		</tbody>
+	</table>
+	
 </div>
 <%@ include file="../../cierra_elias.jsp"%>
