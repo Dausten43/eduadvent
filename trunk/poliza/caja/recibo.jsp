@@ -102,8 +102,8 @@
 		FinRecibo.setEstado("A");
 		FinRecibo.setTipoPago(request.getParameter("tipoPago"));
 		
-		if(!FinRecibo.existeReg(conElias,usuario)){
-			if(FinRecibo.insertReg(conElias)){
+		if(!FinRecibo.existeReg(conElias,usuario) ){
+			if(new BigDecimal(FinRecibo.getImporte()!=null ? FinRecibo.getImporte() : "0").compareTo(BigDecimal.ZERO)>0  && FinRecibo.insertReg(conElias)){
 				
 				FinFolio.setEjercicioId(ejercicioId);
 				FinFolio.setUsuario(usuario);

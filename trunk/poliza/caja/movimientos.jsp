@@ -16,9 +16,16 @@
 <script>
 	function Guardar( movimiento ){
 		if( document.forma.Importe.value != "" && document.forma.Descripcion.value != "" && document.forma.Auxiliar.value ){
+			
+			var importe = $('#Importe').val();
+			
+			if(!isNaN(parseFloat(importe)) && parseFloat(importe)!=0){
 			document.forma.Accion.value = "1";
 			document.forma.MovimientoId.value = movimiento;
 			document.forma.submit();	
+			}else{
+				alert('El Importe es numerico.decimal y no puede ser Cero');
+			}
 		}else{
 			alert('<fmt:message key="js.Completar" />');
 		}
@@ -288,9 +295,9 @@
 				</div>
 						
 				<div class="well">
-					<a href="javascript:Guardar('<%=movimientoId%>');" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
+					<a href="javascript:Guardar('<%=movimientoId%>');" class="btn btn-primary btn-large" id="btnGuardar"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
 					<%if(!movimientoId.equals("")){ %>
-							<a href="movimientos.jsp" class="btn btn-large"><i class="icon-file"></i> <fmt:message key="boton.Nuevo" /></a>
+							<a href="movimientos.jsp" class="btn btn-large"  ><i class="icon-file"></i> <fmt:message key="boton.Nuevo" /></a>
 					<%} %>
 				</div>
 			</form>
@@ -418,7 +425,9 @@
 	
 	padre.on('change', function(){
 		cambiarHijos();
-	})
+	});
+	
+	
 </script>
 <script src="../../js-plugins/tableToExcel/tableToExcel.js"></script>
 <% 	if (!salto.equals("X")){%>
