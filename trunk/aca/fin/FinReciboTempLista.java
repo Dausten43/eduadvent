@@ -17,7 +17,7 @@ public class FinReciboTempLista {
 		
 		try{
 			comando = "SELECT RECIBO_ID, FECHA, CLIENTE, CUENTA_ID, AUXILIAR, DESCRIPCION, IMPORTE, REFERENCIA," +
-                    " ESCUELA_ID, FOLIO, FORMA_PAGO, FORMA_PAGO" +
+                    " ESCUELA_ID, FOLIO, FORMA_PAGO, FORMA_PAGO, BENEFICIARIO" +
 					" FROM FIN_RECIBO_TEMP WHERE ESCUELA_ID='"+escuelaId+"'"+orden;
 			
 			rs = st.executeQuery(comando);			
