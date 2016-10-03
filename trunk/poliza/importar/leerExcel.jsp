@@ -98,15 +98,16 @@
 			        Cell grabar			= row.getCell(0);
 			    	Cell reciboId		= row.getCell(1);
 			    	Cell fecha		 	= row.getCell(2);
-			    	Cell cliente	  	= row.getCell(3);			    	
-			    	Cell cuentaId 		= row.getCell(4);			    	
-			    	Cell auxiliar	 	= row.getCell(5);
-			    	Cell descripcion 	= row.getCell(6);
-			    	Cell importe 		= row.getCell(7);
-			    	Cell referencia 	= row.getCell(8);
-			    	Cell escuela		= row.getCell(9);
-			    	Cell folio 			= row.getCell(10);
-			    	Cell pago 			= row.getCell(11);
+			    	Cell beneficiario	= row.getCell(3);
+			    	Cell cliente	  	= row.getCell(4);			    	
+			    	Cell cuentaId 		= row.getCell(5);			    	
+			    	Cell auxiliar	 	= row.getCell(6);
+			    	Cell descripcion 	= row.getCell(7);
+			    	Cell importe 		= row.getCell(8);
+			    	Cell referencia 	= row.getCell(9);
+			    	Cell escuela		= row.getCell(10);
+			    	Cell folio 			= row.getCell(11);
+			    	Cell pago 			= row.getCell(12);
 			    	
 			    	// Si el renglon tiene la bandera de grabar
 			    	if ( grabar!=null && grabar.getCellType()==HSSFCell.CELL_TYPE_STRING ){
@@ -115,7 +116,7 @@
 				    	
 				    	// Variables boolean para validación
 				    	boolean errorRecibo = false, errorCliente = false, errorCuenta = false, errorAuxiliar = false, errorDescripcion = false, errorImporte = false, errorReferencia = false;
-				    	boolean errorEscuela = false, errorFFecha = false, errorFolio = false, errorPago = false;
+				    	boolean errorEscuela = false, errorFFecha = false, errorFolio = false, errorPago = false, errorBeneficiario=false;
 				    	
 				    	
 				    	// Validar los campos
@@ -123,7 +124,7 @@
 				    	
 				    	
 				    	String strRecibo	= "0";
-				    	if (reciboId != null && !reciboId.toString().matches("\\D+")){
+				    	if (reciboId != null && !reciboId.toString().matches("\\D+") && !reciboId.toString().matches("\\s+")){
 				    		strRecibo = aca.util.Utilerias.removeEmptyDecimalPoints(reciboId.toString());
 				    	}else{
 				    		errorRecibo = true;
@@ -135,8 +136,9 @@
 						   
 				    	/* Formatear y validar el campo de fecha */
 				    	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-				    	String fechaRecibo = "01/01/1950";
+				    	String fechaRecibo = "20/12/1950";
 				    	if(fecha.getCellType()== HSSFCell.CELL_TYPE_NUMERIC){
+				    		System.out.println("Fecha"+fecha.getCellStyle().getDataFormat());
 			            	if (fecha.getCellStyle().getDataFormat()==0){
 			            		errorFecha = true;
 			            		fechaRecibo = formato.format(fecha.getNumericCellValue());
@@ -146,9 +148,17 @@
 			            }else{
 			            	errorFecha=true;
 			            }	
+
+				    	
+				    	String strBeneficiario	= "-";
+				    	if (beneficiario != null && !beneficiario.toString().matches("\\s+")){
+				    		strBeneficiario = beneficiario.toString();
+				    	}else{
+				    		errorBeneficiario = true;
+				    	}
 				    	
 				    	String strCliente	= "-";
-				    	if (cliente != null){
+				    	if (cliente != null && !cliente.toString().matches("\\s+")){
 				    		strCliente = cliente.toString();
 				    	}else{
 				    		errorCliente = true;
@@ -156,28 +166,28 @@
 				    	
 				    	
 					    String strCuenta		= "-";
-					    if (cuentaId != null){
+					    if (cuentaId != null && !cuentaId.toString().matches("\\s+")){
 					    	strCuenta = cuentaId.toString();
 				    	}else{
 				    		errorCuenta = true;
 				    	}
 				    	
 					    String strAuxiliar		= "-";
-					    if (auxiliar!= null ){
+					    if (auxiliar!= null && !auxiliar.toString().matches("\\s+")){
 					    	strAuxiliar = auxiliar.toString();
 				    	}else{
 				    		errorAuxiliar = true;
 				    	}
 				    	
 					    String strDescripcion	= "X";
-					    if ( descripcion != null){
+					    if ( descripcion != null && !descripcion.toString().matches("\\s+")){
 					    	strDescripcion = descripcion.toString();
 					    }else{
 					    	errorDescripcion = true;
 					    }
 					    
 				    	String strImporte	= "0";
-				    	if (importe != null && !importe.toString().matches("\\D+")){
+				    	if (importe != null && !importe.toString().matches("\\D+") && !importe.toString().matches("\\s+")){
 				    		strImporte = importe.toString();
 				    	}else{
 				    		errorImporte = true;
@@ -186,7 +196,7 @@
 				    	
 				    	
 				    	String strReferencia	= "-";			    
-				    	if (referencia != null){
+				    	if (referencia != null && !referencia.toString().matches("\\s+")){
 				    		strReferencia = referencia.toString();
 				    	}else{
 				    		errorReferencia = true;
@@ -194,7 +204,7 @@
 				    	
 				    	
 				    	String strEscuela	= "-";		    	
-				    	if (escuela != null){
+				    	if (escuela != null && !escuela.toString().matches("\\s+")){
 				    		strEscuela = escuela.toString();
 				    	}else{
 				    		errorEscuela = true; 
@@ -202,15 +212,19 @@
 				    	
 				    	
 				    	String strFolio	= "0";
-				    	if (folio != null && !folio.toString().matches("\\D+")){
+				    	if (folio != null && !folio.toString().matches("\\D+") !folio.toString().matches("\\s+")){
 				    		strFolio= aca.util.Utilerias.removeEmptyDecimalPoints(folio.toString());
 				    	}else{
 				    		errorFolio = true;
 				    	}
 
-				    	String strPago	= "0";
-				    	if (folio != null && !folio.toString().matches("\\D+")){
-				    		strPago= aca.util.Utilerias.removeEmptyDecimalPoints(pago.toString());
+				    	String strPago	= "-";
+				    	System.out.println("pago: "+pago);
+				    	if(pago.equals("")){
+				    		System.out.println("hello");
+				    	}
+				    	if (pago != null && !pago.toString().matches("") && !pago.toString().matches("\\s+")){
+				    		strPago=pago.toString();
 				    	}else{
 				    		errorPago = true;
 				    	}
@@ -219,21 +233,23 @@
 					    
 
 					    if ( errorRecibo || errorFecha || errorCliente || errorCuenta || errorAuxiliar || errorDescripcion || errorReferencia ||
-					    	 errorImporte || errorEscuela || errorFolio){
+					    	 errorImporte || errorEscuela || errorFolio|| errorPago|| errorBeneficiario){
 					    	validaDatos = false;
 					    %>
 					    <tr>
 					    	<td "style='background-color:red;'"><b><%=linea%></b></td>
 					    	<td <% if (errorRecibo) out.print("style='background-color:red;'");%>><b><%=reciboId%></b></td>
 					    	<td <% if (errorFecha) out.print("style='background-color:red;'");%>><b><%="Formato esperado ("+fechaRecibo+") -- encontro("+ fecha.toString()+")"%></b></td>
-					    	<td><b><%=strCliente%></b></td>
-					    	<td><b><%=strCuenta%></b></td>
-					    	<td><b><%=strAuxiliar%></b></td>
-					    	<td><b><%=strDescripcion%></b></td>
+					    	<td <% if (errorBeneficiario) out.print("style='background-color:red;'");%>><b><%=strBeneficiario%></td>
+					    	<td <% if (errorCliente) out.print("style='background-color:red;'");%>><b><%=strCliente%></td>
+					    	<td <% if (errorCuenta) out.print("style='background-color:red;'");%>><b><%=strCuenta%></td>
+					    	<td <% if (errorAuxiliar) out.print("style='background-color:red;'");%>><b><%=strAuxiliar%></td>
+					    	<td	<% if (errorDescripcion) out.print("style='background-color:red;'");%>><b><%=strDescripcion%></td>
 					    	<td <% if (errorImporte) out.print("style='background-color:red;'");%>><b><%=importe%></b></td>
-					    	<td><b><%=strReferencia%></b></td>
-					    	<td><b><%=strEscuela%></b></td>
-					    	<td  <% if (errorFolio) out.print("style='background-color:red;'");%>><b><%=folio%></b></td>
+					    	<td <% if (errorReferencia) out.print("style='background-color:red;'");%>><b><%=strReferencia%></b></td>
+					    	<td <% if (errorEscuela) out.print("style='background-color:red;'");%>><b><%=strEscuela%></td>
+					    	<td <% if (errorFolio) out.print("style='background-color:red;'");%>><b><%=folio%></b></td>
+					    	<td <% if (errorPago) out.print("style='background-color:red;'");%>><b><%=pago%></b></td>
 					    </tr>	
 					    <%
 					    }else{
@@ -254,6 +270,7 @@
 							recibo.setEscuelaId(strEscuela);
 							recibo.setFolio(strFolio);
 							recibo.setFormaPago(strPago);
+							recibo.setBeneficiario(strBeneficiario);
 							
 					    	if ( recibo.insertReg(conElias) ){
 					    		//conElias.commit();
