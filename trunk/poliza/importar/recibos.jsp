@@ -6,12 +6,24 @@
 <%@ include file="../../menu.jsp"%>
 
 <jsp:useBean id="FinReciboTempLista" scope="page" class="aca.fin.FinReciboTempLista" />
+
+<jsp:useBean id="FinReciboTemp" scope="page" class="aca.fin.FinReciboTemp" />
 <%
 	String escuelaId		= (String) session.getAttribute("escuela");
 	String codigoId			= (String) session.getAttribute("codigoPersonal");
 	String mensaje			= request.getParameter("mensaje")==null?" ":request.getParameter("mensaje");
+	String accion			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	
+	java.text.DecimalFormat formato = new java.text.DecimalFormat("####;-####");
 	ArrayList<aca.fin.FinReciboTemp> finReciboTempList   = FinReciboTempLista.getListAll(conElias, escuelaId, "");
+	if(accion.equals("1")){
+		for (int x=0; x<finReciboTempList.size();x++){
+			String reciboId = finReciboTempList.get(x).getReciboId();
+			String folioId = finReciboTempList.get(x).getFolio();
+			FinReciboTemp.deleteReg(conElias, reciboId, folioId);
+		}
+	finReciboTempList   = FinReciboTempLista.getListAll(conElias, escuelaId, "");	
+	}
 %>
 
 <script>
@@ -115,10 +127,17 @@
 		</p>			
 		<div class="well">
 			<button class="btn btn-primary btn-large"> Subir</button> &nbsp;&nbsp; <%=mensaje%>
+			
 		</div>
 				
 	</form>
-	
+	<form action="recibos.jsp" method="post">
+	<input type="hidden" name="Accion" value="1">
+		<div class="well">
+			<button class="btn btn-primary btn-large" onclick="return confirm('Esta seguro de eliminar la lista?')"> Limpiar Lista</button> &nbsp;&nbsp; <%=mensaje%>	
+			<button class="btn btn-primary btn-large" disabled> Transferir Lista</button> &nbsp;&nbsp; <%=mensaje%>	
+		</div>
+	</form>
 	
 		<table class="table table-striped">
 		<thead>
