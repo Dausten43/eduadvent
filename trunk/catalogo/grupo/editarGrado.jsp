@@ -37,14 +37,21 @@
 		CatEsquema.setSemestreNombre(request.getParameter("nombreSemestre"));
 		
 		if(CatEsquema.existeReg(conElias)==false){
+			
 			if(CatEsquema.insertReg(conElias)){
 				conElias.commit();
 				sResultado = "Guardado";
 			}else{
 				sResultado = "NoGuardo";
 			}
+			
+			
 		}else{//Modifica
-			if(CatEsquema.updateReg(conElias)){
+			
+			if(CatEsquema.getGradoNombre().equals("")){
+				CatEsquema.deleteReg(conElias);
+			}
+			else if(CatEsquema.updateReg(conElias)){
 				conElias.commit();
 				sResultado = "Modificado";
 			}else{
