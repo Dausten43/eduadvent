@@ -21,6 +21,7 @@ public class FinReciboTemp {
 	private String escuelaId;
 	private String folio;
 	private String formaPago;
+	private String beneficiario;
 	
 	public FinReciboTemp(){
 		reciboId		= "";
@@ -34,6 +35,7 @@ public class FinReciboTemp {
 		escuelaId		= "";
 		folio			= "";
 		formaPago		= "";
+		beneficiario	= "";
 		
 	}
 	
@@ -125,19 +127,27 @@ public class FinReciboTemp {
 		this.formaPago = formaPago;
 	}
 	
+	public String getBeneficiario() {
+		return beneficiario;
+	}
+
+	public void setBeneficiario(String beneficiario) {
+		this.beneficiario = beneficiario;
+	}
+
 	public boolean insertReg(Connection conn) throws SQLException{
         boolean ok = false;
         PreparedStatement ps = null;
         try{
             ps = conn.prepareStatement(
                     "INSERT INTO FIN_RECIBO_TEMP(RECIBO_ID, FECHA, CLIENTE, CUENTA_ID, AUXILIAR,"
-                    +" DESCRIPCION, IMPORTE, REFERENCIA, ESCUELA_ID, FOLIO, FORMA_PAGO)"
+                    +" DESCRIPCION, IMPORTE, REFERENCIA, ESCUELA_ID, FOLIO, FORMA_PAGO, BENEFICIARIO)"
                     +" VALUES(TO_NUMBER(?, '9999999'),"
                     +" TO_DATE(?,'DD/MM/YYYY'),"
                     +" ?, ?, ?, ?,"
                     +" TO_NUMBER(?, '99999999.99'),"
                     + "?, ?,"
-                    + "TO_NUMBER(?, '99'),?)");
+                    + "TO_NUMBER(?, '99'),?,?)");
             
             ps.setString(1, reciboId);
             ps.setString(2, fecha);
@@ -150,6 +160,7 @@ public class FinReciboTemp {
             ps.setString(9, escuelaId);
             ps.setString(10, folio);
             ps.setString(11, formaPago);
+            ps.setString(12, beneficiario);
             
             if(ps.executeUpdate() == 1){
                 ok = true;
@@ -176,8 +187,9 @@ public class FinReciboTemp {
                     + " DESCRIPCION= ?,"
                     + " IMPORTE= TO_NUMBER(?, 99999999.99),"
                     + " REFERENCIA = ?,"
-                    + " ESCUELA_ID = ?"
-                    + " FORMA_PAGO = ?"
+                    + " ESCUELA_ID = ?,"
+                    + " FORMA_PAGO = ?,"
+                    + " BENEFICIARIO = ?"
                     + " WHERE RECIBO_ID = TO_NUMBER(?, '9999999') AND FOLIO = TO_NUMBER(?,99) ");
             
             ps.setString(1, fecha);
@@ -189,8 +201,9 @@ public class FinReciboTemp {
             ps.setString(7, referencia);
             ps.setString(8, escuelaId);
             ps.setString(9, formaPago);
-            ps.setString(10, reciboId);
-            ps.setString(11, folio);
+            ps.setString(10, beneficiario);
+            ps.setString(11, reciboId);
+            ps.setString(12, folio);
             
 
             if(ps.executeUpdate() == 1){
@@ -253,17 +266,18 @@ public class FinReciboTemp {
     }
 
     public void mapeaReg(ResultSet rs) throws SQLException {
-        reciboId	= rs.getString("RECIBO_ID");
-		fecha		= rs.getString("FECHA");
-		cliente		= rs.getString("CLIENTE");
-		cuentaId	= rs.getString("CUENTA_ID");
-		auxiliar	= rs.getString("AUXILIAR");
-		descripcion	= rs.getString("DESCRIPCION");
-		importe		= rs.getString("IMPORTE");
-		referencia	= rs.getString("REFERENCIA");
-		escuelaId	= rs.getString("ESCUELA_ID");
-		folio		= rs.getString("FOLIO");
-		formaPago	= rs.getString("FORMA_PAGO");
+        reciboId		= rs.getString("RECIBO_ID");
+		fecha			= rs.getString("FECHA");
+		cliente			= rs.getString("CLIENTE");
+		cuentaId		= rs.getString("CUENTA_ID");
+		auxiliar		= rs.getString("AUXILIAR");
+		descripcion		= rs.getString("DESCRIPCION");
+		importe			= rs.getString("IMPORTE");
+		referencia		= rs.getString("REFERENCIA");
+		escuelaId		= rs.getString("ESCUELA_ID");
+		folio			= rs.getString("FOLIO");
+		formaPago		= rs.getString("FORMA_PAGO");
+		beneficiario	= rs.getString("BENEyFICIARIO");
     }
 
     public void mapeaRegId(Connection con, String reciboId, String folio) throws SQLException{
@@ -271,7 +285,7 @@ public class FinReciboTemp {
         PreparedStatement ps = null; 
         try{
 	        ps = con.prepareStatement(
-	                "SELECT RECIBO_ID, FECHA, CLIENTE, CUENTA_ID, AUXILIAR, DESCRIPCION, IMPORTE, REFERENCIA, ESCUELA_ID, FOLIO, FORMA_PAGO" +
+	                "SELECT RECIBO_ID, FECHA, CLIENTE, CUENTA_ID, AUXILIAR, DESCRIPCION, IMPORTE, REFERENCIA, ESCUELA_ID, FOLIO, FORMA_PAGO, BENEFICIARIO" +
 	                " FROM FIN_RECIBO_TEMP" +
 	                " WHERE RECIBO_ID = TO_NUMBER(?, '99999999') AND FOLIO = TO_NUMBER(?, 99)");        
 	        ps.setString(1, reciboId);
