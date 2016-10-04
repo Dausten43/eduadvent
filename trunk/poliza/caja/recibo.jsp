@@ -22,6 +22,7 @@
 		){
 			
 				document.forma.Accion.value = "1";
+				$('#btnGuardar').bind('click',false);
 				document.forma.submit();
 			
 		}else{
@@ -102,7 +103,7 @@
 		FinRecibo.setEstado("A");
 		FinRecibo.setTipoPago(request.getParameter("tipoPago"));
 		
-		if(!FinRecibo.existeReg(conElias,usuario) ){
+		if(!FinRecibo.existeReg(conElias) ){
 			if(new BigDecimal(FinRecibo.getImporte()!=null ? FinRecibo.getImporte() : "0").compareTo(BigDecimal.ZERO)>0  && FinRecibo.insertReg(conElias)){
 				
 				FinFolio.setEjercicioId(ejercicioId);
@@ -226,7 +227,7 @@
 						</div>
 						
 						<div class="well">
-							<a href="javascript:Guardar();" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
+							<a href="javascript:Guardar();" class="btn btn-primary btn-large" id="btnGuardar"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
 						</div>
 						
 					</form>
