@@ -165,7 +165,7 @@
 							FinMov.setCicloId(detalle.getCicloId());
 							FinMov.setPeriodoId(detalle.getPeriodoId());
 							FinMov.setTipoMovId("5");
-							
+							System.out.println("L1 INSERTANDO ALUMNO " + FinMov.getAuxiliar());
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
 									// Actualizar el estado del pago a Contabilizado ("C")
@@ -194,7 +194,7 @@
 							FinMov.setCicloId(detalle.getCicloId());
 							FinMov.setPeriodoId(detalle.getPeriodoId());
 							FinMov.setTipoMovId("5");
-							
+							System.out.println("L2 INSERTANDO ALUMNO " + FinMov.getAuxiliar());
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){
 									// Insert de movimiento
@@ -218,7 +218,7 @@
 							FinMov.setCicloId(detalle.getCicloId());
 							FinMov.setPeriodoId(detalle.getPeriodoId());
 							FinMov.setTipoMovId("5");
-							
+							System.out.println("L3 INSERTANDO ALUMNO " + FinMov.getAuxiliar());
 							if(!FinMov.existeReg(conElias)){
 								if(FinMov.insertReg(conElias)){																	
 									// Insert de movimiento
@@ -227,7 +227,7 @@
 								}
 							}
 							
-							// Actualizar el estado del pago a Contabilizado ("C")
+// 							// Actualizar el estado del pago a Contabilizado ("C")
 							if(aca.fin.FinCalculoPago.updateEstado(conElias, cicloId, periodoId, alumno.getCodigoId(), pagoId, detalle.getCuentaId(), "C") ){
 								// Actualizado
 								//System.out.println("3.Estado actualizado en:"+cicloId+":"+periodoId+":"+alumno.getCodigoId()+":"+pagoId+":"+detalle.getCuentaId());
@@ -267,7 +267,7 @@
 			ArrayList<aca.fin.FinCalculoPago> pagosAlumno	= CalculoPagoL.getListPagos(conElias, cicloId, periodoId, pagoId, "'A'","ORDER BY CODIGO_ID, CUENTA_ID");
 				
 			// Lista de alumnos con pago inicial
-			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G','P'","");
+			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G','P'", pagoId, "");
 			
 			/* BEGIN TRANSACTION */
 			conElias.setAutoCommit(false);

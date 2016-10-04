@@ -91,7 +91,7 @@ public class FinCalculoLista {
         			+ " 	AND PAGO_ID = TO_NUMBER(?,'99')"
         			+ " AND ESTADO = 'A'"
 					+ "		AND )"+orden;
-			
+			System.out.println(comando);
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				FinCalculo fc = new FinCalculo();
@@ -100,7 +100,7 @@ public class FinCalculoLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.fin.FinCostoLista|getListAlumnos|:"+ex);
+			System.out.println("Error - aca.fin.FinCostoLista|getListAlumnos76|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
@@ -136,7 +136,7 @@ public class FinCalculoLista {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.fin.FinCostoLista|getListAlumnos|:"+ex);
+			System.out.println("Error - aca.fin.FinCostoLista|getListAlumnos112|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();

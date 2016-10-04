@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author EryTorres
@@ -565,6 +567,48 @@ public class FinCalculo {
         
         return cantidad;
     }
+    
+    
+    public static List<String> lsPendientesPago(Connection conn, String cicloId, String periodoId, String pagoId) throws SQLException {
+    	List<String> salida = new ArrayList<String>();
+    	PreparedStatement ps	= null;        
+        ResultSet rs			= null;
+        String cantidad			= "0";
+        
+        try {
+        	ps = conn.prepareStatement("SELECT DISTINCT(CODIGO_ID)) AS ALUMNO FROM FIN_CALCULO_PAGO "
+        			+ " WHERE CICLO_ID = ? "
+        			+ " AND PERIODO_ID = TO_NUMBER(?, '99')"
+        			+ " AND PAGO_ID = TO_NUMBER(?,'99')"
+        			+ " AND ESTADO = 'A'" /* Que no se hayan tomado en cuenta en alguna poliza (que no hayan sido Contabilizados) */
+        			+ " AND IMPORTE > 0"
+        			+ " AND CODIGO_ID IN"
+        				+ " (SELECT CODIGO_ID FROM FIN_CALCULO"
+        				+ " WHERE CICLO_ID = ?"
+        				+ " AND PERIODO_ID = TO_NUMBER(?,'99')"
+        				+ " AND INSCRITO IN ('G','P'))"); 
+        	
+            ps.setString(1, cicloId);
+            ps.setString(2, periodoId);
+            ps.setString(3, pagoId);
+            ps.setString(4, cicloId);
+            ps.setString(5, periodoId);
+            
+            rs = ps.executeQuery();
+            if(rs.next()){
+            	salida.add(rs.getString("alumno"));
+            }
+
+        }catch(Exception ex){
+            System.out.println("Error - aca.fin.FinCalculo|pendientesPago|:" +ex);
+        }finally{
+        	if(rs != null){ rs.close(); }
+            if(ps != null){ ps.close(); }
+        }
+        
+        return salida;
+    }
+    
     
     public static String getInscrito(Connection conn, String cicloId, String periodoId, String codigoId) throws SQLException {
     	PreparedStatement ps	= null;        
