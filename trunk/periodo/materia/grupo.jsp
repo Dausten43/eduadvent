@@ -104,7 +104,7 @@
 				<%	
 					for(aca.catalogo.CatGrupo grupo: lisGrupo){
 						nombreGrado = aca.catalogo.CatEsquema.getNombreGrado(conElias, escuelaId, nivelId, grupo.getGrado());
-						if (nombreGrado.equals("X")) nombreGrado = aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grupo.getGrado()))+ " "+titulo.toUpperCase();
+						if (nombreGrado.equals("X")) nombreGrado = aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grupo.getGrado()))+ " "+titulo.toUpperCase()+" "+grupo.getGrupo();
 				%>  
 				  	  	<tr>
 				    		<td><%= grupo.getGrado() %></td>
@@ -137,7 +137,11 @@
 					for(int i = 0; i < lisGrupoAlta.size(); i++){
 						aca.catalogo.CatGrupo grupo = (aca.catalogo.CatGrupo) lisGrupoAlta.get(i);
 						nombreGrado = aca.catalogo.CatEsquema.getNombreGrado(conElias, escuelaId, nivelId, grupo.getGrado());
-						if (nombreGrado.equals("X")) nombreGrado = aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grupo.getGrado()))+ " "+titulo.toUpperCase();						
+						if (nombreGrado.equals("X")) {
+							nombreGrado = aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grupo.getGrado()))+ " "+titulo.toUpperCase()+" "+grupo.getGrupo();
+						}else {
+							nombreGrado = nombreGrado + " " +grupo.getGrupo();
+						}				
 						cicloGrupoId 	= aca.ciclo.CicloGrupo.getCicloGrupoId(conElias, nivelId, grupo.getGrado(), grupo.getGrupo(), cicloId, planId);
 						numCursos 		= aca.ciclo.CicloGrupoCurso.numCursosGrupo(conElias, cicloGrupoId);
 						numAlumnos 		= aca.kardex.KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoId);
