@@ -8,6 +8,8 @@
 <jsp:useBean id="Grupo" scope="page" class="aca.ciclo.CicloGrupo" />
 <jsp:useBean id="CursoActLista" scope="page" class="aca.kardex.KrdxCursoActLista" />
 <jsp:useBean id="catParametro" scope="page" class="aca.catalogo.CatParametro" />
+<jsp:useBean id="cicloPromedio" scope="page" class="aca.ciclo.CicloPromedio"/>
+<jsp:useBean id="cicloPromedioU" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 
 <script>
 	function notas(cicloGrupoId, codigoAlumno) {
@@ -80,8 +82,20 @@
 		}
 		if(tipoBoleta.equals("3")){
 %>
+		<form action="boletaPanama.jsp" method="get">
+		<div style ='margin-top:20px;'>
+		<input type="checkbox" class="check" id="checkAll">&nbsp TODOS &nbsp
+		<input type="hidden" id="cicloGrupoId" name="cicloGrupoId" value='<%=cicloGrupoId%>' />
+<%
+			ArrayList<aca.ciclo.CicloPromedio>  cicloPromedioList	= cicloPromedioU.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
+			for(int x = 0; x<cicloPromedioList.size();x++){
+				out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cicloPromedioList.get(x).getPromedioId()+"'  name='"+cicloPromedioList.get(x).getNombre()+"' value='"+cicloPromedioList.get(x).getPromedioId()+"'> &nbsp"+cicloPromedioList.get(x).getNombre()+"</p>");
+			}
+%>		</div>
+		<button type="submit">Submit</button>
 		<a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a>
 		<a class="btn btn-info" href="boletaPanamaPreKinder.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanamaPreKinder" /></a>
+		</form>
 <%
 		}
 %>
@@ -133,5 +147,17 @@
 	</table>
 
 </div>
+
+<script>
+	$("#checkAll").click(function () {
+	    $(".check").prop('checked', $(this).prop('checked'));
+	    
+	});
+	
+	
+	$('.check').on('change', function() {
+	    $('#checkAll').not(this).prop('checked', false);  
+	});
+</script>
 
 <%@ include file="../../cierra_elias.jsp"%>
