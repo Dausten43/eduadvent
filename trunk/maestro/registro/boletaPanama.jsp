@@ -64,7 +64,6 @@
 	ArrayList<CicloPromedio>  cicloPromedioList	= cicloPromedioU.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
 	ArrayList <KrdxAlumFalta> listaKrdxAlumFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'");
 	ArrayList <CicloGrupoEval> listaCicloGrupoEval = cicloGrupoEvalLista.getEvalGrupo(conElias, cicloGrupoId, "ORDER BY CICLO_GRUPO_ID, ORDEN");
-	
 	ciclo.mapeaRegId(conElias, cicloId);
 	
 	java.text.DecimalFormat frm = new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
@@ -155,8 +154,7 @@
 				planClase.mapeaRegId(conElias, plan);
 				
 				//System.out.println(plan);
-				ArrayList<aca.plan.PlanCurso> lisCurso;
-				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, ORDEN");
+				ArrayList<aca.plan.PlanCurso> lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, ORDEN");
 				ArrayList lisAlumnoCurso = alumnoCursoLista.getListAll(conElias, escuela," AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 				float wrapwidth[] = {100f};
 				PdfPTable wrapTable = new PdfPTable(wrapwidth);
@@ -913,7 +911,10 @@
 										cicloPromedio = (CicloPromedio) cicloPromedioList.get(l);
 										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
 										String valor = "--";
-										if(mapPromAlumno.containsKey(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId())){
+										
+										boolean show = cicloPromedio.getPromedioId().equals(request.getParameter(cicloPromedio.getNombre()));
+
+										if(mapPromAlumno.containsKey(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()) && show){
 											valor = mapPromAlumno.get(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()).getNota();
 											sumaNotas += Float.parseFloat(valor);
 											if(curso.getCursoBase().equals("-"))//Si es materia madre o materia sin hijas
@@ -939,6 +940,9 @@
 										}
 										
 										//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+" materiasSinNota[l] = "+materiasSinNota[l]);
+										//System.out.println(cicloPromedioList.get(l).getPromedioId());
+										//System.out.println(request.getParameter(cicloPromedioList.get(l).getNombre()));
+									
 										celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 										celda.setBorder(0);
@@ -975,6 +979,8 @@
 													materiasSinNotaIngles[contador]++;
 												}
 											}
+											
+											
 											
 											celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1182,17 +1188,24 @@
 			    		        }*/
 			    		        
 			    		        if(ciclo.getNivelEval().equals("P")){
+			    		        	
+			    		        
 				 					for(int l = 0; l < cicloPromedioList.size(); l++){
 										cicloPromedio = (CicloPromedio) cicloPromedioList.get(l);
 										int faltas = 0, tardanzas = 0;
 										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-										for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
-											if(kaf.getCodigoId().equals(codigoAlumno) && 
-													kaf.getCursoId().equals(curso.getCursoId()) &&
-													kaf.getPromedioId().equals(cicloPromedio.getPromedioId())){
-												faltas += Integer.valueOf(kaf.getFalta());
-												tardanzas += Integer.valueOf(kaf.getTardanza());
+										boolean show = cicloPromedio.getPromedioId().equals(request.getParameter(cicloPromedio.getNombre()));
+										if(show){
+											for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
+												
+												if(kaf.getCodigoId().equals(codigoAlumno) && 
+														kaf.getCursoId().equals(curso.getCursoId()) &&
+														kaf.getPromedioId().equals(cicloPromedio.getPromedioId())){
+													faltas += Integer.valueOf(kaf.getFalta());
+													tardanzas += Integer.valueOf(kaf.getTardanza());
+												}
 											}
+											
 										}
 										
 										celda = new PdfPCell(new Phrase(String.valueOf(faltas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
@@ -1200,6 +1213,10 @@
 										celda.setBorder(0);
 						 				tabla.addCell(celda);
 						 				
+						 				
+						 				if(!cicloPromedioList.get(l).getPromedioId().equals(request.getParameter(cicloPromedioList.get(l).getNombre()))){
+											tardanzas = 0;
+										};
 						 				celda = new PdfPCell(new Phrase(String.valueOf(tardanzas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 										celda.setBorder(0);
@@ -1548,7 +1565,7 @@
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(2);
 	    				tabla.addCell(celda);
-	    				celda = new PdfPCell(new Phrase("Promedio Acumulado", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    				celda = new PdfPCell(new Phrase("Promedio Acumulados", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(2);
 	    				tabla.addCell(celda);
@@ -1695,6 +1712,7 @@
  				//System.out.println("krdxAlumActitudL.getListAspectosAlumno(conElias, "+codigoAlumno+", "+cicloGrupoId+", );");
 				
  				ArrayList <aca.kardex.KrdxAlumActitud>listaKrdxAlumActitud = krdxAlumActitudL.getListAspectosAlumno(conElias, codigoAlumno, cicloGrupoId, "");
+ 				
 				ArrayList<aca.catalogo.CatAspectos> aspectosList	= catAspectosU.getListAspectos(conElias, escuela, nivel, "ORDER BY ORDEN");
 				
 				for(int j = 0; j < aspectosList.size(); j++){
@@ -1717,19 +1735,22 @@
 									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
 									float valor = 0f;
 									String resultado = "-";
-									for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
-										//System.out.println(krdxAlumActitud.getAspectos());
-										if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
-												krdxAlumActitud.getPromedioId().equals(cicloPromedio.getPromedioId()) &&
-												krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-											valor = Float.parseFloat(krdxAlumActitud.getNota());
-											resultado = valor==1?"X":resultado;
-											resultado = valor==2?"R":resultado;
-											resultado = valor==3?"S":resultado;
-											break;
+									
+									boolean show = cicloPromedio.getPromedioId().equals(request.getParameter(cicloPromedio.getNombre()));
+									if(show){
+										for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
+											//System.out.println(krdxAlumActitud.getAspectos());
+											if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
+													krdxAlumActitud.getPromedioId().equals(cicloPromedio.getPromedioId()) &&
+													krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
+												valor = Float.parseFloat(krdxAlumActitud.getNota());
+												resultado = valor==1?"X":resultado;
+												resultado = valor==2?"R":resultado;
+												resultado = valor==3?"S":resultado;
+												break;
+											}
 										}
 									}
-									
 									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 									cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
