@@ -51,8 +51,8 @@
 			<tr>
 				<td><%=nivel.getNivelId() %></td>
 				<td>
-					<a href="grupo.jsp?nivelId=<%=nivel.getNivelId() %>">
-						<%=nivel.getNivelNombre() %>
+					<a href="grupo.jsp?nivelId=<%=nivel.getNivelId() %>&&titulo=<%=nivel.getTitulo()%>">
+						<%=nivel.getNivelNombre()%>
 					</a>	
 				</td>
 				<td><%=nivel.getTitulo() %></td>
