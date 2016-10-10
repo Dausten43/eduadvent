@@ -33,7 +33,8 @@
 		CatEsquema.setNivelId(nivelId);
 		CatEsquema.setGrado(grado);
 		CatEsquema.setSubNivel(request.getParameter("subnivel"));
-		CatEsquema.setGradoNombre(request.getParameter("nombreGrado"));
+		System.out.println(request.getParameter("nombreGrado"));
+		CatEsquema.setGradoNombre(request.getParameter("nombreGrado")==""?aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(grado))+" "+request.getParameter("titulo").toUpperCase():request.getParameter("nombreGrado"));
 		CatEsquema.setSemestreNombre(request.getParameter("nombreSemestre"));
 		
 		if(CatEsquema.existeReg(conElias)==false){
@@ -48,10 +49,7 @@
 			
 		}else{//Modifica
 			
-			if(CatEsquema.getGradoNombre().equals("")){
-				CatEsquema.deleteReg(conElias);
-			}
-			else if(CatEsquema.updateReg(conElias)){
+			if(CatEsquema.updateReg(conElias)){
 				conElias.commit();
 				sResultado = "Modificado";
 			}else{
@@ -83,13 +81,15 @@
   	</div>
   	
 	<div class="well" style="overflow:hidden;">
-		<a class="btn btn-primary" href="grupo.jsp?nivelId=<%=nivelId %>"><i class="icon-arrow-left icon-white"></i>&nbsp;<fmt:message key="boton.Regresar" /></a>
+		<a class="btn btn-primary" href="grupo.jsp?nivelId=<%=nivelId %>&grado=<%=grado %>&titulo=<%=request.getParameter("titulo")%>"><i class="icon-arrow-left icon-white"></i>&nbsp;<fmt:message key="boton.Regresar" /></a>
 	</div>		
 	
-	<form action="editarGrado.jsp" method="post" name="forma" target="_self">
+	<form action="editarGrado.jsp" method="get" name="forma" target="_self">
 		<input type="hidden" name="Accion">
-		<input type="hidden" name="nivelId" value="<%=nivelId %>">
-		<input type="hidden" name="grado" value="<%=grado %>">
+		<input type="hidden" name="nivelId" id="nivelId" value="<%=nivelId %>">
+		<input type="hidden" name="grado" id='grado' value="<%=grado %>">
+		<input type="hidden" name="titulo" id='grado' value="<%=request.getParameter("titulo") %>">
+		
 		
 		<fieldset>
 			<label for="nombreGrado"><fmt:message key="aca.NombreGrado" /></label>
