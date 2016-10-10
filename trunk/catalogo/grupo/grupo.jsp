@@ -61,7 +61,7 @@
 			</div>
 			
 			<div style="float:right;">
-				<a href="editarGrado.jsp?nivelId=<%=nivelId %>&grado=<%=grupo.getGrado() %>" class="btn btn-mini btn-info"><i class="icon-pencil icon-white"></i> <fmt:message key="boton.Editar" /></a>
+				<a href="editarGrado.jsp?nivelId=<%=nivelId %>&grado=<%=grupo.getGrado() %>&titulo=<%=request.getParameter("titulo")%>" class="btn btn-mini btn-info"><i class="icon-pencil icon-white"></i> <fmt:message key="boton.Editar" /></a>
 			</div>	
 	  		
 		</div>		
