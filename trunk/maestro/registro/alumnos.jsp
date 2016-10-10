@@ -83,17 +83,17 @@
 		if(tipoBoleta.equals("3")){
 %>
 		<form action="boletaPanama.jsp" method="get">
-		<div style ='margin-top:20px;'>
-		<input type="checkbox" class="check" id="checkAll">&nbsp TODOS &nbsp
+		<div style ='margin:20px 0;'>
+		<input type="checkbox" class="check" id="checkAll" checked>&nbsp TODOS &nbsp
 		<input type="hidden" id="cicloGrupoId" name="cicloGrupoId" value='<%=cicloGrupoId%>' />
 <%
 			ArrayList<aca.ciclo.CicloPromedio>  cicloPromedioList	= cicloPromedioU.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
 			for(int x = 0; x<cicloPromedioList.size();x++){
-				out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cicloPromedioList.get(x).getPromedioId()+"'  name='"+cicloPromedioList.get(x).getNombre()+"' value='"+cicloPromedioList.get(x).getPromedioId()+"'> &nbsp"+cicloPromedioList.get(x).getNombre()+"</p>");
+				out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cicloPromedioList.get(x).getPromedioId()+"'  name='"+cicloPromedioList.get(x).getNombre()+"' value='"+cicloPromedioList.get(x).getPromedioId()+"'checked> &nbsp"+cicloPromedioList.get(x).getNombre()+"</p>");
 			}
 %>		</div>
-		<button type="submit">Submit</button>
-		<a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a>
+		<button type="submit" class="btn btn-info" ><fmt:message key="boton.ImprimirBoletaPanama" /></button>
+		<!-- <a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a> -->
 		<a class="btn btn-info" href="boletaPanamaPreKinder.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanamaPreKinder" /></a>
 		</form>
 <%
