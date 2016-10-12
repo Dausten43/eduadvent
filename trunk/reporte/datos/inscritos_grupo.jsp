@@ -13,6 +13,7 @@
 <%@page import="java.util.HashMap"%>
 <% 
 	String escuelaId		= (String) session.getAttribute("escuela");
+
 	String ciclo			= request.getParameter("ciclo")==null?aca.ciclo.Ciclo.getCargaActual(conElias,escuelaId):request.getParameter("ciclo");
 	
 	String strBgcolor		= "";
@@ -34,10 +35,10 @@
 	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuelaId, "ORDER BY 1");
 	
 	// Lista de Alumnos Inscritos en un ciclo escolar
-	ArrayList lisInscritos = CicloLista.getArrayListInscritos(conElias, ciclo, "ORDER BY NIVEL,GRADO,GRUPO");
+	ArrayList<aca.alumno.AlumCiclo> lisInscritos = CicloLista.getArrayListInscritos(conElias, ciclo, "ORDER BY NIVEL, GRADO, GRUPO");
 	
 	
-	HashMap<String, aca.alumno.AlumPersonal > mapaGradoGrupo =   aca.alumno.AlumPersonalLista.getMapHistoria(conElias,ciclo, "");
+	HashMap<String, aca.alumno.AlumPersonal > mapaGradoGrupo =   aca.alumno.AlumPersonalLista.getMapHistoria(conElias, ciclo);
 %>
 <style>
 	body{
@@ -63,14 +64,46 @@
   </form>
 <table class="table table-fullcondensed" width="80%">
 <%	 	
+for(int i=0; i<lisInscritos.size();i++){
+	aca.alumno.AlumCiclo inscrito = null;
+	inscrito = (aca.alumno.AlumCiclo) lisInscritos.get(i);
+	
+	System.out.println(inscrito.getCodigoId()+" GRADO: "+aca.alumno.AlumPersonal.getGrado(conElias, inscrito.getCodigoId())+" grado list:"+ lisInscritos.get(i).getGrado() +" GRUPO: "+aca.alumno.AlumPersonal.getGrupo(conElias, inscrito.getCodigoId())+ " NIVEL: "+aca.alumno.AlumPersonal.getNivel(conElias, inscrito.getCodigoId()) );
+		
+}
+
 		String gradoAndGrupo = "0";
+		int count = 0;
 		for(int i=0; i<lisInscritos.size();i++){
-			cont++;			
-			aca.alumno.AlumCiclo inscrito = (aca.alumno.AlumCiclo) lisInscritos.get(i);
+			cont++;
+			
+			aca.alumno.AlumCiclo inscrito = null;
+			grado 		= "-";			
+			grupo 		= "-";	
+			nombre 		= "-";
+			apaterno 	= "-";
+			amaterno 	= "-";
+			nacimiento 	= "-";
+			genero 		= "-";
+			curp		= "-";
+			pais 		= "-";
+			estado 		= "-";
+			ciudad 		= "-";
+			colonia 	= "-";
+			direccion	= "-";
+			telefono 	= "-";
+			religion 	= "-";
+			iglesia 	= "-";
+			tutor 		= "-";			
+			
+			
+			//System.out.println(i);
+			inscrito = (aca.alumno.AlumCiclo) lisInscritos.get(i);
+			//System.out.println(inscrito.getCodigoId()+" GRADO: "+aca.alumno.AlumPersonal.getGrado(conElias, inscrito.getCodigoId()) +" GRUPO: "+aca.alumno.AlumPersonal.getGrupo(conElias, inscrito.getCodigoId())+ " NIVEL: "+aca.alumno.AlumPersonal.getNivel(conElias, inscrito.getCodigoId()) );
 			if (mapaGradoGrupo.containsKey(inscrito.getCodigoId())){
 				aca.alumno.AlumPersonal historia = (aca.alumno.AlumPersonal) mapaGradoGrupo.get(inscrito.getCodigoId());
-				grado 		= historia.getGrado();			
-				grupo 		= historia.getGrupo();	
+				grado 		= lisInscritos.get(i).getGrado();			
+				grupo 		= lisInscritos.get(i).getGrupo();	
 				nombre 		= historia.getNombre();  
 				apaterno 	= historia.getApaterno();  
 				amaterno 	= historia.getAmaterno(); 
@@ -90,10 +123,13 @@
 			}else{
 				grado = "-"; grupo = "-";
 			}
-
+			
+				//System.out.println(++count+ " Before if: "+ gradoAndGrupo +" "+grado+grupo);
 			if(!gradoAndGrupo.equals(grado+grupo)){
 			    cont=1;
 			    gradoAndGrupo = grado+grupo;
+			    
+			    System.out.println("Afer if: "+ gradoAndGrupo +" "+grado+grupo);
 				if(i!=0){%>
 					<table class="table table-fullcondensed" width="100%">
 					<tr>
