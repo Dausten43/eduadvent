@@ -9,6 +9,8 @@
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.CicloGrupoCurso" />
 <jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 
+
+
 <script>
 	function Nuevo(planId) {
 		document.frmPlan.PlanId.value = planId;
@@ -54,7 +56,7 @@
 	}
 </script>
 
-<%
+<% System.out.println((String) session.getAttribute("cicloId"));
 	// Declaración de variables
 		// Declaracion de variables		
 		String escuelaId 		= (String) session.getAttribute("escuela");
@@ -304,14 +306,10 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Estado"> <fmt:message key="aca.Estado" />: </label> <select name="Estado"
-								id="Estado">
-								<option value="A"
-									<%if (Curso.getEstado().equals("A"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Activo" /></option>
-								<option value="I"
-									<%if (Curso.getEstado().equals("I"))
-					out.print("selected=\"selected\"");%>><fmt:message key="aca.Inactivo" /></option>
+							<label for="Estado"> <fmt:message key="aca.Estado" />: </label> 
+							<select name="Estado" id="Estado" <%if( aca.plan.PlanCurso.existeReg(conElias, cursoId)&& aca.ciclo.Ciclo.getCicloActivo(conElias, (String) session.getAttribute("cicloId"))){out.print("disabled");}%>>
+								<option value="A" <%if (Curso.getEstado().equals("A")) out.print("selected=\"selected\"");%>><fmt:message key="aca.Activo" /></option>
+								<option value="I" <%if (Curso.getEstado().equals("I")) out.print("selected=\"selected\"");%>><fmt:message key="aca.Inactivo" /></option>
 							</select>
 						</div>
 						<div class="control-group ">
