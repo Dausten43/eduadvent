@@ -571,7 +571,8 @@ public class FinMovimientosLista {
 	}
 	
 	
-	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String estado, String tipo, String fechaIni, String fechaFin, String naturaleza, String tipoMov) throws SQLException{
+	public static HashMap<String, String> saldoPolizasPorCuentas( Connection conn, String escuela, String estado, 
+			String tipo, String fechaIni, String fechaFin, String naturaleza, String tipoMov) throws SQLException{
 		
 		Statement st			= conn.createStatement();
 		ResultSet rs 			= null;
