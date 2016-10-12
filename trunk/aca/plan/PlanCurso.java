@@ -466,6 +466,33 @@ public class PlanCurso{
 		return ok;
 	}
 	
+	public static boolean existeReg(Connection conn, String cursoId ) throws SQLException{
+		boolean 		ok 	= false;
+		ResultSet 		rs		= null;
+		PreparedStatement ps	= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT EXISTS( SELECT 1 FROM CICLO_GRUPO_CURSO WHERE  CURSO_ID = ?)AS EXISTE");
+			ps.setString(1,cursoId);
+			
+			rs = ps.executeQuery();
+			
+			if (rs.next()){
+				if (rs.getString("EXISTE").equals("t") ){
+					ok = true;
+				}
+			}
+
+		}catch(Exception ex){
+			System.out.println("Error - aca.plan.PlanCurso|existeReg|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return ok;
+	}
+	
 	public static int cuentaMaterias( Connection conn, String planId, String tipoCurso) throws SQLException, Exception{
 		
 		ResultSet 		rs		= null;
