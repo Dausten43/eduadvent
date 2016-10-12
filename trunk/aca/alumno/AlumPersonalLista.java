@@ -1047,9 +1047,9 @@ public class AlumPersonalLista{
 		return map;
 	}
 	
-	public static HashMap<String,AlumPersonal> getMapHistoria(Connection conn, String ciclo, String orden ) throws SQLException{
+	public static HashMap<String, AlumPersonal> getMapHistoria(Connection conn, String ciclo ) throws SQLException{
 		
-		HashMap<String,AlumPersonal> mapPais = new HashMap<String,AlumPersonal>();
+		HashMap<String, AlumPersonal> map = new HashMap<String,AlumPersonal>();
 		Statement st 				= conn.createStatement();
 		ResultSet rs 				= null;
 		String comando				= "";
@@ -1057,14 +1057,14 @@ public class AlumPersonalLista{
 		
 		try{
 			comando = " SELECT * FROM ALUM_PERSONAL" +
-					" WHERE CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+ciclo+"') "+ orden;
+					" WHERE CODIGO_ID IN (SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+ciclo+"')";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
 				AlumPersonal personal = new AlumPersonal();
 				personal.mapeaReg(rs);
 				llave = personal.getCodigoId();
-				mapPais.put(llave, personal);
+				map.put(llave, personal);
 			}
 			
 		}catch(Exception ex){
@@ -1074,7 +1074,7 @@ public class AlumPersonalLista{
 			if (st!=null) st.close();
 		}
 		
-		return mapPais;
+		return map;
 	}
 	
 	public HashMap<String,String> mapNombreLargo(Connection conn,String escuelaId, String Opcion) throws SQLException{
