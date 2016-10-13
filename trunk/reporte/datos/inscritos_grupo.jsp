@@ -68,7 +68,7 @@ for(int i=0; i<lisInscritos.size();i++){
 	aca.alumno.AlumCiclo inscrito = null;
 	inscrito = (aca.alumno.AlumCiclo) lisInscritos.get(i);
 	
-	System.out.println(inscrito.getCodigoId()+" GRADO: "+aca.alumno.AlumPersonal.getGrado(conElias, inscrito.getCodigoId())+" grado list:"+ lisInscritos.get(i).getGrado() +" GRUPO: "+aca.alumno.AlumPersonal.getGrupo(conElias, inscrito.getCodigoId())+ " NIVEL: "+aca.alumno.AlumPersonal.getNivel(conElias, inscrito.getCodigoId()) );
+	//System.out.println(inscrito.getCodigoId()+" GRADO: "+aca.alumno.AlumPersonal.getGrado(conElias, inscrito.getCodigoId())+" grado list:"+ lisInscritos.get(i).getGrado() +" GRUPO: "+aca.alumno.AlumPersonal.getGrupo(conElias, inscrito.getCodigoId())+ " NIVEL: "+aca.alumno.AlumPersonal.getNivel(conElias, inscrito.getCodigoId()) );
 		
 }
 
@@ -129,7 +129,7 @@ for(int i=0; i<lisInscritos.size();i++){
 			    cont=1;
 			    gradoAndGrupo = grado+grupo;
 			    
-			    System.out.println("Afer if: "+ gradoAndGrupo +" "+grado+grupo);
+			   // System.out.println("Afer if: "+ gradoAndGrupo +" "+grado+grupo);
 				if(i!=0){%>
 					<table class="table table-fullcondensed" width="100%">
 					<tr>
