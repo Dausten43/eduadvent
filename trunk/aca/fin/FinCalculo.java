@@ -622,9 +622,9 @@ public class FinCalculo {
             		+ " AND CODIGO_ID = ?");
         	
             ps.setString(1, cicloId);
-            ps.setString(2, cicloId);
+            ps.setString(2, periodoId);
             ps.setString(3, codigoId);
-            
+           // System.out.println("salida del metodo " + ps);
             rs = ps.executeQuery();
             if(rs.next()){
                 estado = rs.getString("INSCRITO");

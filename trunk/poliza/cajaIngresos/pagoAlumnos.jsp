@@ -73,8 +73,10 @@
 			importe = Double.parseDouble(mapPago.get(alumno));
 		}
 		 String nombreAlumno 	= aca.alumno.AlumPersonal.getNombre(conElias, alumno, "NOMBRE");
+		 //System.out.println("Salida estado calculo " + cicloId + "\t" + periodoId + "\t" + alumno) ;
 		 String estadoCalculo 	= aca.fin.FinCalculo.getInscrito(conElias, cicloId, periodoId, alumno); 
 		 String estadoNombre 	= "";
+		 
 		 if (estadoCalculo.equals("C") || estadoCalculo.equals("N")) estadoNombre = "Abierto";		 
 		 if (estadoCalculo.equals("G")) estadoNombre = "Grabado";
 		 if (estadoCalculo.equals("P")) estadoNombre = "Registrado";
