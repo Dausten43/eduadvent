@@ -78,8 +78,8 @@
 		 String estadoNombre 	= "";
 		 
 		 if (estadoCalculo.equals("C") || estadoCalculo.equals("N")) estadoNombre = "Abierto";		 
-		 if (estadoCalculo.equals("G")) estadoNombre = "Grabado";
-		 if (estadoCalculo.equals("P")) estadoNombre = "Registrado";
+		 if (estadoCalculo.equals("G")) estadoNombre = "Cerrado";
+		 if (estadoCalculo.equals("P")) estadoNombre = "Contabilizado";
 		%>		
 			<tr>
 				<td><%=numero%></td>
