@@ -61,7 +61,7 @@
 		<th>#</th>
 		<th>Matricula</th>
 		<th>Nombre</th>
-		<th>Calculo</th>		
+		<th>Estado Cálculo Cobro</th>		
 		<th style="text-align:right">Importe</th>	
 	</tr>
 <% 	

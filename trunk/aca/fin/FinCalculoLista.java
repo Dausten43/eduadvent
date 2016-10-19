@@ -126,7 +126,10 @@ public class FinCalculoLista {
 					+ " 	AND PERIODO_ID = TO_NUMBER('"+periodoId+"', '99')"
         			+ " 	AND PAGO_ID = TO_NUMBER('"+pagoId+"','99')"
         			+ "		AND ESTADO = 'A'"
-					+ "		AND IMPORTE > 0) "+orden;
+					+ "		AND IMPORTE > 0) "
+					+ " AND CODIGO_ID NOT IN ("
+					+ " SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID='"+cicloId+"' AND ESTADO NOT IN ('I') AND PERIODO_ID=TO_NUMBER('"+periodoId+"','99')) " 
+					+ ""+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -157,8 +160,10 @@ public class FinCalculoLista {
 					  " AND PERIODO_ID =  TO_NUMBER('"+periodoId+"', '99') "+
 					  " AND PAGO_ID =  '"+pagoId+"' "+
 					  " AND ESTADO IN ("+estado+")"+
-					  " AND IMPORTE > '0'"+
-					  " GROUP BY CODIGO_ID "+ orden;			
+					  " AND IMPORTE > '0' "
+					  + " AND CODIGO_ID NOT IN ("
+  					+ " SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID='"+cicloId+"' AND ESTADO NOT IN ('I') AND PERIODO_ID=TO_NUMBER('"+periodoId+"','99')) "
+					+  " GROUP BY CODIGO_ID "+ orden;			
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){				

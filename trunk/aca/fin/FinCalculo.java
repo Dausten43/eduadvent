@@ -545,13 +545,18 @@ public class FinCalculo {
         				+ " (SELECT CODIGO_ID FROM FIN_CALCULO"
         				+ " WHERE CICLO_ID = ?"
         				+ " AND PERIODO_ID = TO_NUMBER(?,'99')"
-        				+ " AND INSCRITO IN ('G','P'))"); 
+        				+ " AND INSCRITO IN ('G','P')) "
+    				+ " AND CODIGO_ID NOT IN ("
+    					+ " SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID=? AND ESTADO NOT IN ('I') AND PERIODO_ID=TO_NUMBER(?,'99'))"
+    				+ ""); 
         	
             ps.setString(1, cicloId);
             ps.setString(2, periodoId);
             ps.setString(3, pagoId);
             ps.setString(4, cicloId);
             ps.setString(5, periodoId);
+            ps.setString(6, cicloId);
+            ps.setString(7, periodoId);
             
             rs = ps.executeQuery();
             if(rs.next()){
