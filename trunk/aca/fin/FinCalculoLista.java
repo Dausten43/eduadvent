@@ -109,7 +109,7 @@ public class FinCalculoLista {
 		return lisCalculo;
 	}
 	
-	public ArrayList<FinCalculo> getListAlumnos(Connection conn, String cicloId, String periodoId, String inscrito, String pagoId, String orden ) throws SQLException{
+	public ArrayList<FinCalculo> getListAlumnosCobro(Connection conn, String cicloId, String periodoId, String inscrito, String pagoId, String orden ) throws SQLException{
 		ArrayList<FinCalculo> lisCalculo 	= new ArrayList<FinCalculo>();
 		Statement st 	= conn.createStatement();
 		ResultSet rs 	= null;

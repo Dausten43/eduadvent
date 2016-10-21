@@ -115,7 +115,7 @@
 			ArrayList<aca.fin.FinCalculoDet> lisDetalles	= DetalleL.getListCalDetTodosAlumnos(conElias, cicloId, periodoId, "ORDER BY CODIGO_ID, CUENTA_ID");
 			
 			// Lista de alumnos sin pago inicial
-			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G','P'", pagoId, "");
+			alumnos = FinCalculoLista.getListAlumnosCobro(conElias, cicloId, periodoId, "'G','P'", pagoId, "");
 			
 			/* BEGIN TRANSACTION */
 			conElias.setAutoCommit(false);
@@ -267,7 +267,7 @@
 			ArrayList<aca.fin.FinCalculoPago> pagosAlumno	= CalculoPagoL.getListPagos(conElias, cicloId, periodoId, pagoId, "'A'","ORDER BY CODIGO_ID, CUENTA_ID");
 				
 			// Lista de alumnos con pago inicial
-			alumnos = FinCalculoLista.getListAlumnos(conElias, cicloId, periodoId, "'G','P'", pagoId, "");
+			alumnos = FinCalculoLista.getListAlumnosCobro(conElias, cicloId, periodoId, "'G','P'", pagoId, "");
 			
 			/* BEGIN TRANSACTION */
 			conElias.setAutoCommit(false);
