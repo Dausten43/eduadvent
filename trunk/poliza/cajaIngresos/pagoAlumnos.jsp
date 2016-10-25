@@ -55,8 +55,8 @@
 		</form>
 		</div>
 		
-	<table class="table table-striped">
-	
+	<table class="table table-striped"  id="tableData">
+	<thead>
 	<tr>
 		<th>#</th>
 		<th>Matricula</th>
@@ -64,6 +64,8 @@
 		<th>Estado Cálculo Cobro</th>		
 		<th style="text-align:right">Importe</th>	
 	</tr>
+	<thead>
+	<tbody>
 <% 	
 	int numero = 0;
 	for(String alumno:lisAlumnos){
@@ -92,7 +94,16 @@
 	}
 
 %>		
+</tbody>
 	</table>		
 </div>
+<link rel="stylesheet" href="../../js-plugins/tablesorter/themes/blue/style.css" />
+<script src="../../js-plugins/tablesorter/jquery.tablesorter.js"></script>
 
+
+<script src="../../js/search.js"></script>
+<script>
+	$('#tableData').tablesorter();
+
+</script>
 <%@ include file= "../../cierra_elias.jsp" %>
