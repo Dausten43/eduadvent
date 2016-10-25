@@ -79,9 +79,12 @@
 		 String estadoCalculo 	= aca.fin.FinCalculo.getInscrito(conElias, cicloId, periodoId, alumno); 
 		 String estadoNombre 	= "";
 		 
+		 //C = es calculo de cobro
+	     //G = parece que es guardado el calculo de cobro
+	     //P = Con cobro inicial
 		 if (estadoCalculo.equals("C") || estadoCalculo.equals("N")) estadoNombre = "Abierto";		 
 		 if (estadoCalculo.equals("G")) estadoNombre = "Cerrado";
-		 if (estadoCalculo.equals("P")) estadoNombre = "Sin Cobro Inicial";
+		 if (estadoCalculo.equals("P")) estadoNombre = "Cerrado";
 		%>		
 			<tr>
 				<td><%=numero%></td>
