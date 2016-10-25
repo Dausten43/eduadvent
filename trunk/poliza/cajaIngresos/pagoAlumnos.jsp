@@ -79,7 +79,7 @@
 		 
 		 if (estadoCalculo.equals("C") || estadoCalculo.equals("N")) estadoNombre = "Abierto";		 
 		 if (estadoCalculo.equals("G")) estadoNombre = "Cerrado";
-		 if (estadoCalculo.equals("P")) estadoNombre = "Contabilizado";
+		 if (estadoCalculo.equals("P")) estadoNombre = "Sin Cobro Inicial";
 		%>		
 			<tr>
 				<td><%=numero%></td>
