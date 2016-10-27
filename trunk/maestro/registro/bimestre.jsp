@@ -42,7 +42,7 @@
 	String cicloId 				= (String) session.getAttribute("cicloId");
 	String cicloGrupoId 		= (String) request.getParameter("CicloGrupoId");
 	
-	String promedioId			= request.getParameter("Promedio")==null?"1":request.getParameter("Promedio");
+	String promedioId			= request.getParameter("Promedio")==null?"vacio":request.getParameter("Promedio");
 	String bloque 				= request.getParameter("bloque")==null?"0":request.getParameter("bloque");
 	String bloque2 				= request.getParameter("bloque2")==null?"0":request.getParameter("bloque2");
 	String strBgcolor 			= "";
@@ -59,6 +59,13 @@
 	// Lista de promedios en el ciclo
 	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
 	
+	if(promedioId.equals("vacio")){
+		if(lisPromedio.size() > 0){
+			aca.ciclo.CicloPromedio prom = (aca.ciclo.CicloPromedio) lisPromedio.get(0);
+			promedioId = prom.getPromedioId();
+		}else
+			promedioId="1"; //Solo como default, pero si lisPromedio viene vacío, entonces la pagina deberia fallar
+	}
 	// Lista de bloques o evaluaciones
 	ArrayList<aca.ciclo.CicloBloque> listBloques 		= ciclo.getListCiclo(conElias, cicloId, promedioId, "ORDER BY BLOQUE_ID");
 
