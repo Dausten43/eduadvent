@@ -99,7 +99,7 @@
 		
 		try{
 			//System.out.println(application.getRealPath());
-			String dir = application.getRealPath("/maestro/registro/")+"/"+"boleta.pdf";
+			String dir = application.getRealPath("/maestro/registro/")+"/"+"boleta"+cicloGrupoId+".pdf";
 			PdfWriter pdf = PdfWriter.getInstance(document, new FileOutputStream(dir));
 			document.addAuthor("Sistema Escolar");
 	        document.addSubject("Boleta de "+alumPersonal.getNombre());
@@ -1083,7 +1083,7 @@
 		document.close();
 %>
 	<head>
-		<meta http-equiv='REFRESH' content='0; url=boleta.pdf'>
+		<meta http-equiv='REFRESH' content='0; url=boleta<%=cicloGrupoId %>.pdf'>
 	</head>
 <%
 	}else{
