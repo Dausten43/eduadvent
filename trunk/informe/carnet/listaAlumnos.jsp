@@ -178,6 +178,10 @@
 		
 		
 	})(jQuery)
+	
+	function descargaImagen(mat){
+		$(document.body).append('<iframe style="position: absolute; display:none; visibility:hidden" src="imagen.jsp?mat='+mat+'" />')
+	}
 </script>
 	<table class="table table-bordered" >
 		<tr>     
@@ -237,9 +241,10 @@
 		<%
 		if (foto.exists()){
 			String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
-			java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
+			//java.io.File f = new java.io.File(dirAlumnos+"/"+inscrito.getCodigoId())+".jpg");
 		%>
-		<a href="dirFoto" class="btn btn-success btn-xs" download="dirFoto"><i class="icon-download-alt icon-white"></i></a>
+		<!-- a href="../../portal/maestro/imagen.jsp?mat=<%=inscrito.getCodigoId() %>" class="btn btn-success btn-xs"><i class="icon-download-alt icon-white"></i></a -->
+		<a href="#" onclick="descargaImagen('<%=inscrito.getCodigoId() %>');" class="btn btn-success btn-xs"><i class="icon-download-alt icon-white"></i></a>
 		<%	
 		}
 		%>
