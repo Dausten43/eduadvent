@@ -244,7 +244,7 @@
 			//java.io.File f = new java.io.File(dirAlumnos+"/"+inscrito.getCodigoId())+".jpg");
 		%>
 		<!-- a href="../../portal/maestro/imagen.jsp?mat=<%=inscrito.getCodigoId() %>" class="btn btn-success btn-xs"><i class="icon-download-alt icon-white"></i></a -->
-		<a href="#" onclick="descargaImagen('<%=inscrito.getCodigoId() %>');" class="btn btn-success btn-xs"><i class="icon-download-alt icon-white"></i></a>
+		<a href="javascript:void(0)" onclick="descargaImagen('<%=inscrito.getCodigoId() %>');" class="btn btn-success btn-xs"><i class="icon-download-alt icon-white"></i></a>
 		<%	
 		}
 		%>
