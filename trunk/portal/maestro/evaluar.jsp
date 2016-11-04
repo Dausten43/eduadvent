@@ -9,6 +9,7 @@
 <%@ include file="../../head.jsp"%>
 <%@ include file= "../../menu.jsp" %>
 
+
 <jsp:useBean id="empPersonal" scope="page" class="aca.empleado.EmpPersonal" />
 <jsp:useBean id="cicloGrupoEvalLista" scope="page" class="aca.ciclo.CicloGrupoEvalLista" />
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista" />
@@ -151,7 +152,18 @@
 			$this.siblings('div').hide();//Esconde la calificacion
 			$this.fadeIn(300);//Muestra el input con la calificacion
 		});
+		
 	}
+	
+	<script>
+	(function(){
+	  console.log('loaded');
+	('a').click(function()
+	    {
+	         return (this).attr('disabled') false : true;
+	    });
+	
+	
 	
 	/*
 	 * BORRA EXTRA 3
@@ -325,6 +337,8 @@
 /* ********************************** ACCIONES ********************************** */
 	String msj = request.getParameter("msj")==null?"":request.getParameter("msj");	
 
+	System.out.println(lisKardexAlumnos);
+	System.out.println(lisKardexAlumnosExtra);
 
 
 
@@ -1225,11 +1239,12 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 									<%=eval.getEvaluacionNombre()%>
 								</a> 
 							<%}else {
-		 						if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A") && !materiaMadreP) {%> 
-									<a href="javascript:muestraInput('<%=eval.getEvaluacionId()%>');">
-										<%=eval.getEvaluacionNombre()%>
-									</a> 
-									<%
+								if (cicloGrupoCurso.getEstado().equals("2") && eval.getEstado().equals("A") && !materiaMadreP) {%> 
+								<a href="javascript:muestraInput('<%=  eval.getEvaluacionId()%>');">
+									<%=eval.getEvaluacionNombre()%>
+									
+								</a> 
+								<%
 									/* Busca si tiene materias derivadas y si encuentra alguna muestra el boton para promediarlas */
 									if(listaMateriasDerivadas.size() > 0 && nivelEvaluacion.equals("E")){
 %>
@@ -1795,15 +1810,14 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
  								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
  								kardexAlumnoExtra.setCursoId(cursoId);
  								kardexAlumnoExtra.setOportunidad("1");
-
+ 								
 								if (kardexAlumnoExtra.existeReg(conElias)) {
 									kardexAlumnoExtra.mapeaRegId(conElias, kardex.getCodigoId(), cicloGrupoId, cursoId, "1");
 									strExtra 			= kardexAlumnoExtra.getNotaExtra();
 									promedioFinalExtra 	= kardexAlumnoExtra.getPromedio();
  								} else {
  									strExtra = "-";
- 								}																							
-								
+ 								}				
 							}							
 						%>
 							<td class="text-center">
@@ -2090,11 +2104,12 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 					if(lisTodosLosExtras.size() >= 1 && muestraBotonGuardarExtra){
 					%>
 					<td>&nbsp;</td>
-					<!-- BOTON DE NOTA EXTRA -->
+					<!-- BOTON DE NOTA EXTRA 1-->
 					<td class="text-center">
 						<div class="editarExtra" style="display:none;">
 							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-primary btn-block" type="button" href="javascript:guardarExtra();"><fmt:message key="boton.Guardar" /></a> 	
 							<a tabindex="<%=lisKardexAlumnosExtra.size() %>" class="btn btn-danger btn-block" type="button" href="javascript:borrarExtra();"><fmt:message key="boton.Eliminar" /></a>
+							
 						</div>
 					</td>
 					<%
@@ -2154,7 +2169,10 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 						</td>						
 					<%	
 					} 
-					%>				
+					%>	
+					<%
+						
+					%>			
 				</tr>
 		</table>
 	</form>
