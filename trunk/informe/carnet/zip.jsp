@@ -12,7 +12,7 @@
 <%
 	boolean error 		= false;
 
-	String dir				= application.getRealPath("/alumno/respaldo")+"/";
+	String dir				= application.getRealPath("informe/carnet")+"/";
 	String fechaIni			= request.getParameter("fechaIni");
 	String fechaFin			= request.getParameter("fechaFin");
 	String escuelaId		= (String) session.getAttribute("escuela");
