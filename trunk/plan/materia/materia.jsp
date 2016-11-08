@@ -98,7 +98,7 @@
 	<%} %>
 	</th>	
 	<th width="3%"><fmt:message key="aca.TipoCurso" /></th>
-	<th width="3%"><fmt:message key="aca.HabilidadesyActitudes" /></th>
+	<th width="3%"><fmt:message key="aca.HabitosyActitudes" /></th>
   </tr>
 <%
 	ArrayList<aca.plan.PlanCurso> lisCurso		= PlanCursoLista.getListCurso(conElias, strPlanId, " ORDER BY GRADO, ORDEN");
