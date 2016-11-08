@@ -200,7 +200,7 @@
 					  <td align="left"><%= inscrito.getEmail()%></td>
 					  <td align="left"><%= inscrito.getCorreo()%></td>
 					  <td align="left"><%= inscrito.getIglesia()%></td> 
-					  <td align="left"><%= Personal.getNombre()+" "+Personal.getAmaterno() %></td> 
+					  <td align="left"><%= Personal.getNombre()+" " +Personal.getApaterno()+" " +Personal.getAmaterno() %></td> 
 					  <td align="left"><%= Personal.getOcupacion()%></td> 
 				</tr> 				
 <% 				
