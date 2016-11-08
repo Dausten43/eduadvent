@@ -308,9 +308,20 @@
 						</div>
 						<div class="control-group ">
 							<label for="Estado"> <fmt:message key="aca.Estado" />: </label> <%//System.out.println((String) session.getAttribute("cicloId")+" "+ cursoId) ;%>
-							<select name="Estado" id="Estado" <%if( aca.plan.PlanCurso.existeReg(conElias, cursoId, cicloId) && aca.ciclo.Ciclo.getCicloActivo(conElias, cicloId)){out.print("disabled");}%>>
-								<option value="A" <%if (Curso.getEstado().equals("A")) out.print("selected=\"selected\"");%>><fmt:message key="aca.Activo" /></option>
-								<option value="I" <%if (Curso.getEstado().equals("I")) out.print("selected=\"selected\"");%>><fmt:message key="aca.Inactivo" /></option>
+<%
+					if( aca.plan.PlanCurso.existeReg(conElias, cursoId, cicloId) && aca.ciclo.Ciclo.getCicloActivo(conElias, cicloId)){
+%>
+							<input type="hidden" name="Estado" id="Estado" value="<%=Curso.getEstado()==null?"A":Curso.getEstado() %>" />
+							<select disabled>
+<%
+					}else{
+%>
+							<select name="Estado" id="Estado">
+<%
+					}
+%>
+								<option value="A" <%if (Curso.getEstado()==null?false:Curso.getEstado().equals("A")) out.print("selected=\"selected\"");%>><fmt:message key="aca.Activo" /></option>
+								<option value="I" <%if (Curso.getEstado()==null?false:Curso.getEstado().equals("I")) out.print("selected=\"selected\"");%>><fmt:message key="aca.Inactivo" /></option>
 							</select>
 						</div>
 						<div class="control-group ">
