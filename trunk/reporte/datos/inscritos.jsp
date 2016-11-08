@@ -204,7 +204,8 @@
 					  <td align="left"><%= Personal.getOcupacion()%></td> 
 				</tr> 				
 <% 				
-  				}
+				Personal.setNombre(" "); Personal.setApaterno(" "); Personal.setAmaterno(" "); Personal.setOcupacion(" ");
+						}
   			}
 %>
   			</table>
