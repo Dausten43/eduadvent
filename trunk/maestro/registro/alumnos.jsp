@@ -4,12 +4,17 @@
 <%@ include file="../../head.jsp"%>
 <%@ include file="../../menu.jsp"%>
 <%@page import="aca.catalogo.CatParametro"%>
+<%@page import="aca.ciclo.CicloPromedio"%>
+<%@page import="aca.ciclo.CicloGrupoEval"%>
 
 <jsp:useBean id="Grupo" scope="page" class="aca.ciclo.CicloGrupo" />
 <jsp:useBean id="CursoActLista" scope="page" class="aca.kardex.KrdxCursoActLista" />
 <jsp:useBean id="catParametro" scope="page" class="aca.catalogo.CatParametro" />
 <jsp:useBean id="cicloPromedio" scope="page" class="aca.ciclo.CicloPromedio"/>
 <jsp:useBean id="cicloPromedioU" scope="page" class="aca.ciclo.CicloPromedioLista"/>
+<jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="cicloGrupoEvalLista" scope="page" class="aca.ciclo.CicloGrupoEvalLista" />
+<jsp:useBean id="BloqueLista" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 
 <script>
 	function notas(cicloGrupoId, codigoAlumno) {
@@ -41,6 +46,7 @@
 	
 	Grupo.setCicloGrupoId(cicloGrupoId);
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
+	ciclo.mapeaRegId(conElias, cicloId);
 	
 	String metodo 		= aca.catalogo.CatNivel.getMetodo(conElias, Integer.parseInt(Grupo.getNivelId()));
 	
@@ -82,20 +88,43 @@
 		}
 		if(tipoBoleta.equals("3")){
 %>
-		<form action="boletaPanama.jsp" method="get">
-		<div style ='margin:20px 0;'>
-		<input type="checkbox" class="check" id="checkAll" checked>&nbsp TODOS &nbsp
-		<input type="hidden" id="cicloGrupoId" name="cicloGrupoId" value='<%=cicloGrupoId%>' />
+		<table>
+			<tr>
+				<td valign="bottom">
+					<form action="boletaPanama.jsp" method="get">
+						<div style ='margin:20px 0;'>
+							Selecciona los periodos a imprimir <br />
+							<input type="checkbox" class="check" id="checkAll" checked>&nbsp Todos &nbsp<br /><br />
+							<input type="hidden" id="cicloGrupoId" name="cicloGrupoId" value='<%=cicloGrupoId%>' />
 <%
-			ArrayList<aca.ciclo.CicloPromedio>  cicloPromedioList	= cicloPromedioU.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
-			for(int x = 0; x<cicloPromedioList.size();x++){
-				out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cicloPromedioList.get(x).getPromedioId()+"'  name='"+cicloPromedioList.get(x).getNombre()+"' value='"+cicloPromedioList.get(x).getPromedioId()+"'checked> &nbsp"+cicloPromedioList.get(x).getNombre()+"</p>");
+			if(ciclo.getNivelEval().equals("P")){
+				ArrayList<CicloPromedio>  cicloPromedioList	= cicloPromedioU.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
+				for(CicloPromedio cp: cicloPromedioList){
+							out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cp.getPromedioId()+"'  name='"+cp.getNombre()+"' value='"+cp.getPromedioId()+"'checked> &nbsp"+cp.getNombre()+"</p><br />");
+				}
+				/*for(int x = 0; x<cicloPromedioList.size();x++){
+					out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cicloPromedioList.get(x).getPromedioId()+"'  name='"+cicloPromedioList.get(x).getNombre()+"' value='"+cicloPromedioList.get(x).getPromedioId()+"'checked> &nbsp"+cicloPromedioList.get(x).getNombre()+"</p><br />");
+				}*/
+			}else if(ciclo.getNivelEval().equals("E")){
+				//ArrayList <CicloGrupoEval> listaCicloGrupoEval = cicloGrupoEvalLista.getEvalGrupo(conElias, cicloGrupoId, "ORDER BY CICLO_GRUPO_ID, ORDEN");
+				ArrayList<aca.ciclo.CicloBloque> lisBloque 			= BloqueLista.getListCiclo(conElias, cicloId, " ORDER BY ORDEN, BLOQUE_ID");
+				for(aca.ciclo.CicloBloque cb: lisBloque){
+					out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cb.getBloqueId()+"'  name='"+cb.getBloqueNombre()+"' value='"+cb.getBloqueNombre()+"'checked> &nbsp"+cb.getBloqueNombre()+"</p><br />");
+				}
 			}
-%>		</div>
-		<button type="submit" class="btn btn-info" ><fmt:message key="boton.ImprimirBoletaPanama" /></button>
-		<!-- <a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a> -->
-		<a class="btn btn-info" href="boletaPanamaPreKinder.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanamaPreKinder" /></a>
-		</form>
+%>		
+							<button type="submit" class="btn btn-info" ><fmt:message key="boton.ImprimirBoletaPanama" /></button>
+						</div>
+					</form>
+					<!-- <a class="btn btn-info" href="boletaPanama.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanama" /></a> -->
+				</td>
+				<!--  td valign="bottom">
+					<div style ='margin:20px 0;'>
+						<a class="btn btn-info" href="boletaPanamaPreKinder.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoletaPanamaPreKinder" /></a>
+					</div>
+				</td -->
+			</tr>
+		</table>
 <%
 		}
 %>

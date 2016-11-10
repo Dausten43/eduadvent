@@ -204,7 +204,31 @@ public class PlanCursoLista {
 		return esMateriaMadre;
 	}
 	
-
+	public static boolean esMateriaMadreDeIngles( Connection conn, String cursoBase) throws SQLException, Exception{
+		boolean esMateriaMadreDeIngles 	= true;
+		ResultSet 		rs		= null;
+		PreparedStatement ps	= null;	
+		
+		try{
+			ps = conn.prepareStatement("SELECT COUNT(*) AS TOTAL FROM PLAN_CURSO"
+					+ " WHERE CURSO_BASE = ?"
+					+ " AND TIPOCURSO_ID = 3");					
+			ps.setString(1, cursoBase);
+			rs = ps.executeQuery();
+			while (rs.next()){
+				if(rs.getString("TOTAL").equals("0")){
+					esMateriaMadreDeIngles=false;
+				}
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.plan.PlanCursoLista|esMateriaMadreDeIngles|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}			
+		return esMateriaMadreDeIngles;
+	}
 		
 	
 	public static HashMap<String,PlanCurso> mapPlanCursos(Connection conn, String planId ) throws SQLException{

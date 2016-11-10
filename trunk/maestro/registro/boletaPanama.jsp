@@ -906,6 +906,7 @@
 			    				}*/
 			    				float sumaNotas = 0f;
 			    				int trimestresConNota = 0;
+			    				boolean esMateriaMadreDeIngles = aca.plan.PlanCursoLista.esMateriaMadreDeIngles(conElias, curso.getCursoId());
 			    				if(ciclo.getNivelEval().equals("P")){
 				 					for(int l = 0; l < cicloPromedioList.size(); l++){
 										cicloPromedio = (CicloPromedio) cicloPromedioList.get(l);
@@ -942,11 +943,19 @@
 										//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+" materiasSinNota[l] = "+materiasSinNota[l]);
 										//System.out.println(cicloPromedioList.get(l).getPromedioId());
 										//System.out.println(request.getParameter(cicloPromedioList.get(l).getNombre()));
-									
-										celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-										celda.setBorder(0);
-						 				tabla.addCell(celda);
+										
+										//No muestra la nota del trimestre si tiene hijas que sean de ingles
+										if(esMateriaMadreDeIngles){
+											celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+											celda.setBorder(0);
+							 				tabla.addCell(celda);
+										}else{
+											celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+											celda.setBorder(0);
+							 				tabla.addCell(celda);
+										}
 									}
 								}else if(ciclo.getNivelEval().equals("E")){
 									//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
@@ -955,7 +964,10 @@
 										if(cge.getCicloGrupoId().equals(cicloGrupoId) &&
 												cge.getCursoId().equals(curso.getCursoId())){
 											String valor = "--";
-											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno)){
+											
+											boolean show = cge.getEvaluacionNombre().equals(request.getParameter(cge.getEvaluacionNombre()));
+											
+											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno) && show){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
 												sumaNotas += Float.parseFloat(valor);
 												if(curso.getCursoBase().equals("-"))//Si es materia madre o materia sin hijas
@@ -980,12 +992,20 @@
 												}
 											}
 											
+											//No muestra la nota del trimestre si tiene hijas que sean de ingles
+											if(esMateriaMadreDeIngles){
+												celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+												celda.setBorder(0);
+								 				tabla.addCell(celda);
+											}else{
+												celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+												celda.setBorder(0);
+								 				tabla.addCell(celda);
+											}
 											
 											
-											celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-											celda.setBorder(0);
-							 				tabla.addCell(celda);
 							 				contador++;
 										}
 									}
@@ -993,27 +1013,34 @@
 			    				
 			    				boolean estanTodasCerradas = CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, alumnoCurso.getCursoId());
 			    				
+			    				String nota;
 			    				if(!estanTodasCerradas){
-			    					String nota = "0";
+			    					nota = "0";
 			    					//System.out.println("float calculo = "+sumaNotas+"/"+trimestresConNota+";");
 			    					float calculo = sumaNotas>0?sumaNotas/trimestresConNota:0f;
 			    					nota = String.valueOf(calculo);
 			    					// Colocar formato con una decimal
 			    					nota = frm3.format(Double.parseDouble(nota));
-			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
+			    					
 			    				}else{
-			    					String nota = "0a";
+			    					nota = "0a";
 			    					float calculo = sumaNotas>0?sumaNotas/cantidadTrimestres:0f;
 			    					nota = String.valueOf(calculo);
 			    					nota = frm3.format(Double.parseDouble(nota));
-			    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+			    				}
+			    				
+			    				//No muestra la nota del trimestre si tiene hijas que sean de ingles
+			    				if(esMateriaMadreDeIngles){
+			    					celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
-			    				}
+								}else{
+									celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+		    						celda.setBorder(0);
+				    				tabla.addCell(celda);
+								}
 			    		        /*if(!estanTodasCerradas){
 			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
