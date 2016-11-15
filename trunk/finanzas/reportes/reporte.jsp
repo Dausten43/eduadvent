@@ -112,7 +112,7 @@
 				  <td><%= inscrito.getApaterno()+" "+inscrito.getAmaterno()+", "+inscrito.getNombre()%></td>
 				  <td><%= grado%></td>
 				  <td><%= grupo%></td>
-				  <td><%=formato.format(total) %></td>
+				  <td style="text-align: right;"><%=formato.format(total) %></td>
 				  
 				</tr>
 				

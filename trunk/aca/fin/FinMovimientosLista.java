@@ -524,12 +524,12 @@ public class FinMovimientosLista {
 		String comando				= "";
 
 		try{
-			comando = "	SELECT AUXILIAR, SUM(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) AS SALDO" +
-					  " FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = '"+escuelaId+"' GROUP BY AUXILIAR";
+			comando = "SELECT codigo_id, escuela_id, nivel_id, grado, grupo, saldo " +
+					" FROM alumno_saldo WHERE escuela_id = '"+escuelaId+"' ";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
-				map.put(rs.getString("AUXILIAR"), rs.getString("SALDO"));
+				map.put(rs.getString("codigo_id"), rs.getString("SALDO"));
 			}
 			
 		}catch(Exception ex){
