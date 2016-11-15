@@ -22,13 +22,13 @@
 	ArrayList lisAlumno	 	= new ArrayList();
 		
 	String sAccion			= request.getParameter("Accion");
-	if (sAccion == null) sAccion = "1";
-	int nAccion 			= Integer.parseInt(sAccion);	
+	if (sAccion == null) sAccion = "0";
+	int nAccion 			= Integer.parseInt(sAccion);
 	String strResultado		= "OpcionConsulta";
 	String strBgcolor			= "";
 	String strNombre 			= ""; 
 	String strPaterno			= request.getParameter("Paterno")==null?"":request.getParameter("Paterno");
-	String strMaterno			= "";	
+	String strMaterno			= "";
 	
 	switch (nAccion){
 		case 1:{
@@ -116,7 +116,8 @@
 				}
 
 				if(alumPadres.insertReg(conElias)){
-					sResultado = "AlumnoGuardadoCorrectamente";
+					sResultado = "AlumnoGuardadoCorrectamente";	
+					//javascript location.href = 'accion_p.jsp?resultado='request
 				}else{
 					sResultado = "ErrorGuardadoAlumno";
 				}
