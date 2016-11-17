@@ -16,49 +16,7 @@
 <jsp:useBean id="MovsSunPlusL" scope="page" class="aca.sunplus.AdvASalfldgLista"/>
 <jsp:useBean id="CatParametro" scope="page"	class="aca.catalogo.CatParametro" />
 <jsp:useBean id="escuela" scope="page"	class="aca.catalogo.CatEscuela" />
-<style>
-@page {
-	margin-top: 0.3cm;
-	margin-left: 0.3cm;
-	margin-right: 0.3cm;
-	margin-bottom: 0.3cm;
-}
 
-@media print  {
-	.encabezado {
-		border-bottom: double 0.3em;
-	}
-	.totalFinal {
-		border-top: double 0.3em;
-	}
-	.headerTabla {
-		border-top: solid 0.2em black;
-		border-bottom: solid 0.2em black;
-	}
-	table{
-		border-spacing: 0px;
-	}
-	
-	table tr td{
-		border-bottom: 0.1em solid gray;
-		padding: 0px;
-		
-	}
-	table tr th{
-		border-bottom: 0.2em solid black;
-		border-left: 0em;
-		border-right: 0em;
-		border-top:  0em;
-		overflow: hidden;
-	}
-	
-	.movimientos{
-		font-size: 10px;
-		
-	}
-	
-}
-</style>
 <link rel="stylesheet" href="../../bootstrap/datepicker/datepicker.css" />
 <script type="text/javascript" src="../../bootstrap/datepicker/datepicker.js"></script>
 <%
@@ -112,7 +70,7 @@
 		<small> <%=codigoId %> | <%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %> <%=AlumPersonal.getNombre() %></small>
 		</center>
 	</h2>
-	<form name="frmEstado" id="frmEstado" method="post" action="estado_cuenta.jsp" class="hidden-print">
+	<form name="frmEstado" id="frmEstado" method="post" action="estado_cuenta.jsp">
 		<div class="well">
 			Fecha Inicio: <input type="text" style="width:100px;"  data-date-format="dd/mm/yyyy" id="fechaInicio" name="fechaInicio" value="<%=fechaInicio%>"/>
 			Fecha Final: <input type="text"  style="width:100px;" data-date-format="dd/mm/yyyy" id="fechaFinal" name="fechaFinal" value="<%=fechaFinal%>"/>
@@ -144,17 +102,18 @@
 	<h4>eduAdvent</h4>
 	<table class="table table-condensed table-bordered table-striped">
 		<thead>
-			<tr class="headerTabla">
+			<tr>
 				<th>Poliza</th>
+				<th>#</th>				
 				<th>Fecha</th>
-				
-				
+				<th>Cuenta</th>
+				<th>Recibo</th>
 				<th>Descripción</th>
-					
+				<th>Referencia</th>						
 				<th class="text-right">Débito</th>
 				<th class="text-right">Crédito</th>
 				<th class="text-right">Saldo</th>
-				<th class="text-right hidden-print">Estado</th>
+				<th class="text-right">Estado</th>
 			</tr>
 		</thead>
 	<%
@@ -167,14 +126,14 @@
 		
 		// Línea del saldo anterior
 		if(lisMovimientos.size() > 0){
-			out.print("<tr class=\"movimientos\">");
+			out.print("<tr>");
 			out.print("<td align='center'>-</td>");
-			
-			
-			
+			out.print("<td align='center'>0</td>");
+			out.print("<td align='center'>-</td>");			
+			out.print("<td align='center'>-</td>");
 			out.print("<td align='center'>-</td>");
 			out.print("<td align='center'><b>Saldo Anterior</b></td>");
-			
+			out.print("<td align='center'>-</td>");
 			if (saldoNum>0){
 				out.print("<td>&nbsp;</td>");
 				out.print("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
@@ -183,7 +142,7 @@
 				out.print("<td>&nbsp;</td>");
 			}
 			out.println("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
-			out.println("<td class='text-right hidden-print'>"+signoSaldo+"</td>");
+			out.println("<td class='text-right'>"+signoSaldo+"</td>");
 			out.println("</tr>");
 		}
 		float total = (float)saldoNum;			
@@ -196,22 +155,24 @@
 			}
 			
 			if(movto.getNaturaleza().equals("D")){
-				total += Float.parseFloat(movto.getImporte());
-			}else{
 				total -= Float.parseFloat(movto.getImporte());
+			}else{
+				total += Float.parseFloat(movto.getImporte());
 			}
-			signoSaldo	= total>=0?"Deudor":"Acreedor"; 
+			signoSaldo	= total>=0?"Crédito":"Débito"; 
 	%>
-		<tr class="movimientos">
+		<tr>
 			<td><%=movto.getPolizaId() %></td>
+			<td><%=i+1 %></td>
 			<td><%=movto.getFecha() %></td>
-			
+			<td><%=movto.getCuentaId() %>
+			<td><%=movto.getReciboId() %>
 			<td><%=movto.getDescripcion() %></td>
-				
+			<td><%=movto.getReferencia() %></td>						
 			<td class="text-right"><%=movto.getNaturaleza().equals("D")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=movto.getNaturaleza().equals("C")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=formato.format(total) %></td>
-			<td class="text-right hidden-print" <%=total>=0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%> <%=formato.format(total>=0 ? total : total*-1 )%></td>
+			<td class="text-right" <%=total<0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%> <%=formato.format(total)%></td>
 		</tr>
 	<%
 		}			

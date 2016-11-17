@@ -17,7 +17,7 @@ public class AlumnoSaldoLista {
 		String comando		= "";
 		
 		try{
-			comando = "SELECT * FROM ALUMNO_SALDO WHERE ESCUELA_ID='"+escuelaId+"' AND SALDO < 0 ORDER BY NIVEL_ID, GRADO, GRUPO, ALUM_APELLIDO(CODIGO_ID)";
+			comando = "SELECT * FROM ALUMNO_SALDO WHERE ESCUELA_ID='"+escuelaId+"' AND SALDO <> 0 ORDER BY NIVEL_ID, GRADO, GRUPO, ALUM_APELLIDO(CODIGO_ID)";
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -45,7 +45,7 @@ public class AlumnoSaldoLista {
 		String llave		= "";
 		
 		try{
-			comando = "SELECT * FROM ALUMNO_SALDO WHERE ESCUELA_ID='"+escuelaId+"' AND SALDO < 0 ORDER BY NIVEL_ID, GRADO, GRUPO, ALUM_APELLIDO(CODIGO_ID)";
+			comando = "SELECT * FROM ALUMNO_SALDO WHERE ESCUELA_ID='"+escuelaId+"' AND SALDO <> 0 ORDER BY NIVEL_ID, GRADO, GRUPO, ALUM_APELLIDO(CODIGO_ID)";
 			rs = st.executeQuery(comando);			
 			while (rs.next()){				 
 				AlumnoSaldo ac = new AlumnoSaldo();		

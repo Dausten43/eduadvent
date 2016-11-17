@@ -1,75 +1,126 @@
-<%@ include file= "../../con_elias.jsp" %>
-<%@ include file= "id.jsp" %>
-<%@ include file= "../../seguro.jsp" %>
-<%@ include file= "../../head.jsp" %>
-<%@ include file= "../../menu.jsp" %>
+<%@page import="aca.vista.AlumnoSaldo"%>
+<%@page import="java.util.List"%>
+<%@ include file="../../con_elias.jsp"%>
+<%@ include file="id.jsp"%>
+<%@ include file="../../seguro.jsp"%>
+<%@ include file="../../head.jsp"%>
+<%@ include file="../../menu.jsp"%>
 <%@page import="aca.fin.FinMovimiento"%>
-<jsp:useBean id="AlumnoL" scope="page" class="aca.alumno.AlumPersonalLista"/>
-<jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
-<jsp:useBean id="AlumSaldoL" scope="page" class="aca.vista.AlumnoSaldoLista"/>
+<jsp:useBean id="AlumnoL" scope="page"
+	class="aca.alumno.AlumPersonalLista" />
+<jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo" />
+<jsp:useBean id="AlumSaldoL" scope="page"
+	class="aca.vista.AlumnoSaldoLista" />
 
 
 <%@page import="java.util.HashMap"%>
-<% 
-	String escuelaId		= (String) session.getAttribute("escuela");
-	String ejercicioId		= (String) session.getAttribute("ejercicioId");
-	String ciclo			= request.getParameter("ciclo")==null?aca.ciclo.Ciclo.getCargaActual(conElias,escuelaId):request.getParameter("ciclo");
+<%
+	String escuelaId = (String) session.getAttribute("escuela");
+		String ejercicioId = (String) session.getAttribute("ejercicioId");
+		String ciclo = request.getParameter("ciclo") == null
+				? aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId) : request.getParameter("ciclo");
 
-	String nivel 	="-";
-	String grado 	= "-";
-	String grupo 	= "-";
-	int cont		= 1;	
-	// Lista de Alumnos deudores
-	ArrayList <aca.vista.AlumnoSaldo> listAlumSaldo		= AlumSaldoL.getListAll(conElias, escuelaId);	
-	HashMap<String, aca.vista.AlumnoSaldo> mapAlumSaldo	= AlumSaldoL.mapAlumSaldo(conElias, escuelaId);
+		String nivel = "-";
+		String grado = "-";
+		String grupo = "-";
+		int cont = 1;
+		// Lista de Alumnos deudores
+		ArrayList<aca.vista.AlumnoSaldo> listAlumSaldo = AlumSaldoL.getListAll(conElias, escuelaId);
+		//HashMap<String, aca.vista.AlumnoSaldo> mapAlumSaldo = AlumSaldoL.mapAlumSaldo(conElias, escuelaId);
+		
+		List<String> lsNgg = new ArrayList();
+
+		
+		for(AlumnoSaldo sa : listAlumSaldo){
+			if(!lsNgg.contains(sa.getNivelId() + "-" + sa.getGrado() + "-" + sa.getGrupo())){
+				lsNgg.add(sa.getNivelId() + "-" + sa.getGrado() + "-" + sa.getGrupo());
+			}
+			
+		}
+		
 %>
 
-<div id="content">	
-	<h2>Alumnos con deuda</h2>
+<div id="content">
+	<h2>Alumnos con Saldo</h2>
 	<form name="forma" action="reporte_deudor.jsp" method='post'>
 		<div class="well">
-		<a href="menu.jsp" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
-		 </div>
-	 </form>
-<% 	
+			<a href="menu.jsp" class="btn btn-primary"><i
+				class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
+		</div>
+	</form>
 	
-	for(int i=0; i<listAlumSaldo.size(); i++){
-		if(!nivel.equals(listAlumSaldo.get(i).getNivelId())){
-		nivel=listAlumSaldo.get(i).getNivelId();
-		if(i>=1){
-			out.print("</table>");
-		}
-		out.print("<div class='alert alert-info'>Nivel:"+nivel+"</div>");
-		grado="-";
-		grupo="-";
-		}
-		System.out.println(grado+" "+listAlumSaldo.get(i).getGrado()+grupo+" "+listAlumSaldo.get(i).getGrupo());
-		if(!grado.equals(listAlumSaldo.get(i).getGrado())||!grupo.equals(listAlumSaldo.get(i).getGrupo())){
-				grado=listAlumSaldo.get(i).getGrado();
-				grupo = listAlumSaldo.get(i).getGrupo();
-				if (!grupo.equals(listAlumSaldo.get(i).getGrupo())){
-					out.print("</table>");
-				}
-				out.print("</table><div class='alert' >Grado: "+grado+" Grupo: "+grupo+"</div>");
+	<table class="table  table-fontsmall table-striped" style="width: 80%;">
+	<%
+	BigDecimal stotald = BigDecimal.ZERO;
+	BigDecimal stotala = BigDecimal.ZERO;
 	
-%>
-			<table class="table  table-fontsmall table-striped">
-				<tr>
-				    <th>#</th>
-				    <th>Matr&iacute;cula</th> 
-				    <th>Nombre</th>
-				    <th style="text-align:right">Saldo</th>
-				 </tr>
-<%			}%> 
-		<tr>
-		  <td width="5%"><%=cont%></td>
-		  <td width="10%"><%=listAlumSaldo.get(i).getCodigoId()%></td>
-		  <td width="50%"><%=aca.alumno.AlumPersonal.getNombre(conElias, listAlumSaldo.get(i).getCodigoId(), "APELLIDO")%></td>
-		  <td width="10%" style="text-align:right"><%=listAlumSaldo.get(i).getSaldo() %></td>	 
+	for(String encabezado : lsNgg){
+		String[] split = encabezado.split("-");
+	%>
+	<thead>
+		<tr class="alert">
+			<th colspan="5" >Nivel:<%= split[0] %> Grado:<%= split[1] %> Grupo<%= split[2] %></th>
 		</tr>
-<%
-cont++;}%>
+		<tr>
+			<th>#</th>
+			<th>Matr&iacute;cula</th>
+			<th>Nombre</th>
+			<th style="width: 8%;">Saldo D</th>
+			<th style="width: 8%;">Saldo A</th>
+			
+		</tr>
+		</thead>
+		<%
+			BigDecimal totald = BigDecimal.ZERO;
+			BigDecimal totala = BigDecimal.ZERO;
+			
+			
+			
+			
+			
+			int conta =0;
+			for(AlumnoSaldo sa : listAlumSaldo){
+				if(encabezado.equals(sa.getNivelId() + "-" + sa.getGrado() + "-" + sa.getGrupo())){
+					
+					BigDecimal salAc = BigDecimal.ZERO;
+					salAc = salAc.add(new BigDecimal(sa.getSaldo().toString()).compareTo(BigDecimal.ZERO)<0 ? new BigDecimal(sa.getSaldo().toString()).abs() : BigDecimal.ZERO);
+					
+				conta++;
+				totald = totald.add(new BigDecimal(new BigDecimal(sa.getSaldo().toString()).compareTo(BigDecimal.ZERO)>=0 ? sa.getSaldo() : "0"));
+				totala = totala.add(salAc);
+				
+				stotald = stotald.add(new BigDecimal(new BigDecimal(sa.getSaldo().toString()).compareTo(BigDecimal.ZERO)>=0 ? sa.getSaldo() : "0"));
+				stotala = stotala.add(salAc);
+		%>
+		<tr>
+			<td><%= conta %></td>
+			<td><%= sa.getCodigoId() %></td>
+			<td><%= aca.alumno.AlumPersonal.getNombre(conElias, sa.getCodigoId(),"APELLIDO") %></td>
+			<td style="text-align: right;"><%= new BigDecimal(sa.getSaldo()).compareTo(BigDecimal.ZERO)>=0 ? sa.getSaldo() : "" %></td>
+			<td style="text-align: right;"><%= salAc.compareTo(BigDecimal.ZERO)!=0 ? salAc : "" %></td>
+		</tr>
+		<%
+				}
+			}
+		%>
+		
+		<tr>
+			<td colspan="3"  style="text-align: right;">Total</td>
+			<td style="text-align: right;"><strong><%= totald %></strong></td>
+			<td style="text-align: right;"><strong><%= totala %></strong></td>
+		</tr>
+	<%
+	}
+	%>
+	<tr>
+			<td colspan="3"  style="text-align: right;">Gran Total</td>
+			<td style="text-align: right;"><strong><%= stotald %></strong></td>
+			<td style="text-align: right;"><strong><%= stotala %></strong></td>
+		</tr>
+	</table>
+	
+	
+	
+		</div>
 
-</div>
-
-<%@ include file="../../cierra_elias.jsp" %>
+		<%@ include file="../../cierra_elias.jsp"%>
