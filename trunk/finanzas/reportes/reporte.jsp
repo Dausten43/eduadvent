@@ -35,7 +35,7 @@
 	ArrayList lisInscritos = AlumnoL.getListAlumnosInscritos(conElias,escuelaId,ciclo, " ORDER BY NIVEL_ID,GRADO,GRUPO,APATERNO,AMATERNO,NOMBRE");	
 	
 	HashMap<String, aca.alumno.AlumCiclo > mapaGradoGrupo =   aca.alumno.AlumCicloLista.getMapHistoria(conElias, "");
-	HashMap<String, String> mapaSaldo =  finMovimientosL.getMapSaldos(conElias, escuelaId);	
+	HashMap<String, String> mapaSaldo =  finMovimientosL.getMapSaldos(conElias, escuelaId);	// eeste querry se cambio
 %>
 <style>
 	body{

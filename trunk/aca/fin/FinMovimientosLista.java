@@ -523,7 +523,7 @@ public class FinMovimientosLista {
 		ResultSet rs 				= null;
 		String comando				= "";
 
-		try{
+		try{//se cambio el query 
 			comando = "SELECT codigo_id, escuela_id, nivel_id, grado, grupo, saldo " +
 					" FROM alumno_saldo WHERE escuela_id = '"+escuelaId+"' ";
 			
