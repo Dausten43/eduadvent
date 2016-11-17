@@ -65,8 +65,8 @@
 			<th>#</th>
 			<th>Matr&iacute;cula</th>
 			<th>Nombre</th>
-			<th style="width: 8%;">Saldo D</th>
-			<th style="width: 8%;">Saldo A</th>
+			<th style="width: 8%;">Deudor</th>
+			<th style="width: 8%;">Acreedor</th>
 			
 		</tr>
 		</thead>
