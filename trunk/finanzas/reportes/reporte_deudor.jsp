@@ -59,7 +59,7 @@
 	%>
 	<thead>
 		<tr class="alert">
-			<th colspan="5" >Nivel:<%= split[0] %> Grado:<%= split[1] %> Grupo<%= split[2] %></th>
+			<th colspan="5" ><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, split[0]) %> - Grado:<%= split[1] %> - Grupo<%= split[2] %></th>
 		</tr>
 		<tr>
 			<th>#</th>

@@ -119,7 +119,7 @@
 			<a class="btn btn-success" onclick="javascript:document.frmEstado.submit();">Cargar fecha</a>
 		</div>
 	</form>
-	<a href="estado_cuenta_padre.jsp?fechaInicio=<%= fechaInicio %>&fechaFinal=<%= fechaFinal %>" class="btn btn-default hidden-print">Vista de Padre</a>
+	<a href="estado_cuenta.jsp?fechaInicio=<%= fechaInicio %>&fechaFinal=<%= fechaFinal %>" class="btn btn-default hidden-print">Vista de Escuela</a>
 	<hr />
 <%	if (usaSunPlus){  %>	
 	<h4>SunPlus</h4>
@@ -142,7 +142,7 @@
 	</table>
 <%	}%>
 	
-	<h4>eduAdvent vista escuela</h4>
+	<h4>eduAdvent vista padre</h4>
 	<table class="table table-condensed table-bordered table-striped">
 		<thead>
 			<tr class="headerTabla">
@@ -197,11 +197,11 @@
 			}
 			
 			if(movto.getNaturaleza().equals("D")){
-				total += Float.parseFloat(movto.getImporte());
-			}else{
 				total -= Float.parseFloat(movto.getImporte());
+			}else{
+				total += Float.parseFloat(movto.getImporte());
 			}
-			signoSaldo	= total>=0?"Deudor":"Acreedor"; 
+			signoSaldo	= total<0?"Deudor":"Acreedor"; 
 	%>
 		<tr class="movimientos">
 			<td><%=movto.getPolizaId() %></td>
@@ -212,7 +212,7 @@
 			<td class="text-right"><%=movto.getNaturaleza().equals("D")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=movto.getNaturaleza().equals("C")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=formato.format(total) %></td>
-			<td class="text-right hidden-print" <%=total>=0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%> <%=formato.format(total>=0 ? total : total*-1 )%></td>
+			<td class="text-right hidden-print" <%=total<0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%> <%=formato.format(total>=0 ? total : total*-1 )%></td>
 		</tr>
 	<%
 		}			
