@@ -13,11 +13,6 @@
 	function Guardar(){
 		
 		if( document.forma.Cliente.value 		!= "" && 
- 			document.forma.Domicilio.value 		!= "" &&
- 			document.forma.Cheque.value 		!= "" && 
- 			document.forma.Banco.value 			!= "" &&
- 			document.forma.Observaciones.value 	!= "" &&
- 			document.forma.rfc.value 			!= "" &&
  			document.forma.tipoPago.value		!= ""
 		){
 			
@@ -93,12 +88,12 @@
 		FinRecibo.setImporte(frmSimple.format(importeTotal));
 		FinRecibo.setFecha(aca.util.Fecha.getDateTime());
 		FinRecibo.setCliente(request.getParameter("Cliente"));
-		FinRecibo.setDomicilio(request.getParameter("Domicilio"));
-		FinRecibo.setCheque(request.getParameter("Cheque"));
-		FinRecibo.setBanco(request.getParameter("Banco"));
-		FinRecibo.setObservaciones(request.getParameter("Observaciones"));
+		FinRecibo.setDomicilio(!request.getParameter("Domicilio").equals("") ? request.getParameter("Domicilio") : "-" );
+		FinRecibo.setCheque(request.getParameter("Cheque").equals("") ? request.getParameter("Cheque") : "-");
+		FinRecibo.setBanco(request.getParameter("Banco").equals("") ? request.getParameter("Banco") : "-");
+		FinRecibo.setObservaciones(request.getParameter("Observaciones").equals("") ? request.getParameter("Observaciones") : "-");
 		FinRecibo.setUsuario(usuario);
-		FinRecibo.setRfc(request.getParameter("rfc"));
+		FinRecibo.setRfc(request.getParameter("rfc").equals("") ? request.getParameter("rfc") : "-");
 		FinRecibo.setTipo("R");
 		FinRecibo.setEstado("A");
 		FinRecibo.setTipoPago(request.getParameter("tipoPago"));
