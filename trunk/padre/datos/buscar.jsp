@@ -118,6 +118,7 @@
 				if(alumPadres.insertReg(conElias)){
 					sResultado = "AlumnoGuardadoCorrectamente";	
 					//javascript location.href = 'accion_p.jsp?resultado='request
+					
 				}else{
 					sResultado = "ErrorGuardadoAlumno";
 				}
@@ -139,7 +140,7 @@
 <%
 	if(!strResultado.equals("")){
 %>
-		<div class="alert"><fmt:message key="aca.${strResutado}" /></div>
+		<div class=""><fmt:message key="aca.${strResutado}" /></div>
 <%		
 	}
 %>
@@ -235,9 +236,11 @@
 			</select>
 			
 			<p>
+						
 			<%if(mostrarBoton==1){ %> <a onclick="agregaHijo()" class="btn btn-primary"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Grabar" /></a> <% }%>
+			
 			</p>
-	  
+								  			  
 	  </div>
 	  
 	</div>
