@@ -168,7 +168,7 @@
 					if (Cuenta.getMuestraSaldoRecibo().equals("S")) {
 						saldoStr = aca.fin.FinMovimientos.getSaldoAnterior(conElias, movimientos.getAuxiliar(),
 								movimientos.getFecha().substring(0, 10));
-						saldoFormat = saldoFormat = formato.format(Double.parseDouble(saldoStr));
+						saldoFormat = formato.format(Double.parseDouble(saldoStr));
 					}
 
 					//for( int i=0; i<lista.size(); i++){
@@ -189,7 +189,7 @@
 				<%=movimientos.getDescripcion()%></td>
 			<td style="text-align: right"><%=saldoFormat%></td>
 			<td style="text-align: right"><%=formato.format(Double.parseDouble(movimientos.getImporte()))%></td>
-			<td style="text-align: right"><%=formato.format(new BigDecimal(movimientos.getImporte()).add(new BigDecimal(saldoStr)))%></td>
+			<td style="text-align: right"><%=formato.format(new BigDecimal(saldoStr).subtract(new BigDecimal(movimientos.getImporte())) )%></td>
 		</tr>
 		<%
 			}
