@@ -71,6 +71,8 @@
 	java.text.DecimalFormat frm3 = new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
 	java.text.DecimalFormat frm4 = new java.text.DecimalFormat("###,##0.0000;(###,##0.0000)");
+
+	java.math.MathContext mc = new java.math.MathContext(8,RoundingMode.HALF_UP);
 	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	if(escala == 100){
@@ -367,7 +369,7 @@
 	            
 	            PdfPCell celda = null;
 	            
-	            float[] sumaPorBimestre = new float[10];
+	            BigDecimal[] sumaPorBimestre = new BigDecimal[10];
 	            int[] faltasPorBimestre = new int[10];
 	            int[] materiasSinNota = {0,0,0,0,0,0,0,0,0,0};
 	            int[] materiasSinNotaIngles = {0,0,0,0,0,0,0,0,0,0};
@@ -378,15 +380,21 @@
 	    		String oficial = "";
 	    		numGrado = 0;
 	    		
-	    		float[] sumaPorTrimestre = new float[cantidadTrimestres];
+	    		BigDecimal[] sumaPorTrimestre = new BigDecimal[cantidadTrimestres];
 	    		for(int j = 0; j < cantidadTrimestres; j++)
-	    			sumaPorTrimestre[j]=0;
+	    			sumaPorTrimestre[j]=new BigDecimal("0", mc);
 	    		
-	    		float[] sumaPorTrimestreIngles = new float[cantidadTrimestres];
+	    		BigDecimal[] sumaPorTrimestreIngles = new BigDecimal[cantidadTrimestres];
 	    		for(int j = 0; j < cantidadTrimestres; j++)
-	    			sumaPorTrimestreIngles[j]=0;
+	    			sumaPorTrimestreIngles[j]= new BigDecimal("0", mc);
 	    		
 				ArrayList<aca.kardex.KrdxCursoAct> cursosAlumnoAct = cursoActLista.getLisCursosAlumno(conElias,codigoAlumno, cicloGrupoId," ORDER BY 1");
+	    		
+	    		BigDecimal[] promedioPorMateria = new BigDecimal[lisCurso.size()];
+	    		for (int j=0; j < lisCurso.size(); j++){
+	    			promedioPorMateria[j] = new BigDecimal("0", mc);
+	    		}
+	    		
 				for (int j=0; j < lisCurso.size(); j++){
 	    			curso = (aca.plan.PlanCurso) lisCurso.get(j);
 	    			boolean cursoEncontrado = false;
@@ -424,16 +432,16 @@
 		    	    				numGrado = 	Integer.parseInt(curso.getGrado());
 		    	    				oficial = "1";
 		    	    				cantidadMaterias = 0;
-		    	    				sumaPorBimestre[0] = 0;
-		    						sumaPorBimestre[1] = 0;
-		    						sumaPorBimestre[2] = 0;
-		    						sumaPorBimestre[3] = 0;
-		    						sumaPorBimestre[4] = 0;
-		    						sumaPorBimestre[5] = 0;
-		    						sumaPorBimestre[6] = 0;
-		    						sumaPorBimestre[7] = 0;
-		    						sumaPorBimestre[8] = 0;
-		    						sumaPorBimestre[9] = 0;
+		    	    				sumaPorBimestre[0] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[1] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[2] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[3] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[4] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[5] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[6] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[7] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[8] = new BigDecimal("0", mc);
+		    						sumaPorBimestre[9] = new BigDecimal("0", mc);
 		    	    				
 		    	    				faltasPorBimestre[0] = 0;
 		    	    				faltasPorBimestre[1] = 0;
@@ -625,14 +633,14 @@
 		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	    				tabla.addCell(celda);
 		    	    				
-		    	    				float[] sumaPorBimestreTmp = new float[10];
+		    	    				BigDecimal[] sumaPorBimestreTmp = new BigDecimal[10];
 		    	    				for(int l = 0; l < lisBloque.size(); l++){
-		    	    					float tmp = 0;
-		    	    					if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){ 
+		    	    					BigDecimal tmp = new BigDecimal("0", mc);
+		    	    					if(sumaPorBimestre[l].compareTo(BigDecimal.ZERO) > 0 && cantidadMaterias > 0){
 		    	    						tmp = sumaPorBimestre[l];
 		    	    						int cantidadMateriasTmp = cantidadMaterias;
 		    	    						cantidadMateriasTmp = cantidadMateriasTmp-materiasSinNota[l];
-			    	    					sumaPorBimestre[l] = new BigDecimal(sumaPorBimestre[l]+"").divide(new BigDecimal(cantidadMateriasTmp+""), 1, RoundingMode.DOWN).floatValue();			    	    					
+			    	    					sumaPorBimestre[l] = sumaPorBimestre[l].divide(new BigDecimal(cantidadMateriasTmp+"", mc), 1, RoundingMode.DOWN);			    	    					
 			    	    					celda = new PdfPCell(new Phrase( sumaPorBimestre[l]+"", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 			    	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 			    	        				tabla.addCell(celda);
@@ -647,16 +655,16 @@
 									}
 		    	    		    	if(todasTienenCalificacion ){
 		    	    		    		
-		    	    		    		float notaDeTodas = 0;
+		    	    		    		BigDecimal notaDeTodas = new BigDecimal("0", mc);
 		    	    		    		for(int l=0; l<lisBloque.size(); l++){
 		    	    		    		//	System.out.println(sumaPorBimestreTmp[l]);
-		    	    		    			notaDeTodas += sumaPorBimestreTmp[l];
+		    	    		    			notaDeTodas = notaDeTodas.add(sumaPorBimestreTmp[l], mc);
 		    	    		    		}
 		    	    		    		/*System.out.println("Nota: "+notaDeTodas);
 		    	    		    		if(lisBloque.size()!=0){
 		    	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
 		    	    		    		}*/
-		    	    		    		notaDeTodas = (notaDeTodas/lisBloque.size());
+		    	    		    		notaDeTodas = (notaDeTodas.divide(new BigDecimal(lisBloque.size(), mc), mc));
 		    	    		    		celda = new PdfPCell(new Phrase( frm3.format(notaDeTodas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	        				tabla.addCell(celda);
@@ -701,112 +709,9 @@
 		    	    			}
 		    	    			
 		    					int cantidadBimestres = 0;
-		    					BigDecimal sumaBimestres = new BigDecimal("0");
+		    					BigDecimal sumaBimestres = new BigDecimal("0", mc);
 		    					
-		    					/*if(!alumnoCurso.getCal1().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal1()) );
-		    						sumaPorBimestre[0] += Float.parseFloat(alumnoCurso.getCal1());
-		    					}else{
-		    						materiasSinNota[0] = materiasSinNota[0]+1;
-		    					}
-		    					if(!alumnoCurso.getCal2().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal2()) );
-		    						sumaPorBimestre[1] += Float.parseFloat(alumnoCurso.getCal2());
-		    					}else{
-		    						materiasSinNota[1] = materiasSinNota[1]+1;
-		    					}
-		    					if(!alumnoCurso.getCal3().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal3()) );
-		    						sumaPorBimestre[2] += Float.parseFloat(alumnoCurso.getCal3());
-		    					}else{
-		    						materiasSinNota[2] = materiasSinNota[2]+1;
-		    					}
-		    					if(!alumnoCurso.getCal4().equals("-")){
-		    						cantidadBimestres++;
-		    						//System.out.println("Datos:"+codigoAlumno+":"+alumnoCurso.getCal4());
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal4()) );
-		    						sumaPorBimestre[3] += Float.parseFloat(alumnoCurso.getCal4());
-		    					}else{
-		    						materiasSinNota[3] = materiasSinNota[3]+1;
-		    					}
-		    					if(!alumnoCurso.getCal5().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal5()) );
-		    						sumaPorBimestre[4] += Float.parseFloat(alumnoCurso.getCal5());
-		    					}else{
-		    						materiasSinNota[4] = materiasSinNota[4]+1;
-		    					}
-		    					
-		    					if(!alumnoCurso.getCal6().equals("-")){
-		    						cantidadBimestres++;	    							    
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal6()) );
-		    						sumaPorBimestre[5] += Float.parseFloat(alumnoCurso.getCal6());
-		    					}else{
-		    						materiasSinNota[5] = materiasSinNota[5]+1;
-		    					}
-		    					
-		    					if(!alumnoCurso.getCal7().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal7()) );
-		    						sumaPorBimestre[6] += Float.parseFloat(alumnoCurso.getCal7());
-		    					}else{
-		    						materiasSinNota[6] = materiasSinNota[6]+1;
-		    					}
-		    					if(!alumnoCurso.getCal8().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal8()) );
-		    						sumaPorBimestre[7] += Float.parseFloat(alumnoCurso.getCal8());
-		    					}else{
-		    						materiasSinNota[7] = materiasSinNota[7]+1;
-		    					}    					
-		    					if(!alumnoCurso.getCal9().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal9()) );
-		    						sumaPorBimestre[8] += Float.parseFloat(alumnoCurso.getCal9());
-		    					}else{
-		    						materiasSinNota[8] = materiasSinNota[8]+1;
-		    					}    					
-		    					if(!alumnoCurso.getCal10().equals("-")){
-		    						cantidadBimestres++;
-		    						sumaBimestres = sumaBimestres.add( new BigDecimal(alumnoCurso.getCal10()) );
-		    						sumaPorBimestre[9] += Float.parseFloat(alumnoCurso.getCal10());
-		    					}else{
-		    						materiasSinNota[9] = materiasSinNota[9]+1;
-		    					}	    					
-		    					    					
-		    					if(!alumnoCurso.getFalta1().equals("0")){
-		    						faltasPorBimestre[0] += Float.parseFloat(alumnoCurso.getFalta1());
-		    					}
-		    					if(!alumnoCurso.getFalta2().equals("0")){
-		    						faltasPorBimestre[1] += Float.parseFloat(alumnoCurso.getFalta2());
-		    					}
-		    					if(!alumnoCurso.getFalta3().equals("0")){
-		    						faltasPorBimestre[2] += Float.parseFloat(alumnoCurso.getFalta3());
-		    					}
-		    					if(!alumnoCurso.getFalta4().equals("0")){
-		    						faltasPorBimestre[3] += Float.parseFloat(alumnoCurso.getFalta4());
-		    					}
-		    					if(!alumnoCurso.getFalta5().equals("0")){
-		    						faltasPorBimestre[4] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta6().equals("0")){
-		    						faltasPorBimestre[5] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta7().equals("0")){
-		    						faltasPorBimestre[6] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta8().equals("0")){
-		    						faltasPorBimestre[7] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta9().equals("0")){
-		    						faltasPorBimestre[8] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}
-		    					if(!alumnoCurso.getFalta10().equals("0")){
-		    						faltasPorBimestre[9] += Float.parseFloat(alumnoCurso.getFalta5());
-		    					}*/    					
+		    									
 		    						    					
 		    					
 			    				String espacioHija = "";
@@ -904,7 +809,7 @@
 			    						
 			    					}
 			    				}*/
-			    				float sumaNotas = 0f;
+			    				BigDecimal sumaNotas = new BigDecimal("0", mc);
 			    				int trimestresConNota = 0;
 			    				boolean esMateriaMadreDeIngles = aca.plan.PlanCursoLista.esMateriaMadreDeIngles(conElias, curso.getCursoId());
 			    				if(ciclo.getNivelEval().equals("P")){
@@ -917,11 +822,11 @@
 
 										if(mapPromAlumno.containsKey(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()) && show){
 											valor = mapPromAlumno.get(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()).getNota();
-											sumaNotas += Float.parseFloat(valor);
+											sumaNotas = sumaNotas.add(new BigDecimal(valor, mc), mc);
 											if(curso.getCursoBase().equals("-"))//Si es materia madre o materia sin hijas
-												sumaPorTrimestre[l] += Float.parseFloat(valor);
+												sumaPorTrimestre[l] = sumaPorTrimestre[l].add(new BigDecimal(valor, mc), mc);
 											if(curso.getTipocursoId().equals("3"))
-												sumaPorTrimestreIngles[l] += Float.parseFloat(valor);
+												sumaPorTrimestreIngles[l] = sumaPorTrimestreIngles[l].add(new BigDecimal(valor, mc), mc);
 											valor = String.valueOf(frm.format(Double.parseDouble(valor)));
 											//System.out.println("Trimestre "+l+"; nota = "+valor);
 											if(Float.parseFloat(valor) == 0){
@@ -945,17 +850,17 @@
 										//System.out.println(request.getParameter(cicloPromedioList.get(l).getNombre()));
 										
 										//No muestra la nota del trimestre si tiene hijas que sean de ingles
-										if(esMateriaMadreDeIngles){
+										/*if(esMateriaMadreDeIngles){
 											celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(0);
 							 				tabla.addCell(celda);
-										}else{
+										}else{*/
 											celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(0);
 							 				tabla.addCell(celda);
-										}
+										/*}*/
 									}
 								}else if(ciclo.getNivelEval().equals("E")){
 									//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
@@ -969,11 +874,11 @@
 											
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno) && show){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
-												sumaNotas += Float.parseFloat(valor);
+												sumaNotas = sumaNotas.add(new BigDecimal(valor, mc), mc);
 												if(curso.getCursoBase().equals("-"))//Si es materia madre o materia sin hijas
-													sumaPorTrimestre[contador] += Float.parseFloat(valor);
+													sumaPorTrimestre[contador] = sumaPorTrimestre[contador].add(new BigDecimal(valor, mc), mc);
 												if(curso.getTipocursoId().equals("3"))
-													sumaPorTrimestreIngles[contador] += Float.parseFloat(valor);
+													sumaPorTrimestreIngles[contador] = sumaPorTrimestreIngles[contador].add(new BigDecimal(valor, mc), mc);
 												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
 												
 												if(Float.parseFloat(valor) == 0){
@@ -993,17 +898,17 @@
 											}
 											
 											//No muestra la nota del trimestre si tiene hijas que sean de ingles
-											if(esMateriaMadreDeIngles){
+											/*if(esMateriaMadreDeIngles){
 												celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(0);
 								 				tabla.addCell(celda);
-											}else{
+											}else{*/
 												celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(0);
 								 				tabla.addCell(celda);
-											}
+											/*}*/
 											
 											
 							 				contador++;
@@ -1017,30 +922,38 @@
 			    				if(!estanTodasCerradas){
 			    					nota = "0";
 			    					//System.out.println("float calculo = "+sumaNotas+"/"+trimestresConNota+";");
-			    					float calculo = sumaNotas>0?sumaNotas/trimestresConNota:0f;
-			    					nota = String.valueOf(calculo);
+			    					BigDecimal calculo = new BigDecimal("0", mc);
+			    					if(sumaNotas.compareTo(BigDecimal.ZERO) > 0){
+			    						calculo = sumaNotas.divide(new BigDecimal(trimestresConNota, mc),mc);
+			    					}
+			    					//nota = String.valueOf(calculo);
 			    					// Colocar formato con una decimal
-			    					nota = frm3.format(Double.parseDouble(nota));
+			    					nota = frm3.format(calculo);
 			    					
 			    				}else{
 			    					nota = "0a";
-			    					float calculo = sumaNotas>0?sumaNotas/cantidadTrimestres:0f;
-			    					nota = String.valueOf(calculo);
-			    					nota = frm3.format(Double.parseDouble(nota));
+			    					BigDecimal calculo = new BigDecimal("0", mc);
+			    					if(sumaNotas.compareTo(BigDecimal.ZERO) > 0){
+			    						calculo = sumaNotas.divide(new BigDecimal(cantidadTrimestres, mc),mc);
+			    					}
+			    					//nota = String.valueOf(calculo);
+			    					nota = frm3.format(calculo);
 			    				}
+			    				if(curso.getCursoBase().equals("-"))
+			    					promedioPorMateria[j] = new BigDecimal(nota, mc);
 			    				
 			    				//No muestra la nota del trimestre si tiene hijas que sean de ingles
-			    				if(esMateriaMadreDeIngles){
+			    				/*if(esMateriaMadreDeIngles){
 			    					celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
-								}else{
+								}else{*/
 									celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
-								}
+								/*}*/
 			    		        /*if(!estanTodasCerradas){
 			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1515,32 +1428,31 @@
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(0);
 	    				tabla.addCell(celda);
-	    				java.math.MathContext mc;
-	    				if(ciclo.getRedondeo().equals("T")){
-							mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
+	    				/*if(ciclo.getRedondeo().equals("T")){
+							mc = new java.math.MathContext(8, RoundingMode.HALF_EVEN);
 						}else{
-							mc = new java.math.MathContext(4, RoundingMode.HALF_UP);
-						}
+							mc = new java.math.MathContext(8, RoundingMode.HALF_UP);
+						}*/
 	    				
 	    				for(int l = 0; l < cantidadTrimestres; l++){
-	    					if(sumaPorTrimestreIngles[l] > 0 && cantidadMaterias > 0){
+	    					if(sumaPorTrimestreIngles[l].compareTo(BigDecimal.ZERO) > 0 && cantidadMaterias > 0){
 	    						int materiasTmp = materiasIngles;
 	    						materiasTmp = materiasTmp-materiasSinNotaIngles[l];
 	    						double resultado =  0d;
 	    						
 	    						if(ciclo.getRedondeo().equals("T")){
-	    							resultado = new BigDecimal(sumaPorTrimestreIngles[l]+"",mc).divide(new BigDecimal(materiasTmp+"",mc), 8, RoundingMode.DOWN).doubleValue();
+	    							resultado = sumaPorTrimestreIngles[l].divide(new BigDecimal(materiasTmp+"", mc), 8, RoundingMode.DOWN).doubleValue();
 	    						}else{ //Si es redondeado
-	    						    resultado = new BigDecimal(sumaPorTrimestreIngles[l]+"",mc).divide(new BigDecimal(materiasTmp+"",mc), 8, RoundingMode.HALF_UP).doubleValue();
+	    						    resultado = sumaPorTrimestreIngles[l].divide(new BigDecimal(materiasTmp+"", mc), 8, RoundingMode.HALF_UP).doubleValue();
 	    						}
 	    						//System.out.println("resultado Ingles: "+resultado);
 	    						
-    	    					celda = new PdfPCell(new Phrase( frm3.format(resultado), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+    	    					celda = new PdfPCell(new Phrase( frm.format(resultado), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(0);
     	        				tabla.addCell(celda);
     	        				
-    	        				sumaPorTrimestreIngles[l] = Float.parseFloat(frm3.format(resultado));
+    	        				sumaPorTrimestreIngles[l] = new BigDecimal(frm.format(resultado), mc);
     	    				}else{ 
     	    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1551,12 +1463,12 @@
 						}
 	    				
 	    		    	//if(todasTienenCalificacionIngles ){
-	    		    		float notaDeTodas = 0;
+	    		    		BigDecimal notaDeTodas = new BigDecimal("0", mc);
 	    		    		int trimestresSinNotaIngles = 0;
 	    		    		for(int l=0; l<cantidadTrimestres; l++){
-	    		    			notaDeTodas += sumaPorTrimestreIngles[l];
+	    		    			notaDeTodas = notaDeTodas.add(sumaPorTrimestreIngles[l], mc);
 	    		    			//System.out.println(sumaPorTrimestreIngles[l]);
-	    		    			if(sumaPorTrimestreIngles[l] == 0)
+	    		    			if(sumaPorTrimestreIngles[l].compareTo(BigDecimal.ZERO) == 0)
 	    		    				trimestresSinNotaIngles++;
 	    		    		}
 	    		    		/*if(lisBloque.size()!=0){
@@ -1565,9 +1477,9 @@
 	    		    		//System.out.println(codigoAlumno+" Total Ingles");
 	    		    		//System.out.println("notaDeTodas = ("+notaDeTodas+"/("+cantidadTrimestres+"-"+trimestresSinNotaIngles+"));");
 	    		    		//notaDeTodas = (notaDeTodas/(float)(cantidadTrimestres-trimestresSinNotaIngles));
-	    		    		double totalIngles = 0d;
-	    		    		if(notaDeTodas > 0)
-	    		    			totalIngles = new BigDecimal(notaDeTodas+"").divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+""), 8, RoundingMode.HALF_UP).doubleValue();
+	    		    		BigDecimal totalIngles = new BigDecimal("0", mc);
+	    		    		if(notaDeTodas.compareTo(BigDecimal.ZERO) > 0)
+	    		    			totalIngles = notaDeTodas.divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+"", mc), mc);
 	    		    		//System.out.println(notaDeTodas+" format = "+frm3.format(Double.parseDouble(String.valueOf(notaDeTodas))));
 	    		    		
 	    		    		celda = new PdfPCell(new Phrase( frm3.format(totalIngles), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
@@ -1600,13 +1512,13 @@
 	    				int trimestresConNota = 0;
 	    				for(int l = 0; l < cantidadTrimestres; l++){
 	    					
-	    					if(sumaPorTrimestre[l] > 0 && materias > materiasSinNota[l]){
+	    					if(sumaPorTrimestre[l].compareTo(BigDecimal.ZERO) > 0 && materias > materiasSinNota[l]){
 	    						int materiasTmp = materias;
 	    						materiasTmp = materiasTmp-materiasSinNota[l];
 	    						trimestresConNota++;
 	    						
 	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasSinNota[l] = "+materiasSinNota[l]+"; materiasTmp"+materiasTmp);
-	    						sumaPorTrimestre[l] = new BigDecimal(sumaPorTrimestre[l]+"").divide(new BigDecimal(materiasTmp+""), 8, RoundingMode.HALF_UP).floatValue();
+	    						sumaPorTrimestre[l] = sumaPorTrimestre[l].divide(new BigDecimal(materiasTmp+"", mc), mc);
     	    					celda = new PdfPCell(new Phrase( frm3.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(2);
@@ -1621,19 +1533,30 @@
 						}
 	    				
 	    		    	//if(todasTienenCalificacion ){
-	    		    		notaDeTodas = 0;
-	    		    		for(int l=0; l<cantidadTrimestres; l++){
-	    		    			notaDeTodas += sumaPorTrimestre[l];
-	    		    		}
+	    		    		notaDeTodas = new BigDecimal("0", mc);
+	    		    		//System.out.println(codigoAlumno+"total de curso en todas las materias");
+	    		    		/*for(int l=0; l<cantidadTrimestres; l++){
+	    		    			notaDeTodas = notaDeTodas.add(sumaPorTrimestre[l], mc);
+	    		    			System.out.println(notaDeTodas +"= notaDeTodas.add("+sumaPorTrimestre[l]+", mc);");
+	    		    		}*/
 	    		    		/*if(lisBloque.size()!=0){
 	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
 	    		    		}*/
-	    		    		//System.out.println(codigoAlumno+"total de curso en todas las materias");
+	    		    		
 	    		    		//notaDeTodas = (notaDeTodas/trimestresConNota);
 	    		    		//System.out.println("("+notaDeTodas+"/"+trimestresConNota+")");
-	    		    		float promedioTrimestres = 0f;
-	    		    		if(notaDeTodas > 0 && trimestresConNota > 0)
-	    		    			promedioTrimestres = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(trimestresConNota+""), 8, RoundingMode.HALF_UP).floatValue();
+	    		    		
+	    		    		for (int h=0; h < lisCurso.size(); h++){
+	    		    			notaDeTodas = notaDeTodas.add(promedioPorMateria[h], mc);
+	    		    			//System.out.println(promedioPorMateria[h]);
+	    		    		}
+	    		    		//System.out.println(notaDeTodas);
+	    		    		//System.out.println("materias principales = "+materias);
+	    		    		
+	    		    		//System.out.println("promedioTrimestres = "+notaDeTodas.toString()+".divide("+new BigDecimal(materias+"", mc).toString()+", mc);");
+	    		    		BigDecimal promedioTrimestres = BigDecimal.ZERO;
+	    		    		if(notaDeTodas.compareTo(BigDecimal.ZERO) > 0 && trimestresConNota > 0)
+	    		    			promedioTrimestres = notaDeTodas.divide(new BigDecimal(materias+"", mc), mc);
 	    		    		//System.out.println(promedioTrimestres.floatValue());
 	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1824,7 +1747,7 @@
 								for(int k = 0; k < cicloPromedioList.size(); k++){
 									cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
 									//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-									float valor = 0f;
+									BigDecimal valor = new BigDecimal("0", mc);
 									
 									for(aca.plan.PlanCurso c: cursos){
 										for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
@@ -1832,17 +1755,18 @@
 											if(krdxAlumActitud.getCursoId().equals(c.getCursoId()) && 
 													krdxAlumActitud.getPromedioId().equals(cicloPromedio.getPromedioId()) &&
 													krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-												valor += Float.parseFloat(krdxAlumActitud.getNota());
+												valor = valor.add(new BigDecimal(krdxAlumActitud.getNota(), mc), mc);
 												break;
 											}
 										}
 									}
-									valor = valor/(float)cursos.size();
-									valor = Math.round(valor);
+									valor = valor.divide(new BigDecimal(cursos.size(), mc), mc);
+									valor = valor.setScale(0, RoundingMode.HALF_UP);
+									int valor2 = valor.intValueExact();
 									String resultado = "-";
-									resultado = valor==1?"X":resultado;
-									resultado = valor==2?"R":resultado;
-									resultado = valor==3?"S":resultado;
+									resultado = valor2==1?"X":resultado;
+									resultado = valor2==2?"R":resultado;
+									resultado = valor2==3?"S":resultado;
 									
 									cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 					 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1858,7 +1782,7 @@
 									if(cge.getCicloGrupoId().equals(cicloGrupoId) &&
 											cge.getCursoId().equals(curso.getCursoId())){
 										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-										float valor = 0f;
+										BigDecimal valor = new BigDecimal("0", mc);
 										
 										for(aca.plan.PlanCurso c: cursos){
 											for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
@@ -1866,19 +1790,20 @@
 												if(krdxAlumActitud.getCursoId().equals(c.getCursoId()) && 
 														krdxAlumActitud.getEvaluacionId().equals(cge.getEvaluacionId()) &&
 														krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-													valor += Float.parseFloat(krdxAlumActitud.getNota());
+													valor = valor.add(new BigDecimal(krdxAlumActitud.getNota(), mc), mc);
 													//System.out.println(krdxAlumActitud.getNota());
 													break;
 												}
 											}
 										}
-										valor = valor/(float)cursos.size();
-										valor = Math.round(valor);
+										valor = valor.divide(new BigDecimal(cursos.size(), mc), mc);
+										valor = valor.setScale(0, RoundingMode.HALF_UP);
+										int valor2 = valor.intValueExact();
 										//System.out.println("Aspectos: "+valor);
 										String resultado = "-";
-										resultado = valor==1?"X":resultado;
-										resultado = valor==2?"R":resultado;
-										resultado = valor==3?"S":resultado;
+										resultado = valor2==1?"X":resultado;
+										resultado = valor2==2?"R":resultado;
+										resultado = valor2==3?"S":resultado;
 										
 										cell = new PdfPCell(new Phrase(resultado, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 						 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
