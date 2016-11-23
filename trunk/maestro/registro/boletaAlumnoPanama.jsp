@@ -162,7 +162,7 @@
 			<th width="1%" align="left">NOMBRE :</th>
 			<th width="20%" align="center" style="border-bottom: 1px solid black;"> <%="["+codigoAlumno+"] "+AlumPersonal.getNombre() %> <%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %> </th>
 			<th width="20%" ></th>
-			<th width="15%" align="left">UBICACIÓN :<%aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), nivel); %> GRADO:<%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado()))+
+			<th width="15%" align="left">UBICACIÓN :<%aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId()); %> GRADO:<%=aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado()))+
                     " "+Grupo.getGrupo() %></th>
 		</tr>
 		<tr>
