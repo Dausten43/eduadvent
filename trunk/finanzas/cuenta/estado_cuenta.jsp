@@ -155,14 +155,14 @@
 				<th class="text-right">Débito</th>
 				<th class="text-right">Crédito</th>
 				<th class="text-right">Saldo</th>
-				<th class="text-right hidden-print">Estado</th>
+				<th class="text-right">Estado</th>
 			</tr>
 		</thead>
 	<%
 		// Consulta el saldo anterior del alumno
 		String saldoStr 	= aca.fin.FinMovimientos.getSaldoAnterior(conElias, codigoId, fechaInicio);
 		double saldoNum		= Double.valueOf(saldoStr);
-		String signoSaldo	= saldoNum>=0?"Crédito":"Débito"; 
+		String signoSaldo	= saldoNum>=0?"Deudor":"Acreedor"; 
 		
 		//System.out.println("Datos:"+saldoStr+":"+saldoNum);
 		
@@ -184,8 +184,16 @@
 				out.print("<td>&nbsp;</td>");
 			}
 			out.println("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
-			out.println("<td class='text-right hidden-print'>"+signoSaldo+"</td>");
+			out.println("<td class='text-right' ");
+			if(saldoNum>0){
+				out.println("style='color:red;'");
+			}else{
+				out.println("style='color:green;'");
+				
+			}
+			out.println(">"+signoSaldo+"</td>");
 			out.println("</tr>");
+			
 		}
 		float total = (float)saldoNum;			
 		for(int i = 0; i < lisMovimientos.size(); i++){
@@ -212,7 +220,7 @@
 			<td class="text-right"><%=movto.getNaturaleza().equals("D")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=movto.getNaturaleza().equals("C")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=formato.format(total) %></td>
-			<td class="text-right hidden-print" <%=total>=0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%> <%=formato.format(total>=0 ? total : total*-1 )%></td>
+			<td class="text-right" <%=total>=0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%></td>
 		</tr>
 	<%
 		}			
@@ -230,7 +238,7 @@
     }
     b.close();	
 	
-	if (total< 0 && escuelaId.toString().contains("H") && txtPersonalizado.substring(0,2).equalsIgnoreCase("SI")) { %><table class="table table-condensed table-bordered"><tr><td><%=txtPersonalizado.substring(3) %></td></tr></table><% } %>
+	if (total> 0 && escuelaId.toString().contains("H") && txtPersonalizado.substring(0,2).equalsIgnoreCase("SI")) { %><table class="table table-condensed table-bordered"><tr><td><%=txtPersonalizado.substring(3) %></td></tr></table><% } %>
 </div>
 <script>
 	jQuery('#fechaInicio').datepicker();
