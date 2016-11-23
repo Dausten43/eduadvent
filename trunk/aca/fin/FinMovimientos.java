@@ -607,7 +607,7 @@ public class FinMovimientos {
         String saldo 			= "0";
 
         try {
-            ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN 1 ELSE -1 END),0) AS SALDO" +
+            ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO" +
             		" FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD/MM/YYYY') and estado<>'C'");
             
             ps.setString(1, auxiliar);
