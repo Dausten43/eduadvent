@@ -65,7 +65,7 @@
 		<th>
 			<span class="alert alert-info"><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, split[0])%>
 				: 
-				<%=aca.catalogo.CatEsquemaLista.getGradoYGrupo(conElias, escuelaId, split[0], split[1])%>
+				<%=aca.catalogo.CatEsquemaLista.getGradoYGrupo(conElias, escuelaId, split[0], split[1])%> <%=split[2] %>
 				
 			</span>
 			</th>
