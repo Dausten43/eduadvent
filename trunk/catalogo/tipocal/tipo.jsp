@@ -56,7 +56,7 @@
 %>
 
 <div id="content">
-	<h2>Tipo de Nota<small> ( Hábitos y actitudes ) </small></h2>
+	<h2>Tipo de Nota<small> ( Hábitos y aptitudes ) </small></h2>
 	
 	<% 
 	if (mensaje.equals("Eliminado") || mensaje.equals("Modificado") || mensaje.equals("Guardado")){%>
