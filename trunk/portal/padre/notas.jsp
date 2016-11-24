@@ -6,6 +6,8 @@
 
 <%@ include file= "menuPortal.jsp" %>
 
+<%@page import="java.math.MathContext"%>
+
 <jsp:useBean id="AlumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="AlumPlanL" scope="page" class="aca.alumno.AlumPlanLista"/>
 <jsp:useBean id="AlumCicloL" scope="page" class="aca.alumno.AlumCicloLista"/>
@@ -25,6 +27,8 @@
 	String nivelNombre		= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivel);
 	String nivelTitulo		= aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, nivel).toUpperCase();
 	boolean existeAlumno 	= false;			
+	
+	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	
 	/* Planes de estudio del alumno */
 	ArrayList<aca.alumno.AlumPlan> lisPlan						= AlumPlanL.getArrayList(conElias, codigoId, "ORDER BY F_INICIO");
@@ -102,7 +106,7 @@
 			String cicloGrupoId	= aca.ciclo.CicloGrupo.getCicloGrupoId(conElias, ciclo.getNivel(), ciclo.getGrado(), ciclo.getGrupo(), ciclo.getCicloId(), planId);
 			
 			/* Lista de materias del alumno*/
-			lisAlumnoCurso 		= AlumnoCursoL.getListAlumCurso(conElias, codigoId, cicloGrupoId, " ORDER BY TIPO_CURSO_ID(CURSO_ID), ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
+			lisAlumnoCurso 		= AlumnoCursoL.getListAlumCurso(conElias, codigoId, cicloGrupoId, " ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 			
 			// Lista de promedios en el ciclo
 			lisPromedio 		= CicloPromedioL.getListCiclo(conElias, ciclo.getCicloId(), " ORDER BY PROMEDIO_ID");
@@ -153,45 +157,48 @@
 				}
 				
 				// Poner Totales
-				if (!tipoCurso.equals(curso.getTipocursoId()) && !tipoCurso.equals("0")){
+				/*if (!tipoCurso.equals(curso.getTipocursoId()) && !tipoCurso.equals("0")){
 					
 					out.print("<tr class='alert alert-success'>");
 					out.print("<td colspan='2'>Promedio:</td>");
 					
-					double promCiclo 	= 0;
+					BigDecimal promCiclo 	= new BigDecimal("0", mc);
+					System.out.println(new BigDecimal("0"));
+					System.out.println(new BigDecimal("0", mc));
+					System.out.println(BigDecimal.ZERO);
 					int numProm 		= 0;
 					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 						
 						for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
 							if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
-								double sumaEval = 0;
+								BigDecimal sumaEval = new BigDecimal("0", mc);
 								if (mapEvalSuma.containsKey(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId())){
-									sumaEval = Double.parseDouble(mapEvalSuma.get(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId()));
+									sumaEval = new BigDecimal(mapEvalSuma.get(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId()), mc);
 								}
-								double cuentaEval = 0;
+								BigDecimal cuentaEval = new BigDecimal("0", mc);
 								if (mapEvalCuenta.containsKey(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId())){
-									cuentaEval = Double.parseDouble(mapEvalCuenta.get(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId()));
+									cuentaEval = new BigDecimal(mapEvalCuenta.get(cicloGrupoId+tipoCurso+cicloBloque.getBloqueId()), mc);
 								}
-								double promEval = 0;
-								if (cuentaEval>0 && sumaEval>0){
-									promEval = sumaEval/cuentaEval;
+								BigDecimal promEval = new BigDecimal("0", mc);
+								if (cuentaEval.compareTo(BigDecimal.ZERO) > 0 && sumaEval.compareTo(BigDecimal.ZERO) > 0){
+									promEval = sumaEval.divide(cuentaEval, mc);
 									numProm++;
-									promCiclo += promEval;
+									promCiclo = promCiclo.add(promEval, mc);
 								}
 								// Inserta columnas de evaluaciones
-								out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
+								out.print("<td class='text-center' title=''>"+formato2.format(promEval)+"</td>");
 							}
 						}
-						if (numProm > 0) promCiclo = promCiclo / numProm;
+						if (numProm > 0) promCiclo = promCiclo.divide(new BigDecimal(numProm+"", mc), mc);
 						// Inserta columna del promedio de las evaluaciones
-						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
-						
-						
+						out.print("<td class='text-center' title=''>"+formato2.format(promCiclo)+"</td>");
+						// Inserta columna de los puntos
+						out.print("<td class='text-center' title=''>"+""+"</td>");
 					}
 					
 					// Completa las columnas del renglon de promedio  
 					out.print("<td colspan='20'></td>");
-				}
+				}*/
 				
 				// Tipo de curso
 				tipoCurso = curso.getTipocursoId();
@@ -200,8 +207,8 @@
 		    <td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
 		    <td width="20%"><%=curso.getCursoNombre()%></td>
 <%
-					double promedioFinal = 0;
-					double sumaValor = 0;
+					BigDecimal promedioFinal = new BigDecimal("0", mc);
+					BigDecimal sumaValor = new BigDecimal("0", mc);
 
 					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 						int evalCerradas = 0;
@@ -247,11 +254,11 @@
 						// Suma los valores de todos los promedios en ciclo_promedio para calcular la nota final
 						// Considera solamente los evaluados
 						if (promEval > 0){
-							sumaValor += Double.parseDouble(cicloPromedio.getValor());
+							sumaValor = sumaValor.add(new BigDecimal(cicloPromedio.getValor(),mc), mc);
 						}
 						
 						// Puntos del promedio en escala de 100 (considerando el valor de cada promedio en escala de 0-100)
-						double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;						
+						BigDecimal puntosEval = new BigDecimal(promEval, mc).multiply(new BigDecimal(cicloPromedio.getValor(), mc), mc).divide(new BigDecimal(escalaEval+"", mc));
 						
 						// Formato del promedio y los puntos (decimales usados)
 						String promFormato		= formato1.format(promEval);
@@ -272,7 +279,7 @@
 						// Inserta columna de los puntos
 						out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
 						
-						promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
+						promedioFinal = promedioFinal.add(puntosEval, mc);
 						
 						
 					}//End for de promedio						
@@ -281,9 +288,11 @@
 					
 						double puntosEscala = 0;
 						if (escalaEval == 5){
-							promedioFinal = (promedioFinal * 5)/sumaValor;
+							if(sumaValor.compareTo(BigDecimal.ZERO) > 0)
+								promedioFinal = promedioFinal.multiply(new BigDecimal("5", mc), mc).divide(sumaValor, mc);
 						}else if (escalaEval == 10){
-							promedioFinal = (promedioFinal * 10)/sumaValor;
+							if(sumaValor.compareTo(BigDecimal.ZERO) > 0)
+								promedioFinal = promedioFinal.multiply(new BigDecimal("10", mc), mc).divide(sumaValor, mc);
 						}							
 						String muestraPromedioFinal = formato2.format(promedioFinal);
 					
@@ -299,7 +308,7 @@
 			}
 			
 			// Colocar el promedio del ultimo tipo de curso
-			out.print("<tr class='alert alert-success'>");
+			/*out.print("<tr class='alert alert-success'>");
 			out.print("<td colspan='2'>Promedio:</td>");
 			
 			double promCiclo 	= 0;
@@ -372,6 +381,7 @@
 			}
 			// Completa las columnas del renglon de promedio  
 			out.print("<td colspan='20'></td>");
+			*/
 %>
 	</table>	
 <%		} // for de ciclos
