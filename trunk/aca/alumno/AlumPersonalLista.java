@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AlumPersonalLista{
 		
@@ -70,6 +71,39 @@ public class AlumPersonalLista{
 		}		
 		
 		return lisModulo;
+	}
+	
+	
+	public Map<String,AlumPersonal> getLsAlumEscuela(Connection Conn, String escuelaId)throws SQLException{
+		Map<String,AlumPersonal> salida = new HashMap<String, AlumPersonal>();
+		Statement st 		= Conn.createStatement();
+		ResultSet rs 		= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO," +
+					" GENERO, CURP, TO_CHAR(F_NACIMIENTO,'DD/MM/YYYY') AS F_NACIMIENTO," +
+					" PAIS_ID, ESTADO_ID, CIUDAD_ID, NIVEL_ID, GRADO, GRUPO,  " +
+					" CLASFIN_ID, EMAIL, COLONIA, DIRECCION, TELEFONO, COTEJADO," +
+					" ESTADO, ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA,"+
+					" DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA, TIPO_SANGRE, TUTOR_CEDULA, BARRIO_ID" +
+					" FROM ALUM_PERSONAL " +
+					" WHERE ESCUELA_ID = '"+escuelaId+"'";
+			rs = st.executeQuery(comando);
+			while (rs.next()){
+				
+				AlumPersonal alumno = new AlumPersonal();
+				alumno.mapeaReg(rs);
+				salida.put(alumno.getCodigoId(),alumno);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.alumno.AlumPersonalLista|getListAlumnosGrado|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		return salida;
 	}
 	
 	public ArrayList<AlumPersonal> getListAlumnosInscritos(Connection Conn, String escuelaId, String cicloId,String orden ) throws SQLException{

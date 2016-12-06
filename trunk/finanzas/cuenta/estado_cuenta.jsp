@@ -120,6 +120,13 @@
 		</div>
 	</form>
 	<a href="estado_cuenta_padre.jsp?fechaInicio=<%= fechaInicio %>&fechaFinal=<%= fechaFinal %>" class="btn btn-default hidden-print">Vista de Padre</a>
+	
+	<%
+	String fini = fechaInicio.replace("/", "-");
+	String ffin = fechaFinal.replace("/", "-");
+	%>
+	<a href="/EdoCta/PrintEstadoCuenta?fechaInicio=<%= fini %>&fechaFinal=<%= ffin %>&codigo_id=<%=codigoId%>" target="_new" class="btn btn-default hidden-print">Imprimir formato oficial</a>
+	<a href="estado_cuenta_batch.jsp" target="" class="btn btn-default hidden-print">Generador de Estados de Cuenta</a>
 	<hr />
 <%	if (usaSunPlus){  %>	
 	<h4>SunPlus</h4>

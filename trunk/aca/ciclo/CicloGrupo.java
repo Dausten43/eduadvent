@@ -7,6 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Elifo
@@ -322,6 +326,34 @@ public class CicloGrupo {
 			if (rs!=null) rs.close();
 			if (ps!=null) ps.close();
 		}
+	}
+	
+	public List<CicloGrupo> mapClicloGrupo(Connection con, String ciclo_id) throws SQLException{
+		List<CicloGrupo> salida = new ArrayList();
+		PreparedStatement ps = null;
+		ResultSet rs = null;		
+		try{
+			ps = con.prepareStatement("SELECT CICLO_GRUPO_ID, CICLO_ID, GRUPO_NOMBRE," +
+					" EMPLEADO_ID, HORARIO_ID, SALON_ID, NIVEL_ID, GRADO, GRUPO, PLAN_ID" +
+					" FROM CICLO_GRUPO" +
+					" WHERE CICLO_ID = ?");
+			ps.setString(1, ciclo_id);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()){
+				CicloGrupo cg = new CicloGrupo();
+				cg.mapeaReg(rs);
+				salida.add(cg);
+			}
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloGrupo|mapeaRegId|:"+ex);
+			ex.printStackTrace();
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		return salida;
 	}
 	
 	public void mapeaRegId(Connection con, String nivelId, String grado, String grupo, String cicloId, String planId) throws SQLException{
