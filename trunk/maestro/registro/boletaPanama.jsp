@@ -942,18 +942,17 @@
 			    				if(curso.getCursoBase().equals("-"))
 			    					promedioPorMateria[j] = new BigDecimal(nota, mc);
 			    				
-			    				//No muestra la nota del trimestre si tiene hijas que sean de ingles
-			    				/*if(esMateriaMadreDeIngles){
+			    				if(!curso.getCursoBase().equals("-")){
 			    					celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
-								}else{*/
+								}else{
 									celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
-								/*}*/
+								}
 			    		        /*if(!estanTodasCerradas){
 			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
