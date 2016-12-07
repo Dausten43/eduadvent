@@ -239,6 +239,8 @@
 	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
 	
+	java.math.MathContext MATH_CTX = new java.math.MathContext(8,RoundingMode.HALF_UP);
+	
 	//VARIABLES ---------------------------->
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloId 			= (String) session.getAttribute("cicloId");
@@ -1630,7 +1632,7 @@
 				// Recorre la lista de Alumnos en la materia
 				int i = 0;
 				for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
-	
+					
 					double promedio = 0.0;
 					if (treeProm.containsKey(cicloGrupoId + cursoId + kardex.getCodigoId())) {
 						aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
@@ -1671,6 +1673,7 @@
 						double sumaValor = 0;
 						String muestraPromedioFinal = "";
 						int eval = 0;
+						BigDecimal sumEval = new BigDecimal("0", MATH_CTX);;
 						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){							
 							
 							for(aca.ciclo.CicloBloque cicloBloque : lisBloque){					
@@ -1798,7 +1801,8 @@
 							}else if (cicloPromedio.getDecimales().equals("2")){
 								promFormato 		= formato2.format(promEval);
 								puntosFormato 		= formato2.format(puntosEval);
-							}			
+							}
+							sumEval = sumEval.add(new BigDecimal(promFormato, MATH_CTX), MATH_CTX);
 							
 							//puntosFormato = Double.toString((Double.parseDouble(puntosFormato) * 5)/Double.parseDouble(valor));
 							// Inserta columna del promedio de las evaluaciones
@@ -1813,13 +1817,19 @@
 						}//End for de promedio						
 						
 						if (lisPromedio.size() > 1){
-						
 							double puntosEscala = 0;
+							BigDecimal promedioFinalBG = new BigDecimal("0", MATH_CTX);
 							if (escalaEval == 5){
-								promedioFinal = (promedioFinal * 5)/sumaValor;
+								//System.out.println("promedioFinalBG = ("+promedioFinal+" * 5)/"+sumaValor+";");
+								//promedioFinalBG = new BigDecimal(promedioFinal+"", MATH_CTX).multiply(new BigDecimal("5", MATH_CTX)).divide(new BigDecimal(sumaValor+"", MATH_CTX), MATH_CTX);
+								promedioFinal = sumEval.divide(new BigDecimal(lisPromedio.size()+"", MATH_CTX), MATH_CTX).setScale(1, RoundingMode.DOWN).doubleValue();
+								// HAQUE QUE SACAR ESTE VALOR DE LA BASE DE DATOS EN LUGAR DE ESTA MEXICANADA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+								if(promedioFinal < 1d){
+									promedioFinal = 1d;
+								}
 							}else if (escalaEval == 10){
 								promedioFinal = (promedioFinal * 10)/sumaValor;
-							}							
+							}
 							muestraPromedioFinal = formato1.format(promedioFinal);
 						
 							//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
