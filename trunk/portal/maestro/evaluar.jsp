@@ -239,6 +239,8 @@
 	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
 	
+	java.math.MathContext MATH_CTX = new java.math.MathContext(8,RoundingMode.HALF_UP);
+	
 	//VARIABLES ---------------------------->
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloId 			= (String) session.getAttribute("cicloId");
@@ -1673,6 +1675,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 						double sumaValor = 0;
 						String muestraPromedioFinal = "";
 						int eval = 0;
+						BigDecimal sumEval = new BigDecimal("0", MATH_CTX);;
 						for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 							
 							for(aca.ciclo.CicloBloque cicloBloque : lisBloque){					
@@ -1748,7 +1751,8 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							}else if (cicloPromedio.getDecimales().equals("2")){
 								promFormato 		= formato2.format(promEval);
 								puntosFormato 		= formato2.format(puntosEval);
-							}	
+							}
+							sumEval = sumEval.add(new BigDecimal(promFormato, MATH_CTX), MATH_CTX);
 							
 							//puntosFormato = Double.toString((Double.parseDouble(puntosFormato) * 5)/Double.parseDouble(valor));
 							// Inserta columna del promedio de las evaluaciones
@@ -1766,14 +1770,19 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							
 							double puntosEscala = 0;
 							if (escalaEval == 5){
-								promedioFinal = (promedioFinal * 5)/sumaValor;
+								//promedioFinal = (promedioFinal * 5)/sumaValor;
+								promedioFinal = sumEval.divide(new BigDecimal(lisPromedio.size()+"", MATH_CTX), MATH_CTX).setScale(1, RoundingMode.DOWN).doubleValue();
+								// HAQUE QUE SACAR ESTE VALOR DE LA BASE DE DATOS EN LUGAR DE ESTA MEXICANADA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+								if(promedioFinal < 1d){
+									promedioFinal = 1d;
+								}
 							}else if (escalaEval == 10){
 								promedioFinal = (promedioFinal * 10)/sumaValor;
 							}							
 							muestraPromedioFinal = formato1.format(promedioFinal);
 						
 							//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
-							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"*</td>");						
+							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");						
 						}
 						
 						String strExtra = "-";
