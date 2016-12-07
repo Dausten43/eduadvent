@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="movimientosPanama" language="groovy" pageWidth="550" pageHeight="288" orientation="Landscape" columnWidth="550" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9f42f0f3-7b90-497d-aa15-f1c2ec61e378">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="471"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="documento" class="java.lang.String">
+		<fieldDescription><![CDATA[documento]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[fecha]]></fieldDescription>
+	</field>
+	<field name="detalle" class="java.lang.String">
+		<fieldDescription><![CDATA[detalle]]></fieldDescription>
+	</field>
+	<field name="naturaleza" class="java.lang.String">
+		<fieldDescription><![CDATA[naturaleza]]></fieldDescription>
+	</field>
+	<field name="nummovto" class="java.lang.String">
+		<fieldDescription><![CDATA[nummovto]]></fieldDescription>
+	</field>
+	<field name="abonos" class="java.lang.String">
+		<fieldDescription><![CDATA[abonos]]></fieldDescription>
+	</field>
+	<field name="tipoPoliza" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoPoliza]]></fieldDescription>
+	</field>
+	<field name="saldo" class="java.lang.String">
+		<fieldDescription><![CDATA[saldo]]></fieldDescription>
+	</field>
+	<field name="poliza" class="java.lang.String">
+		<fieldDescription><![CDATA[poliza]]></fieldDescription>
+	</field>
+	<field name="cargos" class="java.lang.String">
+		<fieldDescription><![CDATA[cargos]]></fieldDescription>
+	</field>
+	<variable name="sumaAbonos_1" class="java.math.BigDecimal" resetType="Column" incrementType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$V{sumaAbonos_1}.add(new BigDecimal($F{abonos}!=null ? $F{abonos} : "0"))]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="sumaCargos" class="java.math.BigDecimal" resetType="Column" incrementType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$V{sumaCargos}.add(new BigDecimal($F{cargos}!=null ? $F{cargos} : "0"))]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement x="38" y="0" width="50" height="16" uuid="571038c6-2c99-4515-82c0-93a71dea95b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[FECHA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="17" width="550" height="1" uuid="aed4b4b0-2350-4056-af6e-5746ffa015fa"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="38" height="16" backcolor="#000000" uuid="32833ad6-530c-481a-9a27-ddbe775b6c76"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POLIZA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="0" width="248" height="16" uuid="02de2a97-107e-4fe1-b927-7d3501d539ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DETALLE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="499" y="0" width="51" height="16" uuid="b67e3822-2872-4171-923f-c2be487c1a6b"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SALDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="0" width="51" height="16" uuid="75ad1eaa-c98a-488f-a9ce-16017d148fab"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[COBROS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="448" y="0" width="51" height="16" uuid="a15f9bf9-9894-4022-bdac-16907cde136f"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ABONOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="98" y="0" width="33" height="16" uuid="32916d89-77ba-437e-879e-616fca73cc4b"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[#DOC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="88" y="0" width="12" height="16" uuid="d4844a43-3214-4187-87ed-fcb71255bf7b"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="131" y="1" width="248" height="12" uuid="5ab4a724-e481-45ac-aadf-aea18087ac46"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="1" width="38" height="12" uuid="02e293e8-0595-468a-9e74-11a619572a5a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{poliza}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="38" y="1" width="50" height="12" uuid="a321c875-fd53-4f03-a75f-6d4a19db816a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="1" width="31" height="12" uuid="596d961e-689f-4e49-b41c-a534097b55aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="397" y="1" width="51" height="12" uuid="87e94672-3501-4256-b23b-d43c42dc217c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargos}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="379" y="1" width="18" height="12" uuid="7ee3b298-f6a6-4ed7-8af5-7acaad8bc668"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{naturaleza}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="499" y="1" width="51" height="12" uuid="78eef621-cc93-4d5a-8167-dfe6477f0f5d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="448" y="1" width="51" height="12" uuid="81825c6b-dc9b-4691-8147-0fdb6c3491b1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{abonos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="1" width="12" height="12" uuid="ce14656f-85f1-47c4-86a8-f2fa4e46c47b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoPoliza}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="14">
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="397" y="2" width="51" height="12" uuid="6c8a49f1-2cb9-49b1-a131-e2e39a9b7971"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumaCargos}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="1" width="550" height="1" uuid="7f28fd6e-f2f1-487a-b31d-01769b5b2600"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="448" y="2" width="51" height="12" uuid="5adfe5c9-a468-47d9-9198-091419cc4b6a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumaAbonos_1}]]></textFieldExpression>
+			</textField>
+			<break>
+				<reportElement x="0" y="13" width="100" height="1" uuid="d51a8444-b888-4e49-bb19-ae061236b9e2"/>
+			</break>
+		</band>
+	</columnFooter>
+</jasperReport>

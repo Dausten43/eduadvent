@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EdoCtaTmp" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c979f63-c3df-4953-aa52-a90698a59008">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigoid" class="java.lang.String">
+		<fieldDescription><![CDATA[codigoid]]></fieldDescription>
+	</field>
+	<field name="dsMovimientos" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[dsMovimientos]]></fieldDescription>
+	</field>
+	<field name="escuela" class="java.lang.String">
+		<fieldDescription><![CDATA[escuela]]></fieldDescription>
+	</field>
+	<field name="ffinal" class="java.lang.String">
+		<fieldDescription><![CDATA[ffinal]]></fieldDescription>
+	</field>
+	<field name="finicial" class="java.lang.String">
+		<fieldDescription><![CDATA[finicial]]></fieldDescription>
+	</field>
+	<field name="logo" class="java.lang.String">
+		<fieldDescription><![CDATA[logo]]></fieldDescription>
+	</field>
+	<field name="movimientos" class="java.util.Collection">
+		<fieldDescription><![CDATA[movimientos]]></fieldDescription>
+	</field>
+	<field name="nivelgradogrupo" class="java.lang.String">
+		<fieldDescription><![CDATA[nivelgradogrupo]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="nota" class="java.lang.String">
+		<fieldDescription><![CDATA[nota]]></fieldDescription>
+	</field>
+	<field name="abonos" class="java.lang.String">
+		<fieldDescription><![CDATA[abonos]]></fieldDescription>
+	</field>
+	<field name="cargos" class="java.lang.String">
+		<fieldDescription><![CDATA[cargos]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="detalle" class="java.lang.String">
+		<fieldDescription><![CDATA[detalle]]></fieldDescription>
+	</field>
+	<field name="documento" class="java.lang.String">
+		<fieldDescription><![CDATA[documento]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[fecha]]></fieldDescription>
+	</field>
+	<field name="naturaleza" class="java.lang.String">
+		<fieldDescription><![CDATA[naturaleza]]></fieldDescription>
+	</field>
+	<field name="nummovto" class="java.lang.String">
+		<fieldDescription><![CDATA[nummovto]]></fieldDescription>
+	</field>
+	<field name="poliza" class="java.lang.String">
+		<fieldDescription><![CDATA[poliza]]></fieldDescription>
+	</field>
+	<field name="saldo" class="java.lang.String">
+		<fieldDescription><![CDATA[saldo]]></fieldDescription>
+	</field>
+	<field name="tipoPoliza" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoPoliza]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="94" splitType="Stretch">
+			<textField>
+				<reportElement x="127" y="22" width="100" height="20" uuid="22664221-98fa-483f-bc8f-6fb7e4159550"/>
+				<textFieldExpression><![CDATA[$F{escuela}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="54" width="100" height="20" uuid="41de73bf-cb27-4bf5-bd60-c629a81fab38"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="cf351332-6c37-4fa9-8dd9-234b60fc69e4"/>
+				<text><![CDATA[poliza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="0" width="100" height="20" uuid="93bda6df-67c8-4d87-b2f3-1d6ce2609a14"/>
+				<text><![CDATA[fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="2" width="100" height="20" uuid="e6971ed8-7814-4150-978f-9f3c0ded6874"/>
+				<text><![CDATA[abonos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="2" width="100" height="20" uuid="e49b8fd2-30ef-4840-8f25-1e6594a96002"/>
+				<text><![CDATA[cargos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="159b3a1a-9ff1-4817-92bb-1cce2ecd20aa"/>
+				<textFieldExpression><![CDATA[$F{poliza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="3" width="100" height="20" uuid="04211014-5112-4a7b-9037-dbd4e2934b0d"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="3" width="100" height="20" uuid="ba46e67a-d3ac-4f1c-8cdb-3baeb9cfd166"/>
+				<textFieldExpression><![CDATA[$F{abonos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="3" width="100" height="20" uuid="c1561191-f0eb-4325-9836-309771a3f598"/>
+				<textFieldExpression><![CDATA[$F{cargos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="12" width="537" height="20" uuid="b728b4e5-8f0e-451f-842b-db696bb7450c"/>
+				<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
