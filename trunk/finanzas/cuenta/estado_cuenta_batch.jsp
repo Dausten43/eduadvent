@@ -184,8 +184,7 @@
 				</div>
 				<div class="control-group">
 				<label for="codigoid">Texto Adicional:</label> 
-				<textarea rows="4" cols="100" name="mensaje" id="mensaje" class="control-labe">
-				</textarea>
+				<textarea rows="4" cols="100" name="mensaje" id="mensaje" class="control-labe"></textarea>
 				<input type="hidden" name="escuela_id" value="<%= escuelaId%>"> 
 				<!--  <input type="text"
 					name="mensaje" id="mensaje" class="control-label"
