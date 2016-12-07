@@ -187,6 +187,7 @@
 				<label for="codigoid">Texto Adicional:</label> 
 				<textarea rows="4" cols="100" name="mensaje" id="mensaje" class="control-labe">
 				</textarea>
+				<input type="hidden" name="escuela_id" value="<%= escuelaId%>"> 
 				<!--  <input type="text"
 					name="mensaje" id="mensaje" class="control-label"
 					size="40" value="" placeholder="texto para el pie de pagina del estado de cuenta" style="width: 500px;"> --> 
