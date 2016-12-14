@@ -222,17 +222,21 @@
 	            PdfPTable tabla = new PdfPTable(7+(lisBloque.size()*2));
 	            
 	    		//int colsWidth[] = {3, 12, 25, 3, 3, 3, 3, 3, 5, 7, 5, 7, 3, 3, 3, 3, 3, 6};
-	    		int colsWidth[] = new int[7+(lisBloque.size()*2)];
+	    		int numExtras = Integer.parseInt(cicloExtra.maximo(conElias, cicloId));
+	    		int colsWidth[] = new int[5+(numExtras*2)+(lisBloque.size()*2)];
 	    		int cont = 0;
 	    		colsWidth[cont++] = 3;//0
 	    		colsWidth[cont++] = 25;//2
 	    		for(int j = 0; j < lisBloque.size(); j++){
-	    			colsWidth[cont++] = 42/lisBloque.size();
+	    			colsWidth[cont++] = 40/lisBloque.size();
 	    		}
 	    		colsWidth[cont++] = 5;
 	    		colsWidth[cont++] = 7;
-	    		colsWidth[cont++] = 5;
-	    		colsWidth[cont++] = 7;
+	    		int espacioExtras = 14;
+	    		for(int j = 0; j < numExtras; j++){
+	    			colsWidth[cont++] = espacioExtras/(numExtras*2);
+	    			colsWidth[cont++] = espacioExtras/(numExtras*2);
+	    		}
 	    		for(int j = 0; j < lisBloque.size(); j++){
 	    			colsWidth[cont++] = 30/lisBloque.size();
 	    		}
