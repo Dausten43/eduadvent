@@ -72,7 +72,7 @@ public class PrintEstadoCuenta extends HttpServlet {
 
         String fini = request.getParameter("fechaInicio") != null ? request.getParameter("fechaInicio") : "01-01-" + cal.get(Calendar.YEAR);
         String ffin = request.getParameter("fechaFinal") != null ? request.getParameter("fechaFinal") : sdf.format(cal.getTime());
-        //String escuela = request.getParameter("escuelaid");
+        String escuela = request.getParameter("escuela_id");
         String ciclo = request.getParameter("ciclo_id") != null ? request.getParameter("ciclo_id") : "";
         String mensaje = request.getParameter("mensaje") != null ? request.getParameter("mensaje") : "";
 
@@ -90,7 +90,7 @@ public class PrintEstadoCuenta extends HttpServlet {
                         + "join cat_escuela ce on ce.escuela_id=ap.escuela_id "
                         + "join cat_nivel_escuela ne on ne.escuela_id=ap.escuela_id and ne.nivel_id=ap.nivel_id "
                         + "where codigo_id  is not null ";
-                
+
                 String alumno = "";
                 if (!Arrays.asList(request.getParameterValues("codigo_id")).isEmpty()) {
                     String[] arrAlumnos = request.getParameterValues("codigo_id");
@@ -120,20 +120,34 @@ public class PrintEstadoCuenta extends HttpServlet {
                         + " where "
                         + " ac.codigo_id is not null ";
 
-                if (request.getParameter("nivel_id") != null && !request.getParameter("nivel_id").equals("")) {
+                if (!ciclo.equals("")) {
+                    comando += " and ac.ciclo_id='" + ciclo + "'  ";
+                    if (request.getParameter("nivel_id") != null && !request.getParameter("nivel_id").equals("")) {
 
-                    comando += " and ac.ciclo_id='" + ciclo + "' AND ac.nivel=" + request.getParameter("nivel_id") + " ";
+                        comando += " AND ac.nivel=" + request.getParameter("nivel_id") + " ";
 
-                    if (request.getParameter("grado_id") != null && !request.getParameter("grado_id").equals("")) {
+                        if (request.getParameter("grado_id") != null && !request.getParameter("grado_id").equals("")) {
 
-                        comando += " AND ac.grado=" + request.getParameter("grado_id") + " ";
+                            comando += " AND ac.grado=" + request.getParameter("grado_id") + " ";
 
-                        if (request.getParameter("grupo_id") != null && !request.getParameter("grupo_id").equals("")) {
+                            if (request.getParameter("grupo_id") != null && !request.getParameter("grupo_id").equals("")) {
 
-                            comando += " AND ac.grupo='" + request.getParameter("grupo_id") + "' ";
+                                comando += " AND ac.grupo='" + request.getParameter("grupo_id") + "' ";
 
+                            }
                         }
                     }
+                } else {
+                    comando = "select ap.codigo_id, ap.nivel_id as nivel, "
+                            + "'-' as grado , '-' as grupo, ap.escuela_id, "
+                            + "ap.nombre, ap.apaterno, ap.amaterno ,ce.escuela_nombre, "
+                            + "ce.logo, ne.nivel_nombre "
+                            + "from alum_personal ap "
+                            + "join cat_escuela ce on ce.escuela_id=ap.escuela_id "
+                            + "join cat_nivel_escuela ne on ne.escuela_id=ap.escuela_id and ne.nivel_id=ap.nivel_id "
+                            + "where codigo_id  is not null and ap.escuela_id='" + escuela + "' and "
+                            + " ap.codigo_id in (select distinct(auxiliar) from fin_movimientos where ejercicio_id like '" + escuela + "%')";
+
                 }
             }
             comando += " order by nivel,grado,grupo,codigo_id ";
@@ -171,8 +185,11 @@ public class PrintEstadoCuenta extends HttpServlet {
                 ep.setEscuela(rsa.getString("escuela_nombre"));
                 ep.setFfinal(ffin);
                 ep.setFinicial(fini);
-                if (rsa.getString("logo") != null && rsa.getString("logo").indexOf(".") != 0) {
+                if (rsa.getString("logo") != null && rsa.getString("logo").indexOf(".") != -1) {
                     ep.setLogo(imgpath + "/" + rsa.getString("logo"));
+                } else {
+                    //logoIASD.png
+                    ep.setLogo(imgpath + "/logoIASD.png");
                 }
                 ep.setNivelgradogrupo(rsa.getString("nivel_nombre") + " " + rsa.getString("grado") + " " + rsa.getString("grupo"));
                 ep.setNombre(rsa.getString("nombre").trim().toUpperCase() + " " + rsa.getString("apaterno").trim().toUpperCase() + " " + rsa.getString("amaterno").trim().toUpperCase());
@@ -195,17 +212,18 @@ public class PrintEstadoCuenta extends HttpServlet {
                     m.setTipoPoliza("");
                     m.setFecha(sdf.format(calb.getTime()));
                     m.setDocumento("");
-
-                    if (rsb.getBigDecimal("saldo").compareTo(BigDecimal.ZERO) < 0) {
-                        m.setAbonos(rsb.getBigDecimal("saldo").abs().toString());
-                        m.setNaturaleza("C");
-                        m.setSaldo(rsb.getBigDecimal("saldo").toString());
-                        saldo = saldo.subtract(rsb.getBigDecimal("saldo").abs());
-                    } else {
-                        m.setCargos(rsb.getBigDecimal("saldo").toString());
-                        m.setNaturaleza("D");
-                        m.setSaldo(rsb.getBigDecimal("saldo").toString());
-                        saldo = saldo.add(rsb.getBigDecimal("saldo"));
+                    if (rsb.getBigDecimal("saldo") != null) {
+                        if (rsb.getBigDecimal("saldo").compareTo(BigDecimal.ZERO) < 0) {
+                            m.setAbonos(rsb.getBigDecimal("saldo").abs().toString());
+                            m.setNaturaleza("C");
+                            m.setSaldo(rsb.getBigDecimal("saldo").toString());
+                            saldo = saldo.subtract(rsb.getBigDecimal("saldo").abs());
+                        } else {
+                            m.setCargos(rsb.getBigDecimal("saldo").toString());
+                            m.setNaturaleza("D");
+                            m.setSaldo(rsb.getBigDecimal("saldo").toString());
+                            saldo = saldo.add(rsb.getBigDecimal("saldo"));
+                        }
                     }
                     lsM.add(m);
                 }
@@ -272,15 +290,15 @@ public class PrintEstadoCuenta extends HttpServlet {
         response.setContentType("application/pdf");
         Collection<EdoCtaPanama> dataSource = datos(context.getRealPath("/imagenes/logos"), request);
         //CreaReporte.dsEdoctaB(context.getRealPath("/imagenes/logos"));
-        Locale locale = new Locale("es","MX");
-        
+        Locale locale = new Locale("es", "MX");
+
         File reportFile = new File(context.getRealPath("/WEB-INF/jsperFiles/formEstadoCuentaCtb.jasper"));
         Map parameters = new HashMap();
         parameters.put(JRParameter.REPORT_LOCALE, locale);
         JasperPrint jp = null;
         byte[] bytes = null;
         try {
-            
+
             bytes = JasperRunManager.runReportToPdf(reportFile.getPath(), parameters, new JRBeanCollectionDataSource(dataSource));
 
         } catch (JRException jreException) {
