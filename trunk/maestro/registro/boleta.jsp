@@ -345,15 +345,15 @@
 		    						tabla.addCell(celda);
 		    						
 		    						 int op = Integer.parseInt(cicloExtra.maximo(conElias, cicloId)); 
-					    		    for(int g = 0; g<=op; g++){
-		    						String nombre = cicloExtra.getNombreOp(conElias, cicloId, Integer.toString(g)).equals("0")?"Extra":cicloExtra.getNombreOp(conElias, cicloId, Integer.toString(g));
-		    						
-		    						celda = new PdfPCell(new Phrase(nombre, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						tabla.addCell(celda);
-		    						celda = new PdfPCell(new Phrase("Fecha", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						tabla.addCell(celda);
+					    		    for(int g = 1; g<=op; g++){
+			    						String nombre = cicloExtra.getNombreOp(conElias, cicloId, Integer.toString(g)).equals("0")?"Extra":cicloExtra.getNombreOp(conElias, cicloId, Integer.toString(g));
+			    						
+			    						celda = new PdfPCell(new Phrase(nombre, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+			    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    						tabla.addCell(celda);
+			    						celda = new PdfPCell(new Phrase("Fecha", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+			    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    						tabla.addCell(celda);
 		    						
 					    		    }
 		    						for(int l = 0; l < lisBloque.size(); l++){
@@ -714,7 +714,7 @@
 				    				tabla.addCell(celda);
 			    		        }
 			    		        int op = Integer.parseInt(cicloExtra.maximo(conElias, cicloId)); 
-			    		        for(int g = 0; g<=op; g++){
+			    		        for(int g = 1; g<=op; g++){
 				    		        java.util.HashMap<String, aca.kardex.KrdxAlumExtra> mapAlumExtra	= aca.kardex.KrdxAlumExtra.mapAlumnoExtra(conElias);
 				    		        if(mapAlumExtra.containsKey(alumnoCurso.getCodigoId()+cicloGrupoId+alumnoCurso.getCursoId()+g)){
 				    		        	celda = new PdfPCell(new Phrase(mapAlumExtra.get(alumnoCurso.getCodigoId()+cicloGrupoId+alumnoCurso.getCursoId()+g).getPromedio(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
