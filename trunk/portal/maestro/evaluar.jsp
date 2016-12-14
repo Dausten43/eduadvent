@@ -1824,8 +1824,11 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
  								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
  								kardexAlumnoExtra.setCursoId(cursoId);
  								kardexAlumnoExtra.setOportunidad("2");
-
-								if(promedio < notaAC && !kardexAlumnoExtra.existeReg(conElias)){
+//Esta variable "promedioFinal" era antes "promedio" y se cambió porque
+//la variable promedio tiene mal el cálculo porque a la hora de cerrar la evaluación
+//no se pusieron en 0 las notas que no tenían nada ingresado. Así que hay que corregir
+//el algoritmo de cerrar la evaluación
+								if(promedioFinal < notaAC && !kardexAlumnoExtra.existeReg(conElias)){
 									muestraBotonGuardarExtra = true;
 									
 									if ( !strExtra.equals("") ){%>
