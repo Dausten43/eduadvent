@@ -81,9 +81,11 @@
 		frm.setRoundingMode(java.math.RoundingMode.DOWN);	
 	}
 	if(ciclo.getRedondeo().equals("T")){//Si se trunca
+		frm1.setRoundingMode(java.math.RoundingMode.DOWN);
 		frm3.setRoundingMode(java.math.RoundingMode.DOWN);
 		frm4.setRoundingMode(java.math.RoundingMode.DOWN);
 	}else{//Si se redondea
+		frm1.setRoundingMode(java.math.RoundingMode.HALF_UP);
 		frm3.setRoundingMode(java.math.RoundingMode.HALF_UP);
 		frm4.setRoundingMode(java.math.RoundingMode.HALF_UP);
 	}
@@ -1518,7 +1520,7 @@
 	    						
 	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasSinNota[l] = "+materiasSinNota[l]+"; materiasTmp"+materiasTmp);
 	    						sumaPorTrimestre[l] = sumaPorTrimestre[l].divide(new BigDecimal(materiasTmp+"", mc), mc);
-    	    					celda = new PdfPCell(new Phrase( frm3.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+    	    					celda = new PdfPCell(new Phrase( frm1.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(2);
     	        				tabla.addCell(celda);
