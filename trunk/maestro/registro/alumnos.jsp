@@ -34,7 +34,10 @@
 	}
 	
 	function boletaAlumnoPanama(cicloGrupoId, codigoAlumno, empleadoId) {
-		document.location.href = "boletaAlumnoPanama.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno+"&empleadoId" + empleadoId;
+		//Se comentó esta línea para mostrar el pdf de la boleta en lugar del jsp, porque también lo quieren para imprimir con el formato del pdf
+		//document.location.href = "boletaAlumnoPanama.jsp?CicloGrupoId=" + cicloGrupoId+ "&CodigoAlumno=" + codigoAlumno+"&empleadoId" + empleadoId;
+		$("#boletaForm").append('<input type="hidden" id="unAlumno" name="unAlumno" value="'+codigoAlumno+'" />');
+		$("#boletaForm").submit();
 	}
 </script>
 
@@ -91,7 +94,7 @@
 		<table>
 			<tr>
 				<td valign="bottom">
-					<form action="boletaPanama.jsp" method="get">
+					<form action="boletaPanama.jsp" method="get" id="boletaForm">
 						<div style ='margin:20px 0;'>
 							Selecciona los periodos a imprimir <br />
 							<input type="checkbox" class="check" id="checkAll" checked>&nbsp Todos &nbsp<br /><br />

@@ -49,6 +49,7 @@
 	String cicloId 		= (String) session.getAttribute("cicloId");
 	
 	String cicloGrupoId	= request.getParameter("cicloGrupoId");
+	String unAlumno		= request.getParameter("unAlumno")==null?"":request.getParameter("unAlumno");
 	
 	String codigoAlumno = "";
 	String plan			= "";
@@ -59,7 +60,13 @@
 	int numGrado 			= 0;	
 	boolean hayAbiertas = CicloGrupoCurso.hayAbiertas(conElias, cicloGrupoId);
 	
-	ArrayList<String> lisAlum 			= cursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId);	
+	ArrayList<String> lisAlum;
+	if(unAlumno.equals("")){
+		lisAlum 			= cursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId);
+	}else{
+		lisAlum = new ArrayList<String>();
+		lisAlum.add(unAlumno);
+	}
 	ArrayList<CicloBloque> lisBloque	= cicloBloqueL.getListCiclo(conElias, cicloGrupoId.substring(0,8), "ORDER BY BLOQUE_ID");
 	ArrayList<CicloPromedio>  cicloPromedioList	= cicloPromedioU.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
 	ArrayList <KrdxAlumFalta> listaKrdxAlumFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'");
