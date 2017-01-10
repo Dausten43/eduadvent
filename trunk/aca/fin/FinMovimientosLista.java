@@ -581,12 +581,13 @@ public class FinMovimientosLista {
 		
 		try{
 			comando = "SELECT CUENTA_ID, COALESCE(SUM(IMPORTE),0) AS SALDO FROM FIN_MOVIMIENTOS"
-					+ " WHERE POLIZA_ID IN "
-					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estado+") AND TIPO IN ("+tipo+") "
+					+ " WHERE EJERCICIO_ID || '-' ||POLIZA_ID  IN "
+					+ " 	(SELECT EJERCICIO_ID || '-' ||POLIZA_ID  FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estado+") AND TIPO IN ("+tipo+") "
 					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
 					+ " AND NATURALEZA = '"+naturaleza+"'"
 					+ " AND ESTADO = '"+tipoMov+"'"
-					+ " GROUP BY CUENTA_ID";		
+					+ " GROUP BY CUENTA_ID";	
+			//System.out.println(comando);
 			rs= st.executeQuery(comando);		
 			while(rs.next()){
 				map.put(rs.getString("CUENTA_ID"), rs.getString("SALDO"));
