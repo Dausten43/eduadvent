@@ -937,7 +937,7 @@
 			    					}
 			    					//nota = String.valueOf(calculo);
 			    					// Colocar formato con una decimal
-			    					nota = frm3.format(calculo);
+			    					nota = frm4.format(calculo);
 			    					
 			    				}else{
 			    					nota = "0a";
@@ -946,7 +946,7 @@
 			    						calculo = sumaNotas.divide(new BigDecimal(cantidadTrimestres, mc),mc);
 			    					}
 			    					//nota = String.valueOf(calculo);
-			    					nota = frm3.format(calculo);
+			    					nota = frm4.format(calculo);
 			    				}
 			    				if(curso.getCursoBase().equals("-"))
 			    					promedioPorMateria[j] = new BigDecimal(nota, mc);
@@ -1527,7 +1527,8 @@
 	    						
 	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasSinNota[l] = "+materiasSinNota[l]+"; materiasTmp"+materiasTmp);
 	    						sumaPorTrimestre[l] = sumaPorTrimestre[l].divide(new BigDecimal(materiasTmp+"", mc), mc);
-    	    					celda = new PdfPCell(new Phrase( frm1.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+    	    					//celda = new PdfPCell(new Phrase( frm1.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+    	    					celda = new PdfPCell(new Phrase( "---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(2);
     	        				tabla.addCell(celda);
