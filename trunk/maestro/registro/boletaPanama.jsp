@@ -952,7 +952,7 @@
 			    					promedioPorMateria[j] = new BigDecimal(nota, mc);
 			    				
 			    				if(!curso.getCursoBase().equals("-")){
-			    					celda = new PdfPCell(new Phrase("------", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+			    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
@@ -1508,11 +1508,11 @@
 	    				
 	    				boolean todasTienenCalificacion = true;
 	    				
-	    				celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    				celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(2);
 	    				tabla.addCell(celda);
-	    				celda = new PdfPCell(new Phrase("Promedio Acumulados", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    				celda = new PdfPCell(new Phrase("Promedio Acumulado", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(2);
 	    				tabla.addCell(celda);
@@ -1528,12 +1528,12 @@
 	    						//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+";  materias = "+materias+"; materiasSinNota[l] = "+materiasSinNota[l]+"; materiasTmp"+materiasTmp);
 	    						sumaPorTrimestre[l] = sumaPorTrimestre[l].divide(new BigDecimal(materiasTmp+"", mc), mc);
     	    					//celda = new PdfPCell(new Phrase( frm1.format(sumaPorTrimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-    	    					celda = new PdfPCell(new Phrase( "---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+    	    					celda = new PdfPCell(new Phrase( "---", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(2);
     	        				tabla.addCell(celda);
     	    				}else{ 
-    	    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+    	    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(2);
     	        				tabla.addCell(celda);
@@ -1567,7 +1567,7 @@
 	    		    		if(notaDeTodas.compareTo(BigDecimal.ZERO) > 0 && trimestresConNota > 0)
 	    		    			promedioTrimestres = notaDeTodas.divide(new BigDecimal(materias+"", mc), mc);
 	    		    		//System.out.println(promedioTrimestres.floatValue());
-	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(2);
 	        				tabla.addCell(celda);
@@ -1577,7 +1577,7 @@
 							celda.setBorder(2);
 	        				tabla.addCell(celda);
 	    		    	}*/
-	    		    	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+	    		    	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(2);
 						celda.setColspan(2+(cantidadTrimestres*2));
