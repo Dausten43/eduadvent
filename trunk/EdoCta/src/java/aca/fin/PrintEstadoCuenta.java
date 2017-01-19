@@ -156,7 +156,7 @@ public class PrintEstadoCuenta extends HttpServlet {
 
             PreparedStatement psta = con.prepareStatement(comando);
 
-            PreparedStatement pstb = con.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO "
+               PreparedStatement pstb = con.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO "
                     + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD-MM-YYYY') and estado<>'C'");
 
             PreparedStatement pstc = con.prepareStatement(" SELECT MO.EJERCICIO_ID, "
@@ -165,7 +165,7 @@ public class PrintEstadoCuenta extends HttpServlet {
                     + " TO_CHAR(MO.FECHA, 'DD-MM-YYYY') AS FECHA, MO.RECIBO_ID, MO.CICLO_ID, MO.PERIODO_ID, MO.TIPOMOV_ID "
                     + " ,PO.TIPO  "
                     + " FROM FIN_MOVIMIENTOS MO"
-                    + " JOIN FIN_POLIZA PO ON PO.POLIZA_ID=MO.POLIZA_ID "
+                    + " JOIN FIN_POLIZA PO ON PO.POLIZA_ID=MO.POLIZA_ID AND PO.EJERCICIO_ID=MO.EJERCICIO_ID"
                     + " WHERE MO.AUXILIAR = ? "
                     + " AND MO.FECHA <= '" + ffin + "' AND MO.FECHA >= '" + fini + "'"
                     + " AND MO.ESTADO <> 'C' "

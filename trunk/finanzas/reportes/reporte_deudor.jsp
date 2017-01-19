@@ -123,7 +123,7 @@
 		<h3><%=escuela.getEscuelaNombre()%></h3>
 	</center>
 	<form name="frmEstado" id="frmEstado" method="post"
-		action="" class="hidden-print form-inline" target="_new">
+		action="" class="hidden-print form-inline">
 		<div class="well">
 		<h3>GENERADOR DE ESTADOS DE CUENTA</h3>
 			<div class="control-group">
