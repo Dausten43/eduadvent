@@ -246,19 +246,19 @@
 						
 						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
 						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
-						double promEval = 0; 
+						BigDecimal promEval = new BigDecimal("0", mc); 
 						if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
-							promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
+							promEval = new BigDecimal (mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
 						}
 						
 						// Suma los valores de todos los promedios en ciclo_promedio para calcular la nota final
 						// Considera solamente los evaluados
-						if (promEval > 0){
+						if (promEval.compareTo(BigDecimal.ZERO) > 0){
 							sumaValor = sumaValor.add(new BigDecimal(cicloPromedio.getValor(),mc), mc);
 						}
 						
 						// Puntos del promedio en escala de 100 (considerando el valor de cada promedio en escala de 0-100)
-						BigDecimal puntosEval = new BigDecimal(promEval, mc).multiply(new BigDecimal(cicloPromedio.getValor(), mc), mc).divide(new BigDecimal(escalaEval+"", mc));
+						BigDecimal puntosEval =promEval.multiply(new BigDecimal(cicloPromedio.getValor(), mc), mc).divide(new BigDecimal(escalaEval+"", mc));
 						
 						// Formato del promedio y los puntos (decimales usados)
 						String promFormato		= formato1.format(promEval);
@@ -286,7 +286,6 @@
 					
 					if (lisPromedio.size() > 1){
 					
-						double puntosEscala = 0;
 						if (escalaEval == 5){
 							if(sumaValor.compareTo(BigDecimal.ZERO) > 0)
 								promedioFinal = promedioFinal.multiply(new BigDecimal("5", mc), mc).divide(sumaValor, mc);
