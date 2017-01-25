@@ -6,6 +6,7 @@
 
 <%@ include file= "menuPortal.jsp" %>
 
+<%@page import="java.math.MathContext"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="aca.kardex.KrdxCursoAct"%>
 <%@page import="aca.vista.AlumEval"%>
@@ -28,6 +29,9 @@
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoAlumno");
 	String cicloId			= request.getParameter("ciclo");
+	String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
+	
+	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	
 	ArrayList<aca.ciclo.Ciclo> lisCiclo 		= cicloLista.getListCiclosAlumno(conElias, codigoId, "ORDER BY CICLO_ID");
 	
@@ -106,10 +110,14 @@ $('.materias').addClass('active');
 			cicloGrupoCurso.mapeaRegId(conElias, cicloGrupo.getCicloGrupoId(), krdxCursoAct.getCursoId());
 			empPersonal.mapeaRegId(conElias, cicloGrupoCurso.getEmpleadoId());
 			// Determina el promedio del alumno en la materia
-			double prom 	= 0.0;		 
+			BigDecimal prom 	= new BigDecimal("0.0", mc);		 
 			if (treeProm.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+codigoId)){
 				aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+codigoId);
-				prom = Double.parseDouble(alumProm.getPromedio())+Double.parseDouble(alumProm.getPuntosAjuste());			
+				if (nivelEvaluacion.equals("P")){
+				prom = (new BigDecimal(alumProm.getPromedio())).add(new BigDecimal(alumProm.getPuntosAjuste()));
+				}else if (nivelEvaluacion.equals("E")){
+					prom = new BigDecimal(alumProm.getPromedio());	
+				}
 			}else{
 				System.out.println("Error en promedio:"+codigoId+":"+cicloGrupoCurso.getCursoId());
 			}
