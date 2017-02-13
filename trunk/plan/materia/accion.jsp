@@ -284,7 +284,7 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Aspectos"> <fmt:message key="aca.HabilidadesyActitudes" />: </label>
+							<label for="Aspectos"> <fmt:message key="aca.HabitosyActitudes" />: </label>
 							<select name="Aspectos" id="Aspectos">
 								<option value="S" <%=Curso.getAspectos().equals("S")?" Selected":""%>><fmt:message key="aca.Si" /></option>
 								<option value="N" <%=Curso.getAspectos().equals("N")?" Selected":""%>><fmt:message key="aca.Negacion" /></option>
