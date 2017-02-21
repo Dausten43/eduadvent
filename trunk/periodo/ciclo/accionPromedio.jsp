@@ -161,7 +161,7 @@
 		</fieldset>
 		<fieldset>
 			<label for="corto"><fmt:message key="aca.NombreCorto" /></label>
-			<input name="corto" type="text" id="corto" value="<%=Promedio.getCorto()%>">
+			<input maxlength="10" name="corto" type="text" id="corto" value="<%=Promedio.getCorto()%>">
 		</fieldset>
 		<fieldset>
 			<label for="calculo"><fmt:message key="aca.Calculo" /></label>
