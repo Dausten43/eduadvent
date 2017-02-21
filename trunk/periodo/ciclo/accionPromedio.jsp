@@ -157,7 +157,7 @@
 		</fieldset>
 		<fieldset>
 			<label for="nombre"><fmt:message key="aca.Nombre" /></label>
-			<input name="nombre" type="text" id="nombre" value="<%=Promedio.getNombre()%>">
+			<input maxlength="40" name="nombre" type="text" id="nombre" value="<%=Promedio.getNombre()%>">
 		</fieldset>
 		<fieldset>
 			<label for="corto"><fmt:message key="aca.NombreCorto" /></label>

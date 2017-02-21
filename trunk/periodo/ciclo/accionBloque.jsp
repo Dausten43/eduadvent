@@ -255,7 +255,7 @@
  	   
  	   <fieldset>
 	    	<label for="BloqueNombre"><fmt:message key="aca.Nombre" /></label>
-	        <input name="BloqueNombre" type="text" id="BloqueNombre" size="40" maxlength="40" value="<%=Bloque.getBloqueNombre()%>">  
+	        <input name="BloqueNombre" type="text" id="BloqueNombre" size="30" maxlength="60" value="<%=Bloque.getBloqueNombre()%>">  
  	   </fieldset>
  	   
  	   <fieldset>
