@@ -235,7 +235,7 @@
 		    			<i class="icon-calendar"></i>
 		    		</a>
 		    		
-		    		<%= grupo.getGrupoNombre() %>
+		    		<%= grupo.getGrupoNombre() %> <%= grupo.getGrupo() %>
 		    		
 		    		<div style="float:right;">
 		      			<a href="maestro.jsp?CicloGrupoId=<%= grupo.getCicloGrupoId()%>&Parametro=<%="Grupos" %>"><i class="icon-user"></i></a>
