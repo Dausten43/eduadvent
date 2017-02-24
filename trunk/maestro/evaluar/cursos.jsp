@@ -166,7 +166,7 @@
 						</h4>
 						<p>
 							<%=Plan.getNombrePlan(conElias, cicloGrupo.getPlanId()) %> | 
-						 	<strong><%=cicloGrupo.getGrupoNombre() %></strong> 
+						 	<strong><%=cicloGrupo.getGrupoNombre() %> <%=cicloGrupo.getGrupo() %></strong> 
 						</p>
 						<div >
 							<a class="btn btn-primary btn-mini stopPropagation" href="lista.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>"><fmt:message key="maestros.Lista" /></a>
