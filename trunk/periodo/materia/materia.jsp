@@ -95,8 +95,9 @@
 							GrupoCurso.setHorario("--");
 							GrupoCurso.setSalonId("0");
 							GrupoCurso.setEstado("1");
+							
 							if (GrupoCurso.insertReg(conElias)){
-								
+							System.out.println("inserto grupocurso " + GrupoCurso.toString());	
 								for(aca.ciclo.CicloBloque bloque : lisBloque){
 									
 									GrupoEval.setCicloGrupoId(cicloGrupoId);

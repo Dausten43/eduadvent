@@ -14,11 +14,22 @@ import java.sql.Statement;
  */
 public class CicloGrupoCurso {
 	private String cicloGrupoId;
+	
+
 	private String cursoId;
 	private String empleadoId;
 	private String horario;
 	private String salonId;
 	private String estado;
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CicloGrupoCurso [cicloGrupoId=" + cicloGrupoId + ", cursoId=" + cursoId + ", empleadoId=" + empleadoId
+				+ ", horario=" + horario + ", salonId=" + salonId + ", estado=" + estado + "]";
+	}
 	
 	public CicloGrupoCurso(){
 		cicloGrupoId	= "";
