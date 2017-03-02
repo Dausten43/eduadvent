@@ -147,6 +147,11 @@
 				if(aca.catalogo.CatEsquemaLista.getEsquemaEvaluacion(conElias, (String) session.getAttribute("escuela"), cicloGrupo.getGrado() ,cicloGrupoCurso.getCursoId()).equals("C")){/* SI EVALUA POR COMPETENCIA */
 					url = "evaluarCompetencias.jsp";
 				}
+				
+				
+				//Con este Dato Valido si es un nivel maternal kinder prekinder
+				Integer nivelPlan = new Integer(Plan.getNivel(conElias, cicloGrupo.getPlanId()));
+				
 		%>
 				<tr>
 					<td style="cursor:pointer;padding:20px;" onclick="location.href='<%=url%>?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&randomString=<%=aca.util.RandomString.getRandomString() %>'">
@@ -174,9 +179,15 @@
 							<a class="btn btn-success btn-mini stopPropagation" target="_blank" href="tarjeta.jsp?Curso=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <%=KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId() ) %> <fmt:message key="aca.Alumnos" /></a>
 						<% 	String metodo = aca.catalogo.CatNivel.getMetodo(conElias, aca.catalogo.CatNivel.getNivelId(conElias, cicloGrupoCurso.getCursoId()));			  
 							if(metodo.equals("S")){
+								if(nivelPlan.compareTo(new Integer(2))<0 && cicloId.startsWith("H")){
 						%>	
+								<a class="btn btn-mini stopPropagation" href="metodo_kinder.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <fmt:message key="aca.MetodoEval" /></a>
+						<%
+								}else{
+						%>
 								<a class="btn btn-mini stopPropagation" href="metodo.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <fmt:message key="aca.MetodoEval" /></a>
 						<% 	
+								}
 							}else{ 
 						%>
 								<a class="btn btn-mini stopPropagation" href="metodologia.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia%>&Maestro=<%=maestro%>"><fmt:message key="aca.MetodoEval" /></a>
