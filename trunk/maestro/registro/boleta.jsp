@@ -219,11 +219,11 @@
             	wrapTable.addCell(topTable);
 	            
             	
-	            PdfPTable tabla = new PdfPTable(7+(lisBloque.size()*2));
+	            //*
 	            
 	    		//int colsWidth[] = {3, 12, 25, 3, 3, 3, 3, 3, 5, 7, 5, 7, 3, 3, 3, 3, 3, 6};
 	    		int numExtras = Integer.parseInt(cicloExtra.maximo(conElias, cicloId));
-	    		int colsWidth[] = new int[5+(numExtras*2)+(lisBloque.size()*2)];
+	    		float colsWidth[] = new float[5+(numExtras*2)+(lisBloque.size()*2)];
 	    		int cont = 0;
 	    		colsWidth[cont++] = 3;//0
 	    		colsWidth[cont++] = 25;//2
@@ -241,7 +241,8 @@
 	    			colsWidth[cont++] = 30/lisBloque.size();
 	    		}
 	    		colsWidth[cont] = 6;
-	            tabla.setWidths(colsWidth);
+	    		
+	    		PdfPTable tabla = new PdfPTable(colsWidth);
 	            tabla.setSpacingAfter((float)0);
 	            tabla.setSpacingBefore((float)0);            
 	            
@@ -322,7 +323,7 @@
 		    						tabla.addCell(celda);
 	    							celda = new PdfPCell(new Phrase("Notas", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setColspan(lisBloque.size()+4);
+		    						celda.setColspan(lisBloque.size()+2+numExtras);
 		    						tabla.addCell(celda);
 		    						celda = new PdfPCell(new Phrase("Faltas", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -422,13 +423,16 @@
 		    	    		    	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	    				tabla.addCell(celda);
-		    	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    	    				tabla.addCell(celda);
-		    	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    	    				tabla.addCell(celda);
-		    	   	    	    				
+		    	    				//
+		    	    				for(int g = 0; g < numExtras; g++){
+		    	    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+			    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    	    				tabla.addCell(celda);
+			    	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+			    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    	    				tabla.addCell(celda);
+		    	    	    		}
+		    	   	    	    	//		
 		    	    				for(int l = 0; l < lisBloque.size(); l++){
 		    	    					if(faltasPorBimestre[l] > 0){
 			    	    		    		celda = new PdfPCell(new Phrase(String.valueOf(faltasPorBimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
