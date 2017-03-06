@@ -200,6 +200,10 @@ public class UtilPreescolar {
 		}
 	}
 	
+	public void addTareaKinder(){
+		
+	}
 	
+
 
 }
