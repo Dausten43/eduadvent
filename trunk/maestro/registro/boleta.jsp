@@ -323,7 +323,7 @@
 		    						tabla.addCell(celda);
 	    							celda = new PdfPCell(new Phrase("Notas", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setColspan(lisBloque.size()+2+numExtras);
+		    						celda.setColspan(lisBloque.size()+2+(numExtras*2));
 		    						tabla.addCell(celda);
 		    						celda = new PdfPCell(new Phrase("Faltas", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
