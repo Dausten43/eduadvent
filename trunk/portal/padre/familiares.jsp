@@ -12,7 +12,7 @@
 <%
 	String escuelaId		= (String)session.getAttribute("escuela");
 	String codigoPersonal 	= (String)session.getAttribute("codigoId");
-	String escuela		  	= (String)session.getAttribute("escuelaNombre");
+	String escuelaNombre		  	= (String)session.getAttribute("escuelaNombre");
 	String accion 			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	int Accion 				= Integer.parseInt(accion);
 	String resultado		="";
@@ -129,7 +129,7 @@
 				<fieldset>
 					<div class="control-group ">
 
-						<label for="Estudio"> <fmt:message key="portal.EstudioAlgunaVez" /> <%=escuela%>?
+						<label for="Estudio"> <fmt:message key="portal.EstudioAlgunaVez" /> <%=escuelaNombre%>?
 						</label><input type="radio" id="Estudio" name="Estudio" value="S" Checked />
 						<fmt:message key="aca.Si" /> <input type="radio" id="Estudio" name="Estudio" value="N"
 							<%=Datos.getEstudio().equals("N")?" Checked":""%> /> <fmt:message key="aca.Negacion" />
