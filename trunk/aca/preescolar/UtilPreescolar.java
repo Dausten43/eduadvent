@@ -12,6 +12,7 @@ import java.util.Map;
 
 import aca.ciclo.CicloBloqueActividad;
 import aca.ciclo.CicloBloqueActividadLista;
+import aca.ciclo.CicloGrupo;
 import aca.conecta.Conectar;
 import oracle.sql.BLOB;
 
@@ -200,10 +201,67 @@ public class UtilPreescolar {
 		}
 	}
 	
-	public void addTareaKinder(){
-		
+	public void addTareaKinder(CicloGrupoKinderTareas cgkt){
+		try{
+			PreparedStatement pst = con.prepareStatement("INSERT INTO ciclo_grupo_kinder_tareas("
+					+ "ciclo_gpo_id, curso_id, evaluacion_id, actividad_id, "
+					+ "actividad, observacion)    VALUES (?, ?, ?, ?, "
+					+ "?, ?);");
+			pst.setString(1, cgkt.getCiclo_gpo_id());
+			pst.setString(2, cgkt.getCurso_id());
+			pst.setLong(3, cgkt.getEvaluacion_id());
+			pst.setLong(4, cgkt.getActividad_id());
+			pst.setString(5, cgkt.getActividad());
+			pst.setString(6, cgkt.getObservacion());
+			
+			pst.executeUpdate();
+			
+			pst.close();
+			
+		}catch(SQLException sqle){
+			System.out.println("Error en addTareaKinder : " + sqle);
+		}
 	}
 	
-
+	public List<CicloGrupoKinderTareas> getTareas(String cicloGrupoId, String cursoId, int evaluacionId, int actividadId){
+		List<CicloGrupoKinderTareas> salida = new ArrayList();
+		String sql = "select * from ciclo_grupo_kinder_tareas where id_kinder_tarea is not null ";
+		if(!cicloGrupoId.equals("")){
+			sql += " and ciclo_gpo_id='"+cicloGrupoId+"' ";
+		}
+		if(!cicloGrupoId.equals("")){
+			sql += " and curso_id='"+cursoId+"' ";
+		}
+		
+		if(evaluacionId!=0){
+			sql += " and evaluacion_id="+evaluacionId+"";
+		}
+		if(actividadId!=0){
+			sql += " and evaluacion_id="+actividadId+"";
+		}
+		
+		try{
+			PreparedStatement pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()){
+				
+				CicloGrupoKinderTareas kt = new CicloGrupoKinderTareas(
+						rs.getLong("id_kinder_tarea"),
+						rs.getString("ciclo_gpo_id"),
+						rs.getString("curso_id "),
+						rs.getLong("evaluacion_id"),
+						rs.getLong("actividad_id"),
+						rs.getString("actividad"),
+						rs.getString("observacion")
+						);
+				
+			}
+			rs.close();
+			pst.close();
+		}catch(SQLException sqle ){
+			System.out.println("Error en getTareas " + sqle);
+		}
+		return salida;
+	}
 
 }
