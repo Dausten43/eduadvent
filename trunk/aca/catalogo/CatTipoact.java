@@ -192,8 +192,8 @@ public class CatTipoact {
 		
 		try{
 			ps = conn.prepareStatement("SELECT TIPOACT_NOMBRE FROM CAT_TIPOACT WHERE "
-					+ "--UNION_ID = TO_NUMBER(?,'99') AND "
-					+ "TIPOACT_ID = TO_NUMBER(?, '99')"); 
+			//		+ "--UNION_ID = TO_NUMBER(?,'99') AND "
+					+ " AND TIPOACT_ID = TO_NUMBER(?, '99')"); 
 			ps.setString(1, tipoactId);			
 			rs = ps.executeQuery();
 			if (rs.next())
