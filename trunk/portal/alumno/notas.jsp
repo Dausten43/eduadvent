@@ -6,6 +6,7 @@
 
 
 <%@ include file= "menuPortal.jsp" %>
+<%@page import="java.math.MathContext"%>
 
 <jsp:useBean id="AlumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="AlumPlanL" scope="page" class="aca.alumno.AlumPlanLista"/>
@@ -26,7 +27,9 @@
 	String nivel			= aca.plan.Plan.getNivel(conElias, planId);
 	String nivelNombre		= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivel);
 	String nivelTitulo		= aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, nivel).toUpperCase();
-	boolean existeAlumno 	= false;			
+	boolean existeAlumno 	= false;	
+	
+	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	
 	/* Planes de estudio del alumno */
 	ArrayList<aca.alumno.AlumPlan> lisPlan						= AlumPlanL.getArrayList(conElias, codigoId, "ORDER BY F_INICIO");
@@ -201,8 +204,8 @@
 		    <td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
 		    <td width="20%"><%=curso.getCursoNombre()%></td>
 <%
-					double promedioFinal = 0;
-					double sumaValor = 0;
+					BigDecimal promedioFinal = new BigDecimal("0", mc);
+					BigDecimal sumaValor = new BigDecimal("0", mc);
 
 					for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 						int evalCerradas = 0;
@@ -210,9 +213,9 @@
 							if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
 								
 								// Nota del alumno en la evaluacion
-								double notaEval = 0;
+								BigDecimal notaEval = new BigDecimal("0", mc);
 								if (mapEval.containsKey(codigoId+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-									notaEval = Double.parseDouble(mapEval.get(codigoId+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
+									notaEval = new BigDecimal(mapEval.get(codigoId+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
 								}
 								// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
 								String estadoEval = "A";
@@ -240,19 +243,19 @@
 						
 						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
 						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
-						double promEval = 0; 
+						BigDecimal promEval = new BigDecimal("0", mc); 
 						if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
-							promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
+							promEval = new BigDecimal (mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
 						}
 						
 						// Suma los valores de todos los promedios en ciclo_promedio para calcular la nota final
 						// Considera solamente los evaluados
-						if (promEval > 0){
-							sumaValor += Double.parseDouble(cicloPromedio.getValor());
+						if (promEval.compareTo(BigDecimal.ZERO) > 0){
+							sumaValor = sumaValor.add(new BigDecimal(cicloPromedio.getValor(),mc), mc);
 						}
 						
 						// Puntos del promedio en escala de 100 (considerando el valor de cada promedio en escala de 0-100)
-						double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;						
+						BigDecimal puntosEval =promEval.multiply(new BigDecimal(cicloPromedio.getValor(), mc), mc).divide(new BigDecimal(escalaEval+"", mc));
 						
 						// Formato del promedio y los puntos (decimales usados)
 						String promFormato		= formato1.format(promEval);
@@ -273,18 +276,20 @@
 						// Inserta columna de los puntos
 						out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
 						
-						promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
+						promedioFinal = promedioFinal.add (new BigDecimal(puntosFormato,mc),mc);
 						
 						
 					}//End for de promedio						
 					
 					if (lisPromedio.size() > 1){
 					
-						double puntosEscala = 0;
 						if (escalaEval == 5){
-							promedioFinal = (promedioFinal * 5)/sumaValor;
+							if(sumaValor.compareTo(BigDecimal.ZERO)>0)
+							promedioFinal = promedioFinal.multiply(new BigDecimal ("5", mc),mc).divide(sumaValor, mc);
+
 						}else if (escalaEval == 10){
-							promedioFinal = (promedioFinal * 10)/sumaValor;
+							if(sumaValor.compareTo(BigDecimal.ZERO)>0)
+							promedioFinal = promedioFinal.multiply(new BigDecimal ("10", mc),mc).divide(sumaValor, mc);
 						}							
 						String muestraPromedioFinal = formato2.format(promedioFinal);
 					
