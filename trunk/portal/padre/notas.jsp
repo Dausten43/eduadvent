@@ -216,9 +216,9 @@
 							if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
 								
 								// Nota del alumno en la evaluacion
-								double notaEval = 0;
+								BigDecimal notaEval = new BigDecimal("0", mc);
 								if (mapEval.containsKey(codigoId+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId())){
-									notaEval = Double.parseDouble(mapEval.get(codigoId+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
+									notaEval = new BigDecimal (mapEval.get(codigoId+cicloGrupoId+alumCurso.getCursoId()+cicloBloque.getBloqueId()).getNota());
 								}
 								// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
 								String estadoEval = "A";
@@ -279,7 +279,7 @@
 						// Inserta columna de los puntos
 						out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
 						
-						promedioFinal = promedioFinal.add(puntosEval, mc);
+						promedioFinal = promedioFinal.add(new BigDecimal(puntosFormato, mc),mc);
 						
 						
 					}//End for de promedio						
