@@ -566,7 +566,7 @@
 		    									//System.out.println("pcp = (float)"+sumaPCP+"/"+contPCP);
 		    									if(sumaPCP > 0 && contPCP > 0)
 													pcp = (float)sumaPCP/contPCP;
-		    									String valor = frm3.format(pcp);
+		    									String valor = frm.format(pcp);
 		    									//System.out.println("pcp(valor)="+valor);
 												pcp = Float.parseFloat(valor);
 												celda = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
@@ -580,7 +580,7 @@
 					    						MathContext m = new MathContext(4, RoundingMode.HALF_UP);
 					    						BigDecimal b = new BigDecimal(pcp, m);
 					    						b = b.multiply(BigDecimal.valueOf(70), m).divide(BigDecimal.valueOf(100), m);
-					    						celda = new PdfPCell(new Phrase(frm3.format(b.floatValue()), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+					    						celda = new PdfPCell(new Phrase(frm.format(b.floatValue()), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 			    								celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 					    						celda.setBorder(2);
 					    						tabla.addCell(celda);
