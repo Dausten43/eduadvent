@@ -8,29 +8,18 @@ public class CicloGrupoKinderTareas {
 	private Long actividad_id;			
 	private String  actividad;		
 	private String observacion;
+	private String ciclo_id;
+	private Integer status;
+	private Long promedio_id;
 	
 	public CicloGrupoKinderTareas(){
 		
 	}
+
 	
 	
-	
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "CicloGrupoKinderTareas [id_kinder_tarea=" + id_kinder_tarea + ", ciclo_gpo_id=" + ciclo_gpo_id
-				+ ", curso_id=" + curso_id + ", evaluacion_id=" + evaluacion_id + ", actividad_id=" + actividad_id
-				+ ", actividad=" + actividad + ", observacion=" + observacion + "]";
-	}
-
-
-
-
 	public CicloGrupoKinderTareas(Long id_kinder_tarea, String ciclo_gpo_id, String curso_id, Long evaluacion_id,
-			Long actividad_id, String actividad, String observacion) {
+			Long actividad_id, String actividad, String observacion, String ciclo_id, Integer status, Long promedio_id) {
 		super();
 		this.id_kinder_tarea = id_kinder_tarea;
 		this.ciclo_gpo_id = ciclo_gpo_id;
@@ -39,8 +28,24 @@ public class CicloGrupoKinderTareas {
 		this.actividad_id = actividad_id;
 		this.actividad = actividad;
 		this.observacion = observacion;
+		this.ciclo_id = ciclo_id;
+		this.status = status;
+		this.promedio_id= promedio_id;
 	}
 
+
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "CicloGrupoKinderTareas [id_kinder_tarea=" + id_kinder_tarea + ", ciclo_gpo_id=" + ciclo_gpo_id
+				+ ", curso_id=" + curso_id + ", evaluacion_id=" + evaluacion_id + ", actividad_id=" + actividad_id
+				+ ", actividad=" + actividad + ", observacion=" + observacion + ", ciclo_id=" + ciclo_id + ", status="
+				+ status + ", promedio_id=" + promedio_id + "]";
+	}
 
 
 
@@ -127,6 +132,64 @@ public class CicloGrupoKinderTareas {
 	 */
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
+	}
+
+
+
+
+	/**
+	 * @return the ciclo_id
+	 */
+	public String getCiclo_id() {
+		return ciclo_id;
+	}
+
+
+
+
+	/**
+	 * @param ciclo_id the ciclo_id to set
+	 */
+	public void setCiclo_id(String ciclo_id) {
+		this.ciclo_id = ciclo_id;
+	}
+
+
+
+
+	/**
+	 * @return the status
+	 */
+	public Integer getStatus() {
+		return status;
+	}
+
+
+
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+
+
+	/**
+	 * @return the promedio_id
+	 */
+	public Long getPromedio_id() {
+		return promedio_id;
+	}
+
+
+
+	/**
+	 * @param promedio_id the promedio_id to set
+	 */
+	public void setPromedio_id(Long promedio_id) {
+		this.promedio_id = promedio_id;
 	}
 	
 	
