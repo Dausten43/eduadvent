@@ -169,8 +169,11 @@
 		// Consulta el saldo anterior del alumno
 		String saldoStr 	= aca.fin.FinMovimientos.getSaldoAnterior(conElias, codigoId, fechaInicio);
 		double saldoNum		= Double.valueOf(saldoStr);
-		String signoSaldo	= saldoNum>=0?"Deudor":"Acreedor"; 
-		
+		 
+		BigDecimal saldoAnterior = BigDecimal.ZERO;
+		saldoAnterior = saldoAnterior.add(new BigDecimal(saldoStr));
+		//System.out.println(saldoAnterior);
+		String signoSaldo	= saldoAnterior.compareTo(BigDecimal.ZERO)>=0 ? "Deudor":"Acreedor";
 		//System.out.println("Datos:"+saldoStr+":"+saldoNum);
 		
 		// Línea del saldo anterior
@@ -183,16 +186,18 @@
 			out.print("<td align='center'>-</td>");
 			out.print("<td align='center'><b>Saldo Anterior</b></td>");
 			
-			if (saldoNum>0){
+			if (saldoAnterior.compareTo(BigDecimal.ZERO)>=0){
+				out.print("<td class='text-right'>"+formato.format(saldoAnterior)+"</td>");
 				out.print("<td>&nbsp;</td>");
-				out.print("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
+				
 			}else{
-				out.print("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
 				out.print("<td>&nbsp;</td>");
+				out.print("<td class='text-right'>"+formato.format(saldoAnterior.abs())+"</td>");
 			}
+			
 			out.println("<td class='text-right'>"+formato.format(saldoNum)+"</td>");
 			out.println("<td class='text-right' ");
-			if(saldoNum>0){
+			if (saldoAnterior.compareTo(BigDecimal.ZERO)>=0){
 				out.println("style='color:red;'");
 			}else{
 				out.println("style='color:green;'");
