@@ -38,6 +38,13 @@
 			}
 			up.close();
 	%>
+	<h2>Crear actividades para el curso</h2>
+<div class="well well-sm">
+<a class="btn btn-primary stopPropagation" href="metodo_kinder.jsp?CursoId=<%= cursoid %>&CicloGrupoId=<%= ciclogrupoid %>"><i class="icon icon-backward icon-white"></i> <fmt:message key="aca.MetodoEval" /></a>
+ &nbsp;&nbsp;<strong>Plan: </strong><%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoid))%>
+			  &nbsp;&nbsp;<strong>Materia: </strong> <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoid)%>
+			  &nbsp;&nbsp;<strong>Grado: </strong><%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, ciclogrupoid)%>
+</div>
 	<table class="table">
 		<tr>
 			<td style="width: 30%;">
@@ -45,7 +52,7 @@
 					<form>
 						<label for="selectA">Area:</label> <select id="sPromedio"
 							class="form-control">
-							<option></option>
+							<option value="">Seleccione...</option>
 							<%
 								for (Integer pr : mapCAEP.keySet()) {
 							%>
@@ -93,6 +100,7 @@
 		$('#formTarea').empty();
 		$('#tablaResultados').empty();
 		var datadata = 'ciclo_id='+cicloid+'&curso_id='+cursoid+'&ciclo_grupo_id='+ciclogrupoid+'&promedioid='+ selectValue +'&selectEvaluacion=true';
+		if(selectValue!=''){
 		$.ajax({
 			url : 'ajaxActividadesKinder.jsp',
 			type : 'post',
@@ -104,17 +112,18 @@
 				alert(xhr.status + " " + thrownError);
 			}
 		});
+	}
 	});
 	
 $('#evaluacion').change(function(e) {
-		console.log("entro a sevaluacion");
+		//console.log("entro a sevaluacion");
 		
 		var selectValue = $('#sEvaluacion').val();
 		var cicloid ='<%=cicloid%>';
 		var cursoid = '<%=cursoid%>';
 		var ciclogrupoid = '<%=ciclogrupoid%>'; 
 		var promedioid = $('#sPromedio').val();
-		
+		$('#actividad').empty();
 		$('#formTarea').empty();
 		$('#tablaResultados').empty();
 
@@ -123,6 +132,7 @@ $('#evaluacion').change(function(e) {
 									+ ciclogrupoid + '&evaluacionid='
 									+ selectValue + '&promedioid=' + promedioid
 									+ '&selectActividad=true';
+							if(selectValue!=''){
 							$.ajax({
 										url : 'ajaxActividadesKinder.jsp',
 										type : 'post',
@@ -137,11 +147,12 @@ $('#evaluacion').change(function(e) {
 													+ thrownError);
 										}
 									});
+							}
 						});
 
 
 $('#actividad').change(function(e) {
-	console.log("entro a sevaluacion");
+	//console.log("cambio periodo");
 	
 	var selectValue = $('#sActividad').val();
 	var cicloid ='<%=cicloid%>';
@@ -155,6 +166,10 @@ $('#actividad').change(function(e) {
 						+ selectValue + '&promedioid=' + promedioid
 						+ '&evaluacionid=' + evaluacionid;
 				+'&selectActividad=true';
+				//console.log(datadata);
+				$('#formTarea').empty();
+				$('#tablaResultados').empty();
+				if(selectValue!=''){
 				$.ajax({
 					url : 'ajaxFormKinder.jsp',
 					type : 'post',
@@ -179,6 +194,7 @@ $('#actividad').change(function(e) {
 						alert(xhr.status + " " + thrownError);
 					}
 				});
+				}
 			});
 
 function guardaFormulario(){
@@ -200,14 +216,14 @@ function guardaFormulario(){
 						+ '&actividad='+actividad
 						+ '&observacion=' +observacion 
 				+'&guardar=true';
-				
-				console.log("entra a agregar " + datadata);
+				if(actividad!='' && observacion!=''){
+				//console.log("entra a agregar " + datadata);
 				$.ajax({
 					url : 'ajaxTableTareas.jsp',
 					type : 'post',
 					data : datadata,
 					success : function(output) {
-						$('#formTarea').html(output);
+						$('#tablaResultados').html(output);
 						
 						
 					},
@@ -231,9 +247,70 @@ function guardaFormulario(){
 						alert(xhr.status + " " + thrownError);
 					}
 				});
+				}else{
+					alert('los campos de Actvidad y Observacion son requeridos.');
+					datadata = 'cicloid=' + cicloid + '&cursoid=' + cursoid
+					+ '&ciclogrupoid=' + ciclogrupoid + '&actividadid='
+					+ actividadid + '&promedioid=' + promedioid
+					+ '&evaluacionid=' + evaluacionid 
+					+ '&actividad='+actividad
+					+ '&observacion=' +observacion; 
+			
+					
+					$.ajax({
+						url : 'ajaxTableTareas.jsp',
+						type : 'post',
+						data : datadata,
+						success : function(output) {
+							$('#tablaResultados').html(output);
+							
+							
+						},
+						error : function(xhr, ajaxOptions, thrownError) {
+							console.log("error " + datadata);
+							alert(xhr.status + " " + thrownError);
+							
+						}
+						
+						
+					});
+					$.ajax({
+						url : 'ajaxFormKinder.jsp',
+						type : 'post',
+						data : datadata,
+						success : function(output) {
+							$('#formTarea').html(output);
+						},
+						error : function(xhr, ajaxOptions, thrownError) {
+							console.log("error " + datadata);
+							alert(xhr.status + " " + thrownError);
+						}
+					});
+					
+				}
 				
 }
 			
+			function quitar( idtarea ){
+				
+				var tarea = idtarea;
+				
+				var datadata= 'id_kinder_tarea='+tarea+'&quitar=true';
+				if(confirm("Confirma eliminar el dato")){
+				$.ajax({
+					url : 'ajaxTableTareas.jsp',
+					type : 'post',
+					data : datadata,
+					success : function(output) {
+						$('#actividad').trigger("change");
+					},
+					error : function(xhr, ajaxOptions, thrownError) {
+						console.log("error " + datadata);
+						alert(xhr.status + " " + thrownError);
+					}
+				});
+				}
+			}
 			
 			
 // $('#guardaformulario').click(function(e) {

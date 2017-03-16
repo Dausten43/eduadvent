@@ -6,9 +6,9 @@
 <%@page import="aca.preescolar.UtilPreescolar"%>
 <%
 
-String cicloid = request.getParameter("ciclo_id")!=null ? request.getParameter("ciclo_id") : "H981717A" ;
-String cursoid = request.getParameter("curso_id")!=null ? request.getParameter("curso_id") : "H98-03HABI01" ;
-String ciclogrupoid = request.getParameter("ciclo_grupo_id")!=null ? request.getParameter("ciclo_grupo_id") : "H981717A001" ;
+String cicloid = request.getParameter("ciclo_id")!=null ? request.getParameter("ciclo_id") : "" ;
+String cursoid = request.getParameter("curso_id")!=null ? request.getParameter("curso_id") : "" ;
+String ciclogrupoid = request.getParameter("ciclo_grupo_id")!=null ? request.getParameter("ciclo_grupo_id") : "" ;
 
 Integer promedioid = request.getParameter("promedioid")!=null ? new Integer(request.getParameter("promedioid")) : 0;
 Integer evaluacionid = request.getParameter("evaluacionid")!=null ? new Integer(request.getParameter("evaluacionid")) : 0;
@@ -27,7 +27,7 @@ if(request.getParameter("selectEvaluacion")!=null){
 	%>
 	<label>Criterio:</label>
 	<select id="sEvaluacion" class="form-control">
-	<option></option>
+	<option value="">Seleccione...</option>
 	<%
 	for(CicloActividadEvaluacionPromedio p : lsCAP){
 		
@@ -49,9 +49,9 @@ if(request.getParameter("selectEvaluacion")!=null){
 <%
 if(request.getParameter("selectActividad")!=null){
 	%>
-	<label>Periodo:</label>
+	<label>Período:</label>
 	<select id="sActividad" class="form-control">
-	<option></option>
+	<option value="">Seleccione...</option>
 	<%
 	for(CicloActividadEvaluacionPromedio p : lsCAP){
 		//System.out.println( (p.getPromedioId().equals(promedioid) && p.getEvaluacionId().equals(evaluacionid)) +"\t" + promedioid + "\t" + evaluacionid);

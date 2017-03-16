@@ -135,7 +135,7 @@ public class UtilPreescolar {
 							pst.setInt(2, bloque);
 							pst.setInt(3, actTmpl);
 							pst.setString(4, actividades().get(actTmpl));
-							System.out.println(pst);
+							//System.out.println(pst);
 							int salida = pst.executeUpdate();
 						}
 
@@ -186,7 +186,7 @@ public class UtilPreescolar {
 							pst.setInt(2, bloque);
 							pst.setInt(3, actTmpl);
 							pst.setString(4, actividades().get(actTmpl));
-							System.out.println(pst);
+							//System.out.println(pst);
 							int salida = pst.executeUpdate();
 						}
 
@@ -224,7 +224,43 @@ public class UtilPreescolar {
 		}
 	}
 	
-	public List<CicloGrupoKinderTareas> getTareas(String cicloGrupoId, String cursoId, int evaluacionId, int actividadId, String cicloId, int status, int promedio_id){
+	public void  desactivarActividad(Integer id_kinder_tarea){
+		try{
+			PreparedStatement pst = con.prepareStatement("update ciclo_grupo_kinder_tareas set status=0 where id_kinder_tarea=?");
+			pst.setInt(1, id_kinder_tarea);
+			pst.executeUpdate();
+			pst.close();
+		}catch(SQLException sqle){
+			System.err.println("error al eliminar tarea " + sqle);
+		}
+	}
+	
+	public Map<String,Integer> getNumeroTareas(String cicloGrupoId, String cursoId, String cicloId){
+		Map<String,Integer> salida = new HashMap();
+		
+		try{
+			PreparedStatement pst = con.prepareStatement("select promedio_id, evaluacion_id, actividad_id, count(id_kinder_tarea) as contador "
+					+ "from ciclo_grupo_kinder_tareas "
+					+ "where ciclo_gpo_id=? and curso_id=? and ciclo_id=? and status=1 "
+					+ "group by promedio_id, evaluacion_id, actividad_id ");
+			pst.setString(1, cicloGrupoId);
+			pst.setString(2, cursoId);
+			pst.setString(3, cicloId);
+			
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()){
+				salida.put(rs.getString("promedio_id")+"-"+rs.getString("evaluacion_id")+"-"+rs.getString("actividad_id"), rs.getInt("contador"));
+			}
+			rs.close();
+			pst.close();
+		}catch(SQLException sqle){
+			
+		}
+		
+		return salida;
+	}
+	
+	public List<CicloGrupoKinderTareas> getTareas(String cicloGrupoId, String cursoId, int evaluacionId, int actividadId, String cicloId, int status, int promedio_id, int actividad_id){
 		List<CicloGrupoKinderTareas> salida = new ArrayList();
 		String sql = "select * from ciclo_grupo_kinder_tareas where id_kinder_tarea is not null ";
 		
@@ -252,6 +288,11 @@ public class UtilPreescolar {
 			sql += " and promedio_id="+promedio_id+"";
 		}
 		
+		if(actividad_id!=0){
+			sql += " and actividad_id="+actividad_id+"";
+		}
+		
+		//System.out.println(sql);
 		try{
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();

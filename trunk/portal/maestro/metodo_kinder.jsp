@@ -1,3 +1,7 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="aca.preescolar.UtilPreescolar"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -32,9 +36,16 @@
 	
 	String resultado			= "";
 	
+	UtilPreescolar up = new UtilPreescolar();
+	Map<String, Integer> contadorTareasPEA = new HashMap();
+	
+	contadorTareasPEA.putAll(up.getNumeroTareas(cicloGrupoId, cursoId, cicloId));
+	
+	up.close();
+	
 	ArrayList<aca.ciclo.CicloPromedio> listPromedio 		= promedioL.getListPromedioCiclo(conElias, cicloId," ORDER BY ORDEN");
 	ArrayList<aca.ciclo.CicloGrupoEval> listEstrategias 	= new ArrayList();
-	System.out.println(cicloGrupoId + " " + cursoId);
+	//System.out.println(cicloGrupoId + " " + cursoId);
 	
 	ArrayList<aca.ciclo.CicloGrupoActividad> lisActividad 	= cicloGrupoActividadL.getListGrupo(conElias, cicloGrupoId, cursoId, "ORDER BY EVALUACION_ID, ACTIVIDAD_ID");
 	
@@ -65,6 +76,7 @@
 	</h2>	
 	<div class="well"> 
 			  <a class="btn btn-primary" href="cursos.jsp"><i class="icon icon-th-list icon-white"></i> <fmt:message key="maestros.Cursos" /></a>
+			  <a class="btn btn-primary" href="altaTareaskinder.jsp?ciclo_id=<%= cicloId %>&curso_id=<%= cursoId %>&ciclo_grupo_id=<%= cicloGrupoId %>"><i class="icon icon-pencil icon-white"></i> <fmt:message key="aca.CrearActividades" /></a>
 			  &nbsp;&nbsp;<strong>Plan: </strong><%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoId))%>
 			  &nbsp;&nbsp;<strong>Materia: </strong> <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%>
 			  &nbsp;&nbsp;<strong>Grado: </strong><%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%>
@@ -135,7 +147,7 @@
 			<div class="span9">
 				<div class="alert">
 					<h6>N3. 
-						<fmt:message key="aca.Actividades" />
+						<fmt:message key="aca.Periodos" />
 						&nbsp;
 						<%if( aca.ciclo.Ciclo.getEditarActividad(conElias, cicloId).equals("SI") ){ %>
 							<a class="btn btn-mini" href="actividad.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>&EvaluacionId=<%= evaluacion.getEvaluacionId()%>">
@@ -157,8 +169,8 @@
 %>							
 						<table class="table table-condensed table-bordered">
 							<tr>
-								<th><fmt:message key="aca.Actividad" /></th>
-								<th><fmt:message key="aca.FechaEntrega" /></th>
+								<th><fmt:message key="aca.Periodo" /></th>
+								<th><fmt:message key="aca.ActividadesTrimestre" /></th>
 								<th><fmt:message key="aca.Valor" /> </th> 
 								<th><fmt:message key="aca.Etiqueta" /> </th>
 								<th><fmt:message key="aca.Mostrar" /> </th>
@@ -189,8 +201,11 @@
 								</td>
 <%
 								String fecha = act.getFecha();
+								int contadorActividades = contadorTareasPEA.containsKey(promedios.getPromedioId() + "-" + evaluacion.getEvaluacionId() + "-" + act.getActividadId()) ? 
+										 contadorTareasPEA.get(promedios.getPromedioId() + "-" + evaluacion.getEvaluacionId() + "-" + act.getActividadId()) : 0;  
+										
 %>
-								<td><%=fecha.substring(0, 10)%> <%=fecha.substring(10)%></td>
+								<td><%= contadorActividades  %></td>
 								<td><%=act.getValor()%>%</td>
 								<td><%= aca.catalogo.CatActividadEtiqueta.getNombreEtiqueta(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")), act.getEtiquetaId()) %></td>
 								<td><%= act.getMostrar().equals("S")?"SI":"NO" %></td>
@@ -222,7 +237,8 @@
 			</table>
 	
 <%
-			if (actividades){
+			//if (actividades){
+				if (false){
 %>
 					<div class="alert">
 						<fmt:message key="aca.SumaDeActividades" /> <%=sumaActividades%>%

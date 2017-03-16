@@ -32,6 +32,10 @@ if(request.getParameter("guardar")!=null){
 	up.addTareaKinder(cgkt);
 }
 
+if(request.getParameter("quitar")!=null){
+	up.desactivarActividad(new Integer(request.getParameter("id_kinder_tarea")));
+}
+
 CicloGrupoKinderTareas cgkt = new CicloGrupoKinderTareas(
 		0L,
 		ciclogrupoid,
@@ -47,21 +51,24 @@ CicloGrupoKinderTareas cgkt = new CicloGrupoKinderTareas(
 //System.out.println(cgkt.toString());
 
 List<CicloGrupoKinderTareas> lsCGKT = new ArrayList();
-lsCGKT.addAll(up.getTareas(ciclogrupoid, cursoid, evaluacionid, actividadid, cicloid, 1, promedioid));
+lsCGKT.addAll(up.getTareas(ciclogrupoid, cursoid, evaluacionid, actividadid, cicloid, 1, promedioid, actividadid));
 
 
 up.close();
 %>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-condensed">
 	<tr>
+		<th style="width: 5%"></th>
 		<th>Tarea</th>
-		<th>Observacion</th>
+		<th>Observación</th>
 	</tr>
 	<%
 	for(CicloGrupoKinderTareas ck : lsCGKT){
 	%>
 	<tr>
+		<th><form method="post">
+			<input type="submit" onclick="quitar(<%= ck.getId_kinder_tarea() %>); return false;" value="X" class="btn btn-danger btn-sm"></form></th>
 		<td><%= ck.getActividad() %></td>
 		<td><%= ck.getObservacion() %></td>
 	</tr>
