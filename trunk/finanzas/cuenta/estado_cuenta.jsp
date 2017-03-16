@@ -177,7 +177,7 @@
 		//System.out.println("Datos:"+saldoStr+":"+saldoNum);
 		
 		// Línea del saldo anterior
-		if(lisMovimientos.size() > 0){
+		//if(lisMovimientos.size() > 0){
 			out.print("<tr class=\"movimientos\">");
 			out.print("<td align='center'>-</td>");
 			
@@ -206,7 +206,7 @@
 			out.println(">"+signoSaldo+"</td>");
 			out.println("</tr>");
 			
-		}
+		//}
 		float total = (float)saldoNum;			
 		for(int i = 0; i < lisMovimientos.size(); i++){
 			aca.fin.FinMovimientos movto = (aca.fin.FinMovimientos) lisMovimientos.get(i);
