@@ -352,7 +352,7 @@ public class KrdxAlumExtra {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.ciclo.krdxAlumextra|getAlumnoExtra:"+ex);
+			System.out.println("Error - aca.ciclo.krdxAlumExtra|getAlumnoExtra:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
@@ -379,7 +379,7 @@ public class KrdxAlumExtra {
 			}
 			
 		}catch(Exception ex){
-			System.out.println("Error - aca.kardex.KrdxAlumEvalLista|mapEvalAlumno|:"+ex);
+			System.out.println("Error - aca.ciclo.krdxAlumExtra|getAlumnoExtra|:"+ex);
 		}finally{
 			if (rs!=null) rs.close();
 			if (st!=null) st.close();
