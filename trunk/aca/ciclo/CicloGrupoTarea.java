@@ -124,7 +124,7 @@ public class CicloGrupoTarea {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_TAREA" +
 					" (CICLO_GRUPO_ID, TAREA_ID, TAREA_NOMBRE, DESCRIPCION,TEMA_ID, CURSO_ID, FECHA)" +
-					" VALUES(?, ?, ?, ?, ?, ?, ?)");
+					" VALUES(?, ?, ?, ?, ?, ?, TO_DATE(?, 'DD/MM/YYYY'))");
 			
 			ps.setString(1, cicloGrupoId);
 			ps.setString(2, tareaId);
@@ -160,7 +160,7 @@ public class CicloGrupoTarea {
 					" SET TAREA_NOMBRE = ?," +
 					" DESCRIPCION = ?," +
 					" TEMA_ID = ?," +
-					" FECHA = ?" +
+					" FECHA = TO_DATE(?, 'DD/MM/YYYY')" +
 					" WHERE CICLO_GRUPO_ID = ?" +
 					" AND TAREA_ID = ?" +
 					" AND CURSO_ID = ? ");
