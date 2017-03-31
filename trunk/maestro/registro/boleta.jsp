@@ -722,8 +722,8 @@
 				    				tabla.addCell(celda);
 			    		        }
 			    		        int op = Integer.parseInt(cicloExtra.maximo(conElias, cicloId)); 
+			    		        java.util.HashMap<String, aca.kardex.KrdxAlumExtra> mapAlumExtra	= aca.kardex.KrdxAlumExtra.mapAlumnoExtra(conElias);
 			    		        for(int g = 1; g<=op; g++){
-				    		        java.util.HashMap<String, aca.kardex.KrdxAlumExtra> mapAlumExtra	= aca.kardex.KrdxAlumExtra.mapAlumnoExtra(conElias);
 				    		        if(mapAlumExtra.containsKey(alumnoCurso.getCodigoId()+cicloGrupoId+alumnoCurso.getCursoId()+g)){
 				    		        	celda = new PdfPCell(new Phrase(mapAlumExtra.get(alumnoCurso.getCodigoId()+cicloGrupoId+alumnoCurso.getCursoId()+g).getPromedio(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 					    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
