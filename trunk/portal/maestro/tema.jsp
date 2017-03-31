@@ -72,7 +72,6 @@
 			if (Tema.existeReg(conElias) == true) {
 				if (Tema.deleteReg(conElias)) {
 					resultado = "Eliminado";
-					conElias.commit();
 					salto = "modulo.jsp?ModuloId="+modulo;
 				} else {
 					resultado = "NoElimino";
