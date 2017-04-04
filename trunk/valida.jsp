@@ -79,7 +79,7 @@
 				// Sesión
 				HttpSession sesion = request.getSession();
 				sesion.setMaxInactiveInterval(18000);
-				
+				System.out.println("Nueva session:"+sesion.getCreationTime()+"- User:"+strCodigoId);
 				session.setAttribute("admin",admin);
 				session.setAttribute("user", strCodigoId);
 				session.setAttribute("certificado", "true");
