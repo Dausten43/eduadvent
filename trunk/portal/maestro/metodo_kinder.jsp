@@ -76,7 +76,7 @@
 	</h2>	
 	<div class="well"> 
 			  <a class="btn btn-primary" href="cursos.jsp"><i class="icon icon-th-list icon-white"></i> <fmt:message key="maestros.Cursos" /></a>
-			  <a class="btn btn-primary" href="altaTareaskinder.jsp?ciclo_id=<%= cicloId %>&curso_id=<%= cursoId %>&ciclo_grupo_id=<%= cicloGrupoId %>"><i class="icon icon-pencil icon-white"></i> <fmt:message key="aca.CrearActividades" /></a>
+			  <a class="btn btn-primary" href="altaTareasK.jsp?ciclo_id=<%= cicloId %>&curso_id=<%= cursoId %>&ciclo_grupo_id=<%= cicloGrupoId %>"><i class="icon icon-pencil icon-white"></i> <fmt:message key="aca.CrearActividades" /></a>
 			  &nbsp;&nbsp;<strong>Plan: </strong><%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoId))%>
 			  &nbsp;&nbsp;<strong>Materia: </strong> <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%>
 			  &nbsp;&nbsp;<strong>Grado: </strong><%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%>

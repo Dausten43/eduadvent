@@ -178,7 +178,7 @@
 							if(metodo.equals("S")){
 								if(nivelPlan.compareTo(new Integer(2))<0 && cicloId.startsWith("H")){
 									%>	
-											<a class="btn btn-mini stopPropagation" href="metodo_kinder.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <fmt:message key="aca.MetodoEval" /></a>
+											<a class="btn btn-mini stopPropagation" href="../../portal/maestro/metodo_kinder.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <fmt:message key="aca.MetodoEval" /></a>
 									<%
 											}else{
 									%>
