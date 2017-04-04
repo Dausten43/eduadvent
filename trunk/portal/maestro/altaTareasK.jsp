@@ -72,7 +72,7 @@
 			<tr>
 				<td style="width: 30%"><label for="selectA">Actividad:</label>
 				<input type="text" id="factividad"></td>
-				<td style="width: 30%"><label for="selectA">Observacion:</label>
+				<td style="width: 30%"><label for="selectA">Observación:</label>
 				<input type="text" id="fobservacion"></td>
 				<td style="width: 30%; display: table-cell;  vertical-align: middle;">
 					<input type="hidden" name="cicloid" id="cicloid" value="<%=cicloid%>">
