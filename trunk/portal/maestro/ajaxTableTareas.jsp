@@ -58,17 +58,17 @@ up.close();
 %>
 
 <table class="table table-bordered table-condensed">
-	<tr>
-		<th style="width: 5%"></th>
+	<tr style="background-color:#DCDCDC;">
+		<th style="width: 2%"></th>
 		<th>Tarea</th>
 		<th>Observación</th>
 	</tr>
 	<%
 	for(CicloGrupoKinderTareas ck : lsCGKT){
 	%>
-	<tr>
-		<th><form method="post">
-			<input type="submit" onclick="quitar(<%= ck.getId_kinder_tarea() %>); return false;" value="X" class="btn btn-danger btn-sm"></form></th>
+	<tr style="text-align: center;">
+		<th>
+			<a href="#" onclick="quitar(<%= ck.getId_kinder_tarea() %>); return false;" >X</th>
 		<td><%= ck.getActividad() %></td>
 		<td><%= ck.getObservacion() %></td>
 	</tr>
