@@ -87,7 +87,7 @@
 	</table>
 	<div class="col-md-2 col-md-offset-10">
 		<a href="creaPeriodos.jsp?cicloId=<%= cicloId %>" class="btn btn-primary" target="popup" onclick="window.open(this.href, this.target, 'width=200,height=200');
-                    return false;">Complementar Informacion</a>
+                    return false;">Generar trimestres</a>
 	</div>
 
 </div>
