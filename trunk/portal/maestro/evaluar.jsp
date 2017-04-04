@@ -29,6 +29,7 @@
 <jsp:useBean id="CicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista"/>
 <jsp:useBean id="kardexAlumnoExtra" scope="page" class="aca.kardex.KrdxAlumExtra" />
 <jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
+<jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 
 <script>	
 
@@ -307,6 +308,8 @@
 		cicloGrupoCurso.setEstado("2");
 		cicloGrupoCurso.updateReg(conElias);
 	}
+	
+	
 	
 	//LISTA DE ALUMNOS
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos			= krdxCursoActL.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ORDEN, ALUM_APELLIDO(CODIGO_ID)");
@@ -1118,6 +1121,8 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 	treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
 	
 	planCurso.mapeaRegId(conElias, cursoId);
+	
+	cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());		
 %>
 
 <!--  ********************************************** HTML MARKUP **********************************************  -->
@@ -1129,7 +1134,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 		( 
 			<%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%> | 
 			<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | 
-			<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> | 
+			<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> <%= cicloGrupo.getGrupo() %> | 
 			<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>
 		 )
 		</small>
