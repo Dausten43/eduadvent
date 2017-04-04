@@ -29,6 +29,7 @@
 <jsp:useBean id="CicloExtraL" scope="page" class="aca.ciclo.CicloExtraLista"/>
 <jsp:useBean id="kardexAlumnoExtra" scope="page" class="aca.kardex.KrdxAlumExtra" />
 <jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
+<jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 
 <script>
 	 
@@ -1136,6 +1137,10 @@
 	
 	// Obtiene los datos de la materia 
 	planCurso.mapeaRegId(conElias, cursoId);
+	
+	cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());	
+	
+	
 %>
 
 <!--  ********************************************** HTML MARKUP **********************************************  -->
@@ -1147,7 +1152,7 @@
 		( 
 			<%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%> | 
 			<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | 
-			<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> | 
+			<%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> <%= cicloGrupo.getGrupo() %> | 
 			<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>
 		 )
 		</small>
