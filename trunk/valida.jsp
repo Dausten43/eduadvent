@@ -17,20 +17,19 @@
 <jsp:useBean id="alumPersonal" scope="page"	class="aca.alumno.AlumPersonal" />
 <jsp:useBean id="empPersonal" scope="page"	class="aca.empleado.EmpPersonal" />
 
-<% 
-	// Treinta minutos
-	session.setMaxInactiveInterval(18000);
-	String strSesion		 	= session.getId();
+<% 		
 	String strIp		 		= request.getRemoteAddr();
-	String strEscuela			= "";
-	String strEscuelaId			= "";	
 	String strCuenta 			= request.getParameter("Usuario");
 	String strClave				= request.getParameter("Clave");
+	
+	String strEscuela			= "";
+	String strEscuelaId			= "";	
 	String strEstadoEscuela		= "I";	
 	String strCodigoId			= "X";
 	String strNombreUsuario		= "x";
 	String admin				= "";	
-	int intTipoUsuario			= 0;	
+	int intTipoUsuario			= 0;
+	
 	// "ISO-8859-1"
 	MessageDigest md5 			= MessageDigest.getInstance("MD5");
 	md5.update(strClave.getBytes("UTF-8"));
@@ -39,9 +38,6 @@
 	aca.conecta.Conectar c 		= new aca.conecta.Conectar();
 	Connection conn				= null;
 	aca.util.Fecha f			= new aca.util.Fecha();	
-	ArrayList lisMenu			= new ArrayList();
-	ArrayList lisOpcion			= new ArrayList();
-	ArrayList lisMenuPrincipal	= new ArrayList();
 	String strOpcion			= "";	
 	String strSalto				= "";
 	String opciones				= "";
@@ -49,7 +45,14 @@
 	String ciclo				= "";		
 	boolean esAdmin				= false;	
 	boolean error 				= false;	
-	boolean entrar 				= false;	
+	boolean entrar 				= false;
+	
+	// Menu principal (Nivel 1)
+	ArrayList<aca.menu.Menu> lisMenuPrincipal		= new ArrayList<aca.menu.Menu>();
+	// Menu secundario (Nivel 2)
+	ArrayList<aca.menu.Modulo> lisMenu				= new ArrayList<aca.menu.Modulo>();
+	// Opciones del sistema (Nivel 3)
+	ArrayList<aca.menu.ModuloOpcion> lisOpcion		= new ArrayList<aca.menu.ModuloOpcion>();
 
 	//Coneccion a Oracle
 	try{
@@ -73,12 +76,16 @@
 					admin 		= "-------";
 				}
 				
+				// Sesión
+				HttpSession sesion = request.getSession();
+				sesion.setMaxInactiveInterval(18000);
+				
 				session.setAttribute("admin",admin);
 				session.setAttribute("user", strCodigoId);
 				session.setAttribute("certificado", "true");
 				session.setAttribute("codigoId", strCodigoId );
 				session.setAttribute("codigoReciente", strCodigoId );
-				session.setAttribute("lenguaje", aca.usuario.Usuario.getIdioma(conn, strCodigoId));				
+				session.setAttribute("lenguaje", aca.usuario.Usuario.getIdioma(conn, strCodigoId));
 				
 				// Registrar en sesion el ejercicio actual
 				String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conn, strEscuelaId);
