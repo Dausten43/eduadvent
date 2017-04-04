@@ -9,8 +9,8 @@
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/login.css">
 	
-<%
-	if((String)session.getAttribute("escuela") != null ){
+<%	
+	if((String)session.getAttribute("user") != null ){
 		response.sendRedirect("general/inicio/index.jsp");
 	}
 %>
