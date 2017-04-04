@@ -33,8 +33,7 @@
 	MessageDigest md5 			= MessageDigest.getInstance("MD5");
 	md5.update(((String)session.getAttribute("user")).getBytes("UTF-8"));
     byte raw[] = md5.digest();    
-    String claveDigest = (new BASE64Encoder()).encode(raw);
-	
+    String claveDigest = (new BASE64Encoder()).encode(raw);	
 %>
 <div id="content">
 <h2><fmt:message key="aca.Bienvenido"/> <small><%=aca.vista.UsuariosLista.getNombreCorto(conElias, (String)session.getAttribute("codigoId")) %></small></h2>
@@ -48,12 +47,10 @@
 <%
 	}
 %>
-
 <%
 	/* 
 	 * ENCUESTA
-	 */
-	 
+	 */	 
 	 ArrayList<aca.est.EstEncuesta> encuestas = EncuestaLista.getListAll(conElias, " WHERE NOW() <= FECHA_LIMITE AND UNIONES LIKE '%-"+union+"-%' ");
 	 
 	if (aca.usuario.Usuario.esAdministrador(conElias, sCodigoPersonal) && encuestas.size()>0){
