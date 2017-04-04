@@ -13,7 +13,7 @@
 	String strEscuela 			= (String)session.getAttribute("escuela");
 	String sCodigoPersonal 		= (String)session.getAttribute("codigoId");
 	String salto				= "X";
-	
+	System.out.println("Reutilización de session:"+session.getCreationTime()+"- User:"+sCodigoPersonal);
 	escuela.mapeaRegId(conElias, strEscuela);
 	String asociacion			= aca.catalogo.CatEscuela.getAsociacionId(conElias, escuela.getEscuelaId());
 	String union				= aca.catalogo.CatAsociacion.getUnionId(conElias, asociacion);
