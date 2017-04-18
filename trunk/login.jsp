@@ -1,6 +1,13 @@
+<%@ page buffer= "none" %>
 <!DOCTYPE HTML>
 <html>
 <head>
+<%
+HttpServletResponse httpResponse = (HttpServletResponse) response;
+httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+httpResponse.setHeader("Pragma", "no-cache"); // HTTP 1.0
+httpResponse.setDateHeader("Expires", 0); // Proxies.
+%>
 	<meta charset="UTF-8">
 	<title>Iniciar Sesi&oacuten</title>
 	<link rel="shortcut icon" href="imagenes/icon.png">
@@ -10,9 +17,10 @@
 	<link rel="stylesheet" href="css/login.css">
 	
 <%	
-	if((String)session.getAttribute("user") != null ){
-		response.sendRedirect("general/inicio/index.jsp");
-	}
+
+
+System.out.println("DATO EN LA SESION USER" + session.getAttribute("user"));
+
 %>
 
 

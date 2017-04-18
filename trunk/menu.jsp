@@ -147,7 +147,7 @@
                                                  
                          <li><a href="../../general/editar/editar_idioma.jsp"><i class="icon-flag"></i> <fmt:message key="aca.Lenguaje" /></a></li>
                          <li><a href="../../general/editar/cambia_clave.jsp"><i class="icon-briefcase"></i> <fmt:message key="aca.EditarContra" /></a></li>
-                         <li><a href="../../salir.jsp"><i class="icon-off"></i> <fmt:message key="aca.Salir" /></a></li>
+                         <li><a href="../../out.jsp"><i class="icon-off"></i> <fmt:message key="aca.Salir" /></a></li>
                        </ul>
                      </li>
            	</ul>

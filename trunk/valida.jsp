@@ -1,4 +1,4 @@
-<%@ page buffer="8kb" autoFlush="true" %>
+<%@ page buffer= "none" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="aca.menu.*"%>
 <%@ page import="java.util.ArrayList"%>
@@ -17,7 +17,10 @@
 <jsp:useBean id="alumPersonal" scope="page"	class="aca.alumno.AlumPersonal" />
 <jsp:useBean id="empPersonal" scope="page"	class="aca.empleado.EmpPersonal" />
 
-<% 		
+<% 	
+
+
+
 	String strIp		 		= request.getRemoteAddr();
 	String strCuenta 			= request.getParameter("Usuario");
 	String strClave				= request.getParameter("Clave");
@@ -55,6 +58,8 @@
 	ArrayList<aca.menu.ModuloOpcion> lisOpcion		= new ArrayList<aca.menu.ModuloOpcion>();
 
 	//Coneccion a Oracle
+	System.out.println("REVISANDO USUARIO QUE SE INGRESA " + strCuenta + "\t" + strIp);
+	
 	try{
 		conn = c.conEliasPostgres();
 		if(conn!= null){
@@ -62,7 +67,8 @@
 			
 			if (!strCodigoId.equals ("x")){
 				strEscuelaId 		= strCodigoId.substring(0,3);				
-			    strEstadoEscuela 	= aca.catalogo.CatEscuela.getEstadoEscuela(conn, strEscuelaId);			    
+			    strEstadoEscuela 	= aca.catalogo.CatEscuela.getEstadoEscuela(conn, strEscuelaId);
+			    System.out.println("CARGANDO LOS PRIMEROS VALORES  " + strEscuelaId + "\t" + strEstadoEscuela);
 			}
 	
 			// Si es usuario				
@@ -78,7 +84,7 @@
 				
 				// Sesión
 				HttpSession sesion = request.getSession();
-				sesion.setMaxInactiveInterval(18000);
+				//sesion.setMaxInactiveInterval(18000);
 				System.out.println("Nueva session:"+sesion.getCreationTime()+"- User:"+strCodigoId);
 				session.setAttribute("admin",admin);
 				session.setAttribute("user", strCodigoId);
@@ -86,6 +92,8 @@
 				session.setAttribute("codigoId", strCodigoId );
 				session.setAttribute("codigoReciente", strCodigoId );
 				session.setAttribute("lenguaje", aca.usuario.Usuario.getIdioma(conn, strCodigoId));
+				
+				System.out.println("valores que se suben a la sesion  " + admin + "\t" + aca.empleado.EmpPersonal.getNombre(conn,strCodigoId,"NOMBRE") + "\t" + aca.alumno.AlumPersonal.getNombre(conn,strCodigoId,"NOMBRE") + "\t" + strCodigoId + "\t" + sesion.getId()) ;
 				
 				// Registrar en sesion el ejercicio actual
 				String ejercicioId = aca.fin.FinEjercicio.getEjercicioActual(conn, strEscuelaId);

@@ -1,15 +1,22 @@
 <!doctype html>
 <%@page errorPage="../../paginaerror.jsp" %>
 <%@ include file= "idioma.jsp" %>
-<%@page buffer="8kb" autoFlush="true"%>
+<%@ page buffer= "none" %>
 
 <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../bootstrap/css/bootstrap-responsive.min.css" />
 <link rel="stylesheet" href="../../css/style.css" />
 <link rel="stylesheet" href="../../css/print.css" type="text/css" media="print" />
-
+<%
+HttpServletResponse httpResponse = (HttpServletResponse) response;
+httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+httpResponse.setHeader("Pragma", "no-cache"); // HTTP 1.0
+httpResponse.setDateHeader("Expires", 0); // Proxies.
+%>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- needed for mobile devices -->
-
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+     <meta http-equiv="Pragma" content="no-cache"/>
+     <meta http-equiv="Expires" content="-1"/>
 <script src="../../js/jquery-1.9.1.min.js"></script>
 <script src="../../bootstrap/js/bootstrap.js"></script>
 <script>

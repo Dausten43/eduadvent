@@ -1,4 +1,4 @@
- <%@ page buffer= "none" %>
+<%@ page buffer= "none" %>  
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Enumeration"%>
 <%	

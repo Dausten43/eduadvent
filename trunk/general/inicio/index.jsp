@@ -10,10 +10,11 @@
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario" />
 
 <%
+
 	String strEscuela 			= (String)session.getAttribute("escuela");
 	String sCodigoPersonal 		= (String)session.getAttribute("codigoId");
 	String salto				= "X";
-	System.out.println("Reutilización de session:"+session.getCreationTime()+"- User:"+sCodigoPersonal);
+	System.out.println("Reutilización de session:"+session.getCreationTime()+"- User:"+sCodigoPersonal + "\t" +  request.getSession().getId());
 	escuela.mapeaRegId(conElias, strEscuela);
 	String asociacion			= aca.catalogo.CatEscuela.getAsociacionId(conElias, escuela.getEscuelaId());
 	String union				= aca.catalogo.CatAsociacion.getUnionId(conElias, asociacion);
