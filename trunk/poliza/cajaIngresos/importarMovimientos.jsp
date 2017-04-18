@@ -176,6 +176,32 @@
 									error = true;
 								}
 							}
+							
+							if(new BigDecimal(detalle.getImporteBeca()).compareTo(BigDecimal.ZERO)!=0){
+								FinMov.setEjercicioId(ejercicioId);
+								FinMov.setPolizaId(polizaId);
+								FinMov.setMovimientoId(FinMov.maxReg(conElias, ejercicioId, polizaId));
+								FinMov.setCuentaId(detalle.getCuentaId());
+								FinMov.setAuxiliar(detalle.getCodigoId());
+								FinMov.setDescripcion("BECA DE COBRO INICIAL - "+cuentaNombre +" - "+ detalle.getCodigoId() +" - "+ nombreAlumno);
+								FinMov.setImporte(detalle.getImporteBeca());
+								FinMov.setNaturaleza("C"); /* Crédito */
+								FinMov.setReferencia(cicloId+"$$"+periodoId+"$$"+pagoId);
+								FinMov.setEstado("R"); /* Recibo (aunque no se utilizan los recibos en este tipo de movimiento) */
+								FinMov.setFecha(aca.util.Fecha.getDateTime());
+								FinMov.setReciboId("0");
+								FinMov.setCicloId(detalle.getCicloId());
+								FinMov.setPeriodoId(detalle.getPeriodoId());
+								FinMov.setTipoMovId("5");
+								System.out.println("L3 INSERTANDO ALUMNO " + FinMov.getAuxiliar());
+								if(!FinMov.existeReg(conElias)){
+									if(FinMov.insertReg(conElias)){																	
+										// Insert de movimiento
+									}else{
+										error = true;
+									}
+								}
+							}
 								
 						}else{ // Si es de contado la beca y el costo total se guardan en el Pago Inicial
 								
