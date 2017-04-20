@@ -15,11 +15,19 @@
 	String dir				= application.getRealPath("informe/carnet")+"/";
 	String fechaIni			= request.getParameter("fechaIni");
 	String fechaFin			= request.getParameter("fechaFin");
-	String escuelaId		= (String) session.getAttribute("escuela");
+	String escuelaId		= request.getParameter("EscuelaId");
 	String cicloId			= request.getParameter("Ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("Ciclo");
 	
-	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = alumPersonalL.getListAlumnosInscritos(conElias, escuelaId, cicloId, "");
+	String ciclo="";
 	
+	ciclo = aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
+				
+cicloId = ciclo;
+
+	
+	
+	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = alumPersonalL.getListAlumnosInscritos(conElias, escuelaId, cicloId, "");
+	System.out.println("datoos "+ cicloId + " " + escuelaId );
 	Connection  conn2 				= null;
 	Statement   stmt2 				= null;
 	ResultSet   rset2 				= null;
@@ -27,9 +35,8 @@
 	int cont						= 0;
 	org.postgresql.largeobject.LargeObject obj			= null;
 	org.postgresql.largeobject.LargeObjectManager lobj	= null;
-	
+	// Elegir el mejor ciclo
 
-	
 	/* --- PONER EN UN ARCHIVO .ZIP LAS IMAGENES --- */
 	try{ 
 		System.out.println("Respaldando...");
@@ -45,7 +52,7 @@
 			if(f.exists()){
 			
 				String NombreArch 		= listaAl.getCodigoId()+".jpg";
-				System.out.println(NombreArch);
+				//System.out.println(NombreArch);
 				//System.out.println("Nombre de Archivo:"+NombreArch);
 			    zout.putNextEntry(new ZipEntry(NombreArch));
 				 FileInputStream fis = new FileInputStream(f);

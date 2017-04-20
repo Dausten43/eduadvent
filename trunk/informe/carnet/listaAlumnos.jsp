@@ -60,6 +60,7 @@
 			<input type="text" data-date-format="dd/mm/yyyy" class="fFin" value="<%=aca.util.Fecha.getHoy() %>" />
 		</p>
 		<p>
+			<input type="hidden" name="escuelaid" value='<%= escuelaId %>'>
 			<a href="" class="btn btn-primary btn-large crear-respaldo"><i class="icon-folder-open icon-white"></i> Crear</a>
 			<a href="" class="btn btn-success btn-large descargar-respaldo"><i class="icon-arrow-down icon-white"></i> Descargar</a>
 			<!--<a href="" class="btn btn-danger btn-large eliminar-respaldo"><i class="icon-remove icon-white"></i> Eliminar</a>-->
@@ -90,8 +91,7 @@
 		$('.crear-respaldo').on('click', function(e){
 			e.preventDefault();
 			$this = $(this);
-			
-
+			console.log('Entro a hacer respaldo ');
 			var date1 = new Date(  fInicio.val().split('/')[2], fInicio.val().split('/')[1], fInicio.val().split('/')[0]  );
 			var date2 = new Date(  fFin.val().split('/')[2], fFin.val().split('/')[1], fFin.val().split('/')[0] );
 			var timeDiff = Math.abs(date2.getTime() - date1.getTime());
@@ -114,7 +114,7 @@
 			procesando.html('<img src="../../imagenes/wait.gif" style="width:14px;vertical-align:text-top;" /> Creando Respaldo en el Servidor, <strong>esta operación puede tardar unos minutos</strong>').show();
 			error.hide();
 			
-			$.get('zip.jsp?fechaIni='+fInicio.val()+'&fechaFin='+fFin.val(), function(r){
+			$.get('zip.jsp?fechaIni='+fInicio.val()+'&fechaFin='+fFin.val()+'&EscuelaId=<%= escuelaId %>', function(r){
 				completado.html('<i class="icon-ok"></i> Respaldo Completado en el Servidor').show();
 				procesando.hide();
 				$this.prop('disabled', false);
