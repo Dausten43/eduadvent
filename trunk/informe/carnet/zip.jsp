@@ -4,7 +4,7 @@
 <%@ include file= "../../seguro.jsp" %>
 <jsp:useBean id="alumPersonalL" scope="page" class="aca.alumno.AlumPersonalLista"/>
 <jsp:useBean id="empeladosLista" scope="page" class="aca.empleado.EmpPersonalLista"/>
-
+<jsp:useBean id="inscritosLista" scope="page" class="aca.vista.AlumInscritoLista"/>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.zip.*" %>
 <%@ page import="java.sql.*" %>
@@ -29,8 +29,10 @@
 cicloId = ciclo;
 
 	
-	
-	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = alumPersonalL.getListAlumnosInscritos(conElias, escuelaId, cicloId, "");
+//LISTA DE ESCUELAS
+
+	ArrayList<aca.vista.AlumInscrito> lisAlumnos 	= inscritosLista.getListaInscritos(conElias, escuelaId, " ORDER BY NIVEL, GRADO, GRUPO, NOMBRE,APATERNO,AMATERNO");
+	//ArrayList<aca.alumno.AlumPersonal> lisAlumnos = alumPersonalL.getListAlumnosInscritos(conElias, escuelaId, cicloId, "");
 	System.out.println("datoos "+ cicloId + " " + escuelaId );
 	Connection  conn2 				= null;
 	Statement   stmt2 				= null;
@@ -49,7 +51,7 @@ cicloId = ciclo;
 		FileOutputStream fout	= new FileOutputStream(zipFile);
 		ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
 		
-		for(aca.alumno.AlumPersonal listaAl : lisAlumnos){
+		for(aca.vista.AlumInscrito listaAl : lisAlumnos){
 		
 		String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
 		java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
