@@ -292,7 +292,6 @@ public class CicloGrupoCurso {
 			if (ps!=null) ps.close();
 			if (ps2!=null) ps2.close();
 			if (rs!=null) rs.close();
-			conn.setAutoCommit(true);
 		}
 		
 		return ok;
