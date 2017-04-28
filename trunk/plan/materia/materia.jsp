@@ -101,7 +101,9 @@
 	<th width="3%"><fmt:message key="aca.HabitosyActitudes" /></th>
   </tr>
 <%
+	
 	ArrayList<aca.plan.PlanCurso> lisCurso		= PlanCursoLista.getListCurso(conElias, strPlanId, " ORDER BY GRADO, ORDEN");
+
 	for(int i=0; i<lisCurso.size();i++){
 		aca.plan.PlanCurso curso = (aca.plan.PlanCurso) lisCurso.get(i);
 		
@@ -114,12 +116,12 @@
 			boleta = "Si";
 		}
 		String cursoBase = "-";
-		if (!curso.getCursoBase().equals("-")){
+		if (curso.getCursoBase()!=null && !curso.getCursoBase().equals("-")){
 			cursoBase = aca.plan.PlanCurso.getCursoNombre(conElias, curso.getCursoBase());
 		}
 		
 		if (Integer.parseInt(curso.getGrado())!=grado){
-		
+				
 			grado = Integer.parseInt(curso.getGrado());	
 			String nombreGrado = aca.catalogo.CatEsquema.getNombreGrado(conElias, escuelaId, nivelId, curso.getGrado());
 			if (nombreGrado.equals("X")) nombreGrado = aca.catalogo.CatNivel.getGradoNombre(grado)+ " "+titulo.toUpperCase();
