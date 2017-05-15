@@ -177,18 +177,16 @@
 							<a class="btn btn-primary btn-mini stopPropagation" href="lista.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>"><fmt:message key="maestros.Lista" /></a>
 							<a class="btn btn-primary btn-mini stopPropagation" href="modulo.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>"><fmt:message key="maestros.Planeacion" /></a> 
 							<a class="btn btn-success btn-mini stopPropagation" target="_blank" href="tarjeta.jsp?Curso=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <%=KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId() ) %> <fmt:message key="aca.Alumnos" /></a>
+<!-- 							../../kinde/areas-criterios.jsp -->
+							
 						<% 	String metodo = aca.catalogo.CatNivel.getMetodo(conElias, aca.catalogo.CatNivel.getNivelId(conElias, cicloGrupoCurso.getCursoId()));
 						//System.out.println("nivel plan " + nivelPlan);
 							if(metodo.equals("S")){
-								if(nivelPlan.compareTo(new Integer(2))<0 && cicloId.startsWith("H")){
 						%>	
-								<a class="btn btn-mini stopPropagation" href="metodo_kinder.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <fmt:message key="aca.MetodoEval" /></a>
-						<%
-								}else{
-						%>
+								
 								<a class="btn btn-mini stopPropagation" href="metodo.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <fmt:message key="aca.MetodoEval" /></a>
 						<% 	
-								}
+								
 							}else{ 
 						%>
 								<a class="btn btn-mini stopPropagation" href="metodologia.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia%>&Maestro=<%=maestro%>"><fmt:message key="aca.MetodoEval" /></a>
@@ -206,6 +204,17 @@
 						    </select>
 						    
 						    <%} %>
+						    <br><br>
+					    	<% if(session.getAttribute("escuela").toString().startsWith("H")){ %>
+					    	<div class="well" style="width: 500px">
+					    	<p>OPCIONES PREESCOLAR</p>
+					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/actividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia%>&Maestro=<%=maestro%>"><fmt:message key="kinder.actividades" /></a>
+					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/calificaActividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&randomString=<%=aca.util.RandomString.getRandomString() %>&trim=1">TRIMESTRE 1</a>
+					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/calificaActividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&randomString=<%=aca.util.RandomString.getRandomString() %>&trim=2">TRIMESTRE 2</a>
+					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/calificaActividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&randomString=<%=aca.util.RandomString.getRandomString() %>&trim=3">TRIMESTRE 3</a>
+					    	</div>
+					   		<% } %>
+
 						
 							<div class="pull-right">
 								<%if (cicloGrupoCurso.getEstado().equals("1")){%>
