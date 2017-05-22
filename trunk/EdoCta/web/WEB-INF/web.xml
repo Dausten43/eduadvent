@@ -4,9 +4,17 @@
         <servlet-name>PrintEstadoCuenta</servlet-name>
         <servlet-class>aca.fin.PrintEstadoCuenta</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PrintBoletinKinder</servlet-name>
+        <servlet-class>aca.fin.PrintBoletinKinder</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PrintEstadoCuenta</servlet-name>
         <url-pattern>/PrintEstadoCuenta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PrintBoletinKinder</servlet-name>
+        <url-pattern>/PrintBoletinKinder</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
