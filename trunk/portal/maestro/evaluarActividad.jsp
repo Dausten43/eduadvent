@@ -456,7 +456,7 @@
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers" 
 												data-allow-decimal="si"
-												data-max-num="100"
+												data-max-num="<%=escala %>"
 												type="text" 
 												tabindex="<%=i+1%>" 
 												name="nota<%=i%>-<%=activ.getActividadId() %>"
