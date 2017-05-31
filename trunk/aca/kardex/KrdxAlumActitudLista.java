@@ -49,7 +49,9 @@ public class KrdxAlumActitudLista {
 		try{
 			comando = " SELECT CODIGO_ID, CICLO_GRUPO_ID, CURSO_ID,"
 					+ " PROMEDIO_ID, EVALUACION_ID, ASPECTOS_ID, NOTA"
-					+ " FROM KRDX_ALUM_ACTITUD";
+					+ " FROM KRDX_ALUM_ACTITUD"
+					+ " WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'"
+					+ " AND CURSO_ID = '"+cursoId+"' ";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
