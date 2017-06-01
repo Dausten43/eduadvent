@@ -35,7 +35,7 @@
 	ArrayList<aca.alumno.AlumPlan> lisPlan						= AlumPlanL.getArrayList(conElias, codigoId, "ORDER BY F_INICIO");
 	
 	/* Ciclos en los que el alumno ha estudiado */
-	ArrayList<aca.alumno.AlumCiclo> lisCiclos					= AlumCicloL.listCiclosConMaterias(conElias, codigoId, planId, "1,2,3,4,5", " ORDER BY CICLO_ID");
+	ArrayList<aca.alumno.AlumCiclo> lisCiclos					= AlumCicloL.listCiclosConMaterias(conElias, codigoId, planId, "1,2,3,4,5", " ORDER BY CICLO_ID DESC");
 	
 	//Map de materias del plan seleccionado
 	java.util.HashMap<String, aca.plan.PlanCurso> mapCurso		= aca.plan.PlanCursoLista.mapPlanCursos(conElias, planId);
@@ -403,5 +403,7 @@
 
 %>	
 </div>
-
+<script>
+	jQuery('.notas').addClass('active');
+</script>
 <%@ include file="../../cierra_elias.jsp" %>

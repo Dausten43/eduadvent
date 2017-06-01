@@ -25,8 +25,8 @@
 	cursoId 			= (String) session.getAttribute("cursoId");	
 	String modulo 		= request.getParameter("ModuloId")==null?"0":request.getParameter("ModuloId");
 	
-	String cicloId		= aca.ciclo.CicloGrupo.getCicloId(conElias,cicloGrupo);
-	int numModulos 		= aca.ciclo.Ciclo.getModulos(conElias,cicloId);
+	String cicloIdM		= aca.ciclo.CicloGrupo.getCicloId(conElias,cicloGrupo);
+	int numModulos 		= aca.ciclo.Ciclo.getModulos(conElias,cicloIdM);
 	String maestro 		= aca.ciclo.CicloGrupoCurso.getMaestro(conElias, cicloGrupo, cursoId);	
 	
 	ArrayList lisModulo = ModuloL.getListCurso(conElias, cicloGrupo, cursoId, "ORDER BY ORDEN, MODULO_ID");

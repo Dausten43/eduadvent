@@ -30,7 +30,7 @@
 	
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String colorPortal 	= (String)session.getAttribute("colorPortal")==null?colorPortal="":(String)session.getAttribute("colorPortal");	
-	String cicloId 		= request.getParameter("ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("ciclo");
+	String cicloIdM 		= request.getParameter("ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("ciclo");
 	String codigoId 	= request.getParameter("codigoId");
 	
 	//String cicloGrupoId	= "011011A019";
@@ -43,7 +43,7 @@
 	String notaAct		= "";	
 	String strBgcolor 	= "";
 	
-	String plan			= aca.kardex.KrdxCursoAct.getAlumPlan(conElias,codigoId,cicloId);
+	String plan			= aca.kardex.KrdxCursoAct.getAlumPlan(conElias,codigoId,cicloIdM);
 	String punto		= aca.plan.PlanCurso.getPunto(conElias, cursoId);
 	
 	ArrayList grupoEval	= GrupoEval.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");

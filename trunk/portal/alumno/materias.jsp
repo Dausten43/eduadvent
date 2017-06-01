@@ -29,14 +29,14 @@
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoId");
-	String cicloId 			= (String) session.getAttribute("cicloId");
+	String cicloIdM 			= (String) session.getAttribute("cicloId");
 
 	ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, codigoId, "ORDER BY CICLO_ID");
 	
 	//Verifica que el ciclo este en la lista de ciclo
 	boolean encontro = false;
 	for(aca.ciclo.Ciclo c : lisCiclo){
-		if(cicloId != null && c.equals(cicloId)){
+		if(cicloIdM != null && c.equals(cicloIdM)){
 			encontro = true; break;
 		}
 	}
@@ -44,21 +44,21 @@
 	// Elige el mejor ciclo para el alumno. 
 	if( encontro==false && lisCiclo.size()>0 ){
 		ciclo 	= (aca.ciclo.Ciclo) lisCiclo.get(lisCiclo.size()-1);
-		cicloId = ciclo.getCicloId();
+		cicloIdM = ciclo.getCicloId();
 			
-		session.setAttribute("cicloId", cicloId);
+		session.setAttribute("cicloId", cicloIdM);
 	}
 	
 	if( request.getParameter("ciclo") != null ){
-		cicloId = request.getParameter("ciclo");
-		session.setAttribute("cicloId", cicloId);
+		cicloIdM = request.getParameter("ciclo");
+		session.setAttribute("cicloId", cicloIdM);
 	}
 
 	alumPersonal.mapeaRegId(conElias, codigoId);
 	alumPlan.mapeaRegActual(conElias, codigoId);
 
-	cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,codigoId,cicloId));
-	String plan			= aca.kardex.KrdxCursoAct.getAlumPlan(conElias,codigoId,cicloId);
+	cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,codigoId,cicloIdM));
+	String plan			= aca.kardex.KrdxCursoAct.getAlumPlan(conElias,codigoId,cicloIdM);
 	int nivelId 		= -1;
 
 	if (cicloGrupo.getNivelId()!=null && cicloGrupo.getNivelId()!="" && cicloGrupo.getNivelId()!=" "){
@@ -100,7 +100,7 @@
 		<table class="table table-hover">   
 <%
 
-		cicloGrupo.mapeaRegId(conElias, alumPersonal.getNivelId(), alumPersonal.getGrado(), alumPersonal.getGrupo(), cicloId, alumPlan.getPlanId());
+		cicloGrupo.mapeaRegId(conElias, alumPersonal.getNivelId(), alumPersonal.getGrado(), alumPersonal.getGrupo(), cicloIdM, alumPlan.getPlanId());
 		ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupo.getCicloGrupoId()+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");
  		
 		for(int i = 0; i < lisKrdx.size(); i++){
@@ -129,7 +129,7 @@
 					<td style="padding:20px;">
 						<div style="float:left">
 							<h4 style="margin-top:0;">
-								<a href="modulo.jsp?cursoId=<%=cicloGrupoCurso.getCursoId() %>&cicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&ciclo=<%=cicloId %>">
+								<a href="modulo.jsp?cursoId=<%=cicloGrupoCurso.getCursoId() %>&cicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&ciclo=<%=cicloIdM %>">
 								  	<%=PlanCurso.getCursoNombre(conElias, krdxCursoAct.getCursoId()) %>
 								</a>
 							</h4>
@@ -141,8 +141,9 @@
 								
 					  	</div>
 						<div style="float:right;">
+						<% if(!iskinder){ %>
 							<h4>
-								  <fmt:message key="aca.Promedio"/> <a  href="detalleCalificacion.jsp?cursoId=<%=cicloGrupoCurso.getCursoId() %>&cicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&ciclo=<%=cicloId %>&codigoId=<%=codigoId %>&promedio=<%=notaMateria%>"><%=notaMateria%></a>
+								  <fmt:message key="aca.Promedio"/> <a  href="detalleCalificacion.jsp?cursoId=<%=cicloGrupoCurso.getCursoId() %>&cicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&ciclo=<%=cicloIdM %>&codigoId=<%=codigoId %>&promedio=<%=notaMateria%>"><%=notaMateria%></a>
 									<%
 									if (krdxCursoAct.getTipoCalId().equals("4") || krdxCursoAct.getTipoCalId().equals("5")){
 										out.println("Extra:["+krdxCursoAct.getNotaExtra()+"]");
@@ -150,6 +151,7 @@
 									%>
 							</h4>
 						</div>
+						<% } %>
 					</td>
 				</tr>
 				  			
