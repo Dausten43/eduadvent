@@ -2,6 +2,10 @@
 package aca.ciclo;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class Ciclo {
@@ -19,8 +23,11 @@ public class Ciclo {
     private String decimales;
     private String redondeo;
     private String nivelEval;
+    private String nivelAcademicoSistema;
 
-    public Ciclo() {
+
+
+	public Ciclo() {
         cicloId 		= "";
         cicloNombre 	= "";
         fCreada 		= "";
@@ -37,6 +44,22 @@ public class Ciclo {
     }
     
     
+    /**
+	 * @return the nivelAcademicoSistema
+	 */
+	public String getNivelAcademicoSistema() {
+		return nivelAcademicoSistema;
+	}
+
+
+	/**
+	 * @param nivelAcademicoSistema the nivelAcademicoSistema to set
+	 */
+	public void setNivelAcademicoSistema(String nivelAcademicoSistema) {
+		this.nivelAcademicoSistema = nivelAcademicoSistema;
+	}
+
+	
     public String getCicloId() {
 		return cicloId;
 	}
@@ -151,6 +174,20 @@ public class Ciclo {
 	public void setNivelEval(String nivelEval) {
 		this.nivelEval = nivelEval;
 	}
+	
+	
+	public String nivelAcademicoSistemaTxt(String idnas){
+		Map<String,String> lsNAS  = new HashMap();
+		lsNAS.put("0","MATERNAL");
+		lsNAS.put("1","PRE-KINDER");
+		lsNAS.put("2","KINDER");
+		lsNAS.put("3","PRIMARIA");
+		lsNAS.put("4","SECUNDARIA PRE-MEDIA");
+		lsNAS.put("5","BACHILLERATO");
+		lsNAS.put("-1","NO DEFINIDO");
+		
+		return lsNAS.get(idnas);
+	}
 
 
 	// Insert del ciclo
@@ -160,14 +197,14 @@ public class Ciclo {
 
         try {
             ps = conn.prepareStatement("INSERT INTO CICLO(CICLO_ID,"
-                    + " CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES, REDONDEO, NIVEL_EVAL)"
+                    + " CICLO_NOMBRE, F_CREADA, F_INICIAL, F_FINAL, NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD, CICLO_ESCOLAR, DECIMALES, REDONDEO, NIVEL_EVAL, NIVEL_ACADEMICO_SISTEMA)"
                     + " VALUES(?, ?, TO_DATE(?,'DD/MM/YYYY'),"
                     + " TO_DATE(?,'DD/MM/YYYY'),"
                     + " TO_DATE(?,'DD/MM/YYYY'),"
                     + " TO_NUMBER(?,'999'), ?,"
                     + " TO_NUMBER(?,'999'),"
                     + " TO_NUMBER(?,'99'), ?, ?,"
-                    + " TO_NUMBER(?,'9'),?,?)");
+                    + " TO_NUMBER(?,'9'),?,?,?)");
             ps.setString(1, cicloId);
             ps.setString(2, cicloNombre);
             ps.setString(3, fCreada);
@@ -182,6 +219,7 @@ public class Ciclo {
             ps.setString(12, decimales);
             ps.setString(13, redondeo);
             ps.setString(14, nivelEval);
+            ps.setString(15, nivelAcademicoSistema);
 
             if (ps.executeUpdate() == 1) {
                 ok = true;
@@ -219,7 +257,8 @@ public class Ciclo {
                     + " CICLO_ESCOLAR = ?,"
                     + " DECIMALES = TO_NUMBER(?,'9'),"
                     + " REDONDEO = ?,"
-                    + " NIVEL_EVAL = ?"
+                    + " NIVEL_EVAL = ?,"
+                    + " NIVEL_ACADEMICO_SISTEMA = ?"
                     + " WHERE CICLO_ID = ?");
             
             ps.setString(1, cicloNombre);
@@ -235,7 +274,8 @@ public class Ciclo {
             ps.setString(11, decimales);
             ps.setString(12, redondeo);
             ps.setString(13, nivelEval);
-            ps.setString(14, cicloId);
+            ps.setString(14, nivelAcademicoSistema);
+            ps.setString(15, cicloId);
             
 
             if (ps.executeUpdate() == 1) {
@@ -299,6 +339,7 @@ public class Ciclo {
         decimales		= rs.getString("DECIMALES");
         redondeo		= rs.getString("REDONDEO");
         nivelEval		= rs.getString("NIVEL_EVAL");
+        nivelAcademicoSistema = rs.getString("NIVEL_ACADEMICO_SISTEMA");
     }
 
     public void mapeaRegId(Connection con, String cicloId) throws SQLException {
@@ -311,7 +352,7 @@ public class Ciclo {
 	                + " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
 	                + " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
 	                + " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
-	                + " CICLO_ESCOLAR, DECIMALES, REDONDEO, NIVEL_EVAL"
+	                + " CICLO_ESCOLAR, DECIMALES, REDONDEO, NIVEL_EVAL, NIVEL_ACADEMICO_SISTEMA"
 	                + " FROM CICLO WHERE CICLO_ID = ?");
 	        ps.setString(1, cicloId);
 	        rs = ps.executeQuery();

@@ -122,10 +122,7 @@
 			<th>&nbsp;</th>
 		</tr>
 	</table>
-	<div class="col-md-2 col-md-offset-10">
-		<a href="creaPeriodos.jsp?cicloId=<%= cicloId %>&promedio_id=<%= promedioId %>" class="btn btn-primary" target="popup" onclick="window.open(this.href, this.target, 'width=200,height=200');
-                    return false;">Generar trimestres</a>
-	</div>
+	
 </div>
 
 <%@ include file= "../../cierra_elias.jsp" %>

@@ -59,6 +59,7 @@
 				<th><fmt:message key="aca.CicloEscuela" /></th>
 				<th><fmt:message key="aca.Decimal" /></th>
 				<th><fmt:message key="aca.Redondeo" /></th>
+				<th><fmt:message key="aca.NivelAcademicoSistema" /></th>
 			</tr>
 		</thead>
 		
@@ -96,6 +97,7 @@
 				<td><%=ciclo.getCicloEscolar()%></td>
 				<td><%=ciclo.getDecimales()%></td>
 				<td><%=ciclo.getRedondeo().equals("A")?"Arriba":"Truncado"%></td>
+				<td><%= ciclo.nivelAcademicoSistemaTxt(ciclo.getNivelAcademicoSistema()!=null ? ciclo.getNivelAcademicoSistema() : "-1") %></td>
 	  		</tr>  
 <%
 			}

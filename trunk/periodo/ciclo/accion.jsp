@@ -70,6 +70,7 @@
 		Ciclo.setDecimales(request.getParameter("decimal"));
 		Ciclo.setRedondeo(request.getParameter("redondeo"));
 		Ciclo.setNivelEval(request.getParameter("nivelEval"));
+		Ciclo.setNivelAcademicoSistema(request.getParameter("nivelAcademicoSistema"));
 
 		if (Ciclo.existeReg(conElias) == false){
 			if (Ciclo.insertReg(conElias)){
@@ -103,6 +104,7 @@
 		Ciclo.setDecimales(request.getParameter("decimal"));
 		Ciclo.setRedondeo(request.getParameter("redondeo"));
 		Ciclo.setNivelEval(request.getParameter("nivelEval"));
+		Ciclo.setNivelAcademicoSistema(request.getParameter("nivelAcademicoSistema"));
 		
 		if (Ciclo.existeReg(conElias) == true){
 			if (Ciclo.updateReg(conElias)){
@@ -194,6 +196,9 @@
 					  	%>
 					  </select>
 				  </div>
+				  
+				  
+				  
 				  <div class="select-style" style="border-right:0;">
 					  <select name="cicloNum2" id="cicloNum2">
 					  	<%
@@ -220,8 +225,25 @@
 				  </div>
 				</div>
 			</fieldset>
-		<%} %>
+		<%} 
+		String nivelAcademicoSistema = Ciclo.getNivelAcademicoSistema()!=null ? Ciclo.getNivelAcademicoSistema() : "-1";
 		
+		%>
+		<fieldset>
+	
+		  <label form="nivelAcademicoSistema">Nivel de ciclo:</label>
+		  	<select name="nivelAcademicoSistema" id="nivelAcademicoSistema">
+		  		<option value="-1" <%if(nivelAcademicoSistema.equals("-1")  ){out.print("selected");}%>>No Definido</option>
+		  		<option value="0" <%if(nivelAcademicoSistema.equals("0")){out.print("selected");}%>>Maternal</option>
+		  		<option value="1" <%if(nivelAcademicoSistema.equals("1")){out.print("selected");}%>>Pre-Kinder</option>
+		  		<option value="2" <%if(nivelAcademicoSistema.equals("2")){out.print("selected");}%>>Kinder</option>
+		  		<option value="3" <%if(nivelAcademicoSistema.equals("3")){out.print("selected");}%>>Primaria</option>
+		  		<option value="4" <%if(nivelAcademicoSistema.equals("4")){out.print("selected");}%>>Secundaria o Pre-Media</option>
+		  		<option value="5" <%if(nivelAcademicoSistema.equals("5")){out.print("selected");}%>>Bachillerato</option>
+		  		
+		  	</select>
+	 	
+	  	</fieldset>
 		<fieldset>
 			<label for="CicloNombre"><fmt:message key="aca.Nombre" /></label>
 			<input name="CicloNombre" type="text" id="CicloNombre" size="30" maxlength="30" value="<%=Ciclo.getCicloNombre()%>" class="input-xlarge">
