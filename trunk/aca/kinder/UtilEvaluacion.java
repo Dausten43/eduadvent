@@ -152,59 +152,62 @@ public class UtilEvaluacion {
 	}
 
 	public String calificacionTxt(Integer calificacion) {
-		String salida = "";
-		if (calificacion == 1)
-			salida = "LVL";
+        String salida = "";
+        if (calificacion == 1) {
+            salida = "LVL";
+        }
 
-		if (calificacion == 2)
-			salida = "LEL";
+        if (calificacion == 2) {
+            salida = "LEL";
+        }
 
-		if (calificacion == 3)
-			salida = "LHL";
-		return salida;
-	}
+        if (calificacion == 3) {
+            salida = "LHL";
+        }
+        return salida;
+    }
 
-	public Map<Long, String> getPromedioPorCriterio(Connection con, String ciclo_gpo_id,
-			Integer trimestre, String alumno_id) {
-		Map<Long, String> salida = new HashMap<Long, String>();
-		try {
-			PreparedStatement pst = con
-					.prepareStatement("select kac.criterio_id, ceil(sum(ev.calificacion)/count(ev.id)) promedio from kinder_evaluacion ev  "
-							+ "join kinder_actividades kac on kac.id=ev.actividad_id  "
-							+ "where ev.ciclo_gpo_id='" + ciclo_gpo_id + "' and ev.evaluacion_id="
-							+ trimestre + " and ev.alumno_id='"+alumno_id+"' group by alumno_id");
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				salida.put(rs.getLong("criterio_id"), calificacionTxt(rs.getInt("promedio")));
-			}
-			rs.close();
-			pst.close();
-		} catch (SQLException sqle) {
-			System.out.println("Error en getPromedioPorCriterio" + sqle);
-		}
-		return salida;
-	}
+    public Map<Long, String> getPromedioPorCriterio(String ciclo_gpo_id,
+            Integer trimestre, String alumno_id) {
+        Map<Long, String> salida = new HashMap<Long, String>();
+        try {
+            PreparedStatement pst = con
+                    .prepareStatement("select kac.criterio_id, round(sum(ev.calificacion)/count(ev.id)) promedio from kinder_evaluacion ev  "
+                            + "join kinder_actividades kac on kac.id=ev.actividad_id and estado=1 "
+                            + "where ev.ciclo_gpo_id='" + ciclo_gpo_id + "' and ev.evaluacion_id="
+                            + trimestre + " and ev.alumno_id='" + alumno_id + "' group by kac.criterio_id");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                salida.put(rs.getLong("criterio_id"), calificacionTxt(rs.getInt("promedio")));
+                System.out.println(trimestre + " " + alumno_id + " " + rs.getLong("criterio_id") + " " + calificacionTxt(rs.getInt("promedio")));
+            }
+            rs.close();
+            pst.close();
+        } catch (SQLException sqle) {
+            System.out.println("Error en getPromedioPorCriterio" + sqle);
+        }
+        return salida;
+    }
 
-	public Map<Integer, Map<Long, String>> mapPromedio(Connection con, String ciclo_gpo_id,
-			String ciclo_id, String alumno_id) {
-		Map<Integer, Map<Long, String>> salida = new LinkedHashMap();
-		
-		List<Integer> lsTrimestres = new ArrayList<Integer>();
-		UtilCriterios uc = new UtilCriterios(con);
+    public Map<Integer, Map<Long, String>> mapPromedio(String ciclo_gpo_id, String alumno_id) {
+        Map<Integer, Map<Long, String>> salida = new LinkedHashMap();
 
-		List<Criterios> lsCriterios = new ArrayList<Criterios>();
-		lsCriterios.addAll(uc.getLsCriterios(0L, "", ciclo_id, 0L, 1));
+        List<Integer> lsTrimestres = new ArrayList<Integer>();
+        lsTrimestres.add(1);
+        lsTrimestres.add(2);
+        lsTrimestres.add(3);
 
-		for (Integer t : lsTrimestres) {
-			
-			Map<Long, String> mapPromediosCriterios = new HashMap<Long, String>();
-			mapPromediosCriterios.putAll(getPromedioPorCriterio(con, ciclo_gpo_id, t, alumno_id)); 
+        for (Integer t : lsTrimestres) {
 
-			salida.put(t, mapPromediosCriterios);
-		}
+            Map<Long, String> mapPromediosCriterios = new HashMap<Long, String>();
 
-		return salida;
+            mapPromediosCriterios.putAll(getPromedioPorCriterio(ciclo_gpo_id, t, alumno_id));
 
-	}
+            salida.put(t, mapPromediosCriterios);
+        }
+
+        return salida;
+
+    }
 
 }
