@@ -102,7 +102,7 @@ public class PrintBoletinKinder extends HttpServlet {
     }
 
     public Map<Integer, Map<Long, String>> mapPromedio(Connection con, String ciclo_gpo_id, String alumno_id) {
-        Map<Integer, Map<Long, String>> salida = new LinkedHashMap<>();
+        Map<Integer, Map<Long, String>> salida = new LinkedHashMap();
 
         List<Integer> lsTrimestres = new ArrayList<Integer>();
         lsTrimestres.add(1);
