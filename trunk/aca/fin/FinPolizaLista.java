@@ -17,7 +17,7 @@ public class FinPolizaLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, USUARIO, ESTADO, TIPO "
+			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, FECHA AS FECHASYS, DESCRIPCION, USUARIO, ESTADO, TIPO "
 					+ " FROM FIN_POLIZA "
 					+ " WHERE EJERCICIO_ID = '"+ejercicioId+"' "+orden;
 			rs = st.executeQuery(comando);			
@@ -97,7 +97,7 @@ public class FinPolizaLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, USUARIO, ESTADO, TIPO "
+			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, FECHA AS FECHASYS, USUARIO, ESTADO, TIPO "
 					+ " FROM FIN_POLIZA "
 					+ " WHERE USUARIO = '"+usuario+"' "
 					+ " AND EJERCICIO_ID = '"+ejercicioId+"' AND TIPO = 'I' "+orden;
@@ -124,7 +124,7 @@ public class FinPolizaLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, USUARIO, ESTADO, TIPO "
+			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, FECHA AS FECHASYS, DESCRIPCION, USUARIO, ESTADO, TIPO "
 					+ " FROM FIN_POLIZA "
 					+ " WHERE USUARIO = '"+usuario+"' "
 					+ " AND EJERCICIO_ID = '"+ejercicioId+"' AND TIPO = 'C' "+orden;
@@ -150,7 +150,7 @@ public class FinPolizaLista {
 		String comando	= "";
 		
 		try{			
-			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, DESCRIPCION, USUARIO, ESTADO, TIPO "
+			comando = "SELECT EJERCICIO_ID, POLIZA_ID, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, FECHA AS FECHASYS, DESCRIPCION, USUARIO, ESTADO, TIPO "
 					+ " FROM FIN_POLIZA "
 					+ " WHERE USUARIO = '"+usuario+"' "
 					+ " AND EJERCICIO_ID = '"+ejercicioId+"' AND TIPO = 'G' "+orden;
