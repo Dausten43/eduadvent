@@ -103,7 +103,7 @@
 	pageContext.setAttribute("resultado", msj);
 	
 	
-	ArrayList<aca.fin.FinPoliza> listaPoliza = FinPolizaLista.getPolizas(conElias, ejercicioId, " ORDER BY FECHA DESC");
+	ArrayList<aca.fin.FinPoliza> listaPoliza = FinPolizaLista.getPolizas(conElias, ejercicioId, " ORDER BY FECHASYS DESC");
 %>
 	
 <div id="content">

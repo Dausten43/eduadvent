@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -137,7 +138,8 @@
 	
 	pageContext.setAttribute("resultado", msj);
 	
-	ArrayList<aca.fin.FinPoliza> listaPoliza = FinPolizaLista.getPolizaPorUsuarioDeCaja(conElias, usuario, ejercicioId, " ORDER BY FECHA ");
+	List<aca.fin.FinPoliza> listaPoliza = new ArrayList();
+	listaPoliza.addAll(FinPolizaLista.getPolizaPorUsuarioDeCaja(conElias, usuario, ejercicioId, " ORDER BY FECHASYS desc"));
 	
 %>
 	

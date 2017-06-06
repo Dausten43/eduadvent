@@ -80,7 +80,7 @@
 	
 	pageContext.setAttribute("resultado", msj);	
 		
-	ArrayList<aca.fin.FinPoliza> listaPoliza = FinPolizaLista.getPolizaPorUsuarioGenerales(conElias, usuario, ejercicioId, " ORDER BY FECHA ");
+	ArrayList<aca.fin.FinPoliza> listaPoliza = FinPolizaLista.getPolizaPorUsuarioGenerales(conElias, usuario, ejercicioId, " ORDER BY FECHASYS DESC ");
 	
 %>
 	
