@@ -23,6 +23,8 @@ public class AreasCriterios {
     private String nivel;
     private String ciclo;
     private String director;
+    private String direccion;
+    
     
     
     private String area;
@@ -31,8 +33,10 @@ public class AreasCriterios {
 
     @Override
     public String toString() {
-        return "AreasCriterios{" + "escuela=" + escuela + ", logo=" + logo + ", codigo_estudiante=" + codigo_estudiante + ", nombre_estudiante=" + nombre_estudiante + ", nombre_consejera=" + nombre_consejera + ", nivel=" + nivel + ", ciclo=" + ciclo + ", director=" + director + ", area=" + area + ", lsCal=" + lsCal + ", Calificaciones=" + Calificaciones + '}';
+        return "AreasCriterios{" + "escuela=" + escuela + ", logo=" + logo + ", codigo_estudiante=" + codigo_estudiante + ", nombre_estudiante=" + nombre_estudiante + ", nombre_consejera=" + nombre_consejera + ", nivel=" + nivel + ", ciclo=" + ciclo + ", director=" + director + ", direccion=" + direccion + ", area=" + area + ", lsCal=" + lsCal + ", Calificaciones=" + Calificaciones + '}';
     }
+
+
 
 
 
@@ -178,5 +182,19 @@ public class AreasCriterios {
      */
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    /**
+     * @return the direccion
+     */
+    public String getDireccion() {
+        return direccion;
+    }
+
+    /**
+     * @param direccion the direccion to set
+     */
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 }

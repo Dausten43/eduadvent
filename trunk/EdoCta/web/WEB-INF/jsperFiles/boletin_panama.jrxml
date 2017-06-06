@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin_panama" language="groovy" pageWidth="368" pageHeight="595" columnWidth="368" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="81052afb-e169-4fbe-9c7c-a8625710344e">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="7.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
@@ -100,7 +100,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="35" splitType="Prevent">
+		<band height="34" splitType="Prevent">
 			<textField>
 				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="369" height="20" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" backcolor="#CCCCCC" uuid="b343105d-3767-49ce-b0d9-d8bc224e63f9"/>
 				<box>

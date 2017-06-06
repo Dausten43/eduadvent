@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin_panama_encabezado" language="groovy" pageWidth="612" pageHeight="792" columnWidth="564" leftMargin="34" rightMargin="14" topMargin="42" bottomMargin="20" uuid="14a0f6bc-4f9c-4d0a-9626-02eac7d7b776">
-	<property name="ireport.zoom" value="2.0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin_panama_encabezado" language="groovy" pageWidth="612" pageHeight="792" columnWidth="564" leftMargin="34" rightMargin="14" topMargin="22" bottomMargin="20" uuid="14a0f6bc-4f9c-4d0a-9626-02eac7d7b776">
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
@@ -42,83 +42,106 @@
 	<field name="director" class="java.lang.String">
 		<fieldDescription><![CDATA[director]]></fieldDescription>
 	</field>
+	<field name="direccion" class="java.lang.String"/>
 	<group name="dsReportgp" isStartNewPage="true" isResetPageNumber="true">
 		<groupExpression><![CDATA[$F{area}]]></groupExpression>
 		<groupHeader>
-			<band height="114">
+			<band height="145">
 				<rectangle>
-					<reportElement x="306" y="66" width="253" height="24" uuid="799c7f76-a9ce-4f96-bd3e-296e3fa870b4"/>
+					<reportElement x="306" y="111" width="253" height="16" uuid="799c7f76-a9ce-4f96-bd3e-296e3fa870b4"/>
 				</rectangle>
 				<rectangle>
-					<reportElement x="27" y="90" width="279" height="24" uuid="21b9397b-42e7-4086-8c60-0918af9a01b5"/>
+					<reportElement x="27" y="127" width="279" height="18" uuid="21b9397b-42e7-4086-8c60-0918af9a01b5"/>
 				</rectangle>
 				<rectangle>
-					<reportElement x="27" y="66" width="279" height="24" uuid="d5bba1f5-89e0-46a1-bf06-b3570d1e281c"/>
-				</rectangle>
-				<rectangle>
-					<reportElement x="27" y="0" width="532" height="66" uuid="10a193dd-2826-4ecf-81fe-0d12055c57ef"/>
+					<reportElement x="27" y="111" width="279" height="16" uuid="d5bba1f5-89e0-46a1-bf06-b3570d1e281c"/>
 				</rectangle>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
-					<reportElement x="30" y="1" width="68" height="64" uuid="3cddbd68-2934-4976-a8eb-602e48dfe77d"/>
+					<reportElement x="0" y="1" width="68" height="64" uuid="3cddbd68-2934-4976-a8eb-602e48dfe77d"/>
 					<imageExpression><![CDATA[$F{logo}]]></imageExpression>
 				</image>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="98" y="-3" width="447" height="43" uuid="fa2c244f-e133-4249-ae10-d19f481648d3"/>
+					<reportElement x="68" y="36" width="424" height="34" uuid="fa2c244f-e133-4249-ae10-d19f481648d3"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="18" isBold="true"/>
+						<font size="16" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{escuela}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="98" y="51" width="447" height="14" uuid="1093ffaa-2699-41ca-bd34-ffac783564ca"/>
-					<textElement textAlignment="Center" verticalAlignment="Bottom"/>
-					<textFieldExpression><![CDATA[$F{ciclo}]]></textFieldExpression>
+					<reportElement x="442" y="95" width="117" height="16" uuid="1093ffaa-2699-41ca-bd34-ffac783564ca"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Año Lectivo: "+ $F{ciclo}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="98" y="39" width="447" height="16" uuid="2734dcaa-2dea-451f-850f-509d483f4bb4"/>
-					<textElement textAlignment="Center" verticalAlignment="Bottom">
-						<font size="12" isBold="true"/>
+					<reportElement x="27" y="95" width="116" height="16" uuid="2734dcaa-2dea-451f-850f-509d483f4bb4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="false"/>
 					</textElement>
-					<text><![CDATA[Boletín de Calificaciones]]></text>
+					<text><![CDATA[Informe Trimestral]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="30" y="66" width="275" height="24" uuid="195495e2-2633-4220-b6e5-7c5e8efeb6ee"/>
+					<reportElement stretchType="RelativeToBandHeight" x="30" y="111" width="275" height="16" uuid="195495e2-2633-4220-b6e5-7c5e8efeb6ee"/>
 					<textElement verticalAlignment="Middle">
 						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Estudiante: " + $F{nombre_estudiante}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="30" y="90" width="275" height="24" uuid="1ddff017-2841-4ab0-b449-ae0e2a1e97fb"/>
+					<reportElement x="30" y="127" width="275" height="18" uuid="1ddff017-2841-4ab0-b449-ae0e2a1e97fb"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA["No. Cédula: " + $F{codigo_estudiante}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="316" y="66" width="243" height="24" uuid="bd3cf3a2-56f5-45d7-aa80-fac878986b47"/>
+					<reportElement x="316" y="111" width="243" height="16" uuid="bd3cf3a2-56f5-45d7-aa80-fac878986b47"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA["Consejero(a): " + $F{nombre_consejera}]]></textFieldExpression>
 				</textField>
 				<rectangle>
-					<reportElement x="306" y="90" width="253" height="24" uuid="6784c763-9bd1-4201-88be-ccd2b61e547f"/>
+					<reportElement x="306" y="127" width="253" height="18" uuid="6784c763-9bd1-4201-88be-ccd2b61e547f"/>
 				</rectangle>
 				<textField>
-					<reportElement x="316" y="90" width="243" height="24" uuid="960f45a6-5594-48a6-9a06-b776f948aa02"/>
+					<reportElement x="316" y="127" width="243" height="18" uuid="960f45a6-5594-48a6-9a06-b776f948aa02"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA["Nivel: " + $F{nivel}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="458" y="103" width="80" height="10" uuid="46b1fb1f-8afe-4c72-b4ec-d59f3f008078"/>
+					<reportElement x="458" y="132" width="80" height="10" uuid="46b1fb1f-8afe-4c72-b4ec-d59f3f008078"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
-					<reportElement x="538" y="103" width="40" height="10" uuid="d4330f7f-17e0-43b5-8dc9-839cb987202a"/>
+					<reportElement x="538" y="132" width="40" height="10" uuid="d4330f7f-17e0-43b5-8dc9-839cb987202a"/>
 					<textElement verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="473" y="0" width="86" height="35" uuid="a01c4812-e186-4983-bf31-d39ab7b24946"/>
+					<imageExpression><![CDATA["MEDUCA.gif"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="68" y="0" width="424" height="18" uuid="35be5178-64a0-4ad9-9d71-3a41d3aca23b"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REPÚBLICA DE PANAMÁ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="68" y="18" width="424" height="18" uuid="c3167341-5802-4fce-8734-0acafe7ce80e"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[MINISTERIO DE EDUCACIÓN]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="68" y="70" width="424" height="15" uuid="d1f6dd5e-1b2e-4eb0-b492-fab1974bef55"/>
+					<textElement textAlignment="Center" verticalAlignment="Top"/>
+					<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

@@ -84,7 +84,7 @@ public class PrintBoletinKinder extends HttpServlet {
         Map<Long, String> salida = new HashMap<Long, String>();
         try {
             PreparedStatement pst = con
-                    .prepareStatement("select kac.criterio_id, ceil(sum(ev.calificacion)/count(ev.id)) promedio from kinder_evaluacion ev  "
+                    .prepareStatement("select kac.criterio_id, round(sum(ev.calificacion)/count(ev.id)) promedio from kinder_evaluacion ev  "
                             + "join kinder_actividades kac on kac.id=ev.actividad_id  "
                             + "where ev.ciclo_gpo_id='" + ciclo_gpo_id + "' and ev.evaluacion_id="
                             + trimestre + " and ev.alumno_id='" + alumno_id + "' group by kac.criterio_id");
@@ -165,12 +165,13 @@ public class PrintBoletinKinder extends HttpServlet {
 
                                 comando = "SELECT distinct(kca.CODIGO_ID) , ALUM_APELLIDO(kca.CODIGO_ID),ac.nivel, ac.grado, ac.grupo "
                         + ", ap.escuela_id, ap.nombre, ap.apaterno, ap.amaterno , ap.curp , "
-                        + " ce.escuela_nombre, ce.logo, ne.nivel_nombre, emp_nombre(ne.director) as nombre_director "
+                        + " ce.escuela_nombre, ce.direccion, ce.telefono, ce.logo, ne.nivel_nombre, ci.ciclo_escolar, emp_nombre(ne.director) as nombre_director "
                         + " FROM KRDX_CURSO_ACT kca"
                         + " join alum_personal ap on ap.codigo_id=kca.codigo_id "
                         + " join cat_escuela ce on ce.escuela_id=ap.escuela_id "
                         + " join alum_ciclo ac on ac.codigo_id=kca.codigo_id and ac.ciclo_id='"+ciclo_id+"' "
                         + " join cat_nivel_escuela ne on ne.escuela_id=ap.escuela_id and ne.nivel_id=ac.nivel "
+                        + " join ciclo ci on ci.ciclo_id='"+ciclo_id+"' "
                         + " WHERE SUBSTR(kca.CODIGO_ID,1,3) = '" + escuela + "' " + " AND kca.CICLO_GRUPO_ID = '" + ciclo_gpo_id + "' ";
                         
 
@@ -197,12 +198,13 @@ public class PrintBoletinKinder extends HttpServlet {
 
                 comando = "SELECT distinct(kca.CODIGO_ID) , ALUM_APELLIDO(kca.CODIGO_ID),ac.nivel, ac.grado, ac.grupo "
                         + ", ap.escuela_id, ap.nombre, ap.apaterno, ap.amaterno , ap.curp , "
-                        + " ce.escuela_nombre, ce.logo, ne.nivel_nombre, emp_nombre(ne.director) as nombre_director "
+                        + " ce.escuela_nombre, ce.direccion, ce.telefono, ce.logo, ne.nivel_nombre, ci.ciclo_escolar, emp_nombre(ne.director) as nombre_director "
                         + " FROM KRDX_CURSO_ACT kca"
                         + " join alum_personal ap on ap.codigo_id=kca.codigo_id "
                         + " join cat_escuela ce on ce.escuela_id=ap.escuela_id "
                         + " join alum_ciclo ac on ac.codigo_id=kca.codigo_id and ac.ciclo_id='"+ciclo_id+"'"
                         + " join cat_nivel_escuela ne on ne.escuela_id=ap.escuela_id and ne.nivel_id=ac.nivel"
+                        + " join ciclo ci on ci.ciclo_id='"+ciclo_id+"' "
                         + " WHERE SUBSTR(kca.CODIGO_ID,1,3) = '" + escuela + "' " + " AND CICLO_GRUPO_ID = '" + ciclo_gpo_id + "' "
                         + " ORDER BY ALUM_APELLIDO(kca.CODIGO_ID)";
             }
@@ -234,15 +236,16 @@ public class PrintBoletinKinder extends HttpServlet {
                 //System.out.println("entro a rspsta lsCriteriosAreas" + lsCriteriosAreas.size() );
 
                 AreasCriterios ac = new AreasCriterios();
-                ac.setArea(rs.getString("codigo_id"));
-                ac.setCiclo(ciclo_nombre);
+                ac.setArea(rs.getString("codigo_id")); 
+                ac.setCiclo(rs.getString("ciclo_escolar").trim());
                 ac.setCodigo_estudiante(rs.getString("curp"));
                 ac.setEscuela(rs.getString("escuela_nombre"));
                 ac.setLogo(imgpath  + "/" +  rs.getString("logo"));
                 ac.setNivel(rs.getString("nivel_nombre"));
-                ac.setNombre_estudiante(rs.getString("codigo_id") + " - " + rs.getString("nombre") + " " + rs.getString("apaterno") + " " + rs.getString("amaterno"));
+                ac.setNombre_estudiante(rs.getString("nombre") + " " + rs.getString("apaterno") + " " + rs.getString("amaterno"));
                 ac.setNombre_consejera(consejera);
                 ac.setDirector(rs.getString("nombre_director"));
+                ac.setDireccion(rs.getString("direccion") + " " + rs.getString("telefono") + "");
                 Map<Integer, Map<Long, String>> mapPromedios = new LinkedHashMap();
                 mapPromedios.putAll(mapPromedio(con, ciclo_gpo_id, ac.getArea()));
 
