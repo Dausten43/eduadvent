@@ -175,7 +175,7 @@
 				wrapTable.setSpacingBefore(30f);
 				wrapTable.setSplitLate(false);
 				
-				float headerwidths[] = {10f, 90f};
+				float headerwidths[] = {15f, 70f, 15f};
 				PdfPTable topTable = new PdfPTable(headerwidths);
 				topTable.setWidthPercentage(80f);
 				topTable.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -205,17 +205,48 @@
 	            cell = new PdfPCell();
             	cell.addElement(jpg);
             	cell.setBorder(borde);
-            	cell.setRowspan(2);
+            	cell.setRowspan(4);
 				topTable.addCell(cell);
 								
 				/* 
-	             * Informacion del encabezado de cada boleta
+	             * Informacion del pais del encabezado de cada boleta
+	             */
+	            
+	            cell = new PdfPCell(new Phrase("REPÚBLICA DE PANAMÁ", FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD, new BaseColor(0,0,0))));
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setBorder(borde);
+				topTable.addCell(cell);
+				
+				/* 
+	             * Agregar el logo de MEDUCA a cada boleta
+	             */
+	            jpg = null;
+				jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/MEDUCA.png");
+        		
+	            //System.out.println("Ruta Boleta:"+dirFoto);
+	            jpg.setAlignment(Image.RIGHT | Image.UNDERLYING);
+	            jpg.scaleAbsolute(80, 49);	            
+	            
+	            cell = new PdfPCell();
+            	cell.addElement(jpg);
+            	cell.setBorder(borde);
+            	cell.setRowspan(4);
+				topTable.addCell(cell);
+				
+
+	            cell = new PdfPCell(new Phrase("MINISTERIO DE EDUCACIÓN", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cell.setBorder(borde);
+				topTable.addCell(cell);
+				
+				/* 
+	             * Informacion de la escuela del encabezado de cada boleta
 	             */
 					
 				CatEscuela ce = new CatEscuela();
 				ce.mapeaRegId(conElias, escuela);
 	            
-	            cell = new PdfPCell(new Phrase(ce.getEscuelaNombre(), FontFactory.getFont(FontFactory.HELVETICA, 20, Font.BOLD, new BaseColor(0,0,0))));
+	            cell = new PdfPCell(new Phrase(ce.getEscuelaNombre(), FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(borde);
 				topTable.addCell(cell);
@@ -229,16 +260,18 @@
 				cell.setBorder(borde);
 				topTable.addCell(cell);
 				
-				/*cell = new PdfPCell(new Phrase());
+				/*cell = new PdfPCell(new Phrase("Informa Trimestral\t\t\t\t\t\t\t Año lec", FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(1);
 				cell.setBorderColorBottom(BaseColor.BLACK);
+				cell.setColspan(3);
 				topTable.addCell(cell);
 				
 				cell = new PdfPCell(new Phrase());
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(1);
 				cell.setBorderColorBottom(BaseColor.BLACK);
+				cell.setColspan(3);
 				topTable.addCell(cell);*/
 	            
             	/* 
@@ -253,6 +286,20 @@
 				alumnoTable.setWidthPercentage(80f);
 				alumnoTable.setHorizontalAlignment(Element.ALIGN_CENTER);
 				alumnoTable.setSpacingAfter(5f);
+				
+				cell = new PdfPCell(new Phrase("Informe Trimestral ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+ 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+				cell.setBorder(0);
+				cell.setColspan(2);
+ 				alumnoTable.addCell(cell);
+ 				
+ 				cell = new PdfPCell(new Phrase("Año Lectivo: "+ciclo.getCicloEscolar(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+ 				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+				cell.setBorder(0);
+				cell.setColspan(2);
+ 				alumnoTable.addCell(cell);
  
 				cell = new PdfPCell(new Phrase("NOMBRE: ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
