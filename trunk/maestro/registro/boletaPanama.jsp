@@ -1949,12 +1949,6 @@
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(0);
  				wrapTable.addCell(cell);
- 				
- 				cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
- 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
- 				cell.setBorder(0);
- 				wrapTable.addCell(cell);
 				
 				String firma = "";
 				int contFirmas = 2;
