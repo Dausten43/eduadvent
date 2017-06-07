@@ -11,6 +11,8 @@
 </style>
 
 <%
+session.setAttribute("codigoAlumno", request.getParameter("codigo"));
+
 String auxiliar		= session.getAttribute("codigoAlumno").toString();
 String escuela		= (String) session.getAttribute("escuela");
 String fechaHoy 	= aca.util.Fecha.getHoy();
