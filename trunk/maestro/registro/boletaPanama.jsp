@@ -444,6 +444,10 @@
 	    		for(int j = 0; j < cantidadTrimestres; j++)
 	    			sumaPorTrimestreIngles[j]= new BigDecimal("0", mc);
 	    		
+	    		BigDecimal[] sumaPorTrimestreInglesMadre = new BigDecimal[cantidadTrimestres];
+	    		for(int j = 0; j < cantidadTrimestres; j++)
+	    			sumaPorTrimestreInglesMadre[j]= new BigDecimal("0", mc);
+	    		
 				ArrayList<aca.kardex.KrdxCursoAct> cursosAlumnoAct = cursoActLista.getLisCursosAlumno(conElias,codigoAlumno, cicloGrupoId," ORDER BY 1");
 	    		
 	    		BigDecimal[] promedioPorMateria = new BigDecimal[lisCurso.size()];
@@ -451,6 +455,7 @@
 	    			promedioPorMateria[j] = new BigDecimal("0", mc);
 	    		}
 	    		
+	    		String promedioDeIngles = "";
 				for (int j=0; j < lisCurso.size(); j++){
 	    			curso = (aca.plan.PlanCurso) lisCurso.get(j);
 	    			boolean cursoEncontrado = false;
@@ -879,8 +884,11 @@
 										if(mapPromAlumno.containsKey(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()) && show){
 											valor = mapPromAlumno.get(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()).getNota();
 											sumaNotas = sumaNotas.add(new BigDecimal(valor, mc), mc);
-											if(curso.getCursoBase().equals("-"))//Si es materia madre o materia sin hijas
+											if(curso.getCursoBase().equals("-")){//Si es materia madre o materia sin hijas
 												sumaPorTrimestre[l] = sumaPorTrimestre[l].add(new BigDecimal(valor, mc), mc);
+												if(curso.getTipocursoId().equals("3"))//si es materia madre y es de Ingles
+													sumaPorTrimestreInglesMadre[l] = new BigDecimal(valor, mc);
+											}
 											if(curso.getTipocursoId().equals("3"))
 												sumaPorTrimestreIngles[l] = sumaPorTrimestreIngles[l].add(new BigDecimal(valor, mc), mc);
 											valor = String.valueOf(frm.format(Double.parseDouble(valor)));
@@ -931,8 +939,11 @@
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno) && show){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
 												sumaNotas = sumaNotas.add(new BigDecimal(valor, mc), mc);
-												if(curso.getCursoBase().equals("-"))//Si es materia madre o materia sin hijas
+												if(curso.getCursoBase().equals("-")){//Si es materia madre o materia sin hijas
 													sumaPorTrimestre[contador] = sumaPorTrimestre[contador].add(new BigDecimal(valor, mc), mc);
+													if(curso.getTipocursoId().equals("3"))//si es materia madre y es de Ingles
+														sumaPorTrimestreInglesMadre[contador] = new BigDecimal(valor, mc);
+												}
 												if(curso.getTipocursoId().equals("3"))
 													sumaPorTrimestreIngles[contador] = sumaPorTrimestreIngles[contador].add(new BigDecimal(valor, mc), mc);
 												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
@@ -998,16 +1009,20 @@
 			    				if(curso.getCursoBase().equals("-"))
 			    					promedioPorMateria[j] = new BigDecimal(nota, mc);
 			    				
-			    				if(!curso.getCursoBase().equals("-")){
+			    				
+			    				if(!curso.getCursoBase().equals("-")){//Si es materia hija
 			    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
-								}else{
+								}else{//Si es materia madre
 									celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
 				    				tabla.addCell(celda);
+				    				//si es materia madre de Ingles, guardamos su promedio acumulado para el promedio de Ingles
+				    				if(curso.getTipocursoId().equals("3"))
+				    					promedioDeIngles = nota;
 								}
 			    		        /*if(!estanTodasCerradas){
 			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
@@ -1490,8 +1505,8 @@
 						}*/
 	    				
 	    				for(int l = 0; l < cantidadTrimestres; l++){
-	    					if(sumaPorTrimestreIngles[l].compareTo(BigDecimal.ZERO) > 0 && cantidadMaterias > 0){
-	    						int materiasTmp = materiasIngles;
+	    					if(sumaPorTrimestreInglesMadre[l].compareTo(BigDecimal.ZERO) > 0 && cantidadMaterias > 0){
+	    						/*int materiasTmp = materiasIngles;
 	    						materiasTmp = materiasTmp-materiasSinNotaIngles[l];
 	    						double resultado =  0d;
 	    						
@@ -1499,15 +1514,16 @@
 	    							resultado = sumaPorTrimestreIngles[l].divide(new BigDecimal(materiasTmp+"", mc), 8, RoundingMode.DOWN).doubleValue();
 	    						}else{ //Si es redondeado
 	    						    resultado = sumaPorTrimestreIngles[l].divide(new BigDecimal(materiasTmp+"", mc), 8, RoundingMode.HALF_UP).doubleValue();
-	    						}
+	    						}*/
 	    						//System.out.println("resultado Ingles: "+resultado);
 	    						
-    	    					celda = new PdfPCell(new Phrase( frm.format(resultado), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
+    	    					//celda = new PdfPCell(new Phrase( frm.format(resultado), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
+    	    					celda = new PdfPCell(new Phrase( frm.format(sumaPorTrimestreInglesMadre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(0);
     	        				tabla.addCell(celda);
     	        				
-    	        				sumaPorTrimestreIngles[l] = new BigDecimal(frm.format(resultado), mc);
+    	        				//sumaPorTrimestreIngles[l] = new BigDecimal(frm.format(resultado), mc);
     	    				}else{ 
     	    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1519,25 +1535,26 @@
 	    				
 	    		    	//if(todasTienenCalificacionIngles ){
 	    		    		BigDecimal notaDeTodas = new BigDecimal("0", mc);
-	    		    		int trimestresSinNotaIngles = 0;
+	    		    		/*int trimestresSinNotaIngles = 0;
 	    		    		for(int l=0; l<cantidadTrimestres; l++){
 	    		    			notaDeTodas = notaDeTodas.add(sumaPorTrimestreIngles[l], mc);
 	    		    			//System.out.println(sumaPorTrimestreIngles[l]);
 	    		    			if(sumaPorTrimestreIngles[l].compareTo(BigDecimal.ZERO) == 0)
 	    		    				trimestresSinNotaIngles++;
-	    		    		}
+	    		    		}*/
 	    		    		/*if(lisBloque.size()!=0){
 	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
 	    		    		}*/
 	    		    		//System.out.println(codigoAlumno+" Total Ingles");
 	    		    		//System.out.println("notaDeTodas = ("+notaDeTodas+"/("+cantidadTrimestres+"-"+trimestresSinNotaIngles+"));");
 	    		    		//notaDeTodas = (notaDeTodas/(float)(cantidadTrimestres-trimestresSinNotaIngles));
-	    		    		BigDecimal totalIngles = new BigDecimal("0", mc);
+	    		    		/*BigDecimal totalIngles = new BigDecimal("0", mc);
 	    		    		if(notaDeTodas.compareTo(BigDecimal.ZERO) > 0)
-	    		    			totalIngles = notaDeTodas.divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+"", mc), mc);
+	    		    			totalIngles = notaDeTodas.divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+"", mc), mc);*/
 	    		    		//System.out.println(notaDeTodas+" format = "+frm3.format(Double.parseDouble(String.valueOf(notaDeTodas))));
 	    		    		
-	    		    		celda = new PdfPCell(new Phrase( frm3.format(totalIngles), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
+	    		    		//celda = new PdfPCell(new Phrase( frm3.format(totalIngles), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
+	    		    		celda = new PdfPCell(new Phrase( promedioDeIngles, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
 	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							celda.setBorder(0);
 	        				tabla.addCell(celda);
