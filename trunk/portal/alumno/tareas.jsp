@@ -49,6 +49,7 @@
 			int nTareas=0;
 						
 			for (int i=0;i<7;i++){
+				System.out.println(fechas.get(i));
 				ArrayList tareasEstrategias = TareaL.getTareasFecha(conElias, codigoId,(String)fechas.get(i)," ORDER BY FECHA");
 				ArrayList tareas = ActividadL.getListTareas(conElias,codigoId,(String)fechas.get(i)," ORDER BY FECHA");
 				
