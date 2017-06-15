@@ -37,7 +37,7 @@
 	String plan			= aca.kardex.KrdxCursoAct.getAlumPlan(conElias,codigoId,cicloId);
 	String punto		= aca.plan.PlanCurso.getPunto(conElias, cursoId);
 	
-	ArrayList grupoEval	= GrupoEval.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY ORDEN");
+	ArrayList grupoEval	= GrupoEval.getArrayList(conElias, cicloGrupoId, cursoId, "ORDER BY PROMEDIO_ID, ORDEN");
 	ArrayList grupoAct	= GrupoAct.getListGrupo(conElias, cicloGrupoId, cursoId, "ORDER BY FECHA" );
 	
 	TreeMap alumEval	= AlumEval.getTreeAlumMat(conElias, codigoId, cicloGrupoId, cursoId, "ORDER BY EVALUACION_ID");
@@ -99,10 +99,10 @@
 				}
 %>
 	<tr>
-      <td><%= gpoAct.getFecha() %></td>
-      <td><%= gpoAct.getActividadNombre() %></td>
-      <td><%= gpoAct.getValor() %></td>
-      <td><%= notaAct %></td>
+      <td>&nbsp;&nbsp;&nbsp;<%= gpoAct.getFecha().substring(0, 10) %></td>
+      <td>&nbsp;&nbsp;&nbsp;<%= gpoAct.getActividadNombre() %></td>
+      <td>&nbsp;&nbsp;&nbsp;<%= gpoAct.getValor() %></td>
+      <td>&nbsp;&nbsp;&nbsp;<%= notaAct %></td>
     </tr>
 <%			
 			}
