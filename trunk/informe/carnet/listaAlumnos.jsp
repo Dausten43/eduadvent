@@ -1,3 +1,4 @@
+<%@page import="aca.vista.AlumInscrito"%>
 <%@page import="java.util.GregorianCalendar"%>
 <%@page import="java.util.Calendar"%>
 <%@ include file= "../../con_elias.jsp" %>
