@@ -4,7 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class CicloGrupoTareaLista {
 
@@ -67,6 +72,82 @@ public class CicloGrupoTareaLista {
 		return lisCicloGrupoTarea;
 	}
 	
+	public String getInicioFinSemana(String semana){
+        String salida = "";
+        
+        SimpleDateFormat sdfc = new SimpleDateFormat("dd 'de' MMM");
+        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy");
+        
+        String[] se = semana.split("-");
+        
+        Calendar calb = Calendar.getInstance(Locale.US);
+            
+        calb.set(Calendar.YEAR,new Integer(se[0]));
+        calb.set(Calendar.WEEK_OF_YEAR, new Integer(se[1]));
+        //calb.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+        System.out.println(calb.getTime() + " se[0] " + se[0] + " se[1] " + se[1]);
+            while(calb.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY){
+                calb.add(Calendar.DATE, -1); 
+            }
+            Date semanaIni = calb.getTime();
+            
+            while(calb.get(Calendar.DAY_OF_WEEK)!=Calendar.FRIDAY){
+                calb.add(Calendar.DATE, 1); 
+            }
+            
+            Date semanaFin = calb.getTime(); 
+            
+            salida = "Semana del " + sdfc.format(semanaIni) + " al " + sdfc.format(semanaFin) + " " + sdfd.format(semanaFin);
+        
+        return salida;
+    }
+	
+	
+	
+	
+	public List<String> getTareasFecha(Connection conn, String codigoId, String fecha, String orden, String cicloId ) throws SQLException{
+		List<String>salida	= new ArrayList<String>();
+		Statement st 	= conn.createStatement();
+		Statement stb 	= conn.createStatement();
+		ResultSet rs 	= null;
+		ResultSet rsb 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT distinct(extract(WEEK FROM fecha)) we , extract(YEAR FROM fecha) ye " +
+					" FROM CICLO_GRUPO_TAREA WHERE CICLO_GRUPO_ID||CURSO_ID " +
+					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )"
+							+ " and CICLO_GRUPO_ID LIKE '"+cicloId+"%' "+orden;
+			String comandob = "SELECT distinct(extract(WEEK FROM fecha)) we , extract(YEAR FROM fecha) ye " +
+					" FROM CICLO_GRUPO_ACTIVIDAD " +
+					" WHERE CICLO_GRUPO_ID||CURSO_ID " +
+					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )" +
+					" and CICLO_GRUPO_ID LIKE '"+ cicloId +"%' and MOSTRAR='S' "+
+					orden;
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				salida.add(rs.getString("ye") + "-" +rs.getString("we"));
+			}
+			
+			rsb = stb.executeQuery(comandob);
+			while(rsb.next()){
+				if(!salida.contains(rsb.getString("ye") + "-" +rsb.getString("we"))){
+					salida.add(rsb.getString("ye") + "-" +rsb.getString("we"));
+				}
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloGrupoTareaLista|getTareasFecha|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+			if (rsb!=null) rsb.close();
+			if (stb!=null) stb.close();
+		}	
+		
+		return salida;
+	}
+	
 	public ArrayList<CicloGrupoTarea> getTareasFecha(Connection conn, String codigoId, String fecha, String orden ) throws SQLException{
 		ArrayList<CicloGrupoTarea> lisCicloGrupoTarea 	= new ArrayList<CicloGrupoTarea>();
 		Statement st 	= conn.createStatement();
@@ -78,6 +159,37 @@ public class CicloGrupoTareaLista {
 					" FROM CICLO_GRUPO_TAREA WHERE TO_CHAR(FECHA,'DD/MM/YYYY') = '"+fecha+"' " +
 					" AND CICLO_GRUPO_ID||CURSO_ID " +
 					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' ) "+orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				
+				CicloGrupoTarea cicloGrupo = new CicloGrupoTarea();				
+				cicloGrupo.mapeaReg(rs);
+				lisCicloGrupoTarea.add(cicloGrupo);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloGrupoTareaLista|getTareasFecha|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}	
+		
+		return lisCicloGrupoTarea;
+	}
+	
+	public ArrayList<CicloGrupoTarea> getTareasFecha(Connection conn, String codigoId, String fecha, String orden, String cicloId, int algo) throws SQLException{
+		ArrayList<CicloGrupoTarea> lisCicloGrupoTarea 	= new ArrayList<CicloGrupoTarea>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		String[] txtSplit=fecha.split("-");
+		try{
+			comando = "SELECT CICLO_GRUPO_ID, TAREA_ID, TAREA_NOMBRE, DESCRIPCION, TEMA_ID, CURSO_ID, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA" +
+					" FROM CICLO_GRUPO_TAREA WHERE CICLO_GRUPO_ID||CURSO_ID " +
+					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' ) "
+						+ " and CICLO_GRUPO_ID LIKE '"+cicloId+"%' "
+								+ " and extract(YEAR FROM fecha)=" + txtSplit[0] + " and extract(WEEK FROM fecha)=" + txtSplit[1]  + " "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){

@@ -107,6 +107,42 @@ public class CicloGrupoActividadLista {
 
 		return lisGrupoActividad;
 	}
+	
+public ArrayList<CicloGrupoActividad> getListTareas(Connection conn, String codigoId, String fecha, String orden, String cicloId ) throws SQLException{
+		
+		ArrayList<CicloGrupoActividad> lisGrupoActividad = new ArrayList<CicloGrupoActividad>();
+		Statement st 		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando		= "";
+		
+		try{
+			
+			String[] txtSplit=fecha.split("-");
+			comando = "SELECT CICLO_GRUPO_ID, CURSO_ID, EVALUACION_ID, ACTIVIDAD_ID, " +
+					" ACTIVIDAD_NOMBRE, TO_CHAR(FECHA, 'DD/MM/YYYY HH:MI AM') AS FECHA, VALOR, TIPOACT_ID, ETIQUETA_ID, MOSTRAR " +
+					" FROM CICLO_GRUPO_ACTIVIDAD " +
+					" WHERE CICLO_GRUPO_ID||CURSO_ID " +
+					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )" +
+					" and CICLO_GRUPO_ID LIKE '"+ cicloId +"%' " +
+					"  and extract(YEAR FROM fecha)=" + txtSplit[0] + " and extract(WEEK FROM fecha)=" + txtSplit[1]  + " " +
+					orden;
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				CicloGrupoActividad actividad = new CicloGrupoActividad();				
+				actividad.mapeaReg(rs);
+				lisGrupoActividad.add(actividad);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.cicloGrupoActividadLista|getListTareas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return lisGrupoActividad;
+	}
 
 	public ArrayList<CicloGrupoActividad> getListTareas(Connection conn, String codigoId, String fecha, String orden ) throws SQLException{
 		
