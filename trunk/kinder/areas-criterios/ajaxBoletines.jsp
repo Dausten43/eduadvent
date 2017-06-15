@@ -14,7 +14,7 @@ if(request.getParameter("ciclo_gpo_id")!=null){
 }
 if(lsAlumnosGpo.size()>0){
 	%>
-	<a href="http://centauro.um.edu.mx/EdoCta/PrintBoletinKinder?ciclo_gpo_id=<%= ciclogpoid %>&ciclo_id=<%= cicloId %>&curso_id=H98-04COGN01&escuela_id=<%= escuelaId %>" class="btn btn-default" target="_new">Imprimir Boletín General</a>
+	<a href="/EdoCta/PrintBoletinKinder?ciclo_gpo_id=<%= ciclogpoid %>&ciclo_id=<%= cicloId %>&curso_id=H98-04COGN01&escuela_id=<%= escuelaId %>" class="btn btn-default" target="_new">Imprimir Boletín General</a>
 	<table class="table table-bordered" style="width: 60%;">
   <tr>
     <th>#</th>
@@ -29,7 +29,7 @@ if(lsAlumnosGpo.size()>0){
   <tr>
     <td><%= cont %></td>
     <td><%= aca.alumno.AlumPersonal.getNombre(conElias, codigoid, "APELLIDO") %></td>
-    <td><a href="http://centauro.um.edu.mx/EdoCta/PrintBoletinKinder?ciclo_gpo_id=<%= ciclogpoid %>&ciclo_id=<%= cicloId %>&curso_id=H98-04COGN01&escuela_id=<%= escuelaId %>&codigo_id=<%= codigoid %>" target="_new" class="btn btn-default">Boletín Individual</a></td>
+    <td><a href="/EdoCta/PrintBoletinKinder?ciclo_gpo_id=<%= ciclogpoid %>&ciclo_id=<%= cicloId %>&curso_id=H98-04COGN01&escuela_id=<%= escuelaId %>&codigo_id=<%= codigoid %>" target="_new" class="btn btn-default">Boletín Individual</a></td>
   </tr>
   <%
 	}

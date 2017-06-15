@@ -29,7 +29,7 @@
 	
 <fmt:setBundle basename="aca.idioma.messages"/>
 
-<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- Latest compiled and minified JavaScript -->
@@ -39,7 +39,7 @@
 <link rel="stylesheet"	href="../../js-plugins/bootstrap-select-1.12.2/dist/css/bootstrap-select.css">
 <link href="../../js-plugins/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 <script src="../../js-plugins/bootstrap3-editable/js/bootstrap-editable.js"></script>
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <script src="../../js/moment.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 
