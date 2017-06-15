@@ -29,7 +29,7 @@
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoAlumno");
 	String cicloId			= request.getParameter("ciclo");
-	String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
+	//String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
 	
 	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	
@@ -113,11 +113,12 @@ $('.materias').addClass('active');
 			BigDecimal prom 	= new BigDecimal("0.0", mc);		 
 			if (treeProm.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+codigoId)){
 				aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+codigoId);
-				if (nivelEvaluacion.equals("P")){
+				
+				//if (nivelEvaluacion.equals("P")){
 				prom = (new BigDecimal(alumProm.getPromedio())).add(new BigDecimal(alumProm.getPuntosAjuste()));
-				}else if (nivelEvaluacion.equals("E")){
+				/*}else if (nivelEvaluacion.equals("E")){
 					prom = new BigDecimal(alumProm.getPromedio());	
-				}
+				}*/
 			}else{
 				System.out.println("Error en promedio:"+codigoId+":"+cicloGrupoCurso.getCursoId());
 			}
