@@ -46,7 +46,7 @@ public class PrintBoletinKinder extends HttpServlet {
     public void conectar() {
         try {
             Class.forName("org.postgresql.Driver");
-            con = (DriverManager.getConnection("jdbc:postgresql://172.16.7.77:5432/elias", "postgres", "jete17"));
+            con = (DriverManager.getConnection("jdbc:postgresql://localhost:8432/elias", "postgres", "jete17"));
 
         } catch (SQLException sqle) {
             System.err.println("Error al conectar postgres centauro " + sqle);
@@ -223,7 +223,7 @@ public class PrintBoletinKinder extends HttpServlet {
             PreparedStatement pstb = con.prepareStatement(comandoArCri);
             ResultSet rsb = pstb.executeQuery();
             while (rsb.next()) {
-                //System.out.println("****Splirt " + rsb.getString("areaid") + "|" + rsb.getString("area") + "|" + rsb.getString("criterioid") + "|" + rsb.getString("criterio"));
+                System.out.println("****Splirt " + rsb.getString("areaid") + "\t" + rsb.getString("area") + "\t" + rsb.getString("criterioid") + "\t" + rsb.getString("criterio"));
                 lsCriteriosAreas.add(rsb.getString("areaid") + "\t" + rsb.getString("area") + "\t" + rsb.getString("criterioid") + "\t" + rsb.getString("criterio"));
             }
             rsb.close();

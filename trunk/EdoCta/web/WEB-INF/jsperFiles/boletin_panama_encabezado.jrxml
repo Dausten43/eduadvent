@@ -139,7 +139,7 @@
 					<text><![CDATA[MINISTERIO DE EDUCACIÓN]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="68" y="70" width="424" height="15" uuid="d1f6dd5e-1b2e-4eb0-b492-fab1974bef55"/>
+					<reportElement x="0" y="70" width="559" height="25" uuid="d1f6dd5e-1b2e-4eb0-b492-fab1974bef55"/>
 					<textElement textAlignment="Center" verticalAlignment="Top"/>
 					<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 				</textField>
