@@ -89,7 +89,7 @@ public class FinAlumSaldos {
                      }
                  }
              }
-             comando += " order by nivel,grado,grupo,codigo_id ";
+             comando += " order by nivel,grado,grupo,apaterno";
 
              System.out.println(" ======= " + comando);
 
@@ -103,7 +103,7 @@ public class FinAlumSaldos {
                  FinEdoCtaReporte ep = new FinEdoCtaReporte();
                  ep.setCodigoid(rsa.getString("codigo_id"));
                  ep.setNivelgradogrupo(rsa.getString("nivel_nombre") + " " + rsa.getString("grado") + " " + rsa.getString("grupo"));
-                 ep.setNombre(rsa.getString("nombre").trim().toUpperCase() + " " + rsa.getString("apaterno").trim().toUpperCase() + " " + rsa.getString("amaterno").trim().toUpperCase());
+                 ep.setNombre(rsa.getString("apaterno").trim().toUpperCase() + " " + rsa.getString("amaterno").trim().toUpperCase() + ", " + rsa.getString("nombre").trim().toUpperCase());
                  
                  pstb.setString(1, ep.getCodigoid());
                  pstb.setString(2, ffin);
