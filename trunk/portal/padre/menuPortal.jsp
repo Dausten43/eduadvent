@@ -70,5 +70,5 @@ if(saldo.compareTo(BigDecimal.ZERO)>=0){
   <li class="disciplina"><a href="disciplina.jsp"><fmt:message key="aca.Mentoria"/></a></li>
 <%	} %>
   <li class="finanzas"><a href="finanzas.jsp">Finanzas</a></li>
-  <li class="tareas"><a href="tareas.jsp">Tareas</a></li>
+  <li class="tareas"><a href="tareas_new.jsp">Tareas</a></li>
 </ul>
