@@ -71,7 +71,7 @@ lsAreas.addAll(ua.getLsAreas(0L, "", cicloId, 1));
 <div id="dialog-confirm" title="Confirmar" style="display:none;">
     <p>Está seguro de eliminar?</p>
 </div>
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 <script>
 
