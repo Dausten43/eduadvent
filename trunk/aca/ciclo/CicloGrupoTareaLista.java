@@ -82,10 +82,10 @@ public class CicloGrupoTareaLista {
         
         Calendar calb = Calendar.getInstance(Locale.US);
             
-        calb.set(Calendar.YEAR,new Integer(se[0]));
-        calb.set(Calendar.WEEK_OF_YEAR, new Integer(se[1]));
+        calb.set(Calendar.YEAR,new Integer(se[0].trim()));
+        calb.set(Calendar.WEEK_OF_YEAR, new Integer(se[1].trim()));
         //calb.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-        System.out.println(calb.getTime() + " se[0] " + se[0] + " se[1] " + se[1]);
+        System.out.println(calb.getTime() + " se[0] " + se[0].trim() + " se[1] " + se[1].trim());
             while(calb.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY){
                 calb.add(Calendar.DATE, -1); 
             }
@@ -114,11 +114,11 @@ public class CicloGrupoTareaLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT distinct(extract(WEEK FROM fecha)) we , extract(YEAR FROM fecha) ye " +
+			comando = "SELECT distinct(extract(WEEK FROM fecha))  , to_char(extract(WEEK FROM fecha),'09') we , extract(YEAR FROM fecha) ye " +
 					" FROM CICLO_GRUPO_TAREA WHERE CICLO_GRUPO_ID||CURSO_ID " +
 					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )"
 							+ " and CICLO_GRUPO_ID LIKE '"+cicloId+"%' "+orden;
-			String comandob = "SELECT distinct(extract(WEEK FROM fecha)) we , extract(YEAR FROM fecha) ye " +
+			String comandob = "SELECT distinct(extract(WEEK FROM fecha))  , to_char(extract(WEEK FROM fecha),'09') we , extract(YEAR FROM fecha) ye " +
 					" FROM CICLO_GRUPO_ACTIVIDAD " +
 					" WHERE CICLO_GRUPO_ID||CURSO_ID " +
 					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )" +
