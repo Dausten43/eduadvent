@@ -51,10 +51,6 @@
 <br>
 <div id="tablaTareas"></div>
 
-
-
-
-
 </div>
 <%
 
@@ -65,7 +61,7 @@ int year = cal.get(Calendar.YEAR);
 %>
 <script>
 function cargaTabla(datadata){
-	
+	console.log(datadata);
 	$.ajax({
 		url : 'ajaxTareas.jsp',
 		type : 'post',
@@ -83,7 +79,7 @@ function cargaTabla(datadata){
 $(function() {
     var we = $('#semanas').val();
     console.log(we);
-    var datadata = 'semana='+we;
+    var datadata = 'semana='+we+'&aview';
     cargaTabla(datadata);
     
 })
@@ -91,7 +87,7 @@ $(function() {
 $('#semanas').change(function(){
 	var we = $('#semanas').val();
     console.log(we);
-    var datadata = 'semana='+we;
+    var datadata = 'semana='+we+'&aview';
     cargaTabla(datadata);
 });
 

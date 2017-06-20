@@ -45,7 +45,7 @@ SimpleDateFormat sdfb = new SimpleDateFormat("EEEEE");
 SimpleDateFormat sdfc = new SimpleDateFormat("dd MMMMM");
 
 if(request.getParameter("semana")!=null){
-	System.out.println("entrando a cargar tareas");
+	System.out.println("entrando a cargar tareas " + cicloIdM);
 	lsTareasPlan.addAll(TareaL.getTareasFecha(conElias, codigoId, request.getParameter("semana"), "ORDER BY fecha desc", cicloIdM, 0));
 	lsTareasAct.addAll(ActividadL.getListTareas(conElias, codigoId, request.getParameter("semana"), "ORDER BY fecha desc", cicloIdM));
 }
@@ -150,21 +150,22 @@ System.out.println(lsTareasPlan.size() +" " + lsTareasAct.size() +" " + cicloIdM
 					archivo.mapeaRegId(conElias, codigoId);
 					ArrayList<aca.kardex.KrdxAlumArchivo> lista = archivoLista.getListEvaluacionAlumno(conElias, codigoId, cicloGrupoId, cursoId, evaluacionId, actividadId, "ORDER BY FECHA");
 	%>
-					  <td>
+					  <td><% if(request.getParameter("aview")!=null){ %>
 							<a class="btn btn-primary"
 							   href="subir.jsp?cicloGrupoId=<%=cicloGrupoId%>&cursoId=<%=cursoId%>&evaluacionId=<%=evaluacionId%>&actividadId=<%=actividadId%>&fechaTarea=<%=tiempoTarea%>&Regresar=1">
 								<i class="icon-arrow-up icon-white"></i> <fmt:message key="boton.Enviar"/>
 							</a>
+							<% } %>
 							
 							<span class="badge badge-info"><%=lista.size()%></span>
 					  </td>
 	<% 			}else{%>
-					<td>
+					<td><% if(request.getParameter("aview")!=null){ %>
 						<a class="btn btn-primary"
 						   href="subir.jsp?cicloGrupoId=<%=cicloGrupoId%>&cursoId=<%=cursoId%>&evaluacionId=<%=evaluacionId%>&actividadId=<%=actividadId%>&fechaTarea=<%=tiempoTarea%>&Regresar=1">
 							<i class="icon-arrow-up icon-white"></i> <fmt:message key="boton.Enviar"/>
 						</a>	
-				  		
+				  		<% } %>
 				  	</td>
 			<% 	}			  					
 				}
