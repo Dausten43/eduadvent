@@ -1,3 +1,4 @@
+<%@page import="aca.kinder.UtilCandado"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="java.util.Collections"%>
@@ -24,12 +25,16 @@ String cicloGrupoId = (String) session.getAttribute("cicloGrupoId");
 UtilActividades uac = new UtilActividades(conElias);
 UtilCriterios uc = new UtilCriterios(conElias);
 UtilAreas ua = new UtilAreas(conElias);
+UtilCandado ulock = new UtilCandado(conElias);
+
 
 Map<Long,Areas> mapAreas = new HashMap();
 mapAreas.putAll(ua.getMapAreas(0L, "", cicloId, 1));
 Map<Long,Criterios> mapCriterios = new HashMap();
 mapCriterios.putAll(uc.getMapCriterios(0L, "", cicloId, 0L, 1));
+List<Long> lsBloqueados = new ArrayList();
 
+ulock.getBloqueaActividad("",cicloGrupoId);
 
 if(request.getParameter("guardar")!=null){
 	Enumeration enumeration = request.getParameterNames();
@@ -119,11 +124,18 @@ for(Long idarea : lsIdArea){
 			for(Long idActividad : lsIdActividad){ 
 				if(mapActividades.get(idActividad).getCriterio_id().equals(idcriterio)){
 					String fecha = sdfB.format(sdfA.parse(mapActividades.get(idActividad).getFecha()));
+					boolean isAbierto = true;
+					String isEditableDisabled = "false";
+					if(ulock.getLsActividades().contains(idActividad)){
+						isAbierto = false;
+						isEditableDisabled = "true";
+					}
+					
 %>
 <tr>
-	<td><a href="#" class="xeditable" data-type="text" data-pk="<%= idActividad %>" data-value="<%= mapActividades.get(idActividad).getActividad() %>" data-url="ajaxActividades.jsp" data-name="modificaactividad"></a></td>
-	<td><a href="#" class="xeditable"  data-disabled="false" data-type="combodate" data-value="<%= fecha %>" data-format="DD-MM-YYYY" data-viewformat="DD/MM/YYYY" data-template="D / MM / YYYY" data-url="ajaxActividades.jsp" data-pk="<%= idActividad %>" data-name="modificafecha" data-title="Seleccione una fecha"></a></td>
-	<td style="text-align: center;"><a href="#" onclick="confirm('eliminar(<%= idActividad %>,<%= (mapActividades.get(idActividad).getEstado()*-1) %>)'); return false;" class="btn btn-sm btn-danger">Eliminar</a></td>
+	<td><a href="#" class="xeditable "  data-disabled="<%= isEditableDisabled %>" data-type="text" data-pk="<%= idActividad %>" data-value="<%= mapActividades.get(idActividad).getActividad() %>" data-url="ajaxActividades.jsp" data-name="modificaactividad"></a></td>
+	<td><a href="#" class="xeditable "  data-disabled="<%= isEditableDisabled %>" data-type="combodate" data-value="<%= fecha %>" data-format="DD-MM-YYYY" data-viewformat="DD/MM/YYYY" data-template="D / MM / YYYY" data-url="ajaxActividades.jsp" data-pk="<%= idActividad %>" data-name="modificafecha" data-title="Seleccione una fecha"></a></td>
+	<td style="text-align: center;"><% if(isAbierto){ %><a href="#" onclick="confirm('eliminar(<%= idActividad %>,<%= (mapActividades.get(idActividad).getEstado()*-1) %>)'); return false;" class="btn btn-sm btn-danger">Eliminar</a><% } %></td>
 </tr>
 <% 		
 				}

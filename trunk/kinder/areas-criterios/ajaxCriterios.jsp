@@ -1,3 +1,4 @@
+<%@page import="aca.kinder.UtilCandado"%>
 <%@page import="aca.kinder.UtilAreas"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="aca.kinder.Areas"%>
@@ -13,6 +14,7 @@ UtilCriterios uc = new UtilCriterios(conElias);
 UtilAreas ua = new UtilAreas(conElias); 
 List<Criterios> lsCriterios = new ArrayList();
 Map<Long, Areas> mapAreas = new HashMap();
+UtilCandado ulock = new UtilCandado(conElias);
 
 
 
@@ -45,6 +47,8 @@ if(request.getParameter("modificar")!=null){
 if(request.getParameter("ciclo_id")!=null && request.getParameter("area_id")!=null){
 	lsCriterios.addAll(uc.getLsCriterios(0L, "", request.getParameter("ciclo_id"), new Long(request.getParameter("area_id")), 1));
 	mapAreas.putAll(ua.getMapAreas(0L, "", request.getParameter("ciclo_id"), 0));
+	ulock.getBloqueaCriterio(request.getParameter("ciclo_id"), "");
+	System.out.println("Tamaño arreglo " + ulock.getLsCriterios().size() + "  " + request.getParameter("ciclo_id"))  ;
 }
 
 %>
@@ -61,13 +65,19 @@ if(request.getParameter("ciclo_id")!=null && request.getParameter("area_id")!=nu
 	int contador=0;
 		for(Criterios c : lsCriterios){
 			contador++;
+			
+			boolean isAbierto = true;
+		
+			if(ulock.getLsCriterios().contains(c.getId())){
+				isAbierto = false;
+			}
 	%>
 	<tr>
 		<td><%= contador %></td>
 		<td><%= mapAreas.containsKey(c.getArea_id()) ? mapAreas.get(c.getArea_id()).getArea() : c.getArea_id() %></td>
 		<td><%= c.getCriterio()  %></td>
-		<td style="text-align: center;"><a href="" onclick="modificar(<%= c.getId() %>, '<%= c.getCriterio() %>'); return false;" class="btn btn-mini btn-default">Modificar</a> 
-		<a href="" onclick="confirm('eliminar(<%= c.getId() %>,<%= (c.getEstado()*-1) %>)'); return false;"  class="btn btn-mini btn-danger">Eliminar</a></td>
+		<td style="text-align: center;"><%  if(isAbierto){ %><a href="" onclick="modificar(<%= c.getId() %>, '<%= c.getCriterio() %>'); return false;" class="btn btn-mini btn-default">Modificar</a> 
+		<a href="" onclick="confirm('eliminar(<%= c.getId() %>,<%= (c.getEstado()*-1) %>)'); return false;"  class="btn btn-mini btn-danger">Eliminar</a><% } %></td>
 	</tr>
 	<% } %>
 </table>

@@ -1,3 +1,4 @@
+<%@page import="aca.kinder.UtilCandado"%>
 <%@page import="aca.kinder.Areas"%>
 <%@page import="java.util.List"%>
 <%@page import="aca.kinder.UtilAreas"%>
@@ -7,6 +8,7 @@
 
 UtilAreas ua = new UtilAreas(conElias);
 List<Areas> lsAreas = new ArrayList();
+UtilCandado ulock = new UtilCandado(conElias);
 
 if(request.getParameter("guardarArea")!=null){
 	System.out.println("entro a guardar");
@@ -35,6 +37,7 @@ if(request.getParameter("modificar")!=null){
 
 if(request.getParameter("ciclo_id")!=null){
 	lsAreas.addAll(ua.getLsAreas(0L, "", request.getParameter("ciclo_id"), 1));
+	ulock.getBloqueaArea(request.getParameter("ciclo_id"));
 }
 
 %>
@@ -51,12 +54,16 @@ if(request.getParameter("ciclo_id")!=null){
 	int contador = 0;
 		for(Areas a : lsAreas){
 			contador++;
+			boolean isAbierto = true;
+			if(ulock.getLsAreas().contains(a.getId())){
+				isAbierto = false;
+			}
 	%>
 	<tr>
 		<td><%= contador %></td>
 		<td><%= a.getArea() %></td>
-		<td style="text-align: center;"><a href="" onclick="modificar(<%= a.getId() %>, '<%= a.getArea() %>'); return false;" class="btn btn-mini btn-default">Modificar</a> 
-		<a href="#" onclick="confirm('eliminar(<%= a.getId() %>,<%= (a.getEstado()*-1) %>)'); return false;" class="btn btn-mini btn-danger">Eliminar</a></td>
+		<td style="text-align: center;"><% if(isAbierto){ %><a href="" onclick="modificar(<%= a.getId() %>, '<%= a.getArea() %>'); return false;" class="btn btn-mini btn-default">Modificar</a> 
+		<a href="#" onclick="confirm('eliminar(<%= a.getId() %>,<%= (a.getEstado()*-1) %>)'); return false;" class="btn btn-mini btn-danger">Eliminar</a><% } %></td>
 	</tr>
 	<% } %>
 </table>
