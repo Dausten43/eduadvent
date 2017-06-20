@@ -119,7 +119,7 @@
 		</fieldset>
 		<fieldset>
 			<label for="Fecha"><fmt:message key="aca.FechaEntrega" /></label>
-			<input name="Fecha" type="text" id="Fecha" size="10" maxlength="10" value="<%=Tarea.getFecha()%>">
+			<input name="Fecha" type="text" id="Fecha" size="10" maxlength="10" value="<%=Tarea.getFecha()%>"> <span style="font-weight: bolder; color: red;" id="numeroTareas"></span>
 		</fieldset>
 		<fieldset>
 			<label for="Descripcion"><fmt:message key="aca.Descripcion" /></label>
@@ -127,7 +127,7 @@
 		</fieldset>
 		
 		<div class="well">
-			<a class="btn btn-primary btn-large" href="javascript:grabar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
+			<a class="btn btn-primary btn-large" id="guardarLink" href="javascript:grabar()"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></a>
 		<%
 			if(numAccion != 1){
 		%>
@@ -144,7 +144,10 @@
 <link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 <script>
-	$('#Fecha').datepicker();
+	$('#Fecha').datepicker().on('changeDate', function(e){
+		console.log('aqui si entro en la fecha');
+		$('#Fecha').trigger('change');
+	});
 </script>
 
 <link rel="stylesheet" href="../../js-plugins/maxlength/jquery.maxlength.css" />
@@ -222,7 +225,35 @@
 	});
 	
 	CKEDITOR.config.height = 200;
-
+	
+	$('#Fecha').change(function(){
+		console.log('si hizo el cambio pero no se ve nada claro :D');
+		var ciclogpoid = '<%= cicloGrupo %>';
+		var fecha = $(this).val();
+		var numeroTareas = 0;
+		var datadata = 'fecha='+fecha+'&ciclo_gpo_id='+ciclogpoid+'&numeroTareas=true';
+		
+		$.ajax({
+			url : '../../portal/maestro/ajaxLimiteTareas.jsp',
+			type : 'post',
+			data : datadata,
+			success : function(output) {
+				numeroTareas = parseInt(output);
+				console.log('numero de tareas ' + numeroTareas + "---");
+				if(numeroTareas>=3){
+					$('#numeroTareas').html('Las 3 tareas para este día ya están asignadas. Selecciona una nueva fecha.');
+					$('#guardarLink').attr("href", "javascript:void(0)");
+				}else{
+					$('#numeroTareas').html('');
+					$('#guardarLink').attr("href","javascript:grabar()");
+				}
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	});
 	
 </script>
 <% 	if (!salto.equals("X")){%>

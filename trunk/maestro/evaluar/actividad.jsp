@@ -218,7 +218,7 @@
 		
 		<fieldset>
 			<label for="Fecha"><fmt:message key="aca.Fecha"/></label>
-			<input type="text" id="Fecha" name="Fecha" value="<%=cicloGrupoActividad.getFecha().length()>1 ? cicloGrupoActividad.getFecha().substring(0,10) : ""%>" maxlength="10" size="8" />			
+			<input type="text" id="Fecha" name="Fecha" value="<%=cicloGrupoActividad.getFecha().length()>1 ? cicloGrupoActividad.getFecha().substring(0,10) : ""%>" maxlength="10" size="8" />  <span style="font-weight: bolder; color: red;" id="numeroTareas"></span>						
 		</fieldset>
 		
 		<fieldset>
@@ -286,7 +286,7 @@
 		<%} %>
 		
 		<div class="well">
-			<button class="btn btn-primary btn-large" type="submit" onclick="return guardar();"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></button>
+			<button class="btn btn-primary btn-large" id="guardarLink" type="submit" onclick="return guardar();"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></button>
 		</div>
 	</form>
 </div>
@@ -294,7 +294,10 @@
 <link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 <script>
-	$('#Fecha').datepicker();
+	$('#Fecha').datepicker().on('changeDate', function(e){
+		console.log('aqui si entro en la fecha');
+		$('#Fecha').trigger('change');
+		});
 </script>
 
 <link rel="stylesheet" href="../../js-plugins/maxlength/jquery.maxlength.css" />
@@ -306,6 +309,44 @@
 	    max: 500
 	});
 	
+	$('#Fecha').change(function(){
+		console.log('si hizo el cambio pero no se ve nada claro :D');
+		var ciclogpoid = '<%= cicloGrupoId %>';
+		var fecha = $(this).val();
+		var numeroTareas = 0;
+		var datadata = 'fecha='+fecha+'&ciclo_gpo_id='+ciclogpoid+'&numeroTareas=true';
+		
+		$.ajax({
+			url : '../../portal/maestro/ajaxLimiteTareas.jsp',
+			type : 'post',
+			data : datadata,
+			success : function(output) {
+				numeroTareas = parseInt(output);
+				console.log('numero de tareas ' + numeroTareas + "---");
+				if(numeroTareas>=3){
+					$('#numeroTareas').html('Las 3 tareas para este día ya están asignadas. Selecciona una nueva fecha o elija no mostrar la actividad');
+					$('#guardarLink').attr("disabled", "true");
+				}else{
+					$('#numeroTareas').html('');
+					$('#guardarLink').removeAttr('disabled');
+				}
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	});
+	
+
+	$('#Mostrar').change(function (){
+		if($(this).val()=='S'){
+			$('#Fecha').trigger('change');
+		}else{
+			$('#numeroTareas').html('');
+			$('#guardarLink').removeAttr('disabled');
+		}
+	});
 </script>
 
 <%	
