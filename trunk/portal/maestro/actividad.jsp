@@ -311,7 +311,7 @@
 				numeroTareas = parseInt(output);
 				console.log('numero de tareas ' + numeroTareas + "---");
 				if(numeroTareas>=3){
-					$('#numeroTareas').html('Las 3 tareas para este día ya están asignadas. Selecciona una nueva fecha.');
+					$('#numeroTareas').html('Las 3 tareas para este día ya están asignadas. Selecciona una nueva fecha o elija no mostrar la actividad');
 					$('#guardarLink').attr("disabled", "true");
 				}else{
 					$('#numeroTareas').html('');
@@ -323,6 +323,15 @@
 				alert(xhr.status + " " + thrownError);
 			}
 		});
+	});
+	
+	$('#Mostrar').change(function (){
+		if($(this).val()=='S'){
+			$('#Fecha').trigger('change');
+		}else{
+			$('#numeroTareas').html('');
+			$('#guardarLink').removeAttr('disabled');
+		}
 	});
 </script>
 
