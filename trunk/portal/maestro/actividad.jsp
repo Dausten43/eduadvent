@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -57,13 +59,15 @@
 	
 	String resultado		= "";
 	String salto			= "X";
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	
+	String isNueva = "no";
 	if (accion == 1){ 
 		cicloGrupoActividad.setCicloGrupoId(cicloGrupoId);
 		cicloGrupoActividad.setCursoId(cursoId);
 		cicloGrupoActividad.setEvaluacionId(request.getParameter("EvaluacionId"));
 		cicloGrupoActividad.setActividadId(cicloGrupoActividad.maximoReg(conElias));
+		isNueva = "si";
 	}else{
 		cicloGrupoActividad.setEvaluacionId(request.getParameter("ActividadId"));
 		cicloGrupoActividad.mapeaRegId(conElias, cicloGrupoId, cursoId, evaluacionId, actividadId);
@@ -207,7 +211,8 @@
 
 	<form id="forma" name="forma" action="actividad.jsp?CicloGrupoId=<%=cicloGrupoId %>&CursoId=<%=cursoId %>&EvaluacionId=<%=evaluacionId%>" method="post">
 		<input type="hidden" id="ActividadId" name="ActividadId" value="<%= cicloGrupoActividad.getActividadId()%>" />
-		
+		<input type="hidden" id="isNueva" value="<%= isNueva %>">
+		<input type="hidden" id="FechaOriginal" value="<%= cicloGrupoActividad.getFecha().length()>1 ? cicloGrupoActividad.getFecha().substring(0,10) :"" %>">
 		<fieldset>
 			<label for="Nombre"><fmt:message key="aca.Descripcion"/></label>
 			<textarea id="Nombre" name="Nombre" ><%=cicloGrupoActividad.getActividadNombre() %></textarea>
@@ -215,7 +220,7 @@
 		
 		<fieldset>
 			<label for="Fecha"><fmt:message key="aca.Fecha"/></label>
-			<input type="text" id="Fecha" name="Fecha" value="<%=cicloGrupoActividad.getFecha().length()>1 ? cicloGrupoActividad.getFecha().substring(0,10) : ""%>" maxlength="10" size="8" /> <span style="font-weight: bolder; color: red;" id="numeroTareas"></span>			
+			<input type="text" id="Fecha" name="Fecha" value="<%=cicloGrupoActividad.getFecha().length()>1 ? cicloGrupoActividad.getFecha().substring(0,10) : sdf.format(new Date()) %>" maxlength="10" size="8" readonly /> <span style="font-weight: bolder; color: red;" id="numeroTareas"></span>			
 		</fieldset>
 		
 		<fieldset>
@@ -291,9 +296,23 @@
 <link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 <script>
+		$(function() {
+			if($('#isNueva').val()=='si')		
+		    	$('#Fecha').trigger('change');
+		})
+
+
 	$('#Fecha').datepicker().on('changeDate', function(e){
-		console.log('aqui si entro en la fecha');
-		$('#Fecha').trigger('change');
+		if($('#isNueva').val()=='si'){
+			$('#Fecha').trigger('change');
+		}else{
+			if($('#Fecha').val()!=$('#FechaOriginal').val()){
+				$('#Fecha').trigger('change');
+			}else{
+				$('#numeroTareas').html('');
+				$('#guardarLink').removeAttr('disabled');
+			}
+		}
 		});
 	
 	$('#Fecha').change(function(){

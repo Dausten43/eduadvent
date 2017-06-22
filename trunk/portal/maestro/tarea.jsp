@@ -1,3 +1,6 @@
+<%@page import="java.util.Date"%>
+<%@page import="org.apache.poi.hssf.record.chart.DatRecord"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -16,11 +19,13 @@
 	String tareaId			= request.getParameter("Tarea");
 	String salto 			= "X";
 	
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	
 	
 	int numAccion 				= 0;	
 	if (request.getParameter("Accion")!=null) numAccion = Integer.parseInt(request.getParameter("Accion"));
 		
-		
+	String isNueva = "no";	
 	String resultado		= "";
 	
 	if (numAccion == 1){
@@ -28,6 +33,7 @@
 		Tarea.setCursoId(cursoId);
 		Tarea.setTemaId(temaId);
 		Tarea.setTareaId(Tarea.maximoReg(conElias));
+		isNueva = "si"; 
 	}else{		
 		Tarea.setTareaId(request.getParameter("Tarea"));
 	}
@@ -111,14 +117,15 @@
       	<input type="hidden" name="ModuloId" value="<%=modulo%>">
       	<input type="hidden" name="TemaId" value="<%=temaId%>">
 		<input name="Tarea" type="hidden" id="Tarea" value="<%=Tarea.getTareaId()%>">
-		
+		<input type="hidden" id="isNueva" value="<%= isNueva %>">
+		<input type="hidden" id="FechaOriginal" value="<%= Tarea.getFecha() %>">
 		<fieldset>
 			<label for="Nombre"><fmt:message key="aca.Titulo" /></label>
 			<input name="Nombre" type="text" class="input-xxlarge" id="Nombre" value="<%=Tarea.getTareaNombre()%>" size="30" maxlength="50">
 		</fieldset>
 		<fieldset>
 			<label for="Fecha"><fmt:message key="aca.FechaEntrega" /></label>
-			<input name="Fecha" type="text" id="Fecha" size="10" maxlength="10" value="<%=Tarea.getFecha()%>"> <span style="font-weight: bolder; color: red;" id="numeroTareas"></span>
+			<input name="Fecha" type="text" id="Fecha" size="10" maxlength="10" value="<%= !Tarea.getFecha().equals("") ? Tarea.getFecha() : sdf.format(new Date()) %>" readonly> <span style="font-weight: bolder; color: red;" id="numeroTareas"></span>
 		</fieldset>
 		<fieldset>
 			<label for="Descripcion"><fmt:message key="aca.Descripcion" /></label>
@@ -144,9 +151,18 @@
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 <script>
 	$('#Fecha').datepicker().on('changeDate', function(e){
-			console.log('aqui si entro en la fecha');
-			$('#Fecha').trigger('change');
-	});
+		console.log("FECHAS REVISA " +$('#Fecha').val() + " " + $('#FechaOriginal').val())
+			if($('#isNueva').val()=='si'){
+				$('#Fecha').trigger('change');
+			}else{
+				if($('#Fecha').val()!=$('#FechaOriginal').val()){
+					$('#Fecha').trigger('change');
+				}else{
+					$('#numeroTareas').html('');
+					$('#guardarLink').attr("href","javascript:grabar()");
+				}
+			}
+	});	
 </script>
 
 <link rel="stylesheet" href="../../js-plugins/maxlength/jquery.maxlength.css" />
@@ -194,6 +210,11 @@
 	}
 </style>
 <script>
+	$(function() {
+		if($('#isNueva').val()=='si')		
+	    	$('#Fecha').trigger('change');
+		
+	})
 
 	// Replace the <textarea id="constancia"> with an CKEditor instance.
 	CKEDITOR.replace( 'Descripcion', {
@@ -229,7 +250,7 @@
 	
 	
 	$('#Fecha').change(function(){
-		console.log('si hizo el cambio pero no se ve nada claro :D');
+		
 		var ciclogpoid = '<%= cicloGrupo %>';
 		var fecha = $(this).val();
 		var numeroTareas = 0;
