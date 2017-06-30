@@ -1833,7 +1833,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 //la variable promedio tiene mal el cálculo porque a la hora de cerrar la evaluación
 //no se pusieron en 0 las notas que no tenían nada ingresado. Así que hay que corregir
 //el algoritmo de cerrar la evaluación
-								if(promedioFinal < notaAC && !kardexAlumnoExtra.existeReg(conElias)){
+								if(promedio < notaAC && !kardexAlumnoExtra.existeReg(conElias)){
 									muestraBotonGuardarExtra = true;
 									
 									if ( !strExtra.equals("") ){%>
