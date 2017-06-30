@@ -124,7 +124,7 @@ public ArrayList<CicloGrupoActividad> getListTareas(Connection conn, String codi
 					" WHERE CICLO_GRUPO_ID||CURSO_ID " +
 					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )" +
 					" and SUBSTR(CICLO_GRUPO_ID,1,8) = (SELECT CICLO_ID FROM alum_ciclo where codigo_id='"+codigoId+"' "
-						    + "and ciclo_id in (select ciclo_id from ciclo where extract(year from current_timestamp)= CAST (ciclo_escolar AS INTEGER))) " +
+						    + "and ciclo_id in (select ciclo_id from ciclo where extract(year from current_timestamp)= CAST (ciclo_escolar AS INTEGER)) and estado='I') " +
 					"  and extract(YEAR FROM fecha)=" + txtSplit[0] + " and extract(WEEK FROM fecha)=" + txtSplit[1]  + " " +
 					orden;
 			
@@ -364,6 +364,22 @@ public ArrayList<CicloGrupoActividad> getListTareas(Connection conn, String codi
 		}
 		
 		return map;
+	}
+	
+	public void promedioEval(){
+		String comando = "select ke.ciclo_grupo_id "
+				+ ", ke.codigo_id "
+				+ ", ke.evaluacion_id  "
+				+ "--, curso_id "
+				+ ", sum(ke.nota) suma "
+				+ ", count(ke.curso_id) materias "
+				+ ", sum(ke.nota)/count(ke.nota) promedio  "
+				+ "from krdx_alum_eval ke  "
+				+ "where   ke.ciclo_grupo_id like 'H221717A%'    "
+				+ "and ke.evaluacion_id=1   "
+				+ "--and ke.codigo_id='H2216028'   "
+				+ "and ke.curso_id not in (select curso_id from plan_curso where	 curso_base<>'-')  "
+				+ "and ke.curso_id in (select curso_id from ciclo_grupo_eval where ciclo_grupo_id=ke.ciclo_grupo_id and estado='C' and evaluacion_id=ke.evaluacion_id )   group by   ke.ciclo_grupo_id  , ke.evaluacion_id  , ke.codigo_id  --, curso_id   order by ke.ciclo_grupo_id, promedio desc";
 	}
 	
 }

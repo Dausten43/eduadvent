@@ -46,7 +46,7 @@ public class PrintBoletinKinder extends HttpServlet {
     public void conectar() {
         try {
             Class.forName("org.postgresql.Driver");
-            con = (DriverManager.getConnection("jdbc:postgresql://localhost:8432/elias", "postgres", "jete17"));
+            con = (DriverManager.getConnection("jdbc:postgresql://172.16.7.77:5432/elias", "postgres", "jete17"));
 
         } catch (SQLException sqle) {
             System.err.println("Error al conectar postgres centauro " + sqle);
@@ -213,9 +213,9 @@ public class PrintBoletinKinder extends HttpServlet {
             
             //------DATOS AREAS CRITERIOS POR CICLO_ID
             
-            String comandoArCri = "SELECT a.id areaid , c.id criterioid, c.ciclo_id, c.area_id, a.area, c.criterio   "
+            String comandoArCri = "SELECT c.id, a.id areaid , c.id criterioid, c.ciclo_id, c.area_id, a.area, c.criterio   "
                     + "FROM kinder_criterios c "
-                    + "join kinder_areas a on a.id=c.area_id "
+                    + "join kinder_areas a on a.id=c.area_id  and a.estado=1"
                     + "where c.ciclo_id='" + ciclo_id + "' and c.estado=1 order by a.id, c.id ";
 
             List<String> lsCriteriosAreas = new ArrayList();
@@ -223,8 +223,8 @@ public class PrintBoletinKinder extends HttpServlet {
             PreparedStatement pstb = con.prepareStatement(comandoArCri);
             ResultSet rsb = pstb.executeQuery();
             while (rsb.next()) {
-                System.out.println("****Splirt " + rsb.getString("areaid") + "\t" + rsb.getString("area") + "\t" + rsb.getString("criterioid") + "\t" + rsb.getString("criterio"));
-                lsCriteriosAreas.add(rsb.getString("areaid") + "\t" + rsb.getString("area") + "\t" + rsb.getString("criterioid") + "\t" + rsb.getString("criterio"));
+                System.out.println("****Splirt "+ rsb.getString("id")+"- -" + rsb.getString("areaid") + "\t" + rsb.getString("area") + "\t" + rsb.getString("criterioid") + "\t" + rsb.getString("criterio"));
+                lsCriteriosAreas.add(rsb.getString("areaid").trim() + "\t" + rsb.getString("area").trim() + "\t" + rsb.getString("criterioid").trim() + "\t" + rsb.getString("criterio").trim());
             }
             rsb.close();
             pstb.close();
@@ -253,18 +253,18 @@ public class PrintBoletinKinder extends HttpServlet {
 
                 for (String cri : lsCriteriosAreas) {
                     CalificacionesCriterios cc = new CalificacionesCriterios();
-
+                    //System.out.println("CRITERIO ANTES DEL SPLIT    "+cri);
                     String[] txtSplit = cri.split("\t");
-
-                    cc.setArea(txtSplit[1]);
-                    cc.setArea_id(new Long(txtSplit[0]));
-                    cc.setCriterio(txtSplit[3]);
-                    cc.setCriterio_id(new Long(txtSplit[2]));
+                    //System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
+                    cc.setArea(txtSplit[1].trim());
+                    cc.setArea_id(new Long(txtSplit[0].trim()));
+                    cc.setCriterio(txtSplit[3].trim());
+                    cc.setCriterio_id(new Long(txtSplit[2].trim()));
 
                     if (mapPromedios.containsKey(new Integer("1"))) {
-                        System.out.println("si tiene primer trimestre");
+                        //System.out.println("si tiene primer trimestre");
                         if (mapPromedios.get(new Integer("1")).containsKey(cc.getCriterio_id())) {
-                            System.out.println("si tiene criterio con eva " + mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
+                            //System.out.println("si tiene criterio con eva " + mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
                             cc.setTrimestre("1");
                             cc.setNota(mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
                         }
@@ -284,7 +284,7 @@ public class PrintBoletinKinder extends HttpServlet {
                         }
                     }
 
-                    System.out.println(cc.toString());
+                    //System.out.println(cc.toString());
                     lscc.add(cc);
                 }
                 // System.out.println(ac.toString());
@@ -297,7 +297,7 @@ public class PrintBoletinKinder extends HttpServlet {
         } catch (SQLException sqle) {
             System.err.println("Error en la consulta e datos " + sqle);
         }
-        System.out.println(salida.size());
+        //System.out.println(salida.size());
         return salida;
     }
 

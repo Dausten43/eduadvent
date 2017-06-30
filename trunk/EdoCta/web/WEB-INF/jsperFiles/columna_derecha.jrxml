@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="columna_derecha" language="groovy" pageWidth="155" pageHeight="595" columnWidth="155" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="dfd4718a-8f6f-4d3d-947c-7f949e47e23f">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1151"/>
+	<property name="ireport.y" value="1000"/>
 	<parameter name="director" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -153,7 +153,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<text><![CDATA[Asistencias]]></text>
+				<text><![CDATA[Ausencias]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement x="0" y="408" width="75" height="10" uuid="d50e0a6c-4e61-4ce8-a646-194f2b12deae"/>
