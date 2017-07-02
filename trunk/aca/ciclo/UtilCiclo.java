@@ -43,7 +43,7 @@ public class UtilCiclo {
 				+ "cg.ciclo_grupo_id, cg.grupo_nombre, cg.nivel_id,ne.nivel_nombre, cg.grado, "
 				+ "cg.grupo,  cgc.curso_id, pc.curso_nombre "
 				+ "from ciclo_grupo_curso cgc "
-				+ "join plan_curso pc on pc.curso_id = cgc.curso_id and pc.urso_base<>'-'"
+				+ "join plan_curso pc on pc.curso_id = cgc.curso_id and pc.curso_base<>'-'"
 				+ "join ciclo_grupo cg on cg.ciclo_grupo_id = cgc.ciclo_grupo_id "
 				+ "join cat_nivel_escuela ne on ne.escuela_id='"+escuela+"' and ne.nivel_id=cg.nivel_id  "
 				+ "join ciclo ci on ci.ciclo_id = cg.ciclo_id and ci.ciclo_id like '"+escuela+"%'  "
@@ -111,6 +111,73 @@ public class UtilCiclo {
 		return salida;
 	}
 	
+	
+	public Map<String, RepPromedio> getPromedios(String ciclo_id, String ciclo_gpo_id, String materia, String evaluacion_id){
+		String comando = "select ke.ciclo_grupo_id "
+				+ ", ke.codigo_id "
+				+ ", alum_apellido(ke.codigo_personal) as alumno "
+				+ ", ke.evaluacion_id  ";
+		if(materia.equals("s")){
+				comando += ", curso_id , curso_nombre(curso_id) as materia";
+		}
+				comando += ", sum(ke.nota) suma "
+				+ ", count(ke.curso_id) materias "
+				+ ", sum(ke.nota)/count(ke.nota) promedio   "
+				+ "from krdx_alum_eval ke  "
+				+ "where   ";
+		if(ciclo_gpo_id.equals(""))	{
+				comando+= "ke.ciclo_grupo_id like '"+ciclo_id+"%'    ";
+		}else{
+			comando+= "ke.ciclo_grupo_id = '"+ciclo_gpo_id+"'    ";
+		}
+				comando+= "and ke.evaluacion_id in ("+evaluacion_id+")   "
+				+ "and ke.curso_id not in (select curso_id "
+				+ "from plan_curso where	curso_base<>'-')   "
+				+ "and ke.curso_id in (select curso_id "
+				+ "from ciclo_grupo_eval "
+				+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado='C' and evaluacion_id=ke.evaluacion_id )   "
+				+ "group by   "
+				+ "ke.ciclo_grupo_id  "
+				+ ", ke.evaluacion_id  "
+				+ ", ke.codigo_id  ";
+			if(materia.equals("s")){		
+				comando+= ", curso_id   ";
+			}
+				comando+= "order by ke.ciclo_grupo_id, promedio desc";
+				
+			Map<String, RepPromedio> salida = new LinkedHashMap();	
+			
+		try{
+			PreparedStatement pst = con.prepareStatement(comando);
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()){
+			
+				RepPromedio r = new RepPromedio();
+			r.setCiclo_gpo_id(rs.getString("ciclo_grupo_id"));
+			r.setCodigo_id(rs.getString("codigo_id"));
+			r.setNombre_alumno(rs.getString("nombre_alumno"));
+			if(materia.equals("s")){
+				r.setCurso_id(rs.getString("curso_id"));
+				r.setNombre_materia(rs.getString("nombre_materia"));
+			}
+			r.setEvaluacion_id(rs.getInt("evaluacion_id"));
+			r.setNumMaterias(rs.getInt("materias"));
+			r.setPromedio(rs.getBigDecimal("promedio"));
+			r.setSuma(rs.getBigDecimal("suma"));
+			if(materia.equals("s")){
+				salida.put(r.getCiclo_gpo_id() + "||"+r.getCodigo_id() + "||"+r.getEvaluacion_id() + "||"+r.getCurso_id(), r);
+			}else{
+				salida.put(r.getCiclo_gpo_id() + "||"+r.getCodigo_id() + "||"+r.getEvaluacion_id(), r);
+			}
+			}
+			
+		}catch(SQLException sqle){
+			System.out.println("Error en get promedios " + sqle);
+		}
+		
+		return salida;
+	}
 	
 
 }
