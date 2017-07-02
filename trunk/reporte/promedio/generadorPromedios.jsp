@@ -153,6 +153,11 @@
 					</select>
 				</div>
 				
+				<div id="materiasDiv">
+					<label for="periodos">Materias :</label> 
+					<select name="curso_id" id="curso_id" >
+						<option value=""></option>
+					</select>
 				</div>
 				
 				<input type="hidden" name="escuela_id" id="escuela_id" value="<%= escuelaId%>">
@@ -202,7 +207,7 @@
 			correAjax(datadatab,'#periodosId','#periodosDiv');
 		}else{
 			$('#cicloGpoIdSelect').hide();
-
+			$('#materiasDiv').hide();
 		}
 		
 
@@ -219,43 +224,23 @@ $('#cicloid').change(function(e) {
 			correAjax(datadata,'#ciclo_gpo_id','#cicloGpoIdSelect');
 		}else{
 			$('#cicloGpoIdSelect').hide();
+			$('#materiasDiv').hide();
 		}
 		
 
 	});
 	
-
-	
-$('#nivelid').change(function(e) {
-	
-	$('#grupoSelect').hide();
-	
-	var cicloSelected = $('#cicloid').val();
-	var nivelSelected = $(this).val();
-	
-	if(nivelSelected!=''){
-		var datadata = 'nivel_id='+ nivelSelected + '&ciclo_id=' + cicloSelected + '&getgrados=true';
+$('#ciclo_gpo_id').change(function(e) {
+	var cicloSelected = $(this).val();
+	var escuelaId = $('#escuela_id').val();
+	if(cicloSelected!=''){
+		var datadata = 'ciclo_gpo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true'; 
 		//Make AJAX request, using the selected value as the GET
-		console.log(datadata);
-        $.ajax({url: 'ajaxCombos.jsp',
-            type: "post",
-            data: datadata,
-            success: function (output) {
-                //alert(output);
-                $('#gradoid').html(output);
-                $('#gradoSelect').show();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status + " " + thrownError);
-            }
-        });
+		console.log('Cambio ciclo ' + datadata);
+		correAjax(datadata,'#curso_id','#materiasDiv');
 	}else{
-		//$('#nivelSelect').hide();
-		$('#gradoSelect').hide();
-		$('#grupoSelect').hide();
+		$('#materiasDiv').hide();
 	}
-	
-
 });
 
 

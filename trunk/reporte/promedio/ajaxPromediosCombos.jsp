@@ -20,9 +20,6 @@ if(request.getParameter("genera_combos")!=null){
  	}else if(request.getParameter("ciclo_gpo_id")!=null){
  		mapCicloGrupo.putAll(uc.getDatos(request.getParameter("escuela_id"), "", request.getParameter("ciclo_gpo_id"), ""));
  	}
- 	
- 	
-
 }
 
 if(request.getParameter("genera_periodos")!=null){
@@ -31,7 +28,22 @@ if(request.getParameter("genera_periodos")!=null){
 	mapPeriodos.putAll(uc.periodos(request.getParameter("ciclo_id"), uc.getNivel_eval()));
 }
 
-if(request.getParameter("genera_materias"))
+if(request.getParameter("genera_materias")!=null){
+	
+		out.print("<option value=\"");
+		out.print("");
+		out.print("\">");
+		out.print("Seleccione un grupo");
+		out.println("</option>");
+		for(String key : mapCicloGrupo.keySet()){
+			out.print("<option value=\"");
+			out.print(key);
+			out.print("\">");
+			out.print(mapCicloGrupo.get(key));
+			out.println("</option>");
+		}
+	
+}
 
 
 if(request.getParameter("genera_combos")!=null){
