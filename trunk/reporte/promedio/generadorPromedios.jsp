@@ -123,7 +123,7 @@
 	</center>
 	<form name="frmEstado" id="frmEstado" method="post" action="" class="hidden-print form-inline">
 		<div class="well">
-		<h3>GENERADOR DE ESTADOS DE CUENTA</h3>
+		<h3>REPORTEADOR DE PROMEDIOS</h3>
 			<div id="cicloSelect">
 				<label for="cicloid">Ciclo:</label> 
 				<select name="ciclo_id" id="cicloid" style="width: 350px;">
@@ -160,23 +160,30 @@
 					</select>
 				</div>
 				
+				<div id="limitesDiv">
+					<label for="periodos">Limite (menor igual a-mayor igual a eje 3.0-5.0) :</label> 
+					<input type="text" name="limite" id="limite" >
+				</div>
+				
 				<input type="hidden" name="escuela_id" id="escuela_id" value="<%= escuelaId%>">
 				<input type="hidden" name="generar" value="true"> 
 				
 			
 				<div class="control-group">
 					<a class="btn btn-success"
-						onclick="javascript:document.frmEstado.submit();">Generar</a>
+						onclick="javascript:generaPromedios();">Generar</a>
 
 				</div>
 				
 			</div>
 	</form>
-
+<div id="reporteOut"></div>
 </div>
 <script src="../../js/chosen/chosen.jquery.js" type="text/javascript"></script>
 <script>
 	jQuery(".chosen").chosen({width: "50%"});
+	
+	
 	
 	function correAjax(datadata, idSelect, idDiv){
 		$.ajax({url: 'ajaxPromediosCombos.jsp',
@@ -199,14 +206,14 @@
 		var escuelaId = $('#escuela_id').val();
 		console.log('Ciclo elegido = ' + cicloSelected);
 		if(cicloSelected!=''){
-			var datadata = 'ciclo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true'; 
+			var datadata = 'ciclo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true&genera_grupos=true'; 
 			var datadatab = 'ciclo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_periodos=true';
 			console.log('Revisa ciclos inicial ' + datadata);
 			console.log('Revisa ciclos inicial ' + datadatab);
 			correAjax(datadata,'#ciclo_gpo_id','#cicloGpoIdSelect');
 			correAjax(datadatab,'#periodosId','#periodosDiv');
 		}else{
-			$('#cicloGpoIdSelect').hide();
+			
 			$('#materiasDiv').hide();
 		}
 		
@@ -218,12 +225,14 @@ $('#cicloid').change(function(e) {
 		var cicloSelected = $(this).val();
 		var escuelaId = $('#escuela_id').val();
 		if(cicloSelected!=''){
-			var datadata = 'ciclo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true'; 
+			var datadata = 'ciclo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true&genera_grupos=true'; 
+			var datadatab = 'ciclo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_periodos=true';
 			//Make AJAX request, using the selected value as the GET
 			console.log('Cambio ciclo ' + datadata);
+			//$('#cicloGpoIdSelect').empty();
 			correAjax(datadata,'#ciclo_gpo_id','#cicloGpoIdSelect');
+			correAjax(datadatab,'#periodosId','#periodosDiv');
 		}else{
-			$('#cicloGpoIdSelect').hide();
 			$('#materiasDiv').hide();
 		}
 		
@@ -234,15 +243,39 @@ $('#ciclo_gpo_id').change(function(e) {
 	var cicloSelected = $(this).val();
 	var escuelaId = $('#escuela_id').val();
 	if(cicloSelected!=''){
-		var datadata = 'ciclo_gpo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true'; 
+		var datadata = 'ciclo_gpo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true&genera_materias=true'; 
 		//Make AJAX request, using the selected value as the GET
 		console.log('Cambio ciclo ' + datadata);
 		correAjax(datadata,'#curso_id','#materiasDiv');
 	}else{
+		
 		$('#materiasDiv').hide();
 	}
 });
 
+function generaPromedios(){
+	console.log('entrando a datos' + $('#periodosId').val());
+	if($('#cicloid').val()!=''){
+		if($('#periodosId').val()!==null){
+			if($('#ciclo_gpo_id').val()==''){
+				var datadata = 'cicloId='+$('#cicloid').val()+'&periodos='+$('#periodosId').val()+'&genera_reporte=true&cicloGpoId=&materias=n&limite='+$('#limite').val();
+				correAjax(datadata,'#reporteOut','#reporteOut');
+			}else{
+				var datadata = 'cicloGpoId='+$('#ciclo_gpo_id').val()+'&periodos='+$('#periodosId').val()+'&genera_reporte=true&cicloGpoId=&materias=n&limite='+$('#limite').val();
+				if($('#curso_id').val()!=''){
+					datadata+='&materia='+$('#curso_id').val();
+				}
+				correAjax(datadata,'#reporteOut','#reporteOut');
+			}
+		}else{
+			alert('Es necesario elegir por lo menos un periodo para generar el reporte');
+		}
+	}else{
+		alert('Es necesario elegir un ciclo para generar el reporte');
+	}
+	
+	
+}
 
 </script>
 

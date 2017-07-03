@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class RepPromedio {
 	public String ciclo_gpo_id;
+	public String ciclo_nombre;
 	public String codigo_id;
 	public String nombre_alumno;
 	public Integer evaluacion_id;
@@ -23,6 +24,22 @@ public class RepPromedio {
 	}
 	
 	
+	/**
+	 * @return the ciclo_nombre
+	 */
+	public String getCiclo_nombre() {
+		return ciclo_nombre;
+	}
+
+
+	/**
+	 * @param ciclo_nombre the ciclo_nombre to set
+	 */
+	public void setCiclo_nombre(String ciclo_nombre) {
+		this.ciclo_nombre = ciclo_nombre;
+	}
+
+
 	public String getNombre_alumno() {
 		return nombre_alumno;
 	}

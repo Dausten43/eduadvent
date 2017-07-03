@@ -1,3 +1,5 @@
+<%@page import="aca.ciclo.RepPromedio"%>
+<%@page import="java.util.Arrays"%>
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="aca.ciclo.UtilCiclo"%>
@@ -29,11 +31,11 @@ if(request.getParameter("genera_periodos")!=null){
 }
 
 if(request.getParameter("genera_materias")!=null){
-	
+	System.out.println("de aqui salen las materias");
 		out.print("<option value=\"");
 		out.print("");
 		out.print("\">");
-		out.print("Seleccione un grupo");
+		out.print("Seleccione una materia");
 		out.println("</option>");
 		for(String key : mapCicloGrupo.keySet()){
 			out.print("<option value=\"");
@@ -46,7 +48,7 @@ if(request.getParameter("genera_materias")!=null){
 }
 
 
-if(request.getParameter("genera_combos")!=null){
+if(request.getParameter("genera_grupos")!=null){
 	out.print("<option value=\"");
 	out.print("");
 	out.print("\">");
@@ -60,8 +62,10 @@ if(request.getParameter("genera_combos")!=null){
 		out.println("</option>");
 	}
 }
+
+
 if(request.getParameter("genera_periodos")!=null){
-	
+	System.out.println("cambiando periodos");
 	for(String key : mapPeriodos.keySet()){
 		out.print("<option value=\"");
 		out.print(key);
@@ -71,6 +75,84 @@ if(request.getParameter("genera_periodos")!=null){
 	}
 }
 
+if(request.getParameter("genera_reporte")!=null){
+	String cicloid = request.getParameter("cicloId")!=null ? request.getParameter("cicloId") :"";
+	String cicloGpoId = request.getParameter("cicloGpoId")!=null ? request.getParameter("cicloGpoId") :"";
+	String periodos = request.getParameter("periodos")!=null ? request.getParameter("periodos") :"-1";
+	String materia = request.getParameter("materia")!=null ? request.getParameter("materia") :"";
+	String limite = request.getParameter("limite")!=null ? request.getParameter("limite") :"";
+	System.out.println("-" + cicloid + "- -" + cicloGpoId +  "- -" + periodos + "- -" + materia+"-") ;
+	
+	Map<String,RepPromedio> mapPromedios = new LinkedHashMap();
+	Map<String,RepPromedio> mapPromediosF = new LinkedHashMap();
+	mapPromedios.putAll(uc.getPromedios(cicloid, cicloGpoId, materia, periodos));
+	
+	for(String idProm : mapPromedios.keySet()){
+		if(!materia.equals("")){
+			if(mapPromedios.get(idProm).getCurso_id().equals(materia)){
+				if(!limite.equals("")){
+					String[] txtSp = limite.split("-");
+					if(mapPromedios.get(idProm).getPromedio().compareTo(new BigDecimal(txtSp[0].trim()))>=0 
+							&& 
+					   mapPromedios.get(idProm).getPromedio().compareTo(new BigDecimal(txtSp[1].trim()))<=0	){
+						mapPromediosF.put(idProm, mapPromedios.get(idProm))		;				
+					}
+				}else{
+				mapPromediosF.put(idProm, mapPromedios.get(idProm))		;
+				}
+			}
+		}else{
+			if(!limite.equals("")){
+				String[] txtSp = limite.split("-");
+				if(mapPromedios.get(idProm).getPromedio().compareTo(new BigDecimal(txtSp[0].trim()))>=0 
+						&& 
+				   mapPromedios.get(idProm).getPromedio().compareTo(new BigDecimal(txtSp[1].trim()))<=0	){
+					mapPromediosF.put(idProm, mapPromedios.get(idProm))		;				
+				}
+			}else{
+			mapPromediosF.put(idProm, mapPromedios.get(idProm))		;
+			}
+		}
+	}
+	
+	
+	
+	System.out.println(mapPromediosF.size());
+	%>
+	<table class="table table-bordered" >
+	<tr>
+		<th>Grupo</th>
+		<th>Alumno</th>
+		<th>Periodo</th>
+		<% if(materia.equals("")){ %>
+		<th>Materias Evaluadas</th>
+		<% }else{ %>
+		<th>Materia</th>
+		<% } %>
+		<th>Promedio</th>
+		<th></th>
+	</tr>
+	<% for(String idProm : mapPromediosF.keySet()){ 
+	
+	%>
+	<tr>
+		<td><%= mapPromediosF.get(idProm).getCiclo_nombre() %></td>
+		<td><%= mapPromediosF.get(idProm).getCodigo_id() %> <%= mapPromediosF.get(idProm).getNombre_alumno() %></td>
+		<td><%= mapPromediosF.get(idProm).getEvaluacion_id() %></td>
+		<% if(materia.equals("")){ %>
+		<td><%= mapPromediosF.get(idProm).getNumMaterias() %></td>
+		<% }else{ %>
+		<td><%= mapPromediosF.get(idProm).getNombre_materia() %></td>
+		<% } %>
+		<td><%= mapPromediosF.get(idProm).getPromedio().setScale(4,RoundingMode.DOWN) %></td>
+		<td><%= mapPromediosF.get(idProm).getPromedio() %></td>
+	</tr>
+	<% } %>
+	</table>	
+		
+<%	}
+	
+	
 
 
 %>

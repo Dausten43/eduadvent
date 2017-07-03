@@ -43,7 +43,7 @@ public class UtilCiclo {
 				+ "cg.ciclo_grupo_id, cg.grupo_nombre, cg.nivel_id,ne.nivel_nombre, cg.grado, "
 				+ "cg.grupo,  cgc.curso_id, pc.curso_nombre "
 				+ "from ciclo_grupo_curso cgc "
-				+ "join plan_curso pc on pc.curso_id = cgc.curso_id and pc.curso_base<>'-'"
+				+ "join plan_curso pc on pc.curso_id = cgc.curso_id and pc.curso_base='-'"
 				+ "join ciclo_grupo cg on cg.ciclo_grupo_id = cgc.ciclo_grupo_id "
 				+ "join cat_nivel_escuela ne on ne.escuela_id='"+escuela+"' and ne.nivel_id=cg.nivel_id  "
 				+ "join ciclo ci on ci.ciclo_id = cg.ciclo_id and ci.ciclo_id like '"+escuela+"%'  "
@@ -114,16 +114,18 @@ public class UtilCiclo {
 	
 	public Map<String, RepPromedio> getPromedios(String ciclo_id, String ciclo_gpo_id, String materia, String evaluacion_id){
 		String comando = "select ke.ciclo_grupo_id "
+				+ ", cg.grupo_nombre "
 				+ ", ke.codigo_id "
-				+ ", alum_apellido(ke.codigo_personal) as alumno "
+				+ ", alum_apellido(ke.codigo_id) as alumno "
 				+ ", ke.evaluacion_id  ";
-		if(materia.equals("s")){
+		if(!materia.equals("")){
 				comando += ", curso_id , curso_nombre(curso_id) as materia";
 		}
 				comando += ", sum(ke.nota) suma "
 				+ ", count(ke.curso_id) materias "
 				+ ", sum(ke.nota)/count(ke.nota) promedio   "
 				+ "from krdx_alum_eval ke  "
+				+ "join ciclo_grupo cg on cg.	ciclo_grupo_id=ke.ciclo_grupo_id "
 				+ "where   ";
 		if(ciclo_gpo_id.equals(""))	{
 				comando+= "ke.ciclo_grupo_id like '"+ciclo_id+"%'    ";
@@ -138,13 +140,14 @@ public class UtilCiclo {
 				+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado='C' and evaluacion_id=ke.evaluacion_id )   "
 				+ "group by   "
 				+ "ke.ciclo_grupo_id  "
+				+ ", grupo_nombre"
 				+ ", ke.evaluacion_id  "
 				+ ", ke.codigo_id  ";
-			if(materia.equals("s")){		
+			if(!materia.equals("")){		
 				comando+= ", curso_id   ";
 			}
 				comando+= "order by ke.ciclo_grupo_id, promedio desc";
-				
+			//System.out.println(comando);	
 			Map<String, RepPromedio> salida = new LinkedHashMap();	
 			
 		try{
@@ -155,17 +158,18 @@ public class UtilCiclo {
 			
 				RepPromedio r = new RepPromedio();
 			r.setCiclo_gpo_id(rs.getString("ciclo_grupo_id"));
+			r.setCiclo_nombre(rs.getString("grupo_nombre"));
 			r.setCodigo_id(rs.getString("codigo_id"));
-			r.setNombre_alumno(rs.getString("nombre_alumno"));
-			if(materia.equals("s")){
+			r.setNombre_alumno(rs.getString("alumno"));
+			if(!materia.equals("")){
 				r.setCurso_id(rs.getString("curso_id"));
-				r.setNombre_materia(rs.getString("nombre_materia"));
+				r.setNombre_materia(rs.getString("materia"));
 			}
 			r.setEvaluacion_id(rs.getInt("evaluacion_id"));
 			r.setNumMaterias(rs.getInt("materias"));
 			r.setPromedio(rs.getBigDecimal("promedio"));
 			r.setSuma(rs.getBigDecimal("suma"));
-			if(materia.equals("s")){
+			if(!materia.equals("")){
 				salida.put(r.getCiclo_gpo_id() + "||"+r.getCodigo_id() + "||"+r.getEvaluacion_id() + "||"+r.getCurso_id(), r);
 			}else{
 				salida.put(r.getCiclo_gpo_id() + "||"+r.getCodigo_id() + "||"+r.getEvaluacion_id(), r);
