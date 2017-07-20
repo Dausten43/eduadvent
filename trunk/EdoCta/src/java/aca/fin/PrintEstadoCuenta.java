@@ -191,6 +191,7 @@ public class PrintEstadoCuenta extends HttpServlet {
                     //logoIASD.png
                     ep.setLogo(imgpath + "/logoIASD.png");
                 }
+                System.out.println("**logo  " + ep.getLogo());
                 ep.setNivelgradogrupo(rsa.getString("nivel_nombre") + " " + rsa.getString("grado") + " " + rsa.getString("grupo"));
                 ep.setNombre(rsa.getString("nombre").trim().toUpperCase() + " " + rsa.getString("apaterno").trim().toUpperCase() + " " + rsa.getString("amaterno").trim().toUpperCase());
                 ep.setNota(mensaje);
@@ -289,6 +290,7 @@ public class PrintEstadoCuenta extends HttpServlet {
         ServletContext context = this.getServletConfig().getServletContext();
         response.setContentType("application/pdf");
         Collection<EdoCtaPanama> dataSource = datos(context.getRealPath("/imagenes/logos"), request);
+        //Collection<EdoCtaPanama> dataSource = datos("../escuela/imagenes/logos", request);
         //CreaReporte.dsEdoctaB(context.getRealPath("/imagenes/logos"));
         Locale locale = new Locale("es", "MX");
 

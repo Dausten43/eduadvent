@@ -106,7 +106,7 @@
 					<pen lineWidth="1.5"/>
 				</graphicElement>
 			</line>
-			<image>
+			<image onErrorType="Blank">
 				<reportElement x="0" y="-1" width="98" height="94" uuid="1fba1dbd-d536-4102-948d-4fd62fadf1ed"/>
 				<imageExpression><![CDATA[$F{logo}]]></imageExpression>
 			</image>
