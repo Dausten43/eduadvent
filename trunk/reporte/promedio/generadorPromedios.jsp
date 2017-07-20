@@ -129,12 +129,16 @@
 				<select name="ciclo_id" id="cicloid" style="width: 350px;">
 					<option value="">Seleccione un ciclo</option>
 					<%
+					String nivel_calificacion = "";
 						System.out.println("ciclo  " + ciclo);
 						Collections.reverse(lisCiclo);
 							for (aca.ciclo.Ciclo c : lisCiclo) {
 					%>
-					<option value="<%=c.getCicloId()%>" <%= c.getCicloId().equals(ciclo) ? " selected " : ""%>><%=c.getCicloNombre()%></option>
+					<option data-nivel="<%= c.getNivelEval() %>" value="<%=c.getCicloId()%>" <%= c.getCicloId().equals(ciclo) ? " selected " : ""%>><%=c.getCicloNombre()%> </option>
 					<%
+						if(c.getCicloId().equals(ciclo)){
+							nivel_calificacion = c.getNivelEval();
+						}
 						}
 					%>
 				</select>
@@ -161,18 +165,20 @@
 				</div>
 				
 				<div id="limitesDiv">
-					<label for="periodos">Limite (menor igual a-mayor igual a eje 3.0-5.0) :</label> 
+					<label for="periodos">Limite (menor igual a-mayor igual a, max precisión 6 decimales, ejemplo : 1.0-5.0) :</label> 
 					<input type="text" name="limite" id="limite" >
 				</div>
 				
 				<input type="hidden" name="escuela_id" id="escuela_id" value="<%= escuelaId%>">
 				<input type="hidden" name="generar" value="true"> 
+				<input type="hidden" name="nivel_calificacion" id="nivel_calificacion" value=""> 
 				
 			
 				<div class="control-group">
 					<a class="btn btn-success"
-						onclick="javascript:generaPromedios();">Generar</a>
-
+						onclick="javascript:generaPromedios();">Generar Promedios</a>
+					<a class="btn btn-danger"
+						onclick="javascript:generaPromediosRep();">Generar Promedios con Materias</a>
 				</div>
 				
 			</div>
@@ -203,6 +209,9 @@
 	$('#cicloid').each(function(e) {
 		
 		var cicloSelected = $(this).val();
+		
+		console.log('data-nivel ' + $(this).find(':selected').data('nivel'));
+		$('#nivel_calificacion').val($(this).find(':selected').data('nivel'));
 		var escuelaId = $('#escuela_id').val();
 		console.log('Ciclo elegido = ' + cicloSelected);
 		if(cicloSelected!=''){
@@ -224,6 +233,8 @@
 $('#cicloid').change(function(e) {
 		var cicloSelected = $(this).val();
 		var escuelaId = $('#escuela_id').val();
+		console.log('data-nivel ' + $(this).find(':selected').data('nivel'));
+		$('#nivel_calificacion').val($(this).find(':selected').data('nivel'));
 		if(cicloSelected!=''){
 			var datadata = 'ciclo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true&genera_grupos=true'; 
 			var datadatab = 'ciclo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_periodos=true';
@@ -241,6 +252,7 @@ $('#cicloid').change(function(e) {
 	
 $('#ciclo_gpo_id').change(function(e) {
 	var cicloSelected = $(this).val();
+	
 	var escuelaId = $('#escuela_id').val();
 	if(cicloSelected!=''){
 		var datadata = 'ciclo_gpo_id='+ cicloSelected + '&escuela_id=' + escuelaId + '&genera_combos=true&genera_materias=true'; 
@@ -255,13 +267,41 @@ $('#ciclo_gpo_id').change(function(e) {
 
 function generaPromedios(){
 	console.log('entrando a datos' + $('#periodosId').val());
+	var nivecal = $('#nivel_calificacion').val();
 	if($('#cicloid').val()!=''){
 		if($('#periodosId').val()!==null){
 			if($('#ciclo_gpo_id').val()==''){
-				var datadata = 'cicloId='+$('#cicloid').val()+'&periodos='+$('#periodosId').val()+'&genera_reporte=true&cicloGpoId=&materias=n&limite='+$('#limite').val();
+				var datadata = 'cicloId='+$('#cicloid').val()+'&periodos='+$('#periodosId').val()+'&genera_reporte=true&cicloGpoId=&materias=n&limite='+$('#limite').val()+'&nivel='+nivecal;
+				console.log(datadata);
 				correAjax(datadata,'#reporteOut','#reporteOut');
 			}else{
-				var datadata = 'cicloGpoId='+$('#ciclo_gpo_id').val()+'&periodos='+$('#periodosId').val()+'&genera_reporte=true&cicloGpoId=&materias=n&limite='+$('#limite').val();
+				var datadata = 'cicloGpoId='+$('#ciclo_gpo_id').val()+'&periodos='+$('#periodosId').val()+'&genera_reporte=true&cicloGpoId=&materias=n&limite='+$('#limite').val()+'&nivel='+nivecal;
+				if($('#curso_id').val()!=''){
+					datadata+='&materia='+$('#curso_id').val();
+				}
+				console.log(datadata);
+				correAjax(datadata,'#reporteOut','#reporteOut');
+			}
+		}else{
+			alert('Es necesario elegir por lo menos un periodo para generar el reporte');
+		}
+	}else{
+		alert('Es necesario elegir un ciclo para generar el reporte');
+	}
+	
+	
+}
+
+function generaPromediosRep(){
+	console.log('entrando a datos' + $('#periodosId').val());
+	var nivecal = $('#nivel_calificacion').val();
+	if($('#cicloid').val()!=''){
+		if($('#periodosId').val()!==null){
+			if($('#ciclo_gpo_id').val()==''){
+				var datadata = 'cicloId='+$('#cicloid').val()+'&periodos='+$('#periodosId').val()+'&reporte_materias=true&cicloGpoId=&materias=n&limite='+$('#limite').val()+'&nivel='+nivecal+'&orden= order by codigo_id';
+				correAjax(datadata,'#reporteOut','#reporteOut');
+			}else{
+				var datadata = 'cicloGpoId='+$('#ciclo_gpo_id').val()+'&periodos='+$('#periodosId').val()+'&reporte_materias=true&cicloGpoId=&materias=n&limite='+$('#limite').val()+'&nivel='+nivecal+'&orden= order by codigo_id';
 				if($('#curso_id').val()!=''){
 					datadata+='&materia='+$('#curso_id').val();
 				}
@@ -276,6 +316,8 @@ function generaPromedios(){
 	
 	
 }
+
+
 
 </script>
 
