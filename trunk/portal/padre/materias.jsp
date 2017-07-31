@@ -97,6 +97,11 @@ $('.materias').addClass('active');
 			 
 			 <div class="pull-right">
 			 	<a href="horario.jsp" class="btn btn-info btn-mobile"><i class="icon-calendar icon-white"></i> <fmt:message key="aca.Horario" /></a>
+			 	<a href="mensaje.jsp?cicloGrupoId=<%=cicloGrupo.getCicloGrupoId()%>" class="btn btn-warning"><i class="icon-envelope icon-white"></i> Mensajes</a>
+			 </div>
+			 
+			 <div>
+			 
 			 </div>
 			 
 		</div>		
@@ -141,7 +146,8 @@ $('.materias').addClass('active');
 						
 						
 						<div class="tarjeta" id="<%=empPersonal.getCodigoId()%>">
-							<%=empPersonal.getNombre()%> <%=empPersonal.getApaterno()%> <%=empPersonal.getAmaterno()%>					    
+							<%=empPersonal.getNombre()%> <%=empPersonal.getApaterno()%> <%=empPersonal.getAmaterno()%>
+							   
 						</div>							  	   
 						<div><%=alumPersonal.getGrado() %>° de <%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, alumPersonal.getNivelId()) %></div>								
 				  	</div>
@@ -168,7 +174,10 @@ $('.materias').addClass('active');
 						<%
 							}
 						%>
-						<a href="mensaje.jsp?cicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&cursoId=<%=cicloGrupoCurso.getCursoId() %>&maestroId=<%=empPersonal.getCodigoId()%>">Mensajes</a>
+						<a data-toggle="modal" data-id="<%=empPersonal.getCodigoId()%>" data-informacion="<%=PlanCurso.getCursoNombre(conElias, krdxCursoAct.getCursoId()) %>-<%=alumPersonal.getGrado() %> <%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, alumPersonal.getNivelId()) %>"
+							title="Mensaje a <%=empPersonal.getNombre()%> <%=empPersonal.getApaterno()%> <%=empPersonal.getAmaterno()%>" 
+							class="open-MensajeBox btn btn-primary btn-mini" href="#mensajeBox">Enviar Mensaje</a>					 
+						
 					</div>
 				</td>
 			</tr>
@@ -176,8 +185,80 @@ $('.materias').addClass('active');
 	} 
 %>
 	</table>
-	
+	<!-- MODAL -->
+		<div id="mensajeBox" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		    <h3 id="myModalLabel"><fmt:message key="boton.EscribirMensaje" /></h3>
+		  </div>
+		  <div class="modal-body ">
+		  		<label for="asunto">Asunto</label>
+		  		<input type="text" name="asunto" id="asunto">
+		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
+		        <input type="hidden" id="destino" value="">
+		        <input type="hidden" id="complemento" value="">
+		        <input type="hidden" id="envia" value="<%= codigoId %>">
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
+		    <a class="btn btn-primary" href="javascript:enviaMsg()"><i class="icon-envelope icon-white"></i> <fmt:message key="boton.EnviarMensaje" /></a>
+		  </div>
+		</div>
+	<!-- END MODAL -->
+		<!-- nuevo modal -->
+
+<div class="modal fade" id="enviadoMsg" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Aviso</h4>
+        </div>
+        <div class="modal-body">
+          <p>Su mensaje fue enviado correctamente.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- end nuevo modal -->
 </form>
 </div>
+<script type="text/javascript">
+function enviaMsg(){
+	
+	var datadata = 'envia_mensaje=true&envia='+$('#envia').val()
+	+'&tipo_destino=P&destino='+$('#destino').val()
+	+'&asunto='+$('#asunto').val()+' '+$('#complemento').val()+'&mensaje='
+	+$('#Comentario').val();
+	$.ajax({
+		url : '../../mensajes/accionMensajes.jsp',
+		type : 'post',
+		data : datadata,
+		success : function(output) {
+			$('#mensajeBox').modal('toggle');
+			$('#enviadoMsg').modal('show'); 
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			console.log("error " + datadata);
+			alert(xhr.status + " " + thrownError);
+		}
+	});
 
+}
+<!--
+$(document).on("click", ".open-MensajeBox", function () {
+    var destinatario = $(this).data('id');
+    var complemento = $(this).data('informacion');
+    $(".modal-body #destino").val( destinatario );
+    $(".modal-body #complemento").val( complemento );
+    // As pointed out in comments, 
+    // it is superfluous to have to manually call the modal.
+    // $('#addBookDialog').modal('show');
+});
+//-->
+</script>
 <%@ include file="../../cierra_elias.jsp" %>

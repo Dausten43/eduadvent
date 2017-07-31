@@ -10,11 +10,14 @@
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="FinMov" scope="page" class="aca.fin.FinMovimientos"/>
 <jsp:useBean id="FinMovL" scope="page" class="aca.fin.FinMovimientosLista"/>
+<jsp:useBean id="krdxCursoAct" scope="page" class="aca.kardex.KrdxCursoAct"/>
+<jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 
 <head>
 <%	
 	String escuelaId	= (String) session.getAttribute("escuela");
 	String codigoId 	= (String) session.getAttribute("codigoId");
+	String cicloIdM 	= (String) session.getAttribute("cicloId");
 	
 	ArrayList<aca.alumno.AlumPadres> lisAlumPadres = alumPadresLista.getListTutor(conElias, codigoId, "ORDER BY 1");
 	
@@ -70,11 +73,15 @@
 				<%=Personal.getEmail() %>
 			</address>
 	  </div>
-	  <div class="span3">
+	  <div class="span3" id="hijos">
 	  		<address>
 			  <strong><fmt:message key="aca.Hijos"/></strong><br>
-			  <%for(aca.alumno.AlumPadres alumno : lisAlumPadres){%>
-				<a href="javascript:refresca('<%=alumno.getCodigoId()%>');"><%=aca.alumno.AlumPersonal.getNombre(conElias, alumno.getCodigoId(), "NOMBRE") %></a> <br />
+			  <%for(aca.alumno.AlumPadres alumno : lisAlumPadres){
+				  cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,alumno.getCodigoId(),cicloIdM));
+				  
+			  %>
+				<a href="javascript:refresca('<%=alumno.getCodigoId()%>');" id="alumno-<%=alumno.getCodigoId()%>" data-ciclogpoid="<%= cicloGrupo.getCicloGrupoId() %>" data-codigoid="<%=alumno.getCodigoId()%>"><%=aca.alumno.AlumPersonal.getNombre(conElias, alumno.getCodigoId(), "NOMBRE") %></a> 
+				<a href="mensaje.jsp?cicloGrupoId=<%= cicloGrupo.getCicloGrupoId() %>&codigoAlumno=<%=alumno.getCodigoId()%>" id="msg-<%=alumno.getCodigoId()%>" class="btn btn-info btn-mini"></a> <br />
 			  <%}%>
 			</address>
 	  </div>
@@ -145,9 +152,48 @@
 </div>
 	
 <script>
+
+	
+	
 	function refresca(codigoId){
 		document.location = "datos.jsp?Accion=1&codigo="+codigoId;
 	}
+	
+	var IDs = [];
+	$("#hijos").find("a").each(function(){ IDs.push($(this).attr("id")); });
+	
+	console.log(IDs);
+	
+	$.each(IDs, function(i, v){
+		console.log('recorriendo el array ' + i + ' ' + v );
+		var datocodigoid = $('#'+v).data('codigoid');
+		var datociclogpoid = $('#'+v).data('ciclogpoid');
+		
+		contarMensajesNuevos(datociclogpoid, datocodigoid);
+	});
+	
+	function contarMensajesNuevos(ciclogpoid, codigoid){
+		var suma = 0;	
+		var escuela = '<%= escuelaId %>';
+		var tipodestino = '\'P\',\'I\',\'G\'';
+		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+ciclogpoid+'\',\''+escuela+'\'&tipodestino='+tipodestino;
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : datadataA,
+			success : function(output) {
+				suma += $.isNumeric(output) ? parseInt(output) : 0;
+				$('#msg-'+codigoid).html(suma + ' Mensajes Nuevos');
+				console.log('suma 1 ' + suma);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+		
+	}
+
 </script>
 	
 

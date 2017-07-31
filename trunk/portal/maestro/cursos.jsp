@@ -121,6 +121,7 @@
 					<a href="#myModal" data-toggle="modal" class="btn btn-info btn-mobile">
 						<i class="icon-user icon-white"></i> <fmt:message key="aca.Privacidad" />
 					</a>
+					<span id="countMsg"></span>
 				</div>
 	</div>
 	
@@ -134,10 +135,11 @@
 		<table class="table table-hover table-bordered">
 					
 <%
-
+			String tmpCGID = "";
 			ArrayList<aca.ciclo.CicloGrupoCurso> lisCursos = cicloGrupoCursoLista.getListAll(conElias, "WHERE EMPLEADO_ID = '"+maestroId+"' AND CICLO_GRUPO_ID LIKE '"+cicloId+"%' ORDER BY ORDEN_NGG(CICLO_GRUPO_ID), ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 			int i = 0;
 			for(aca.ciclo.CicloGrupoCurso cicloGrupoCurso: lisCursos){
+				
 				
 				cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());		
 				
@@ -203,9 +205,12 @@
 								<option value="4" <%if(cicloGrupoCurso.getEstado().equals("4")){out.print("selected");} %>><fmt:message key="boton.MateriaCerrada" /></option>
 						    </select>
 						    
-						    <%} %>
+						    <%} 
+						    
+					
+						    %>
 						    <br><br>
-					    	<% if(session.getAttribute("escuela").toString().startsWith("H")){ %>
+					    	<% if(session.getAttribute("escuela").toString().startsWith("H") ){ %>
 					    	<div class="well" style="width: 500px">
 					    	<p>OPCIONES PREESCOLAR</p>
 					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/actividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia%>&Maestro=<%=maestro%>"><fmt:message key="kinder.actividades" /></a>
@@ -268,6 +273,7 @@
 	<!-- END POPUP DE PRIVACIDAD -->
 
 	</form>	
+
 </div>
 
 <script>
@@ -275,6 +281,38 @@
 	$('.stopPropagation').on('click', function(e){
 	    e.stopPropagation();
 	});
+	
+	
+	
+	$(function(){
+		var suma = 0;
+		var codigoid = '<%= maestroId %>'
+		var escuela = '<%=  (String) session.getAttribute("escuela") %>';
+		var tipodestino = '\'P\',\'A\',\'G\'';
+		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+escuela+'\'&tipodestino='+tipodestino;
+		console.log(datadataA);
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : datadataA,
+			success : function(output) {
+				suma += $.isNumeric(output) ? parseInt(output) : 0;
+				if(suma>0){
+					$('#countMsg').html('<a href="mensaje.jsp" class="btn btn-warning">'+ suma + ' Mensajes Nuevos</a>');
+				}else{
+					$('#countMsg').html('<a href="mensaje.jsp" class="btn btn-warning">Revisar Mensajes</a>');
+				}
+				
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	});
+		
+		
+	
 </script>
 
 <%@ include file= "../../cierra_elias.jsp" %>

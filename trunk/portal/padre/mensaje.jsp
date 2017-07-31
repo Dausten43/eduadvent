@@ -6,8 +6,6 @@
 
 <%@ include file= "menuPortal.jsp" %>
 
-<jsp:useBean id="Mensaje" scope="page" class="aca.alumno.AlumMensaje"/>
-<jsp:useBean id="MensajeL" scope="page" class="aca.alumno.AlumMensajeLista"/>
 
 <script>
 	jQuery('.materias').addClass('active');
@@ -15,45 +13,18 @@
 
 <% 
 	String escuelaId	= (String) session.getAttribute("escuela");
-	String codigoId		= (String) session.getAttribute("codigoAlumno");
+	String codigoId		= request.getParameter("codigoAlumno")!=null ? request.getParameter("codigoAlumno") : (String) session.getAttribute("codigoAlumno");
 	String codigoPadre	= (String) session.getAttribute("codigoId");
 	String cicloGrupoId	= request.getParameter("cicloGrupoId");
 	String cursoId	    = request.getParameter("cursoId");
 	String maestroId	= request.getParameter("maestroId");
 	
-	String accion 		= request.getParameter("Accion")==null?"1":request.getParameter("Accion");
-	String sResultado	= "";
-		
-	if(accion.equals("2")){// Grabar la cuenta
-		Mensaje.setFolio(Mensaje.maximoReg(conElias,maestroId));
-		Mensaje.setCodigoId(codigoId);
-		Mensaje.setPadreId(codigoPadre);
-		Mensaje.setCursoId(cursoId);
-		Mensaje.setCicloGrupoId(cicloGrupoId);
-		Mensaje.setMaestroId(maestroId);
-		Mensaje.setFecha(aca.util.Fecha.getDateTime());
-		Mensaje.setComentario(request.getParameter("Comentario"));
-		Mensaje.setFromPadre("SI");
-		
-		if (Mensaje.existeReg(conElias) == false){
-			if (Mensaje.insertReg(conElias)){
-				sResultado = "MensajeEnviado";
-				conElias.commit();
-			}else{
-				sResultado = "NoMensajeEnviado";
-			}
-		}
-	}	
-	
-	pageContext.setAttribute("resultado", sResultado);
+	session.setAttribute("codigoAlumno", codigoId);
 	
 	String op = request.getParameter("op")==null?"Bandeja":request.getParameter("op");
-	String sql = "AND FROM_MAESTRO = 'SI' ";
-	if(op.equals("Enviados")){
-		sql = "AND FROM_PADRE = 'SI' ";
-	}
 	
-	ArrayList<aca.alumno.AlumMensaje> lisMensajes = MensajeL.getListAll(conElias,escuelaId,maestroId,codigoId, sql);
+	
+	
 %>
 
 
@@ -71,95 +42,258 @@
 
 <div id="content">
 	
-	<h2><fmt:message key="aca.MensajesConMaestro" /></h2>
-	
-	<% if (sResultado.equals("Eliminado") || sResultado.equals("Modificado") || sResultado.equals("Guardado") || sResultado.equals("MensajeEnviado")){%>
-   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
-  	<% }else if(!sResultado.equals("")){%>
-  		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
-  	<%} %>
+	<h2>Mensajes</h2>
 	
 	<div class="well">
 		<a href="materias.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		<a href="#myModal" data-toggle="modal" class="btn btn-info nuevoMsj"><i class="icon-file icon-white"></i> <fmt:message key="boton.EscribirMensaje" /></a>
+		
 	</div>
 	
-<!-- ESCRIBIR MENSAJE -->
- 	<form action="mensaje.jsp" method="post" name="frmmsj" target="_self" style="margin:0;">
-		<input type="hidden" name="Accion">
-		<input type="hidden" name="cursoId" value="<%=cursoId%>">
-		<input type="hidden" name="cicloGrupoId" value="<%=cicloGrupoId%>">
-		<input type="hidden" name="maestroId" value="<%=maestroId%>">
-		
-	<!-- MODAL -->
-		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-		    <h3 id="myModalLabel"><fmt:message key="boton.EscribirMensaje" /></h3>
-		  </div>
-		  <div class="modal-body ">
-		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
-		  </div>
-		  <div class="modal-footer">
-		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
-		    <a class="btn btn-primary" href="javascript:Grabar()"><i class="icon-envelope icon-white"></i> <fmt:message key="boton.EnviarMensaje" /></a>
-		  </div>
-		</div>
-	<!-- END MODAL -->
-	</form>
-<!-- END ESCRIBIR MENSAJE -->
+
 
 	<ul class="nav nav-tabs">
-	  <li <%if(op.equals("Bandeja"))out.print("class='active'"); %>>
-	    <a href="mensaje.jsp?cicloGrupoId=<%=cicloGrupoId %>&cursoId=<%=cursoId %>&maestroId=<%=maestroId%>&op=Bandeja"><fmt:message key="aca.Bandeja" /></a>
+	  <li <% if(op.equals("Bandeja"))out.print("class='active'"); %> id="bandeja">
+	    <a href="javascript:msgsRecibidos()"><fmt:message key="aca.Bandeja" /></a>
 	  </li>
-	  <li <%if(op.equals("Enviados"))out.print("class='active'"); %>>
-	    <a href="mensaje.jsp?cicloGrupoId=<%=cicloGrupoId %>&cursoId=<%=cursoId %>&maestroId=<%=maestroId%>&op=Enviados"><fmt:message key="aca.Enviados" /></a>
+	  <li <%if(op.equals("Enviados"))out.print("class='active'"); %> id="enviados">
+	    <a href="javascript:msgsEnviados()"><fmt:message key="aca.Enviados" /></a>
 	  </li>
 	</ul>
 
 <%
-	if(lisMensajes.size()==0){
+	if(false){
 %>
 		<div class="alert alert-info">Usted no tiene mensajes.</div>
 <%
 	}else{
 %>
 
-		<table class="table table-nohover table-bordered" style="background:#F6F6F6;">
-	<%   
-		for(int i=0; i<lisMensajes.size();i++){
-				aca.alumno.AlumMensaje msj = (aca.alumno.AlumMensaje) lisMensajes.get(i);
-				
-				Mensaje.setLeido("SI");
-				Mensaje.setMaestroId(msj.getMaestroId());
-				Mensaje.setFolio(msj.getFolio());
-				Mensaje.updateLeido(conElias);
-	%>
-		  <tr <%if( ( msj.getLeido() ==null || !msj.getLeido().equals("SI") ) && op.equals("Bandeja")){ %>class="noLeido"<%} %> >
-		    <td><%= msj.getComentario() %></td>
-		    <td  width="15%"><%= msj.getFecha() %></td>
-		  </tr>
-	<% 
-		}
-	%>
+		<table class="table table-nohover table-bordered"  style="background:#F6F6F6;">
+			<tr >
+				<td id="mensajes" style="width: 45%;"></td>
+				<td id="msg" rowspan="2"></td>
+			</tr>
+			<tr>
+				<td id="anteriores"></td>
+			</tr>
+			
 		</table>
 <%
 	}
 %>
 </div>
+	<!-- MODAL -->
+		<div id="respuestaBox" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		    <h3 id="myModalLabel">Responder mensaje</h3>
+		  </div>
+		  <div class="modal-body ">
+		  		<label for="asunto">Asunto</label>
+		  		<input type="text" name="asunto" id="asunto" value="RE " readonly="readonly">
+		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
+		        <input type="hidden" id="destino" value="">
+		        <input type="hidden" id="complemento" value="">
+		        <input type="hidden" id="envia" value="<%= codigoId %>">
+		        <input type="hidden" id="idmsg" value="">
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
+		    <a class="btn btn-primary" href="javascript:enviaMsg()"><i class="icon-envelope icon-white"></i> <fmt:message key="boton.EnviarMensaje" /></a>
+		  </div>
+		</div>
+	<!-- END MODAL -->
+	<!-- nuevo modal -->
 
+<div class="modal fade" id="enviadoMsg" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Aviso</h4>
+        </div>
+        <div class="modal-body">
+          <p>El proceso se realizo correctamente.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- end nuevo modal -->
+
+	<!-- MODAL -->
+		<div id="removeBox" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		    <h3 id="myModalLabel">¿Eliminar mensaje?</h3>
+		  </div>
+		  <div class="modal-body ">
+		  		<strong>¿Está completamente seguro de eliminar el mensaje?<br>La operacion no es reversible</strong>
+		  		<input type="hidden" id="idmsg" value="">
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
+		    <a class="btn btn-danger" href="javascript:enviaMsg()"><i class="icon-trash icon-white"></i> Eliminar Mensaje</a>
+		  </div>
+		</div>
 <script>
+	$(function(){
+		var codigoid= '\'<%= codigoId %>\'';
+		var ciclogpoid = '\'<%= cicloGrupoId %>\'';
+		var escuela = '\'<%= escuelaId %>\'';
+		var tipodestino = '\'P\',\'I\',\'G\'';
+		 console.log(codigoid);
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : 'lista-mensajes=true&destino='+codigoid+','+ciclogpoid + ','+escuela+'&tipodestino='+tipodestino,
+			success : function(output) {
+				$('#mensajes').html(output);
+				//console.log(output);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	});
 	
-	function Grabar(){
-		if(document.frmmsj.Comentario.value!=""){			
-			document.frmmsj.Accion.value="2";
-			document.frmmsj.submit();			
-		}else{
-			alert("<fmt:message key="js.Completar" />");
-		}
-	}	
 	
+	function msgsEnviados(){
+		var codigoid= '<%= codigoId %>';
+		var ciclogpoid = '\'<%= cicloGrupoId %>\'';
+		var escuela = '\'<%= escuelaId %>\'';
+		var tipodestino = '\'P\',\'I\',\'G\'';
+		 console.log(codigoid);
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : 'lista-mensajes=true&envia='+codigoid+'&tipodestino='+tipodestino+'&enviados=true',
+			success : function(output) {
+				$('#enviados').addClass('active');
+				$('#bandeja').removeClass('active');
+				$('#mensajes').html(output);
+				$('#msg').html('');
+				//console.log(output);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	}
+	
+	function msgsRecibidos(){
+		var codigoid= '\'<%= codigoId %>\'';
+		var ciclogpoid = '\'<%= cicloGrupoId %>\'';
+		var escuela = '\'<%= escuelaId %>\'';
+		var tipodestino = '\'P\',\'I\',\'G\'';
+		 console.log(codigoid);
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : 'lista-mensajes=true&destino='+codigoid+','+ciclogpoid + ','+escuela+'&tipodestino='+tipodestino,
+			success : function(output) {
+				$('#enviados').removeClass('active');
+				$('#bandeja').addClass('active');
+				$('#mensajes').html(output);
+				$('#msg').html('');
+				//console.log(output);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	}
+	
+	function showMsg(idmsg, enviados){
+		console.log('lo que viene en enviados ' +  enviados)
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : 'show-msg=true&idmsg='+idmsg+enviados,
+			success : function(output) {
+				$('#msg').html(output);
+				$('#msg-'+idmsg).css('font-weight','normal');
+				$('.listmsg').css('background-color','transparent ');
+				$('#msg-'+idmsg).css('background-color','lightblue');
+				//console.log(output);
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	}
+	
+	function enviaMsg(){
+		
+			var datadata = 'envia_mensaje=true&envia='+$('#envia').val()
+			+'&tipo_destino=P&destino='+$('#destino').val()
+			+'&asunto='+$('#asunto').val()+'&mensaje='
+			+$('#Comentario').val()+'&mensaje_original='+$('#idmsg').val()+'&es_respuesta=true';
+			$.ajax({
+				url : '../../mensajes/accionMensajes.jsp',
+				type : 'post',
+				data : datadata,
+				success : function(output) {
+					$('#respuestaBox').modal('toggle');
+					$('#enviadoMsg').modal('show'); 
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					console.log("error " + datadata);
+					alert(xhr.status + " " + thrownError);
+				}
+			});
+		
+	}
+	
+	function eliminaMsg(){
+
+		var datadata = 'elimina_mensaje=true&idmsg='+$('#idmsg').val();
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : datadata,
+			success : function(output) {
+				$('#removeBox').modal('toggle');
+				$('#enviadoMsg').modal('show'); 
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	
+	}
+	
+	<!--
+	$(document).on("click", ".open-RespuestaBox", function () {
+	    var destinatario = $(this).data('id');
+	    var asunto = $(this).data('asunto');
+	    var idmsg = $(this).data('idmsg');
+	    
+	    $(".modal-body #destino").val( destinatario );
+	    $(".modal-body #asunto").val( asunto );
+	    $(".modal-body #idmsg").val( idmsg );
+	    // As pointed out in comments, 
+	    // it is superfluous to have to manually call the modal.
+	    // $('#addBookDialog').modal('show');
+	});
+	
+	$(document).on("click", ".open-RemoveBox", function () {
+	    var idmsg = $(this).data('idmsg');
+	    
+	    $(".modal-body #idmsg").val( idmsg );
+	    // As pointed out in comments, 
+	    // it is superfluous to have to manually call the modal.
+	    // $('#addBookDialog').modal('show');
+	});
+	//-->
 </script>
 
 <%@ include file= "../../cierra_elias.jsp" %>
