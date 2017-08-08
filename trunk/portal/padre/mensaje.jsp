@@ -46,7 +46,7 @@
 	
 	<div class="well">
 		<a href="materias.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		
+		<a data-toggle="modal" data-id="<%= escuelaId %>" data-tipodestino="A" class="open-NuevoMsg btn btn-info" href="#nuevoMsg"><i class="icon-envelope icon-white"></i> Mensaje A la Administración</a>
 	</div>
 	
 
@@ -103,6 +103,29 @@
 		  </div>
 		</div>
 	<!-- END MODAL -->
+	
+	<!-- MODAL -->
+		<div id="nuevoMsg" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		    <h3 id="myModalLabel">Responder mensaje</h3>
+		  </div>
+		  <div class="modal-body ">
+		  		<label for="asunto">Asunto</label>
+		  		<input type="text" name="asunto" id="asunto" value="">
+		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
+		        <input type="hidden" id="destino" value="">
+		        <input type="hidden" id="tipodestino" value="D">
+		        <input type="hidden" id="envia" value="<%= codigoId %>">
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
+		    <a class="btn btn-primary" href="javascript:enviaMsgN()"><i class="icon-envelope icon-white"></i> <fmt:message key="boton.EnviarMensaje" /></a>
+		  </div>
+		</div>
+	<!-- END MODAL -->
+	
+	
 	<!-- nuevo modal -->
 
 <div class="modal fade" id="enviadoMsg" role="dialog">
@@ -230,6 +253,28 @@
 		});
 	}
 	
+	function enviaMsgN(){
+		
+		var datadata = 'envia_mensaje=true&envia='+$('#nuevoMsg #envia').val()
+		+'&tipo_destino='+$('#nuevoMsg #tipodestino').val()+'&destino='+$('#nuevoMsg #destino').val()
+		+'&asunto='+$('#nuevoMsg #asunto').val()+'&mensaje='
+		+$('#nuevoMsg #Comentario').val();
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : datadata,
+			success : function(output) {
+				$('#nuevoMsg').modal('toggle');
+				$('#enviadoMsg').modal('show'); 
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+	
+}
+	
 	function enviaMsg(){
 		
 			var datadata = 'envia_mensaje=true&envia='+$('#envia').val()
@@ -284,6 +329,15 @@
 	    // it is superfluous to have to manually call the modal.
 	    // $('#addBookDialog').modal('show');
 	});
+	
+	$(document).on("click", ".open-NuevoMsg", function () {
+	    var destinatario = $(this).data('id');
+	    $(".modal-body #destino").val( destinatario );
+	    // As pointed out in comments, 
+	    // it is superfluous to have to manually call the modal.
+	    // $('#addBookDialog').modal('show');
+	});
+	
 	
 	$(document).on("click", ".open-RemoveBox", function () {
 	    var idmsg = $(this).data('idmsg');

@@ -43,6 +43,7 @@ if(request.getParameter("lista-mensajes")!=null){
 	String tipodestino = request.getParameter("tipodestino")!=null ? request.getParameter("tipodestino") : "";
 	String envia = request.getParameter("envia")!=null ? request.getParameter("envia") : "";
 	String enviados = request.getParameter("enviados")!=null ? "&enviados=true" : "";
+	String escuela = request.getParameter("escuela")!=null ? request.getParameter("escuela") : "";
 	Map<Long, Mensajeria> mapMensajes = umsg.getMensaje(conElias, 0L, envia, "", tipodestino,"", destino, -1, 0L, -1, "1,2", " order by estado, fecha  desc ");
 	//System.out.println(mapMensajes.size() + " "+destino);
 	%>
@@ -59,12 +60,18 @@ if(request.getParameter("lista-mensajes")!=null){
 		if(m.getTipo_destino().equals("I")){
 			btn ="btn btn-danger btn-mini";
 		}
+		if(m.getTipo_destino().equals("A")){
+			btn ="btn btn-primary btn-mini";
+		}
+		if(m.getTipo_destino().equals("D")){
+			btn ="btn btn-info btn-mini";
+		}
 	%>
 		<tr>
 		<% if(m.getEstado()==1){ %>
-			<td onclick="showMsg(<%= m.getId() %>,'<%= enviados %>')" style="border-bottom: 1px solid #000000 ; font-weight: bold;" id="msg-<%= m.getId() %>" class="listmsg"><span class="<%= btn %>"><%= m.getTipo_destino() %></span> <%=empPersonal.getNombre()%> <%=empPersonal.getApaterno()%> <%=empPersonal.getAmaterno()%><%= m.getAsunto() %></td>
+			<td onclick="showMsg(<%= m.getId() %>,'<%= enviados %>')" style="border-bottom: 1px solid #000000 ; font-weight: bold;" id="msg-<%= m.getId() %>" class="listmsg"><span class="<%= btn %>"> <%= m.getTipo_destino() %></span> <%=empPersonal.getNombre()%> <%=empPersonal.getApaterno()%> <%=empPersonal.getAmaterno()%> <%= m.getAsunto() %></td>
 		<% }else{ %>
-			<td onclick="showMsg(<%= m.getId() %>,'<%= enviados %>')" style="border-bottom: 1px solid #000000 ; " id="msg-<%= m.getId() %>" class="listmsg"><span class="<%= btn %>"><%= m.getTipo_destino() %></span> <%=empPersonal.getNombre()%> <%=empPersonal.getApaterno()%> <%=empPersonal.getAmaterno()%><%= m.getAsunto() %></td>
+			<td onclick="showMsg(<%= m.getId() %>,'<%= enviados %>')" style="border-bottom: 1px solid #000000 ; " id="msg-<%= m.getId() %>" class="listmsg"><span class="<%= btn %>"> <%= m.getTipo_destino() %></span> <%=empPersonal.getNombre()%> <%=empPersonal.getApaterno()%> <%=empPersonal.getAmaterno()%> <%= m.getAsunto() %></td>
 		<% } %>	
 		</tr>
 	<% } %>

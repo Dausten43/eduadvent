@@ -33,8 +33,9 @@
 	<h2>Mensajes</h2>
 	
 	<div class="well">
-		<a href="opcion.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-		<a data-toggle="modal" data-id="<%= escuelaId %>" data-tipodestino="A" class="open-NuevoMsg btn btn-info" href="#nuevoMsg"><i class="icon-envelope icon-white"></i> Mensaje A la Administración</a>
+		<a href="/escuela/general/inicio/index.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a data-toggle="modal" data-id="<%= escuelaId %>" data-tipodestino="A" class="open-NuevoMsg btn btn-info" href="#nuevoMsg"><i class="icon-envelope icon-white"></i> Mensaje A Personal</a>
+		<a data-toggle="modal" data-id="<%= escuelaId %>" data-tipodestino="I" class="open-NuevoMsg btn btn-success" href="#nuevoMsg"><i class="icon-envelope icon-white"></i> Mensaje A Padres</a>
 	</div>
 	
 
@@ -92,19 +93,18 @@
 		</div>
 	<!-- END MODAL -->
 	
-	
-	<!-- MODAL -->
+		<!-- MODAL -->
 		<div id="nuevoMsg" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-header">
 		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-		    <h3 id="myModalLabel">Responder mensaje</h3>
+		    <h3 id="myModalLabel">Redactar Mensaje</h3>
 		  </div>
 		  <div class="modal-body ">
 		  		<label for="asunto">Asunto</label>
-		  		<input type="text" name="asunto" id="asunto" value="">
+		  		<input type="text" name="asunto" id="asunto" value="" >
 		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
 		        <input type="hidden" id="destino" value="">
-		        <input type="hidden" id="tipodestino" value="D">
+		        <input type="hidden" id="tipodestino" value="">
 		        <input type="hidden" id="envia" value="<%= codigoId %>">
 		  </div>
 		  <div class="modal-footer">
@@ -155,10 +155,10 @@
 		var codigoid= '\'<%= codigoId %>\'';
 		
 		var escuela = '\'<%= escuelaId %>\'';
-		var tipodestino = '\'P\',\'A\',\'G\'';
+		var tipodestino = '\'P\',\'D\',\'G\'';
 		 console.log(codigoid);
 		$.ajax({
-			url : '../../mensajes/accionMensajes.jsp',
+			url : '../accionMensajes.jsp',
 			type : 'post',
 			data : 'lista-mensajes=true&destino='+codigoid+','+escuela+'&tipodestino='+tipodestino,
 			success : function(output) {
@@ -176,10 +176,10 @@
 	function msgsEnviados(){
 		var codigoid= '<%= codigoId %>';
 		var escuela = '\'<%= escuelaId %>\'';
-		var tipodestino = '\'P\',\'A\',\'G\'';
+		var tipodestino = '\'P\',\'A\',\'G\',\'I\'';
 		 console.log(codigoid);
 		$.ajax({
-			url : '../../mensajes/accionMensajes.jsp',
+			url : '../accionMensajes.jsp',
 			type : 'post',
 			data : 'lista-mensajes=true&envia='+codigoid+'&tipodestino='+tipodestino+'&enviados=true',
 			success : function(output) {
@@ -200,10 +200,10 @@
 		var codigoid= '\'<%= codigoId %>\'';
 		
 		var escuela = '\'<%= escuelaId %>\'';
-		var tipodestino = '\'P\',\'A\',\'G\'';
+		var tipodestino = '\'P\',\'D\',\'G\'';
 		 console.log(codigoid);
 		$.ajax({
-			url : '../../mensajes/accionMensajes.jsp',
+			url : '../accionMensajes.jsp',
 			type : 'post',
 			data : 'lista-mensajes=true&destino='+codigoid+','+escuela+'&tipodestino='+tipodestino,
 			success : function(output) {
@@ -223,7 +223,7 @@
 	function showMsg(idmsg, enviados){
 		console.log('lo que viene en enviados ' +  enviados)
 		$.ajax({
-			url : '../../mensajes/accionMensajes.jsp',
+			url : '../accionMensajes.jsp',
 			type : 'post',
 			data : 'show-msg=true&idmsg='+idmsg+enviados,
 			success : function(output) {
@@ -240,18 +240,18 @@
 		});
 	}
 	
-function enviaMsgN(){
+	function enviaMsg(){
 		
-		var datadata = 'envia_mensaje=true&envia='+$('#nuevoMsg #envia').val()
-		+'&tipo_destino='+$('#nuevoMsg #tipodestino').val()+'&destino='+$('#nuevoMsg #destino').val()
-		+'&asunto='+$('#nuevoMsg #asunto').val()+'&mensaje='
-		+$('#nuevoMsg #Comentario').val();
+		var datadata = 'envia_mensaje=true&envia='+$('#envia').val()
+		+'&tipo_destino=P&destino='+$('#destino').val()
+		+'&asunto='+$('#asunto').val()+'&mensaje='
+		+$('#Comentario').val()+'&mensaje_original='+$('#idmsg').val()+'&es_respuesta=true';
 		$.ajax({
-			url : '../../mensajes/accionMensajes.jsp',
+			url : '../accionMensajes.jsp',
 			type : 'post',
 			data : datadata,
 			success : function(output) {
-				$('#nuevoMsg').modal('toggle');
+				$('#respuestaBox').modal('toggle');
 				$('#enviadoMsg').modal('show'); 
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
@@ -262,18 +262,18 @@ function enviaMsgN(){
 	
 }
 	
-	function enviaMsg(){
+	function enviaMsgN(){
 		
-			var datadata = 'envia_mensaje=true&envia='+$('#envia').val()
-			+'&tipo_destino=P&destino='+$('#destino').val()
-			+'&asunto='+$('#asunto').val()+'&mensaje='
-			+$('#Comentario').val()+'&mensaje_original='+$('#idmsg').val()+'&es_respuesta=true';
+			var datadata = 'envia_mensaje=true&envia='+$('#nuevoMsg #envia').val()
+			+'&tipo_destino='+$('#nuevoMsg #tipodestino').val()+'&destino='+$('#nuevoMsg #destino').val()
+			+'&asunto='+$('#nuevoMsg #asunto').val()+'&mensaje='
+			+$('#nuevoMsg #Comentario').val()+'';
 			$.ajax({
-				url : '../../mensajes/accionMensajes.jsp',
+				url : '../accionMensajes.jsp',
 				type : 'post',
 				data : datadata,
 				success : function(output) {
-					$('#respuestaBox').modal('toggle');
+					$('#nuevoMsg').modal('toggle');
 					$('#enviadoMsg').modal('show'); 
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
@@ -288,7 +288,7 @@ function enviaMsgN(){
 
 		var datadata = 'elimina_mensaje=true&idmsg='+$('#idmsg').val();
 		$.ajax({
-			url : '../../mensajes/accionMensajes.jsp',
+			url : '../accionMensajes.jsp',
 			type : 'post',
 			data : datadata,
 			success : function(output) {
@@ -304,10 +304,14 @@ function enviaMsgN(){
 	}
 	
 	<!--
-	
 	$(document).on("click", ".open-NuevoMsg", function () {
 	    var destinatario = $(this).data('id');
+	    var tipodestino = $(this).data('tipodestino');
+	    
+	    
 	    $(".modal-body #destino").val( destinatario );
+	    $(".modal-body #tipodestino").val( tipodestino );
+	    
 	    // As pointed out in comments, 
 	    // it is superfluous to have to manually call the modal.
 	    // $('#addBookDialog').modal('show');
