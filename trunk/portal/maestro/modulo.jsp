@@ -107,6 +107,11 @@
 			<h4>
 				<%=nomTema.equals("") ? "-" : nomTema%> &nbsp;
 				<a href="tema.jsp?Accion=0&ModuloId=<%=Modulo.getModuloId()%>&TemaId=<%=tema.getTemaId()%>"><i class="icon-pencil"></i></a>
+				&nbsp;&nbsp;&nbsp;
+				<a class="btn btn-success" href="moduloTraspasoTema.jsp?moduloId=<%=modulo2%>&temaId=<%=tema.getTemaId() %>">
+					<fmt:message key="maestros.TraspasarTema" /> 
+					<i class="icon-random icon-white"></i>
+				</a>
 			</h4>
 			<p style="margin:0;">
 				<%=desTema.equals("") ? "-" : desTema%> 

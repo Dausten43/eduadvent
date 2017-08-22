@@ -169,6 +169,10 @@
 		<small><%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoIdFrom))%></small> <!-- get modulo -->
 	</div>
 	
+	<div class="alert alert-warning">
+		<h3>Seleccione la materia destino</h3>
+	</div>
+	
 	<div class="well">
 		<a class="btn btn-primary" href="modulo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	
@@ -243,7 +247,7 @@ for(int i = 0; i < lisCursos.size(); i++){
 					<strong><%=materia%></strong>
 				</td>
 				<td>
-					<%=cicloGrupo.getGrupoNombre() %> 
+					<%=cicloGrupo.getGrupoNombre() %> <%=cicloGrupo.getGrupo() %>
 				</td>
 				<td>
 					<fmt:message key="aca.Alumnos" />: <%=KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId() ) %>

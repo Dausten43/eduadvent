@@ -165,6 +165,10 @@
 		<small><%=aca.plan.Plan.getNombrePlan(conElias, aca.plan.PlanCurso.getPlanId(conElias, cursoIdFrom))%></small> 
 	</div>
 	
+	<div class="alert alert-warning">
+		<h3>Seleccione la materia destino</h3>
+	</div>
+	
 	<div class="well">
 		<a class="btn btn-primary" href="modulo.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	
