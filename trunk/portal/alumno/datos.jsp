@@ -9,12 +9,21 @@
 
 
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
-
+<jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 <%
 	String codigoId			= session.getAttribute("codigoId").toString();
+	String escuelaId	= (String) session.getAttribute("escuela");
+	String cicloIdM 	= (String) session.getAttribute("cicloId");
 	
 	alumPersonal.mapeaRegId(conElias, codigoId);	
-	session.setAttribute("mat",codigoId);
+	
+	session.setAttribute("mat",codigoId); 
+	
+	
+	cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,codigoId,cicloIdM)); 
+	
+	
+	System.out.println("Si llega a la 19");
 %>
 
 
@@ -22,6 +31,7 @@
 
 
 <h2><fmt:message key="empleados.DatosPersonalesMin"/></h2>
+<a href="mensaje.jsp?cicloGrupoId=<%= cicloGrupo.getCicloGrupoId() %>&codigoAlumno=<%= codigoId %>" id="msg-<%= codigoId %>" class="btn btn-info btn-mini"></a> <br />
 <hr />
 
 <div style="float:left;">
@@ -128,5 +138,40 @@
 
 <script>
 	jQuery('.datos').addClass('active');
+	
+	$(function(){
+		contarMensajesNuevos('<%= cicloGrupo.getCicloGrupoId() %>','<%= codigoId %>')
+	})
+	
+	function contarMensajesNuevos(ciclogpoid, codigoid){
+		var suma = 0;	
+		var escuela = '<%= escuelaId %>';
+		var tipodestino = '\'P\',\'I\',\'G\'';
+		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+ciclogpoid+'\',\''+escuela+'\'&tipodestino='+tipodestino;
+		console.log(datadataA);
+		$.ajax({
+			url : '../../mensajes/accionMensajes.jsp',
+			type : 'post',
+			data : datadataA,
+			success : function(output) {
+				suma += $.isNumeric(output) ? parseInt(output) : 0;
+				$('#msg-'+codigoid).html(suma + ' Mensajes Nuevos');
+				console.log('suma 1 ' + suma);
+				if(suma>0){
+					
+					$('#msg-'+codigoid).css('btn-danger')
+				}
+				$('#msg-'+codigoid).css('')
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+		
+	}
+
+</script>
+	
 </script>
 <%@ include file="../../cierra_elias.jsp" %>
