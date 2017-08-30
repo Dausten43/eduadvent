@@ -38,6 +38,7 @@
 	String estadoMateria= "";
 	
 	String msj 			= request.getParameter("msj")==null?"":(String)request.getParameter("msj");
+	String cambiarOrden = request.getParameter("cambiarOrden")==null?"0":(String)request.getParameter("cambiarOrden");//****
 	
 	String cicloGrupoFrom		= (String) session.getAttribute("cicloGrupoId");
 	String cursoIdFrom 			= (String) session.getAttribute("cursoId");	
@@ -46,9 +47,9 @@
 	String moduloIdFrom			= request.getParameter("moduloId")==null?"0":request.getParameter("moduloId");
 	String temaIdFrom			= request.getParameter("temaId")==null?"0":request.getParameter("temaId");
 	//Variable temaIdToFocus usada para hacer scroll hacia el tema añadido
-	String cursoIdToFocus		= request.getParameter("cursoIdToFocus")==null?"":request.getParameter("cursoIdToFocus"); 
+	String cursoIdToFocus		= request.getParameter("cursoIdToFocus")==null?"":request.getParameter("cursoIdToFocus");
+	String moduloIdTo			= request.getParameter("moduloIdTo")==null?"":request.getParameter("moduloIdTo");
 	
-
 	ModuloFrom.mapeaRegId(conElias, cicloGrupoFrom, moduloIdFrom, cursoIdFrom);
 	TemaFrom.mapeaRegId(conElias, cicloGrupoFrom, temaIdFrom, cursoIdFrom);
 	
@@ -162,7 +163,11 @@
 						<fmt:message key="maestros.AgregarTema" />
 					</a>
 				</td>
-				<td>&nbsp;</td>
+				<td>
+					<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){ %>
+						<strong>Orden</strong>
+					<%}%>
+				</td>
 				<td>&nbsp;</td>
 			</tr>
 <%
@@ -186,8 +191,27 @@
 						<fmt:message key="maestros.ReemplazarTema" />
 					</a>
 				</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
+				<td>
+					<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){ %>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;
+						<%=cgt.getOrden() %>
+					<%} %>
+				</td>
+				<td>
+					<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){ %>
+						<a 
+							class="btn btn-primary" 
+						  	href="#">
+							<i class="icon-chevron-up icon-white"></i>
+						</a>
+						<a 
+							class="btn btn-primary" 
+						  	href="#">
+							<i class="icon-chevron-down icon-white"></i>
+						</a>
+					<%} %>
+				</td>
 			</tr>
 <%					
 				}
