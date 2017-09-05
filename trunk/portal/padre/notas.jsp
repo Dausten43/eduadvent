@@ -136,12 +136,13 @@
 			}
 
 			if (lisPromedio.size() > 1){
-				out.print("<th class='text-center' width='2%' title='Nota' >Nota</th>");	
+				//out.print("<th class='text-center' width='2%' title='Nota' >Nota</th>");	
 			}
+//NOMBRES EN LA CABECERA DE LA TABLA DE CALFICACIONES			
 %>						
-				<th class="text-center" width="5%"><fmt:message key="aca.FechaNota"/></th>
+				<!--<th class="text-center" width="5%"><fmt:message key="aca.FechaNota"/></th>
 				<th class="text-center" width="5%"><fmt:message key="aca.Extra"/></th>
-				<th class="text-center" width="10%"><fmt:message key="aca.FechaExtra"/></th>
+				<th class="text-center" width="10%"><fmt:message key="aca.FechaExtra"/></th>-->
 			</tr>
 		</thead>
 <%
@@ -153,9 +154,9 @@
 				aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
 				// Si el alumno tiene el curso
 				if (mapCurso.containsKey(alumCurso.getCursoId())){
-					curso = mapCurso.get(alumCurso.getCursoId());				
+					curso = mapCurso.get(alumCurso.getCursoId());
 				}
-				
+//---------------------------------------------------------------------------------------------------------------------------------------------------				
 				// Poner Totales
 				/*if (!tipoCurso.equals(curso.getTipocursoId()) && !tipoCurso.equals("0")){
 					
@@ -199,7 +200,7 @@
 					// Completa las columnas del renglon de promedio  
 					out.print("<td colspan='20'></td>");
 				}*/
-				
+//----------------------------------------------------------------------------------------------------------------------------------------				
 				// Tipo de curso
 				tipoCurso = curso.getTipocursoId();
 %>
@@ -246,13 +247,15 @@
 						
 						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
 						// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
-						BigDecimal promEval = new BigDecimal("0", mc); 
+						BigDecimal promEval = new BigDecimal("0", mc);
+						//COLUMNAS TITULADAS "PUNTOS" EN LA TABLA DE CALIFICACIONES
 						if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
 							promEval = new BigDecimal (mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
 						}
 						
 						// Suma los valores de todos los promedios en ciclo_promedio para calcular la nota final
 						// Considera solamente los evaluados
+						//CONVIERTE LOS PUNTOS OBTENIDOS DE EVALUACION BASE 100 A EVALUACION BASE 5
 						if (promEval.compareTo(BigDecimal.ZERO) > 0){
 							sumaValor = sumaValor.add(new BigDecimal(cicloPromedio.getValor(),mc), mc);
 						}
@@ -296,24 +299,25 @@
 						String muestraPromedioFinal = formato2.format(promedioFinal);
 					
 						//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
-						out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
+						//out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
 					}
 %>
-			<td class="text-center" width="5%"><%if(alumCurso.getFNota() == null) out.print("-"); else out.print(alumCurso.getFNota()); %></td>
+			<!--<td class="text-center" width="5%"><%if(alumCurso.getFNota() == null) out.print("-"); else out.print(alumCurso.getFNota()); %></td>
 			<td class="text-center" width="5%"><%if(alumCurso.getNotaExtra() == null) out.print("-"); else out.print(alumCurso.getNotaExtra()); %></td>
-			<td class="text-center" width="5%"><%if(alumCurso.getFExtra() == null) out.print("-"); else out.print(alumCurso.getFExtra()); %></td>
+			<td class="text-center" width="5%"><%if(alumCurso.getFExtra() == null) out.print("-"); else out.print(alumCurso.getFExtra()); %></td> -->
 		</tr>	
 <%						
 			}
-			
+			/*
 			// Colocar el promedio del ultimo tipo de curso
-			/*out.print("<tr class='alert alert-success'>");
+			out.print("<tr class='alert alert-success'>");
 			out.print("<td colspan='2'>Promedio:</td>");
 			
 			double promCiclo 	= 0;
 			int numProm 		= 0;
 			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-				
+			
+			//Este Ciclo coloca las calificaciones en la fila que dice PRIMEDIO penultima fila de la tabla		
 				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
 					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
 						double sumaEval = 0;
