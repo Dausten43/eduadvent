@@ -40,39 +40,7 @@
 	
 	String accion = request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
-	//Checa si estan en desorden
-			ArrayList<aca.ciclo.CicloGpoTema> listTema = TemaL.getListTemasModulo(conElias, cicloGrupoIdTo, cursoIdTo, moduloIdTo, "ORDER BY ORDEN, MODULO_ID");
-			double tmp = 0;
-			boolean desorden = false; 
-			for(aca.ciclo.CicloGpoTema tema: listTema){
-				if(Double.parseDouble((tema.getOrden())) != tmp && Double.parseDouble((tema.getOrden()))-1 == tmp){
-					tmp = Double.parseDouble(tema.getOrden());
-				}else{
-					desorden = true;
-					break;
-				}
-			}
-			//ordena los temas
-			if(desorden){
-				boolean ordeno = true;
-				conElias.setAutoCommit(false);
-				for(int k = 0; k < listTema.size();){
-					aca.ciclo.CicloGpoTema cgt = listTema.get(k);
-					cgt.setOrden(Double.toString((double)++k));
-					if(!cgt.updateReg(conElias)){
-						ordeno = false;
-						msj += " NoSeOrdenaronTemas";
-					}
-					if(!ordeno){
-						conElias.rollback();
-					}else{
-						conElias.commit();
-						msj += " SeOrdenaronTemas";
-					}
-				}
-				conElias.setAutoCommit(true);
-			}
-			//
+	
 	
 	if(accion.equals("1")){//Agregar tema al módulo
 		
@@ -354,6 +322,41 @@
 		}
 		
 	}
+	
+	
+	//Checa si estan en desorden
+	ArrayList<aca.ciclo.CicloGpoTema> listTema = TemaL.getListTemasModulo(conElias, cicloGrupoIdTo, cursoIdTo, moduloIdTo, "ORDER BY ORDEN, MODULO_ID");
+	double tmp = 0;
+	boolean desorden = false; 
+	for(aca.ciclo.CicloGpoTema tema: listTema){
+		if(Double.parseDouble((tema.getOrden())) != tmp && Double.parseDouble((tema.getOrden()))-1 == tmp){
+			tmp = Double.parseDouble(tema.getOrden());
+		}else{
+			desorden = true;
+			break;
+		}
+	}
+	//ordena los temas
+	if(desorden){
+		boolean ordeno = true;
+		conElias.setAutoCommit(false);
+		for(int k = 0; k < listTema.size();){
+			aca.ciclo.CicloGpoTema cgt = listTema.get(k);
+			cgt.setOrden(Double.toString((double)++k));
+			if(!cgt.updateReg(conElias)){
+				ordeno = false;
+				msj += " NoSeOrdenaronTemas";
+			}
+			if(!ordeno){
+				conElias.rollback();
+			}else{
+				conElias.commit();
+				msj += " SeOrdenaronTemas";
+			}
+		}
+		conElias.setAutoCommit(true);
+	}
+	//
 	
 	
 %>
