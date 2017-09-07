@@ -22,9 +22,12 @@
 	String codigoId 	= (String)session.getAttribute("codigoId");
 
 	
-	String msj 			= "";
+	String msj 				= "";
 	String cambiarOrden		= "0";//****
+	String move 			= request.getParameter("move")==null?"0":request.getParameter("move");
+	String temaIdMove		= request.getParameter("temaIdToMove")==null?"":request.getParameter("temaIdToMove");
 	
+			
 	String cicloGrupoIdFrom		= request.getParameter("cicloGrupoIdFrom");
 	String cursoIdFrom 			= request.getParameter("cursoIdFrom");
 	String temaIdFrom			= request.getParameter("temaIdFrom")==null?"0":request.getParameter("temaIdFrom");
@@ -36,6 +39,40 @@
 	
 	
 	String accion = request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	
+	//Checa si estan en desorden
+			ArrayList<aca.ciclo.CicloGpoTema> listTema = TemaL.getListTemasModulo(conElias, cicloGrupoIdTo, cursoIdTo, moduloIdTo, "ORDER BY ORDEN, MODULO_ID");
+			double tmp = 0;
+			boolean desorden = false; 
+			for(aca.ciclo.CicloGpoTema tema: listTema){
+				if(Double.parseDouble((tema.getOrden())) != tmp && Double.parseDouble((tema.getOrden()))-1 == tmp){
+					tmp = Double.parseDouble(tema.getOrden());
+				}else{
+					desorden = true;
+					break;
+				}
+			}
+			//ordena los temas
+			if(desorden){
+				boolean ordeno = true;
+				conElias.setAutoCommit(false);
+				for(int k = 0; k < listTema.size();){
+					aca.ciclo.CicloGpoTema cgt = listTema.get(k);
+					cgt.setOrden(Double.toString((double)++k));
+					if(!cgt.updateReg(conElias)){
+						ordeno = false;
+						msj += " NoSeOrdenaronTemas";
+					}
+					if(!ordeno){
+						conElias.rollback();
+					}else{
+						conElias.commit();
+						msj += " SeOrdenaronTemas";
+					}
+				}
+				conElias.setAutoCommit(true);
+			}
+			//
 	
 	if(accion.equals("1")){//Agregar tema al módulo
 		
@@ -245,7 +282,7 @@
 			
 		conEliasDir.setAutoCommit(true);
 		try{
-			response.sendRedirect("moduloTraspasoTema.jsp?moduloId="+moduloIdFrom+"&temaId="+temaIdFrom+"&msj="+msj+"&cursoIdToFocus="+cursoIdTo);
+			response.sendRedirect("moduloTraspasoTema.jsp?moduloId="+moduloIdFrom+"&temaId="+temaIdFrom+"&msj="+msj+"&cursoIdToFocus="+cursoIdTo+"&moduloIdTo="+moduloIdTo+"&cambiarOrden="+cambiarOrden);//*****
 		}catch(Exception e){
 			System.out.println("portal/maestro/moduloTraspasoTemaAccion.jsp Excepcion:\n"+e);
 			pageContext.setAttribute("resultado", msj);
@@ -260,7 +297,65 @@
 			</body>	
 <%
 		}
+	}else if(accion.equals("3")){//Cambiar de posicion el tema
+		String temaIdTo		= request.getParameter("temaIdTo");
+		conElias.setAutoCommit(false);
+		
+		boolean cambio = true;
+		
+		aca.ciclo.CicloGpoTema tema1 = new aca.ciclo.CicloGpoTema();
+		tema1.mapeaRegId(conElias, cicloGrupoIdTo, temaIdTo, cursoIdTo);
+		
+		aca.ciclo.CicloGpoTema tema2 = new aca.ciclo.CicloGpoTema();
+		tema2.mapeaRegId(conElias, cicloGrupoIdFrom, temaIdMove, cursoIdTo);
+		
+		String ordenTema1 = tema1.getOrden();
+		tema1.setOrden(tema2.getOrden());
+		tema2.setOrden(ordenTema1);
+		
+		if(tema1.updateReg(conElias)){
+			if(tema2.updateReg(conElias)){
+				msj = "SeCambiaronLosTemas";
+			}else{
+				cambio = false;
+				msj = "NoSeCambionTema2";
+			}
+		}else{
+			cambio = false;
+			msj = "NoSeCambioTema1";
+		}
+		
+		if(!cambio){
+			conElias.rollback();
+		}else{
+			conElias.commit();
+			msj = "SeTraspasoPlaneacion";
+			cambiarOrden = "1";
+		}
+			
+		conElias.setAutoCommit(true);
+		try{
+			response.sendRedirect("moduloTraspasoTema.jsp?moduloId="+moduloIdFrom+"&temaId="+temaIdFrom+"&msj="+msj+"&cursoIdToFocus="+cursoIdTo+"&cambiarOrden="+cambiarOrden);
+		}catch(Exception e){
+			System.out.println("portal/maestro/moduloTraspasoTemaAccion.jsp Excepcion:\n"+e);
+			pageContext.setAttribute("resultado", msj);
+%>
+			<head>
+				<meta http-equiv="refresh" content="0; url=moduloTraspasoTema.jsp?moduloId=<%=moduloIdFrom%>&temaId=<%=temaIdFrom%>&msj=<%=msj%>&cursoIdToFocus=<%=cursoIdTo%>&moduloIdTo=<%=moduloIdTo %>&cambiarOrden=<%=cambiarOrden%>" /><!-- ***** -->
+			</head>
+			<!--  Parte que muestra el "se grabó" el tema en el nuevo módulo
+			<body>
+				<div class="alert alert-success">
+					<fmt:message key="aca.${resultado}" />
+				</div>
+			</body> 
+			-->	
+<%
+		}
+		
 	}
+	
+	
 %>
 <%@ include file="../../cierra_elias_dir.jsp" %>
 <%@ include file= "../../cierra_elias.jsp" %>

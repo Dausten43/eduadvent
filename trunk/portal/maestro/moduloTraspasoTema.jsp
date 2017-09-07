@@ -174,6 +174,13 @@
 				ArrayList<aca.ciclo.CicloGpoTema> listTema = TemaL.getListTemasModulo(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId(), cgm.getModuloId(), "ORDER BY ORDEN, MODULO_ID");
 				for(int k = 0; k < listTema.size(); k++){
 					aca.ciclo.CicloGpoTema cgt = listTema.get(k);
+					aca.ciclo.CicloGpoTema cgtTmpUp = cgt, cgtTmpDown = cgt;
+					if(k+1 < listTema.size()){
+						cgtTmpUp   = listTema.get(k+1);
+					}
+					if(k-1 >= 0){
+						cgtTmpDown = listTema.get(k-1);
+					}
 %>
 			<tr>
 				<td colspan="2">&nbsp;</td>
@@ -199,16 +206,18 @@
 					<%} %>
 				</td>
 				<td>
-					<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){ %>
-						<a 
-							class="btn btn-primary" 
-						  	href="#">
-							<i class="icon-chevron-up icon-white"></i>
-						</a>
-						<a 
-							class="btn btn-primary" 
-						  	href="#">
+					<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){
+						String up = "1", down = "-1"; 
+						%>
+						<a 	id="btnUp"
+							class="btn btn-primary"
+						  	href="moduloTraspasoTemaAccion.jsp?Accion=3&cicloGrupoIdFrom=<%=cicloGrupoFrom %>&cursoIdFrom=<%=cursoIdFrom %>&moduloIdFrom=<%=moduloIdFrom %>&temaIdFrom=<%=temaIdFrom %>&cicloGrupoIdTo=<%=cicloGrupoCurso.getCicloGrupoId() %>&cursoIdTo=<%=cicloGrupoCurso.getCursoId() %>&moduloIdTo=<%=cgm.getModuloId() %>&temaIdTo=<%=cgt.getTemaId() %>&temaIdToMove=<%=cgtTmpUp.getTemaId()%>&move=<%=up%>">
 							<i class="icon-chevron-down icon-white"></i>
+						</a>
+						<a  id="btnDown"
+							class="btn btn-primary" 
+						  	href="moduloTraspasoTemaAccion.jsp?Accion=3&cicloGrupoIdFrom=<%=cicloGrupoFrom %>&cursoIdFrom=<%=cursoIdFrom %>&moduloIdFrom=<%=moduloIdFrom %>&temaIdFrom=<%=temaIdFrom %>&cicloGrupoIdTo=<%=cicloGrupoCurso.getCicloGrupoId() %>&cursoIdTo=<%=cicloGrupoCurso.getCursoId() %>&moduloIdTo=<%=cgm.getModuloId() %>&temaIdTo=<%=cgt.getTemaId() %>&temaIdToMove=<%=cgtTmpDown.getTemaId()%>&move=<%=down%>">
+							<i class="icon-chevron-up icon-white"></i>
 						</a>
 					<%} %>
 				</td>
