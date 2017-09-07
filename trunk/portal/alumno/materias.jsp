@@ -143,9 +143,11 @@
 						<div style="float:right;">
 						<% if(!iskinder){ %>
 							<h4>
+							<%if(!escuelaId.contains("H")){ %>
 								  <fmt:message key="aca.Promedio"/> <a  href="detalleCalificacion.jsp?cursoId=<%=cicloGrupoCurso.getCursoId() %>&cicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&ciclo=<%=cicloIdM %>&codigoId=<%=codigoId %>&promedio=<%=notaMateria%>"><%=notaMateria%></a>
-									<%
-									if (krdxCursoAct.getTipoCalId().equals("4") || krdxCursoAct.getTipoCalId().equals("5")){
+							<%}else{%>
+										<a  href="detalleCalificacion.jsp?cursoId=<%=cicloGrupoCurso.getCursoId() %>&cicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&ciclo=<%=cicloIdM %>&codigoId=<%=codigoId %>&promedio=<%=notaMateria%>">Ver evaluación</a>
+									<%}if (krdxCursoAct.getTipoCalId().equals("4") || krdxCursoAct.getTipoCalId().equals("5")){
 										out.println("Extra:["+krdxCursoAct.getNotaExtra()+"]");
 									}
 									%>
