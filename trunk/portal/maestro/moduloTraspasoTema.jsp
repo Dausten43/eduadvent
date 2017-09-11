@@ -142,6 +142,7 @@
 				<td>
 					<fmt:message key="aca.Alumnos" />: <%=KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId() ) %>
 				</td>
+				<td>&nbsp;</td>
 			</tr>
 <%		
 			ArrayList<aca.ciclo.CicloGpoModulo> listModulo	= ModuloL.getListCurso(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId(), "ORDER BY ORDEN, MODULO_ID");
@@ -164,9 +165,11 @@
 					</a>
 				</td>
 				<td>
-					<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){ %>
-						<strong>Orden</strong>
-					<%}%>
+				<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){%>
+					<strong><center>Ordenar:</center></strong>
+				<%}else{ %>
+					&nbsp;
+				<%} %>
 				</td>
 				<td>&nbsp;</td>
 			</tr>
@@ -199,16 +202,10 @@
 					</a>
 				</td>
 				<td>
-					<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){ %>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						&nbsp;&nbsp;&nbsp;
-						<%=cgt.getOrden() %>
-					<%} %>
-				</td>
-				<td>
 					<%if(cursoIdToFocus.equals(cicloGrupoCurso.getCursoId()) && moduloIdTo.equals(cgm.getModuloId())){
 						String up = "1", down = "-1"; 
 						%>
+						<center>
 						<a 	id="btnUp"
 							class="btn btn-primary"
 						  	href="moduloTraspasoTemaAccion.jsp?Accion=3&cicloGrupoIdFrom=<%=cicloGrupoFrom %>&cursoIdFrom=<%=cursoIdFrom %>&moduloIdFrom=<%=moduloIdFrom %>&temaIdFrom=<%=temaIdFrom %>&cicloGrupoIdTo=<%=cicloGrupoCurso.getCicloGrupoId() %>&cursoIdTo=<%=cicloGrupoCurso.getCursoId() %>&moduloIdTo=<%=cgm.getModuloId() %>&temaIdTo=<%=cgt.getTemaId() %>&temaIdToMove=<%=cgtTmpUp.getTemaId()%>&move=<%=up%>">
@@ -219,8 +216,12 @@
 						  	href="moduloTraspasoTemaAccion.jsp?Accion=3&cicloGrupoIdFrom=<%=cicloGrupoFrom %>&cursoIdFrom=<%=cursoIdFrom %>&moduloIdFrom=<%=moduloIdFrom %>&temaIdFrom=<%=temaIdFrom %>&cicloGrupoIdTo=<%=cicloGrupoCurso.getCicloGrupoId() %>&cursoIdTo=<%=cicloGrupoCurso.getCursoId() %>&moduloIdTo=<%=cgm.getModuloId() %>&temaIdTo=<%=cgt.getTemaId() %>&temaIdToMove=<%=cgtTmpDown.getTemaId()%>&move=<%=down%>">
 							<i class="icon-chevron-up icon-white"></i>
 						</a>
+						</center>
+					<%}else{ %>
+					&nbsp;
 					<%} %>
 				</td>
+				<td>&nbsp;</td>
 			</tr>
 <%					
 				}
