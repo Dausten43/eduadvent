@@ -157,7 +157,7 @@
 				}
 				
 				// Poner Totales
-				if (!tipoCurso.equals(curso.getTipocursoId()) && !tipoCurso.equals("0")){
+				/*if (!tipoCurso.equals(curso.getTipocursoId()) && !tipoCurso.equals("0")){
 					
 					out.print("<tr class='alert alert-success'>");
 					out.print("<td colspan='2'>Promedio:</td>");
@@ -201,7 +201,7 @@
 					
 					// Completa las columnas del renglon de promedio  
 					out.print("<td colspan='20'></td>");
-				}
+				}*/
 				
 				// Tipo de curso
 				tipoCurso = curso.getTipocursoId();
@@ -315,7 +315,7 @@
 			}
 			
 			// Colocar el promedio del ultimo tipo de curso
-			out.print("<tr class='alert alert-success'>");
+			/*out.print("<tr class='alert alert-success'>");
 			out.print("<td colspan='2'>Promedio:</td>");
 			
 			BigDecimal promCiclo 	= new BigDecimal("0",mc);
@@ -396,7 +396,7 @@
 				promCiclo  = new BigDecimal("0",mc);
 			}
 			// Completa las columnas del renglon de promedio  
-			out.print("<td colspan='20'></td>");
+			out.print("<td colspan='20'></td>");*/
 %>
 	</table>	
 <%		} // for de ciclos
