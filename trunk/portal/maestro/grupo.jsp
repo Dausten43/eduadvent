@@ -21,9 +21,12 @@
 	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("###,##0.0;-###,##0.0");
 	java.text.DecimalFormat frmDecimal2 = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 	
+	java.text.DecimalFormat frm3 = new java.text.DecimalFormat("###,##0.0000;(###,##0.0000)");
+	
 	java.math.MathContext mc = new java.math.MathContext(8,RoundingMode.HALF_UP);
 	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
+	frm3.setRoundingMode(java.math.RoundingMode.DOWN);
 	
 	String escuelaId	= (String) session.getAttribute("escuela");
 	String empleadoId 	= (String) session.getAttribute("codigoId");
@@ -300,7 +303,7 @@
 	<%				
 					//Calcula el promedio del alumno
 					if(curso.getCursoBase().equals("-") && curso.getBoleta().equals("S")){ // Si es materia madre y se muestra en boleta
-						promAlum = promAlum.add(new BigDecimal(frmDecimal2.format(Double.valueOf(nota)), mc), mc);
+						promAlum = promAlum.add(new BigDecimal(nota, mc), mc);
 						numMaterias++;
 					}
 					
@@ -324,7 +327,11 @@
 									style="width:100%;height:100%;text-align:center;"
 									title="<%=nombreAlumno%>"
 								>
-								<%=frmDecimal2.format(promAlum)%>
+								<%if(escuelaId.contains("H")){%>
+									<%=frm3.format(promAlum)%>
+								<%}else{%>
+									<%=frmDecimal2.format(promAlum)%>
+								<%} %>
 								</div>
 							</td>
 						</tr>
