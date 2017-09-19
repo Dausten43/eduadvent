@@ -123,7 +123,16 @@ public class UtilCiclo {
 	public Map<String, RepPromedio> getPromedios(String ciclo_id, String ciclo_gpo_id, String materia, String evaluacion_id, String nivel,String orden){
 		String comando  ="";
 		if(nivel.equals("E")){
-		comando = "select ke.ciclo_grupo_id "
+			System.out.println("fue evalua");
+			comando = "select ciclo_grupo_id, grupo_nombre, grado, grupo,codigo_id, alumno, "
+					+ "  sum(suma) as suma, count(periodo), sum(promedio)/count(periodo) as promedio, '" + evaluacion_id + "' as periodo  ";
+			
+			if(!materia.equals("")){
+				comando += ", curso_id , materia ";
+			}else{
+				comando+=",0 as materias ";
+			}
+			comando	+= "from (select ke.ciclo_grupo_id "
 				+ ", cg.grupo_nombre , cg.grado, cg.grupo "
 				+ ", ke.codigo_id "
 				+ ", alum_apellido(ke.codigo_id) as alumno "
@@ -156,8 +165,12 @@ public class UtilCiclo {
 			if(!materia.equals("")){		
 				comando+= ", curso_id   ";
 			}
+			comando +=") as prom group by ciclo_grupo_id, grupo_nombre, grado, grupo, codigo_id, alumno  ";
+			if(!materia.equals("")){		
+				comando+= ", curso_id , materia  ";
+			}
 			if(orden.equals("")){
-				comando+= "order by promedio desc";
+				comando+= "order by  promedio desc";
 			}else{
 				comando+= orden;
 			}
@@ -165,7 +178,16 @@ public class UtilCiclo {
 			}
 		
 			if(nivel.equals("P")){
-				comando = "select ke.ciclo_grupo_id "
+				System.out.println("fue promedia");
+				comando = "select ciclo_grupo_id, grupo_nombre, grado, grupo,codigo_id, alumno, "
+						+ "  sum(suma) as suma, count(periodo), sum(promedio)/count(periodo) as promedio, '" + evaluacion_id + "' as periodo  ";
+				
+				if(!materia.equals("")){
+					comando += ", curso_id , materia ";
+				}else{
+					comando+=",0 as materias ";
+				}
+				comando	+= "from (select ke.ciclo_grupo_id "
 						+ ", cg.grupo_nombre , cg.grado, cg.grupo  "
 						+ ", ke.codigo_id "
 						+ ", alum_apellido(ke.codigo_id) as alumno "
@@ -186,19 +208,25 @@ public class UtilCiclo {
 				}
 						comando+= "and ke.promedio_id in ("+evaluacion_id+")   "
 						+ "and ke.curso_id in (select curso_id "
-						+ "from plan_curso where	curso_base='-')   "
-						+ "and ke.curso_id in (select curso_id "
-						+ "from ciclo_grupo_eval "
-						+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado='C' and evaluacion_id=ke.promedio_id )   "
+						+ "from plan_curso where	curso_base='-')  "
+						+ "and curso_id ||'-'||promedio_id in (select curso_id ||'-'||promedio_id "
+						+ "from (select curso_id, promedio_id, sum(case when estado='A' then 1 else 0 end) activos "
+						+ "from ciclo_grupo_eval where ciclo_grupo_id='"+ciclo_gpo_id+"' "
+								+ "group by curso_id, promedio_id) cge where cge.activos=0 )"
 						+ "group by   "
 						+ "ke.ciclo_grupo_id  "
 						+ ", grupo_nombre  , cg.grado, cg.grupo "
 						+ ", ke.promedio_id  "
 						+ ", ke.codigo_id  ";
 					if(!materia.equals("")){		
+						
 						comando+= ", curso_id   ";
 					}
 					
+					comando +=") as prom group by ciclo_grupo_id, grupo_nombre, grado, grupo, codigo_id, alumno  ";
+					if(!materia.equals("")){		
+						comando+= ", curso_id , materia  ";
+					}
 					if(orden.equals("")){
 						comando+= "order by  promedio desc";
 					}else{
@@ -224,14 +252,14 @@ public class UtilCiclo {
 				r.setCurso_id(rs.getString("curso_id"));
 				r.setNombre_materia(rs.getString("materia"));
 			}
-			r.setEvaluacion_id(rs.getInt("periodo"));
-			r.setNumMaterias(rs.getInt("materias"));
+			r.setEvaluacion_id("0");
+			r.setNumMaterias(0);
 			r.setPromedio(rs.getBigDecimal("promedio"));
 			r.setSuma(rs.getBigDecimal("suma"));
 			if(!materia.equals("")){
-				salida.put(r.getCiclo_gpo_id() + "||"+r.getCodigo_id() + "||"+r.getEvaluacion_id() + "||"+r.getCurso_id(), r);
+				salida.put(r.getCiclo_gpo_id() + "||"+r.getCodigo_id() + "||"+r.getCurso_id(), r);
 			}else{
-				salida.put(r.getCiclo_gpo_id() + "||"+r.getCodigo_id() + "||"+r.getEvaluacion_id(), r);
+				salida.put(r.getCiclo_gpo_id() + "||"+r.getCodigo_id() , r);
 			}
 			}
 			

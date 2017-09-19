@@ -7,7 +7,7 @@ public class RepPromedio {
 	public String ciclo_nombre;
 	public String codigo_id;
 	public String nombre_alumno;
-	public Integer evaluacion_id;
+	public String evaluacion_id;
 	public String curso_id;
 	public String nombre_materia;
 	public BigDecimal suma;
@@ -72,10 +72,10 @@ public class RepPromedio {
 	public void setCodigo_id(String codigo_id) {
 		this.codigo_id = codigo_id;
 	}
-	public Integer getEvaluacion_id() {
+	public String getEvaluacion_id() {
 		return evaluacion_id;
 	}
-	public void setEvaluacion_id(Integer evaluacion_id) {
+	public void setEvaluacion_id(String evaluacion_id) {
 		this.evaluacion_id = evaluacion_id;
 	}
 	public String getCurso_id() {
