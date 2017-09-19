@@ -126,9 +126,9 @@ if(request.getParameter("genera_reporte")!=null){
 		<th>#</th>
 		<th>Grupo</th>
 		<th>Alumno</th>
-		<th>Periodo</th>
+<!-- 		<th>Periodo</th> -->
 		<% if(materia.equals("")){ %>
-		<th>Materias Evaluadas</th>
+<!-- 		<th>Materias Evaluadas</th> -->
 		<% }else{ %>
 		<th>Materia</th>
 		<% } %>
@@ -144,9 +144,9 @@ if(request.getParameter("genera_reporte")!=null){
 		<td><%= cont %></td>
 		<td><%= mapPromediosF.get(idProm).getCiclo_nombre() %></td>
 		<td><%= mapPromediosF.get(idProm).getCodigo_id() %> <%= mapPromediosF.get(idProm).getNombre_alumno() %></td>
-		<td><%= mapPromediosF.get(idProm).getEvaluacion_id() %></td>
+<%-- 		<td><%= mapPromediosF.get(idProm).getEvaluacion_id() %></td> --%>
 		<% if(materia.equals("")){ %>
-		<td><%= mapPromediosF.get(idProm).getNumMaterias() %></td>
+<%-- 		<td><%= mapPromediosF.get(idProm).getNumMaterias() %></td> --%>
 		<% }else{ %>
 		<td><%= mapPromediosF.get(idProm).getNombre_materia() %></td>
 		<% } %>
