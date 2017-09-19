@@ -16,12 +16,21 @@ public class CalificacionesCriterios {
     private String criterio;
     private String trimestre;
     private String nota;
+    private String notaB;
+    private String notaC;
+    private String notaD;
+    private String notaE;
+    private String notaF;
+    private String notaG;
+    private String notaH;
+    private String notaI;
+    private String notaJ;
 
     @Override
     public String toString() {
-        return "CalificacionesCriterios{" + "area_id=" + area_id + ", area=" + area + ", criterio_id=" + criterio_id + ", criterio=" + criterio + ", trimestre=" + trimestre + ", nota=" + nota + '}';
+        return "CalificacionesCriterios{" + "area_id=" + area_id + ", area=" + area + ", criterio_id=" + criterio_id + ", criterio=" + criterio + ", trimestre=" + trimestre + ", nota=" + nota + ", notaB=" + notaB + ", notaC=" + notaC + ", notaD=" + notaD + ", notaE=" + notaE + ", notaF=" + notaF + ", notaG=" + notaG + ", notaH=" + notaH + ", notaI=" + notaI + ", notaJ=" + notaJ + '}';
     }
-
+    
     /**
      * @return the area_id
      */
@@ -104,6 +113,132 @@ public class CalificacionesCriterios {
      */
     public void setNota(String nota) {
         this.nota = nota;
+    }
+
+    /**
+     * @return the notaB
+     */
+    public String getNotaB() {
+        return notaB;
+    }
+
+    /**
+     * @param notaB the notaB to set
+     */
+    public void setNotaB(String notaB) {
+        this.notaB = notaB;
+    }
+
+    /**
+     * @return the notaC
+     */
+    public String getNotaC() {
+        return notaC;
+    }
+
+    /**
+     * @param notaC the notaC to set
+     */
+    public void setNotaC(String notaC) {
+        this.notaC = notaC;
+    }
+
+    /**
+     * @return the notaD
+     */
+    public String getNotaD() {
+        return notaD;
+    }
+
+    /**
+     * @param notaD the notaD to set
+     */
+    public void setNotaD(String notaD) {
+        this.notaD = notaD;
+    }
+
+    /**
+     * @return the notaE
+     */
+    public String getNotaE() {
+        return notaE;
+    }
+
+    /**
+     * @param notaE the notaE to set
+     */
+    public void setNotaE(String notaE) {
+        this.notaE = notaE;
+    }
+
+    /**
+     * @return the notaF
+     */
+    public String getNotaF() {
+        return notaF;
+    }
+
+    /**
+     * @param notaF the notaF to set
+     */
+    public void setNotaF(String notaF) {
+        this.notaF = notaF;
+    }
+
+    /**
+     * @return the notaG
+     */
+    public String getNotaG() {
+        return notaG;
+    }
+
+    /**
+     * @param notaG the notaG to set
+     */
+    public void setNotaG(String notaG) {
+        this.notaG = notaG;
+    }
+
+    /**
+     * @return the notaH
+     */
+    public String getNotaH() {
+        return notaH;
+    }
+
+    /**
+     * @param notaH the notaH to set
+     */
+    public void setNotaH(String notaH) {
+        this.notaH = notaH;
+    }
+
+    /**
+     * @return the notaI
+     */
+    public String getNotaI() {
+        return notaI;
+    }
+
+    /**
+     * @param notaI the notaI to set
+     */
+    public void setNotaI(String notaI) {
+        this.notaI = notaI;
+    }
+
+    /**
+     * @return the notaJ
+     */
+    public String getNotaJ() {
+        return notaJ;
+    }
+
+    /**
+     * @param notaJ the notaJ to set
+     */
+    public void setNotaJ(String notaJ) {
+        this.notaJ = notaJ;
     }
     
     

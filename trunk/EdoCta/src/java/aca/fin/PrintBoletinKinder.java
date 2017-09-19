@@ -47,6 +47,7 @@ public class PrintBoletinKinder extends HttpServlet {
         try {
             Class.forName("org.postgresql.Driver");
             con = (DriverManager.getConnection("jdbc:postgresql://172.16.7.77:5432/elias", "postgres", "jete17"));
+            //con = (DriverManager.getConnection("jdbc:postgresql://localhost:8432/elias", "postgres", "jete17"));
 
         } catch (SQLException sqle) {
             System.err.println("Error al conectar postgres centauro " + sqle);
@@ -251,11 +252,16 @@ public class PrintBoletinKinder extends HttpServlet {
 
                 List<CalificacionesCriterios> lscc = new ArrayList();
 
+                List<Integer> lsPeriodos = new ArrayList();
+                lsPeriodos.add(new Integer("1"));
+                lsPeriodos.add(new Integer("2"));
+                lsPeriodos.add(new Integer("3"));
+                
                 for (String cri : lsCriteriosAreas) {
                     CalificacionesCriterios cc = new CalificacionesCriterios();
                     //System.out.println("CRITERIO ANTES DEL SPLIT    "+cri);
                     String[] txtSplit = cri.split("\t");
-                    //System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
+                    System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
                     cc.setArea(txtSplit[1].trim());
                     cc.setArea_id(new Long(txtSplit[0].trim()));
                     cc.setCriterio(txtSplit[3].trim());
@@ -264,27 +270,29 @@ public class PrintBoletinKinder extends HttpServlet {
                     if (mapPromedios.containsKey(new Integer("1"))) {
                         //System.out.println("si tiene primer trimestre");
                         if (mapPromedios.get(new Integer("1")).containsKey(cc.getCriterio_id())) {
-                            //System.out.println("si tiene criterio con eva " + mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
+                            System.out.println("si tiene criterio con eva 1" + mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
                             cc.setTrimestre("1");
                             cc.setNota(mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
                         }
                     }
 
-                    if (mapPromedios.containsKey(2)) {
-                        if (mapPromedios.get(2).containsKey(cc.getCriterio_id())) {
+                    if (mapPromedios.containsKey(new Integer("2"))) {
+                        if (mapPromedios.get(new Integer("2")).containsKey(cc.getCriterio_id())) {
+                            System.out.println("si tiene criterio con eva 2" + mapPromedios.get(new Integer("2")).get(cc.getCriterio_id()));
                             cc.setTrimestre("2");
-                            cc.setNota(mapPromedios.get(2).get(cc.getCriterio_id()));
+                            cc.setNotaB(mapPromedios.get(new Integer("2")).get(cc.getCriterio_id()));
                         }
                     }
 
-                    if (mapPromedios.containsKey(3)) {
-                        if (mapPromedios.get(3).containsKey(cc.getCriterio_id())) {
+                    if (mapPromedios.containsKey(new Integer("3"))) {
+                        if (mapPromedios.get(new Integer("3")).containsKey(cc.getCriterio_id())) {
+                            System.out.println("si tiene criterio con eva 3" + mapPromedios.get(new Integer("3")).get(cc.getCriterio_id()));
                             cc.setTrimestre("3");
-                            cc.setNota(mapPromedios.get(3).get(cc.getCriterio_id()));
+                            cc.setNotaC(mapPromedios.get(new Integer("3")).get(cc.getCriterio_id()));
                         }
                     }
 
-                    //System.out.println(cc.toString());
+                    System.out.println(cc.toString());
                     lscc.add(cc);
                 }
                 // System.out.println(ac.toString());

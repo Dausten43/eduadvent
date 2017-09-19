@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 5.5.2  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin_panama" language="groovy" pageWidth="368" pageHeight="595" columnWidth="368" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="81052afb-e169-4fbe-9c7c-a8625710344e">
 	<property name="ireport.zoom" value="7.0"/>
 	<property name="ireport.x" value="0"/>
@@ -24,6 +25,15 @@
 	<field name="area_id" class="java.lang.Long">
 		<fieldDescription><![CDATA[area_id]]></fieldDescription>
 	</field>
+	<field name="notaB" class="java.lang.String"/>
+	<field name="notaC" class="java.lang.String"/>
+	<field name="notaD" class="java.lang.String"/>
+	<field name="notaE" class="java.lang.String"/>
+	<field name="notaF" class="java.lang.String"/>
+	<field name="notaG" class="java.lang.String"/>
+	<field name="notaH" class="java.lang.String"/>
+	<field name="notaJ" class="java.lang.String"/>
+	<field name="notaI" class="java.lang.String"/>
 	<variable name="CONTADOR_LINEA" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[new java.lang.Integer(!$F{criterio_id}.equals(0L) ? 1 : 0)]]></variableExpression>
 	</variable>
@@ -139,7 +149,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{trimestre}.equals("2") ? $F{nota} : "-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{notaB}!=null ? $F{notaB} : "-"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement stretchType="RelativeToBandHeight" x="334" y="20" width="35" height="14" uuid="2a18bb3d-2fa2-43c4-86b2-1c87fe6ac766"/>
@@ -152,7 +162,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{trimestre}.equals("3") ? $F{nota} : "-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{notaC}!=null ? $F{notaC} : "-"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement stretchType="RelativeToBandHeight" x="266" y="20" width="34" height="14" uuid="9f8e453b-9d04-493b-92ee-02bc1d238880"/>
@@ -165,7 +175,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{trimestre}.equals("1") ? $F{nota} : "-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nota}!=null ? $F{nota} : "-"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement stretchType="RelativeToBandHeight" x="0" y="20" width="31" height="14" uuid="dd1669d0-aa2e-423f-b90b-dad91d5e3486"/>
