@@ -211,7 +211,7 @@ public class UtilCiclo {
 						+ "from plan_curso where	curso_base='-')  "
 						+ "and ke.curso_id in (select curso_id "
 						+ "from ciclo_grupo_eval "
-						+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado in('A','C') and evaluacion_id=ke.evaluacion_id )   "
+						+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado in('A','C') and evaluacion_id=ke.promedio_id )   "
 //						+ "and curso_id ||'-'||promedio_id in (select curso_id ||'-'||promedio_id "
 //						+ "from (select curso_id, promedio_id, sum(case when estado='A' then 1 else 0 end) activos "
 //						+ "from ciclo_grupo_eval where ciclo_grupo_id='"+ciclo_gpo_id+"' "
