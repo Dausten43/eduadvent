@@ -15,12 +15,18 @@
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista"/>
 <jsp:useBean id="GrupoEvalLista" scope="page" class="aca.ciclo.CicloGrupoEvalLista"/>
+<jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <%	
 
 	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("###,##0.0;-###,##0.0");
 	java.text.DecimalFormat frmDecimal2 = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat frm3 		= new java.text.DecimalFormat("###,##0.0000;(###,##0.0000)");
 	
-	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
+	//
+	java.text.DecimalFormat frmD 		= new java.text.DecimalFormat();
+	//	
+
+	java.math.MathContext mc = new java.math.MathContext(8,RoundingMode.HALF_UP);
 	
 	String escuelaId	= (String) session.getAttribute("escuela");
 	String empleadoId 	= (String) session.getAttribute("codigoEmpleado");
@@ -30,6 +36,29 @@
 		session.setAttribute("cicloId", request.getParameter("Ciclo"));
 	}
 	String cicloId 		= (String)session.getAttribute("cicloId");
+	Ciclo.mapeaRegId(conElias, cicloId);
+	System.out.println(Ciclo.getDecimales());
+	
+	//checa cuantos decimales quiere
+	if(Ciclo.getDecimales().equals("1")){
+		frmD.applyPattern("###,##0.0;-###,##0.0");
+	}else if(Ciclo.getDecimales().equals("2")){
+		frmD.applyPattern("###,##0.00;-###,##0.00");
+	}else if(Ciclo.getDecimales().equals("3")){
+		frmD.applyPattern("###,##0.000;-###,##0.000");
+	}
+	
+	if(Ciclo.getRedondeo().equals("T")){//Si se trunca
+		frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
+		frmDecimal2.setRoundingMode(java.math.RoundingMode.DOWN);
+		frm3.setRoundingMode(java.math.RoundingMode.DOWN);
+		frmD.setRoundingMode(java.math.RoundingMode.DOWN);
+	}else{//Si se redondea
+		frmDecimal.setRoundingMode(java.math.RoundingMode.HALF_UP);
+		frmDecimal2.setRoundingMode(java.math.RoundingMode.HALF_UP);
+		frm3.setRoundingMode(java.math.RoundingMode.HALF_UP);
+		frmD.setRoundingMode(java.math.RoundingMode.HALF_UP);
+	}
 	
 	String grupo 		= request.getParameter("Grupo")==null?"X":request.getParameter("Grupo");
 	
@@ -215,7 +244,7 @@
 			String nombreAlumno = aca.alumno.AlumPersonal.getNombre(conElias, alumno, "APELLIDO");
 			
 			// Calcula el promedio del alumno
-			double promAlum = 0;
+			BigDecimal promAlum = new BigDecimal("0", mc);
 			int numMaterias = 0;
 		
 	%>
@@ -259,7 +288,10 @@
 					}
 					// Seccion para promediar de acuerdo al tipo de materia(Oficial, no oficial e ingles)
 					// Pendiente de implementar en la presentación de los datos
-					tipoCurso = aca.plan.PlanCurso.getTipocurso(conElias,kardex.getCursoId());
+					aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
+					curso.mapeaRegId(conElias, kardex.getCursoId());
+					//tipoCurso = aca.plan.PlanCurso.getTipocurso(conElias,kardex.getCursoId());
+					tipoCurso = curso.getTipocursoId();
 					if (nota!=null && !nota.equals("0")){
 						if ( tipoCurso.equals("1")){
 							tipo1++;
@@ -280,35 +312,39 @@
 									style="width:100%;height:100%;text-align:center;"
 									title="<%=materias[i] %> "
 								>
-								<%=frmDecimal.format(Double.valueOf(nota))%>
+								<%= frmD.format(Double.valueOf(nota)) %>
+								<!--//frmDecimal.format(Double.valueOf(nota))-->
 								</div>
 							</td>
-	<%				
+	<% 			
 					//Calcula el promedio del alumno
-					promAlum += Double.valueOf(nota);
-					numMaterias++;
+					if(curso.getCursoBase().equals("-") && curso.getBoleta().equals("S")){ // Si es materia madre y se muestra en boleta
+						promAlum = promAlum.add(new BigDecimal(nota, mc), mc);
+						numMaterias++;
+					}
 					
 				}else{
-	%>				
+	%>
 							<td>
-								<div 
-									style="width:100%;height:100%;text-align:center;"
-									title="<%=materias[i] %> "
-								>
+								<div style="width:100%;height:100%;text-align:center;" title="<%=materias[i] %> ">
 								X
 								</div>
 							</td>
 	<%						
 				}
 			} // fin de for de lista de materias
-			promAlum = promAlum/numMaterias;
+			promAlum = promAlum.divide(new BigDecimal(numMaterias+"", mc), mc);
 	%>
 							<td>
 								<div 
 									style="width:100%;height:100%;text-align:center;"
 									title="<%=nombreAlumno%>"
 								>
-								<%=frmDecimal.format(promAlum)%>
+								<%if(escuelaId.contains("H")){%>
+									<%=frm3.format(promAlum)%>
+								<%}else{%>
+									<%=frmDecimal2.format(promAlum)%>
+								<%} %>
 								</div>
 							</td>
 						</tr>

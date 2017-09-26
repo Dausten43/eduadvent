@@ -20,12 +20,14 @@
 
 	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("###,##0.0;-###,##0.0");
 	java.text.DecimalFormat frmDecimal2 = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat frm3 		= new java.text.DecimalFormat("###,##0.0000;(###,##0.0000)");
 	
-	java.text.DecimalFormat frm3 = new java.text.DecimalFormat("###,##0.0000;(###,##0.0000)");
+	//
+	java.text.DecimalFormat frmD 		= new java.text.DecimalFormat();
+	//
 	
 	java.math.MathContext mc = new java.math.MathContext(8,RoundingMode.HALF_UP);
-	
-	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
+
 	frm3.setRoundingMode(java.math.RoundingMode.DOWN);
 	
 	String escuelaId	= (String) session.getAttribute("escuela");
@@ -37,13 +39,27 @@
 	}
 	String cicloId 		= (String)session.getAttribute("cicloId");
 	ciclo.mapeaRegId(conElias, cicloId);
-	if(ciclo.getRedondeo().equals("T")){//Si se trunca
-		frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
-		frmDecimal2.setRoundingMode(java.math.RoundingMode.DOWN);
-	}else{//Si se redondea
-		frmDecimal.setRoundingMode(java.math.RoundingMode.HALF_UP);
-		frmDecimal2.setRoundingMode(java.math.RoundingMode.HALF_UP);
-	}
+
+	//checa cuantos decimales quiere
+		if(ciclo.getDecimales().equals("1")){
+			frmD.applyPattern("###,##0.0;-###,##0.0");
+		}else if(ciclo.getDecimales().equals("2")){
+			frmD.applyPattern("###,##0.00;-###,##0.00");
+		}else if(ciclo.getDecimales().equals("3")){
+			frmD.applyPattern("###,##0.000;-###,##0.000");
+		}
+		
+		if(ciclo.getRedondeo().equals("T")){//Si se trunca
+			frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
+			frmDecimal2.setRoundingMode(java.math.RoundingMode.DOWN);
+			frm3.setRoundingMode(java.math.RoundingMode.DOWN);
+			frmD.setRoundingMode(java.math.RoundingMode.DOWN);
+		}else{//Si se redondea
+			frmDecimal.setRoundingMode(java.math.RoundingMode.HALF_UP);
+			frmDecimal2.setRoundingMode(java.math.RoundingMode.HALF_UP);
+			frm3.setRoundingMode(java.math.RoundingMode.HALF_UP);
+			frmD.setRoundingMode(java.math.RoundingMode.HALF_UP);
+		}
 	
 	String grupo 		= request.getParameter("Grupo")==null?"X":request.getParameter("Grupo");
 	
