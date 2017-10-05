@@ -118,15 +118,18 @@ public class CicloGrupoTareaLista {
 					" FROM CICLO_GRUPO_TAREA WHERE CICLO_GRUPO_ID||CURSO_ID " +
 					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )"
 							+ " and SUBSTR(CICLO_GRUPO_ID,1,8) = (SELECT CICLO_ID FROM alum_ciclo where codigo_id='"+codigoId+"' "
-						    + "and ciclo_id in (select ciclo_id from ciclo where extract(year from current_timestamp)= CAST (ciclo_escolar AS INTEGER)) and estado='I')  "+orden;
+						    + "and ciclo_id in (select ciclo_id from ciclo where current_timestamp BETWEEN f_inicial AND f_final) and estado='I')  "+orden;
 			String comandob = " SELECT distinct(extract(WEEK FROM fecha))  , to_char(extract(WEEK FROM fecha),'09') we , extract(YEAR FROM fecha) ye, SUBSTR(CICLO_GRUPO_ID,1,8) cicloid " +
 					" FROM CICLO_GRUPO_ACTIVIDAD " +
 					" WHERE CICLO_GRUPO_ID||CURSO_ID " +
 					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )" +
 					" and SUBSTR(CICLO_GRUPO_ID,1,8) = (SELECT CICLO_ID FROM alum_ciclo where codigo_id='"+codigoId+"'"
-					+ " and estado='I' and ciclo_id in (select ciclo_id from ciclo where extract(year from current_timestamp)= CAST (ciclo_escolar AS INTEGER))) and MOSTRAR='S' "+
+					+ " and estado='I' and ciclo_id in (select ciclo_id from ciclo where current_timestamp BETWEEN f_inicial AND f_final)) and MOSTRAR='S' "+
 					orden;
-			rs = st.executeQuery(comando);			
+			rs = st.executeQuery(comando);	
+			
+			System.out.println(comando);
+			System.out.println(comandob);
 			
 			while (rs.next()){
 				salida.add(rs.getString("ye") + "-" +rs.getString("we"));
@@ -194,7 +197,7 @@ public class CicloGrupoTareaLista {
 					" FROM CICLO_GRUPO_TAREA WHERE CICLO_GRUPO_ID||CURSO_ID " +
 					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' ) "
 						+ " and SUBSTR(CICLO_GRUPO_ID,1,8) = (SELECT CICLO_ID FROM alum_ciclo where codigo_id='"+codigoId+"' "
-						    + "and ciclo_id in (select ciclo_id from ciclo where extract(year from current_timestamp)= CAST (ciclo_escolar AS INTEGER)) and estado='I') "
+						    + "and ciclo_id in (select ciclo_id from ciclo where current_timestamp BETWEEN f_inicial AND f_final) and estado='I') "
 								+ " and extract(YEAR FROM fecha)=" + txtSplit[0] + " and extract(WEEK FROM fecha)=" + txtSplit[1]  + " "+orden;
 			
 			rs = st.executeQuery(comando);			
