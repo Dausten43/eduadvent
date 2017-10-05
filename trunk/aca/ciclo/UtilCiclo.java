@@ -142,7 +142,12 @@ public class UtilCiclo {
 		}
 				comando += ", sum(ke.nota) suma "
 				+ ", count(ke.curso_id) materias "
-				+ ", sum(ke.nota)/count(ke.nota) promedio   "
+				+ ", sum(ke.nota)/(select count(curso_id) from krdx_curso_act "
+				+ "where ciclo_grupo_id=ke.ciclo_grupo_id and codigo_id=ke.codigo_id ";
+				if(!materia.equals("")){
+							comando += " and curso_id =ke.curso_id ";
+				}		
+						comando+= "and curso_id in (select curso_id from plan_curso where	curso_base='-'  and boleta='S')) promedio   "
 				+ "from krdx_alum_eval ke  "
 				+ "join ciclo_grupo cg on cg.	ciclo_grupo_id=ke.ciclo_grupo_id "
 				+ "where   ";
@@ -153,10 +158,10 @@ public class UtilCiclo {
 		}
 				comando+= "and ke.evaluacion_id in ("+evaluacion_id+")   "
 				+ "and ke.curso_id in (select curso_id "
-				+ "from plan_curso where	curso_base='-')   "
-				+ "and ke.curso_id in (select curso_id "
-				+ "from ciclo_grupo_eval "
-				+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado in('A','C') and evaluacion_id=ke.evaluacion_id )   "
+				+ "from plan_curso where	curso_base='-'  and boleta='S')   "
+//				+ "and ke.curso_id in (select curso_id "
+//				+ "from ciclo_grupo_eval "
+//				+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado in('C') and evaluacion_id=ke.evaluacion_id )   "
 				+ "group by   "
 				+ "ke.ciclo_grupo_id  "
 				+ ", grupo_nombre  , cg.grado, cg.grupo "
@@ -197,7 +202,12 @@ public class UtilCiclo {
 				}
 						comando += ", sum(ke.nota) suma "
 						+ ", count(ke.curso_id) materias "
-						+ ", sum(ke.nota)/count(ke.nota) promedio   "
+						+ ", sum(ke.nota)/(select count(curso_id) from krdx_curso_act "
+						+ "where ciclo_grupo_id=ke.ciclo_grupo_id and codigo_id=ke.codigo_id ";
+				if(!materia.equals("")){
+							comando += " and curso_id =ke.curso_id ";
+				}		
+						comando+= "and curso_id in (select curso_id from plan_curso where	curso_base='-'  and boleta='S')) promedio   "
 						+ "from krdx_alum_prom ke  "
 						+ "join ciclo_grupo cg on cg.ciclo_grupo_id=ke.ciclo_grupo_id "
 						+ "where   ";
@@ -208,10 +218,10 @@ public class UtilCiclo {
 				}
 						comando+= "and ke.promedio_id in ("+evaluacion_id+")   "
 						+ "and ke.curso_id in (select curso_id "
-						+ "from plan_curso where	curso_base='-')  "
-						+ "and ke.curso_id in (select curso_id "
-						+ "from ciclo_grupo_eval "
-						+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado in('A','C') and evaluacion_id=ke.promedio_id )   "
+						+ "from plan_curso where	curso_base='-'  and boleta='S')  "
+//						+ "and ke.curso_id in (select curso_id "
+//						+ "from ciclo_grupo_eval "
+//						+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado in('C') and evaluacion_id=ke.promedio_id )   "
 //						+ "and curso_id ||'-'||promedio_id in (select curso_id ||'-'||promedio_id "
 //						+ "from (select curso_id, promedio_id, sum(case when estado='A' then 1 else 0 end) activos "
 //						+ "from ciclo_grupo_eval where ciclo_grupo_id='"+ciclo_gpo_id+"' "
@@ -242,6 +252,7 @@ public class UtilCiclo {
 			
 		try{
 			PreparedStatement pst = con.prepareStatement(comando);
+			//System.out.println(pst);
 			ResultSet rs = pst.executeQuery();
 			
 			while(rs.next()){
