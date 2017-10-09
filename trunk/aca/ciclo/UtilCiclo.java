@@ -158,7 +158,7 @@ public class UtilCiclo {
 		}
 				comando+= "and ke.evaluacion_id in ("+evaluacion_id+")   "
 				+ "and ke.curso_id in (select curso_id "
-				+ "from plan_curso where	curso_base='-'  and boleta='S')   "
+				+ "from plan_curso where	curso_base='-'  and boleta='S')   and ke.codigo_id || ke.curso_id in (select codigo_id || curso_id from krdx_curso_act where ciclo_grupo_id=ke.ciclo_grupo_id) "
 //				+ "and ke.curso_id in (select curso_id "
 //				+ "from ciclo_grupo_eval "
 //				+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado in('C') and evaluacion_id=ke.evaluacion_id )   "
@@ -218,7 +218,7 @@ public class UtilCiclo {
 				}
 						comando+= "and ke.promedio_id in ("+evaluacion_id+")   "
 						+ "and ke.curso_id in (select curso_id "
-						+ "from plan_curso where	curso_base='-'  and boleta='S')  "
+						+ "from plan_curso where	curso_base='-'  and boleta='S') and ke.codigo_id || ke.curso_id in (select codigo_id || curso_id from krdx_curso_act where ciclo_grupo_id=ke.ciclo_grupo_id) "
 //						+ "and ke.curso_id in (select curso_id "
 //						+ "from ciclo_grupo_eval "
 //						+ "where ciclo_grupo_id=ke.ciclo_grupo_id and estado in('C') and evaluacion_id=ke.promedio_id )   "
