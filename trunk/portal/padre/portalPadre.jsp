@@ -81,7 +81,7 @@
 				  
 			  %>
 				<a href="javascript:refresca('<%=alumno.getCodigoId()%>');" id="alumno-<%=alumno.getCodigoId()%>" data-ciclogpoid="<%= cicloGrupo.getCicloGrupoId() %>" data-codigoid="<%=alumno.getCodigoId()%>"><%=aca.alumno.AlumPersonal.getNombre(conElias, alumno.getCodigoId(), "NOMBRE") %></a> 
-				<a href="mensaje.jsp?cicloGrupoId=<%= cicloGrupo.getCicloGrupoId() %>&codigoAlumno=<%=alumno.getCodigoId()%>" id="msg-<%=alumno.getCodigoId()%>" class="btn btn-info btn-mini"></a> <br />
+				<a href="mensaje.jsp?cicloGrupoId=<%= cicloGrupo.getCicloGrupoId() %>&codigoAlumno=<%=alumno.getCodigoId()%>&ciclo=<%= cicloIdM %>" id="msg-<%=alumno.getCodigoId()%>" class="btn btn-info btn-mini"></a> <br />
 			  <%}%>
 			</address>
 	  </div>

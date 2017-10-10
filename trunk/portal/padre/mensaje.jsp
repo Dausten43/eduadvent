@@ -18,7 +18,7 @@
 	String cicloGrupoId	= request.getParameter("cicloGrupoId");
 	String cursoId	    = request.getParameter("cursoId");
 	String maestroId	= request.getParameter("maestroId");
-	
+	String ciclo 		= request.getParameter("ciclo")!=null ? request.getParameter("ciclo") : "";
 	session.setAttribute("codigoAlumno", codigoId);
 	
 	String op = request.getParameter("op")==null?"Bandeja":request.getParameter("op");
@@ -167,12 +167,13 @@
 		var codigoid= '\'<%= codigoId %>\'';
 		var ciclogpoid = '\'<%= cicloGrupoId %>\'';
 		var escuela = '\'<%= escuelaId %>\'';
+		var ciclo = '\'<%= ciclo %>\'';
 		var tipodestino = '\'P\',\'I\',\'G\'';
 		 console.log(codigoid);
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
-			data : 'lista-mensajes=true&destino='+codigoid+','+ciclogpoid + ','+escuela+'&tipodestino='+tipodestino,
+			data : 'lista-mensajes=true&destino='+codigoid+','+ciclogpoid + ','+escuela+','+ ciclo +'&tipodestino='+tipodestino,
 			success : function(output) {
 				$('#mensajes').html(output);
 				//console.log(output);
@@ -188,6 +189,7 @@
 	function msgsEnviados(){
 		var codigoid= '<%= codigoId %>';
 		var ciclogpoid = '\'<%= cicloGrupoId %>\'';
+		var ciclo = '\'<%= ciclo %>\'';
 		var escuela = '\'<%= escuelaId %>\'';
 		var tipodestino = '\'P\',\'I\',\'G\'';
 		 console.log(codigoid);
@@ -212,13 +214,14 @@
 	function msgsRecibidos(){
 		var codigoid= '\'<%= codigoId %>\'';
 		var ciclogpoid = '\'<%= cicloGrupoId %>\'';
+		var ciclo = '\'<%= ciclo %>\'';
 		var escuela = '\'<%= escuelaId %>\'';
 		var tipodestino = '\'P\',\'I\',\'G\'';
 		 console.log(codigoid);
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
-			data : 'lista-mensajes=true&destino='+codigoid+','+ciclogpoid + ','+escuela+'&tipodestino='+tipodestino,
+			data : 'lista-mensajes=true&destino='+codigoid+','+ciclogpoid + ','+escuela+','+ ciclo +'&tipodestino='+tipodestino,
 			success : function(output) {
 				$('#enviados').removeClass('active');
 				$('#bandeja').addClass('active');
