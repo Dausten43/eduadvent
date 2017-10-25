@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -284,5 +285,151 @@ public class UtilCiclo {
 		return salida;
 	}
 	
+	public Map<String,Integer> getGruposAbiertos(String ciclo_id, String nivel_eval){
+		Map<String,Integer> salida = new HashMap();
+		
+		String comando = "";
+		if(nivel_eval.equals("P")){
+			comando = "select ciclo_grupo_id , promedio_id as periodo, COUNT(ESTADO) as abiertas from ciclo_grupo_eval where  ciclo_grupo_id like '"+ ciclo_id +"%' AND ESTADO='C' GROUP BY CICLO_GRUPO_ID, promedio_id";
+		}else if(nivel_eval.equals("E")){
+			comando = "select ciclo_grupo_id , evaluacion_id as periodo, COUNT(ESTADO) as abiertas from ciclo_grupo_eval where  ciclo_grupo_id like '"+ ciclo_id +"%' AND ESTADO='C' GROUP BY CICLO_GRUPO_ID, evaluacion_id";
+		}
+		
+		try{
+			PreparedStatement pst = con.prepareStatement(comando);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()){
+				salida.put(rs.getString("ciclo_grupo_id") + "\t"+ rs.getString("periodo"), rs.getInt("abiertas") );
+			}
+			rs.close();
+			pst.close();
+		}catch(SQLException sqle){
+			System.out.println("Error en getGruposAbiertos " + sqle);
+		}
+		return salida;
+		
+	}
+	
+	public Map<String,Integer> getMateriasAbiertas(String ciclo_grupo_id, String nivel_eval){
+		Map<String,Integer> salida = new HashMap();
+		
+		String comando = "";
+		if(nivel_eval.equals("P")){
+			comando = "select curso_id , promedio_id as periodo, COUNT(ESTADO) as abiertas from ciclo_grupo_eval where  ciclo_grupo_id = '"+ ciclo_grupo_id +"' AND ESTADO='C' GROUP BY CURSO_ID, promedio_id";
+		}else if(nivel_eval.equals("E")){
+			comando = "select curso_id , evaluacion_id as periodo, COUNT(ESTADO) as abiertas from ciclo_grupo_eval where  ciclo_grupo_id = '"+ ciclo_grupo_id +"' AND ESTADO='C' GROUP BY CURSO_ID, evaluacion_id";
+		}
+		
+		try{
+			PreparedStatement pst = con.prepareStatement(comando);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()){
+				salida.put(rs.getString("curso_id") + "\t"+ rs.getString("periodo"), rs.getInt("abiertas") );
+			}
+			rs.close();
+			pst.close();
+		}catch(SQLException sqle){
+			System.out.println("Error en getMateriasAbiertas " + sqle);
+		}
+		return salida;
+		
+	}
+	
+	public Map<String, String> getGruposAbiertasCerradas(String ciclo_id, String nivel_eval){
+		Map<String, String> salida = new HashMap<String, String>();
+		String comando = "";
+		if(nivel_eval.equals("P")){
+			comando = "select ciclo_grupo_id, promedio_id as periodo, "
+					+ "case when estado='A' then count(estado) else 0 end as abiertas, "
+					+ "case when estado='C' then count(estado) else 0 end as cerradas "
+					+ "from ciclo_grupo_eval "
+					+ "where ciclo_grupo_id like '"+ ciclo_id +"%' "
+					+ "and curso_id in (select curso_id from plan_curso where curso_base='-'  and boleta='S') "
+					+ "group by ciclo_grupo_id, estado, promedio_id order by ciclo_grupo_id, promedio_id";
+
+		}else if(nivel_eval.equals("E")){
+			comando = "select ciclo_grupo_id, evaluacion_id as periodo, "
+					+ "case when estado='A' then count(estado) else 0 end as abiertas, "
+					+ "case when estado='C' then count(estado) else 0 end as cerradas "
+					+ "from ciclo_grupo_eval "
+					+ "where ciclo_grupo_id like '"+ ciclo_id +"%' "
+					+ "and curso_id in (select curso_id from plan_curso where curso_base='-'  and boleta='S') "
+					+ "group by ciclo_grupo_id, estado, evaluacion_id order by ciclo_grupo_id, evaluacion_id";
+		}
+		
+		try{
+			PreparedStatement pst = con.prepareStatement(comando);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()){
+				salida.put(rs.getString("ciclo_grupo_id") + "\t"+ rs.getString("periodo"), rs.getString("abiertas") + "," + rs.getString("cerradas"));
+			}
+			rs.close();
+			pst.close();
+		}catch(SQLException sqle){
+			System.out.println("Error en getGruposAbiertasCerradas " + sqle);
+		}
+		
+		
+		return salida;
+	}
+	
+	public Map<String, String> getMateriasAbiertasCerradas(String ciclo_grupo_id, String nivel_eval){
+		Map<String, String> salida = new HashMap<String, String>();
+		String comando = "";
+		if(nivel_eval.equals("P")){
+			comando = "select curso_id, promedio_id as periodo, "
+					+ "case when estado='A' then count(estado) else 0 end as abiertas, "
+					+ "case when estado='C' then count(estado) else 0 end as cerradas "
+					+ "from ciclo_grupo_eval "
+					+ "where ciclo_grupo_id = '"+ ciclo_grupo_id +"' "
+					+ "and curso_id in (select curso_id from plan_curso where curso_base='-'  and boleta='S') "
+					+ "group by curso_id, estado, promedio_id order by curso_id, promedio_id";
+
+		}else if(nivel_eval.equals("E")){
+			comando = "select curso_id, evaluacion_id as periodo, "
+					+ "case when estado='A' then count(estado) else 0 end as abiertas, "
+					+ "case when estado='C' then count(estado) else 0 end as cerradas "
+					+ "from ciclo_grupo_eval "
+					+ "where ciclo_grupo_id = '"+ ciclo_grupo_id +"' "
+					+ "and curso_id in (select curso_id from plan_curso where curso_base='-'  and boleta='S') "
+					+ "group by curso_id, estado, evaluacion_id order by curso_id, evaluacion_id";
+		}
+		
+		try{
+			PreparedStatement pst = con.prepareStatement(comando);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()){
+				salida.put(rs.getString("curso_id") + "\t"+ rs.getString("periodo"), rs.getString("abiertas") + "," + rs.getString("cerradas"));
+			}
+			rs.close();
+			pst.close();
+		}catch(SQLException sqle){
+			System.out.println("Error en getMateriasAbiertasCerradas " + sqle);
+		}
+		
+		
+		return salida;
+	}
+	
+	public void controlMateria(String ciclo_id, String ciclo_gpo_id, String periodo, String curso_id, String nivel_eval, String estado){
+		
+		String comando ="update ciclo_grupo_eval set estado=" + estado + " where ciclo_grupo_id is not null ";
+		if(!ciclo_id.equals("")){
+			comando+=" and ciclo_grupo_id = '"+ ciclo_id +"' and curso_id in (select curso_id from plan_curso where curso_base='-'  and boleta='S')  ";
+		}
+		
+		
+		if(!ciclo_gpo_id.equals("")){
+			comando+=" and ciclo_grupo_id = '"+ ciclo_id +"'  and curso_id = '"+ curso_id + "'";
+		}
+		
+		if(nivel_eval.equals("P")){
+			comando += " and promedio_id="+periodo;
+		}else if(nivel_eval.equals("E")){
+			
+		}
+		
+		
+	}
 
 }
