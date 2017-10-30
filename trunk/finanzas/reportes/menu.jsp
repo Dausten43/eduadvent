@@ -12,6 +12,7 @@
               <li><a href="calculos.jsp"><i class="icon-chevron-right"></i>Cálculos</a></li>
               <li><a href="reporte.jsp"><i class="icon-chevron-right"></i>Saldos de inscritos</a></li>
               <li><a href="reporte_deudor.jsp"><i class="icon-chevron-right"></i>Alumnos Con Saldo</a></li>
+              <li><a href="reporte_deudores_noinscritos.jsp"><i class="icon-chevron-right"></i>Alumnos no Inscritos Con Saldo </a></li>
             </ul>
         </div>
 	</div>
