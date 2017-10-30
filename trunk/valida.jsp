@@ -200,7 +200,7 @@
 				}else if(strEstadoEscuela.equals ("I")){
 					%>escuelaInactiva<%
 				}
-		
+				entrar=false;
 				error = true;
 			}
 				// else escuelaEstado
