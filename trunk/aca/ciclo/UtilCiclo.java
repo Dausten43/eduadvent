@@ -1,12 +1,23 @@
 package aca.ciclo;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+
+import aca.kardex.KrdxCursoAct;
+import aca.kardex.KrdxCursoActLista;
+import aca.util.Fecha;
+import aca.vista.AlumnoProm;
+import aca.vista.AlumnoPromLista;
 
 public class UtilCiclo {
 	
@@ -411,24 +422,147 @@ public class UtilCiclo {
 		return salida;
 	}
 	
-	public void controlMateria(String ciclo_id, String ciclo_gpo_id, String periodo, String curso_id, String nivel_eval, String estado){
+	public int controlMateria(String ciclo_id, String ciclo_gpo_id, String periodo, String curso_id, String nivel_eval, String estado){
 		
-		String comando ="update ciclo_grupo_eval set estado=" + estado + " where ciclo_grupo_id is not null ";
-		if(!ciclo_id.equals("")){
-			comando+=" and ciclo_grupo_id = '"+ ciclo_id +"' and curso_id in (select curso_id from plan_curso where curso_base='-'  and boleta='S')  ";
-		}
+		int salida=0;
 		
+		String comando ="update ciclo_grupo_eval set estado='" + estado + "' where ciclo_grupo_id is not null ";
+
 		
 		if(!ciclo_gpo_id.equals("")){
-			comando+=" and ciclo_grupo_id = '"+ ciclo_id +"'  and curso_id = '"+ curso_id + "'";
+			comando+=" and ciclo_grupo_id = '"+ ciclo_gpo_id +"'  and curso_id = '"+ curso_id + "'";
 		}
 		
 		if(nivel_eval.equals("P")){
 			comando += " and promedio_id="+periodo;
 		}else if(nivel_eval.equals("E")){
-			
+			comando += " and evaluacion_id="+periodo;
+		}
+		if(!ciclo_gpo_id.equals("") && !curso_id.equals("") && !periodo.equals("") && !nivel_eval.equals("")){
+			try{
+				
+				System.out.println("EJECUTANDO ACTUALIZACION PARA "+estado+" DE MATERIA EN CICLOGPOEVAL " + estado);
+				PreparedStatement pst = con.prepareStatement(comando);
+				
+				salida = pst.executeUpdate();
+				
+				
+			}catch(SQLException sqle){
+				System.out.println("Error en getMateriasAbiertasCerradas " + sqle);
+			}
+		}
+		return salida;
+	}
+	
+	
+	public Integer periodosCalificados(String nivel_eval, String ciclo_gpo_id){
+		
+		Integer salida=0;
+		
+		String comando = "select ";
+		
+		if(nivel_eval.equals("P")){
+			comando+= " count(distinct(promedio_id)) periodos ";
+		}else if(nivel_eval.equals("E")){
+			comando+= " count(distinct(evaluacion_id)) periodos ";
 		}
 		
+		comando+= " from ciclo_grupo_eval where ciclo_grupo_id= '" + ciclo_gpo_id +"' ";
+		
+		System.out.println(comando);
+		
+		try{
+			PreparedStatement pst = con.prepareStatement(comando);
+			ResultSet rs = pst.executeQuery();
+			
+			if(rs.next()){
+				salida = rs.getInt("periodos");
+			}
+			rs.close();
+			pst.close();
+			
+		}catch(SQLException sqle){
+			System.err.println("error al contar periodos calificados " + sqle);
+ 		}
+		return salida;
+	}
+	
+	
+	public void cierraMateria(String escuela, String curso_id, String ciclo_grupo_id, String tipo_eval, String ciclo_id){
+		KrdxCursoActLista kls = new KrdxCursoActLista();
+		AlumnoPromLista apl = new AlumnoPromLista();
+		DecimalFormat df = new DecimalFormat("##0.0;-##0.0");
+		CicloGrupoCurso cgc = new CicloGrupoCurso();
+		
+		
+		
+		try{
+			
+			cgc.mapeaRegId(con, ciclo_grupo_id, curso_id);
+			float notaAC = Float.parseFloat(aca.plan.PlanCurso.getNotaAC(con, curso_id));
+			Map<String, AlumnoProm> mapAlumProm = new TreeMap();
+			mapAlumProm.putAll(apl.getTreeCurso(con,	ciclo_grupo_id, curso_id, ""));
+			List<KrdxCursoAct> lsAluGpo = new ArrayList<KrdxCursoAct>();
+			lsAluGpo.addAll(kls.getListAll(con, escuela, " AND CICLO_GRUPO_ID = '" + ciclo_grupo_id + "' AND CURSO_ID = '" + curso_id + "' ORDER BY ALUM_APELLIDO(CODIGO_ID)"));
+			getDatos(escuela, ciclo_id, "", "");
+			Map<String,String> mapPeriodos = new LinkedHashMap<String, String>();
+			mapPeriodos.putAll(periodos(ciclo_id, tipo_eval));
+			System.out.println(mapPeriodos.size() + "\t" + periodosCalificados(tipo_eval, ciclo_grupo_id) + "\t" + aca.ciclo.CicloGrupoEval.estanTodasCerradas(con, ciclo_grupo_id, curso_id));
+			if(mapPeriodos.size()!=0 && mapPeriodos.size()==periodosCalificados(tipo_eval, ciclo_grupo_id) && aca.ciclo.CicloGrupoEval.estanTodasCerradas(con, ciclo_grupo_id, curso_id)){
+				System.out.println("MATERIA cumple requerimientos de cierre y se dispone a cerrar");
+				boolean isExtra= false;
+				System.out.println(lsAluGpo.size());
+				for(KrdxCursoAct kca : lsAluGpo ){
+					double promedio = 0.0;
+					if(mapAlumProm.containsKey(ciclo_grupo_id + curso_id	+ kca.getCodigoId())){
+						AlumnoProm ap = mapAlumProm.get(ciclo_grupo_id + curso_id	+ kca.getCodigoId());
+						promedio = Double.parseDouble(ap.getPromedio().replaceAll(",","."));						
+					}
+					kca.setNota(df.format(promedio));
+					kca.setFNota(aca.util.Fecha.getHoy());
+					
+					if (promedio >= notaAC) {
+						kca.setTipoCalId("2");
+						System.out.println("todos pasan kca");
+					}else{
+						kca.setTipoCalId("3");
+						isExtra = true;
+						System.out.println("todos hay extra kca");
+					}
+					
+					kca.updateReg(con);
+				}
+				
+				if(!isExtra){
+					cgc.setEstado("4");
+					System.out.println("todos pasan cgc");
+				}else{
+					cgc.setEstado("3");
+					System.out.println("todos hay extra cgc");
+				}
+				
+				cgc.updateReg(con);
+			}else{
+				
+			}
+			
+		}catch(SQLException sqle){
+			System.err.println("error al cerrar materia " + sqle);
+		}
+	}
+	
+	public void abreMateria(String escuela, String curso_id, String ciclo_grupo_id, String tipo_eval, String ciclo_id){
+		CicloGrupoCurso cgc = new CicloGrupoCurso();
+		try{
+			cgc.mapeaRegId(con, ciclo_grupo_id, curso_id);
+			if(!cgc.getEstado().equals("2")){
+				System.out.println("MATERIA cumple requerimientos de apertura y se dispone a abrir");
+				cgc.setEstado("2");
+				cgc.updateReg(con);
+			}
+		}catch(SQLException sqle){
+			System.err.println("error al cerrar materia " + sqle);
+		}
 		
 	}
 
