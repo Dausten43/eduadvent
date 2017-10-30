@@ -145,7 +145,8 @@
 				    <th><fmt:message key="aca.Religion" /></th>
 				    <th><fmt:message key="aca.Tutor" /></th>    
 			     	<th><fmt:message key="aca.Celular" /></th> 
-			     	<th><fmt:message key="aca.Correo" /></th>   
+			     	<th><fmt:message key="aca.Correo" /></th>  
+			     	 <th><fmt:message key="aca.TipoSangre" /></th>
 			     	<th><fmt:message key="aca.CorreoAlumno" /></th>  
 			     	<th><fmt:message key="aca.Iglesia" /></th>
 			     	<th><fmt:message key="aca.Padre" /></th>
@@ -198,6 +199,7 @@
 					  <td align="left"><%= inscrito.getTutor()%></td> 
 					  <td align="left"><%= inscrito.getCelular()%></td> 
 					  <td align="left"><%= inscrito.getEmail()%></td>
+					  <td align="left"><%= inscrito.getTipoSangre() %></td>
 					  <td align="left"><%= inscrito.getCorreo()%></td>
 					  <td align="left"><%= inscrito.getIglesia()%></td> 
 					  <td align="left"><%= Personal.getNombre()+" " +Personal.getApaterno()+" " +Personal.getAmaterno() %></td> 
@@ -205,6 +207,7 @@
 				</tr> 				
 <% 				
 				Personal.setNombre(" "); Personal.setApaterno(" "); Personal.setAmaterno(" "); Personal.setOcupacion(" ");
+				cont++;
 						}
   			}
 %>
