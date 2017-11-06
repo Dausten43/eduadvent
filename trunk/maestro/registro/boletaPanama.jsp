@@ -281,7 +281,7 @@
 	            //document.add(topTable);
             	wrapTable.addCell(topTable);
 				
-				float alumnoTableWidths[] = {10f, 40f, 16f, 34f};
+				float alumnoTableWidths[] = {10f, 42f, 16f, 32f};
 				PdfPTable alumnoTable = new PdfPTable(alumnoTableWidths);
 				alumnoTable.setWidthPercentage(80f);
 				alumnoTable.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -308,7 +308,7 @@
  				alumnoTable.addCell(cell);
 				
  	            cell = new PdfPCell(new Phrase(" [ "+codigoAlumno+" ] "+alumPersonal.getNombre()+
- 	            		" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+ 	            		" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(1);
@@ -324,7 +324,7 @@
 	            cell = new PdfPCell(new Phrase(subnivel+" "+
 	                    aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), nivel)+
 	                    " - Grado: [ "+aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado()))+
-	                    " "+Grupo.getGrupo()+" ]", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+	                    " "+Grupo.getGrupo()+" ]", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(1);
@@ -332,27 +332,27 @@
 				
 				cell = new PdfPCell(new Phrase("CÉDULA : ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				cell.setVerticalAlignment(Element.ALIGN_CENTER);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(2);
 				cell.setBorderColorTop(BaseColor.BLACK);
 				alumnoTable.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase(alumPersonal.getCurp(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase(alumPersonal.getCurp(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				cell.setVerticalAlignment(Element.ALIGN_CENTER);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(2);
 				alumnoTable.addCell(cell);
 				
 				cell = new PdfPCell(new Phrase("ESPECIALIDAD : ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				cell.setVerticalAlignment(Element.ALIGN_CENTER);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(2);
 				cell.setBorderColorTop(BaseColor.BLACK);
 				alumnoTable.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase(planClase.getPlanNombre(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase(planClase.getPlanNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				cell.setVerticalAlignment(Element.ALIGN_CENTER);
+				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(2);
 				alumnoTable.addCell(cell);
 				
