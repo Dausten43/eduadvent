@@ -217,6 +217,7 @@
 					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/calificaActividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&randomString=<%=aca.util.RandomString.getRandomString() %>&trim=1">TRIMESTRE 1</a>
 					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/calificaActividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&randomString=<%=aca.util.RandomString.getRandomString() %>&trim=2">TRIMESTRE 2</a>
 					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/calificaActividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&randomString=<%=aca.util.RandomString.getRandomString() %>&trim=3">TRIMESTRE 3</a>
+					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/observacionesKinder.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&randomString=<%=aca.util.RandomString.getRandomString() %>&trim=3">Observaciones</a>
 					    	</div>
 					   		<% } %>
 

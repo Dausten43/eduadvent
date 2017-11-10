@@ -2177,6 +2177,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 		    <h3 id="myModalLabel"><fmt:message key="boton.EscribirMensaje" /></h3>
 		  </div>
 		  <div class="modal-body ">
+		  <form id="formSendMsg" method="post">
 		  		<label for="asunto">Asunto</label>
 		  		<input type="text" name="asunto" id="asunto">
 		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
@@ -2184,6 +2185,9 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 		        <input type="hidden" id="complemento" value="">
 		        <input type="hidden" id="tipo_destino" value="">
 		        <input type="hidden" id="envia" value="<%= codigoId %>">
+		        <input type="hidden" id="envia_mensaje" name="envia_mensaje" value="true">	
+				<input type="file" name="adjunto" id="adjunto">
+		   </form>
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
@@ -2212,7 +2216,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 
 <!-- end nuevo modal -->	
 </div>
-<<script type="text/javascript">
+<script type="text/javascript">
 function enviaMsg(){
 	
 	var datadata = 'envia_mensaje=true&envia='+$('#envia').val()
@@ -2224,6 +2228,15 @@ function enviaMsg(){
 		type : 'post',
 		data : datadata,
 		success : function(output) {
+			var idmsg = parseInt(output);
+			if ($('#formSendMsg #adjunto').get(0).files.length === 0) {
+				console.log(output + ' no tiene adjunto ' + idmsg );
+			}else{
+				console.log(output + ' tiene adjunto ' + idmsg );
+				if(idmsg>=0)
+					enviaMsgNFile(idmsg);
+			}
+		
 			$('#mensajeBox').modal('toggle');
 			$('#enviadoMsg').modal('show'); 
 		},
@@ -2234,6 +2247,27 @@ function enviaMsg(){
 	});
 
 }
+		
+		function enviaMsgNFile(idmsg) {
+			
+			var formData = new FormData(document.getElementById("formSendMsg"));
+		    formData.append("dato", "valor");
+		    formData.append("idmsg", idmsg);
+		    //formData.append(f.attr("name"), $(this)[0].files[0]);
+		    $.ajax({
+		        url: "../../mensajes/uploadFile.jsp",
+		        type: "post",
+		        dataType: false,
+		        data: formData,
+		        cache: false,
+		        contentType: false,
+		 		processData: false
+		    })
+		        .done(function(res){
+		            $("#mensaje").html("Respuesta: " + res);
+		        });
+		
+		}
 <!--
 $(document).on("click", ".open-MensajeBox", function () {
     var destinatario = $(this).data('id');
