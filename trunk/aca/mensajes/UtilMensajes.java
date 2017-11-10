@@ -119,6 +119,39 @@ public class UtilMensajes {
 		
 	}
 	
+	public int guardaMensajeFile(Connection con, Mensajeria msg)throws SQLException{
+		String sql = "INSERT INTO mensajeria"
+				+ "(usr_envia, tipo_destino, destino, es_respuesta, id_mensaje_original,"
+				+ "              mensaje, estado, asunto)     "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?) returning id";
+		int salida= 0;
+		try{
+			PreparedStatement pst = con.prepareStatement(sql);
+			pst.setString(1, msg.getUsr_envia());
+			pst.setString(2, msg.getTipo_destino());
+			pst.setString(3, msg.getDestino());
+			pst.setInt(4, msg.getEs_respuesta());
+			pst.setLong(5, msg.getId_mensaje_original());
+			pst.setString(6, msg.getMensaje());
+			pst.setInt(7, msg.getEstado());
+			pst.setString(8, msg.getAsunto());
+			
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()){
+				salida = rs.getInt(1);
+			}
+			rs.close();
+			pst.close();
+			
+		}catch(SQLException sqle){
+			System.err.println("Error en UtilMensajes || guardaMensajeFile " + sqle);
+			
+		}
+		
+		return salida;
+		
+	}
+	
 	public void guardaMensaje(Connection con, Integer estado, Long id){
 		String sql = "update mensajeria set estado=? where id=?";
 		
