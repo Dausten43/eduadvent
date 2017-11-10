@@ -158,6 +158,7 @@
 		<h3 id="myModalLabel">Redactar Mensaje</h3>
 	</div>
 	<div class="modal-body ">
+	<form id="formSendMsg" method="post" >
 		<label for="asunto">Asunto</label> <input type="text" name="asunto"
 			id="asunto" value="">
 		<textarea name="Comentario" class="boxsizingBorder" id="Comentario"
@@ -166,6 +167,9 @@
 		<input type="hidden" id="destino" value=""> <input
 			type="hidden" id="tipodestino" value=""> <input type="hidden"
 			id="envia" value="<%=codigoId%>">
+		<input type="hidden" id="envia_mensaje" name="envia_mensaje" value="true">	
+		<input type="file" name="adjunto" id="adjunto">
+	</form>		
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal" aria-hidden="true">
@@ -335,9 +339,34 @@
 		});
 
 	}
+	
+	function enviaMsgFile() {
+		
+		var datadata = new FormData(document.getElementById("formSendMsg"));
+
+// 		var datadata = 'envia_mensaje=true&envia=' + $('#envia').val()
+// 				+ '&tipo_destino=P&destino=' + $('#destino').val() + '&asunto='
+// 				+ $('#asunto').val() + '&mensaje=' + $('#Comentario').val()
+// 				+ '&mensaje_original=' + $('#idmsg').val()
+// 				+ '&es_respuesta=true';
+		$.ajax({
+			url : '../accionMensajes.jsp',
+			type : 'post',
+			data : datadata,
+			success : function(output) {
+				$('#respuestaBox').modal('toggle');
+				$('#enviadoMsg').modal('show');
+			},
+			error : function(xhr, ajaxOptions, thrownError) {
+				console.log("error " + datadata);
+				alert(xhr.status + " " + thrownError);
+			}
+		});
+
+	}
 
 	function enviaMsgN() {
-
+		
 		var datadata = 'envia_mensaje=true&envia='
 				+ $('#nuevoMsg #envia').val() + '&tipo_destino='
 				+ $('#nuevoMsg #tipodestino').val() + '&destino='
@@ -349,6 +378,17 @@
 			type : 'post',
 			data : datadata,
 			success : function(output) {
+				var idmsg = parseInt(output)
+				
+				if ($('#formSendMsg #adjunto').get(0).files.length === 0) {
+					console.log(output + ' no tiene adjunto ' + idmsg );
+				}else{
+					console.log(output + ' tiene adjunto ' + idmsg );
+					if(idmsg>=0)
+						enviaMsgNFile(idmsg);
+				}
+					
+				
 				$('#nuevoMsg').modal('toggle');
 				$('#enviadoMsg').modal('show');
 			},
@@ -357,6 +397,27 @@
 				alert(xhr.status + " " + thrownError);
 			}
 		});
+
+	}
+	
+	function enviaMsgNFile(idmsg) {
+		
+		var formData = new FormData(document.getElementById("formSendMsg"));
+        formData.append("dato", "valor");
+        formData.append("idmsg", idmsg);
+        //formData.append(f.attr("name"), $(this)[0].files[0]);
+        $.ajax({
+            url: "../uploadFile.jsp",
+            type: "post",
+            dataType: false,
+            data: formData,
+            cache: false,
+            contentType: false,
+     		processData: false
+        })
+            .done(function(res){
+                $("#mensaje").html("Respuesta: " + res);
+            });
 
 	}
 
