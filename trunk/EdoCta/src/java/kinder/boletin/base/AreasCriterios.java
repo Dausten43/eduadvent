@@ -14,7 +14,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  * @author Daniel
  */
 public class AreasCriterios {
-    
+
     private String escuela;
     private String logo;
     private String codigo_estudiante;
@@ -24,8 +24,18 @@ public class AreasCriterios {
     private String ciclo;
     private String director;
     private String direccion;
-    
-    
+    private String observacionA1;
+    private String observacionB1;
+    private String observacionA2;
+    private String observacionB2;
+    private String observacionA3;
+    private String observacionB3;
+    private String faltaA;
+    private String faltaB;
+    private String faltaC;
+    private String tardanzaA;
+    private String tardanzaB;
+    private String tardanzaC;
     
     private String area;
     private Collection<CalificacionesCriterios> lsCal;
@@ -37,9 +47,63 @@ public class AreasCriterios {
     }
 
 
+    
+    /**
+     * @return the observacionA1
+     */
+    public String getObservacionA1() {
+        return observacionA1;
+    }
 
+    /**
+     * @param observacionA1 the observacionA1 to set
+     */
+    public void setObservacionA1(String observacionA1) {
+        this.observacionA1 = observacionA1;
+    }
 
+    /**
+     * @return the observacionB1
+     */
+    public String getObservacionB1() {
+        return observacionB1;
+    }
 
+    /**
+     * @param observacionB1 the observacionB1 to set
+     */
+    public void setObservacionB1(String observacionB1) {
+        this.observacionB1 = observacionB1;
+    }
+
+    /**
+     * @return the observacionA2
+     */
+    public String getObservacionA2() {
+        return observacionA2;
+    }
+
+    /**
+     * @param observacionA2 the observacionA2 to set
+     */
+    public void setObservacionA2(String observacionA2) {
+        this.observacionA2 = observacionA2;
+    }
+
+    /**
+     * @return the observacionB2
+     */
+    public String getObservacionB2() {
+        return observacionB2;
+    }
+
+    /**
+     * @param observacionB2 the observacionB2 to set
+     */
+    public void setObservacionB2(String observacionB2) {
+        this.observacionB2 = observacionB2;
+    }
+    
     /**
      * @return the area
      */
@@ -196,5 +260,117 @@ public class AreasCriterios {
      */
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    /**
+     * @return the observacionA3
+     */
+    public String getObservacionA3() {
+        return observacionA3;
+    }
+
+    /**
+     * @param observacionA3 the observacionA3 to set
+     */
+    public void setObservacionA3(String observacionA3) {
+        this.observacionA3 = observacionA3;
+    }
+
+    /**
+     * @return the observacionB3
+     */
+    public String getObservacionB3() {
+        return observacionB3;
+    }
+
+    /**
+     * @param observacionB3 the observacionB3 to set
+     */
+    public void setObservacionB3(String observacionB3) {
+        this.observacionB3 = observacionB3;
+    }
+
+    /**
+     * @return the faltaA
+     */
+    public String getFaltaA() {
+        return faltaA;
+    }
+
+    /**
+     * @param faltaA the faltaA to set
+     */
+    public void setFaltaA(String faltaA) {
+        this.faltaA = faltaA;
+    }
+
+    /**
+     * @return the faltaB
+     */
+    public String getFaltaB() {
+        return faltaB;
+    }
+
+    /**
+     * @param faltaB the faltaB to set
+     */
+    public void setFaltaB(String faltaB) {
+        this.faltaB = faltaB;
+    }
+
+    /**
+     * @return the faltaC
+     */
+    public String getFaltaC() {
+        return faltaC;
+    }
+
+    /**
+     * @param faltaC the faltaC to set
+     */
+    public void setFaltaC(String faltaC) {
+        this.faltaC = faltaC;
+    }
+
+    /**
+     * @return the tardanzaA
+     */
+    public String getTardanzaA() {
+        return tardanzaA;
+    }
+
+    /**
+     * @param tardanzaA the tardanzaA to set
+     */
+    public void setTardanzaA(String tardanzaA) {
+        this.tardanzaA = tardanzaA;
+    }
+
+    /**
+     * @return the tardanzaB
+     */
+    public String getTardanzaB() {
+        return tardanzaB;
+    }
+
+    /**
+     * @param tardanzaB the tardanzaB to set
+     */
+    public void setTardanzaB(String tardanzaB) {
+        this.tardanzaB = tardanzaB;
+    }
+
+    /**
+     * @return the tardanzaC
+     */
+    public String getTardanzaC() {
+        return tardanzaC;
+    }
+
+    /**
+     * @param tardanzaC the tardanzaC to set
+     */
+    public void setTardanzaC(String tardanzaC) {
+        this.tardanzaC = tardanzaC;
     }
 }

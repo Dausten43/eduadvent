@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import kinder.boletin.base.AreasCriterios;
 import kinder.boletin.base.CalificacionesCriterios;
+import kinder.boletin.base.KrdxAlumObs;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -137,17 +138,70 @@ public class PrintBoletinKinder extends HttpServlet {
             //--- DATOS DEL CICLO 
             String ciclo_nombre = "";
             String ciclo_escolar = "";
+            String nivel_eval = "";
+            
             PreparedStatement pstCiclo = con.prepareStatement("SELECT * FROM ciclo where ciclo_id='" + ciclo_id + "'");
             ResultSet rsCiclo = pstCiclo.executeQuery();
             if (rsCiclo.next()) {
                 ciclo_nombre = rsCiclo.getString("ciclo_nombre");
                 ciclo_escolar = rsCiclo.getString("ciclo_escolar");
+                nivel_eval = rsCiclo.getString("nivel_eval");
             }
             rsCiclo.close();
             pstCiclo.close();
             
+            
+            String comandoPromedia = "SELECT ciclo_id, promedio_id periodo, nombre, corto, "
+                    + "calculo, orden, decimales, valor, redondeo  "
+                    + "FROM ciclo_promedio where ciclo_id=? order by promedio_id";
+
+            String comandoEvalua = "SELECT ciclo_id, bloque_id periodo, bloque_nombre nombre, "
+                    + "f_inicio, f_final, valor, orden, promedio_id, corto, "
+                    + "decimales, redondeo, calculo  "
+                    + "FROM ciclo_bloque where ciclo_id=? order by bloque_id";
+            
+            PreparedStatement pstPeriodos = null;
+            
+            
+            
+            if(nivel_eval.equals("P") || nivel_eval.equals("A")){
+                pstPeriodos = con.prepareStatement(comandoPromedia);
+            }
+            
+            if(nivel_eval.equals("E")){
+                pstPeriodos = con.prepareStatement(comandoEvalua);
+            }
+            System.out.println("ciclo id " + ciclo_id);
+            pstPeriodos.setString(1, ciclo_id);
+            ResultSet rsPeriodos = pstPeriodos.executeQuery();
+            List<Integer> lsPeriodosDB = new ArrayList();
+            while(rsPeriodos.next()){
+                lsPeriodosDB.add(rsPeriodos.getInt("periodo"));
+            }
+            
+            
+            Map<String,String> mapAlumFaltas = new HashMap();
+            String comandoFaltas = "Select codigo_id, evaluacion_id, sum(falta) f , "
+                    + "sum(tardanza) t, promedio_id from krdx_alum_falta where ciclo_grupo_id = ? "
+                    + "group by codigo_id, evaluacion_id, promedio_id order by codigo_id ";
+            
+            PreparedStatement pstFaltas = con.prepareStatement(comandoFaltas);
+            pstFaltas.setString(1, ciclo_gpo_id);
+            ResultSet rsFaltas = pstFaltas.executeQuery();
+            while(rsFaltas.next()){
+                String per = nivel_eval.equals("E") ? rsFaltas.getString("evaluacion_id") : rsFaltas.getString("promedio_id");
+                mapAlumFaltas.put(rsFaltas.getString("codigo_id") 
+                        + "-" + per,
+                        rsFaltas.getString("f") + "-" + rsFaltas.getString("t"));
+            }
+            
+            
             //----------DATOS DE LA CONSEJERA
             String consejera = "";
+            
+            Map<String,KrdxAlumObs> mapObs = new HashMap(); 
+            mapObs.putAll(getObservacionesComplexKey(con, 0L, request.getParameter("ciclo_gpo_id"), "", 0));
+            
             PreparedStatement pstConsejera = con.prepareStatement("select cg.empleado_id, ep.nombre || ' ' || ep.apaterno || ' ' || ep.amaterno as consejera "
                     + "from ciclo_grupo cg  "
                     + "join emp_personal ep on ep.codigo_id = cg.empleado_id "
@@ -163,6 +217,8 @@ public class PrintBoletinKinder extends HttpServlet {
             
             String comando = "";
             if (request.getParameter("codigo_id") != null && !request.getParameter("codigo_id").equals("")) {
+                
+                
 
                                 comando = "SELECT distinct(kca.CODIGO_ID) , ALUM_APELLIDO(kca.CODIGO_ID),ac.nivel, ac.grado, ac.grupo "
                         + ", ap.escuela_id, ap.nombre, ap.apaterno, ap.amaterno , ap.curp , "
@@ -257,11 +313,48 @@ public class PrintBoletinKinder extends HttpServlet {
                 lsPeriodos.add(new Integer("2"));
                 lsPeriodos.add(new Integer("3"));
                 
+                System.out.println("observaciones  " +mapObs.size());
+                    if(mapObs.containsKey(ac.getArea() + "-" +1)){
+                        KrdxAlumObs ob = mapObs.get(ac.getArea() + "-" +1);
+                        ac.setObservacionA1(ob.getObservacion_1());
+                        ac.setObservacionB1(ob.getObservacion_2());
+                    }
+                    
+                    if(mapObs.containsKey(ac.getArea() + "-" +2)){
+                        KrdxAlumObs ob = mapObs.get(ac.getArea() + "-" +2);
+                        ac.setObservacionA2(ob.getObservacion_1());
+                        ac.setObservacionB2(ob.getObservacion_2());
+                    }
+                    if(mapObs.containsKey(ac.getArea() + "-" +3)){
+                        KrdxAlumObs ob = mapObs.get(ac.getArea() + "-" +3);
+                        ac.setObservacionA3(ob.getObservacion_1());
+                        ac.setObservacionB3(ob.getObservacion_2());
+                    }
+                    
+                    if(mapAlumFaltas.containsKey(ac.getArea() + "-" +1)){
+                        String[] ftSplit = mapAlumFaltas.get(ac.getArea() + "-" +1).split("-"); 
+                        ac.setFaltaA(ftSplit[0]);
+                        ac.setTardanzaA(ftSplit[1]);
+                    }
+                    
+                    if(mapAlumFaltas.containsKey(ac.getArea() + "-" +2)){
+                        String[] ftSplit = mapAlumFaltas.get(ac.getArea() + "-" +2).split("-"); 
+                        ac.setFaltaB(ftSplit[0]);
+                        ac.setTardanzaB(ftSplit[1]);
+                    }
+                    if(mapAlumFaltas.containsKey(ac.getArea() + "-" +3)){
+                        String[] ftSplit = mapAlumFaltas.get(ac.getArea() + "-" +3).split("-"); 
+                        ac.setFaltaC(ftSplit[0]);
+                        ac.setTardanzaC(ftSplit[1]);
+                    }
+                    
+                    
+                
                 for (String cri : lsCriteriosAreas) {
                     CalificacionesCriterios cc = new CalificacionesCriterios();
                     //System.out.println("CRITERIO ANTES DEL SPLIT    "+cri);
                     String[] txtSplit = cri.split("\t");
-                    System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
+                    //System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
                     cc.setArea(txtSplit[1].trim());
                     cc.setArea_id(new Long(txtSplit[0].trim()));
                     cc.setCriterio(txtSplit[3].trim());
@@ -270,7 +363,7 @@ public class PrintBoletinKinder extends HttpServlet {
                     if (mapPromedios.containsKey(new Integer("1"))) {
                         //System.out.println("si tiene primer trimestre");
                         if (mapPromedios.get(new Integer("1")).containsKey(cc.getCriterio_id())) {
-                            System.out.println("si tiene criterio con eva 1" + mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
+                            //System.out.println("si tiene criterio con eva 1" + mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
                             cc.setTrimestre("1");
                             cc.setNota(mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
                         }
@@ -278,7 +371,7 @@ public class PrintBoletinKinder extends HttpServlet {
 
                     if (mapPromedios.containsKey(new Integer("2"))) {
                         if (mapPromedios.get(new Integer("2")).containsKey(cc.getCriterio_id())) {
-                            System.out.println("si tiene criterio con eva 2" + mapPromedios.get(new Integer("2")).get(cc.getCriterio_id()));
+                            //System.out.println("si tiene criterio con eva 2" + mapPromedios.get(new Integer("2")).get(cc.getCriterio_id()));
                             cc.setTrimestre("2");
                             cc.setNotaB(mapPromedios.get(new Integer("2")).get(cc.getCriterio_id()));
                         }
@@ -286,7 +379,7 @@ public class PrintBoletinKinder extends HttpServlet {
 
                     if (mapPromedios.containsKey(new Integer("3"))) {
                         if (mapPromedios.get(new Integer("3")).containsKey(cc.getCriterio_id())) {
-                            System.out.println("si tiene criterio con eva 3" + mapPromedios.get(new Integer("3")).get(cc.getCriterio_id()));
+                            //System.out.println("si tiene criterio con eva 3" + mapPromedios.get(new Integer("3")).get(cc.getCriterio_id()));
                             cc.setTrimestre("3");
                             cc.setNotaC(mapPromedios.get(new Integer("3")).get(cc.getCriterio_id()));
                         }
@@ -359,6 +452,72 @@ public class PrintBoletinKinder extends HttpServlet {
         }
 
     }
+    
+    /**
+	 * @param id Long para condicion con el id o 0L
+	 * @param ciclo_gpo_id String para condicion con ciclo_gpo_id o ""
+	 * @param codigo_id String para condicion con codigo_id o ""
+	 * @param ubicador Integer para condicion ubicador o 0
+	 * @return mapa con la llave id y objeto KrdxAlumObs
+	 */
+	public Map<Long, KrdxAlumObs>  getObservaciones(Connection conn, Long id, String ciclo_gpo_id, String codigo_id, Integer ubicador){
+		
+		Map<Long, KrdxAlumObs> salida = new HashMap(); 
+		
+		
+		String comando = "select * from krdx_alum_obs where id is not null ";
+		
+		if(!id.equals(0L)){
+			comando+=" and id="+id;
+		}
+		if(!ciclo_gpo_id.equals("")){
+			comando+=" and ciclo_grupo_id='"+ciclo_gpo_id+"' ";
+		}
+		if(!codigo_id.equals("")){
+			comando+=" and codigo_id='"+codigo_id+"' ";
+		}
+		if(!ubicador.equals(0)){
+			comando+=" and ubicador="+ubicador ;
+		}
+		
+		try{
+			System.out.println("Enrra al metodo ..."+ comando);
+			PreparedStatement pst = conn.prepareStatement(comando);
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()){
+				KrdxAlumObs ob = new KrdxAlumObs(rs.getLong("id"), 
+						rs.getString("ciclo_grupo_id"), 
+						rs.getString("codigo_id"), 
+						rs.getInt("ubicador"), 
+						rs.getString("observacion_1"), rs.getString("observacion_2"));
+				
+				salida.put(ob.getId(), ob);
+                                System.out.println("Enrra al metodo ..."+ob.toString());
+				
+			}
+			rs.close();
+			pst.close();
+			
+		}catch(SQLException sqle){
+			System.err.println("Error en UtilKrdxAlumObs getObservaciones " + sqle);
+		}
+		return salida;
+	}
+	
+	
+	public Map<String, KrdxAlumObs>  getObservacionesComplexKey(Connection conn, Long id, String ciclo_gpo_id, String codigo_id, Integer ubicador){
+		Map<String, KrdxAlumObs> salida = new HashMap(); 
+		
+		Map<Long, KrdxAlumObs> input = new HashMap<Long, KrdxAlumObs>();
+		input.putAll(getObservaciones(conn, id, ciclo_gpo_id, codigo_id, ubicador));
+		
+		for(Long key : input.keySet()){
+			salida.put(input.get(key).getCodigo_id()+"-"+input.get(key).getUbicador(),input.get(key));
+		}
+		System.out.println("ENTRO Y SALIO " + salida.size());
+		return salida;
+	}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
