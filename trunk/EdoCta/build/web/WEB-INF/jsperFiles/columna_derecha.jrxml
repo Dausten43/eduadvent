@@ -344,14 +344,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fA}!=null ? $P{fA} :"0"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fB}!=null ? $P{fB} :"0"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="128" y="398" width="25" height="10" uuid="111cd47e-c2a9-42aa-8bc3-df94f43e9162"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fA}!=null ? $P{fA} :"0"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{fC}!=null ? $P{fC} :"0"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="76" y="408" width="25" height="10" uuid="bc6ab4de-8842-4fdb-85fe-31382bcf4be9"/>
@@ -365,14 +365,14 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{tA}!=null ? $P{tA} :"0"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{tB}!=null ? $P{tB} :"0"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="128" y="408" width="25" height="10" uuid="a1c04814-0e65-4c99-8fae-947da6e97d3b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{tA}!=null ? $P{tA} :"0"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{tC}!=null ? $P{tC} :"0"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

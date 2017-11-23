@@ -193,6 +193,10 @@ public class PrintBoletinKinder extends HttpServlet {
                 mapAlumFaltas.put(rsFaltas.getString("codigo_id") 
                         + "-" + per,
                         rsFaltas.getString("f") + "-" + rsFaltas.getString("t"));
+                
+                System.out.println(rsFaltas.getString("codigo_id") 
+                        + "-" + per + ' ' +
+                        rsFaltas.getString("f") + "-" + rsFaltas.getString("t"));
             }
             
             
