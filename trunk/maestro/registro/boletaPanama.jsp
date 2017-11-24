@@ -22,6 +22,10 @@
 <%@page import="aca.kardex.KrdxAlumActitud"%>
 <%@page import="aca.kardex.KrdxAlumFalta"%>
 <%@page import="aca.catalogo.CatEscuela"%>
+<%@page import="aca.kardex.UtilKrdxAlumObs"%>
+<%@page import="aca.kardex.KrdxAlumObs"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="planClase" scope="page" class="aca.plan.Plan"/>
 <jsp:useBean id="curso" scope="page" class="aca.plan.PlanCurso"/>
@@ -72,6 +76,11 @@
 	ArrayList <KrdxAlumFalta> listaKrdxAlumFalta = krdxAlumFaltaL.getListAll(conElias, "WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'");
 	ArrayList <CicloGrupoEval> listaCicloGrupoEval = cicloGrupoEvalLista.getEvalGrupo(conElias, cicloGrupoId, "ORDER BY CICLO_GRUPO_ID, ORDEN");
 	ciclo.mapeaRegId(conElias, cicloId);
+	
+	//Traemos todas las observaciones del grupo
+	UtilKrdxAlumObs uk = new UtilKrdxAlumObs(conElias);
+	Map<String, KrdxAlumObs> mapObservaciones = new HashMap<String, KrdxAlumObs>();
+	mapObservaciones.putAll(uk.getObservacionesComplexKey(0L, cicloGrupoId, "", 0));
 	
 	java.text.DecimalFormat frm = new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
 	java.text.DecimalFormat frm1 = new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
@@ -1909,13 +1918,37 @@
 								}
 							}
 						}
-					
-					
-					cell = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-	 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
-	 				cell.setBorder(0);
-	 				aspectosTable.addCell(cell);
+					// Se muestra la observación del último trimestre desplegado
+					if(j == 0){
+						String trimestreId = "";
+						if(ciclo.getNivelEval().equals("P")){
+		 					for(int k = 0; k < cicloPromedioList.size(); k++){
+								cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
+								//Si se solicitó mostrar el trimestre 
+								if(cicloPromedio.getPromedioId().equals(request.getParameter(cicloPromedio.getNombre()))){
+									trimestreId = cicloPromedio.getPromedioId();
+								}
+							}
+						}else if(ciclo.getNivelEval().equals("E")){
+							for(CicloBloque cb: lisBloque){
+								//Si se solicitó mostrar el trimestre 
+								if(cb.getBloqueId().equals(request.getParameter(cb.getBloqueNombre()))){
+									trimestreId = cicloPromedio.getPromedioId();
+								}
+							}
+						}
+						
+						String observacion = "";
+						if(mapObservaciones.get(codigoAlumno+"-"+trimestreId) != null)
+							observacion = mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1()==null?"":mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1();
+						
+						cell = new PdfPCell(new Phrase(observacion, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+		 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						cell.setVerticalAlignment(Element.ALIGN_TOP);
+		 				cell.setBorder(0);
+		 				cell.setRowspan(aspectosList.size());
+		 				aspectosTable.addCell(cell);
+					}
 				}
 				
 				wrapTable.addCell(aspectosTable);

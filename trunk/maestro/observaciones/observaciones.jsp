@@ -66,7 +66,7 @@ Observaciones para maternal y preescolar
 				<%
 					for (CicloGrupo cg : lsCicloGpo) {
 				%>
-				<option value="<%=cg.getCicloGrupoId()%>"><%=cg.getGrupoNombre()%></option>
+				<option value="<%=cg.getCicloGrupoId()%>"><%=cg.getGrupoNombre()%> <%=cg.getGrupo()%></option>
 				<%
 					}
 				%>

@@ -112,7 +112,7 @@
 				//ArrayList <CicloGrupoEval> listaCicloGrupoEval = cicloGrupoEvalLista.getEvalGrupo(conElias, cicloGrupoId, "ORDER BY CICLO_GRUPO_ID, ORDEN");
 				ArrayList<aca.ciclo.CicloBloque> lisBloque 			= BloqueLista.getListCiclo(conElias, cicloId, " ORDER BY ORDEN, BLOQUE_ID");
 				for(aca.ciclo.CicloBloque cb: lisBloque){
-					out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cb.getBloqueId()+"'  name='"+cb.getBloqueNombre()+"' value='"+cb.getBloqueNombre()+"'checked> &nbsp"+cb.getBloqueNombre()+"</p><br />");
+					out.print("<p style ='margin-right:15px;display:inline;'> <input type='checkbox' class='check' id='"+cb.getBloqueId()+"'  name='"+cb.getBloqueNombre()+"' value='"+cb.getBloqueId()+"'checked> &nbsp"+cb.getBloqueNombre()+"</p><br />");
 				}
 			}
 %>		
