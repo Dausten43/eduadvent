@@ -34,7 +34,7 @@
 %>
 
 <div id="content">
-Observaciones para maternal y preescolar
+<h2>Observaciones de boletín para maternal y preescolar</h2>
 	<div class="well ">
 		<form name="frmCiclo" action="observacionesKinder.jsp" method="post" class="form-inline">
 			<input type="hidden" name="Accion"> <select name="Ciclo"
