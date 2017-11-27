@@ -943,7 +943,7 @@
 												cge.getCursoId().equals(curso.getCursoId())){
 											String valor = "--";
 											
-											boolean show = cge.getEvaluacionNombre().equals(request.getParameter(cge.getEvaluacionNombre()));
+											boolean show = cge.getEvaluacionId().equals(request.getParameter(cge.getEvaluacionNombre()));
 											
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno) && show){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
@@ -1206,6 +1206,8 @@
 			    		        	}
 			    		        }*/
 			    		        
+			    				int sumaFaltas = 0, sumaTardanzas = 0;
+			    		        
 			    		        if(ciclo.getNivelEval().equals("P")){
 			    		        	
 			    		        
@@ -1222,6 +1224,8 @@
 														kaf.getPromedioId().equals(cicloPromedio.getPromedioId())){
 													faltas += Integer.valueOf(kaf.getFalta());
 													tardanzas += Integer.valueOf(kaf.getTardanza());
+													sumaFaltas += Integer.valueOf(kaf.getFalta());
+													sumaTardanzas += Integer.valueOf(kaf.getTardanza());
 												}
 											}
 											
@@ -1232,10 +1236,6 @@
 										celda.setBorder(0);
 						 				tabla.addCell(celda);
 						 				
-						 				
-						 				if(!cicloPromedioList.get(l).getPromedioId().equals(request.getParameter(cicloPromedioList.get(l).getNombre()))){
-											tardanzas = 0;
-										};
 						 				celda = new PdfPCell(new Phrase(String.valueOf(tardanzas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 										celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 										celda.setBorder(0);
@@ -1248,12 +1248,17 @@
 												cge.getCursoId().equals(curso.getCursoId())){
 											int faltas = 0, tardanzas = 0;
 											
-											for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
-												if(kaf.getCodigoId().equals(codigoAlumno) && 
-														kaf.getCursoId().equals(curso.getCursoId()) &&
-														kaf.getEvaluacionId().equals(cge.getEvaluacionId())){
-													faltas += Integer.valueOf(kaf.getFalta());
-													tardanzas += Integer.valueOf(kaf.getTardanza());
+											boolean show = cge.getEvaluacionId().equals(request.getParameter(cge.getEvaluacionNombre()));
+											if(show){
+												for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
+													if(kaf.getCodigoId().equals(codigoAlumno) && 
+															kaf.getCursoId().equals(curso.getCursoId()) &&
+															kaf.getEvaluacionId().equals(cge.getEvaluacionId())){
+														faltas += Integer.valueOf(kaf.getFalta());
+														tardanzas += Integer.valueOf(kaf.getTardanza());
+														sumaFaltas += Integer.valueOf(kaf.getFalta());
+														sumaTardanzas += Integer.valueOf(kaf.getTardanza());
+													}
 												}
 											}
 											
@@ -1292,14 +1297,6 @@
 									}*/
 								}
 			    		        
-			    		        int sumaFaltas = 0, sumaTardanzas = 0;
-			    		        for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
-									if(kaf.getCodigoId().equals(codigoAlumno) && 
-											kaf.getCursoId().equals(curso.getCursoId())){
-										sumaFaltas += Integer.valueOf(kaf.getFalta());
-										sumaTardanzas += Integer.valueOf(kaf.getTardanza());
-									}
-								}
 			    		        if(sumaFaltas > 0){//Si la suma de faltas es mayor que cero
 				    		 		celda = new PdfPCell(new Phrase(String.valueOf(sumaFaltas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1799,16 +1796,20 @@
 										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
 										float valor = 0f;
 										String resultado = "-";
-										for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
-											//System.out.println(krdxAlumActitud.getAspectos());
-											if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
-													krdxAlumActitud.getEvaluacionId().equals(cge.getEvaluacionId()) &&
-													krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-												valor = Float.parseFloat(krdxAlumActitud.getNota());
-												resultado = valor==1?"X":resultado;
-												resultado = valor==2?"R":resultado;
-												resultado = valor==3?"S":resultado;
-												break;
+										
+										boolean show = cge.getEvaluacionId().equals(request.getParameter(cge.getEvaluacionNombre()));
+										if(show){
+											for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
+												//System.out.println(krdxAlumActitud.getAspectos());
+												if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
+														krdxAlumActitud.getEvaluacionId().equals(cge.getEvaluacionId()) &&
+														krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
+													valor = Float.parseFloat(krdxAlumActitud.getNota());
+													resultado = valor==1?"X":resultado;
+													resultado = valor==2?"R":resultado;
+													resultado = valor==3?"S":resultado;
+													break;
+												}
 											}
 										}
 									
