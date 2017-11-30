@@ -26,6 +26,7 @@
 <jsp:useBean id="usuarioMenu" scope="page" class="aca.usuario.UsuarioMenu"/>
 <jsp:useBean id="ClasFinLista" scope="page" class="aca.catalogo.CatClasFinLista"/>
 <jsp:useBean id="finMovtosLista" scope="page" class="aca.fin.FinMovimientosLista"/>
+<jsp:useBean id="empPersonal" scope="page" class="aca.empleado.EmpPersonal"/>
 
 <script>
 	
@@ -455,6 +456,8 @@
 	else
 		tipoCodigo = "Empleado";
 	pageContext.setAttribute("resultado", sResultado);	
+	
+	alumPadres.mapeaRegId(conElias, codigoAlumno);
 %>
 
 <style>
@@ -802,64 +805,111 @@
 		
 			<div class="span9">
 				<div class="alert">
-					<h4><fmt:message key="alumnos.DatosdelTutor"/></h4>
+					<h4><fmt:message key="alumnos.DatosdelTutor"/> <a class="btn btn-primary" href="../../padre/datos/datosNew.jsp"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Nuevo"/></a></h4>
 				</div>
 			</div>
 			
 		</div>			
-		
+<%
+		if(alumPadres.getCodigoPadre().equals("-") && alumPadres.getCodigoMadre().equals("-") && alumPadres.getCodigoTutor().equals("-")){
+%>
 		<div class="row">
-			
 			<div class="span3"></div>
-		
 			<div class="span3">
-	          	
 	          	<p>
 	          		<label><fmt:message key="aca.Nombre"/></label>
 	          		<input name="Tutor" type="text" id="Tutor" maxlength="40" value="<%=(Personal.getTutor()==null || Personal.getTutor().equals("-") || Personal.getTutor().equals("null"))? "" : Personal.getTutor()%>">
 	          	</p>
-	          	
 	          	<p>
 	          		<label><fmt:message key="aca.Colonia"/></label>
 	          		<input type="text" name="Colonia" id="Colonia" maxlength="30" value="<%=(Personal.getColonia()==null || Personal.getColonia().equals("-") || Personal.getColonia().equals("null"))? "" : Personal.getColonia()%>">
 	          	</p>
-	          	
 	          	<p>
 	          		<label>Cédula</label>
 	          		<input type="text" name="Cedula" id="Cedula" maxlength="20" value="<%=(Personal.getTutorCedula()==null || Personal.getTutorCedula().equals("-") || Personal.getTutorCedula().equals("null"))? "" : Personal.getTutorCedula()%>">
 	          	</p>
-	          	
 	        </div>
-	        
 	        <div class="span3">
-	          	
 	          	<p>
 	          		<label><fmt:message key="aca.Direccion"/></label>
 	          		<input name="Direccion" type="text" id="Direccion" maxlength="100" value="<%=(Personal.getDireccion()==null || Personal.getDireccion().equals("-") || Personal.getDireccion().equals("null"))? "" : Personal.getDireccion()%>">
 	          	</p>
-	          	
 	          	<p>
 	          		<label><fmt:message key="aca.Telefono"/></label>
 	          		<input name="Telefono" type="text" id="Telefono" maxlength="60" value="<%=Personal.getTelefono()==null?"-":Personal.getTelefono()%>">
 	          	</p>
-	        
 	        </div>
-	        
 	        <div class="span3">
-	          	
 	          	<p>
 	          		<label><fmt:message key="aca.Celular"/></label>
 	          		<input name="Celular" type="text" id="Celular" maxlength="60" value="<%=Personal.getCelular()==null?"-":Personal.getCelular()%>">
 	          	</p>
-	          	
 	          	<p>
 	          		<label><fmt:message key="aca.Email"/></label>
 	          		<input name="Email" type="text" id="Email" maxlength="50" value="<%=Personal.getEmail()==null?"-":Personal.getEmail()%>">	
 	          	</p>
-	          	
 			</div>
 		</div>
-
+<%
+		}else{
+%>
+	          	<input name="Tutor" type="hidden" id="Tutor" maxlength="40" value="<%=(Personal.getTutor()==null || Personal.getTutor().equals("-") || Personal.getTutor().equals("null"))? "" : Personal.getTutor()%>">
+	          	<input type="hidden" name="Colonia" id="Colonia" maxlength="30" value="<%=(Personal.getColonia()==null || Personal.getColonia().equals("-") || Personal.getColonia().equals("null"))? "" : Personal.getColonia()%>">
+	          	<input type="hidden" name="Cedula" id="Cedula" maxlength="20" value="<%=(Personal.getTutorCedula()==null || Personal.getTutorCedula().equals("-") || Personal.getTutorCedula().equals("null"))? "" : Personal.getTutorCedula()%>">
+	          	<input name="Direccion" type="hidden" id="Direccion" maxlength="100" value="<%=(Personal.getDireccion()==null || Personal.getDireccion().equals("-") || Personal.getDireccion().equals("null"))? "" : Personal.getDireccion()%>">
+	          	<input name="Telefono" type="hidden" id="Telefono" maxlength="60" value="<%=Personal.getTelefono()==null?"-":Personal.getTelefono()%>">
+	          	<input name="Celular" type="hidden" id="Celular" maxlength="60" value="<%=Personal.getCelular()==null?"-":Personal.getCelular()%>">
+	          	<input name="Email" type="hidden" id="Email" maxlength="50" value="<%=Personal.getEmail()==null?"-":Personal.getEmail()%>">	
+<%
+			for(int i = 1; i <= 3; i++){
+				String codigo = "", descripcion = "";
+				switch(i){
+				case 1: codigo = alumPadres.getCodigoPadre();descripcion = "Padre";break;
+				case 2: codigo = alumPadres.getCodigoMadre();descripcion = "Madre";break;
+				case 3: codigo = alumPadres.getCodigoTutor();descripcion = "Tutor";break;
+				}
+				if(!codigo.equals("") && !codigo.equals("-")){
+					empPersonal.mapeaRegId(conElias, codigo);
+%>
+		<div class="row">
+			<div class="span3"></div>
+			<div class="span2">
+	          	<p>
+	          		<label><fmt:message key="aca.Nombre"/> de <%=descripcion %></label>
+	          		<%=empPersonal.getNombre() %> <%=empPersonal.getApaterno() %> <%=empPersonal.getAmaterno() %>
+	          	</p>
+	          	<p>
+	          		<label><fmt:message key="aca.Colonia"/></label>
+	          		<%=empPersonal.getColonia() %>
+	          	</p>
+	        </div>
+	        <div class="span2">
+	          	<p>
+	          		<label><fmt:message key="aca.Direccion"/></label>
+	          		<%=empPersonal.getDireccion() %>
+	          	</p>
+	          	<p>
+	          		<label><fmt:message key="aca.Telefono"/></label>
+	          		<%=empPersonal.getTelefono() %>
+	          	</p>
+	        </div>
+	        <div class="span2">
+	          	<p>
+	          		<label><fmt:message key="aca.Email"/></label>
+	          		<%=empPersonal.getEmail() %>
+	          	</p>
+	          	<p>
+	          		<label>Cédula</label>
+	          		<%=empPersonal.getRfc() %>
+	          	</p>
+			</div>
+		</div>
+		<hr />
+<%
+				}
+			}
+		}
+%>
 	</form>
 </div>
 <%	
