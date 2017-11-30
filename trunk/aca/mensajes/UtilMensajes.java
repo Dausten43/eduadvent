@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UtilMensajes {
@@ -63,7 +65,7 @@ public class UtilMensajes {
 		
 		sql += " "+ orden;
 		
-		//System.out.println(sql);
+		System.out.println("mm " + sql);
 		
 		try{
 			PreparedStatement pst = con.prepareStatement(sql);
@@ -111,6 +113,8 @@ public class UtilMensajes {
 			pst.setString(8, msg.getAsunto());
 			
 			pst.executeUpdate();
+			
+			pst.close();
 			
 		}catch(SQLException sqle){
 			System.err.println("Error en UtilMensajes || getMensaje " + sqle);
@@ -161,9 +165,72 @@ public class UtilMensajes {
 		    pst.setLong(2, id);
 			
 			pst.executeUpdate();
-			
+			pst.close();
 		}catch(SQLException sqle){
 			System.err.println("Error en UtilMensajes || getMensaje " + sqle);
+			
+		}
+		
+	}
+	
+	public List<String> getMsgsLeidos(Connection con, Long idmsg){
+		List<String >salida = new ArrayList();
+		String sql ="select * from msg_leidos where id="+idmsg;
+		System.out.println(sql);
+		try{
+			PreparedStatement pst = con.prepareStatement(sql);
+		    
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()){
+				salida.add(rs.getString("destinatario") + "-" + rs.getString("id_mensaje"));
+			}
+			rs.close();
+			pst.close();
+			
+		}catch(SQLException sqle){
+			System.err.println("Error en getMsgsLeidos || getMensaje " + sqle);
+			
+		}
+		return salida;
+	}
+	
+	public List<String> getMsgsLeidos(Connection con, String lector){
+		List<String >salida = new ArrayList();
+		String sql ="select * from msg_leidos where destinatario in("+lector+")";
+		System.out.println(sql);
+		try{
+			PreparedStatement pst = con.prepareStatement(sql);
+		    
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()){
+				salida.add(rs.getString("destinatario") + "-" + rs.getString("id_mensaje"));
+			}
+			rs.close();
+			pst.close();
+			
+		}catch(SQLException sqle){
+			System.err.println("Error en getMsgsLeidos || getMensaje " + sqle);
+			
+		}
+		return salida;
+	}
+	
+	public void setMensajeLeido(Connection con, String lector, Long idmsg){
+		String sql ="insert into msg_leidos (destinatario, id_mensaje) values(?,?)";
+		
+		try{
+			PreparedStatement pst = con.prepareStatement(sql);
+		    pst.setString(1, lector);
+		    pst.setLong(2, idmsg);
+			
+			pst.executeUpdate();
+			
+			pst.close();
+			
+		}catch(SQLException sqle){
+			System.err.println("Error en setMensajeLeido || getMensaje " + sqle);
 			
 		}
 		

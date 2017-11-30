@@ -194,6 +194,7 @@
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
 			data : 'lista-mensajes=true&destino='+codigoid+','+escuela+'&tipodestino='+tipodestino,
+			cache : false,
 			success : function(output) {
 				$('#mensajes').html(output);
 				//console.log(output);
@@ -215,6 +216,7 @@
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
 			data : 'lista-mensajes=true&envia='+codigoid+'&tipodestino='+tipodestino+'&enviados=true',
+			cache : false,
 			success : function(output) {
 				$('#enviados').addClass('active');
 				$('#bandeja').removeClass('active');
@@ -241,6 +243,7 @@
 			type : 'post',
 			data : 'lista-mensajes=true&destino=' + codigoid + ',' + escuela
 					+ '&tipodestino=' + tipodestino,
+			cache : false,
 			success : function(output) {
 				$('#enviados').removeClass('active');
 				$('#bandeja').addClass('active');
@@ -261,6 +264,7 @@
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
 			data : 'show-msg=true&idmsg=' + idmsg + enviados,
+			cache : false,
 			success : function(output) {
 				$('#msg').html(output);
 				$('#msg-' + idmsg).css('font-weight', 'normal');
@@ -287,6 +291,7 @@
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
 			data : datadata,
+			cache : false,
 			success : function(output) {
 				$('#nuevoMsg').modal('toggle');
 				$('#enviadoMsg').modal('show');
@@ -312,6 +317,7 @@
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
 			data : datadata,
+			cache : false,
 			success : function(output) {
 				$('#respuestaBox').modal('toggle');
 				$('#enviadoMsg').modal('show');
@@ -331,6 +337,7 @@
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
 			data : datadata,
+			cache : false,
 			success : function(output) {
 				$('#removeBox').modal('toggle');
 				$('#enviadoMsg').modal('show');

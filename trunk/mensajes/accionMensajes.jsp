@@ -1,5 +1,6 @@
 
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.io.FilenameFilter"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.List"%>
@@ -48,11 +49,22 @@
 		String destino = request.getParameter("destino") != null ? request.getParameter("destino") : "X";
 		String tipodestino = request.getParameter("tipodestino") != null ? request.getParameter("tipodestino")
 				: "";
-
+		List<String> lsLeidos = new ArrayList();
+		lsLeidos.addAll(umsg.getMsgsLeidos(conElias, destino));
+		
 		Map<Long, Mensajeria> mapMensajes = umsg.getMensaje(conElias, 0L, "", "", tipodestino, "", destino, -1,
-				0L, -1, "1", " order by fecha desc ");
-
-		out.println(mapMensajes.size());
+				0L, -1, "", " order by fecha desc ");
+		System.out.println("tamaño mapa mensajes " + mapMensajes.size());
+		int contador = 0;
+		
+	    for(Long idmsg : mapMensajes.keySet()){
+	    	String llave = mapMensajes.get(idmsg).getDestino() + "-" + idmsg.toString();
+	    	if(!lsLeidos.contains(llave)){
+	    		contador++;
+	    	}
+	    }
+		
+		out.println(contador);
 		mapMensajes.clear();
 	}
 
@@ -63,9 +75,13 @@
 		String envia = request.getParameter("envia") != null ? request.getParameter("envia") : "";
 		String enviados = request.getParameter("enviados") != null ? "&enviados=true" : "";
 		String escuela = request.getParameter("escuela") != null ? request.getParameter("escuela") : "";
+		
+		List<String> lsLeidos = new ArrayList();
+		lsLeidos.addAll(umsg.getMsgsLeidos(conElias, destino));
+		
 		Map<Long, Mensajeria> mapMensajes = umsg.getMensaje(conElias, 0L, envia, "", tipodestino, "", destino,
 				-1, 0L, -1, "1,2", " order by estado, fecha  desc ");
-		//System.out.println(mapMensajes.size() + " "+destino);
+		System.out.println(mapMensajes.size() + " "+destino);
 %>
 <table style="width: 100%">
 	<%
@@ -90,7 +106,7 @@
 	%>
 	<tr>
 		<%
-			if (m.getEstado() == 1) {
+			if (!lsLeidos.contains(m.getDestino() + "-" + m.getId().toString())) {
 		%>
 		<td onclick="showMsg(<%=m.getId()%>,'<%=enviados%>')"
 			style="border-bottom: 1px solid #000000; font-weight: bold;"
@@ -132,13 +148,21 @@
 			isAttach = true;
 		}
 		
+		
+		
 		Long id = new Long(request.getParameter("idmsg"));
 		Map<Long, Mensajeria> mapMensajes = umsg.getMensaje(conElias, id, "", "", "", "", "", -1, 0L, -1, "",
 				"");
-		if (request.getParameter("enviados") == null)
-			if (mapMensajes.get(id).getEstado().equals(1))
-				umsg.guardaMensaje(conElias, 2, id);
+		
+		List<String> lsLeidos = new ArrayList();
+		lsLeidos.addAll(umsg.getMsgsLeidos(conElias, id));
+			
 		for (Mensajeria m : mapMensajes.values()) {
+			
+			if (request.getParameter("enviados") == null)
+				if(!lsLeidos.contains(m.getDestino() + "-" + m.getId().toString()))
+					umsg.setMensajeLeido(conElias, m.getDestino(), m.getId());
+			
 			String nombreEnvia = "";
 			String nombrePara = "";
 			if (m.getUsr_envia().contains("E")) {

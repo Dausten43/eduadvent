@@ -176,11 +176,14 @@
 		var suma = 0;	
 		var escuela = '<%= escuelaId %>';
 		var tipodestino = '\'P\',\'I\',\'G\'';
-		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+ciclogpoid+'\',\''+escuela+'\'&tipodestino='+tipodestino;
+		var ciclo = ciclogpoid.substring(0,8);
+		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+ciclogpoid+'\',\''+escuela+'\',\''+ciclo+'\'&tipodestino='+tipodestino;
+		console.log(datadataA);
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
 			data : datadataA,
+			cache : false,
 			success : function(output) {
 				suma += $.isNumeric(output) ? parseInt(output) : 0;
 				$('#msg-'+codigoid).html(suma + ' Mensajes Nuevos');
