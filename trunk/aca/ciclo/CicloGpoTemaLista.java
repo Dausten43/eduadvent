@@ -16,7 +16,7 @@ public class CicloGpoTemaLista {
 		
 		try{
 			comando = "SELECT CICLO_GRUPO_ID, MODULO_ID, TEMA_NOMBRE, " +
-					"TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN FROM CICLO_GRUPO_TEMA "+orden;
+					"TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN, FECHA FROM CICLO_GRUPO_TEMA "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
@@ -43,7 +43,7 @@ public class CicloGpoTemaLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_GRUPO_ID, MODULO_ID, TEMA_NOMBRE, TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN " +
+			comando = "SELECT CICLO_GRUPO_ID, MODULO_ID, TEMA_NOMBRE, TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN, FECHA " +
 					" FROM CICLO_GRUPO_TEMA" +
 					" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
 					" AND CURSO_ID = '"+cursoId+"'" +

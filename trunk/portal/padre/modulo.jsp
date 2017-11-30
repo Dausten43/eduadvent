@@ -90,7 +90,7 @@
 %>
 			<div class="alert alert-info" style="">
 				<h4>
-					<%=nomTema.equals("") ? "-" : nomTema%> &nbsp;
+					<%=nomTema.equals("") ? "-" : nomTema%> &nbsp; <%= tema.getFecha()!=null ? tema.getFecha() : "yyyy/mm/dd" %>
 				</h4>
 				<p style="margin:0;">
 					<%=desTema.equals("") ? "-" : desTema%> <br />

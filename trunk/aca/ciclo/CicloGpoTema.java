@@ -14,6 +14,7 @@ public class CicloGpoTema {
 	private String descripcion;
 	private String cursoId;
 	private String orden;
+	private String fecha;
 	
 	public CicloGpoTema(){
 		cicloGrupoId	= "";
@@ -23,6 +24,7 @@ public class CicloGpoTema {
 		descripcion		= "";
 		cursoId			= "";
 		orden 			= "";
+		fecha 			= "";
 	}
 			
 	public String getCursoId() {
@@ -77,6 +79,14 @@ public class CicloGpoTema {
 		return orden;
 	}
 
+	public String getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
 	public void setOrden(String orden) {
 		this.orden = orden;
 	}
@@ -86,8 +96,8 @@ public class CicloGpoTema {
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_TEMA" +
-					" (CICLO_GRUPO_ID, MODULO_ID, TEMA_ID, TEMA_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN)" +
-					" VALUES(?, ?, ?, ? , ?, ?, TO_NUMBER(?, '99.99'))");
+					" (CICLO_GRUPO_ID, MODULO_ID, TEMA_ID, TEMA_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN, FECHA)" +
+					" VALUES(?, ?, ?, ? , ?, ?, TO_NUMBER(?, '99.99'), to_date(?, 'dd/mm/yyyy'))");
 			
 			ps.setString(1, cicloGrupoId);
 			ps.setString(2, moduloId);
@@ -96,6 +106,7 @@ public class CicloGpoTema {
 			ps.setString(5, descripcion);
 			ps.setString(6, cursoId);
 			ps.setString(7, orden);
+			ps.setString(8, fecha);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -118,7 +129,7 @@ public class CicloGpoTema {
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_TEMA" +
 					" (CICLO_GRUPO_ID, MODULO_ID, TEMA_ID, TEMA_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN)" +
-					" VALUES(?, ?, ?, ? , ?, ?, TO_NUMBER(?, '99.99'))");
+					" VALUES(?, ?, ?, ? , ?, ?, TO_NUMBER(?, '99.99'), to_date(?, 'dd/mm/yyyy'))");
 			
 			ps.setString(1, cicloGrupoId);
 			ps.setString(2, moduloId);
@@ -127,6 +138,7 @@ public class CicloGpoTema {
 			ps.setString(5, descripcion);
 			ps.setString(6, cursoId);
 			ps.setString(7, orden);
+			ps.setString(8, fecha);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -150,7 +162,7 @@ public class CicloGpoTema {
 			ps = conn.prepareStatement("UPDATE CICLO_GRUPO_TEMA" +
 					" SET MODULO_ID = ?," +
 					" TEMA_NOMBRE = ?," +
-					" DESCRIPCION = ?, ORDEN = TO_NUMBER(?, '99.99') " +
+					" DESCRIPCION = ?, ORDEN = TO_NUMBER(?, '99.99'), fecha = to_date(?, 'dd/mm/yyyy') " +
 					" WHERE CICLO_GRUPO_ID = ?" +
 					" AND TEMA_ID = ?" +
 					" AND CURSO_ID = ? ");			
@@ -158,9 +170,10 @@ public class CicloGpoTema {
 			ps.setString(2, temaNombre);
 			ps.setString(3, descripcion);
 			ps.setString(4, orden);
-			ps.setString(5, cicloGrupoId);
-			ps.setString(6, temaId);
-			ps.setString(7, cursoId);
+			ps.setString(5, fecha);
+			ps.setString(6, cicloGrupoId);
+			ps.setString(7, temaId);
+			ps.setString(8, cursoId);
 			
 			
 			if ( ps.executeUpdate()== 1){
@@ -213,6 +226,7 @@ public class CicloGpoTema {
 		descripcion		= rs.getString("DESCRIPCION");
 		cursoId			= rs.getString("CURSO_ID");
 		orden 			= rs.getString("ORDEN");
+		fecha 			= rs.getString("FECHA");
 		
 	}
 	
@@ -221,7 +235,7 @@ public class CicloGpoTema {
 		ResultSet rs = null;		
 		try{
 			ps = con.prepareStatement("SELECT CICLO_GRUPO_ID, MODULO_ID, TEMA_NOMBRE," +
-					" TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN FROM CICLO_GRUPO_TEMA" +
+					" TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN, FECHA FROM CICLO_GRUPO_TEMA" +
 					" WHERE CICLO_GRUPO_ID = ?" +
 					" AND TEMA_ID = ? " +
 					" AND CURSO_ID = ?");		

@@ -46,6 +46,7 @@
 			Tema.setTemaNombre(request.getParameter("Nombre"));
 			Tema.setDescripcion(request.getParameter("Descripcion"));
 			Tema.setOrden(request.getParameter("Orden"));
+			Tema.setFecha(request.getParameter("Fecha"));
 
 			if (Tema.existeReg(conElias) == false) {
 				if (Tema.insertReg(conElias)) {
@@ -119,6 +120,11 @@
 		</fieldset>
 		
 		<fieldset>
+			<label for="Fecha"><fmt:message key="aca.Fecha" /></label> 
+			<input name="Fecha" type="text" class="text " id="Fecha" value="<%=Tema.getFecha()!=null ? Tema.getFecha() :"" %>" readonly="readonly">
+		</fieldset>
+		
+		<fieldset>
 			<label for="Descripcion"><fmt:message key="aca.Descripcion" /></label>
 			<textArea name="Descripcion" id="Descripcion" rows="7" class="text input-xxlarge"><%=Tema.getDescripcion()%></textArea>
 		</fieldset>
@@ -148,7 +154,11 @@
 
 
 </div>
-
+<link rel="stylesheet" href="../../js-plugins/datepicker/datepicker.css" />
+<script src="../../js-plugins/datepicker/datepicker.js"></script>
+<script>
+	$('#Fecha').datepicker();	
+</script>
 
 <link rel="stylesheet" href="../../js-plugins/maxlength/jquery.maxlength.css" />
 <script src="../../js-plugins/maxlength/jquery.maxlength.min.js"></script>

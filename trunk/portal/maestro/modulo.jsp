@@ -105,7 +105,7 @@
 %>
 		<div class="alert alert-info" style="">
 			<h4>
-				<%=nomTema.equals("") ? "-" : nomTema%> &nbsp;
+				<%=nomTema.equals("") ? "-" : nomTema%> &nbsp; <%= tema.getFecha()!=null ? tema.getFecha() : "yyyy/mm/dd" %>
 				<a href="tema.jsp?Accion=0&ModuloId=<%=Modulo.getModuloId()%>&TemaId=<%=tema.getTemaId()%>"><i class="icon-pencil"></i></a>
 				&nbsp;&nbsp;&nbsp;
 				<a class="btn btn-success" href="moduloTraspasoTema.jsp?moduloId=<%=modulo2%>&temaId=<%=tema.getTemaId() %>">
