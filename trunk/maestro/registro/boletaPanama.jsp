@@ -892,7 +892,6 @@
 
 										if(mapPromAlumno.containsKey(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()) && show){
 											valor = mapPromAlumno.get(codigoAlumno+curso.getCursoId()+cicloPromedio.getPromedioId()).getNota();
-											sumaNotas = sumaNotas.add(new BigDecimal(valor, mc), mc);
 											if(curso.getCursoBase().equals("-")){//Si es materia madre o materia sin hijas
 												sumaPorTrimestre[l] = sumaPorTrimestre[l].add(new BigDecimal(valor, mc), mc);
 												if(curso.getTipocursoId().equals("3"))//si es materia madre y es de Ingles
@@ -901,6 +900,7 @@
 											if(curso.getTipocursoId().equals("3"))
 												sumaPorTrimestreIngles[l] = sumaPorTrimestreIngles[l].add(new BigDecimal(valor, mc), mc);
 											valor = String.valueOf(frm.format(Double.parseDouble(valor)));
+											sumaNotas = sumaNotas.add(new BigDecimal(valor, mc), mc);
 											//System.out.println("Trimestre "+l+"; nota = "+valor);
 											if(Float.parseFloat(valor) == 0){
 												valor ="--";
@@ -947,7 +947,6 @@
 											
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno) && show){
 												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
-												sumaNotas = sumaNotas.add(new BigDecimal(valor, mc), mc);
 												if(curso.getCursoBase().equals("-")){//Si es materia madre o materia sin hijas
 													sumaPorTrimestre[contador] = sumaPorTrimestre[contador].add(new BigDecimal(valor, mc), mc);
 													if(curso.getTipocursoId().equals("3"))//si es materia madre y es de Ingles
@@ -956,6 +955,7 @@
 												if(curso.getTipocursoId().equals("3"))
 													sumaPorTrimestreIngles[contador] = sumaPorTrimestreIngles[contador].add(new BigDecimal(valor, mc), mc);
 												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
+												sumaNotas = sumaNotas.add(new BigDecimal(valor, mc), mc);
 												
 												if(Float.parseFloat(valor) == 0){
 													valor ="--";
