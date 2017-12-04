@@ -205,7 +205,7 @@ public class UtilMensajes {
 			ResultSet rs = pst.executeQuery();
 			
 			while(rs.next()){
-				salida.add(rs.getString("destinatario") + "-" + rs.getString("id_mensaje"));
+				salida.add(rs.getString("id_mensaje"));
 			}
 			rs.close();
 			pst.close();
