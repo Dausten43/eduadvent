@@ -121,7 +121,7 @@
 		
 		<fieldset>
 			<label for="Fecha"><fmt:message key="aca.Fecha" /></label> 
-			<input name="Fecha" type="text" class="text " id="Fecha" value="<%=Tema.getFecha()!=null ? Tema.getFecha() :"" %>" readonly="readonly">
+			<input name="Fecha" type="text" class="text " id="Fecha" value="<%=Tema.getFecha()!=null ? Tema.getFecha() :"" %>" readonly="readonly" style="cursor: pointer;">
 		</fieldset>
 		
 		<fieldset>
@@ -176,7 +176,8 @@
 	function grabar() {
 		if (document.frmAlta.TemaId.value.value != ""
 				&& document.frmAlta.Nombre.value != ""
-				&& document.frmAlta.Orden.value != "") {
+				&& document.frmAlta.Orden.value != ""
+				&& document.frmAlta.Fecha.value != "") {
 			document.frmAlta.Accion.value = "2";
 			document.frmAlta.submit();
 		} else {

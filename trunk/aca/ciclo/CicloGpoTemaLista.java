@@ -43,7 +43,7 @@ public class CicloGpoTemaLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CICLO_GRUPO_ID, MODULO_ID, TEMA_NOMBRE, TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN, FECHA " +
+			comando = "SELECT CICLO_GRUPO_ID, MODULO_ID, TEMA_NOMBRE, TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA " +
 					" FROM CICLO_GRUPO_TEMA" +
 					" WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"'" +
 					" AND CURSO_ID = '"+cursoId+"'" +

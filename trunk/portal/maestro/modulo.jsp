@@ -72,7 +72,7 @@
 	Modulo.setModuloId(modulo2);
 	if (!modulo2.equals("0") && Modulo.existeReg(conElias)) {
 		Modulo.mapeaRegId(conElias, cicloGrupo, modulo2, cursoId);
-		ArrayList<aca.ciclo.CicloGpoTema> lisTema = TemaL.getListTemasModulo(conElias, cicloGrupo, cursoId, modulo2, "ORDER BY ORDEN, MODULO_ID");	
+		ArrayList<aca.ciclo.CicloGpoTema> lisTema = TemaL.getListTemasModulo(conElias, cicloGrupo, cursoId, modulo2, "ORDER BY FECHA, ORDEN, MODULO_ID");	
 		
 		String descripcion = Modulo.getDescripcion();
 %>
@@ -105,7 +105,7 @@
 %>
 		<div class="alert alert-info" style="">
 			<h4>
-				<%=nomTema.equals("") ? "-" : nomTema%> &nbsp; <%= tema.getFecha()!=null ? tema.getFecha() : "yyyy/mm/dd" %>
+				<%=nomTema.equals("") ? "-" : nomTema%> &nbsp; <%= tema.getFecha()!=null ? aca.util.Fecha.getFechaCorta(tema.getFecha()) : "dd/mmm/yy" %>
 				<a href="tema.jsp?Accion=0&ModuloId=<%=Modulo.getModuloId()%>&TemaId=<%=tema.getTemaId()%>"><i class="icon-pencil"></i></a>
 				&nbsp;&nbsp;&nbsp;
 				<a class="btn btn-success" href="moduloTraspasoTema.jsp?moduloId=<%=modulo2%>&temaId=<%=tema.getTemaId() %>">
