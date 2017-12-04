@@ -186,14 +186,14 @@
 <script>
 	$(function(){
 		var codigoid= '\'<%=codigoId%>\'';
-		
+		var usuarioid = '<%= codigoId %>';
 		var escuela = '\'<%=escuelaId%>\'';
 		var tipodestino = '\'P\',\'A\',\'G\'';
 		 console.log(codigoid);
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
-			data : 'lista-mensajes=true&destino='+codigoid+','+escuela+'&tipodestino='+tipodestino,
+			data : 'lista-mensajes=true&destino='+codigoid+','+escuela+'&tipodestino='+tipodestino+'&usuario='+usuarioid,
 			cache : false,
 			success : function(output) {
 				$('#mensajes').html(output);
@@ -208,6 +208,7 @@
 	
 	
 	function msgsEnviados(){
+		
 		var codigoid= '<%=codigoId%>';
 		var escuela = '\'<%=escuelaId%>\'';
 		var tipodestino = '\'P\',\'A\',\'G\'';
@@ -233,16 +234,15 @@
 	
 	function msgsRecibidos(){
 		var codigoid= '\'<%=codigoId%>\'';
-		
-		var escuela = '\'<%=escuelaId%>
-	\'';
+		var usuarioid = '<%= codigoId %>';
+		var escuela = '\'<%=escuelaId%>\'';
 		var tipodestino = '\'P\',\'A\',\'G\'';
 		console.log(codigoid);
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
 			data : 'lista-mensajes=true&destino=' + codigoid + ',' + escuela
-					+ '&tipodestino=' + tipodestino,
+					+ '&tipodestino=' + tipodestino+'&usuario='+usuarioid,
 			cache : false,
 			success : function(output) {
 				$('#enviados').removeClass('active');
@@ -259,11 +259,12 @@
 	}
 
 	function showMsg(idmsg, enviados) {
+		var usuarioid = '<%= codigoId %>';
 		console.log('lo que viene en enviados ' + enviados)
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',
 			type : 'post',
-			data : 'show-msg=true&idmsg=' + idmsg + enviados,
+			data : 'show-msg=true&idmsg=' + idmsg + enviados+'&usuario='+usuarioid,
 			cache : false,
 			success : function(output) {
 				$('#msg').html(output);

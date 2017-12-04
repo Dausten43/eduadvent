@@ -173,11 +173,12 @@
 	});
 	
 	function contarMensajesNuevos(ciclogpoid, codigoid){
+		var usuarioid = codigoid;
 		var suma = 0;	
 		var escuela = '<%= escuelaId %>';
 		var tipodestino = '\'P\',\'I\',\'G\'';
 		var ciclo = ciclogpoid.substring(0,8);
-		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+ciclogpoid+'\',\''+escuela+'\',\''+ciclo+'\'&tipodestino='+tipodestino;
+		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+ciclogpoid+'\',\''+escuela+'\',\''+ciclo+'\'&tipodestino='+tipodestino+'&usuario='+usuarioid;
 		console.log(datadataA);
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',

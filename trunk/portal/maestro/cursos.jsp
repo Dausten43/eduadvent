@@ -290,7 +290,7 @@
 		var codigoid = '<%= maestroId %>'
 		var escuela = '<%=  (String) session.getAttribute("escuela") %>';
 		var tipodestino = '\'P\',\'A\',\'G\'';
-		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+escuela+'\'&tipodestino='+tipodestino;
+		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+escuela+'\'&tipodestino='+tipodestino+'&usuario='+codigoid;
 		console.log(datadataA);
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',

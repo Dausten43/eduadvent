@@ -146,8 +146,9 @@
 	function contarMensajesNuevos(ciclogpoid, codigoid){
 		var suma = 0;	
 		var escuela = '<%= escuelaId %>';
+		var ciclo = ciclogpoid.substring(0, 8);
 		var tipodestino = '\'P\',\'I\',\'G\'';
-		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+ciclogpoid+'\',\''+escuela+'\'&tipodestino='+tipodestino;
+		var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+ciclogpoid+'\',\''+escuela+'\',\''+ciclo+'\'&tipodestino='+tipodestino+'&usuario='+codigoid;
 		console.log(datadataA);
 		$.ajax({
 			url : '../../mensajes/accionMensajes.jsp',

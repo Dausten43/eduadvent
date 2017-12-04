@@ -47,10 +47,10 @@
 
 	if (request.getParameter("cuenta_msgs") != null) {
 		String destino = request.getParameter("destino") != null ? request.getParameter("destino") : "X";
-		String tipodestino = request.getParameter("tipodestino") != null ? request.getParameter("tipodestino")
-				: "";
+		String tipodestino = request.getParameter("tipodestino") != null ? request.getParameter("tipodestino") : "";
+		String usuario = request.getParameter("usuario") != null ? "'"+request.getParameter("usuario")+"'" : "''";
 		List<String> lsLeidos = new ArrayList();
-		lsLeidos.addAll(umsg.getMsgsLeidos(conElias, destino));
+		lsLeidos.addAll(umsg.getMsgsLeidos(conElias, usuario));
 		
 		Map<Long, Mensajeria> mapMensajes = umsg.getMensaje(conElias, 0L, "", "", tipodestino, "", destino, -1,
 				0L, -1, "", " order by fecha desc ");
@@ -58,7 +58,7 @@
 		int contador = 0;
 		
 	    for(Long idmsg : mapMensajes.keySet()){
-	    	String llave = mapMensajes.get(idmsg).getDestino() + "-" + idmsg.toString();
+	    	String llave = idmsg.toString();
 	    	if(!lsLeidos.contains(llave)){
 	    		contador++;
 	    	}
@@ -71,13 +71,15 @@
 	if (request.getParameter("lista-mensajes") != null) {
 		String destino = request.getParameter("destino") != null ? request.getParameter("destino") : "";
 		String tipodestino = request.getParameter("tipodestino") != null ? request.getParameter("tipodestino")
+				
 				: "";
+		String usuario = request.getParameter("usuario") != null ? "'"+request.getParameter("usuario")+"'" : "''";
 		String envia = request.getParameter("envia") != null ? request.getParameter("envia") : "";
 		String enviados = request.getParameter("enviados") != null ? "&enviados=true" : "";
 		String escuela = request.getParameter("escuela") != null ? request.getParameter("escuela") : "";
 		
 		List<String> lsLeidos = new ArrayList();
-		lsLeidos.addAll(umsg.getMsgsLeidos(conElias, destino));
+		lsLeidos.addAll(umsg.getMsgsLeidos(conElias, usuario));
 		
 		Map<Long, Mensajeria> mapMensajes = umsg.getMensaje(conElias, 0L, envia, "", tipodestino, "", destino,
 				-1, 0L, -1, "1,2", " order by estado, fecha  desc ");
@@ -106,7 +108,7 @@
 	%>
 	<tr>
 		<%
-			if (!lsLeidos.contains(m.getDestino() + "-" + m.getId().toString())) {
+			if (!lsLeidos.contains(m.getId().toString())) {
 		%>
 		<td onclick="showMsg(<%=m.getId()%>,'<%=enviados%>')"
 			style="border-bottom: 1px solid #000000; font-weight: bold;"
@@ -135,6 +137,7 @@
 	if (request.getParameter("show-msg") != null) {
 		
 		String ruta = application.getRealPath("WEB-INF/archivos/mensajes");
+		String usuario = request.getParameter("usuario") != null ? request.getParameter("usuario") : "''";
 		final String idmsg = request.getParameter("idmsg");
 		File f = new File(ruta);
 		File[] matchingFiles = f.listFiles(new FilenameFilter() {
@@ -161,7 +164,7 @@
 			
 			if (request.getParameter("enviados") == null)
 				if(!lsLeidos.contains(m.getDestino() + "-" + m.getId().toString()))
-					umsg.setMensajeLeido(conElias, m.getDestino(), m.getId());
+					umsg.setMensajeLeido(conElias,usuario, m.getId());
 			
 			String nombreEnvia = "";
 			String nombrePara = "";
