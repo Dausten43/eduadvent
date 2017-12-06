@@ -73,7 +73,7 @@
 	Modulo.setModuloId(modulo2);
 	if (!modulo2.equals("0") && Modulo.existeReg(conElias)) {
 		Modulo.mapeaRegId(conElias, cicloGrupo, modulo2, cursoId);
-		ArrayList<aca.ciclo.CicloGpoTema> lisTema = TemaL.getListTemasModulo(conElias, cicloGrupo, cursoId, modulo2, "ORDER BY FECHA, ORDEN, MODULO_ID");	
+		ArrayList<aca.ciclo.CicloGpoTema> lisTema = TemaL.getListTemasModulo(conElias, cicloGrupo, cursoId, modulo2, "ORDER BY TO_CHAR(FECHA, 'YYYYMMDD') DESC, ORDEN DESC, MODULO_ID");	
 		
 		String descripcion = Modulo.getDescripcion();
 %>
