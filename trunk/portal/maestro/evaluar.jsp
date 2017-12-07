@@ -234,6 +234,9 @@
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
 	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
+	java.text.DecimalFormat formato4	= new java.text.DecimalFormat("##0.0000;-##0.0000");
+	
+	formato4.setRoundingMode(java.math.RoundingMode.DOWN);
 
 	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("##0.0;-##0.0");
@@ -1742,13 +1745,25 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
 							
 							// Formato del promedio y los puntos (decimales usados)
+							if(cicloPromedio.getRedondeo().equals("T"))
+								formato1.setRoundingMode(java.math.RoundingMode.DOWN);
+							else
+								formato1.setRoundingMode(java.math.RoundingMode.HALF_UP);
 							String promFormato		= formato1.format(promEval);
 							String puntosFormato	= formato1.format(puntosEval);
 							
 							if (cicloPromedio.getDecimales().equals("0")){
+								if(cicloPromedio.getRedondeo().equals("T"))
+									formato0.setRoundingMode(java.math.RoundingMode.DOWN);
+								else
+									formato0.setRoundingMode(java.math.RoundingMode.HALF_UP);
 								promFormato 		= formato0.format(promEval);
 								puntosFormato 		= formato0.format(puntosEval);
 							}else if (cicloPromedio.getDecimales().equals("2")){
+								if(cicloPromedio.getRedondeo().equals("T"))
+									formato2.setRoundingMode(java.math.RoundingMode.DOWN);
+								else
+									formato2.setRoundingMode(java.math.RoundingMode.HALF_UP);
 								promFormato 		= formato2.format(promEval);
 								puntosFormato 		= formato2.format(puntosEval);
 							}
@@ -1771,15 +1786,18 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							double puntosEscala = 0;
 							if (escalaEval == 5){
 								//promedioFinal = (promedioFinal * 5)/sumaValor;
-								promedioFinal = sumEval.divide(new BigDecimal(lisPromedio.size()+"", MATH_CTX), MATH_CTX).setScale(1, RoundingMode.DOWN).doubleValue();
+								promedioFinal = sumEval.divide(new BigDecimal(lisPromedio.size()+"", MATH_CTX), MATH_CTX).doubleValue();
 								// HAQUE QUE SACAR ESTE VALOR DE LA BASE DE DATOS EN LUGAR DE ESTA MEXICANADA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 								if(promedioFinal < 1d){
 									promedioFinal = 1d;
 								}
 							}else if (escalaEval == 10){
 								promedioFinal = (promedioFinal * 10)/sumaValor;
-							}							
-							muestraPromedioFinal = formato1.format(promedioFinal);
+							}
+							if(escuelaId.substring(0, 1).equals("H"))
+								muestraPromedioFinal = formato4.format(promedioFinal);
+							else
+								muestraPromedioFinal = formato1.format(promedioFinal);
 						
 							//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
 							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");						
