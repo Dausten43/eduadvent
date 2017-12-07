@@ -375,8 +375,11 @@
 						alumno = z.getCodigoId();
 					if(!alumno.equals(z.getCodigoId())){// Al cambiar de alumno se guarda el promedio en el curso base (materia madre)
 						String total = frm.format(0.0d); 
+						//System.out.println(alumno);
+						//System.out.println(sumaNota+"/"+sumaValor);
 						if(sumaNota.floatValue() > 0f && sumaValor.floatValue() > 0f)
-							total = frm.format(sumaNota.divide(sumaValor,8,RoundingMode.HALF_EVEN).doubleValue());
+							total = frm.format(sumaNota.divide(sumaValor,mc));
+						//System.out.println(total);
 						
 						kardexProm.setCodigoId(alumno);
 						kardexProm.setCicloGrupoId(cicloGrupoId);
@@ -400,9 +403,10 @@
 						sumaValor = new BigDecimal(0);
 					}
 					if(z.getPromedioId().equals(promedioId)){
-						sumaNota = sumaNota.add((new BigDecimal(Float.parseFloat(z.getNota()),mc).multiply(new BigDecimal(Float.parseFloat(z.getValor()),mc))));
+						BigDecimal notaEnFormato = new BigDecimal(frm.format(new BigDecimal(Float.parseFloat(z.getNota()),mc)),mc);
+						sumaNota = sumaNota.add((notaEnFormato.multiply(new BigDecimal(Float.parseFloat(z.getValor()),mc))));
 						sumaValor = sumaValor.add(new BigDecimal(Float.parseFloat(z.getValor()),mc));
-						//System.out.println("Nota = "+new BigDecimal(Float.parseFloat(z.getNota()),mc)+"; operacion = "+(new BigDecimal(Float.parseFloat(z.getNota()),mc).multiply(new BigDecimal(Float.parseFloat(z.getValor()),mc)))+"; sumaNota = "+sumaNota+"; sumaValor = "+sumaValor);
+						//System.out.println("Nota = "+notaEnFormato+"; operacion = "+(notaEnFormato.multiply(new BigDecimal(Float.parseFloat(z.getValor()),mc)))+"; sumaNota = "+sumaNota+"; sumaValor = "+sumaValor);
 					}
 				}
 				
