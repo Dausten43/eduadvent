@@ -908,6 +908,8 @@
 												if(curso.getTipocursoId().equals("3")){
 													materiasSinNotaIngles[l]++;
 												}
+												if(show)//si la nota es 0 pero se pidió que se calculara incluyendo este trimestre
+													trimestresConNota++;
 											}else{
 												trimestresConNota++;
 											}
@@ -963,6 +965,8 @@
 													if(curso.getTipocursoId().equals("3")){
 														materiasSinNotaIngles[contador]++;
 													}
+													if(show)//si la nota es 0 pero se pidió que se calculara incluyendo este trimestre
+														trimestresConNota++;
 												}else{
 													trimestresConNota++;
 												}
@@ -992,12 +996,12 @@
 									}
 								}
 			    				
-			    				boolean estanTodasCerradas = CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, alumnoCurso.getCursoId());
+			    				//boolean estanTodasCerradas = CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, alumnoCurso.getCursoId());
 			    				
 			    				String nota;
-			    				if(!estanTodasCerradas){
+			    				
+			    				//if(!estanTodasCerradas){
 			    					nota = "0";
-			    					//System.out.println("float calculo = "+sumaNotas+"/"+trimestresConNota+";");
 			    					BigDecimal calculo = new BigDecimal("0", mc);
 			    					if(sumaNotas.compareTo(BigDecimal.ZERO) > 0){
 			    						calculo = sumaNotas.divide(new BigDecimal(trimestresConNota, mc),mc);
@@ -1006,7 +1010,7 @@
 			    					// Colocar formato con una decimal
 			    					nota = frm4.format(calculo);
 			    					
-			    				}else{
+			    				/*}else{
 			    					nota = "0a";
 			    					BigDecimal calculo = new BigDecimal("0", mc);
 			    					if(sumaNotas.compareTo(BigDecimal.ZERO) > 0){
@@ -1014,7 +1018,7 @@
 			    					}
 			    					//nota = String.valueOf(calculo);
 			    					nota = frm4.format(calculo);
-			    				}
+			    				}*/
 			    				if(curso.getCursoBase().equals("-"))
 			    					promedioPorMateria[j] = new BigDecimal(nota, mc);
 			    				
@@ -1933,7 +1937,9 @@
 						}else if(ciclo.getNivelEval().equals("E")){
 							for(CicloBloque cb: lisBloque){
 								//Si se solicitó mostrar el trimestre 
+								//System.out.println(cb.getBloqueId()+".equals("+request.getParameter(cb.getBloqueNombre())+")");
 								if(cb.getBloqueId().equals(request.getParameter(cb.getBloqueNombre()))){
+									//System.out.println("Entro............................................");
 									trimestreId = cicloPromedio.getPromedioId();
 								}
 							}
