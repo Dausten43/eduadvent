@@ -126,6 +126,7 @@
 			Personal.setTelefono(request.getParameter("Direccion"));
 			Personal.setTelefono(request.getParameter("Ocupacion"));
 			Personal.setEmail(request.getParameter("Email"));
+			Personal.setRfc(request.getParameter("RFC"));
 			
 			Clave.setCodigoId(request.getParameter("CodigoEmpleado"));
 			Clave.setTipoId("3");
@@ -150,6 +151,7 @@
 			Personal.setDireccion(request.getParameter("Direccion"));
 			Personal.setOcupacion(request.getParameter("Ocupacion"));
 			Personal.setEmail(request.getParameter("Email"));
+			Personal.setRfc(request.getParameter("RFC"));
 			Personal.setEscuelaId(escuela);
 			Personal.setEstado(request.getParameter("estado"));
 			Personal.setTipoId("3");
@@ -206,6 +208,7 @@
 			Personal.setDireccion(request.getParameter("Direccion"));
 			Personal.setOcupacion(request.getParameter("Ocupacion"));
 			Personal.setEmail(request.getParameter("Email"));
+			Personal.setRfc(request.getParameter("RFC"));
 			Personal.setEscuelaId(escuela);
 			Personal.setEstado(request.getParameter("estado"));
 			Personal.setTipoId("3");
@@ -376,6 +379,14 @@
 			        	<option value='F' selected><fmt:message key="aca.Mujer" /></option>
 		        <%} %>
 	              	</select>
+		        </div>
+		        
+		        <div class="control-group ">
+		        	<label for="RFC">
+		            	<fmt:message key="aca.rfc" />/C&eacute;dula
+		                <span class="required-indicator">*</span>
+		            </label>
+		            <input name="RFC" type="text" id="RFC" size="20" maxlength="40" value="<%=Personal.getRfc() %>">
 		        </div>
 		            
 			</fieldset>
