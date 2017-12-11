@@ -10,10 +10,35 @@
 
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
+<jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
+<jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <%
 	String codigoId			= session.getAttribute("codigoId").toString();
 	String escuelaId	= (String) session.getAttribute("escuela");
 	String cicloIdM 	= (String) session.getAttribute("cicloId");
+	
+ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, codigoId, "ORDER BY CICLO_ID");
+	
+	//Verifica que el ciclo este en la lista de ciclo
+	boolean encontro = false;
+	for(aca.ciclo.Ciclo c : lisCiclo){
+		if(cicloIdM != null && c.equals(cicloIdM)){
+			encontro = true; break;
+		}
+	}
+	
+	// Elige el mejor ciclo para el alumno. 
+	if( encontro==false && lisCiclo.size()>0 ){
+		ciclo 	= (aca.ciclo.Ciclo) lisCiclo.get(lisCiclo.size()-1);
+		cicloIdM = ciclo.getCicloId();
+			
+		session.setAttribute("cicloId", cicloIdM);
+	}
+	
+	if( request.getParameter("ciclo") != null ){
+		cicloIdM = request.getParameter("ciclo");
+		session.setAttribute("cicloId", cicloIdM);
+	}
 	
 	alumPersonal.mapeaRegId(conElias, codigoId);	
 	
@@ -22,6 +47,7 @@
 	
 	cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,codigoId,cicloIdM)); 
 	
+	System.out.println("ciclo " + cicloGrupo.getCicloGrupoId() + " ---- " + cicloIdM + " ----  " + codigoId);
 	
 	System.out.println("Si llega a la 19");
 %>

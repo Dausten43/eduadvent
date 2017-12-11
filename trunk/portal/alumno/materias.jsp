@@ -56,8 +56,9 @@
 
 	alumPersonal.mapeaRegId(conElias, codigoId);
 	alumPlan.mapeaRegActual(conElias, codigoId);
-
+	System.out.println("ciclogrupoid " + cicloGrupo.getCicloGrupoId() + " " + cicloIdM);
 	cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,codigoId,cicloIdM));
+	System.out.println("ciclogrupoid " + cicloGrupo.getCicloGrupoId());
 	String plan			= aca.kardex.KrdxCursoAct.getAlumPlan(conElias,codigoId,cicloIdM);
 	int nivelId 		= -1;
 
