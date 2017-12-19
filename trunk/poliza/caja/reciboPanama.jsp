@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="aca.fin.FinMovimientos"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
@@ -157,6 +159,10 @@
 				if (finRecibo.getTipoPag() != null && finRecibo.getTipoPag().equals("3")) {
 					complTipoPago = "BANCO " + finRecibo.getBanco();
 				}
+				
+				BigDecimal saldoAcumulado = BigDecimal.ZERO;
+				boolean saldoIni = false;
+				Map<String,BigDecimal> mapSaldo = new HashMap();
 
 				for (FinMovimientos movimientos : lista) {
 
@@ -165,10 +171,29 @@
 
 					Cuenta.mapeaRegId(conElias, movimientos.getCuentaId());
 
+					
+					
 					if (Cuenta.getMuestraSaldoRecibo().equals("S")) {
 						saldoStr = aca.fin.FinMovimientos.getSaldoAnterior(conElias, movimientos.getAuxiliar(),
 								movimientos.getFecha().substring(0, 10));
+						
+						mapSaldo.put(movimientos.getAuxiliar(), new BigDecimal(saldoStr));
+						
+						if(!saldoIni){
+							saldoAcumulado = saldoAcumulado.add(new BigDecimal(saldoStr));
+							mapSaldo.put(movimientos.getAuxiliar(), new BigDecimal(saldoStr));
+						}
+						
+						saldoIni = true;
+						
+						
+						
 						saldoFormat = formato.format(Double.parseDouble(saldoStr));
+					}
+					
+					if(!saldoIni){
+						saldoAcumulado = saldoAcumulado.add(new BigDecimal(saldoStr));
+						mapSaldo.put(movimientos.getAuxiliar(), new BigDecimal(saldoStr));
 					}
 
 					//for( int i=0; i<lista.size(); i++){
@@ -179,19 +204,26 @@
 							: movimientos.getImporte();
 					centavos = movimientos.getImporte().indexOf(".") >= 0 ? movimientos.getImporte().substring(
 							movimientos.getImporte().indexOf(".") + 1, movimientos.getImporte().length()) : "00";
-
+					
 					aca.fin.FinMovimientos.getDPoliza(conElias, movimientos.getEjercicioId(),
 							movimientos.getPolizaId());
+					
+					BigDecimal saldoBgDc = BigDecimal.ZERO;
+					saldoBgDc = saldoBgDc.add(mapSaldo.containsKey(movimientos.getAuxiliar()) ? mapSaldo.get(movimientos.getAuxiliar()) : BigDecimal.ZERO);
 		%>
 		<tr style="font-size: 10px">
 
 			<td><%=movimientos.getAuxiliar()%>-<%=Alumno.getNombre(conElias, movimientos.getAuxiliar(), "NOMBRE")%>-<%=Cuenta.getCuentaNombre()%>
 				<%=movimientos.getDescripcion()%></td>
-			<td style="text-align: right"><%=saldoFormat%></td>
+			<td style="text-align: right"><%= saldoBgDc %></td>
 			<td style="text-align: right"><%=formato.format(Double.parseDouble(movimientos.getImporte()))%></td>
-			<td style="text-align: right"><%=formato.format(new BigDecimal(saldoStr).subtract(new BigDecimal(movimientos.getImporte())) )%></td>
+<%-- 			<td style="text-align: right"><%=formato.format(new BigDecimal(saldoStr).subtract(new BigDecimal(movimientos.getImporte())) )%></td> --%>
+			<td style="text-align: right"><%=formato.format(saldoBgDc.subtract(new BigDecimal(movimientos.getImporte())) )%></td>
 		</tr>
 		<%
+				if (Cuenta.getMuestraSaldoRecibo().equals("S")) {
+						saldoAcumulado = saldoAcumulado.subtract(new BigDecimal(movimientos.getImporte()));
+				}
 			}
 		%>
 		<tr class="totalFinal">
