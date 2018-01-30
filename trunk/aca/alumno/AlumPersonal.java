@@ -50,6 +50,22 @@ public class AlumPersonal {
 	private String tutorCedula;
 	private String barrioId;
 	
+	
+	
+	@Override
+	public String toString() {
+		return "AlumPersonal [codigoId=" + codigoId + ", escuelaId=" + escuelaId + ", nombre=" + nombre + ", apaterno="
+				+ apaterno + ", amaterno=" + amaterno + ", genero=" + genero + ", curp=" + curp + ", fNacimiento="
+				+ fNacimiento + ", paisId=" + paisId + ", estadoId=" + estadoId + ", ciudadId=" + ciudadId
+				+ ", clasfinId=" + clasfinId + ", email=" + email + ", colonia=" + colonia + ", direccion=" + direccion
+				+ ", telefono=" + telefono + ", cotejado=" + cotejado + ", nivelId=" + nivelId + ", grado=" + grado
+				+ ", grupo=" + grupo + ", estado=" + estado + ", acta=" + acta + ", crip=" + crip + ", religion="
+				+ religion + ", transporte=" + transporte + ", celular=" + celular + ", tutor=" + tutor + ", matricula="
+				+ matricula + ", discapacidad=" + discapacidad + ", enfermedad=" + enfermedad + ", correo=" + correo
+				+ ", iglesia=" + iglesia + ", tipoSangre=" + tipoSangre + ", tutorCedula=" + tutorCedula + ", barrioId="
+				+ barrioId + "]";
+	}
+
 	public AlumPersonal(){
 		codigoId	= "";
 		escuelaId	= "";
@@ -542,6 +558,19 @@ public class AlumPersonal {
 	public void setBarrioId(String barrioId) {
 		this.barrioId = barrioId;
 	}
+	
+	public void encoding(Connection conn) {
+        try {
+            PreparedStatement pst = conn.prepareStatement("SET CLIENT_ENCODING='UTF8'");
+            pst.executeUpdate();
+            pst.close();
+
+        } catch (SQLException w) {
+            System.err.println("Error al encoding Inscripcion" + w);
+        } finally {
+
+        }
+    }
 
 	public boolean insertReg(Connection conn ) throws SQLException{
 		boolean ok = false;
@@ -620,6 +649,7 @@ public class AlumPersonal {
 		boolean ok = false;
 		PreparedStatement ps = null;
 		try{
+			System.out.println(toString());
 			ps = conn.prepareStatement("INSERT INTO ALUM_PERSONAL" +
 					" (CODIGO_ID, ESCUELA_ID, NOMBRE, APATERNO, AMATERNO, GENERO, CURP, F_NACIMIENTO, " +
 					" EMAIL, DIRECCION, COLONIA, TELEFONO, MATRICULA," +
