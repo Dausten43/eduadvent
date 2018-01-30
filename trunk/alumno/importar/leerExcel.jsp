@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="sun.misc.BASE64Encoder"%>
+<%@page import="java.security.MessageDigest"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -273,6 +276,8 @@
 					    	AlumPersonal.setEscuelaId(escuelaId);
 					    	AlumPersonal.setCodigoId(codigoId);
 					    	lisAlumnos.add(AlumPersonal);
+					    	
+					    	System.out.println(AlumPersonal.getNombre());
 					    }		    	
 					    
 			    	} // si tiene la bandera de grabar
@@ -291,8 +296,13 @@
 	    }
 	    
 	}
-	
+	String mensaje="";
+	//System.out.println("alumnos a subir " + lisAlumnos.size() + " ");
 	if (validaDatos){
+		
+		List<String>  lsParaClaves = new ArrayList();
+		
+		int contador= 0;
 		for(aca.alumno.AlumPersonal alumno : lisAlumnos){
 			
 			// Buscar el siguiente numero de codigo del alumno
@@ -302,13 +312,55 @@
 			// Insert del alumno
 			
 	    	if ( alumno.insertTraspaso(conElias) ){
-	    		//conElias.commit();
+	    		System.out.println("no creo clave " + alumno.getCodigoId());
+	    		lsParaClaves.add(alumno.getCodigoId());
+	    	}else{
+	    		System.out.println("no subio " + alumno.getCodigoId());
+	    		//out.println("no subio " + alumno.getCodigoId());
 	    	}
 			
 		}
-		String mensaje = "Se han registrado: "+lisAlumnos.size()+" alumnos en tu escuela";		
+		
+		for(String clave :lsParaClaves){
+			//out.println(contador + " alumno cread0 " + clave);
+    		MessageDigest md5	= MessageDigest.getInstance("MD5");
+    		md5.update(clave.getBytes("UTF-8"));
+    		byte raw[] = md5.digest();
+    		String claveDigest	= (new BASE64Encoder()).encode(raw);
+    		
+    		aca.usuario.Usuario Clave = new aca.usuario.Usuario();
+    		Clave.setCodigoId(clave);
+    		Clave.setTipoId("1");
+    		Clave.setCuenta(clave);
+    		Clave.setClave(claveDigest);
+    		Clave.setAdministrador("N");
+    		Clave.setCotejador("N");
+    		Clave.setContable("N");
+    		Clave.setNivel("-");
+    		Clave.setEscuela("-"+escuelaId+"-");
+    		Clave.setPlan("x");
+    		Clave.setAsociacion("-");
+    		Clave.setIdioma("es");
+    		
+    		if(Clave.existeReg(conElias) == false){
+    			if (Clave.insertReg(conElias)){
+    				//conElias.commit();
+    				contador++;entrre
+    				System.out.println();
+    				//out.println(contador + " clave creada " + clave);
+    			}else{
+    				System.out.println("no creo clave " + clave);
+    				//out.println("no creo clave " + clave);
+    			}	
+    		}
+		}
+		
+		mensaje = "Se han registrado: "+lisAlumnos.size()+" alumnos en tu escuela";		
+%>
+<h3><%= mensaje %></h3>
+<%
 	}	
 %>
 </div>
 <%@ include file="../../cierra_elias.jsp"%>
-<meta http-equiv="refresh" content="1"; url="datos.jsp?mensaje=<%=mensaje%>" />
+

@@ -27,7 +27,7 @@
 <jsp:useBean id="ClasFinLista" scope="page" class="aca.catalogo.CatClasFinLista"/>
 <jsp:useBean id="finMovtosLista" scope="page" class="aca.fin.FinMovimientosLista"/>
 <jsp:useBean id="empPersonal" scope="page" class="aca.empleado.EmpPersonal"/>
-
+<%@ page pageEncoding="LATIN1"%>
 <script>
 	
 	function Nuevo(){	
@@ -273,7 +273,7 @@
 			
 		}break;
 		case 4: { // Modificar
-		
+			System.out.println("modifica alumno " + request.getParameter("ApellidoPaterno"));
 			strPlanId = request.getParameter("Plan");		
 			Personal.setEscuelaId(escuelaId);
 			Personal.setNombre(request.getParameter("Nombre"));

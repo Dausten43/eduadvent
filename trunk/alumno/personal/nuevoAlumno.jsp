@@ -1,3 +1,4 @@
+<%@page import="java.net.URLDecoder"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -8,8 +9,11 @@
 <%@ page import= "sun.misc.BASE64Encoder"%>
 <jsp:useBean id="Clave" scope="page" class="aca.usuario.Usuario"/>
 <jsp:useBean id="Personal" scope="page" class="aca.alumno.AlumPersonal"/>
+
 <head>
 <%
+	System.out.println(Personal.toString());
+	//request.setCharacterEncoding("LATIN1");
 	// Declaracion de variables
 	String escuela 			= (String)session.getAttribute("escuela");
 	boolean inserto 		= false;
@@ -32,6 +36,7 @@
 	
 	// Inicia la transacción de alta del alumno y creación de cuenta
 	conElias.setAutoCommit(false);	
+	
 	if (Personal.insertNuevo(conElias)){
 		
 		Clave.setCodigoId(Personal.getCodigoId());

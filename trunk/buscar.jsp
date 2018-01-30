@@ -7,10 +7,12 @@
 <jsp:useBean id="AlumPlanLista" scope="page" class="aca.alumno.AlumPlanLista"/>
 <jsp:useBean id="PlanLista" scope="page" class="aca.plan.PlanLista"/>
 <jsp:useBean id="CatNivelEscuelaLista" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
-
+<%@ page pageEncoding="UTF-8"%>
 <%if(((String)session.getAttribute("codigoId")).contains("E") || ((String)session.getAttribute("codigoId")).equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){ %> 
 
 <%
+
+	System.out.println(request.getParameter("parametro"));
 	
 	String parametro  = request.getParameter("parametro");
 	String escuela    = (String) session.getAttribute("escuela");
@@ -66,7 +68,7 @@
 	if(usuarios.size()>1000){ 
 %>
 		<div style="padding:15px;text-align:center;" class="alert alert-danger">
-			<h4>Demasiadas Coincidencias, Favor de ser m·s especifico</h4>				
+			<h4>Demasiadas Coincidencias, Favor de ser m√°s especifico</h4>				
 		</div>
 <%
 	}else{
@@ -138,7 +140,7 @@
 				
 				if(mapPlan.containsKey(planId)){
 					nivelId = mapPlan.get(planId).getNivelId();
-					
+					System.out.println(" busqueda  " + escuela+nivelId);
 					if(mapNivel.containsKey(escuela+nivelId)){
 						
 						nivel=mapNivel.get(escuela+nivelId).getNivelNombre().replace("NIVEL", "");

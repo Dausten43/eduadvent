@@ -1,3 +1,6 @@
+<%@page import="java.util.List"%>
+<%@page import="sun.misc.BASE64Encoder"%>
+<%@page import="java.security.MessageDigest"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -264,6 +267,9 @@
 }
 
 if (validaDatos){
+	
+	List<String>  lsParaClaves = new ArrayList();
+	
 	for(aca.empleado.EmpPersonal empleado : lisEmpleados){
 		
 		// Buscar el siguiente numero de codigo del alumno
@@ -273,12 +279,49 @@ if (validaDatos){
 		// Insert del alumno
 		
     	if ( empleado.insertTraspaso(conElias) ){
-    		conElias.commit();
+    		
+    		lsParaClaves.add(empleado.getCodigoId());
+    		
+    		//conElias.commit();
     	}
 		
 	}
+	
+	for(String codigo : lsParaClaves){
+		MessageDigest md5	= MessageDigest.getInstance("MD5");
+		md5.update(codigo.getBytes("UTF-8"));
+		byte raw[] = md5.digest();
+		String claveDigest	= (new BASE64Encoder()).encode(raw);
+		
+		aca.usuario.Usuario Clave = new aca.usuario.Usuario();
+		Clave.setCodigoId(codigo);
+		Clave.setTipoId("2");
+		Clave.setCuenta(codigo);
+		Clave.setClave(claveDigest);
+		Clave.setAdministrador("N");
+		Clave.setCotejador("N");
+		Clave.setContable("N");
+		Clave.setNivel("-");
+		Clave.setEscuela("-"+escuelaId+"-");
+		Clave.setPlan("x");
+		Clave.setAsociacion("-");
+		Clave.setIdioma("es");
+		
+		if(Clave.existeReg(conElias) == false){
+			if (Clave.insertReg(conElias)){
+				//conElias.commit();
+				System.out.println("clave creada " + codigo);
+			}else{
+				//conElias.rollback();
+			}	
+		}
+	}
+	
+	
 	String mensaje = "Se han registrado: "+lisEmpleados.size()+" empleados en tu escuela";
-	response.sendRedirect("datos.jsp?mensaje="+mensaje);
+	%>
+	<h3><%= mensaje %></h3>
+	<%
 }	
 %>
 

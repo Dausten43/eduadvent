@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -142,11 +143,13 @@
 		</tr>
 		<%
 			}
+		String urlsalida = "Accion=7&Escuela="+escuelaId+"&Nombre="+URLEncoder.encode( nombre)+"&APaterno="+URLEncoder.encode( aPaterno)+"&AMaterno="+URLEncoder.encode( aMaterno)+"&FNacimiento=01/01/2000&Genero=M&Curp=S";
+		//urlsalida = URLEncoder.encode(urlsalida, "unicode");
 		%>
 		<tr>
 			<td colspan="2">
 				<fmt:message key="aca.CreaRegistro"/>
-				<a class="btn btn-primary btn-mini" href="nuevoAlumno.jsp?Accion=7&Escuela=<%=escuelaId%>&Nombre=<%=nombre%>&APaterno=<%=aPaterno%>&AMaterno=<%=aMaterno%>&FNacimiento=01/01/2000&Genero=<%="M"%>&Curp=<%="S"%>">
+				<a class="btn btn-primary btn-mini" href="nuevoAlumno.jsp?<%= urlsalida %>">
 					<i class="icon-plus icon-white"></i> <fmt:message key="aca.NuevoAlumno"/>
 				</a>
 			</td>

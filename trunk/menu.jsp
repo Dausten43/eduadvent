@@ -6,6 +6,8 @@
 		
 	String menuUSER = (String)session.getAttribute("codigoId");
 %>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<%@ page pageEncoding="UTF-8"%>
 
 <i class="icon-print impresora"></i>
 
@@ -340,10 +342,21 @@ li.dropdown-submenu:hover > .dropdown-menu {
 							}, 300);
 			
 			var searchVal = input.val();
+			console.log(searchVal);
+// 			$.get('../../buscar.jsp?parametro='+searchVal, function(r){
+// 				openLightBox(searchVal, r);
+// 			});
+			var datadata = 'parametro='+searchVal;
 			
-			$.get('../../buscar.jsp?parametro='+searchVal, function(r){
-				openLightBox(searchVal, r);
-			});
+			$.ajax({url: '../../buscar.jsp',
+                type: "post",
+                data: datadata,
+                success: function (output) {
+                	openLightBox(searchVal, output);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status + " " + thrownError);
+                }});
 			
 			
 		});
