@@ -907,6 +907,12 @@
 	          	</p>
 			</div>
 		</div>
+		<div class="row">
+			<div class="span3"></div>
+			<div class="span3">
+				<a class="btn btn-primary" href="../../padre/datos/accion_p.jsp?CodigoPadre=<%=empPersonal.getCodigoId()%>"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Modificar"/></a>
+			</div>
+		</div>
 		<hr />
 <%
 				}
