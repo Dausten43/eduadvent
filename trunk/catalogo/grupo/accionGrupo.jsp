@@ -51,6 +51,7 @@
 				Grupo.setFolio(Grupo.maximoReg(conElias));
 				if (Grupo.insertReg(conElias)){
 					sResultado = "Guardado";
+					salto = "grupo.jsp?nivelId="+request.getParameter("nivelId");
 				}else{
 					sResultado = "NoGuardo";
 				}
@@ -59,6 +60,7 @@
 				
 				if (Grupo.updateReg(conElias)){
 					sResultado = "Modificado";
+					salto = "grupo.jsp?nivelId="+request.getParameter("nivelId");
 				}else{
 					sResultado = "NoModifico";
 				}
@@ -82,8 +84,10 @@
 
 <div id="content">
 	<h2><fmt:message key="catalogo.AnadirGrupo" />  <small><%= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivelId) %></small></h2>
-	<% if (!sResultado.equals("")){%>
-   		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
+	<% if (!sResultado.equals("") && (sResultado.equals("Guardado") || sResultado.equals("Modificado"))){%>
+   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
+  	<% }else if(!sResultado.equals("")){ %>
+  		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
   	<% }%>
 	<div class="well" style="overflow:hidden;">
 		<a class="btn btn-primary" href="grupo.jsp?nivelId=<%=nivelId %>"><i class="icon-arrow-left icon-white"></i>&nbsp;<fmt:message key="boton.Regresar" /></a>
