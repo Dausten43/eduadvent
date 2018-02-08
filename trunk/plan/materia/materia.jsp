@@ -64,7 +64,7 @@
 %>
 	</select>
   	<% if(!strPlanId.equals("Selecciona")){%>
-    	<a class="btn btn-primary" href="accion.jsp?Accion=1&CursoId=&PlanId=<%=strPlanId %>"> <i class="icon-plus  icon-white"></i> <fmt:message key="boton.Anadir" /></a>
+    	<a class="btn btn-primary" href="accion.jsp?Accion=1&CursoId=&PlanId=<%=strPlanId %>&nivelId=<%=nivelId%>"> <i class="icon-plus  icon-white"></i> <fmt:message key="boton.Anadir" /></a>
     	
     	<%if( ((String) session.getAttribute("admin")).equals("B01P0002") ){ %>	
     		<a class="btn btn-primary" href="copiar.jsp?Accion=1&PlanId=<%=strPlanId %>"> <i class="icon-plus  icon-white"></i> <fmt:message key="boton.Copiar" /></a>

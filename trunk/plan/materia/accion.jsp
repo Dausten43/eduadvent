@@ -232,7 +232,7 @@
 						<div class="control-group ">
 							<label for="Grado"> <fmt:message key="aca.Grado" />: </label>
 							<select name="Grado" id="Grado" class="input-mini">
-							<%for(int i = 1; i<=12; i++){ %>
+							<%for(int i = 1; i<=Integer.parseInt(nivel.getGradoFin()); i++){ %>
 								<option value="<%=i %>" <%if(Curso.getGrado().equals(i+"")){out.print("selected");} %>><%=i %></option>
 							<%} %>
 							</select>
