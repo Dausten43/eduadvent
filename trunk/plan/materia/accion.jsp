@@ -66,6 +66,7 @@
 
 		int n_accion 		= Integer.parseInt(request.getParameter("Accion"));
 		String strResultado = "";
+		String salto			= "X";
 		
 		nivel.mapeaRegId(conElias, request.getParameter("nivelId"), escuelaId);		
 		
@@ -152,6 +153,7 @@
 				if (Curso.existeReg(conElias) == true) {
 					if (Curso.deleteReg(conElias)) {
 						strResultado = "Eliminado";
+						salto = "materia.jsp?PlanId="+planId;
 						conElias.commit();
 					} else {
 						strResultado = "NoElimino";
@@ -184,9 +186,9 @@
 	<div id="content">
 		<h2>Datos de la Materia</h2>
 		<% if (strResultado.equals("Eliminado") || strResultado.equals("Modificado") || strResultado.equals("Guardado")){%>
-	   		<div class='alert alert-info'><fmt:message key="aca.${resultado}" /></div>
+	   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
 	  	<% }else if(!strResultado.equals("")){%>
-	  		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
+	  		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
 	  	<%} %>
 
 		<div class="well" style="overflow: hidden;">
@@ -393,5 +395,7 @@
 		jQuery(".grado").html(grado);
 	}
 </script>
-
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>
