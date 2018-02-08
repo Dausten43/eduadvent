@@ -59,8 +59,9 @@
 		clasificacion.setClasfinId(request.getParameter("ClasfinId"));
 	}
 	
-	String sResultado = "";
-	int i = 0;
+	String salto			= "X";
+	String sResultado 		= "";
+	int i 					= 0;
 
 	// Operaciones a realizar en la pantalla	
 	switch (nAccion) {
@@ -75,6 +76,7 @@
 			if (clasificacion.existeReg(conElias) == false) {
 				if (clasificacion.insertReg(conElias)) {
 					sResultado = "Guardado";
+					salto = "clasificacion.jsp";
 					conElias.commit();
 				} else {
 					sResultado = "NoGuardo";
@@ -95,6 +97,7 @@
 			if (clasificacion.existeReg(conElias) == true) {
 				if (clasificacion.deleteReg(conElias)) {
 					sResultado = "Eliminado";
+					salto = "clasificacion.jsp";
 					conElias.commit();
 				} else {
 					sResultado = "NoElimino";
@@ -122,13 +125,11 @@
 <body>
 	<div id="content">
 		<h2><fmt:message key="catalogo.AnadirClas" /></h2>
-		<%
-			if (!sResultado.equals("")) {
-		%>
-		<div class='alert alert-info'><fmt:message key="aca.${resultado}" /></div>
-		<%
-			}
-		%>
+		<% if (!sResultado.equals("") && (sResultado.equals("Guardado") || sResultado.equals("Modificado") || sResultado.equals("Eliminado"))){%>
+	   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
+	  	<% }else if(!sResultado.equals("")){ %>
+	  		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
+	  	<% }%>
 
 		<div class="well" style="overflow: hidden;">
 			<a class="btn btn-primary" href="clasificacion.jsp"><i class="icon-list icon-white"></i> <fmt:message key="boton.Listado" /></a>
@@ -170,4 +171,8 @@
 		</form>
 	</div>
 </body>
+
+<% 	if (!salto.equals("X")){%>
+		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
+<% 	}%>
 <%@ include file="../../cierra_elias.jsp"%>
