@@ -130,6 +130,12 @@
 		</table>
 <%
 		}
+		if(tipoBoleta.equals("4")){
+%>			
+			<a class="btn btn-info" href="BoletaSalvador.jsp?cicloGrupoId=<%=cicloGrupoId%>"><i class="icon-print icon-white"></i> <fmt:message key="boton.ImprimirBoleta" /></a>
+			
+<%			
+		}
 %>
 	</div>
 		
