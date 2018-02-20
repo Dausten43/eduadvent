@@ -128,7 +128,8 @@
 	        <select id="boleta" name="tipoBoleta">
 				<option value="1"<%=CatParametro.getTipoBoleta().equals("1")?" Selected":""%>><fmt:message key="aca.BoletaMex" /></option>
 				<option value="2"<%=CatParametro.getTipoBoleta().equals("2")?" Selected":""%>><fmt:message key="aca.BoletaDom" /></option>	
-				<option value="3"<%=CatParametro.getTipoBoleta().equals("3")?" Selected":""%>><fmt:message key="aca.BoletaPan" /></option>					  
+				<option value="3"<%=CatParametro.getTipoBoleta().equals("3")?" Selected":""%>><fmt:message key="aca.BoletaPan" /></option>
+				<option value="4"<%=CatParametro.getTipoBoleta().equals("4")?" Selected":""%>><fmt:message key="aca.BoletaSal" /></option>					  
 		   </select>
 	    </div>
 	    
