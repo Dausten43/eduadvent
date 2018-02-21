@@ -161,10 +161,10 @@
 				}			
 				
 				if(error){
-					strResultado = "NoGrabo";
+					strResultado = "NoModificó";
 					conElias.rollback();
 				}else{
-					strResultado = "Grabado";
+					strResultado = "Modificado";
 					conElias.commit();	
 // 					salto = "bloque.jsp";
 					salto = "accionBloque.jsp?Accion=5&BloqueId="+Bloque.getBloqueId();
@@ -240,7 +240,7 @@
 		<small><%=Bloque.getCicloId()%> | <%=aca.ciclo.Ciclo.nombreCiclo(conElias, cicloId)%> </small>
 	</h2>
 	
-	<% if (strResultado.equals("Eliminado") || strResultado.equals("Modificado") || strResultado.equals("Guardado")){%>
+	<% if (strResultado.equals("Eliminado") || strResultado.equals("Modificado") || strResultado.equals("Grabado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!strResultado.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
