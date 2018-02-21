@@ -158,7 +158,7 @@
 	
 	<h2><fmt:message key="catalago.CatalogoCargas" /></h2>
 	
-	<% if (sResultado.equals("Eliminado") || sResultado.equals("Modificado") || sResultado.equals("Guardado")){%>
+	<% if (sResultado.equals("Eliminado") || sResultado.equals("Modificado") || sResultado.equals("Grabado")){%>
    		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
   	<% }else if(!sResultado.equals("")){%>
   		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
