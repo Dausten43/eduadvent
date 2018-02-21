@@ -811,17 +811,18 @@
 			
 		</div>			
 <%
-		System.out.println(alumPadres.getCodigoPadre()+"-"+alumPadres.getCodigoMadre()+"-"+alumPadres.getCodigoTutor());
+		//System.out.println("PADRES: "+alumPadres.getCodigoPadre()+"-"+alumPadres.getCodigoMadre()+"-"+alumPadres.getCodigoTutor());
 		if((alumPadres.getCodigoPadre().equals("-")||alumPadres.getCodigoPadre().equals("")) && 
 				(alumPadres.getCodigoMadre().equals("-")||alumPadres.getCodigoMadre().equals("")) && 
 				(alumPadres.getCodigoTutor().equals("-")||alumPadres.getCodigoTutor().equals(""))){
+			if(Personal.getTutor()!=null && !Personal.getTutor().equals("-") && !Personal.getTutor().equals("null") && !Personal.getTutor().equals("")){
 %>
 		<div class="row">
 			<div class="span3"></div>
 			<div class="span3">
 	          	<p>
 	          		<label><fmt:message key="aca.Nombre"/></label>
-	          		<input name="Tutor" type="text" id="Tutor" maxlength="40" value="<%=(Personal.getTutor()==null || Personal.getTutor().equals("-") || Personal.getTutor().equals("null"))? "" : Personal.getTutor()%>" readonly="readonly">
+	          		<input name="Tutor" type="text" id="Tutor" maxlength="40" value="<%=Personal.getTutor()%>" readonly="readonly">
 	          	</p>
 	          	<p>
 	          		<label><fmt:message key="aca.Colonia"/></label>
@@ -854,6 +855,7 @@
 			</div>
 		</div>
 <%
+			}
 		}else{
 %>
 	          	<input name="Tutor" type="hidden" id="Tutor" maxlength="40" value="<%=(Personal.getTutor()==null || Personal.getTutor().equals("-") || Personal.getTutor().equals("null"))? "" : Personal.getTutor()%>">
