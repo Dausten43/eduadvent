@@ -199,7 +199,7 @@
 						<label><fmt:message key="aca.Entidad" /></label>
 						<select id="EntidadId" name="EntidadId">				
 							<%for(aca.beca.BecEntidad entidad : lisEntidad){%>			
-								<option value="<%=entidad.getEntidadId()%>"<%=BecAlum.getEntidadId().equals(entidad.getEntidadId())?" Selected":"" %>><%=entidad.getEntidadNombre()%></option>
+								<option value="<%=entidad.getEntidadId()%>"<%=BecAlum.getEntidadId().equals(entidad.getEntidadId())?" Selected":"" %> data-limcantidad="<%= entidad.getLimiteCantidad() %>" data-limporc="<%= entidad.getLimitePorcentaje() %>" ><%=entidad.getEntidadNombre()%></option>
 							<%}%>
 						</select>			
 					</fieldset>
@@ -282,7 +282,40 @@
 		</div>
 	
 	</form>
+<script type="text/javascript">
 
+	$('#Tipo').change(function(){
+		$('#Beca').trigger('change');
+	});
+	
+	$('#EntidadId').change(function(){
+		$('#Beca').trigger('change');
+	});
+
+	$('#Beca').change(function(){
+		if($('#Tipo').val()=='PORCENTAJE'){
+			console.log($('#EntidadId').find(':selected').data('limporc'));
+			var lim = parseFloat($('#EntidadId').find(':selected').data('limporc'));
+			if(lim>0 && parseFloat($(this).val())>lim ){
+				alert('El limite para esta beca es de '+ lim + '');
+				$(this).val('0');
+			} else if(lim==0){
+				alert('El tipo de beca de porcentaje no esta permitido para esta opcion');
+						$(this).val('0');
+			}
+		}else{
+			console.log($('#EntidadId').find(':selected').data('limcantidad'));
+			var lim = parseFloat($('#EntidadId').find(':selected').data('limcantidad'));
+			if(lim>0 && parseFloat($(this).val())>lim ){
+				alert('El limite para esta beca es de '+ lim + '');
+				$(this).val('0');
+			}else if(lim==0){
+				alert('El tipo de beca por cantidad no esta permitido para esta opcion');
+						$(this).val('0');
+			}
+		}
+	});
+</script>
 <%} %>
 </div>
 <%@ include file= "../../cierra_elias.jsp" %>
