@@ -8,14 +8,19 @@
 <jsp:useBean id="cicloGrupoLista" scope="page" class="aca.ciclo.CicloGrupoLista"/>
 <jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 <jsp:useBean id="kardexLista" scope="page" class="aca.kardex.KrdxCursoActLista"/>
+<jsp:useBean id="kardexEvalLista" scope="page"	class="aca.kardex.KrdxAlumEvalLista" />
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="plan" scope="page" class="aca.plan.Plan"/>
+<jsp:useBean id="cicloBloqueList" scope="page" class="aca.ciclo.CicloBloqueLista" />
+<jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="cicloGrupoCursoLista" scope="page" class="aca.ciclo.CicloGrupoCursoLista"/>
 <jsp:useBean id="cicloGrupoCurso" scope="page" class="aca.ciclo.CicloGrupoCurso"/>
 <jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista"/>
 <jsp:useBean id="GrupoEvalLista" scope="page" class="aca.ciclo.CicloGrupoEvalLista"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
+
+<%@page import="java.util.TreeMap"%>
 <%	
 
 	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("###,##0.0;-###,##0.0");
@@ -37,7 +42,6 @@
 	}
 	String cicloId 		= (String)session.getAttribute("cicloId");
 	Ciclo.mapeaRegId(conElias, cicloId);
-	System.out.println(Ciclo.getDecimales());
 	
 	//checa cuantos decimales quiere
 	if(Ciclo.getDecimales().equals("1")){
@@ -64,8 +68,26 @@
 	
 	empPersonal.mapeaRegId(conElias, empleadoId);
 	String maestro 		= empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno();
+
+	String cicloGrupoId 		= (String) request.getParameter("CicloGrupoId");
+	String bloque 				= request.getParameter("bloque")==null?"0":request.getParameter("bloque");
+	String promedioId			= request.getParameter("Promedio")==null?"vacio":request.getParameter("Promedio");
 	
+	if(promedioId.equals("vacio")){
+		promedioId="0";
+	}
+	if(promedioId.equals("0")){
+		bloque = "0";
+	}
 	
+	// Lista de promedios en el ciclo
+	ArrayList<aca.ciclo.CicloPromedio> lisPromedio 		= CicloPromedioL.getListCiclo(conElias, cicloId, " ORDER BY PROMEDIO_ID");
+	// Lista de bloques o evaluaciones
+	ArrayList<aca.ciclo.CicloBloque> listBloques 		= cicloBloqueList.getListCiclo(conElias, cicloId, promedioId, "ORDER BY BLOQUE_ID");
+	// TreeMap para obtener la nota de un alumno en la materia
+	TreeMap<String, aca.kardex.KrdxAlumEval> treeNota 		= kardexEvalLista.getTreeMateria(conElias, cicloGrupoId, "");
+	//Map de promedios del alumno en cada materia
+	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
 %>
 <div id="content">
 	<h2><fmt:message key="maestros.EvaluacionesporGrupos"/></h2>
@@ -121,29 +143,40 @@
 		cicloGrupo.mapeaRegId(conElias, grupo);
 	%>
 	</ul>
+	<div class="col-md-6" style="display:inline-block;margin-bottom:13px;padding:0px;">
+		<form name="forma" action=""bimestre.jsp?CicloGrupoId=<%=cicloGrupoId%>" method="POST">
+			<select name="Promedio" id="Promedio" onchange='javascript:document.forma.submit();'>
+				<option value="0" ><fmt:message key="boton.Todos" /></option>
+				<%for (aca.ciclo.CicloPromedio prom : lisPromedio){%>
+					<option value="<%=prom.getPromedioId() %>" <%if(prom.getPromedioId().equals(promedioId)){out.print("selected");} %>><%=prom.getNombre() %></option>
+				<%}%>
+			</select>
+			<%if(!promedioId.equals("0")){ %>
+			<select name="bloque" id="bloque" onchange='javascript:document.forma.submit();'>
+				<option value="0"><fmt:message key="boton.Todos" /></option>
+				<%for (aca.ciclo.CicloBloque bloq : listBloques){%>
+					<option value="<%=bloq.getBloqueId() %>" <%if(bloq.getBloqueId().equals(bloque)){out.print("selected");} %>><%=bloq.getBloqueNombre() %></option>
+				<%}%>
+			</select>
+			<%} %>
+		</form>
+	</div>
 	
 	<%
-	
 	int maxEval	= aca.ciclo.CicloGrupo.getMaxEval(conElias, cicloGrupo.getCicloGrupoId());
 	if(maxEval>0){
 	%>
-		<div class="pagination" style="text-align:right;margin-bottom:13px;">
-		  	<ul>
-		  			<li class="disabled"><a>Actas de Evaluaciones</a></li>
-		  	<%
-		  		for (int i=1; i<=maxEval;i++){	
-		  	%>
-		    		<li><a target="_blank" href="<%="acta.jsp?Ciclo="+cicloId+"&Evaluacion="+i %>"><%=i %></a></li>
-		    <%
-		  		}
-		    %>
-		  	</ul>
-		</div>
+	<div class="pagination" style="text-align:right;margin-bottom:13px;display:inline-block;float:right;">
+	  	<ul>
+	  		<li class="disabled"><a>Actas de Evaluaciones</a></li>
+	  	<%for (int i=1; i<=maxEval;i++){%>
+	    	<li><a target="_blank" href="<%="acta.jsp?Ciclo="+cicloId+"&Evaluacion="+i %>"><%=i %></a></li>
+	    <%}%>
+	  	</ul>
+	</div>
 	<%
 	}
 	%>
-	
-
 	
 	<form>
 		
@@ -243,6 +276,7 @@
 			alumno = (String) lisAlumnos.get(j);
 			String nombreAlumno = aca.alumno.AlumPersonal.getNombre(conElias, alumno, "APELLIDO");
 			
+			String strNota 			= "-";
 			// Calcula el promedio del alumno
 			BigDecimal promAlum = new BigDecimal("0", mc);
 			int numMaterias = 0;
@@ -259,49 +293,80 @@
 	<%		
 			for(int i = 0; i < lisMaterias.size(); i++){
 				cicloGrupoCurso = (aca.ciclo.CicloGrupoCurso) lisMaterias.get(i);
+				String punto = aca.plan.PlanCurso.getPunto(conElias, cicloGrupoCurso.getCursoId());
 				
 				// Si el alumno tiene la materia
 				if (treeCurso.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno)){
 					aca.kardex.KrdxCursoAct kardex = (aca.kardex.KrdxCursoAct) treeCurso.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno);
+					aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
+					curso.mapeaRegId(conElias, kardex.getCursoId());
 					
-					nota = "0"; prom = 0;
+					nota = "0"; prom = 0; 
+					strNota 		= "-";
 					
 					// Si tiene la materia cuenta el alumno para promediar
 					alumMaterias[i]++;
 					
-					// Si está en proceso de evaluación
-					if(kardex.getTipoCalId().equals("1")){
-						if (treeProm.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+kardex.getCodigoId())){
-							aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno);
-							prom = Double.parseDouble(alumProm.getPromedio())+Double.parseDouble(alumProm.getPuntosAjuste());
-							nota =  String.valueOf(prom);
-						}
-						if(nota.trim().equals("0.0")||nota.trim().equals("0.5")) nota = "0";					
+					/*   Si se quiere el promedio gral. hasta el momento   */
+					if(promedioId.equals("0")){ 
+						// Si está en proceso de evaluación
+						if(kardex.getTipoCalId().equals("1")){
+							if (treeProm.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+kardex.getCodigoId())){
+								aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno);
+								prom = Double.parseDouble(alumProm.getPromedio())+Double.parseDouble(alumProm.getPuntosAjuste());
+								nota =  String.valueOf(prom);
+							}
+							if(nota.trim().equals("0.0")||nota.trim().equals("0.5")) nota = "0";					
+							
+						// Si ya esta cerrado el ordinario	
+						}else if(kardex.getTipoCalId().equals("2") || kardex.getTipoCalId().equals("3")){
+							nota = kardex.getNota();
 						
-					// Si ya esta cerrado el ordinario	
-					}else if(kardex.getTipoCalId().equals("2") || kardex.getTipoCalId().equals("3")){
-						nota = kardex.getNota();
-					
-					// Si tiene nota extraordinaria	
-					}else if(kardex.getTipoCalId().equals("4") || kardex.getTipoCalId().equals("5")){
-						nota = kardex.getNotaExtra();
+						// Si tiene nota extraordinaria	
+						}else if(kardex.getTipoCalId().equals("4") || kardex.getTipoCalId().equals("5")){
+							nota = kardex.getNotaExtra();
+						}
+						// Seccion para promediar de acuerdo al tipo de materia(Oficial, no oficial e ingles)
+						// Pendiente de implementar en la presentación de los datos
+						//tipoCurso = aca.plan.PlanCurso.getTipocurso(conElias,kardex.getCursoId());
+						tipoCurso = curso.getTipocursoId();
+						if (nota!=null && !nota.equals("0")){
+							if ( tipoCurso.equals("1")){
+								tipo1++;
+								prom1 += Double.valueOf(nota).doubleValue();
+							}else if(tipoCurso.equals("2")){
+								tipo2++;
+								prom2 += Double.valueOf(nota).doubleValue();
+							}else if(tipoCurso.equals("3")){
+								tipo3++;
+								prom3 += Double.valueOf(nota).doubleValue();
+							}
+							promMaterias[i] += Double.valueOf(nota).doubleValue();
+						}
 					}
-					// Seccion para promediar de acuerdo al tipo de materia(Oficial, no oficial e ingles)
-					// Pendiente de implementar en la presentación de los datos
-					aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
-					curso.mapeaRegId(conElias, kardex.getCursoId());
-					//tipoCurso = aca.plan.PlanCurso.getTipocurso(conElias,kardex.getCursoId());
-					tipoCurso = curso.getTipocursoId();
-					if (nota!=null && !nota.equals("0")){
-						if ( tipoCurso.equals("1")){
-							tipo1++;
-							prom1 += Double.valueOf(nota).doubleValue();
-						}else if(tipoCurso.equals("2")){
-							tipo2++;
-							prom2 += Double.valueOf(nota).doubleValue();
-						}else if(tipoCurso.equals("3")){
-							tipo3++;
-							prom3 += Double.valueOf(nota).doubleValue();
+					
+					/*   Si se selecciona algun periodo de evaluación (Promedios)    */
+					else if(bloque.equals("0")){
+						if(mapPromAlumno.containsKey(alumno+cicloGrupoCurso.getCursoId()+promedioId)){
+							strNota = mapPromAlumno.get(alumno+cicloGrupoCurso.getCursoId()+promedioId).getNota();
+							nota 	= String.valueOf((float)new BigDecimal(strNota).floatValue()); 
+						}
+						promMaterias[i] += Double.valueOf(nota).doubleValue();
+					}
+					/*  Si se selecciona algun periodo de evaluación (Bloques)   */
+					else if(!bloque.equals("0")){
+						if (treeNota.containsKey(cicloGrupoId + cicloGrupoCurso.getCursoId() + bloque + alumno)) {
+							aca.kardex.KrdxAlumEval krdxEval = (aca.kardex.KrdxAlumEval) treeNota.get(cicloGrupoId + cicloGrupoCurso.getCursoId() + bloque + alumno);
+							
+							if(punto.equals("S")) {
+								nota = new BigDecimal(krdxEval.getNota())+"";
+							}else{
+								nota = new BigDecimal(krdxEval.getNota()).setScale(0,BigDecimal.ROUND_DOWN)+"";
+							}
+						}
+						if(!nota.equals("-")){
+							nota = String.valueOf(new BigDecimal(nota).floatValue());
+							strNota = nota+"";
 						}
 						promMaterias[i] += Double.valueOf(nota).doubleValue();
 					}
