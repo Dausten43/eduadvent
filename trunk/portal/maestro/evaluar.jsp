@@ -1,3 +1,5 @@
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="aca.ciclo.Ciclo"%>
 <%@page import="aca.ciclo.CicloBloque"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
 <%@page import="aca.ciclo.CicloPromedio"%>
@@ -30,6 +32,7 @@
 <jsp:useBean id="kardexAlumnoExtra" scope="page" class="aca.kardex.KrdxAlumExtra" />
 <jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
 <jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
+<jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 
 <script>	
 
@@ -257,6 +260,7 @@
 	boolean muestraBotonGuardarExtra4 = false;
 	boolean muestraBotonGuardarExtra5 = false;
 	
+	
 	String evaluarDerivadas	= request.getParameter("Derivadas") == null?"0":request.getParameter("Derivadas");
 	String deriTrimestre	= request.getParameter("DerivadasTrimestre") == null?"0":request.getParameter("DerivadasTrimestre");
 	String evalId			= request.getParameter("EvalId") == null?"0":request.getParameter("EvalId");
@@ -272,6 +276,8 @@
 	String planId 			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
 	String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
+	
+	ciclo.mapeaRegId(conElias, cicloId);
 	
 	cicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);
 	String estadoMateria    = cicloGrupoCurso.getEstado(); /* 1 = Materia creada, 2 = Materia en evaluacion, 3 = Materia en extraordinario, 4 = Materia cerrada */
@@ -1689,11 +1695,28 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 									double notaEval = 0;
 									if (treeNota.containsKey(cicloGrupoId + cursoId + cicloBloque.getBloqueId() + kardex.getCodigoId())) {
 										notaEval = Double.parseDouble(treeNota.get(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
-										
+										System.out.println("nota eval " + notaEval);
 										// Formato de la evaluacion
 										strNota = formato0.format(notaEval);
 										if (cicloBloque.getDecimales().equals("1")) 
 											strNota = formato1.format(notaEval);
+										
+										if(escuelaId.startsWith("S")){
+											DecimalFormat dfFinal = null;
+											if(cicloBloque.getDecimales().equals("1")){
+												dfFinal = new DecimalFormat("##0.0;-##0.0");
+											}else{
+												dfFinal = new DecimalFormat("##0;-##0");
+											}
+											if(cicloBloque.getRedondeo().equals("T")){
+												dfFinal.setRoundingMode(java.math.RoundingMode.DOWN);
+												strNota = dfFinal.format(notaEval);
+											}else{
+												dfFinal.setRoundingMode(java.math.RoundingMode.HALF_UP);
+												strNota = dfFinal.format(notaEval);
+											}
+											
+										}
 									}								
 									// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
 									String estadoEval = "A";			
@@ -1776,14 +1799,14 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							
 							// Inserta columna de los puntos
 							out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
-							
+							System.out.println("prom "+ promedioFinal + " c " + puntosFormato );
 							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
 							eval++;
 							
 						}//End for de promedio
 						
 						if (lisPromedio.size() > 1){
-							
+							System.out.println("promedio final "+ promedioFinal + " " + sumaValor );
 							double puntosEscala = 0;
 							if (escalaEval == 5){
 								//promedioFinal = (promedioFinal * 5)/sumaValor;
@@ -1794,11 +1817,30 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 								}
 							}else if (escalaEval == 10){
 								promedioFinal = (promedioFinal * 10)/sumaValor;
+								
 							}
 							if(escuelaId.substring(0, 1).equals("H"))
 								muestraPromedioFinal = formato4.format(promedioFinal);
-							else
+							else if(escuelaId.startsWith("S")){
+								DecimalFormat dfFinal = null;
+								if(ciclo.getDecimales().equals("1")){
+									dfFinal = new DecimalFormat("##0.0;-##0.0");	
+								}else{
+									dfFinal = new DecimalFormat("##0;-##0");
+								}
+								
+								if(ciclo.getRedondeo().equals("T")){
+									dfFinal.setRoundingMode(java.math.RoundingMode.DOWN);	
+								}else{
+									dfFinal.setRoundingMode(java.math.RoundingMode.HALF_UP);
+								}
+								
+								muestraPromedioFinal = dfFinal.format(promedioFinal);
+								
+							}else{
 								muestraPromedioFinal = formato1.format(promedioFinal);
+							}
+							
 						
 							//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
 							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");						
