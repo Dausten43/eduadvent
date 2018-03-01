@@ -1,3 +1,4 @@
+<%@page import="java.math.MathContext"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -294,12 +295,12 @@
 					FinCalculoDet.setCodigoId(codigoAlumno);
 					FinCalculoDet.setCuentaId(costo.getCuentaId());					
 					FinCalculoDet.setFecha(aca.util.Fecha.getHoy());
-					FinCalculoDet.setImporte(importe.toString());
-					FinCalculoDet.setBecaPorcentaje(becaPorcentaje.toString());
-					FinCalculoDet.setBecaCantidad(becaCantidad.toString());
-					FinCalculoDet.setImporteBeca(importeBeca.toString());
-					FinCalculoDet.setPagoInicialPorcentaje(porcentajePagoInicial.toString());
-					FinCalculoDet.setImporteInicial(importeInicialPagos.toString());
+					FinCalculoDet.setImporte(importe+"");
+					FinCalculoDet.setBecaPorcentaje(becaPorcentaje+"");
+					FinCalculoDet.setBecaCantidad(becaCantidad+"");
+					FinCalculoDet.setImporteBeca(importeBeca+"");
+					FinCalculoDet.setPagoInicialPorcentaje(porcentajePagoInicial+"");
+					FinCalculoDet.setImporteInicial(importeInicialPagos+"");
 					
 					if (FinCalculoDet.insertReg(conElias)){
 												
@@ -453,6 +454,8 @@
 						BigDecimal ImporteDetalleBeca 	= new BigDecimal(Double.parseDouble(det.getPagoInicialPorcentaje())!=100?det.getImporteBeca():"0");
 						BigDecimal importeInicialPagos  = new BigDecimal("0");
 						
+						System.out.println("importe detalle beca " + ImporteDetalleBeca);
+						
 						/* MODIFICA EL PAGO INICIAL */
 						
 							// Busca el porcentaje inicial de la cuenta				
@@ -527,7 +530,7 @@
 										FinCalculoPago.setBeca( BecaDeUnPagoDetalle.add(becaExtra)+"" ); /* al ultimo pago le agregamos los decimales sobrantes para que cuadre perfectamente la division de pagos */
 										FinCalculoPago.setCuentaId(det.getCuentaId());
 										FinCalculoPago.setPagado("N");
-										
+										System.out.println("FinCalculoPago "+ FinCalculoPago.toString());
 										if (FinCalculoPago.insertReg(conElias)){
 											
 										}else{
@@ -576,6 +579,7 @@
 				FinCalculoPago.setBeca( "0" );
 				FinCalculoPago.setEstado("A");
 				FinCalculoPago.setPagado("N");
+				System.out.println("+FinCalculoPago "+ FinCalculoPago.toString());
 				if (FinCalculoPago.insertReg(conElias)){
 					
 				}else{
@@ -587,6 +591,13 @@
 			// Grabar el detalle del pago inicial por tipo pagarés  
 			FinPago.mapeaRegInicial(conElias, cicloId, periodoId);
 			for(aca.fin.FinCalculoDet detalleInicial : lisDetalles){
+				BigDecimal becaCantidad = BigDecimal.ZERO;
+				if(new BigDecimal(detalleInicial.getBecaCantidad()).compareTo(BigDecimal.ZERO)!=0){
+					becaCantidad = becaCantidad.add(new BigDecimal(detalleInicial.getBecaCantidad()));
+				}else{
+				 	becaCantidad = becaCantidad.add(new BigDecimal(detalleInicial.getImporteInicial()).multiply(new BigDecimal(detalleInicial.getBecaPorcentaje())).divide(new BigDecimal(100),6,RoundingMode.HALF_EVEN));
+				}
+				
 				System.out.println("Datos:"+detalleInicial.getCuentaId()+":"+detalleInicial.getBecaCantidad());
 				FinCalculoPago.setCicloId(cicloId);
 				FinCalculoPago.setPeriodoId(periodoId);					
@@ -595,9 +606,11 @@
 				FinCalculoPago.setCuentaId(detalleInicial.getCuentaId());					
 				FinCalculoPago.setFecha(FinPago.getFecha());
 				FinCalculoPago.setImporte( detalleInicial.getImporteInicial() );							
-				FinCalculoPago.setBeca( Double.parseDouble(detalleInicial.getImporteInicial())>0?detalleInicial.getBecaCantidad():"0" );
+				FinCalculoPago.setBeca( Double.parseDouble(detalleInicial.getImporteInicial())>0? becaCantidad.toString()  : "0" );
 				FinCalculoPago.setEstado("A");
 				FinCalculoPago.setPagado("N");
+				System.out.println("++FinCalculoPago "+ FinCalculoPago.toString() );
+				System.out.println("importe inicial "+ detalleInicial.getImporteInicial() + "\t" + detalleInicial.getBecaCantidad());
 				if (FinCalculoPago.insertReg(conElias)){
 					
 				}else{
