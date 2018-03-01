@@ -109,6 +109,16 @@ public class FinCalculoPago {
 	public void setPagado(String pagado) {
 		this.pagado = pagado;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "FinCalculoPago [cicloId=" + cicloId + ", periodoId=" + periodoId + ", codigoId=" + codigoId
+				+ ", pagoId=" + pagoId + ", importe=" + importe + ", fecha=" + fecha + ", estado=" + estado
+				+ ", cuentaId=" + cuentaId + ", beca=" + beca + ", pagado=" + pagado + "]";
+	}
+
 
 	/**
 	 * @param Conection the conn to set

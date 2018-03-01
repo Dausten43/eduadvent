@@ -123,6 +123,17 @@ public class FinCalculoDet {
 	public void setImporteInicial(String importeInicial) {
 		this.importeInicial = importeInicial;
 	}
+	
+	
+
+
+	@Override
+	public String toString() {
+		return "FinCalculoDet [cicloId=" + cicloId + ", periodoId=" + periodoId + ", codigoId=" + codigoId
+				+ ", cuentaId=" + cuentaId + ", fecha=" + fecha + ", importe=" + importe + ", becaPorcentaje="
+				+ becaPorcentaje + ", becaCantidad=" + becaCantidad + ", importeBeca=" + importeBeca
+				+ ", pagoInicialPorcentaje=" + pagoInicialPorcentaje + ", importeInicial=" + importeInicial + "]";
+	}
 
 
 	public boolean insertReg(Connection conn) throws SQLException{
