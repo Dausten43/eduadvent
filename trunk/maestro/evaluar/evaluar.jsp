@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="aca.ciclo.CicloBloque"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
 <%@page import="aca.ciclo.CicloPromedio"%>
@@ -30,7 +31,7 @@
 <jsp:useBean id="kardexAlumnoExtra" scope="page" class="aca.kardex.KrdxAlumExtra" />
 <jsp:useBean id="cicloExtra" scope="page" class="aca.ciclo.CicloExtra" />
 <jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
-
+<jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <script>
 	 
 	/*
@@ -272,6 +273,8 @@
 	String planId 			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
 	String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
+	
+	ciclo.mapeaRegId(conElias, cicloId);
 	
 	cicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);
 	String estadoMateria    = cicloGrupoCurso.getEstado(); /* 1 = Materia creada, 2 = Materia en evaluacion, 3 = Materia en extraordinario, 4 = Materia cerrada */
@@ -1700,6 +1703,24 @@
 										strNota = formato0.format(notaEval);
 										if (cicloBloque.getDecimales().equals("1")) 
 											strNota = formato1.format(notaEval);
+										
+										if(escuelaId.startsWith("S")){
+											DecimalFormat dfFinal = null;
+											if(cicloBloque.getDecimales().equals("1")){
+												dfFinal = new DecimalFormat("##0.0;-##0.0");
+											}else{
+												dfFinal = new DecimalFormat("##0;-##0");
+											}
+											if(cicloBloque.getRedondeo().equals("T")){
+												dfFinal.setRoundingMode(java.math.RoundingMode.DOWN);
+												strNota = dfFinal.format(notaEval);
+											}else{
+												dfFinal.setRoundingMode(java.math.RoundingMode.HALF_UP);
+												strNota = dfFinal.format(notaEval);
+											}
+											
+										}
+										
 									}									
 									// Verifica si la nota de la evaluacion es temporal o definitiva(abierta o cerrada)
 									String estadoEval = "A";									
@@ -1856,8 +1877,25 @@
 							}
 							if(escuelaId.substring(0, 1).equals("H"))
 								muestraPromedioFinal = formato4.format(promedioFinal);
-							else
+							else if(escuelaId.startsWith("S")){
+								DecimalFormat dfFinal = null;
+								if(ciclo.getDecimales().equals("1")){
+									dfFinal = new DecimalFormat("##0.0;-##0.0");	
+								}else{
+									dfFinal = new DecimalFormat("##0;-##0");
+								}
+								
+								if(ciclo.getRedondeo().equals("T")){
+									dfFinal.setRoundingMode(java.math.RoundingMode.DOWN);	
+								}else{
+									dfFinal.setRoundingMode(java.math.RoundingMode.HALF_UP);
+								}
+								
+								muestraPromedioFinal = dfFinal.format(promedioFinal);
+								
+							}else{
 								muestraPromedioFinal = formato1.format(promedioFinal);
+							}
 						
 							//muestraPromedioFinal = Double.toString(Double.parseDouble(muestraPromedioFinal)/eval);
 							out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
