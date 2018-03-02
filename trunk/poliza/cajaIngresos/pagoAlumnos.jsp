@@ -61,6 +61,8 @@
 		<th>#</th>
 		<th>Matricula</th>
 		<th>Nombre</th>
+		<th>Grado y grupo</th>
+		<th>Nivel</th>
 		<th>Estado Cálculo Cobro</th>		
 		<th style="text-align:right">Importe</th>	
 	</tr>
@@ -75,6 +77,10 @@
 			importe = Double.parseDouble(mapPago.get(alumno));
 		}
 		 String nombreAlumno 	= aca.alumno.AlumPersonal.getNombre(conElias, alumno, "NOMBRE");
+		 int gradoAlumno 		= aca.alumno.AlumPersonal.getGrado(conElias, alumno);
+		 String grupoAlumno 	= aca.alumno.AlumPersonal.getGrupo(conElias, alumno);
+		 int nivelIdAlumno 	= aca.alumno.AlumPersonal.getNivel(conElias, alumno);
+		 String nivel 			= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, String.valueOf(nivelIdAlumno));
 		 //System.out.println("Salida estado calculo " + cicloId + "\t" + periodoId + "\t" + alumno) ;
 		 String estadoCalculo 	= aca.fin.FinCalculo.getInscrito(conElias, cicloId, periodoId, alumno); 
 		 String estadoNombre 	= "";
@@ -89,7 +95,9 @@
 			<tr>
 				<td><%=numero%></td>
 				<td><%=alumno%></td>
-				<td><%=nombreAlumno%></td>				
+				<td><%=nombreAlumno%></td>
+				<td><%=gradoAlumno%> <%=grupoAlumno%></td>	
+				<td><%=nivel%></td>				
 				<td><%=estadoNombre%></td>
 				<td style="text-align:right"><%=formato.format(importe)%></td>
 			</tr>
