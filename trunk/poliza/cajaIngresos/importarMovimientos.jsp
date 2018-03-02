@@ -497,7 +497,7 @@
 				<div class="span4">
 					<p>
 						<label for="pagoId">
-							<fmt:message key="aca.Pago" />
+							<fmt:message key="aca.GenerarCobro" />
 						</label>
 						<select name="pagoId" id="pagoId">							
 							<%for(aca.fin.FinPago pago : lisFinPago){%>
