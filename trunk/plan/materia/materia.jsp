@@ -135,7 +135,7 @@
 		%>
   <tr> 
     <td align="center">
-      <a class="icon-pencil" href="accion.jsp?Accion=5&CursoId=<%=curso.getCursoId().replaceAll("&", "}") %>&PlanId=<%=strPlanId %>">
+      <a class="icon-pencil" href="accion.jsp?Accion=5&CursoId=<%=curso.getCursoId().replaceAll("&", "}") %>&PlanId=<%=strPlanId %>&nivelId=<%=nivelId%>">
       </a>
       <a class="icon-remove" href="javascript:Borrar('<%=curso.getCursoId().replaceAll("&", "}") %>')">
       </a> 
