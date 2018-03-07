@@ -24,9 +24,9 @@
 			<select name="Ciclo" id="ciclo_origen" class="input-xxlarge">
 				<%
 					for (aca.ciclo.Ciclo ciclo : lisCiclo) {
-// 						String nivel_ciclo = ciclo.getNivelAcademicoSistema()!=null ? ciclo.getNivelAcademicoSistema() : "0";
-// 							if (nivel_ciclo.equals("0") || nivel_ciclo.equals("1")
-// 									|| nivel_ciclo.equals("2")) {
+						String nivel_ciclo = ciclo.getNivelAcademicoSistema()!=null ? ciclo.getNivelAcademicoSistema() : "0";
+							if (nivel_ciclo.equals("0") || nivel_ciclo.equals("1")
+									|| nivel_ciclo.equals("2")) {
 				%>
 				<option value="<%=ciclo.getCicloId()%>"
 					<%if (ciclo.getCicloId().equals(cicloId)) {
@@ -34,7 +34,7 @@
 						}%>><%=ciclo.getCicloNombre()%></option>
 				<%
 					}
-						//}
+						}
 				%>
 			</select> 
 			
@@ -42,9 +42,9 @@
 			<select name="Ciclo" id="ciclo_destino"	class="input-xxlarge">
 				<%
 					for (aca.ciclo.Ciclo ciclo : lisCiclo) {
-// 						String nivel_ciclo = ciclo.getNivelAcademicoSistema()!=null ? ciclo.getNivelAcademicoSistema() : "0";
-// 							if (nivel_ciclo.equals("0") || nivel_ciclo.equals("1")
-// 									|| nivel_ciclo.equals("2")) {
+						String nivel_ciclo = ciclo.getNivelAcademicoSistema()!=null ? ciclo.getNivelAcademicoSistema() : "0";
+							if (nivel_ciclo.equals("0") || nivel_ciclo.equals("1")
+									|| nivel_ciclo.equals("2")) {
 				%>
 				<option value="<%=ciclo.getCicloId()%>"
 					<%if (ciclo.getCicloId().equals(cicloId)) {
@@ -52,7 +52,7 @@
 						}%>><%=ciclo.getCicloNombre()%></option>
 				<%
 					}
-			//			}
+						}
 				%>
 			</select>
 		</div>
