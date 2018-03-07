@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class UtilCriterios {
 	 * @return = MAPA CRITERIOS
 	 */
 	public Map<Long, Criterios> getMapCriterios(Long id, String inId, String ciclo_id, Long area_id, Integer estado){
-		Map<Long, Criterios> salida = new HashMap<Long, Criterios>();
+		Map<Long, Criterios> salida = new LinkedHashMap();
 		
 		try{
 			String sql = "select * from kinder_criterios where id is not null ";
@@ -55,6 +56,8 @@ public class UtilCriterios {
 			if(!estado.equals(0)){
 				sql += " and estado="+ estado;
 			}
+			
+			sql += " order by id ";
 			
 			PreparedStatement pst = con.prepareStatement(sql);
 			//System.out.println("SQL "+ pst);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class UtilAreas {
 	 * @return mapa de Areas
 	 */
 	public Map<Long, Areas> getMapAreas(Long id, String inId, String ciclo_id, Integer estado) throws SQLException{
-		Map<Long, Areas> salida = new HashMap<Long, Areas>();
+		Map<Long, Areas> salida = new LinkedHashMap();
 		try{
 			String sql = "select * from kinder_areas where id is not null ";
 			
@@ -49,6 +50,9 @@ public class UtilAreas {
 			if(!estado.equals(0)){
 				sql += " and estado="+ estado;
 			}
+			
+			
+			sql += " order by id ";
 			
 			PreparedStatement pst = con.prepareStatement(sql);
 			//System.out.println("SQL "+ pst);
@@ -105,6 +109,26 @@ public class UtilAreas {
 		}catch(SQLException sqle){
 			System.out.println("Error en addArea" + sqle);
 		}
+	}
+	
+	public Long addAreaId(Areas a) throws SQLException{
+		Long salida = new Long(0);
+		try{
+			PreparedStatement pst = con.prepareStatement("insert into kinder_areas(ciclo_id, area) values(?, ?)Returning id");
+			pst.setString(1, a.getCiclo_id());
+			pst.setString(2, a.getArea());
+			
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()){
+				salida = rs.getLong(1);
+			}
+			
+			rs.close();
+			pst.close();
+		}catch(SQLException sqle){
+			System.out.println("Error en addArea" + sqle);
+		}
+		return salida;
 	}
 	
 	public void modifArea(Areas a) throws SQLException{
