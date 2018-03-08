@@ -273,12 +273,14 @@
 			
 		}break;
 		case 4: { // Modificar
-			System.out.println("modifica alumno " + request.getParameter("ApellidoPaterno"));
+			//System.out.println("modifica alumno " + request.getParameter("ApellidoPaterno"));
+			
 			strPlanId = request.getParameter("Plan");		
 			Personal.setEscuelaId(escuelaId);
 			Personal.setNombre(request.getParameter("Nombre"));
 			Personal.setApaterno(request.getParameter("ApellidoPaterno"));			
 			Personal.setAmaterno(request.getParameter("ApellidoMaterno")==null?" ":request.getParameter("ApellidoMaterno"));	
+			
 			Personal.setGenero(request.getParameter("Sexo"));
 			Personal.setCurp(request.getParameter("Curp"));
 			Personal.setFNacimiento(request.getParameter("FNacimiento"));
@@ -286,33 +288,42 @@
 			Personal.setEstadoId(request.getParameter("EstadoId")==null?"0":request.getParameter("EstadoId"));
 			Personal.setCiudadId(request.getParameter("CiudadId")==null?"0":request.getParameter("CiudadId"));
 			Personal.setClasfinId(request.getParameter("ClasificacionFin"));
+			
 			Personal.setEmail(request.getParameter("Email"));
 			Personal.setColonia(request.getParameter("Colonia"));
 			Personal.setDireccion(request.getParameter("Direccion"));
 			Personal.setTelefono(request.getParameter("Telefono"));
 			Personal.setCotejado(request.getParameter("Cotejado"));
 			Personal.setNivelId(aca.plan.Plan.getNivel(conElias,strPlanId));
+			
 			Personal.setGrado(request.getParameter("Grado"));
 			Personal.setEstado("1");
 			Personal.setGrupo(request.getParameter("Grupo"));
 			Personal.setActa(request.getParameter("Acta")==null?"-":request.getParameter("Acta"));
 			Personal.setCrip(request.getParameter("Crip")==null?"-":request.getParameter("Crip"));
 			Personal.setReligion(request.getParameter("Religion"));
+			
 			Personal.setTransporte(request.getParameter("transporte"));
 			Personal.setCelular(request.getParameter("Celular"));
 			Personal.setTutor(request.getParameter("Tutor"));
 			Personal.setCorreo(request.getParameter("emailAlumno").equals("")?"-":request.getParameter("emailAlumno"));
 			Personal.setIglesia(request.getParameter("Iglesia").equals("")?"-":request.getParameter("Iglesia"));
 			Personal.setTipoSangre(request.getParameter("TipoSangre"));
+			
 			Personal.setEstado(request.getParameter("Status")==null?"A":request.getParameter("Status"));
-			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
+			
+			
+			Personal.setTutorCedula(request.getParameter("Cedula")!=null && !request.getParameter("Cedula").equals("") ? request.getParameter("Cedula") : "-");
+			
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
 			Personal.setDiscapacidad("-");
 			
+			System.out.println("DATOS alumno " + Personal.toString());
 			conElias.setAutoCommit(false);
 			
 			if (Personal.existeReg(conElias)){
 				existeAlumno = true;
+				
 				if (Personal.updateReg(conElias)){
 					Personal.mapeaRegId(conElias, codigoAlumno);
 					AlumPlan.setCodigoId(codigoAlumno);
@@ -324,6 +335,7 @@
 						sResultado = "Modificado";
 						conElias.commit();						
 						Personal.mapeaRegId(conElias, codigoAlumno);
+						
 					}else{
 						conElias.rollback();
 					}
@@ -487,6 +499,7 @@
 		boolean tieneMaterias 	= KrdxCursoAct.tieneMaterias(conElias, codigoAlumno);		
 		boolean tieneMovtos		= aca.fin.FinMovimientos.existeAlumno(conElias, codigoAlumno);
 		boolean tienePagos 		= aca.fin.FinCalculoPago.existeEnPagos(conElias, codigoAlumno);		
+		
 %>		
 		<div class="row">
 			<div class="span3">
