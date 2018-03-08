@@ -76,6 +76,9 @@ Map<String,String> mapGruposAbiertos = new HashMap();
 	 		mapPeriodos.putAll(uc.periodos(request.getParameter("ciclo_id"), uc.getNivel_eval()));
 			mapGruposAbiertos.putAll(uc.getGruposAbiertasCerradas(request.getParameter("ciclo_id"), uc.getNivel_eval()));	 		
 			System.out.println(mapGruposAbiertos.size() + " " + uc.getNivel_eval());
+			
+			
+			
 	 		%>
 	 		<table class="table">
 	 		<thead>
@@ -120,6 +123,34 @@ Map<String,String> mapGruposAbiertos = new HashMap();
  		mapPeriodos.putAll(uc.periodos(request.getParameter("ciclo_id"), uc.getNivel_eval()));
  		mapGruposAbiertos.putAll(uc.getMateriasAbiertasCerradas(request.getParameter("ciclo_gpo_id"), uc.getNivel_eval()));
  		System.out.println(mapGruposAbiertos.size() + " " + uc.getNivel_eval());
+ 		
+ 		
+ 		List<String> idcicloGrupo = new ArrayList(mapCicloGrupo.keySet());
+ 		
+ 		Map<String,List<String>> mapHijas = new HashMap();
+		
+		for(String curso_id : mapCicloGrupo.keySet()){
+			String[] splitTxt = mapCicloGrupo.get(curso_id).split("\t");
+			if(splitTxt[1].equals("-")){
+				List<String> lsHijas = new ArrayList();
+				for(String cursob : idcicloGrupo){
+					String[] splitTxtB = mapCicloGrupo.get(cursob).split("\t");
+					
+					if(!splitTxtB[1].equals("-")){
+						
+						if(curso_id.trim().equals(splitTxtB[1].trim())){
+							//System.out.println(curso_id +"\t" + mapCicloGrupo.get(cursob) + "\t" + curso_id.trim().equals(splitTxtB[1].trim()) ); 
+							lsHijas.add(cursob);
+						}
+					}
+				}
+				if(!lsHijas.isEmpty()){
+					mapHijas.put(curso_id, lsHijas);
+				}
+			}
+		}
+		
+		System.out.println(mapHijas.size());
  		%>
  		<table class="table">
  		<thead>
@@ -135,9 +166,12 @@ Map<String,String> mapGruposAbiertos = new HashMap();
  			</tr>
  		</thead>
  		<tbody>
- 		<% for(String grupos : mapCicloGrupo.keySet()){ %>
+ 		<% for(String grupos : mapCicloGrupo.keySet()){ 
+ 		String[] splitTxt = mapCicloGrupo.get(grupos).split("\t");
+ 		if(splitTxt[1].equals("-")){
+ 		%>
  			<tr>
- 				<td><%= mapCicloGrupo.get(grupos) %></td>
+ 				<td><%= splitTxt[0] %></td>
  				<% for(String periodos : mapPeriodos.keySet()){
  					String estado = "checked";
 						if(mapGruposAbiertos.containsKey(grupos + "\t" + periodos)){
@@ -157,7 +191,41 @@ Map<String,String> mapGruposAbiertos = new HashMap();
  				</td>
  				<% } %>
  			</tr>
- 		<% } %>	
+ 			<% 
+ 			if(mapHijas.containsKey(grupos)){
+ 				List<String> materias = mapHijas.get(grupos);
+ 				for(String hija : materias){
+ 				String[] splitTxtH = mapCicloGrupo.get(hija).split("\t");
+ 		 		if(!splitTxtH[1].equals("-")){
+ 		 			%>
+ 		 			<tr">
+ 		 				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%= splitTxtH[0] %></td>
+ 		 				<% for(String periodos : mapPeriodos.keySet()){
+			 					String estado = "checked";
+									if(mapGruposAbiertos.containsKey(hija + "\t" + periodos)){
+										String[] split = mapGruposAbiertos.get(hija + "\t" + periodos).split(",");
+										if(new Integer(split[0])==0){
+											estado="";
+										}
+								}else{
+									estado="disabled";
+								}
+			 					%>
+			 				<td >
+			 				<div class="switch" style="text-align: center;">
+			 				<input type="checkbox" style="text-align: center;" id="<%= hija %>-<%= periodos %>" name="<%= hija %><%= periodos %>" <%= estado %> onchange="cambiaMateria('<%= hija %>','<%= periodos %>');" class="cmn-toggle cmn-toggle-yes-no P<%= periodos %>">
+			 				<label for="<%= hija %>-<%= periodos %>" data-on="Abierto" data-off="Cerrado" style="text-align: center;"></label>
+			 				</div>
+			 				</td>
+			 				<% } %>
+ 		 			</tr>
+ 		 			<%
+ 		 		}
+ 				}
+ 			}
+ 				
+ 				} 
+ 			 } %>	
  		</tbody>
  		
  		</table>

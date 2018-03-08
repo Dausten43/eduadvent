@@ -50,12 +50,12 @@ public class UtilCiclo {
 		String comando = "select q.ciclo_id, q.ciclo_nombre, q.escala, q.ciclo_escolar, q.nivel_eval, "
 				+ "q.nivel_academico_sistema, q.ciclo_grupo_id, q.grupo_nombre, "
 				+ "q.nivel_id,q.nivel_nombre, q.grado, q.grupo, q.curso_id, "
-				+ "q.curso_nombre from ( select  ci.ciclo_id, ci.ciclo_nombre, "
+				+ "q.curso_nombre, q.curso_base from ( select  ci.ciclo_id, ci.ciclo_nombre, "
 				+ "ci.escala, ci.ciclo_escolar, ci.nivel_eval, ci.nivel_academico_sistema , "
 				+ "cg.ciclo_grupo_id, cg.grupo_nombre, cg.nivel_id,ne.nivel_nombre, cg.grado, "
-				+ "cg.grupo,  cgc.curso_id, pc.curso_nombre "
+				+ "cg.grupo,  cgc.curso_id, pc.curso_nombre , pc.curso_base "
 				+ "from ciclo_grupo_curso cgc "
-				+ "join plan_curso pc on pc.curso_id = cgc.curso_id and pc.curso_base='-'"
+				+ "join plan_curso pc on pc.curso_id = cgc.curso_id "
 				+ "join ciclo_grupo cg on cg.ciclo_grupo_id = cgc.ciclo_grupo_id "
 				+ "join cat_nivel_escuela ne on ne.escuela_id='"+escuela+"' and ne.nivel_id=cg.nivel_id  "
 				+ "join ciclo ci on ci.ciclo_id = cg.ciclo_id and ci.ciclo_id like '"+escuela+"%'  "
@@ -71,7 +71,7 @@ public class UtilCiclo {
 		
 		 
 		try{
-			System.out.println(comando);
+			System.out.println("BUSQUEDA +  " + comando);
 			PreparedStatement pst = con.prepareStatement(comando);
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()){
@@ -83,7 +83,7 @@ public class UtilCiclo {
 				
 				if(!ciclo_gpo_id.equals("")){
 					if(!salida.containsKey(rs.getString("ciclo_grupo_id"))){
-						salida.put(rs.getString("curso_id"), rs.getString("curso_nombre"));
+						salida.put(rs.getString("curso_id"), rs.getString("curso_nombre")  + "\t" + rs.getString("curso_base"));
 					}
 				}
 				nivel_eval=rs.getString("nivel_eval");
@@ -393,7 +393,7 @@ public class UtilCiclo {
 					+ "case when estado='C' then count(estado) else 0 end as cerradas "
 					+ "from ciclo_grupo_eval "
 					+ "where ciclo_grupo_id = '"+ ciclo_grupo_id +"' "
-					+ "and curso_id in (select curso_id from plan_curso where curso_base='-'  and boleta='S') "
+					+ "and curso_id in (select curso_id from plan_curso where boleta='S') "
 					+ "group by curso_id, estado, promedio_id order by curso_id, promedio_id";
 
 		}else if(nivel_eval.equals("E")){
@@ -402,7 +402,7 @@ public class UtilCiclo {
 					+ "case when estado='C' then count(estado) else 0 end as cerradas "
 					+ "from ciclo_grupo_eval "
 					+ "where ciclo_grupo_id = '"+ ciclo_grupo_id +"' "
-					+ "and curso_id in (select curso_id from plan_curso where curso_base='-'  and boleta='S') "
+					+ "and curso_id in (select curso_id from plan_curso where  and boleta='S') "
 					+ "group by curso_id, estado, evaluacion_id order by curso_id, evaluacion_id";
 		}
 		

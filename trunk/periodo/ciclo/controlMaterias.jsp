@@ -168,11 +168,12 @@
 
 	
 	function correAjax(datadata, idSelect, idDiv){
+		
 		$.ajax({url: '../../reporte/promedio/ajaxPromediosCombos.jsp',
             type: "post",
             data: datadata,
             success: function (output) {
-                //alert(output);
+                
                 $(idSelect).html(output);
                 $(idDiv).show();
             },
