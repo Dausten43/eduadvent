@@ -86,22 +86,22 @@
 <div id="content">
 
 	<h2><fmt:message key="aca.Horario" /><small> ( <%=codigoId%> - <%=maestro%> - <%=cicloId%> )</small></h2>
-	
-	<div class="well">
-		<a href="cursos.jsp" class="btn btn-primary btn-mobile"><i class="icon-arrow-left icon-white"></i> 
-			<fmt:message key="boton.Regresar" />
-	    </a> &nbsp;&nbsp;<fmt:message key="aca.Horario" />:&nbsp;&nbsp;
-	    <select name="horarioId" id="horarioId" style="width:360px;margin-bottom:0px;" onchange="document.forma.submit();">
-						<%
-							for(aca.catalogo.CatHorario horario: horarios){
-						%>
-								<option value="<%=horario.getHorarioId() %>" <%if(horario.getHorarioId().equals(horarioId)){out.print("selected");} %>><%=horario.getHorarioNombre() %></option>
-						<%
-							}
-						%>
-		</select>
-	</div>
-	
+	<form name="forma" action="horario.jsp">
+		<div class="well">
+			<a href="cursos.jsp" class="btn btn-primary btn-mobile"><i class="icon-arrow-left icon-white"></i> 
+				<fmt:message key="boton.Regresar" />
+		    </a> &nbsp;&nbsp;<fmt:message key="aca.Horario" />:&nbsp;&nbsp;
+		    <select name="horarioId" id="horarioId" style="width:360px;margin-bottom:0px;" onchange="document.forma.submit();">
+							<%
+								for(aca.catalogo.CatHorario horario: horarios){
+							%>
+									<option value="<%=horario.getHorarioId() %>" <%if(horario.getHorarioId().equals(horarioId)){out.print("selected");} %>><%=horario.getHorarioNombre() %></option>
+							<%
+								}
+							%>
+			</select>
+		</div>
+	</form>
 	<%if(horarios.size()==0){ %>
 		<div class="alert alert-danger"><fmt:message key="aca.NoTieneHorarios" /></div>
 	<%}else{  %>
