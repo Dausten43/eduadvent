@@ -68,7 +68,8 @@
 		String strResultado = "";
 		String salto			= "X";
 		
-		nivel.mapeaRegId(conElias, request.getParameter("nivelId"), escuelaId);		
+		String nivelId 			= aca.plan.Plan.getNivel(conElias,planId);
+		nivel.mapeaRegId(conElias, nivelId, escuelaId);		
 		
 		Curso.setCursoId(cursoId.toUpperCase());
 		if (Curso.existeReg(conElias)) {
