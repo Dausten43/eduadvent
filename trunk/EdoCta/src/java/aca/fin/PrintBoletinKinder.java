@@ -358,7 +358,7 @@ public class PrintBoletinKinder extends HttpServlet {
                     CalificacionesCriterios cc = new CalificacionesCriterios();
                     //System.out.println("CRITERIO ANTES DEL SPLIT    "+cri);
                     String[] txtSplit = cri.split("\t");
-                    //System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
+                    System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
                     cc.setArea(txtSplit[1].trim());
                     cc.setArea_id(new Long(txtSplit[0].trim()));
                     cc.setCriterio(txtSplit[3].trim());
@@ -367,7 +367,7 @@ public class PrintBoletinKinder extends HttpServlet {
                     if (mapPromedios.containsKey(new Integer("1"))) {
                         //System.out.println("si tiene primer trimestre");
                         if (mapPromedios.get(new Integer("1")).containsKey(cc.getCriterio_id())) {
-                            //System.out.println("si tiene criterio con eva 1" + mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
+                            System.out.println("si tiene criterio con eva 1 " + mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()) + " " + cc.getCriterio_id());
                             cc.setTrimestre("1");
                             cc.setNota(mapPromedios.get(new Integer("1")).get(cc.getCriterio_id()));
                         }
@@ -375,7 +375,7 @@ public class PrintBoletinKinder extends HttpServlet {
 
                     if (mapPromedios.containsKey(new Integer("2"))) {
                         if (mapPromedios.get(new Integer("2")).containsKey(cc.getCriterio_id())) {
-                            //System.out.println("si tiene criterio con eva 2" + mapPromedios.get(new Integer("2")).get(cc.getCriterio_id()));
+                            System.out.println("si tiene criterio con eva 2 " + mapPromedios.get(new Integer("2")).get(cc.getCriterio_id()) + " " + cc.getCriterio_id());
                             cc.setTrimestre("2");
                             cc.setNotaB(mapPromedios.get(new Integer("2")).get(cc.getCriterio_id()));
                         }
@@ -383,16 +383,16 @@ public class PrintBoletinKinder extends HttpServlet {
 
                     if (mapPromedios.containsKey(new Integer("3"))) {
                         if (mapPromedios.get(new Integer("3")).containsKey(cc.getCriterio_id())) {
-                            //System.out.println("si tiene criterio con eva 3" + mapPromedios.get(new Integer("3")).get(cc.getCriterio_id()));
+                            System.out.println("si tiene criterio con eva 3 " + mapPromedios.get(new Integer("3")).get(cc.getCriterio_id()) + " " + cc.getCriterio_id());
                             cc.setTrimestre("3");
                             cc.setNotaC(mapPromedios.get(new Integer("3")).get(cc.getCriterio_id()));
                         }
                     }
 
-                    System.out.println(cc.toString());
+                    System.out.println("SE INGRESA A LA BOLETA " + cc.toString());
                     lscc.add(cc);
                 }
-                // System.out.println(ac.toString());
+                 System.out.println(ac.toString());
                 ac.setLsCal(lscc);
                 salida.add(ac);
             }
