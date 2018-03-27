@@ -15,7 +15,7 @@
 %>
 <div id="content">
 
-	<h2>Transferencia entre ciclos Areas Criterios Kinder</h2>
+	<h2>Transferencia de Áreas y Criterios / Indicadores para Kinder</h2>
 
 	<form name="frmCiclo" method="post">
 		<input type="hidden" name="Accion">

@@ -46,7 +46,7 @@ if(request.getParameter("ciclo_id")!=null){
 <thead>
 	<tr>
 		<th style="width: 5%">#</th>
-		<th>Areas</th>
+		<th>Áreas</th>
 		<th>Acción</th>
 	</tr>
 	</thead>

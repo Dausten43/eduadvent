@@ -39,7 +39,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo		= CicloLista.getListActivos(conElias, escue
 	<form>
 	<table style="width: 50%">
 		<tr>
-			<td style="width: 80% ;vertical-align: bottom;"><label for="areatxt" class="control-label">Area:</label><input type="text" id="areatxt" name="area" class="form-control" style="width: 100%"><input type="hidden" id="idArea" value=""></td>
+			<td style="width: 80% ;vertical-align: bottom;"><label for="areatxt" class="control-label">Área:</label><input type="text" id="areatxt" name="area" class="form-control" style="width: 100%"><input type="hidden" id="idArea" value=""></td>
 			<td style="text-align: right; padding-top: 17px"><input type="button" id="guardarArea" value="Guardar" class="btn btn-default"></td>
 		</tr>
 	</table>

@@ -51,15 +51,15 @@ lsAreas.addAll(ua.getLsAreas(0L, "", cicloId, 1));
 	<table style="width: 70%">
 		<tr>
 			<td>
-			<label for="selecArea">Areas:</label>
+			<label for="selecArea">Áreas:</label>
 			<select name="areaid" id="areaid">
-			<option value="">Seleccione un area ...</option>
+			<option value="">Seleccione un área ...</option>
 				<% for(Areas a : lsAreas){ %>
 				<option value="<%= a.getId() %>"><%= a.getArea() %></option>
 				<% } %>
 			</select>
 			</td>
-			<td style="width: 60%"><label for="criterio" class="control-label">Criterio:</label>
+			<td style="width: 60%"><label for="criterio" class="control-label">Criterio / Indicador:</label>
 			<input type="text" id="criteriotxt" name="criteriotxt" class="form-control" style="width: 95%"></td>
 			<td style="text-align: right; padding-top: 17px"><input type="hidden" id="idCriterio" value=""><input type="button" id="guardarCriterio" value="Guardar" class="btn btn-default"></td>
 		</tr>
