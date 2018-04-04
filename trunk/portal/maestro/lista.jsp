@@ -37,7 +37,7 @@
 			if (!orden.equals("")){
 					if (CursoAct.updateOrden(conElias)){ 
 						Resultado = "1";
-						conElias.commit();
+						//conElias.commit();
 					}else{
 						Resultado = "2";
 					}
