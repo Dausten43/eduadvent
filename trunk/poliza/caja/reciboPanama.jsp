@@ -175,7 +175,7 @@
 					
 					if (Cuenta.getMuestraSaldoRecibo().equals("S")) {
 						saldoStr = aca.fin.FinMovimientos.getSaldoAnterior(conElias, movimientos.getAuxiliar(),
-								movimientos.getFecha().substring(0, 10));
+								movimientos.getFecha());
 						
 						mapSaldo.put(movimientos.getAuxiliar(), new BigDecimal(saldoStr));
 						

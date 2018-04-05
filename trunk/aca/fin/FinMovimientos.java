@@ -608,11 +608,11 @@ public class FinMovimientos {
 
         try {
             ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO" +
-            		" FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD/MM/YYYY') and estado<>'C'");
+            		" FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS') and estado<>'C'");
             
             ps.setString(1, auxiliar);
 	        ps.setString(2, fecha);
-            
+            System.out.println("saldo anterior " + ps);
             rs = ps.executeQuery();
             if(rs.next()){
                 saldo = rs.getString("SALDO");
