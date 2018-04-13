@@ -40,6 +40,41 @@ public class CicloLista {
 		return lisCiclo;
 	}
 	
+	public ArrayList<Ciclo> getListAll(Connection conn, String condicion_abierta ) throws SQLException{
+		ArrayList<Ciclo> lisCiclo 	= new ArrayList<Ciclo>();
+		Statement st 	= conn.createStatement();
+		ResultSet rs 	= null;
+		String comando	= "";
+		
+		try{
+			comando = "SELECT CICLO_ID, CICLO_NOMBRE,"
+                + " TO_CHAR(F_CREADA, 'DD/MM/YYYY') AS F_CREADA,"
+                + " TO_CHAR(F_INICIAL, 'DD/MM/YYYY') AS F_INICIAL,"
+                + " TO_CHAR(F_FINAL, 'DD/MM/YYYY') AS F_FINAL,"
+                + " NUM_CURSOS, ESTADO, ESCALA, MODULOS, EDITAR_ACTIVIDAD,"
+                + " CICLO_ESCOLAR, DECIMALES, REDONDEO, NIVEL_EVAL, NIVEL_ACADEMICO_SISTEMA"
+                + " FROM CICLO"
+                + " WHERE CICLO_ID IS NOT NULL " + condicion_abierta;
+			
+			
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				
+				Ciclo cicle = new Ciclo();				
+				cicle.mapeaReg(rs);
+				lisCiclo.add(cicle);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.ciclo.CicloLista|getListAll|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}				
+		
+		return lisCiclo;
+	}
+	
 	public ArrayList<Ciclo> getListActivos(Connection conn, String escuelaId, String orden ) throws SQLException{
 		ArrayList<Ciclo> lisCiclo 	= new ArrayList<Ciclo>();
 		Statement st 	= conn.createStatement();

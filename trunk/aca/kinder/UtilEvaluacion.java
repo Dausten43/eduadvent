@@ -70,7 +70,12 @@ public class UtilEvaluacion {
 				e.setEvaluacion_id(rs.getInt("evaluacion_id"));
 				e.setFecha_evaluado(rs.getString("fecha_evaluado"));
 				e.setMaestro_id(rs.getString("maestro_id"));
-				e.setCalificacionTxt(calificacionTxt(rs.getInt("calificacion")));
+				if(e.getAlumno_id().startsWith("H")){
+					e.setCalificacionTxt(calificacionTxt(rs.getInt("calificacion")));
+				}
+				if(e.getAlumno_id().startsWith("S")){
+					e.setCalificacionTxt(calificacionTxtSalvador(rs.getInt("calificacion")));
+				}
 
 				salida.put(e.getId(), e);
 
@@ -166,6 +171,22 @@ public class UtilEvaluacion {
         }
         return salida;
     }
+	
+	public String calificacionTxtSalvador(Integer calificacion) {
+        String salida = "";
+        if (calificacion == 1) {
+            salida = "T";
+        }
+
+        if (calificacion == 2) {
+            salida = "P";
+        }
+
+        if (calificacion == 3) {
+            salida = "S";
+        }
+        return salida;
+    }
 
     public Map<Long, String> getPromedioPorCriterio(String ciclo_gpo_id,
             Integer trimestre, String alumno_id) {
@@ -178,8 +199,9 @@ public class UtilEvaluacion {
                             + trimestre + " and ev.alumno_id='" + alumno_id + "' group by kac.criterio_id");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                salida.put(rs.getLong("criterio_id"), calificacionTxt(rs.getInt("promedio")));
-                System.out.println(trimestre + " " + alumno_id + " " + rs.getLong("criterio_id") + " " + calificacionTxt(rs.getInt("promedio")));
+            	String calTxT = alumno_id.startsWith("H") ? calificacionTxt(rs.getInt("promedio")) : alumno_id.startsWith("S") ? calificacionTxtSalvador(rs.getInt("promedio")) : calificacionTxt(rs.getInt("promedio")); 
+                salida.put(rs.getLong("criterio_id"), calTxT);
+                System.out.println(trimestre + " " + alumno_id + " " + rs.getLong("criterio_id") + " " + calTxT);
             }
             rs.close();
             pst.close();

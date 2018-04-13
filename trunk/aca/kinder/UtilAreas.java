@@ -81,6 +81,64 @@ public class UtilAreas {
 	 * @param inId identificador grupal siempre en Long pero separados por commas no se considera si =""
 	 * @param ciclo_id identificador de ciclo_id no se considera = ""
 	 * @param estado identificador numerico activo 1 , inactivo -1  no se considera =0
+	 * @param condicion_abierta campo para agregar una condicion abierta a la consulta 
+	 * @return mapa de Areas
+	 */
+	public Map<Long, Areas> getMapAreas(Long id, String inId, String ciclo_id, Integer estado, String condicion_abierta) throws SQLException{
+		Map<Long, Areas> salida = new LinkedHashMap();
+		try{
+			String sql = "select * from kinder_areas where id is not null ";
+			
+			if(!id.equals(0L)){
+				sql += " and id=" + id;
+			}
+			
+			if(!inId.equals("")){
+				sql += " and id in (" + inId + ") ";
+			}
+			
+			if(!ciclo_id.equals("")){
+				sql += " and ciclo_id='"+ciclo_id +"' " ;
+			}
+			
+			if(!estado.equals(0)){
+				sql += " and estado="+ estado;
+			}
+			
+			if(!condicion_abierta.equals("")){
+				sql +=  condicion_abierta;
+			}
+			
+			
+			sql += " order by id ";
+			
+			PreparedStatement pst = con.prepareStatement(sql);
+			//System.out.println("SQL "+ pst);
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()){
+				Areas a = new Areas();
+				a.setArea(rs.getString("area"));
+				a.setCiclo_id(rs.getString("ciclo_id"));
+				a.setEstado(rs.getInt("estado"));
+				a.setId(rs.getLong("id"));
+				salida.put(a.getId(), a);
+			}
+			
+			rs.close();
+			pst.close();
+			
+		}catch(SQLException sqle){
+			System.out.println("Error en getMapAreas" + sqle);
+		}
+		return salida;
+	}
+	
+	/**
+	 * 
+	 * @param id identificador unico para traer un solo elemento no se considera si =0
+	 * @param inId identificador grupal siempre en Long pero separados por commas no se considera si =""
+	 * @param ciclo_id identificador de ciclo_id no se considera = ""
+	 * @param estado identificador numerico activo 1 , inactivo -1  no se considera =0
 	 * @return mapa de Areas
 	 */
 	public List<Areas> getLsAreas(Long id, String inId, String ciclo_id, Integer estado) throws SQLException{

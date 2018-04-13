@@ -180,6 +180,7 @@
 
 				<!-- INPUT PARA EDITAR LAS NOTAS (ESCONDIDO POR DEFAULT) --> <%
  	if (estado.equals("A")) { /* Si el alumno no se ha dado de baja puede editar su nota */
+ 		if(escuelaId.startsWith("H")){
  %>
 				<div class="editar<%=idactividad%> editable" style="display: none;">
 					<select name="calif-<%=idactividad%>" id="calif-<%=idactividad%>"
@@ -189,6 +190,17 @@
 						<option value="1">LVL</option>
 					</select>
 				</div> <%
+ 		}else if(escuelaId.startsWith("S")){
+ 			%>
+			<div class="editar<%=idactividad%> editable" style="display: none;">
+				<select name="calif-<%=idactividad%>" id="calif-<%=idactividad%>"
+					data-alumno="<%=kardex.getCodigoId()%>" data-alumnoactividad="<%=kardex.getCodigoId()%>-<%=idactividad%>">
+					<option value="3">S</option>
+					<option value="2">P</option>
+					<option value="1">T</option>
+				</select>
+			</div> <%			
+ 		}
  	}
  %>
 

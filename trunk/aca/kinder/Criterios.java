@@ -7,6 +7,15 @@ public class Criterios {
 	private String ciclo_id;
 	private String criterio;
 	private Integer estado;
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Criterios [id=" + id + ", area_id=" + area_id + ", ciclo_id=" + ciclo_id + ", criterio=" + criterio
+				+ ", estado=" + estado + "]";
+	}
 	/**
 	 * @return the id
 	 */

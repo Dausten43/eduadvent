@@ -8,6 +8,12 @@ public class Areas {
     private Integer estado;
     
     
+    
+    
+	@Override
+	public String toString() {
+		return "Areas [id=" + id + ", ciclo_id=" + ciclo_id + ", area=" + area + ", estado=" + estado + "]";
+	}
 	/**
 	 * @return the id
 	 */

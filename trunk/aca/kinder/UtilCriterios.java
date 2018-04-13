@@ -117,6 +117,26 @@ public class UtilCriterios {
 		}
 	}
 	
+	public Long  addCriterioId(Criterios c) throws SQLException{
+		Long salida = 0L;
+		try{
+			PreparedStatement pst = con.prepareStatement("insert into kinder_criterios(ciclo_id, area_id, criterio) values(?, ?, ?) Returning id");
+			pst.setString(1, c.getCiclo_id());
+			pst.setLong(2, c.getArea_id());
+			pst.setString(3, c.getCriterio());
+			
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()){
+				salida = rs.getLong(1);
+			}
+			rs.close();
+			pst.close();
+		}catch(SQLException sqle){
+			System.out.println("Error en addCriterios" + sqle);
+		}
+		return salida;
+	}
+	
 	public void modifCriterio(Criterios c) throws SQLException{
 		try{
 			
