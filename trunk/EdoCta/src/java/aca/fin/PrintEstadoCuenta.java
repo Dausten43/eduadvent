@@ -242,7 +242,7 @@ public class PrintEstadoCuenta extends HttpServlet {
                     m.setPoliza(rsc.getString("poliza_id"));
                     m.setTipoPoliza(rsc.getString("tipo"));
                     m.setFecha(rsc.getString("fecha"));
-                    m.setDocumento(!rsc.getString("recibo_id").equals("0") ? rsc.getString("recibo_id") : m.getPoliza().length() > 3 ? m.getPoliza().substring(3) : "");
+                    m.setDocumento(rsc.getString("recibo_id")!=null && !rsc.getString("recibo_id").equals("0") ? rsc.getString("recibo_id") : m.getPoliza().length() > 3 ? m.getPoliza().substring(3) : "");
 
                     if (rsc.getString("naturaleza").equals("C")) {
                         m.setAbonos(rsc.getBigDecimal("importe").toString());
