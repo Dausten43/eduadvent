@@ -398,7 +398,9 @@
 	<%						
 				}
 			} // fin de for de lista de materias
-			promAlum = promAlum.divide(new BigDecimal(numMaterias+"", mc), mc);
+			if(numMaterias != 0){
+				promAlum = promAlum.divide(new BigDecimal(numMaterias+"", mc), mc);
+			}
 	%>
 							<td>
 								<div 
