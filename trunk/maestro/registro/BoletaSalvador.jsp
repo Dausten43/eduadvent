@@ -136,7 +136,7 @@
 				
 				ArrayList<aca.plan.PlanCurso> lisCurso;
 				lisCurso 			= cursoLista.getListCurso(conElias,plan,"AND GRADO = (SELECT GRADO FROM CICLO_GRUPO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') AND CURSO_ID IN (SELECT CURSO_ID FROM CICLO_GRUPO_CURSO WHERE CICLO_GRUPO_ID = '"+cicloGrupoId+"') ORDER BY GRADO, ORDEN");
-				ArrayList lisAlumnoCurso = alumnoCursoLista.getListAll(conElias, escuela," AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
+				ArrayList<aca.vista.AlumnoCurso> lisAlumnoCurso = alumnoCursoLista.getListAll(conElias, escuela," AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID), CURSO_NOMBRE(CURSO_ID)");
 				float wrapwidth[] = {100f};
 				PdfPTable wrapTable = new PdfPTable(wrapwidth);
 				wrapTable.getDefaultCell().setBorder(0);
@@ -278,7 +278,6 @@
 		    					if (Integer.parseInt(curso.getGrado()) != numGrado){
 		    	    				numGrado = 	Integer.parseInt(curso.getGrado());
 		    	    				oficial = "1";
-		    	    				cantidadMaterias = 0;
 		    	    				
 		    	    				celda = new PdfPCell(new Phrase(" Materias ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 		    	    				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -332,12 +331,11 @@
 			    				materias++;
 			    				
 			    				float sumaFinales = 0f;
-			    				int contEvaluaciones = 0;
 			    				int trimestresConNota = 0;
 			    				for(CicloPromedio cp: cicloPromedioList){
 			    					float sumaNotas = 0f;
-				    				trimestresConNota = 0;
 									int contador = 0;
+									int evalConNota = 0;
 			    					for(CicloGrupoEval cge: listaCicloGrupoEval){
 										if(cge.getCicloGrupoId().equals(cicloGrupoId) &&
 												cge.getCursoId().equals(curso.getCursoId()) &&
@@ -356,7 +354,7 @@
 														materiasSinNotaIngles[contador]++;
 													}
 												}else{
-													trimestresConNota++;
+													evalConNota++;
 												}
 											}else{
 												materiasSinNota[contador]++;
@@ -369,18 +367,17 @@
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 							 				tabla.addCell(celda);
 							 				contador++;
-							 				
-							 				contEvaluaciones++;
 											
 										}
 			    					}
 			    					
 									String nota = "0";
-			    					float calculo = sumaNotas>0?sumaNotas/contador:0f;
+			    					float calculo = sumaNotas>0?sumaNotas/evalConNota:0f;
+			    					if(evalConNota>0) 
+			    						trimestresConNota++;
 			    					nota = String.valueOf(calculo);
 			    					nota = frm.format(Double.parseDouble(nota));
 									sumaFinales += Float.parseFloat(nota);
-			    					
 									celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, new BaseColor(0,0,0))));
 									celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 					 				tabla.addCell(celda);
@@ -510,8 +507,6 @@
 		}
 			
 		document.close();
-		
-	
 
 %>
 <iframe src="boleta<%=cicloGrupoId %>.pdf" style="position: absolute; top: 50px; width: 99%; height:93%;"></iframe>
