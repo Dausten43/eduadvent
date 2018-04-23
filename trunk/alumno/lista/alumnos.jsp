@@ -5,6 +5,8 @@
 <%@ include file="../../menu.jsp"%>
 
 <jsp:useBean id="alumPersonalL" scope="page" class="aca.alumno.AlumPersonalLista"/>
+<jsp:useBean id="EmpPersonal" scope="page" class="aca.empleado.EmpPersonal"/>
+<jsp:useBean id="AlumPadres" scope="page" class="aca.alumno.AlumPadres"/>
 
 <%
 	
@@ -12,7 +14,7 @@
 	String codigoId			= (String) session.getAttribute("codigoPersonal");
 	
 	ArrayList<aca.alumno.AlumPersonal> alumnos = alumPersonalL.getListAll(conElias, escuelaId, " ORDER BY NIVEL_ID, GRADO, GRUPO, APATERNO, AMATERNO, NOMBRE");
-	
+
 %>
 
 <div id="content">
@@ -43,7 +45,17 @@
 		</thead>
 		<%int cont=0; %>
 		<%for(aca.alumno.AlumPersonal alumno : alumnos){ %>
-			<%cont++; %>
+			<%
+				cont++; 
+				AlumPadres.mapeaRegId(conElias, alumno.getCodigoId());
+				if(!AlumPadres.getCodigoTutor().equals("") || !AlumPadres.getCodigoTutor().equals("-"))
+					EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoTutor());
+				if(!AlumPadres.getCodigoMadre().equals("") || !AlumPadres.getCodigoMadre().equals("-"))
+					EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoMadre());
+				if(!AlumPadres.getCodigoPadre().equals("") || !AlumPadres.getCodigoPadre().equals("-"))
+					EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoPadre());
+
+			%>
 			<tr>
 				<td><%=cont %></td>
 				<td><%=alumno.getCodigoId() %></td>
@@ -53,10 +65,10 @@
 				<td><%=alumno.getGrupo() %></td>
 				<td><%=alumno.getFNacimiento() %></td>
 				<td><%=alumno.getGenero() %></td>
-				<td><%=alumno.getDireccion() %></td>
-				<td><%=alumno.getCelular() %></td>
-				<td><%=alumno.getTelefono() %></td>
-				<td><%=alumno.getTutor() %></td>
+				<td><%=EmpPersonal.getCodigoId().equals("")?alumno.getDireccion():EmpPersonal.getDireccion() %></td>
+				<td><%=EmpPersonal.getCodigoId().equals("")?alumno.getTelefono():EmpPersonal.getTelefono() %></td>
+				<td><%=alumno.getCelular()%></td>
+				<td><%=EmpPersonal.getCodigoId().equals("")?alumno.getTutor():EmpPersonal.getNombre()+" "+EmpPersonal.getApaterno()+" "+EmpPersonal.getAmaterno() %></td>
 				<td><%=alumno.getCurp() %></td>
 			</tr>
 		<%} %>
