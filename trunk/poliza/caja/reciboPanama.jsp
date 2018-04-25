@@ -56,7 +56,15 @@
 
 		String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
 		String rutaLogo = "../../imagenes/logos/" + logoEscuela;
-
+		String rutaLogoSEAS = "";
+		
+		boolean esEscuelaDelSalvador = false;
+		
+		if(escuelaId.contains("S")){
+			esEscuelaDelSalvador = true;
+			rutaLogoSEAS = "../../imagenes/logos/SEAS.png";
+		}
+		
 		finPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
 
 		String usuarioPoliza = finPoliza.getUsuario();
@@ -92,12 +100,18 @@
 %>
 <div id="content">
 	<table class="tabla" style="margin: 0 auto; width: 95%">
-		<tr class="encabezado">
-			<td style="width: 15%; text-align: center;"><img
-				src="<%=rutaLogo%>" height="80%" style="vertical-align: super;"></td>
-			<td style="width: 65%; text-align: center; vertical-align: text-top;">
-				<p
-					style="text-align: center; font-family: sans-serif; font-size: 1.6em; font-weight: bold;"><%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%></p>
+		<tr>
+			<td style="width: 10%; text-align: center;">
+				<%if(esEscuelaDelSalvador){ %>
+					<img src="<%=rutaLogoSEAS%>" style="vertical-align:super; max-width:50%; min-width:100px">
+				<%}else{ %>
+					<img src="<%=rutaLogo%>" style="vertical-align:super; max-width:50%; min-width:100px">
+				<%} %>
+			</td>
+			<td style="width:<%out.print(tieneLogo==esEscuelaDelSalvador?"60%":"70%");%>; text-align: center; vertical-align: text-top;">
+				<p style="text-align: center; font-family: sans-serif; font-size: 1.6em; font-weight: bold;">
+					<%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%>
+				</p>
 				<div style="font-size: 12px; line-height: 1.5;">
 					<strong>Direcci&oacute;n:</strong>
 					<%=Escuela.getDireccion()%>,
@@ -110,7 +124,7 @@
 				</div>
 
 			</td>
-			<td style="width: 20%; text-align: right; vertical-align: super;">
+			<td style="width: 20%; text-align: center; vertical-align: super;">
 				<h4>
 					Recibo</span><br> [
 					<%=finRecibo.getReciboId()%>
@@ -119,10 +133,15 @@
 						<%=formato.format(Double.parseDouble(finRecibo.getImporte()))%></strong></span><br>
 				<span style="font-size: 11px;"><strong>Tipo Pago: </strong><%=finRecibo.getTipoPag(finRecibo.getTipoPag())%></span>
 			</td>
+		<%if(tieneLogo && esEscuelaDelSalvador){ %>
+			<td style="width: 10%; text-align: center;">
+				<img src="<%=rutaLogo%>" style="vertical-align:super; max-width:50%; min-width:100px">
+			</td>
+		<%}%>
 		</tr>
+		<tr class="encabezado"><td colspan="<%out.print(tieneLogo==esEscuelaDelSalvador?"4":"3");%>" style="height:5px;"></td></tr>
 		<tr>
-		<tr>
-			<td colspan="3" style="font-size: 12px;padding-bottom: 0.6em">
+			<td colspan="<%out.print(tieneLogo==esEscuelaDelSalvador?"4":"3");%>" style="font-size: 12px;padding-bottom: 0.6em">
 				<table style="padding: 0px; width: 100%;">
 					<tr>
 						<td><div style="text-align: left;">
