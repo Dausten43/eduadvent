@@ -116,7 +116,8 @@
 					<strong>Direcci&oacute;n:</strong>
 					<%=Escuela.getDireccion()%>,
 					<%=Escuela.getColonia()%><br> <strong>Tel&eacute;fono:
-					</strong><%=Escuela.getTelefono()%><br> <strong>Póliza:</strong>[
+					</strong><%=Escuela.getTelefono()%><br> 
+					<strong>Póliza: </strong>[
 					<%=polizaId%>
 					]<br> <strong>Fecha y Hora:</strong> [
 					<%=fechayHora%>
@@ -147,7 +148,7 @@
 						<td><div style="text-align: left;">
 								Recibimos de: <%=finRecibo.getCliente()%></div></td>
 						<td><div style="text-align: right;">
-								La cantidad de: <strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos)).toUpperCase() + (esEscuelaDelSalvador?" DÓLARES. ":" BALBOAS. ")
+								La cantidad de: <strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos)).toUpperCase() + (esEscuelaDelSalvador?" DÓLARES CON ":" BALBOAS. ")
 						+ centavos + " /100"%></strong>
 							</div></td>
 					</tr>
