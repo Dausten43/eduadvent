@@ -175,15 +175,8 @@
 	             * Agregar el logo de cada boleta
 	             */
 	            Image jpg = null;
-	            String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuela);
-	            
-	            String dirFoto = application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela;
-				java.io.File foto = new java.io.File(dirFoto);
-        		if (foto.exists()){
-        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/"+ logoEscuela);
-        		}else{
-        			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/logoIASD.png");
-        		}
+	            	            
+        		jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/SEAS.png");
 	            
 	            jpg.setAlignment(Image.RIGHT | Image.UNDERLYING);
 	            jpg.scaleAbsolute(60, 59);	            
@@ -197,7 +190,8 @@
 	             * Informacion del encabezado de cada boleta
 	             */
  
-				cell = new PdfPCell(new Phrase("Grado: "+aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado())),
+				cell = new PdfPCell(new Phrase(aca.catalogo.CatNivel.getNivelNombre(conElias, nivel) + "     " +
+												"Grado: "+aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado())),
                 					FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setColspan(2);
