@@ -108,7 +108,7 @@
 					<img src="<%=rutaLogo%>" style="vertical-align:super; max-width:50%; min-width:100px">
 				<%} %>
 			</td>
-			<td style="width:<%out.print(tieneLogo==esEscuelaDelSalvador?"60%":"70%");%>; text-align: center; vertical-align: text-top;">
+			<td style="width:<%out.print(tieneLogo&&esEscuelaDelSalvador?"60%":"70%");%>; text-align: center; vertical-align: text-top;">
 				<p style="text-align: center; font-family: sans-serif; font-size: 1.6em; font-weight: bold;">
 					<%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%>
 				</p>
@@ -139,7 +139,7 @@
 			</td>
 		<%}%>
 		</tr>
-		<tr class="encabezado"><td colspan="<%out.print(tieneLogo==esEscuelaDelSalvador?"4":"3");%>" style="height:5px;"></td></tr>
+		<tr class="encabezado"><td colspan="<%out.print(tieneLogo&&esEscuelaDelSalvador?"4":"3");%>" style="height:5px;"></td></tr>
 		<tr>
 			<td colspan="<%out.print(tieneLogo==esEscuelaDelSalvador?"4":"3");%>" style="font-size: 12px;padding-bottom: 0.6em">
 				<table style="padding: 0px; width: 100%;">
