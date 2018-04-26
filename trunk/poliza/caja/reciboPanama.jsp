@@ -145,9 +145,9 @@
 				<table style="padding: 0px; width: 100%;">
 					<tr>
 						<td><div style="text-align: left;">
-								Recibimos de :<%=finRecibo.getCliente()%></div></td>
+								Recibimos de: <%=finRecibo.getCliente()%></div></td>
 						<td><div style="text-align: right;">
-								La cantidad de: <strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos)).toUpperCase() + " BALBOAS. "
+								La cantidad de: <strong><%=aca.util.NumberToLetter.convertirLetras(Integer.parseInt(pesos)).toUpperCase() + (esEscuelaDelSalvador?" DÓLARES. ":" BALBOAS. ")
 						+ centavos + " /100"%></strong>
 							</div></td>
 					</tr>
@@ -164,7 +164,7 @@
 		style="margin: 0 auto; width: 95%">
 		<tr class="headerTabla" style="font-size: 11px;">
 
-			<th>Descripcion</th>
+			<th>Descripción</th>
 			<th style="text-align: right;">Saldo</th>
 			<th style="text-align: right;">Monto</th>
 			<th style="text-align: right;">Saldo final</th>
