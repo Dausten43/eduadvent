@@ -674,10 +674,12 @@
             		</select>
 				</p>
 				<p>				
-				<%	if (!escuelaId.contains("H")){%>
+				<%	if (!escuelaId.contains("H") && !escuelaId.contains("S")){%>
 					<label><fmt:message key='aca.CURP'/></label>	
-				<%	}else{%>					
+				<%	}else if (escuelaId.contains("H")){%>					
 					<label>C.I.P.</label>
+				<%	}else if (escuelaId.contains("S")){%>					
+					<label>NIE</label>
 				<%	}%>
 				    <input name="Curp" type="text" id="Curp" maxlength="19" value="<%=(Personal.getCurp().equals("-") || Personal.getCurp().equals("-") || Personal.getCurp().equals("null"))? "" : Personal.getCurp()%>"> 
 				</p>
@@ -787,6 +789,9 @@
 							<option value="<%=(char)i %>" <%if(Personal.getGrupo().equals(String.valueOf((char)i))) out.print("Selected"); %>><%=(char)i%></option>
 						<%}%>
 	              	</select>
+	              	<%if(inscrito){ %>
+					<!--<a class="btn btn-primary" href="../cambiarGpo/cambioGrupo.jsp" style='margin-bottom:10px;'><i class="icon-file icon-white"></i> <fmt:message key="boton.Cambiar"/></a>-->
+					<%} %>
 	            </p>
 				<p>
 					<label for=""><fmt:message key="aca.Iglesia"/></label>
