@@ -5,6 +5,7 @@
 <%@ include file= "../../menu.jsp" %>
 
 <%@page import="java.util.TreeMap"%>
+<%@page import="java.util.HashSet"%>
 
 <jsp:useBean id="CicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 <jsp:useBean id="GrupoCurso" scope="page" class="aca.ciclo.CicloGrupoCurso"/>
@@ -16,6 +17,7 @@
 <jsp:useBean id="GrupoEval" scope="page" class="aca.ciclo.CicloGrupoEval"/>
 <jsp:useBean id="GrupoActividad" scope="page" class="aca.ciclo.CicloGrupoActividad"/>
 <jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
+<jsp:useBean id="CatGrupoL" scope="page" class="aca.catalogo.CatGrupoLista"/>
 <jsp:useBean id="KrdxCursoActL" scope="page" class="aca.kardex.KrdxCursoActLista"/>
 
 
@@ -63,10 +65,16 @@
 	boolean cambiaGrupo 	= false;
 	boolean existeMat		= false;
 	
-	ArrayList<aca.ciclo.CicloGrupo> lisGrupo 	= CicloGrupoL.getListGrupos(conElias, cicloId, planId, "ORDER BY NIVEL_ID, GRADO, GRUPO");
-	ArrayList<aca.plan.PlanCurso> lisCurso 		= CursoL.getListCursoActivo(conElias, planId, "ORDER BY GRADO, ORDEN");
+	ArrayList<aca.ciclo.CicloGrupo> lisGrupo 			= CicloGrupoL.getListGrupos(conElias, cicloId, planId, "ORDER BY NIVEL_ID, GRADO, GRUPO");
+	ArrayList<aca.catalogo.CatGrupo> lisGrupoAltaObj 	= CatGrupoL.getListGruposAlta(conElias, cicloId, planId, escuelaId, nivelId, "ORDER BY NIVEL_ID, GRADO, GRUPO");
+	ArrayList<Integer> lisGrupoAltaInt 					= new ArrayList<Integer>();
+	for(aca.catalogo.CatGrupo grupo: lisGrupoAltaObj){
+		if(!lisGrupoAltaInt.contains(Integer.parseInt(grupo.getGrado())))
+			lisGrupoAltaInt.add(Integer.parseInt(grupo.getGrado()));
+	}
+	ArrayList<aca.plan.PlanCurso> lisCurso 				= CursoL.getListCursoActivo(conElias, planId, "ORDER BY GRADO, ORDEN");
 	TreeMap<String, aca.ciclo.CicloGrupoCurso> treeGrupoCurso 	= GrupoCursoL.getTreeMateriasPlan(conElias, cicloId, planId, " ORDER BY CURSO_ID");
-	TreeMap<String, String> treeAlumnos			= KrdxCursoActL.treeCantidadAlumnos(conElias, cicloId); 
+	TreeMap<String, String> treeAlumnos					= KrdxCursoActL.treeCantidadAlumnos(conElias, cicloId); 
 	
 	switch (numAccion){
 		case 1: {
@@ -202,7 +210,7 @@
   		<li <%if(grado.equals("0")){out.print("class='active'");} %>>
   			<a href="javascript:CambiaGrado('0');"><fmt:message key="boton.Todos" /></a>
   		</li>
-<% 			for(int i=gradoIni;i<=gradoFin;i++){ 
+<% 			for(int i: lisGrupoAltaInt){
 %>
 	  			<li <%if(grado.equals(i+"")){out.print("class='active'");} %>>
 					<a href="javascript:CambiaGrado('<%=i%>');"><%=i%>°</a>
