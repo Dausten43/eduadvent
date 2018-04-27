@@ -114,7 +114,7 @@
 			</a> 
 			&nbsp;&nbsp;
 			<a class="btn btn-success" href="traspaso.jsp">
-				   <fmt:message key="aca.ClonarCobros" /><i class="icon-random icon-white"></i>
+				   <fmt:message key="aca.ClonarFechasCobros" /><i class="icon-random icon-white"></i>
 			</a>			
 		</div>
 		
