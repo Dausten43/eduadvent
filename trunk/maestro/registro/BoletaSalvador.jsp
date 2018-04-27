@@ -42,7 +42,7 @@
 <jsp:useBean id="cicloPromedio" scope="page" class="aca.ciclo.CicloPromedio"/>
 <jsp:useBean id="cicloPromedioU" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
-
+<jsp:useBean id="Nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 
 <%
 
@@ -197,8 +197,10 @@
 				cell.setColspan(2);
 				topTable.addCell(cell);
 				
-	            cell = new PdfPCell(new Phrase("Alumno: [ "+codigoAlumno+" ] "+alumPersonal.getNombre()+
-	            					" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
+	            cell = new PdfPCell(new Phrase("Alumno: ["+codigoAlumno+"] "+alumPersonal.getNombre()+
+	            					" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno()
+	            					+"     NIE: "+alumPersonal.getCurp(), 
+	            					FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setColspan(2);
 				topTable.addCell(cell);
@@ -482,10 +484,8 @@
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				bottomTable.addCell(cell);
  				
- 				if(nombreDirector.equals("0000000"))
- 					cell = new PdfPCell(new Phrase("Director: ---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
- 				else
- 					cell = new PdfPCell(new Phrase("Director: "+nombreDirector, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+ 				cell = new PdfPCell(new Phrase("Director: "+aca.empleado.EmpPersonal.getNombre(conElias, Nivel.getDirector(conElias, escuela, Grupo.getNivelId()), "NOMBRE"), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
+ 				
  				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setColspan(2);
