@@ -97,6 +97,7 @@
 		Personal.setRfc(request.getParameter("Rfc"));
 		Personal.setSsocial(request.getParameter("Ssocial"));
 		Personal.setTipoSangre(request.getParameter("TipoSangre"));
+		Personal.setOcupacion(request.getParameter("Ocupacion"));
 		strTipo = "Nuevo";
 	
 	}else if(accion.equals("2")){// Grabar	
@@ -126,6 +127,7 @@
 		Personal.setSsocial(request.getParameter("Ssocial"));
 		Personal.setEstado(request.getParameter("Estado"));
 		Personal.setTipoSangre(request.getParameter("TipoSangre"));
+		Personal.setOcupacion(request.getParameter("Ocupacion"));
 		
 		if (strCodigo.substring(3,4).equals("E")){ 		
 			if (Personal.existeReg(conElias) == false){				
@@ -178,7 +180,8 @@
 		Personal.setEstado(request.getParameter("Estado"));
 		Personal.setIglesia(request.getParameter("Iglesia"));
 		Personal.setTipoSangre(request.getParameter("TipoSangre"));
-
+		Personal.setOcupacion(request.getParameter("Ocupacion"));
+		
 		System.out.println("SANGRE : "+request.getParameter("TipoSangre"));
 		
 		if (Personal.existeReg(conElias)){
@@ -249,6 +252,8 @@
 		Personal.setDireccion(request.getParameter("Direccion"));
 		Personal.setTelefono(request.getParameter("Telefono"));
 		Personal.setTipoId(request.getParameter("tipoId"));
+		Personal.setTipoSangre(request.getParameter("TipoSangre"));
+		Personal.setOcupacion(request.getParameter("Ocupacion"));
 		Personal.setEstado("A");
 		 
 	}else if(accion.equals("7")){// Guardar Hijo
@@ -464,7 +469,12 @@
 							<label><fmt:message key="aca.Telefono"/></label>
 							<input name="Telefono" type="text" id="Telefono" maxlength="30" value="<%=Personal.getTelefono()==null?"":Personal.getTelefono()%>">
 						</p>
-						
+						<%if(escuelaId.contains("S")){ %>
+						<p>
+							<label>AFP</label>
+							<input name="Ocupacion" type="text" id="Ocupacion" maxlength="30" value="<%=Personal.getOcupacion()==null?"":Personal.getOcupacion()%>">
+						</p>
+						<%} %>
 					</div>
 					<div class="span3">
 					
@@ -482,11 +492,13 @@
 						</p>
 						
 						<p>
-					<%	if (escuelaId.contains("H")){
-							out.print("<label>C.I.P.</label>");										
-						}else{
-							out.print("<label><fmt:message key='aca.rfc'/></label>");
-						}%>
+						<%if (escuelaId.contains("S")){%>
+							<label>DUI</label>								
+						<%}else if (escuelaId.contains("H")){%>
+							<label>C.I.P.</label>								
+						<%}else{%>
+							<label><fmt:message key="aca.rfc"/></label>
+						<%}%>
 							<input name="Rfc" type="text" id="Rfc" maxlength="40" value="<%= Personal.getRfc()==null?"":Personal.getRfc()%>">
 						</p>
 						
