@@ -1,3 +1,4 @@
+<%@page import="aca.catalogo.CatNivelEscuela"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -5,6 +6,7 @@
 <%@ include file= "../../menu.jsp" %>
 
 <jsp:useBean id="cicloL" scope="page" class="aca.ciclo.CicloLista"/>
+<jsp:useBean id="catNivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 
 <script>	
 	function Borrar( CicloId ){
@@ -97,7 +99,7 @@
 				<td><%=ciclo.getCicloEscolar()%></td>
 				<td><%=ciclo.getDecimales()%></td>
 				<td><%=ciclo.getRedondeo().equals("A")?"Arriba":"Truncado"%></td>
-				<td><%= ciclo.nivelAcademicoSistemaTxt(ciclo.getNivelAcademicoSistema()!=null ? ciclo.getNivelAcademicoSistema() : "-1") %></td>
+				<td><%=ciclo.getNivelAcademicoSistema()!=null ? CatNivelEscuela.getNivelNombre(conElias, escuelaId, ciclo.getNivelAcademicoSistema()) : "No Definido" %></td>
 	  		</tr>  
 <%
 			}
