@@ -5,6 +5,7 @@
 <%@ include file= "../../menu.jsp" %>
 
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="catNivelL" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
 
 <script>
 	
@@ -38,6 +39,8 @@
 	
 	String accion		= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String sResultado	= "";
+		
+	ArrayList<aca.catalogo.CatNivelEscuela> lisNiveles = catNivelL.getListEscuela(conElias, escuelaId, "ORDER BY NIVEL_ID");
 	
 	
 	if ( !accion.equals("1") ){
@@ -221,6 +224,18 @@
 					  	<option value="F">F</option>
 					  	<option value="G">G</option>
 					  	<option value="H">H</option>
+					  	<option value="I">I</option>
+					  	<option value="J">J</option>
+					  	<option value="K">K</option>
+					  	<option value="L">L</option>
+					  	<option value="M">M</option>
+					  	<option value="N">N</option>
+					  	<option value="O">O</option>
+					  	<option value="P">P</option>
+					  	<option value="Q">Q</option>
+					  	<option value="R">R</option>
+					  	<option value="S">S</option>
+					  	<option value="T">T</option>
 					  </select>
 				  </div>
 				</div>
@@ -233,13 +248,11 @@
 	
 		  <label form="nivelAcademicoSistema">Nivel de ciclo:</label>
 		  	<select name="nivelAcademicoSistema" id="nivelAcademicoSistema">
-		  		<option value="-1" <%if(nivelAcademicoSistema.equals("-1")  ){out.print("selected");}%>>No Definido</option>
-		  		<option value="0" <%if(nivelAcademicoSistema.equals("0")){out.print("selected");}%>>Maternal</option>
-		  		<option value="1" <%if(nivelAcademicoSistema.equals("1")){out.print("selected");}%>>Pre-Kinder</option>
-		  		<option value="2" <%if(nivelAcademicoSistema.equals("2")){out.print("selected");}%>>Kinder</option>
-		  		<option value="3" <%if(nivelAcademicoSistema.equals("3")){out.print("selected");}%>>Primaria</option>
-		  		<option value="4" <%if(nivelAcademicoSistema.equals("4")){out.print("selected");}%>>Secundaria o Pre-Media</option>
-		  		<option value="5" <%if(nivelAcademicoSistema.equals("5")){out.print("selected");}%>>Bachillerato</option>
+			  	<option value="-1" <%if(nivelAcademicoSistema.equals("-1")  ){out.print("selected");}%>>No Definido</option>
+		  		<%for(aca.catalogo.CatNivelEscuela catNivel : lisNiveles){%>
+					<option value="<%=catNivel.getNivelId() %>" <%if(nivelAcademicoSistema.equals(catNivel.getNivelId())){out.print("selected");}%>><%=catNivel.getNivelNombre() %></option>
+					
+				<%}%>
 		  		
 		  	</select>
 	 	
