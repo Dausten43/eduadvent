@@ -146,6 +146,8 @@
         	<select name="Titulo" id="Titulo">
 				<option value="Grado" <%if(Plan.getEstado().equals("Grado"))out.print("selected");%>><fmt:message key="aca.Grado" /></option>
 				<option value="Semestre" <%if(Plan.getEstado().equals("Semestre"))out.print("selected");%>><fmt:message key="aca.Semestre" /></option>
+				<option value="Cuatrimestre" <%if(Plan.getEstado().equals("Cuatrimestre"))out.print("selected");%>><fmt:message key="aca.Cuatrimestre" /></option>
+				<option value="Trimestre" <%if(Plan.getEstado().equals("Trimestre"))out.print("selected");%>><fmt:message key="aca.Trimestre" /></option>
 			</select>
         </fieldset>
          
