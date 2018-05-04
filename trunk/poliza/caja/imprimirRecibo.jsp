@@ -63,7 +63,7 @@
 		<a href="<%=from %>.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a> 
 		<!-- <a href="reciboPDF.jsp?Recibo=<%=recibo %>&ejercicioId=<%=ejercicioId%>&polizaId=<%=polizaId %>" class = "btn btn-primary"><i class="icon-print icon-white"></i> M&eacute;xico</a>-->
 		<!--<a href="reciboSalvador.jsp?Recibo=<%=recibo %>&ejercicioId=<%=ejercicioId%>&polizaId=<%=polizaId %>" class = "btn btn-primary"><i class="icon-print icon-white"></i> Salvador</a>-->
-		<a href="reciboPanama.jsp?Recibo=<%=recibo %>&ejercicioId=<%=ejercicioId%>&polizaId=<%=polizaId %>" class = "btn btn-primary"><i class="icon-print icon-white"></i>&nbsp;Imprimir recibo</a>
+		<a href="reciboCaja.jsp?Recibo=<%=recibo %>&ejercicioId=<%=ejercicioId%>&polizaId=<%=polizaId %>" class = "btn btn-primary"><i class="icon-print icon-white"></i>&nbsp;Imprimir recibo</a>
 	</div>
 		
 	<h4><fmt:message key="aca.Movimientos" /></h4>
