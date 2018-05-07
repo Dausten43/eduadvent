@@ -1684,7 +1684,7 @@
 						<%
 						int evalCerradas =0;
 						
-						double promedioFinal = 0;
+						BigDecimal promedioFinal = new BigDecimal(0, MATH_CTX);
 						double sumaValor = 0;
 						String muestraPromedioFinal = "";
 						int eval = 0;
@@ -1856,7 +1856,7 @@
 							// Inserta columna de los puntos
 							out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
 							
-							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
+							promedioFinal = promedioFinal.add(new BigDecimal(puntosFormato, MATH_CTX), MATH_CTX);
 							eval++;
 							
 						}//End for de promedio						
@@ -1867,13 +1867,13 @@
 							if (escalaEval == 5){
 								//System.out.println("promedioFinalBG = ("+promedioFinal+" * 5)/"+sumaValor+";");
 								//promedioFinalBG = new BigDecimal(promedioFinal+"", MATH_CTX).multiply(new BigDecimal("5", MATH_CTX)).divide(new BigDecimal(sumaValor+"", MATH_CTX), MATH_CTX);
-								promedioFinal = sumEval.divide(new BigDecimal(lisPromedio.size()+"", MATH_CTX), MATH_CTX).doubleValue();
+								promedioFinal = sumEval.divide(new BigDecimal(lisPromedio.size()+"", MATH_CTX), MATH_CTX);
 								// HAQUE QUE SACAR ESTE VALOR DE LA BASE DE DATOS EN LUGAR DE ESTA MEXICANADA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-								if(promedioFinal < 1d){
-									promedioFinal = 1d;
+								if(promedioFinal.doubleValue() < 1d){
+									promedioFinal = new BigDecimal(1d, MATH_CTX);
 								}
 							}else if (escalaEval == 10){
-								promedioFinal = (promedioFinal * 10)/sumaValor;
+								promedioFinal = sumaValor==0?new BigDecimal(0, MATH_CTX):(promedioFinal.multiply(new BigDecimal(10, MATH_CTX), MATH_CTX).divide(new BigDecimal(sumaValor, MATH_CTX), MATH_CTX));
 							}
 							if(escuelaId.substring(0, 1).equals("H"))
 								muestraPromedioFinal = formato4.format(promedioFinal);
