@@ -6,6 +6,7 @@
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.TreeMap"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
 <%@ page import = "java.awt.Color" %>
 <%@ page import = "java.io.FileOutputStream" %>
@@ -70,16 +71,28 @@
 
 	ciclo.mapeaRegId(conElias, cicloId);
 	
-	java.text.DecimalFormat frm = new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
-	java.text.DecimalFormat frm1 = new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
+	java.text.DecimalFormat frm = null;
+	java.text.DecimalFormat frmTrunk = null;
+	if(ciclo.getDecimales().equals("1")){
+		frm = new java.text.DecimalFormat("##0.0;-##0.0");	
+		frmTrunk = new java.text.DecimalFormat("##0.0;-##0.0");	
+	}else{
+		frm = new java.text.DecimalFormat("##0;-##0");
+		frmTrunk = new java.text.DecimalFormat("##0.0;-##0.0");	
+	}
+	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
 	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	if(escala == 100){
 		frm = new java.text.DecimalFormat("###,##0;(###,##0)");
-	}else{
-		frm.setRoundingMode(java.math.RoundingMode.DOWN);	
 	}
-		
+	if(ciclo.getRedondeo().equals("T")){
+		frm.setRoundingMode(java.math.RoundingMode.DOWN);	
+	}else{
+		frm.setRoundingMode(java.math.RoundingMode.HALF_UP); //Aquí está el error: 5.848 en portal del maestro => 5.850 en la boleta. Al aplicar este formato lo sube a 5.9
+	}
+	frmTrunk.setRoundingMode(java.math.RoundingMode.DOWN);
+	
 	CatParametro.setEscuelaId(escuela);
 	boolean firmaDirector = false;
 	boolean firmaPadre	  = false; 	
@@ -100,7 +113,8 @@
 	}
 
 	//Map de promedios del alumno en cada materia
-	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
+	java.util.Map<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
+	HashMap<String, Integer> test = new HashMap<String, Integer>();
 	TreeMap<String,KrdxAlumEval> treeEvalAlumno = krdxAlumEvalL.getTreeMateria(conElias, cicloGrupoId, "");
 	
 	if(hayAbiertas){
@@ -226,16 +240,13 @@
 	            tabla.setSpacingBefore((float)0);
 				
 	            PdfPCell celda = null;
-	            
-				int[] materiasSinNota = {0,0,0,0,0,0,0,0,0,0};
-	            int[] materiasSinNotaIngles = {0,0,0,0,0,0,0,0,0,0};
 				
 	    		int cantidadMaterias 	= 0;
 	    		int materias 			= 0;
 	    		int materiasIngles 		= 0;
 	    		String oficial 			= "";
 	    		numGrado 				= 0;
-				float promNotaGralAc 	= 0f;
+				BigDecimal promNotaGralAc 	= new BigDecimal(0, mc);
 	    		
 	    		float[] sumaPorTrimestreIngles = new float[(int)cantidadEval];
 	    		for(int j = 0; j < cantidadEval; j++)
@@ -326,10 +337,14 @@
 			    			
 			    				materias++;
 			    				
-			    				float sumaFinales = 0f;
-			    				int trimestresConNota = 0;
+			    				BigDecimal sumaFinales = new BigDecimal(0,mc);
+			    				BigDecimal valorAlumPorcentajeProm = new BigDecimal(0, mc);
+		    					BigDecimal valorTotalPorcentajeProm = new BigDecimal(0, mc);
+			    				int trimestresConNota = 0, x = 0;
 			    				for(CicloPromedio cp: cicloPromedioList){
-			    					float sumaNotas = 0f;
+			    					BigDecimal sumaNotas = new BigDecimal(0, mc);
+			    					BigDecimal valorAlumPorcentajeEval = new BigDecimal(0, mc);
+			    					BigDecimal valorTotalPorcentajeEval = new BigDecimal(0, mc);
 									int contador = 0;
 									int evalConNota = 0;
 			    					for(CicloGrupoEval cge: listaCicloGrupoEval){
@@ -338,25 +353,19 @@
 												cge.getPromedioId().equals(cp.getPromedioId())){
 											String valor = "--";
 											if(treeEvalAlumno.containsKey(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno)){
-												valor = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno).getNota();
-												sumaNotas += Float.parseFloat(valor);
+												KrdxAlumEval alumno = treeEvalAlumno.get(cicloGrupoId+curso.getCursoId()+cge.getEvaluacionId()+codigoAlumno);
+												valor = alumno.getNota();
+												sumaNotas.add(new BigDecimal(valor));
 												if(curso.getTipocursoId().equals("3"))
 													sumaPorTrimestreIngles[contador] += Float.parseFloat(valor);
 												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
-												if(Float.parseFloat(valor) == 0){
-													valor ="--";
-													materiasSinNota[contador]++;
-													if(curso.getTipocursoId().equals("3")){
-														materiasSinNotaIngles[contador]++;
-													}
-												}else{
-													evalConNota++;
-												}
-											}else{
-												materiasSinNota[contador]++;
-												if(curso.getTipocursoId().equals("3")){
-													materiasSinNotaIngles[contador]++;
-												}
+												
+												evalConNota++;
+												BigDecimal porcentajeCalf = new BigDecimal(cge.getValor(), mc);
+												porcentajeCalf = porcentajeCalf.multiply(new BigDecimal(alumno.getNota()), mc);
+												
+												valorAlumPorcentajeEval	= valorAlumPorcentajeEval.add(porcentajeCalf, mc);
+												valorTotalPorcentajeEval = valorTotalPorcentajeEval.add(new BigDecimal(cge.getValor(), mc), mc);
 											}
 											
 											celda = new PdfPCell(new Phrase(valor, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
@@ -367,24 +376,40 @@
 										}
 			    					}
 			    					
-									String nota = "0";
-			    					float calculo = sumaNotas>0?sumaNotas/evalConNota:0f;
-			    					if(evalConNota>0) 
-			    						trimestresConNota++;
-			    					nota = String.valueOf(calculo);
-			    					nota = frm.format(Double.parseDouble(nota));
-									sumaFinales += Float.parseFloat(nota);
+			    					String nota = "0";
+			    					
+			    					String key = codigoAlumno+curso.getCursoId()+cp.getPromedioId();
+			    					aca.kardex.KrdxAlumProm notaPromedio = mapPromAlumno.get(key);
+			    					
+			    					BigDecimal prom =  new BigDecimal(0, mc);
+			    					if(notaPromedio!=null){
+			    						BigDecimal porcentajeCalf = new BigDecimal(cp.getValor(), mc);
+			    						
+			    						if(Double.parseDouble(notaPromedio.getNota()) > 0){
+			    							prom = valorAlumPorcentajeEval;
+			    							prom = prom.divide(valorTotalPorcentajeEval, mc);
+			    							
+			    							porcentajeCalf = porcentajeCalf.multiply(prom, mc);
+			    						}
+			    						
+										valorAlumPorcentajeProm = valorAlumPorcentajeProm.add(porcentajeCalf, mc);
+			    						valorTotalPorcentajeProm  = valorTotalPorcentajeProm.add(new BigDecimal(cp.getValor(), mc), mc); 
+			    					}
+
+			    					nota = frm.format(prom);
+			    					
 									celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, new BaseColor(0,0,0))));
 									celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 					 				tabla.addCell(celda);
 			    				}
 			    				
+			    				
 			    				String nota = "0";
-		    					float calculo = sumaFinales>0?sumaFinales/trimestresConNota:0f;
-		    					nota = String.valueOf(calculo);
-		    					// Colocar formato con una decimal
-		    					nota = frm.format(Double.parseDouble(nota));
-		    					promNotaGralAc += Float.parseFloat(nota);
+			    				
+		    					BigDecimal promFinal = valorAlumPorcentajeProm.doubleValue() <= 0d?new BigDecimal(0, mc):valorAlumPorcentajeProm.divide(valorTotalPorcentajeProm, mc);
+								
+		    					promNotaGralAc = promNotaGralAc.add(promFinal);
+		    					nota = frm.format(promFinal);
 		    					
 		    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -425,13 +450,13 @@
     				    			
 				}
 	            
-				String nota = "0";
-				float calculo = promNotaGralAc>0?promNotaGralAc/cantidadMaterias:0f;
-				nota = String.valueOf(calculo);
+				//String nota = "0";
+				BigDecimal nota = promNotaGralAc.toString().equals("0")?new BigDecimal(0, mc):promNotaGralAc.divide(new BigDecimal(cantidadMaterias, mc), mc);
+				//nota = String.valueOf(calculo);
 				// Colocar formato con una decimal
-				nota = frm.format(Double.parseDouble(nota));
+				//nota = frm.format(nota);
 				
-				celda = new PdfPCell(new Phrase("Promedio de Nota General Acumulada: "+nota, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+				celda = new PdfPCell(new Phrase("Promedio de Nota General Acumulada: "+frm.format(nota), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 				celda.setColspan(colsWidth.length);
 				tabla.addCell(celda);
