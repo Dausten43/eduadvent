@@ -23,6 +23,7 @@
 <%@page import="aca.kardex.KrdxAlumActitud"%>
 <%@page import="aca.kardex.KrdxAlumFalta"%>
 <%@page import="aca.catalogo.CatEscuela"%>
+<%@page import="aca.ciclo.CicloBloque"%>
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="planClase" scope="page" class="aca.plan.Plan"/>
 <jsp:useBean id="curso" scope="page" class="aca.plan.PlanCurso"/>
@@ -71,27 +72,25 @@
 
 	ciclo.mapeaRegId(conElias, cicloId);
 	
-	java.text.DecimalFormat frm = null;
-	java.text.DecimalFormat frmTrunk = null;
+	java.text.DecimalFormat frmEval = null;
+	java.text.DecimalFormat frmProm = null;
+	java.text.DecimalFormat frmCiclo = null;
 	if(ciclo.getDecimales().equals("1")){
-		frm = new java.text.DecimalFormat("##0.0;-##0.0");	
-		frmTrunk = new java.text.DecimalFormat("##0.0;-##0.0");	
+		frmCiclo = new java.text.DecimalFormat("##0.0;-##0.0");
 	}else{
-		frm = new java.text.DecimalFormat("##0;-##0");
-		frmTrunk = new java.text.DecimalFormat("##0.0;-##0.0");	
+		frmCiclo = new java.text.DecimalFormat("##0;-##0");
 	}
 	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
 	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	if(escala == 100){
-		frm = new java.text.DecimalFormat("###,##0;(###,##0)");
+		frmEval = new java.text.DecimalFormat("###,##0;(###,##0)");
 	}
 	if(ciclo.getRedondeo().equals("T")){
-		frm.setRoundingMode(java.math.RoundingMode.DOWN);	
+		frmCiclo.setRoundingMode(java.math.RoundingMode.DOWN);
 	}else{
-		frm.setRoundingMode(java.math.RoundingMode.HALF_UP); //Aquí está el error: 5.848 en portal del maestro => 5.850 en la boleta. Al aplicar este formato lo sube a 5.9
+		frmCiclo.setRoundingMode(java.math.RoundingMode.HALF_UP);
 	}
-	frmTrunk.setRoundingMode(java.math.RoundingMode.DOWN);
 	
 	CatParametro.setEscuelaId(escuela);
 	boolean firmaDirector = false;
@@ -270,16 +269,16 @@
 		    				alumnoCurso = (AlumnoCurso) lisAlumnoCurso.get(k);
 		    				
 		    				/* Darle formato a las calificaciones antes de hacer operaciones con ellas */
-		    				alumnoCurso.setCal1( alumnoCurso.getCal1().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal1())) );
-		    				alumnoCurso.setCal2( alumnoCurso.getCal2().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal2())) );
-		    				alumnoCurso.setCal3( alumnoCurso.getCal3().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal3())) );
-		    				alumnoCurso.setCal4( alumnoCurso.getCal4().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal4())) );
-		    				alumnoCurso.setCal5( alumnoCurso.getCal5().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal5())) );
-		    				alumnoCurso.setCal6( alumnoCurso.getCal6().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal6())) );
-		    				alumnoCurso.setCal7( alumnoCurso.getCal7().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal7())) );
-		    				alumnoCurso.setCal8( alumnoCurso.getCal8().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal8())) );
-		    				alumnoCurso.setCal9( alumnoCurso.getCal9().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal9())) );
-		    				alumnoCurso.setCal10( alumnoCurso.getCal10().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal10())) );
+		    				alumnoCurso.setCal1( alumnoCurso.getCal1().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal1())) );
+		    				alumnoCurso.setCal2( alumnoCurso.getCal2().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal2())) );
+		    				alumnoCurso.setCal3( alumnoCurso.getCal3().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal3())) );
+		    				alumnoCurso.setCal4( alumnoCurso.getCal4().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal4())) );
+		    				alumnoCurso.setCal5( alumnoCurso.getCal5().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal5())) );
+		    				alumnoCurso.setCal6( alumnoCurso.getCal6().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal6())) );
+		    				alumnoCurso.setCal7( alumnoCurso.getCal7().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal7())) );
+		    				alumnoCurso.setCal8( alumnoCurso.getCal8().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal8())) );
+		    				alumnoCurso.setCal9( alumnoCurso.getCal9().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal9())) );
+		    				alumnoCurso.setCal10( alumnoCurso.getCal10().equals("-")?"-":frmCiclo.format(Double.parseDouble(alumnoCurso.getCal10())) );
 		    				
 		    				if(alumnoCurso.getCursoId().equals(curso.getCursoId()) && cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
 		    					if (Integer.parseInt(curso.getGrado()) != numGrado){
@@ -342,12 +341,38 @@
 		    					BigDecimal valorTotalPorcentajeProm = new BigDecimal(0, mc);
 			    				int trimestresConNota = 0, x = 0;
 			    				for(CicloPromedio cp: cicloPromedioList){
+			    					if(cp.getDecimales().equals("1")){
+			    						frmProm = new java.text.DecimalFormat("##0.0;-##0.0");
+			    					}else if(cp.getDecimales().equals("2")){
+			    						frmProm = new java.text.DecimalFormat("##0.00;-##0.00");
+			    					}else{
+			    						frmProm = new java.text.DecimalFormat("##0;-##0");
+			    					}
+			    					if(cp.getRedondeo().equals("T")){
+										frmProm.setRoundingMode(RoundingMode.DOWN);
+									}else{
+										frmProm.setRoundingMode(RoundingMode.HALF_UP);
+									}
+			    					
 			    					BigDecimal sumaNotas = new BigDecimal(0, mc);
 			    					BigDecimal valorAlumPorcentajeEval = new BigDecimal(0, mc);
 			    					BigDecimal valorTotalPorcentajeEval = new BigDecimal(0, mc);
 									int contador = 0;
 									int evalConNota = 0;
 			    					for(CicloGrupoEval cge: listaCicloGrupoEval){
+			    						if(CicloBloque.getDecimales(conElias, cicloId, cge.getEvaluacionId()).equals("1")){
+				    						frmEval = new java.text.DecimalFormat("##0.0;-##0.0");
+				    					}else if(CicloBloque.getDecimales(conElias, cicloId, cge.getEvaluacionId()).equals("2")){
+				    						frmEval = new java.text.DecimalFormat("##0.00;-##0.00");
+				    					}else{
+				    						frmEval = new java.text.DecimalFormat("##0;-##0");
+				    					}
+				    					if(CicloBloque.getRedondeo(conElias, cicloId, cge.getEvaluacionId()).equals("T")){
+				    						frmEval.setRoundingMode(RoundingMode.DOWN);
+										}else{
+											frmEval.setRoundingMode(RoundingMode.HALF_UP);
+										}
+			    						
 										if(cge.getCicloGrupoId().equals(cicloGrupoId) &&
 												cge.getCursoId().equals(curso.getCursoId()) &&
 												cge.getPromedioId().equals(cp.getPromedioId())){
@@ -358,7 +383,7 @@
 												sumaNotas.add(new BigDecimal(valor));
 												if(curso.getTipocursoId().equals("3"))
 													sumaPorTrimestreIngles[contador] += Float.parseFloat(valor);
-												valor = String.valueOf(frm.format(Double.parseDouble(valor)));
+												valor = String.valueOf(frmEval.format(Double.parseDouble(valor)));
 												
 												evalConNota++;
 												BigDecimal porcentajeCalf = new BigDecimal(cge.getValor(), mc);
@@ -388,15 +413,13 @@
 			    						if(Double.parseDouble(notaPromedio.getNota()) > 0){
 			    							prom = valorAlumPorcentajeEval;
 			    							prom = prom.divide(valorTotalPorcentajeEval, mc);
-			    							
-			    							porcentajeCalf = porcentajeCalf.multiply(prom, mc);
 			    						}
-			    						
-										valorAlumPorcentajeProm = valorAlumPorcentajeProm.add(porcentajeCalf, mc);
+			    						porcentajeCalf = porcentajeCalf.multiply(new BigDecimal(frmEval.format(prom)), mc);
+										valorAlumPorcentajeProm = valorAlumPorcentajeProm.add(new BigDecimal(frmProm.format(porcentajeCalf)), mc);
 			    						valorTotalPorcentajeProm  = valorTotalPorcentajeProm.add(new BigDecimal(cp.getValor(), mc), mc); 
 			    					}
 
-			    					nota = frm.format(prom);
+			    					nota = frmProm.format(prom);
 			    					
 									celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, new BaseColor(0,0,0))));
 									celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -409,7 +432,8 @@
 		    					BigDecimal promFinal = valorAlumPorcentajeProm.doubleValue() <= 0d?new BigDecimal(0, mc):valorAlumPorcentajeProm.divide(valorTotalPorcentajeProm, mc);
 								
 		    					promNotaGralAc = promNotaGralAc.add(promFinal);
-		    					nota = frm.format(promFinal);
+
+		    					nota = frmCiclo.format(promFinal);
 		    					
 		    					celda = new PdfPCell(new Phrase(nota, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -456,7 +480,7 @@
 				// Colocar formato con una decimal
 				//nota = frm.format(nota);
 				
-				celda = new PdfPCell(new Phrase("Promedio de Nota General Acumulada: "+frm.format(nota), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
+				celda = new PdfPCell(new Phrase("Promedio de Nota General Acumulada: "+frmCiclo.format(nota), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
 				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 				celda.setColspan(colsWidth.length);
 				tabla.addCell(celda);
