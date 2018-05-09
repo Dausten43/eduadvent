@@ -27,7 +27,7 @@
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	String unionId 			= request.getParameter("unionId");
 	ArrayList lisUnion		= new ArrayList();
-	String					= "X";
+	String salto			= "X";
 	//String añadir 			= request.getParameter("añadir");
 	
 
