@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 5.5.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin_panama_encabezado" language="groovy" pageWidth="612" pageHeight="792" columnWidth="564" leftMargin="34" rightMargin="14" topMargin="22" bottomMargin="20" uuid="14a0f6bc-4f9c-4d0a-9626-02eac7d7b776">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Daniel\\Google Drive\\netbeans projects\\EdoCta\\web\\WEB-INF\\jsperFiles\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="calificaciones" class="net.sf.jasperreports.engine.JRDataSource">
+		<fieldDescription><![CDATA[calificaciones]]></fieldDescription>
+	</field>
+	<field name="lsCal" class="java.util.Collection">
+		<fieldDescription><![CDATA[lsCal]]></fieldDescription>
+	</field>
+	<field name="area" class="java.lang.String">
+		<fieldDescription><![CDATA[area]]></fieldDescription>
+	</field>
+	<field name="ciclo" class="java.lang.String">
+		<fieldDescription><![CDATA[ciclo]]></fieldDescription>
+	</field>
+	<field name="codigo_estudiante" class="java.lang.String">
+		<fieldDescription><![CDATA[codigo_estudiante]]></fieldDescription>
+	</field>
+	<field name="escuela" class="java.lang.String">
+		<fieldDescription><![CDATA[escuela]]></fieldDescription>
+	</field>
+	<field name="logo" class="java.lang.String">
+		<fieldDescription><![CDATA[logo]]></fieldDescription>
+	</field>
+	<field name="nivel" class="java.lang.String">
+		<fieldDescription><![CDATA[nivel]]></fieldDescription>
+	</field>
+	<field name="nombre_consejera" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre_consejera]]></fieldDescription>
+	</field>
+	<field name="nombre_estudiante" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre_estudiante]]></fieldDescription>
+	</field>
+	<field name="director" class="java.lang.String">
+		<fieldDescription><![CDATA[director]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="observacionA1" class="java.lang.String"/>
+	<field name="observacionB1" class="java.lang.String"/>
+	<field name="observacionA2" class="java.lang.String"/>
+	<field name="observacionB2" class="java.lang.String"/>
+	<field name="observacionA3" class="java.lang.String"/>
+	<field name="observacionB3" class="java.lang.String"/>
+	<field name="faltaA" class="java.lang.String"/>
+	<field name="faltaB" class="java.lang.String"/>
+	<field name="faltaC" class="java.lang.String"/>
+	<field name="tardanzaA" class="java.lang.String"/>
+	<field name="tardanzaB" class="java.lang.String"/>
+	<field name="tardanzaC" class="java.lang.String"/>
+	<field name="ciclo_nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[ciclo_nombre]]></fieldDescription>
+	</field>
+	<group name="dsReportgp" isStartNewPage="true" isResetPageNumber="true">
+		<groupExpression><![CDATA[$F{area}]]></groupExpression>
+		<groupHeader>
+			<band height="105">
+				<rectangle>
+					<reportElement x="306" y="70" width="253" height="16" uuid="799c7f76-a9ce-4f96-bd3e-296e3fa870b4"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="27" y="86" width="279" height="18" uuid="21b9397b-42e7-4086-8c60-0918af9a01b5"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="27" y="70" width="279" height="16" uuid="d5bba1f5-89e0-46a1-bf06-b3570d1e281c"/>
+				</rectangle>
+				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+					<reportElement x="0" y="1" width="68" height="64" uuid="3cddbd68-2934-4976-a8eb-602e48dfe77d"/>
+					<imageExpression><![CDATA[$F{logo}]]></imageExpression>
+				</image>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="67" y="0" width="492" height="30" uuid="fa2c244f-e133-4249-ae10-d19f481648d3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{escuela}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="67" y="30" width="116" height="16" uuid="2734dcaa-2dea-451f-850f-509d483f4bb4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Boleta de Notas]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement stretchType="RelativeToBandHeight" x="30" y="70" width="275" height="16" uuid="195495e2-2633-4220-b6e5-7c5e8efeb6ee"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Estudiante: " + $F{nombre_estudiante}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="30" y="86" width="275" height="18" uuid="1ddff017-2841-4ab0-b449-ae0e2a1e97fb"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["No. NIE: " + $F{codigo_estudiante}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="316" y="70" width="243" height="16" uuid="bd3cf3a2-56f5-45d7-aa80-fac878986b47"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["Orientador(a): " + $F{nombre_consejera}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement x="306" y="86" width="253" height="18" uuid="6784c763-9bd1-4201-88be-ccd2b61e547f"/>
+				</rectangle>
+				<textField>
+					<reportElement x="316" y="86" width="243" height="18" uuid="960f45a6-5594-48a6-9a06-b776f948aa02"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA["Nivel: " +$F{ciclo_nombre}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="14">
+			<subreport>
+				<reportElement stretchType="RelativeToTallestObject" x="27" y="0" width="378" height="14" uuid="5a4637bb-2979-48d2-b7ea-3d7c48cbbe12"/>
+				<dataSourceExpression><![CDATA[$F{calificaciones}]]></dataSourceExpression>
+				<subreportExpression><![CDATA["boletin_salvador.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="13" width="100" height="1" uuid="7262a739-47b1-4e19-85b1-47dba1a30cae"/>
+			</break>
+			<subreport>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="404" y="0" width="155" height="13" printWhenGroupChanges="dsReportgp" uuid="b3c62288-40d6-4f06-a9f5-a79ab793970a"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA["columna_derecha_salvador.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

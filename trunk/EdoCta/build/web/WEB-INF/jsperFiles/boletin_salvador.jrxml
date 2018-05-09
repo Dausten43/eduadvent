@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 5.5.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin_panama" language="groovy" pageWidth="368" pageHeight="595" columnWidth="368" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="81052afb-e169-4fbe-9c7c-a8625710344e">
+	<property name="ireport.zoom" value="7.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="trimestre" class="java.lang.String">
+		<fieldDescription><![CDATA[trimestre]]></fieldDescription>
+	</field>
+	<field name="area" class="java.lang.String">
+		<fieldDescription><![CDATA[area]]></fieldDescription>
+	</field>
+	<field name="nota" class="java.lang.String">
+		<fieldDescription><![CDATA[nota]]></fieldDescription>
+	</field>
+	<field name="criterio_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[criterio_id]]></fieldDescription>
+	</field>
+	<field name="criterio" class="java.lang.String">
+		<fieldDescription><![CDATA[criterio]]></fieldDescription>
+	</field>
+	<field name="area_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[area_id]]></fieldDescription>
+	</field>
+	<field name="notaB" class="java.lang.String"/>
+	<field name="notaC" class="java.lang.String"/>
+	<field name="notaD" class="java.lang.String"/>
+	<field name="notaE" class="java.lang.String"/>
+	<field name="notaF" class="java.lang.String"/>
+	<field name="notaG" class="java.lang.String"/>
+	<field name="notaH" class="java.lang.String"/>
+	<field name="notaJ" class="java.lang.String"/>
+	<field name="notaI" class="java.lang.String"/>
+	<variable name="CONTADOR_LINEA" class="java.lang.Integer" resetType="Group" resetGroup="areas" calculation="Sum">
+		<variableExpression><![CDATA[new java.lang.Integer(!$V{tmpArea}.equals($F{area_id}) ? 1 : 0)]]></variableExpression>
+	</variable>
+	<variable name="tmpArea" class="java.lang.Long" resetType="None">
+		<initialValueExpression><![CDATA[$F{area_id}]]></initialValueExpression>
+	</variable>
+	<group name="areas">
+		<groupExpression><![CDATA[$F{area_id}]]></groupExpression>
+	</group>
+	<columnHeader>
+		<band height="26">
+			<rectangle>
+				<reportElement x="267" y="0" width="102" height="13" uuid="374a60c3-5e5f-483a-bd09-d4fa5d419410"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="266" y="1" width="102" height="13" uuid="75d7055a-c819-4916-9382-042bd01e373f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[TRIMESTRES]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="31" y="0" width="236" height="26" uuid="8d3da235-95c5-4e7b-8c05-1d4e5af4cbe3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="31" height="26" uuid="aa699adc-b612-46af-85e6-cd316d5c139f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="31" height="25" uuid="7ff642a1-208b-4cd7-9c6e-040e3f93c616"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="1" width="233" height="24" uuid="c321d315-9af3-46f9-9192-3fa589d1d596"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Indicadores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="13" width="33" height="13" uuid="41e1a7a8-7210-48cc-86ad-94b643fa267f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[I]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="13" width="34" height="13" uuid="866eac9a-1733-4ab5-a14e-227bccd04254"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[II]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="13" width="35" height="13" uuid="5ce0a95d-7fce-4be1-9706-c5ebaa534533"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[III]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Prevent">
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" mode="Opaque" x="0" y="0" width="369" height="13" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" backcolor="#CCCCCC" uuid="b343105d-3767-49ce-b0d9-d8bc224e63f9"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" rotation="None">
+					<font size="6" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{area}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="31" y="13" width="235" height="9" uuid="6fb6de83-f9a0-4226-b1f4-e31e1ebf26f4"/>
+				<box leftPadding="4">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{criterio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="300" y="13" width="34" height="9" uuid="a427a864-9c35-4a38-b789-d44e097aafa0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{notaB}!=null ? $F{notaB} : "-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="334" y="13" width="35" height="9" uuid="2a18bb3d-2fa2-43c4-86b2-1c87fe6ac766"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{notaC}!=null ? $F{notaC} : "-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="266" y="13" width="34" height="9" uuid="9f8e453b-9d04-493b-92ee-02bc1d238880"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nota}!=null ? $F{nota} : "-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="13" width="31" height="9" uuid="dd1669d0-aa2e-423f-b90b-dad91d5e3486"/>
+				<box rightPadding="3">
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{CONTADOR_LINEA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 5.5.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="columna_derecha_salvador" language="groovy" pageWidth="155" pageHeight="650" columnWidth="155" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="dfd4718a-8f6f-4d3d-947c-7f949e47e23f">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1000"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="638" splitType="Prevent">
+			<rectangle>
+				<reportElement x="0" y="0" width="155" height="13" uuid="6e82a5de-4861-4c8e-b6c3-b67aa846b222"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="154" height="13" uuid="108d6780-1a5a-40c5-af9a-ae069671d349"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Criterio de Evaluación]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="13" width="155" height="39" uuid="34e7d178-377c-44a3-a5f1-b41664f419d0"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="13" width="151" height="11" uuid="f74efdea-311b-4aa7-9f44-4611e6e69d1d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[S =  Si lo hace]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="24" width="100" height="11" uuid="1818b5d1-c125-42fd-89ef-259123c88708"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[P =  Lo hace con ayuda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="35" width="100" height="11" uuid="b31c60b5-3588-4e80-843c-13e75cbf744e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[T =  Todavía no lo hace]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="209" width="155" height="320" uuid="68cc0e03-4811-43c1-91cc-6a0ac2dc44d5"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.0"/>
+				</box>
+				<text><![CDATA[Observaciones:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="30" y="60" width="110" height="110" uuid="e5fa7d77-6fb3-4ee3-916f-178469884a95"/>
+				<imageExpression><![CDATA["logo_educacion_salvador.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="244" width="155" height="1" uuid="cc1aac2c-d761-48ef-90e0-a80faf1238f6"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="260" width="155" height="1" uuid="e07a252a-7379-4f89-a9e3-2ae480e8f5ce"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="292" width="155" height="1" uuid="cd427b2c-3d9c-442c-90dc-7a1ec81f2c15"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="276" width="155" height="1" uuid="075372f4-4f02-420c-9851-80c7816365af"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="307" width="155" height="1" uuid="7d623801-dde7-492a-ac2d-02b820119dd4"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="323" width="155" height="1" uuid="75f07612-7764-4391-ab0d-df74f4d79580"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="355" width="155" height="1" uuid="4dbbc1e7-d6c3-45df-8485-d0149e0f8534"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="339" width="155" height="1" uuid="8620d57c-440b-4654-a445-c5f3ab7b9eea"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="483" width="155" height="1" uuid="77d253ef-d88c-4cb7-94d1-d9afde418ed8"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="467" width="155" height="1" uuid="547b8965-4feb-4c40-8ede-84c076183cc0"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="451" width="155" height="1" uuid="08d74975-1b37-49c1-bc0f-8437c7f0f168"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="435" width="155" height="1" uuid="30d5e484-8c5e-4628-b403-96975d65940f"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="420" width="155" height="1" uuid="0c74764c-0a0d-40e3-b0b0-795d092d8f33"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="404" width="155" height="1" uuid="3bec9077-030e-44c2-bfdd-058c0c0ccc73"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="388" width="155" height="1" uuid="df1d620f-1545-4baf-bf30-514da75b0595"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="372" width="155" height="1" uuid="e0864af3-6b09-4ae0-8efd-630117200029"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="514" width="155" height="1" uuid="218af071-5320-4378-85f5-f3b82615ee49"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="499" width="155" height="1" uuid="3ab2c783-8b82-4661-90fc-cd4d67fb93bf"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="18" y="607" width="120" height="1" uuid="f92ae718-faaa-4e4e-84b7-eab39593a1ac"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="16" y="608" width="124" height="19" uuid="70a82978-6275-467c-8977-d9cbf6dca795"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Firma del Orientador(a)"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

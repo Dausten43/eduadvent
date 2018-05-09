@@ -36,18 +36,17 @@ public class AreasCriterios {
     private String tardanzaA;
     private String tardanzaB;
     private String tardanzaC;
-    
+    private String ciclo_nombre;
+
     private String area;
     private Collection<CalificacionesCriterios> lsCal;
-     private JRDataSource Calificaciones;
+    private JRDataSource Calificaciones;
 
     @Override
     public String toString() {
-        return "AreasCriterios{" + "escuela=" + escuela + ", logo=" + logo + ", codigo_estudiante=" + codigo_estudiante + ", nombre_estudiante=" + nombre_estudiante + ", nombre_consejera=" + nombre_consejera + ", nivel=" + nivel + ", ciclo=" + ciclo + ", director=" + director + ", direccion=" + direccion + ", area=" + area + ", lsCal=" + lsCal + ", Calificaciones=" + Calificaciones + '}';
+        return "AreasCriterios{" + "escuela=" + escuela + ", logo=" + logo + ", codigo_estudiante=" + codigo_estudiante + ", nombre_estudiante=" + nombre_estudiante + ", nombre_consejera=" + nombre_consejera + ", nivel=" + nivel + ", ciclo=" + ciclo + ", director=" + director + ", direccion=" + direccion + ", observacionA1=" + observacionA1 + ", observacionB1=" + observacionB1 + ", observacionA2=" + observacionA2 + ", observacionB2=" + observacionB2 + ", observacionA3=" + observacionA3 + ", observacionB3=" + observacionB3 + ", faltaA=" + faltaA + ", faltaB=" + faltaB + ", faltaC=" + faltaC + ", tardanzaA=" + tardanzaA + ", tardanzaB=" + tardanzaB + ", tardanzaC=" + tardanzaC + ", ciclo_nombre=" + ciclo_nombre + ", area=" + area + ", lsCal=" + lsCal + ", Calificaciones=" + Calificaciones + '}';
     }
 
-
-    
     /**
      * @return the observacionA1
      */
@@ -103,7 +102,7 @@ public class AreasCriterios {
     public void setObservacionB2(String observacionB2) {
         this.observacionB2 = observacionB2;
     }
-    
+
     /**
      * @return the area
      */
@@ -131,8 +130,8 @@ public class AreasCriterios {
     public void setLsCal(Collection<CalificacionesCriterios> lsCal) {
         this.lsCal = lsCal;
     }
-    
-    public JRDataSource getCalificaciones(){
+
+    public JRDataSource getCalificaciones() {
         return new JRBeanCollectionDataSource(lsCal);
     }
 
@@ -372,5 +371,19 @@ public class AreasCriterios {
      */
     public void setTardanzaC(String tardanzaC) {
         this.tardanzaC = tardanzaC;
+    }
+
+    /**
+     * @return the ciclo_nombre
+     */
+    public String getCiclo_nombre() {
+        return ciclo_nombre;
+    }
+
+    /**
+     * @param ciclo_nombre the ciclo_nombre to set
+     */
+    public void setCiclo_nombre(String ciclo_nombre) {
+        this.ciclo_nombre = ciclo_nombre;
     }
 }

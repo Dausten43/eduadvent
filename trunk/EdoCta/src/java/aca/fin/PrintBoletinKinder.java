@@ -80,6 +80,22 @@ public class PrintBoletinKinder extends HttpServlet {
         }
         return salida;
     }
+    
+    public String calificacionTxtSalvador(Integer calificacion) {
+        String salida = "";
+        if (calificacion == 1) {
+            salida = "T";
+        }
+
+        if (calificacion == 2) {
+            salida = "P";
+        }
+
+        if (calificacion == 3) {
+            salida = "S";
+        }
+        return salida;
+    }
 
     public Map<Long, String> getPromedioPorCriterio(Connection con, String ciclo_gpo_id,
             Integer trimestre, String alumno_id) {
@@ -92,8 +108,15 @@ public class PrintBoletinKinder extends HttpServlet {
                             + trimestre + " and ev.alumno_id='" + alumno_id + "' group by kac.criterio_id");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                salida.put(rs.getLong("criterio_id"), calificacionTxt(rs.getInt("promedio")));
-                System.out.println(trimestre + " " + alumno_id + " " + rs.getLong("criterio_id") + " " + calificacionTxt(rs.getInt("promedio")));
+                String calificacion = "";
+                if(ciclo_gpo_id.startsWith("H")){
+                    calificacion = calificacionTxt(rs.getInt("promedio"));
+                }else{
+                    calificacion = calificacionTxtSalvador(rs.getInt("promedio"));
+                }
+                
+                salida.put(rs.getLong("criterio_id"), calificacion);
+                System.out.println(trimestre + " " + alumno_id + " " + rs.getLong("criterio_id") + " " + calificacion);
             }
             rs.close();
             pst.close();
@@ -226,7 +249,7 @@ public class PrintBoletinKinder extends HttpServlet {
 
                                 comando = "SELECT distinct(kca.CODIGO_ID) , ALUM_APELLIDO(kca.CODIGO_ID),ac.nivel, ac.grado, ac.grupo "
                         + ", ap.escuela_id, ap.nombre, ap.apaterno, ap.amaterno , ap.curp , "
-                        + " ce.escuela_nombre, ce.direccion, ce.telefono, ce.logo, ne.nivel_nombre, ci.ciclo_escolar, emp_nombre(ne.director) as nombre_director "
+                        + " ce.escuela_nombre, ce.direccion, ce.telefono, ce.logo, ne.nivel_nombre, ci.ciclo_escolar, ci.ciclo_nombre, emp_nombre(ne.director) as nombre_director "
                         + " FROM KRDX_CURSO_ACT kca"
                         + " join alum_personal ap on ap.codigo_id=kca.codigo_id "
                         + " join cat_escuela ce on ce.escuela_id=ap.escuela_id "
@@ -259,7 +282,7 @@ public class PrintBoletinKinder extends HttpServlet {
 
                 comando = "SELECT distinct(kca.CODIGO_ID) , ALUM_APELLIDO(kca.CODIGO_ID),ac.nivel, ac.grado, ac.grupo "
                         + ", ap.escuela_id, ap.nombre, ap.apaterno, ap.amaterno , ap.curp , "
-                        + " ce.escuela_nombre, ce.direccion, ce.telefono, ce.logo, ne.nivel_nombre, ci.ciclo_escolar, emp_nombre(ne.director) as nombre_director "
+                        + " ce.escuela_nombre, ce.direccion, ce.telefono, ce.logo, ne.nivel_nombre, ci.ciclo_escolar, ci.ciclo_nombre, emp_nombre(ne.director) as nombre_director "
                         + " FROM KRDX_CURSO_ACT kca"
                         + " join alum_personal ap on ap.codigo_id=kca.codigo_id "
                         + " join cat_escuela ce on ce.escuela_id=ap.escuela_id "
@@ -306,6 +329,7 @@ public class PrintBoletinKinder extends HttpServlet {
                 ac.setNombre_estudiante(rs.getString("nombre") + " " + rs.getString("apaterno") + " " + rs.getString("amaterno"));
                 ac.setNombre_consejera(consejera);
                 ac.setDirector(rs.getString("nombre_director"));
+                ac.setCiclo_nombre(rs.getString("ciclo_nombre"));
                 ac.setDireccion(rs.getString("direccion") + " " + rs.getString("telefono") + "");
                 Map<Integer, Map<Long, String>> mapPromedios = new LinkedHashMap();
                 mapPromedios.putAll(mapPromedio(con, ciclo_gpo_id, ac.getArea()));
@@ -358,10 +382,11 @@ public class PrintBoletinKinder extends HttpServlet {
                     CalificacionesCriterios cc = new CalificacionesCriterios();
                     //System.out.println("CRITERIO ANTES DEL SPLIT    "+cri);
                     String[] txtSplit = cri.split("\t");
-                    System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
+                    System.out.println("***** " +  txtSplit.length + cri);
+                    //System.out.println("CRITERIO ANTES DEL SPLIT    -"+ txtSplit[0] +"- -"+ txtSplit[1] +"- -"+ txtSplit[2] +"- -"+ txtSplit[3] +"- -" );
                     cc.setArea(txtSplit[1].trim());
                     cc.setArea_id(new Long(txtSplit[0].trim()));
-                    cc.setCriterio(txtSplit[3].trim());
+                    cc.setCriterio(txtSplit[3].trim()!=null ? txtSplit[3] : ""); 
                     cc.setCriterio_id(new Long(txtSplit[2].trim()));
 
                     if (mapPromedios.containsKey(new Integer("1"))) {
@@ -426,8 +451,16 @@ public class PrintBoletinKinder extends HttpServlet {
         Collection<EdoCtaPanama> dataSource = boletas(context.getRealPath("/imagenes/logos"), request);
         //CreaReporte.dsEdoctaB(context.getRealPath("/imagenes/logos"));
         Locale locale = new Locale("es", "MX");
+        
+        String reportPath = "";
+        
+        if(request.getParameter("ciclo_id").startsWith("S")){
+            reportPath = "/WEB-INF/jsperFiles/boletin_salvador_encabezado.jasper";
+        }else{
+            reportPath = "/WEB-INF/jsperFiles/boletin_panama_encabezado.jasper";
+        }
 
-        File reportFile = new File(context.getRealPath("/WEB-INF/jsperFiles/boletin_panama_encabezado.jasper"));
+        File reportFile = new File(context.getRealPath(reportPath));
         Map parameters = new HashMap();
         parameters.put(JRParameter.REPORT_LOCALE, locale);
         JasperPrint jp = null;
