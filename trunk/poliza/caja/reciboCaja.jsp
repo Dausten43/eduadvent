@@ -109,19 +109,37 @@
 				<%} %>
 			</td>
 			<td style="width:<%out.print(tieneLogo&&esEscuelaDelSalvador?"60%":"70%");%>; text-align: center; vertical-align: text-top;">
+				<%if(!esEscuelaDelSalvador){ %>
+				<p style="text-align: center; font-family: sans-serif; font-size: 14px; font-weight: bold;">
+					<%=aca.catalogo.CatAsociacion.getNombre(conElias, aca.catalogo.CatEscuela.getAsociacionId(conElias, escuelaId))%>
+				</p>
+				<%} %>
 				<p style="text-align: center; font-family: sans-serif; font-size: 1.6em; font-weight: bold;">
 					<%=aca.catalogo.CatEscuela.getNombre(conElias, escuelaId)%>
 				</p>
 				<div style="font-size: 12px; line-height: 1.5;">
+					<%if(esEscuelaDelSalvador){ %>
 					<strong>Direcci&oacute;n:</strong>
+					<%} else{%>
+					<strong>R.U.C.:</strong>
+					<%=aca.catalogo.CatEscuela.getNombreCorto(conElias, escuelaId)%>
+					<br>
+					<%} %>
 					<%=Escuela.getDireccion()%>,
-					<%=Escuela.getColonia()%><br> <strong>Tel&eacute;fono:
-					</strong><%=Escuela.getTelefono()%><br> 
-					<strong>Póliza: </strong>[
-					<%=polizaId%>
-					]<br> <strong>Fecha y Hora:</strong> [
-					<%=fechayHora%>
-					]
+					<%=Escuela.getColonia()%>.
+					<%if(esEscuelaDelSalvador){ %>
+					<br> 
+					<strong>Tel&eacute;fono:</strong>
+					<%}else{out.println("&nbsp;");} %>
+					<%=Escuela.getTelefono()%>
+					<br> 
+					<strong>P&oacute;liza: </strong>
+					[ <%=polizaId%> ]
+					<%if(esEscuelaDelSalvador){ %>
+					<br>
+					<%}else{out.println("&nbsp;");} %>
+					<strong>Fecha y Hora:</strong>
+					[ <%=fechayHora%> ]
 				</div>
 
 			</td>
