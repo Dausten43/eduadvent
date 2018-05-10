@@ -6,7 +6,7 @@
 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.TreeMap"%>
-<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
 <%@ page import = "java.awt.Color" %>
 <%@ page import = "java.io.FileOutputStream" %>
@@ -67,6 +67,10 @@
 	
 	ArrayList<String> lisAlum 			= cursoActLista.getListAlumnosGrupo(conElias, cicloGrupoId);	
 	ArrayList<CicloBloque> lisBloque	= cicloBloqueL.getListCiclo(conElias, cicloGrupoId.substring(0,8), "ORDER BY ORDEN");
+	TreeMap<String, CicloBloque> lisBloqueAlum 	= new TreeMap<String, CicloBloque>();
+	for(CicloBloque bloque: lisBloque){
+		lisBloqueAlum.put(bloque.getPromedioId()+bloque.getBloqueId(), bloque);
+	}
 	ArrayList<CicloPromedio>  cicloPromedioList	= cicloPromedioU.getListCiclo(conElias, cicloId, " ORDER BY ORDEN");
 	ArrayList <CicloGrupoEval> listaCicloGrupoEval = cicloGrupoEvalLista.getEvalGrupo(conElias, cicloGrupoId, "ORDER BY CICLO_GRUPO_ID, ORDEN");
 
@@ -113,7 +117,6 @@
 
 	//Map de promedios del alumno en cada materia
 	java.util.Map<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
-	HashMap<String, Integer> test = new HashMap<String, Integer>();
 	TreeMap<String,KrdxAlumEval> treeEvalAlumno = krdxAlumEvalL.getTreeMateria(conElias, cicloGrupoId, "");
 	
 	if(hayAbiertas){
@@ -341,6 +344,7 @@
 		    					BigDecimal valorTotalPorcentajeProm = new BigDecimal(0, mc);
 			    				int trimestresConNota = 0, x = 0;
 			    				for(CicloPromedio cp: cicloPromedioList){
+			    					// Inicializa el formato para los decimales
 			    					if(cp.getDecimales().equals("1")){
 			    						frmProm = new java.text.DecimalFormat("##0.0;-##0.0");
 			    					}else if(cp.getDecimales().equals("2")){
@@ -359,15 +363,17 @@
 			    					BigDecimal valorTotalPorcentajeEval = new BigDecimal(0, mc);
 									int contador = 0;
 									int evalConNota = 0;
+									String tmpDecimales="";
 			    					for(CicloGrupoEval cge: listaCicloGrupoEval){
-			    						if(CicloBloque.getDecimales(conElias, cicloId, cge.getEvaluacionId()).equals("1")){
+			    						tmpDecimales = lisBloqueAlum.get(cge.getPromedioId()+cge.getEvaluacionId()).getDecimales();
+			    						if(tmpDecimales.equals("1")){
 				    						frmEval = new java.text.DecimalFormat("##0.0;-##0.0");
-				    					}else if(CicloBloque.getDecimales(conElias, cicloId, cge.getEvaluacionId()).equals("2")){
+				    					}else if(tmpDecimales.equals("2")){
 				    						frmEval = new java.text.DecimalFormat("##0.00;-##0.00");
 				    					}else{
 				    						frmEval = new java.text.DecimalFormat("##0;-##0");
 				    					}
-				    					if(CicloBloque.getRedondeo(conElias, cicloId, cge.getEvaluacionId()).equals("T")){
+				    					if(lisBloqueAlum.get(cge.getPromedioId()+cge.getEvaluacionId()).getRedondeo().equals("T")){
 				    						frmEval.setRoundingMode(RoundingMode.DOWN);
 										}else{
 											frmEval.setRoundingMode(RoundingMode.HALF_UP);
