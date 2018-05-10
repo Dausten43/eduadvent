@@ -71,6 +71,7 @@
 	String cicloId 		= (String)session.getAttribute("cicloId");
 
 	String maestro		= empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno();
+	String nivel_sistema = "";
 %>
 
 <div id="content">
@@ -101,8 +102,11 @@
 				}
 				if(tieneCiclo == false){//
 					cicloId = ((aca.ciclo.Ciclo)lisCiclo.get(0)).getCicloId();
+					
 					session.setAttribute("cicloId", cicloId);
 				}
+				nivel_sistema = ((aca.ciclo.Ciclo)lisCiclo.get(0)).getNivelAcademicoSistema();
+				System.out.println("nivel sistema ***********" + nivel_sistema);
 			%>
 			</select>	
 			
@@ -210,7 +214,7 @@
 					
 						    %>
 						    <br><br>
-					    	<% if(session.getAttribute("escuela").toString().startsWith("H") ){ %>
+					    	<% if((session.getAttribute("escuela").toString().startsWith("H") || session.getAttribute("escuela").toString().startsWith("S")) ){ %>
 					    	<div class="well" style="width: 500px">
 					    	<p>OPCIONES PREESCOLAR</p>
 					    		<a class="btn btn-mini stopPropagation" href="../../kinder/areas-criterios/actividades.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia%>&Maestro=<%=maestro%>"><fmt:message key="kinder.actividades" /></a>
