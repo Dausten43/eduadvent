@@ -412,7 +412,7 @@
 			    					String key = codigoAlumno+curso.getCursoId()+cp.getPromedioId();
 			    					aca.kardex.KrdxAlumProm notaPromedio = mapPromAlumno.get(key);
 			    					
-			    					BigDecimal prom =  new BigDecimal(0, mc);
+			    					BigDecimal prom =  new BigDecimal(nota, mc);
 			    					if(notaPromedio!=null){
 			    						BigDecimal porcentajeCalf = new BigDecimal(cp.getValor(), mc);
 			    						
@@ -420,8 +420,8 @@
 			    							prom = valorAlumPorcentajeEval;
 			    							prom = prom.divide(valorTotalPorcentajeEval, mc);
 			    						}
-			    						porcentajeCalf = porcentajeCalf.multiply(new BigDecimal(frmEval.format(prom)), mc);
-										valorAlumPorcentajeProm = valorAlumPorcentajeProm.add(new BigDecimal(frmProm.format(porcentajeCalf)), mc);
+			    						porcentajeCalf = porcentajeCalf.multiply(prom, mc);
+										valorAlumPorcentajeProm = valorAlumPorcentajeProm.add(porcentajeCalf, mc);
 			    						valorTotalPorcentajeProm  = valorTotalPorcentajeProm.add(new BigDecimal(cp.getValor(), mc), mc); 
 			    					}
 
@@ -436,7 +436,10 @@
 			    				String nota = "0";
 			    				
 		    					BigDecimal promFinal = valorAlumPorcentajeProm.doubleValue() <= 0d?new BigDecimal(0, mc):valorAlumPorcentajeProm.divide(valorTotalPorcentajeProm, mc);
-								
+		    					if(promFinal.compareTo(new BigDecimal(0, mc)) != 0){
+		    						frmProm.setRoundingMode(RoundingMode.HALF_UP);
+									promFinal = new BigDecimal(frmProm.format(promFinal), mc);
+		    					}
 		    					promNotaGralAc = promNotaGralAc.add(promFinal);
 
 		    					nota = frmCiclo.format(promFinal);
