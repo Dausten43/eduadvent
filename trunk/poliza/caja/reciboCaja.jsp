@@ -1,3 +1,7 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.util.TimeZone"%>
+<%@page import="java.util.Locale"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="aca.fin.FinMovimientos"%>
@@ -43,6 +47,9 @@
 </style>
 <%
 	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	sdf.setTimeZone(TimeZone.getTimeZone("America/El_Salvador"));
+	
 
 		String escuelaId = (String) session.getAttribute("escuela");
 		String ejercicioId = (String) session.getAttribute("ejercicioId");
@@ -53,6 +60,8 @@
 
 		String fechayHora = aca.util.Fecha.getDateTime();
 		String fechaHoy = aca.util.Fecha.getHoy();
+		
+		
 
 		String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
 		String rutaLogo = "../../imagenes/logos/" + logoEscuela;
@@ -87,6 +96,10 @@
 		// Lista de movimientos en el recibo
 		ArrayList<aca.fin.FinMovimientos> lista = finML.getMovimientos(conElias, ejercicioId, polizaId, recibo,
 				" ORDER BY FECHA");
+		
+		if(esEscuelaDelSalvador){ 
+			fechayHora = sdf.format(new Date());
+		}
 %>
 <%
 	String pesos = "0";
