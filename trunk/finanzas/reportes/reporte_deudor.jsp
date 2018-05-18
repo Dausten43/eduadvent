@@ -98,9 +98,9 @@
 		String fechaInicio = request.getParameter("fechaInicio") == null
 				? "01-01-" + aca.util.Fecha.getYearNum()
 				: request.getParameter("fechaInicio");
-		String fechaFinal = request.getParameter("fechaFinal") == null || !request.getParameter("fechaFinal").equals("")  
-				? sdf.format(cal.getTime()) 
-				: request.getParameter("fechaFinal");
+		String fechaFinal = request.getParameter("fechaFinal") != null || ! request.getParameter("fechaFinal").equals("")  
+				? request.getParameter("fechaFinal")
+				:  sdf.format(cal.getTime()) ;
 		String txtPersonalizado = "";
 
 		//System.out.println(archivo);
@@ -215,7 +215,7 @@
 		
 
 	%>
-	
+	<H3>SALDOS ESTUDIANTES AL <%= request.getParameter("fechaFinal")!=null ? fechaFinal : "" %></H3>
 	<table class="table table-bordered" style="width: 80%; margin: 0px auto;" >
 		<%
 		for(String ag : agrupador){
