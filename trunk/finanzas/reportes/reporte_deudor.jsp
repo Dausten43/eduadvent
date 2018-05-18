@@ -98,7 +98,7 @@
 		String fechaInicio = request.getParameter("fechaInicio") == null
 				? "01-01-" + aca.util.Fecha.getYearNum()
 				: request.getParameter("fechaInicio");
-		String fechaFinal = request.getParameter("fechaFinal") != null || ! request.getParameter("fechaFinal").equals("")  
+		String fechaFinal = request.getParameter("fechaFinal") != null && ! request.getParameter("fechaFinal").equals("")  
 				? request.getParameter("fechaFinal")
 				:  sdf.format(cal.getTime()) ;
 		String txtPersonalizado = "";
