@@ -48,7 +48,7 @@
 <%
 	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	sdf.setTimeZone(TimeZone.getTimeZone("America/El_Salvador"));
+	sdf.setTimeZone(TimeZone.getTimeZone("GMT-6"));
 	
 
 		String escuelaId = (String) session.getAttribute("escuela");
