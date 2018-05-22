@@ -117,7 +117,7 @@ body {
 				<th>Recibo</th>
 				<th>Referencia</th>
 				<th>Auxiliar</th>
-				<th>Descripcion</th>
+				<th>Descripción</th>
 				<th style="text-align: right">D&eacute;bito</th>
 				<th style="text-align: right">Cr&eacute;dito</th>
 				<th style="text-align: right">Balance</th>
