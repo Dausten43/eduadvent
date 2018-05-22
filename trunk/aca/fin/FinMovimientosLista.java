@@ -312,6 +312,34 @@ public class FinMovimientosLista {
 		return list;
 	}
 	
+	public ArrayList<FinMovimientos> getAllMovimientosPoliza(Connection conn,  String condiciones ) throws SQLException{
+		ArrayList<FinMovimientos> list			= new ArrayList<FinMovimientos>();
+		Statement st 							= conn.createStatement();
+		ResultSet rs 							= null;
+		String comando							= "";
+		
+		try{
+			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION, "
+					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
+					+ " FROM FIN_MOVIMIENTOS "
+					+ " WHERE EJERCICIO_ID is not null " + condiciones ;
+			rs = st.executeQuery(comando);			
+			while (rs.next()){
+				FinMovimientos fm = new FinMovimientos();				
+				fm.mapeaReg(rs);
+				list.add(fm);
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimientosLista|getMovimientos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}		
+		
+		return list;
+	}
+	
 	public ArrayList<FinMovimientos> getAllMovimientosPoliza(Connection conn, String ejercicioId, String polizaId, String orden ) throws SQLException{
 		ArrayList<FinMovimientos> list			= new ArrayList<FinMovimientos>();
 		Statement st 							= conn.createStatement();

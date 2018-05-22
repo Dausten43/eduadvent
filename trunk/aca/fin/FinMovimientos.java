@@ -1,5 +1,6 @@
 package aca.fin;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -680,6 +681,33 @@ public class FinMovimientos {
 		
 		return saldo;
 	}
+    
+    
+    public static BigDecimal saldoPolizas( Connection conn, String cuenta, String fecha) throws SQLException{
+    	Statement st		= conn.createStatement();
+		ResultSet rs 		= null;
+		String comando 		= "";		
+		BigDecimal saldo			= BigDecimal.ZERO;
+		
+		try{
+			comando = " SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'D' THEN 1 ELSE -1 END),0) AS SALDO FROM FIN_MOVIMIENTOS"
+					+ " WHERE to_date(to_char(fecha,'dd/mm/yyyy'),'dd/mm/yyyy')< to_date('"+fecha+"','dd/mm/yyyy') and cuenta_id='"+cuenta+"' and estado<>'C'";				
+			
+			rs = st.executeQuery(comando);					
+			if(rs.next()){
+				saldo = rs.getBigDecimal("SALDO");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovimiento|saldoPolizas|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return saldo;
+	}
+    
     
     public static double saldoPolizas( Connection conn, String escuela, String estadoPoliza, String tipoPoliza, String fechaIni, String fechaFin, String naturaleza, String estadoMov ) throws SQLException{
     	Statement st		= conn.createStatement();

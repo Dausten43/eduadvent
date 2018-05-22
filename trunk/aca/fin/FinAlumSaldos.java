@@ -96,7 +96,7 @@ public class FinAlumSaldos {
              PreparedStatement psta = con.prepareStatement(comando);
 
              PreparedStatement pstb = con.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO "
-                     + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA <= TO_DATE(?,'DD-MM-YYYY') and estado<>'C'");
+                     + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND TO_DATE(to_char(FECHA,'DD-MM-YYYY'),'DD-MM-YYYY') <= TO_DATE(?,'DD-MM-YYYY') and estado<>'C'");
              
              ResultSet rsa = psta.executeQuery();
              while (rsa.next()) {
