@@ -113,7 +113,7 @@ body {
 		<table class="table">
 			<tr>
 				<th>Fecha</th>
-				<th>Poliza</th>
+				<th>Póliza</th>
 				<th>Recibo</th>
 				<th>Referencia</th>
 				<th>Auxiliar</th>
