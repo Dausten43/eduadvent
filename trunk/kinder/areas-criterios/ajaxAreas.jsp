@@ -62,8 +62,8 @@ if(request.getParameter("ciclo_id")!=null){
 	<tr>
 		<td><%= contador %></td>
 		<td><%= a.getArea() %></td>
-		<td style="text-align: center;"><% if(isAbierto){ %><a href="" onclick="modificar(<%= a.getId() %>, '<%= a.getArea() %>'); return false;" class="btn btn-mini btn-default">Modificar</a> 
-		<a href="#" onclick="confirm('eliminar(<%= a.getId() %>,<%= (a.getEstado()*-1) %>)'); return false;" class="btn btn-mini btn-danger">Eliminar</a><% } %></td>
+		<td style="text-align: center;"><a href="" onclick="modificar(<%= a.getId() %>, '<%= a.getArea() %>'); return false;" class="btn btn-mini btn-default">Modificar</a> 
+		<% if(isAbierto){ %><a href="#" onclick="confirm('eliminar(<%= a.getId() %>,<%= (a.getEstado()*-1) %>)'); return false;" class="btn btn-mini btn-danger">Eliminar</a><% } %></td>
 	</tr>
 	<% } %>
 </table>

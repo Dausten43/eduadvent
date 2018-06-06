@@ -76,8 +76,8 @@ if(request.getParameter("ciclo_id")!=null && request.getParameter("area_id")!=nu
 		<td><%= contador %></td>
 		<td><%= mapAreas.containsKey(c.getArea_id()) ? mapAreas.get(c.getArea_id()).getArea() : c.getArea_id() %></td>
 		<td><%= c.getCriterio()  %></td>
-		<td style="text-align: center;"><%  if(isAbierto){ %><a href="" onclick="modificar(<%= c.getId() %>, '<%= c.getCriterio() %>'); return false;" class="btn btn-mini btn-default">Modificar</a> 
-		<a href="" onclick="confirm('eliminar(<%= c.getId() %>,<%= (c.getEstado()*-1) %>)'); return false;"  class="btn btn-mini btn-danger">Eliminar</a><% } %></td>
+		<td style="text-align: center;"><a href="" onclick="modificar(<%= c.getId() %>, '<%= c.getCriterio() %>'); return false;" class="btn btn-mini btn-default">Modificar</a> 
+		<%  if(isAbierto){ %><a href="" onclick="confirm('eliminar(<%= c.getId() %>,<%= (c.getEstado()*-1) %>)'); return false;"  class="btn btn-mini btn-danger">Eliminar</a><% } %></td>
 	</tr>
 	<% } %>
 </table>
