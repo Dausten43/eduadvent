@@ -85,6 +85,8 @@
 	<th><fmt:message key="aca.NombrePadre" /></th>
     <th><fmt:message key="aca.CodMadre" /></th>
     <th><fmt:message key="aca.NombreMadre" /></th>  
+    <th>Cod Tutor</th>
+    <th><fmt:message key="aca.Tutor" /></th>  
   </tr>
 <%  		} 
 			  
@@ -97,6 +99,8 @@
 	  <td align="left"><%= aca.empleado.EmpPersonal.getNombre(conElias,AlumPadres.getCodigoPadre(),"NOMBRE") %></td>
 	  <td align="center"><%= AlumPadres.getCodigoMadre()%></td>
 	  <td align="left"><%= aca.empleado.EmpPersonal.getNombre(conElias,AlumPadres.getCodigoMadre(),"NOMBRE") %></td>
+	  <td align="left"><%= AlumPadres.getCodigoTutor() %></td>
+	  <td align="left"><%= aca.empleado.EmpPersonal.getNombre(conElias,AlumPadres.getCodigoTutor(),"NOMBRE") %></td>
 	</tr>
 <% 	} %>
 </table>
