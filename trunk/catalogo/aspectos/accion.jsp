@@ -75,7 +75,7 @@
   		<a class="btn btn-primary" href="aspectos.jsp"><i class="icon-list icon-white"></i>&nbsp;<fmt:message key="boton.Listado" /></a>
 	</div>
 		
-	<form action="accion.jsp" data-toggle="validator" role="form" method="get" name="forma" target="_self">
+	<form action="accion.jsp" data-toggle="validator" role="form" method="post" name="forma" target="_self">
 	<div class="form-group">
 	    <label for="descripcion">Descripcion:</label>
 	    <textarea class="form-control" name="descripcion" id="descripcion" required><%=CatAspectos.getNombre()%></textarea>
