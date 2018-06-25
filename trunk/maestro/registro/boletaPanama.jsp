@@ -264,7 +264,7 @@
 									ce.getColonia()+", "+
 									aca.catalogo.CatCiudad.getCiudad(conElias, ce.getPaisId(), ce.getEstadoId(), ce.getCiudadId())+ ", " +
 									ce.getTelefono(), 
-									FontFactory.getFont(FontFactory.COURIER_OBLIQUE, 8, Font.NORMAL, new BaseColor(0,0,0))));
+									FontFactory.getFont(FontFactory.COURIER_OBLIQUE, 10, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(borde);
 				topTable.addCell(cell);
@@ -317,7 +317,7 @@
  				alumnoTable.addCell(cell);
 				
  	            cell = new PdfPCell(new Phrase(" [ "+codigoAlumno+" ] "+alumPersonal.getNombre()+
- 	            		" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+ 	            		" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(1);
@@ -333,7 +333,7 @@
 	            cell = new PdfPCell(new Phrase(subnivel+" "+
 	                    aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), nivel)+
 	                    " - Grado: [ "+aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado()))+
-	                    " "+Grupo.getGrupo()+" ]", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+	                    " "+Grupo.getGrupo()+" ]", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(1);
@@ -346,7 +346,7 @@
 				cell.setBorderColorTop(BaseColor.BLACK);
 				alumnoTable.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase(alumPersonal.getCurp(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase(alumPersonal.getCurp(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(2);
@@ -359,7 +359,7 @@
 				cell.setBorderColorTop(BaseColor.BLACK);
 				alumnoTable.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase(planClase.getPlanNombre(), FontFactory.getFont(FontFactory.HELVETICA, 7, Font.NORMAL, new BaseColor(0,0,0))));
+				cell = new PdfPCell(new Phrase(planClase.getPlanNombre(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(2);
@@ -691,8 +691,9 @@
 		    						tabla.addCell(celda);
 		    						
 		    						
-		    	    			}	    					
-		    						    					
+		    	    			}	    			
+		    					
+		    					
 		    	    			if(!oficial.equals(curso.getTipocursoId()) && curso.getTipocursoId().equals("2")){	//Promedios
 		    	    				boolean todasTienenCalificacion = true;
 		    	    				
@@ -1939,18 +1940,18 @@
 								//Si se solicitó mostrar el trimestre 
 								//System.out.println(cb.getBloqueId()+".equals("+request.getParameter(cb.getBloqueNombre())+")");
 								if(cb.getBloqueId().equals(request.getParameter(cb.getBloqueNombre()))){
-									//System.out.println("Entro............................................");
-									trimestreId = cicloPromedio.getPromedioId();
+									//System.out.println("Entro............................................" + cb.getPromedioId());
+									trimestreId = cb.getPromedioId();
 								}
 							}
 						}
-						
+						//System.out.println(" observaciones "+ mapObservaciones.containsKey(codigoAlumno+"-"+trimestreId));
 						String observacion = "";
-						if(mapObservaciones.get(codigoAlumno+"-"+trimestreId) != null)
+						if(mapObservaciones.containsKey(codigoAlumno+"-"+trimestreId))
 							observacion = mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1()==null?"":mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1();
 						
-						cell = new PdfPCell(new Phrase(observacion, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-		 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+						cell = new PdfPCell(new Phrase(observacion, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+		 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 						cell.setVerticalAlignment(Element.ALIGN_TOP);
 		 				cell.setBorder(0);
 		 				cell.setRowspan(aspectosList.size());
