@@ -29,7 +29,7 @@ boolean iskinder = false;
 Integer nivelsistema = new Integer(cicloPrincipal.getNivelAcademicoSistema()!=null ? cicloPrincipal.getNivelAcademicoSistema() : "-1");
 String urlNotas = "notas.jsp";
 
-if(nivelsistema>-1 && nivelsistema<3){
+if(nivelsistema>-1 && nivelsistema<2){
 	urlNotas = "notas_kinder.jsp";
 	iskinder = true;
 }
