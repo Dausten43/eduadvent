@@ -152,9 +152,9 @@ public class UtilCiclo {
 		if(!materia.equals("")){
 				comando += ", curso_id , curso_nombre(curso_id) as materia";
 		}
-				comando += ", sum(ke.nota) suma "
+				comando += ", sum(trunc(ke.nota,1)) suma "
 				+ ", count(ke.curso_id) materias "
-				+ ", sum(ke.nota)/(select count(curso_id) from krdx_curso_act "
+				+ ", sum(trunc(ke.nota,1))/(select count(curso_id) from krdx_curso_act "
 				+ "where ciclo_grupo_id=ke.ciclo_grupo_id and codigo_id=ke.codigo_id ";
 				if(!materia.equals("")){
 							comando += " and curso_id =ke.curso_id ";
@@ -212,9 +212,9 @@ public class UtilCiclo {
 				if(!materia.equals("")){
 						comando += ", curso_id , curso_nombre(curso_id) as materia";
 				}
-						comando += ", sum(ke.nota) suma "
+						comando += ", sum(trunc(ke.nota,1)) suma "
 						+ ", count(ke.curso_id) materias "
-						+ ", sum(ke.nota)/(select count(curso_id) from krdx_curso_act "
+						+ ", sum(trunc(ke.nota,1))/(select count(curso_id) from krdx_curso_act "
 						+ "where ciclo_grupo_id=ke.ciclo_grupo_id and codigo_id=ke.codigo_id ";
 				if(!materia.equals("")){
 							comando += " and curso_id =ke.curso_id ";
@@ -402,11 +402,12 @@ public class UtilCiclo {
 					+ "case when estado='C' then count(estado) else 0 end as cerradas "
 					+ "from ciclo_grupo_eval "
 					+ "where ciclo_grupo_id = '"+ ciclo_grupo_id +"' "
-					+ "and curso_id in (select curso_id from plan_curso where  and boleta='S') "
+					+ "and curso_id in (select curso_id from plan_curso where boleta='S') "
 					+ "group by curso_id, estado, evaluacion_id order by curso_id, evaluacion_id";
 		}
 		
 		try{
+			System.out.println("materias abiertas cerradas " + comando);
 			PreparedStatement pst = con.prepareStatement(comando);
 			ResultSet rs = pst.executeQuery();
 			while(rs.next()){
