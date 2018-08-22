@@ -46,31 +46,33 @@
 			<th>#</th>
 	    	<th><fmt:message key="aca.Matricula"/></th>
 	    	<th><fmt:message key="aca.Nombre"/></th>
-	    	<th><fmt:message key="aca.CID"/></th>
-	    	<th><fmt:message key="aca.Genero"/></th>
+	    	<th>
+	    		<%if(escuelaId.startsWith("S")){ %>
+	    		NIE
+	    		<%}else if(escuelaId.startsWith("H")){ %>
+	    		CID
+	    		<%}else{ %>
+	    		<fmt:message key="aca.CURP"/>
+	    		<%} %>
+	    	</th>
+	    	<th><fmt:message key="aca.Iglesia"/></th>
 	    	<th><fmt:message key="aca.Edad"/></th>
 	    	<th><fmt:message key="aca.Colonia"/></th>
 	    	<th><fmt:message key="aca.Direccion"/></th>
 	    	<th><fmt:message key="aca.CelularTutor"/></th>
 	  	</tr>  
 		<%		
-			String genero;
 	   		for (i=0; i< lisAlumnos.size(); i++){
 		    	aca.alumno.AlumPersonal alumno = (aca.alumno.AlumPersonal) lisAlumnos.get(i);
 	   
     			if (alumno.getGrupo().equals(grupo)){
-    				if(alumno.getGenero().equals("M")){
-    					genero = "Hombre";
-    				}else{
-    					genero = "Mujer";
-    				}
 		%>
 	  				<tr>
 						<td><%=i+1%></td>
 						<td><%=alumno.getCodigoId()%></td>
 						<td><%=alumno.getApaterno()%>&nbsp;<%=alumno.getAmaterno()%>&nbsp;<%=alumno.getNombre()%></td>
 						<td><%=alumno.getCurp() %></td>
-						<td><%= genero  %></td>
+						<td><%=alumno.getIglesia()  %></td>
 						<td><%=aca.alumno.AlumPersonal.getEdad(conElias, alumno.getCodigoId())%></td>
 						<td><%=alumno.getColonia()%></td>
 						<td><%=alumno.getDireccion()%></td>
