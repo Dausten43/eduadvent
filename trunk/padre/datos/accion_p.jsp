@@ -45,6 +45,7 @@
 		document.frmPersonal.ApellidoMaterno.value 	= "";	
 		document.frmPersonal.Telefono.value			= "";	
 		document.frmPersonal.Direccion.value		= "";
+		document.frmPersonal.Colonia.value			= "";
 		document.frmPersonal.Ocupacion.value		= "";
 		document.frmPersonal.Email.value			= "";		
 		document.frmPersonal.submit();			
@@ -123,8 +124,9 @@
 			Personal.setAmaterno(request.getParameter("ApellidoMaterno"));
 			Personal.setGenero(request.getParameter("Sexo"));	
 			Personal.setTelefono(request.getParameter("Telefono"));
-			Personal.setTelefono(request.getParameter("Direccion"));
-			Personal.setTelefono(request.getParameter("Ocupacion"));
+			Personal.setDireccion(request.getParameter("Direccion"));
+			Personal.setColonia(request.getParameter("Colonia"));
+			Personal.setOcupacion(request.getParameter("Ocupacion"));
 			Personal.setEmail(request.getParameter("Email"));
 			Personal.setRfc(request.getParameter("RFC"));
 			
@@ -149,6 +151,7 @@
 			Personal.setGenero(request.getParameter("Sexo"));
 			Personal.setTelefono(request.getParameter("Telefono"));
 			Personal.setDireccion(request.getParameter("Direccion"));
+			Personal.setColonia(request.getParameter("Colonia"));
 			Personal.setOcupacion(request.getParameter("Ocupacion"));
 			Personal.setEmail(request.getParameter("Email"));
 			Personal.setRfc(request.getParameter("RFC"));
@@ -206,6 +209,7 @@
 			Personal.setGenero(request.getParameter("Sexo"));
 			Personal.setTelefono(request.getParameter("Telefono"));	
 			Personal.setDireccion(request.getParameter("Direccion"));
+			Personal.setColonia(request.getParameter("Colonia"));
 			Personal.setOcupacion(request.getParameter("Ocupacion"));
 			Personal.setEmail(request.getParameter("Email"));
 			Personal.setRfc(request.getParameter("RFC"));
@@ -368,7 +372,6 @@
 		        <div class="control-group ">
 		        	<label for="Sexo">
 		            	<fmt:message key="aca.Genero" />
-		                <span class="required-indicator">*</span>
 		            </label>
 		            <select name="Sexo" id="Sexo">
 				<%if(Personal.getGenero().equals("M")){%>
@@ -384,7 +387,6 @@
 		        <div class="control-group ">
 		        	<label for="RFC">
 		            	<fmt:message key="aca.rfc" />/C&eacute;dula
-		                <span class="required-indicator">*</span>
 		            </label>
 		            <input name="RFC" type="text" id="RFC" size="20" maxlength="40" value="<%=Personal.getRfc() %>">
 		        </div>
@@ -410,6 +412,13 @@
 	                    <span class="required-indicator">*</span>
 	                </label>
 	                <input name="Direccion" type="text" id="Direccion" size="40" maxlength="50" value="<%=Personal.getDireccion() %>">
+	            </div>
+	            
+	            <div class="control-group ">
+	                <label for="Colonia">
+	                    <fmt:message key="aca.Colonia" />
+	                </label>
+	                <input name="Colonia" type="text" id="Colonia" size="40" maxlength="50" value="<%=Personal.getColonia() %>">
 	            </div>
 	            
 	            <div class="control-group ">
