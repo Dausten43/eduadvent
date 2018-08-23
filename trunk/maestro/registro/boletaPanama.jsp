@@ -1950,7 +1950,7 @@
 						if(mapObservaciones.containsKey(codigoAlumno+"-"+trimestreId))
 							observacion = mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1()==null?"":mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1();
 						
-						cell = new PdfPCell(new Phrase(observacion, FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
+						cell = new PdfPCell(new Phrase(observacion, FontFactory.getFont(FontFactory.HELVETICA, 9, Font.NORMAL, new BaseColor(0,0,0))));
 		 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 						cell.setVerticalAlignment(Element.ALIGN_TOP);
 		 				cell.setBorder(0);
