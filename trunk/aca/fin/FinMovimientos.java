@@ -358,7 +358,7 @@ public class FinMovimientos {
                     " DELETE FROM FIN_MOVIMIENTOS " +
                     " WHERE EJERCICIO_ID = ?" +
                     " AND POLIZA_ID = ?" +
-                    " AND NATURALEZA = 'C' ");
+                    " AND NATURALEZA = 'C' AND AUXILIAR='-'");
             
             ps.setString(1, ejercicioId);
             ps.setString(2, polizaId);
