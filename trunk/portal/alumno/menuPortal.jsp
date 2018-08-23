@@ -28,8 +28,8 @@ cicloPrincipal.mapeaRegId(conElias, cicloId);
 boolean iskinder = false;
 Integer nivelsistema = new Integer(cicloPrincipal.getNivelAcademicoSistema()!=null ? cicloPrincipal.getNivelAcademicoSistema() : "-1");
 String urlNotas = "notas.jsp";
-
-if(nivelsistema>-1 && nivelsistema<2){
+System.out.println("NIVEL SISTEMA " + nivelsistema);
+if(nivelsistema>-1 && nivelsistema<3){
 	urlNotas = "notas_kinder.jsp";
 	iskinder = true;
 }
