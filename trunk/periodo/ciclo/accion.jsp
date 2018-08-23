@@ -245,16 +245,32 @@
 		
 		%>
 		<fieldset>
-	
-		  <label form="nivelAcademicoSistema">Nivel de ciclo:</label>
+		<% 
+		//NO MOVER POR QUE ESTE NIVEL NO TIENE QUE VER CON LOS QUE CREAN LAS ESCUELAS YA QUE LAS ESCUELAS PUEDEN CREAR AL ANTOJO ENTONCES NO HAY FORMA DE DEFINIR EL CICLO PAREJO PARA TODOS
+		//ES UN DATO DURO Y ASI SE DEJA ... ATTE DANIEL
+		
+		%>
+			<label form="nivelAcademicoSistema">Nivel de ciclo:</label>
 		  	<select name="nivelAcademicoSistema" id="nivelAcademicoSistema">
-			  	<option value="-1" <%if(nivelAcademicoSistema.equals("-1")  ){out.print("selected");}%>>No Definido</option>
-		  		<%for(aca.catalogo.CatNivelEscuela catNivel : lisNiveles){%>
-					<option value="<%=catNivel.getNivelId() %>" <%if(nivelAcademicoSistema.equals(catNivel.getNivelId())){out.print("selected");}%>><%=catNivel.getNivelNombre() %></option>
-					
-				<%}%>
+		  		<option value="-1" <%if(nivelAcademicoSistema.equals("-1")  ){out.print("selected");}%>>No Definido</option>
+		  		<option value="0" <%if(nivelAcademicoSistema.equals("0")){out.print("selected");}%>>Maternal</option>
+		  		<option value="1" <%if(nivelAcademicoSistema.equals("1")){out.print("selected");}%>>Pre-Kinder</option>
+		  		<option value="2" <%if(nivelAcademicoSistema.equals("2")){out.print("selected");}%>>Kinder</option>
+		  		<option value="3" <%if(nivelAcademicoSistema.equals("3")){out.print("selected");}%>>Primaria</option>
+		  		<option value="4" <%if(nivelAcademicoSistema.equals("4")){out.print("selected");}%>>Secundaria o Pre-Media</option>
+		  		<option value="5" <%if(nivelAcademicoSistema.equals("5")){out.print("selected");}%>>Bachillerato</option>
 		  		
 		  	</select>
+	
+<!-- 		  <label form="nivelAcademicoSistema">Nivel de ciclo:</label> -->
+<!-- 		  	<select name="nivelAcademicoSistema" id="nivelAcademicoSistema"> -->
+<%-- 			  	<option value="-1" <%if(nivelAcademicoSistema.equals("-1")  ){out.print("selected");}%>>No Definido</option> --%>
+<%-- 		  		<%for(aca.catalogo.CatNivelEscuela catNivel : lisNiveles){%> --%>
+<%-- 					<option value="<%=catNivel.getNivelId() %>" <%if(nivelAcademicoSistema.equals(catNivel.getNivelId())){out.print("selected");}%>><%=catNivel.getNivelNombre() %></option> --%>
+					
+<%-- 				<%}%> --%>
+		  		
+<!-- 		  	</select> -->
 	 	
 	  	</fieldset>
 		<fieldset>
