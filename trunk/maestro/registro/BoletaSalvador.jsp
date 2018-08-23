@@ -413,7 +413,7 @@
 			    					aca.kardex.KrdxAlumProm notaPromedio = mapPromAlumno.get(key);
 			    					
 			    					BigDecimal prom =  new BigDecimal(nota, mc);
-			    					if(notaPromedio!=null){
+			    					if(notaPromedio!=null && Double.parseDouble(notaPromedio.getNota())>0.0){
 			    						BigDecimal porcentajeCalf = new BigDecimal(cp.getValor(), mc);
 			    						
 			    						if(Double.parseDouble(notaPromedio.getNota()) > 0){
