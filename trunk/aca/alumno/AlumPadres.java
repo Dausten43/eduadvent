@@ -318,7 +318,7 @@ public class AlumPadres {
 		
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
-		String comando			= "";		
+		//String comando			= "";	//By Jonathan: Que alguien me explique que onda con esto.	
 		int hijos			= 0;
 		try{
 			ps = conn.prepareStatement("SELECT COALESCE(COUNT(CODIGO_ID),0) AS TOTAL FROM ALUM_PADRES"
@@ -327,7 +327,7 @@ public class AlumPadres {
  			ps.setString(1, padreId);
  			ps.setString(2, padreId);
  			ps.setString(3, padreId);					
-			rs = ps.executeQuery(comando);
+			rs = ps.executeQuery(/*comando*/);
 			if (rs.next()){
 				hijos = rs.getInt("TOTAL");
 			}
