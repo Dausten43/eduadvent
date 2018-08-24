@@ -4,8 +4,12 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
+<%@page import="aca.empleado.EmpPersonal"%>
+
 <jsp:useBean id="AlumnoLista" scope="page" class="aca.alumno.AlumPersonalLista"/>
+<jsp:useBean id="AlumnoPadresLista" scope="page" class="aca.alumno.AlumPadresLista"/>
 <jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonal"/>
+<jsp:useBean id="AlumnoPadres" scope="page" class="aca.alumno.AlumPadres"/>
 <jsp:useBean id="NivelLista" scope="page" class="aca.catalogo.CatNivelLista"/>
 <jsp:useBean id="FechaActual" scope="page" class="aca.util.Fecha"/>
 <jsp:useBean id="AlumnoCiclo" scope="page" class="aca.alumno.AlumCicloLista"/>
@@ -26,6 +30,25 @@
 	
 	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = AlumnoLista.getListAlumnosGrado(conElias, escuelaId, cicloId, periodoId, nivelId, grado, " AND GRUPO='"+grupo+"' ORDER BY APATERNO, AMATERNO, NOMBRE, GRUPO");
 	
+	java.util.HashMap<String,aca.alumno.AlumPadres> listTutores = AlumnoPadresLista.getMapEscuela(conElias, escuelaId);
+	java.util.HashMap<String,EmpPersonal> listPadres = new java.util.HashMap<String, EmpPersonal>();
+	String codigoPadre, codigoMadre, codigoTutor;
+	for(aca.alumno.AlumPersonal alumno: lisAlumnos){
+		if(listTutores.containsKey(alumno.getCodigoId())){
+			codigoPadre = listTutores.get(alumno.getCodigoId()).getCodigoPadre();
+			codigoMadre = listTutores.get(alumno.getCodigoId()).getCodigoMadre();
+			codigoTutor = listTutores.get(alumno.getCodigoId()).getCodigoTutor();
+			
+			listPadres.put(alumno.getCodigoId(), new EmpPersonal());
+			if (codigoPadre != null || codigoPadre != ""){
+				listPadres.get(alumno.getCodigoId()).mapeaRegId(conElias, codigoPadre);
+			}else if (codigoMadre != null || codigoMadre != ""){
+				listPadres.get(alumno.getCodigoId()).mapeaRegId(conElias, codigoMadre);
+			}else if (codigoTutor != null || codigoTutor != ""){
+				listPadres.get(alumno.getCodigoId()).mapeaRegId(conElias, codigoTutor);
+			}
+		}
+	}
 %>
 
 <div id="content">
@@ -61,11 +84,15 @@
 	    	<th><fmt:message key="aca.Direccion"/></th>
 	    	<th><fmt:message key="aca.CelularTutor"/></th>
 	  	</tr>  
-		<%		
+		<%	
+			String colonia, direccion, telefono;
 	   		for (i=0; i< lisAlumnos.size(); i++){
 		    	aca.alumno.AlumPersonal alumno = (aca.alumno.AlumPersonal) lisAlumnos.get(i);
 	   
     			if (alumno.getGrupo().equals(grupo)){
+    				colonia = listPadres.get(alumno.getCodigoId())==null?alumno.getColonia():listPadres.get(alumno.getCodigoId()).getColonia()==null?alumno.getColonia():listPadres.get(alumno.getCodigoId()).getColonia().equals("")?alumno.getColonia():listPadres.get(alumno.getCodigoId()).getColonia();
+    				direccion = listPadres.get(alumno.getCodigoId())==null?alumno.getDireccion():listPadres.get(alumno.getCodigoId()).getDireccion()==null?alumno.getDireccion():listPadres.get(alumno.getCodigoId()).getDireccion().equals("")?alumno.getDireccion():listPadres.get(alumno.getCodigoId()).getDireccion();
+    				telefono = listPadres.get(alumno.getCodigoId())==null?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono()==null?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono().equals("")?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono();
 		%>
 	  				<tr>
 						<td><%=i+1%></td>
@@ -74,9 +101,9 @@
 						<td><%=alumno.getCurp() %></td>
 						<td><%=alumno.getIglesia()  %></td>
 						<td><%=aca.alumno.AlumPersonal.getEdad(conElias, alumno.getCodigoId())%></td>
-						<td><%=alumno.getColonia()%></td>
-						<td><%=alumno.getDireccion()%></td>
-						<td><%=alumno.getCelular()%></td>
+						<td><%=colonia==null?"":colonia %></td>
+						<td><%=direccion==null?"":direccion %></td>
+						<td><%=telefono==null?"":telefono %></td>
 				 	</tr>  
 		<%			
 				}
