@@ -27,6 +27,15 @@
 	
 	String periodoId		= request.getParameter("Periodo")==null?"0":request.getParameter("Periodo");
 	
+	java.util.HashMap<String,String> nivelAcademico = new java.util.HashMap<String,String>();
+	nivelAcademico.put("-1","No definido");
+	nivelAcademico.put("0","Maternal");
+	nivelAcademico.put("1","Pre-Kinder");
+	nivelAcademico.put("2","Kinder");
+	nivelAcademico.put("3","Primaria");
+	nivelAcademico.put("4","Secundaria o Pre-Media");
+	nivelAcademico.put("5","Bachillerato");
+	
 	// Elegir el primero por default 
 	if (periodoId.equals("0") && lisPeriodos.size()>0) periodoId = lisPeriodos.get(0);
 %>
@@ -99,7 +108,7 @@
 				<td><%=ciclo.getCicloEscolar()%></td>
 				<td><%=ciclo.getDecimales()%></td>
 				<td><%=ciclo.getRedondeo().equals("A")?"Arriba":"Truncado"%></td>
-				<td><%=ciclo.getNivelAcademicoSistema()!=null ? CatNivelEscuela.getNivelNombre(conElias, escuelaId, ciclo.getNivelAcademicoSistema()) : "No Definido" %></td>
+				<td><%=ciclo.getNivelAcademicoSistema()!=null ? nivelAcademico.get(ciclo.getNivelAcademicoSistema()) : "No Definido" %></td>
 	  		</tr>  
 <%
 			}
