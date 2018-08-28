@@ -317,7 +317,7 @@
  				alumnoTable.addCell(cell);
 				
  	            cell = new PdfPCell(new Phrase(" [ "+codigoAlumno+" ] "+alumPersonal.getNombre()+
- 	            		" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new BaseColor(0,0,0))));
+ 	            		" "+alumPersonal.getApaterno()+" "+alumPersonal.getAmaterno(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
  				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
  				cell.setBorder(1);
@@ -333,7 +333,7 @@
 	            cell = new PdfPCell(new Phrase(subnivel+" "+
 	                    aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), nivel)+
 	                    " - Grado: [ "+aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado()))+
-	                    " "+Grupo.getGrupo()+" ]", FontFactory.getFont(FontFactory.HELVETICA, 9, Font.NORMAL, new BaseColor(0,0,0))));
+	                    " "+Grupo.getGrupo()+" ]", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
 				cell.setBorder(1);
