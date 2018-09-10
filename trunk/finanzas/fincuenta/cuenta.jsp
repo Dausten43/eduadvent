@@ -29,6 +29,7 @@
 	    		<th><fmt:message key="aca.Tipo" /></th>
 	    		<th>% <fmt:message key="aca.PagoInicial" /></th>
 	    		<th> <fmt:message key="aca.MuestraSaldoRecibo" /></th>
+	    		<th> <fmt:message key="aca.CuentaAislada" /></th>
 	  		</tr>
 	  		<%
 	  			int cont = 0;
@@ -55,6 +56,7 @@
 					    <td><%=cuenta.getTipo()%></td>
 					    <td class="text-right"><%=cuenta.getPagoInicial()%> %</td>
 					    <td> <%=cuenta.getMuestraSaldoRecibo()%> </td>
+					    <td> <%=cuenta.getCuentaAislada() %> </td>
 					</tr>
 	  		<%
 				}	

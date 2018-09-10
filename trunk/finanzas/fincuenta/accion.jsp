@@ -17,6 +17,7 @@
 		document.frmCuenta.Caja.value=" ";
 		document.frmCuenta.Alumno.value=" ";
 		document.frmCuenta.muestraSaldoRecibo.value="";
+		document.frmCuenta.cuentaAislada.value="";
 		document.frmCuenta.submit();
 	}
 	
@@ -27,7 +28,8 @@
 			&& document.frmCuenta.Beca			!="" 
 			&& document.frmCuenta.Caja			!="" 
 			&& document.frmCuenta.Alumno		!="" 
-			&& document.frmCuenta.SunPlus		!=""){
+			&& document.frmCuenta.SunPlus		!=""
+			&& document.frmCuenta.cuentaAislada !=""  ){
 			document.frmCuenta.Accion.value		= "2";
 			document.frmCuenta.submit();
 		}else{
@@ -84,6 +86,7 @@
 			Cuenta.setPagoInicial(request.getParameter("PagoInicial"));	
 			String muestraSaldo = request.getParameter("muestraSaldoRecibo")!=null ? request.getParameter("muestraSaldoRecibo") : "N" ;
 			Cuenta.setMuestraSaldoRecibo(muestraSaldo); 
+			Cuenta.setCuentaAislada(request.getParameter("cuentaAislada")!=null ? request.getParameter("cuentaAislada") : "N");
 			conElias.setAutoCommit(false);
 			if (Cuenta.existeReg(conElias) == false){
 				if (Cuenta.insertReg(conElias)){
@@ -197,6 +200,10 @@
 	
 		<fieldset>
 	    	<input type="checkbox" class="tipo" id="muestraSaldoRecibo" name="muestraSaldoRecibo" value="S" <%if(Cuenta.getMuestraSaldoRecibo()!=null && Cuenta.getMuestraSaldoRecibo().contains("S")) out.print("Checked");%> /> <fmt:message key="aca.MuestraSaldoRecibo" />
+		</fieldset>
+		
+		<fieldset>
+	    	<input type="checkbox" class="tipo" id="cuentaAislada" name="cuentaAislada" value="S" <%if(Cuenta.getCuentaAislada()!=null && Cuenta.getCuentaAislada().contains("S")) out.print("Checked");%> /> <fmt:message key="aca.CuentaAislada" />
 		</fieldset>
 	
 		<div class="well">

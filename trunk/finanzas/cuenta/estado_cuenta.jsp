@@ -1,3 +1,7 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="aca.fin.FinCuenta"%>
+<%@page import="java.util.Map"%>
+<%@page import="aca.fin.FinCuentaLista"%>
 <%@page import="aca.util.Fecha"%>
 <%@ page import= "java.io.BufferedReader" %>
 <%@ page import= "java.io.FileNotFoundException"  %>
@@ -90,6 +94,11 @@
 	// Movimientos registrados en SunPlus
 	ArrayList<aca.sunplus.AdvASalfldg> lisMovimientosSunPlus = null;
 	
+	
+FinCuentaLista fcl = new FinCuentaLista();
+	
+	Map<String, FinCuenta> mapCuentas = new HashMap(); 
+	mapCuentas.putAll(fcl.mapCuentasEscuela(conElias, escuelaId));
 	
 	// Valida si usa el sunplus y activa la conexión
 	if (usaSunPlus){
@@ -210,7 +219,7 @@
 		float total = (float)saldoNum;			
 		for(int i = 0; i < lisMovimientos.size(); i++){
 			aca.fin.FinMovimientos movto = (aca.fin.FinMovimientos) lisMovimientos.get(i);
-			
+			if(mapCuentas.containsKey(movto.getCuentaId()) && mapCuentas.get(movto.getCuentaId()).getCuentaAislada().equals("N")){
 			if((movto.getImporte()==null)&&(movto.getNaturaleza()==null)){
 				movto.setImporte("0");
 				movto.setNaturaleza("");					
@@ -235,6 +244,7 @@
 			<td class="text-right" <%=total>=0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%></td>
 		</tr>
 	<%
+			}
 		}			
 		if(lisMovimientos.size() == 0){
 			out.println("<tr><td colspan='9' align='center'>No existen movimientos para éste alumno</td></tr>");
