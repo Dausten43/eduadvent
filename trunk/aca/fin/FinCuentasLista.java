@@ -14,7 +14,7 @@ public class FinCuentasLista {
 		String comando	= "";
 		
 		try{
-			comando = "SELECT CUENTA_ID, CUENTA_NOMBRE, ESCUELA_ID FROM FIN_CUENTAS WHERE ESCUELA_ID = '"+escuelaId+"' "+order;
+			comando = "SELECT * FROM FIN_CUENTAS WHERE ESCUELA_ID = '"+escuelaId+"' "+order;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){

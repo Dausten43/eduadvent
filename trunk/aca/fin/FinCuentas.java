@@ -120,7 +120,7 @@ public class FinCuentas {
         PreparedStatement ps = null; 
         try{
 	        ps = con.prepareStatement(
-	                " SELECT CUENTA_ID, CUENTA_NOMBRE, ESCUELA_ID " +
+	                " SELECT * " +
 	                " FROM FIN_CUENTAS" +
 	                " WHERE CUENTA_ID = ?");
 	        ps.setString(1, cuentaId);

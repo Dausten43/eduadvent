@@ -96,7 +96,8 @@ public class FinAlumSaldos {
              PreparedStatement psta = con.prepareStatement(comando);
 
              PreparedStatement pstb = con.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO "
-                     + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND TO_DATE(to_char(FECHA,'DD-MM-YYYY'),'DD-MM-YYYY') <= TO_DATE(?,'DD-MM-YYYY') and estado<>'C'");
+                     + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND TO_DATE(to_char(FECHA,'DD-MM-YYYY'),'DD-MM-YYYY') <= TO_DATE(?,'DD-MM-YYYY') and estado<>'C' "
+                     + "						and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')");
              
              ResultSet rsa = psta.executeQuery();
              while (rsa.next()) {
@@ -140,7 +141,7 @@ public class FinAlumSaldos {
 					+ "auxiliar not in "
 					+ "		(select codigo_id from alum_ciclo where estado='I' and ciclo_id in "
 					+ "			( 	SELECT ciclo_id FROM CICLO where current_timestamp BETWEEN f_inicial AND f_final and ciclo_id like '"+ escuela_id +"%')) "
-					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' group by auxiliar order by plan_id,nombre");
+					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N') group by auxiliar order by plan_id,nombre");
 			System.out.println(pst);
 			ResultSet rs = pst.executeQuery();
 			

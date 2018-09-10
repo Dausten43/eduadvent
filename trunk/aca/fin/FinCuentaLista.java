@@ -17,7 +17,7 @@ public class FinCuentaLista {
 		
 		try{
 			comando = "SELECT ESCUELA_ID, CUENTA_ID, CUENTA_NOMBRE, CUENTA_SUNPLUS, BECA," +
-					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO" +
+					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO, CUENTA_AISLADA " +
 					" FROM FIN_CUENTA WHERE ESCUELA_ID = '"+escuelaId+"' "+order;
 			
 			rs = st.executeQuery(comando);			
@@ -45,7 +45,7 @@ public class FinCuentaLista {
 		
 		try{
 			comando = "SELECT ESCUELA_ID, CUENTA_ID, CUENTA_NOMBRE, CUENTA_SUNPLUS, BECA," +
-					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO" +
+					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO, CUENTA_AISLADA " +
 					" FROM FIN_CUENTA WHERE ESCUELA_ID = '"+escuelaId+"' AND BECA = 'S' "+order;
 			
 			rs = st.executeQuery(comando);			
@@ -73,7 +73,7 @@ public class FinCuentaLista {
 		
 		try{
 			comando = "SELECT ESCUELA_ID, CUENTA_ID, CUENTA_NOMBRE, CUENTA_SUNPLUS, BECA," +
-					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO" +
+					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO, CUENTA_AISLADA" +
 					" FROM FIN_CUENTA" +
 					" WHERE ESCUELA_ID = '"+escuelaId+"'" +
 					" AND TIPO LIKE '%"+tipo+"%' "+order;
@@ -105,7 +105,7 @@ public class FinCuentaLista {
 		
 		try{
 			comando = "SELECT ESCUELA_ID, CUENTA_ID, CUENTA_NOMBRE, CUENTA_SUNPLUS, BECA," +
-					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO" +
+					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO, CUENTA_AISLADA" +
 					" FROM FIN_CUENTA WHERE ESCUELA_ID = '"+escuelaId+"'";
 			
 			rs = st.executeQuery(comando);
@@ -136,7 +136,7 @@ public class FinCuentaLista {
 		
 		try{
 			comando = "SELECT ESCUELA_ID, CUENTA_ID, CUENTA_NOMBRE, CUENTA_SUNPLUS, BECA," +
-					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO" +
+					" COALESCE(TIPO,'-') AS TIPO, PAGO_INICIAL, MUESTRA_SALDO_RECIBO, CUENTA_AISLADA" +
 					" FROM FIN_CUENTA WHERE ASOCIACION_ESCUELA(ESCUELA_ID) IN ("+asociaciones+") ";
 			
 			rs = st.executeQuery(comando);
