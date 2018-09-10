@@ -157,7 +157,7 @@ public class PrintEstadoCuenta extends HttpServlet {
             PreparedStatement psta = con.prepareStatement(comando);
 
                PreparedStatement pstb = con.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO "
-                    + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD-MM-YYYY') and estado<>'C'");
+                    + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD-MM-YYYY') and estado<>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')");
 
             PreparedStatement pstc = con.prepareStatement(" SELECT MO.EJERCICIO_ID, "
                     + " MO.POLIZA_ID, MO.MOVIMIENTO_ID, MO.CUENTA_ID, MO.AUXILIAR, MO.DESCRIPCION,"
@@ -168,7 +168,7 @@ public class PrintEstadoCuenta extends HttpServlet {
                     + " JOIN FIN_POLIZA PO ON PO.POLIZA_ID=MO.POLIZA_ID AND PO.EJERCICIO_ID=MO.EJERCICIO_ID"
                     + " WHERE MO.AUXILIAR = ? "
                     + " AND MO.FECHA <= '" + ffin + "' AND MO.FECHA >= '" + fini + "'"
-                    + " AND MO.ESTADO <> 'C' "
+                    + " AND MO.ESTADO <> 'C' and MO.cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')"
                     + " ORDER BY MO.FECHA");
             System.out.println("pstc = " + pstc);
             Calendar calb = Calendar.getInstance();
