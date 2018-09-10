@@ -53,7 +53,7 @@ public class FinMovimientosLista {
 					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
 					+ " WHERE AUXILIAR IN ("+auxiliares+") AND CUENTA_ID IN (SELECT CUENTA_ID FROM FIN_CUENTA WHERE TIPO LIKE '%-ALUMNO%')"
-					+ " AND ESTADO = 'R' " + orden;
+					+ " AND ESTADO = 'R'  " + orden;
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				FinMovimientos fm = new FinMovimientos();				
@@ -581,7 +581,7 @@ public class FinMovimientosLista {
 		try{
 			comando = "	SELECT AUXILIAR, SUM(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) AS SALDO "
 					+ " FROM FIN_MOVIMIENTOS WHERE SUBSTRING (AUXILIAR,1,3) = '"+codigoId+"' GROUP BY AUXILIAR"
-					+ " HAVING SUM(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) < 0";
+					+ " HAVING SUM(CASE NATURALEZA WHEN 'C' THEN IMPORTE*1 ELSE IMPORTE*-1 END) < 0 ";
 			
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
