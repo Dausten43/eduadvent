@@ -1,3 +1,6 @@
+<%@page import="aca.fin.FinCuenta"%>
+<%@page import="aca.fin.FinCuentaLista"%>
+<%@page import="java.util.Map"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -22,6 +25,8 @@
 	ArrayList<aca.alumno.AlumPadres> lisAlumPadres = alumPadresLista.getListTutor(conElias, codigoId, "ORDER BY 1");
 	
 	Personal.mapeaRegId(conElias, codigoId);	
+	FinCuentaLista finCuenta = new FinCuentaLista();
+ 	Map<String, FinCuenta> mapCuentas = finCuenta.mapCuentasEscuela(conElias, escuelaId);
 %>
 </head>
 <body>
@@ -120,6 +125,7 @@
 			ArrayList<aca.fin.FinMovimientos> lisMovimientos = FinMovL.getMovimientosHijos(conElias, hijos, "ORDER BY TO_CHAR(FECHA,'YYYY'),TO_CHAR(FECHA,'MM'),TO_CHAR(FECHA,'DD'), MOVIMIENTO_ID");
 			for(int i = 0; i < lisMovimientos.size(); i++){
 				FinMov = (aca.fin.FinMovimientos) lisMovimientos.get(i);
+				if(mapCuentas.containsKey(FinMov.getCuentaId()) && mapCuentas.get(FinMov.getCuentaId()).getCuentaAislada().equals("N")){
 				if(FinMov.getNaturaleza().equals("D"))
 					total -= Float.parseFloat(FinMov.getImporte());
 				else
@@ -137,6 +143,7 @@
 						<td align="right"><%=formato.format(total) %></td>
 					</tr>
 <%
+				}
 			}
 			
 			if(lisMovimientos.size() == 0){

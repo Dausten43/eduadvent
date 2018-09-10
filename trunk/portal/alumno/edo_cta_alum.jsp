@@ -1,3 +1,6 @@
+<%@page import="aca.fin.FinCuenta"%>
+<%@page import="java.util.Map"%>
+<%@page import="aca.fin.FinCuentaLista"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="aca.util.Fecha"%>
 <%@ page import= "java.io.BufferedReader" %>
@@ -94,7 +97,8 @@
 	
 	// Movimientos registrados en EduAdvent
 	ArrayList<aca.fin.FinMovimientos> lisMovimientos = MovimientosL.getListAlumnoAll(conElias, codigoId, fechaInicio, fechaFinal, "'A','R'"," ORDER BY TO_CHAR(FECHA,'YYYY-MM-DD')");
-	
+ 	FinCuentaLista finCuenta = new FinCuentaLista();
+ 	Map<String, FinCuenta> mapCuentas = finCuenta.mapCuentasEscuela(conElias, escuelaId);
 	
 %>
 <%@ include file= "menuPortal.jsp" %>
@@ -186,7 +190,7 @@
 		float total = (float)saldoNum;			
 		for(int i = 0; i < lisMovimientos.size(); i++){
 			aca.fin.FinMovimientos movto = (aca.fin.FinMovimientos) lisMovimientos.get(i);
-			
+			if(mapCuentas.containsKey(movto.getCuentaId()) && mapCuentas.get(movto.getCuentaId()).getCuentaAislada().equals("N")){
 			if((movto.getImporte()==null)&&(movto.getNaturaleza()==null)){
 				movto.setImporte("0");
 				movto.setNaturaleza("");					
@@ -211,6 +215,7 @@
 			<td class="text-right" <%=total<0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%></td>
 		</tr>
 	<%
+			}
 		}			
 		if(lisMovimientos.size() == 0){
 			out.println("<tr><td colspan='9' align='center'>No existen movimientos del alumno en este ejercicio</td></tr>");
