@@ -62,7 +62,7 @@
 		List<Long> lsActividesOrden = new ArrayList();
 %>
 <div id="content">
-
+	<input type="hidden" name="Trimestre" value="<%=trimestre%>">
 	<h2>
 		<fmt:message key="aca.Actividades" />
 		<small> ( <%=empPersonal.getNombre() + " " + empPersonal.getApaterno() + " " + empPersonal.getAmaterno()%>
@@ -76,189 +76,30 @@
 			class="icon-arrow-left icon-white"></i> <fmt:message
 				key="boton.Regresar" /></a>
 	</div>
-
-	<table class="table table-condensed table-bordered" style="width: 75%">
-
-		<%
-		int cont = 0;
-			for (Long idarea : lsIdArea) {
-
-					for (Long idcriterio : lsIdCriterio) {
-						boolean isVisible = false;
-						for (Long idactividad : lsIdActividad) {
-							if (mapActividades.get(idactividad).getArea_id().equals(idarea)
-									&& mapActividades.get(idactividad).getCriterio_id().equals(idcriterio)) {
-								isVisible = true;
-							}
-						}
-
-						if (isVisible) {
-		%>
-		<tr style="background-color: lightgray; font-size: 12px">
-			<th style="width: 50%"><%=mapAreas.get(idarea).getArea()%> <br>
-				<%=mapCriterios.get(idcriterio).getCriterio()%></th>
-			<th style="width: 25%">Fecha</th>
-			<th style="width: 25%">Acción</th>
-		</tr>
-		<%
-			for (Long idActividad : lsIdActividad) {
-								if (mapActividades.get(idActividad).getCriterio_id().equals(idcriterio)) {
-									String fecha = sdfB.format(sdfA.parse(mapActividades.get(idActividad).getFecha()));
-									lsActividesOrden.add(idActividad);
-									cont++;
-		%>
-		<tr style="font-size: 12px">
-			<td style="width: 50%"><a
-				href="javascript:muestraInput('<%=idActividad%>');"><%=cont%>.- 
-					<%=mapActividades.get(idActividad).getActividad()%></a></td>
-			<td style="width: 25%"><%=fecha%></td>
-			<td style="width: 25%"></td>
-		</tr>
-		<%
-			}
-							}
-						}
+	<div class="form-group">
+		<label for="area">Área</label>
+		<select id="area" name="area" class="dropdown form-control" style="width:auto">
+			<option value="0">-- Selecciona un área --</option>
+			<%
+			    List<Areas> lsAreas = new ArrayList<Areas>();
+				lsAreas.addAll(ua.getLsAreas(0L, "", cicloId, 1));
+					for (Areas area : lsAreas) {
+						%>
+						<option value="<%=area.getId()%>"><%=area.getArea()%></option>
+						<%
 					}
-				}
-		%>
-	</table>
-
-	<table class="table table-condensed table-bordered table-striped">
-		<thead>
-			<tr>
-				<td colspan="20" class="text-center alert">Las actividades se
-					evalúan de &nbsp;&nbsp;</td>
-			</tr>
-			<tr>
-				<th class="text-center">#</th>
-				<th class="text-center"><fmt:message key="aca.Codigo" /></th>
-				<th><fmt:message key="aca.Nombre" /></th>
-				<%
-					cont = 0;
-						for (Long idactividad : lsActividesOrden) {
-							cont++;
-				%>
-				<th style="width: 4%;" class="text-center"
-					title="<%=mapActividades.get(idactividad).getActividad()%>"><%= cont %></th>
-				<%
-					}
-				%>
-				<th class="text-center"
-					title="<fmt:message key='aca.MensajePromedioActividades' />">
-					<fmt:message key="aca.PA" />
-				</th>
-				<th class="text-center" title=""><fmt:message
-						key="aca.Promedio" /></th>
-			</tr>
-		</thead>
-		<%
-			int i = 0;
-				for (aca.kardex.KrdxCursoAct kardex : lisKardexAlumnos) {
-		%>
-		<tr>
-			<td class="text-center"><%=i + 1%></td>
-			<td class="text-center"><%=kardex.getCodigoId()%></td>
-			<td><%=aca.alumno.AlumPersonal.getNombre(conElias, kardex.getCodigoId(), "APELLIDO")%>
-
-				<%
-					if (kardex.getTipoCalId().equals("6")) {
-				%> <span
-				class="label label-important"
-				title="<fmt:message key="aca.EsteAlumnoHaSidoDadoDeBajar" />"><fmt:message
-						key="aca.Baja" /></span> <%
- 	}
- %></td>
-			<!-- --------- RECORRE LAS ACTIVIDADES --------- -->
-			<%
-				for (Long idactividad : lsActividesOrden) {
-							String strNota = "-";
 			%>
-
-			<td class="text-center">
-
-				<div id="nota-<%=idactividad%>-<%=kardex.getCodigoId()%>" class="nota-<%= idactividad %>"><%=strNota%></div>
-
-				<!-- INPUT PARA EDITAR LAS NOTAS (ESCONDIDO POR DEFAULT) --> <%
- 	if (estado.equals("A")) { /* Si el alumno no se ha dado de baja puede editar su nota */
- 		if(escuelaId.startsWith("H")){
- %>
-				<div class="editar<%=idactividad%> editable" style="display: none;">
-					<select name="calif-<%=idactividad%>" id="calif-<%=idactividad%>"
-						data-alumno="<%=kardex.getCodigoId()%>" data-alumnoactividad="<%=kardex.getCodigoId()%>-<%=idactividad%>">
-						<option value="3">LHL</option>
-						<option value="2">LEL</option>
-						<option value="1">LVL</option>
-					</select>
-				</div> <%
- 		}else if(escuelaId.startsWith("S")){
- 			%>
-			<div class="editar<%=idactividad%> editable" style="display: none;">
-				<select name="calif-<%=idactividad%>" id="calif-<%=idactividad%>"
-					data-alumno="<%=kardex.getCodigoId()%>" data-alumnoactividad="<%=kardex.getCodigoId()%>-<%=idactividad%>">
-					<option value="3">S</option>
-					<option value="2">P</option>
-					<option value="1">T</option>
-				</select>
-			</div> <%			
- 		}
- 	}
- %>
-
-			</td>
-			<%
-				} //End for evaluaciones
-			%>
-			<td class="text-center">
-				<%
-					
-				%>
-			</td>
-			<%
-				// obtiene el promedio de la evaluacion que esta en la BD
-			%>
-
-			<td class="text-center"><%=0%></td>
-		</tr>
-		<%
-			i++;
-				}
-		%>
-
-		<tr>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<%
-				for (Long idactividad : lsActividesOrden) {
-			%>
-			<td class="text-center">
-				<div class="editar<%=idactividad%> editable"
-					style="display: none;">
-					<a tabindex="<%=lisKardexAlumnos.size()%>"
-						class="btn btn-primary btn-block" type="button"
-						href="javascript:guardarCalificaciones( '<%=idactividad%>' );"><fmt:message
-							key="boton.Guardar" /></a> <a
-						tabindex="<%=lisKardexAlumnos.size() + 1%>"
-						class="btn btn-danger btn-block" type="button"
-						href="javascript:borrarCalificaciones( '<%=idactividad%>' );"><fmt:message
-							key="boton.Eliminar" /></a>
-				</div>
-			</td>
-			<%
-				}
-			%>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-		</tr>
-
+		</select>
+	</div>
+	<div id="tablaDatos"></div>
 		</div>
 		<script>
 		
-		$(function(){
-			var maestro = '<%=codigoId%>';
-		    var ciclo_gpo_id = '<%=cicloGrupoId%>';
-			llenaCalificaciones(ciclo_gpo_id,maestro)
-		});
+$(function(){
+	var maestro = '<%=codigoId%>';
+    var ciclo_gpo_id = '<%=cicloGrupoId%>';
+	llenaCalificaciones(ciclo_gpo_id,maestro);
+});
 
 function enviaDatos(datadata){
 	console.log(datadata);
@@ -268,6 +109,24 @@ function enviaDatos(datadata){
 		data : datadata,
 		success : function(output) {
 			
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			console.log("error " + datadata);
+			alert(xhr.status + " " + thrownError);
+		}
+	});
+}
+
+function cambiarArea(datadata){
+	var maestro = '<%=codigoId%>';
+	var ciclo_gpo_id = '<%=cicloGrupoId%>'; 
+	$.ajax({
+		url : 'ajaxEvalActividades.jsp',
+		type : 'post',
+		data : datadata,
+		success : function(output) {
+			$('#tablaDatos').html(output);
+			llenaCalificaciones(ciclo_gpo_id,maestro);
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			console.log("error " + datadata);
@@ -312,6 +171,18 @@ function elimina(maestro, ciclo_gpo_id, idactividad){
 	 var datadata = 'eliminar=true&ciclo_gpo_id='+ciclo_gpo_id+'&maestro_id='+maestro+'&actividad_id='+idactividad;
 	 enviaDatos(datadata);
 }
+
+$('#area').change(function(){
+	var idArea = $('#area').val();
+	if(idArea!=0){
+		var ciclo_gpo_id = '<%=cicloGrupoId%>'; 
+		var trimestre = '<%=trimestre%>';
+		var cursoId = '<%=cursoId%>';
+		var datadata='cicloGrupoId='+ciclo_gpo_id+'&area='+idArea+'&trimestre='+trimestre+'&CursoId='+cursoId;
+		cambiarArea(datadata);
+	}
+});
+
 
 function borrarCalificaciones(idactividad){
 	$('.editable').hide();
