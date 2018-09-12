@@ -779,7 +779,7 @@ public class FinMovimientos {
 			comando = " SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'D' THEN -1 ELSE 1 END),0) AS SALDO"
 					+ " FROM FIN_MOVIMIENTOS"
 					+ " WHERE AUXILIAR = '"+auxiliar+"'"
-					+ " AND FECHA <= TO_DATE('"+fecha+"','DD/MM/YYYY') and estado<>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')";
+					+ " AND  TO_DATE(TO_CHAR(FECHA,'DD/MM/YYYY'),'DD/MM/YYYY') <= TO_DATE('"+fecha+"','DD/MM/YYYY') and estado<>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')";
 								
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
