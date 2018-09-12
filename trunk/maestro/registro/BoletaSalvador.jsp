@@ -109,7 +109,9 @@
 	}
 	
 	Grupo.mapeaRegId(conElias, cicloGrupoId);
+	String year = ciclo.getCicloEscolar();
 	String nombreTutor   = aca.empleado.EmpPersonal.getNombre(conElias,Grupo.getEmpleadoId(),"NOMBRE");
+	nivel = aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), Grupo.getNivelId());
 	String subnivel = aca.catalogo.CatEsquemaLista.getSubNivel(conElias, escuela, Grupo.getNivelId(), Grupo.getGrado());
 	if(!subnivel.equals("")){
 		subnivel = "Ciclo: ["+subnivel+"] - ";
@@ -146,7 +148,6 @@
 	        	codigoAlumno = (String) lisAlum.get(i);
 		        alumPersonal.mapeaRegId(conElias, codigoAlumno);
 				plan 				= Grupo.getPlanId();
-				nivel 				= Grupo.getNivelId();
 				grado 				= Grupo.getGrado();
 				grupo 				= Grupo.getGrupo();
 				
@@ -182,7 +183,7 @@
 				cell.setColspan(2);
 				topTable.addCell(cell);
 				
-		        cell = new PdfPCell(new Phrase("Reporte de Notas", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+		        cell = new PdfPCell(new Phrase("Reporte de Notas "+year, FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				cell.setBorderWidthRight(1);
@@ -206,7 +207,7 @@
 	             * Informacion del encabezado de cada boleta
 	             */
  
-				cell = new PdfPCell(new Phrase(aca.catalogo.CatNivel.getNivelNombre(conElias, nivel) + "     " +
+				cell = new PdfPCell(new Phrase(nivel + "     " +
 												"Grado: "+aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(Grupo.getGrado())),
                 					FontFactory.getFont(FontFactory.HELVETICA, 9, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
