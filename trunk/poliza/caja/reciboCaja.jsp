@@ -156,7 +156,7 @@
 				</div>
 
 			</td>
-			<td style="width: 20%; text-align: center; vertical-align: super;">
+			<td style="width: 5%; text-align: center; vertical-align: super;">
 				<h4>
 					Recibo</span><br> [
 					<%=finRecibo.getReciboId()%>
