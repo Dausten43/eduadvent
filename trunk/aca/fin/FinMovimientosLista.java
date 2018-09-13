@@ -1,5 +1,6 @@
 package aca.fin;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -558,6 +559,48 @@ public class FinMovimientosLista {
 			rs = st.executeQuery(comando);
 			while (rs.next()){				
 				map.put(rs.getString("codigo_id"), rs.getString("SALDO"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovmientosLista|getMapSaldos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
+public HashMap<String,FinSaldoAlumno> getMapSaldosCta(Connection conn, String cuenta) throws SQLException{
+		
+		HashMap<String,FinSaldoAlumno> map = new HashMap<String,FinSaldoAlumno>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+
+		try{//se cambio el query 
+			comando = "select auxiliar, ap.nombre, ap.apaterno, ap.amaterno,"
+					+ "sum(	"
+					+ "case mv.naturaleza 	"
+					+ "when 'C' then mv.importe*(1)  "
+					+ "else mv.importe*(-1) "
+					+ "end) saldo "
+					+ "from fin_movimientos mv "
+					+ "join alum_personal ap on ap.codigo_id=mv.auxiliar "
+					+ "where mv.ejercicio_id like 'H99%' and mv.estado <> 'C' and mv.cuenta_id='"+cuenta+"' "
+					+ "group by mv.auxiliar,ap.nombre, ap.apaterno, ap.amaterno";
+			
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				
+				FinSaldoAlumno sa = new FinSaldoAlumno();
+				sa.setAuxiliar(rs.getString("auxiliar"));
+				sa.setNombre(rs.getString("nombre"));
+				sa.setApaterno(rs.getString("apaterno"));
+				sa.setAmaterno(rs.getString("amaterno"));
+				sa.setSaldo(rs.getBigDecimal("saldo"));
+				
+				map.put(rs.getString("auxiliar"), sa);
 			}
 			
 		}catch(Exception ex){
