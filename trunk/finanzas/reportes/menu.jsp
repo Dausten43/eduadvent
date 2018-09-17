@@ -14,6 +14,7 @@
               <li><a href="reporte_deudor.jsp"><i class="icon-chevron-right"></i>Alumnos Con Saldo</a></li>
               <li><a href="reporte_deudores_noinscritos.jsp"><i class="icon-chevron-right"></i>Alumnos no Inscritos Con Saldo </a></li>
               <li><a href="cuentas_abono.jsp"><i class="icon-chevron-right"></i>Saldos Cuentas de Abono </a></li>
+              <li><a href="estado_cuenta.jsp"><i class="icon-chevron-right"></i>Movimientos Cuentas de Abono</a></li>
             </ul>
         </div>
 	</div>
