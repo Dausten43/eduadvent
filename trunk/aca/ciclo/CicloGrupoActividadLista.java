@@ -122,7 +122,7 @@ public ArrayList<CicloGrupoActividad> getListTareas(Connection conn, String codi
 					" ACTIVIDAD_NOMBRE, TO_CHAR(FECHA, 'DD/MM/YYYY HH:MI AM') AS FECHA, VALOR, TIPOACT_ID, ETIQUETA_ID, MOSTRAR " +
 					" FROM CICLO_GRUPO_ACTIVIDAD " +
 					" WHERE CICLO_GRUPO_ID||CURSO_ID " +
-					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' )" +
+					" IN (SELECT CICLO_GRUPO_ID||CURSO_ID FROM KRDX_CURSO_ACT WHERE CODIGO_ID = '"+codigoId+"' AND TIPOCAL_ID = 1)" +
 					" and SUBSTR(CICLO_GRUPO_ID,1,8) = (SELECT CICLO_ID FROM alum_ciclo where codigo_id='"+codigoId+"' "
 						    + "and ciclo_id in (select ciclo_id from ciclo where current_timestamp BETWEEN f_inicial AND f_final) and estado='I') " +
 					"  and extract(YEAR FROM fecha)=" + txtSplit[0] + " and extract(WEEK FROM fecha)=" + txtSplit[1]  + " " +
