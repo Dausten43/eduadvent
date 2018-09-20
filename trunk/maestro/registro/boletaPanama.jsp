@@ -1926,13 +1926,16 @@
 						}
 					// Se muestra la observación del último trimestre desplegado
 					if(j == 0){
-						String trimestreId = "";
+						String trimestreId = "", observacion = "";
 						if(ciclo.getNivelEval().equals("P")){
 		 					for(int k = 0; k < cicloPromedioList.size(); k++){
 								cicloPromedio = (CicloPromedio) cicloPromedioList.get(k);
 								//Si se solicitó mostrar el trimestre 
 								if(cicloPromedio.getPromedioId().equals(request.getParameter(cicloPromedio.getNombre()))){
 									trimestreId = cicloPromedio.getPromedioId();
+									if(mapObservaciones.containsKey(codigoAlumno+"-"+trimestreId)){
+										observacion = mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1()==null?"":mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1();
+									}
 								}
 							}
 						}else if(ciclo.getNivelEval().equals("E")){
@@ -1941,12 +1944,15 @@
 								//System.out.println(cb.getBloqueId()+".equals("+request.getParameter(cb.getBloqueNombre())+")");
 								if(cb.getBloqueId().equals(request.getParameter(cb.getBloqueNombre()))){
 									//System.out.println("Entro............................................" + cb.getPromedioId());
-									trimestreId = cb.getPromedioId();
+									trimestreId = cb.getBloqueId();
+									if(mapObservaciones.containsKey(codigoAlumno+"-"+trimestreId)){
+										observacion = mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1()==null?"":mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1();
+									}
 								}
 							}
 						}
 						//System.out.println(" observaciones "+ mapObservaciones.containsKey(codigoAlumno+"-"+trimestreId));
-						String observacion = "";
+						//String observacion = "";
 						if(mapObservaciones.containsKey(codigoAlumno+"-"+trimestreId))
 							observacion = mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1()==null?"":mapObservaciones.get(codigoAlumno+"-"+trimestreId).getObservacion_1();
 						
