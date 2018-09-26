@@ -90,6 +90,7 @@
 			krdxAlumActitud.setAspectosId(aspectoId);
 			
 			String nota 		= request.getParameter("aspecto" + cont + "-" + aspectoId);
+			System.out.println("nota => "+nota);
 				
 			if ( nota != null ){
 				
@@ -245,6 +246,7 @@
 						<div><%=aca.catalogo.CatAspectosCal.getCalCorto(conElias, escuelaId, cicloGrupo.getNivelId(), nota)%></div>
 						<div class="editar<%=aspecto.getAspectosId()%>" style="display:none;">
 							<select name="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" id="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" style="width:70px;">
+							<option value="">-</option>
 					<%
 							String sel = "";
 							for( aca.catalogo.CatAspectosCal cal : lisAspectosCal ){
