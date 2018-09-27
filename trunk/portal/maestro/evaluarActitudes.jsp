@@ -250,10 +250,19 @@
 						<div><%=aca.catalogo.CatAspectosCal.getCalCorto(conElias, escuelaId, cicloGrupo.getNivelId(), nota)%></div>
 						<div class="editar<%=aspecto.getAspectosId()%>" style="display:none;">
 							<select name="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" id="aspecto<%=i%>-<%=aspecto.getAspectosId()%>" style="width:70px;">
+							<option value="">-</option>
 					<%				
 							String sel = "";
+							int mayorValorDeAspecto = 0; 
+							boolean tieneCalificacion = false;
 							for( aca.catalogo.CatAspectosCal cal : lisAspectosCal ){
-								if (Float.valueOf(nota).intValue()==Integer.parseInt(cal.getCalId())) sel = " Selected"; else sel = "";								
+								if (Float.valueOf(nota).intValue()==Integer.parseInt(cal.getCalId())){
+									sel = " Selected";
+									tieneCalificacion = true;
+								}else if(!tieneCalificacion && Float.valueOf(nota).intValue() == 0 && Integer.parseInt(cal.getCalId()) > mayorValorDeAspecto){
+									sel = " Selected";
+									mayorValorDeAspecto = Integer.parseInt(cal.getCalId());
+								}else sel = "";
 					%>		
 								<option value="<%=cal.getCalId()%>" <%=sel%>><%=cal.getCalCorto()%></option>
 					<%
