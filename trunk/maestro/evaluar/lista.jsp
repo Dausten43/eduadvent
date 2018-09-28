@@ -37,7 +37,7 @@
 			if (!orden.equals("")){
 					if (CursoAct.updateOrden(conElias)){ 
 						Resultado = "1";
-						conElias.commit();
+						//conElias.commit();
 					}else{
 						Resultado = "2";
 					}
@@ -58,11 +58,9 @@
 		<%=aca.catalogo.CatNivel.getGradoNombre(Integer.parseInt(Grupo.getGrado()))%> <%=Grupo.getGrupo()%> )
 		</small>
 	</h2>
-	
-	<div class="alert alert-info">
-		<strong>
+	<div class="well"> 
+		<a class="btn btn-primary" href="cursos.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
-	<br>
 	<%if(Resultado.equals("1")){ %>
 	<div class="alert alert-info">Los Datos han sido Modificados Correctamente</div>
 	<%}else if(Resultado.equals("2")){ %>
@@ -70,9 +68,7 @@
 	<%} else if(Resultado.equals("3")){ %>
 	<div class="alert alert-danger">Ya existe el registro</div>
 	<%} %>
-	<div class="well"> 
-		<a class="btn btn-primary" href="cursos.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
-	</div>
+	
 	<form action="lista.jsp?accion=1&CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>" method="post" name="forma" target="_self">
 	<table class="table table-striped table-bordered table-condensed">
 		<thead>
