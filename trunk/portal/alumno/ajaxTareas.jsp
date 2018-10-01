@@ -81,6 +81,7 @@ System.out.println(lsTareasPlan.size() +" " + lsTareasAct.size() +" " + cicloIdM
 				        </tr>
        <% } 
        for(CicloGrupoActividad actividad : lsTareasAct){
+    	   if(actividad.getMostrar().equals("S")){
     	   %>		
 			<tr>
 			  <td><img src="../../imagenes/evaluation.png" width="25px"/></td>
@@ -180,7 +181,7 @@ System.out.println(lsTareasPlan.size() +" " + lsTareasAct.size() +" " + cicloIdM
 				<td>&nbsp;</td>
 		<%	
 			}
-    	   
+    	   }
        }
        
        
