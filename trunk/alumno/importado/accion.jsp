@@ -37,6 +37,10 @@
 				}
 			}
 		}
+		
+		
+		
+		
 		if(!tieneAlgunaSeleccionada){
 			alert("Para guardar necesita seleccionar \"Aplicar\" de la fila a guardar");
 		}else if(tieneAlgunaSeleccionada){
