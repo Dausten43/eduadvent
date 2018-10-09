@@ -96,7 +96,7 @@
 		<%
 			if (!strResultado.equals("")) {
 		%>
-		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
+		<div class='alert alert-info'><fmt:message key="aca.${resultado}" /></div>
 		<%
 			}
 		%>
