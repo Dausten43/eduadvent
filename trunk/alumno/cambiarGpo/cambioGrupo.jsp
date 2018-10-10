@@ -78,14 +78,14 @@
 	int tipoTraspaso				= request.getParameter("TipoTraspaso")==null?0:Integer.parseInt(request.getParameter("TipoTraspaso"));
 	
 	Map<Integer, String> msjCambio 	= new HashMap<Integer, String>();
-	msjCambio.put(1, "Se borrarán las calificaciones de las actividades del curso y se pasará la calificación final evaluación.");
+	msjCambio.put(1, "Se borrarán las calificaciones de las actividades de este curso y se pasará la calificación final de la evaluación.");
 	msjCambio.put(2, "Se dará de baja el curso.");
 	msjCambio.put(3, "Esta materia ya está evaluada y el grupo de destino tiene actividades por lo que\n"
 	         	   + "se necesitarán ingresar las calificaciones manualmente en el nuevo grupo.\n"
-				   + "Para poder traspasar las demás materias es necesario borrar la calificación de esta y dar de baja.\n");
+				   + "Para poder traspasar las demás materias es necesario borrar las calificaciones de esta.\n");
 	msjCambio.put(4, "Esta materia tiene actividades calificadas en ambos grupos (actual y nuevo) por lo que\n"
       	   		   + "se necesitarán ingresar las calificaciones manualmente en el nuevo grupo.\n"
-			   	   + "Para poder traspasar las demás materias es necesario borrar las calificaciones de las actividades de esta y dar de baja.\n");
+			   	   + "Para poder traspasar las demás materias es necesario borrar las calificaciones de las actividades de esta.\n");
 	boolean TodoSalioBien			= false;
 	
 	Alumno.mapeaRegId(conElias, codigoAlumno); 							// Datos personales alumno
@@ -147,11 +147,12 @@
 		accion = "3";
 	}
 
+// Dejé libre la acción número dos por si fuere necesario agregar alguna otra de menor precedencia que el traspaso.
 // -------- CAMBIAR GRUPO ----------->
 	if(accion.equals("3")){
-		System.out.println("cicloGrupoIdActual: "+cicloGrupoIdActual+" cicloGrupoIdNuevo: "+cicloGrupoIdNuevo);
+		//System.out.println("cicloGrupoIdActual: "+cicloGrupoIdActual+" cicloGrupoIdNuevo: "+cicloGrupoIdNuevo);
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
-		error 			= false;
+		error = false;
 		
 		if(cicloGrupoIdNuevo.equals("")){
 			error = true;
@@ -159,13 +160,13 @@
 		
 		// Crea un listado de los cursos que tiene el grupo destino
 		ArrayList<aca.ciclo.CicloGrupoCurso> listCursosNuevos = GrupoCursoL.getListMateriasGrupo(conElias, cicloGrupoIdNuevo, "ORDER BY CURSO_ID");
-		
-		if(!error && tipoTraspaso == 0){ // Si cargó bien el id del ciclo actual más al que se trapasará
-			// En un ciclo for de cada materia se hará el traspaso
+		// Si cargó bien el id del ciclo actual más al que se trapasará
+		if(!error && tipoTraspaso == 0){ 
+			// El traspaso se realizará materia por materia detrno de un ciclo for
 			for(aca.kardex.KrdxCursoAct curso: listKrdxCursoAct){
 				//Se mapea con los datos del Grupo nuevo para ese curso en ese ciclo
 				CicloGrupoCurso.mapeaRegId(conElias, cicloGrupoIdNuevo, curso.getCursoId());
-				//Si alguna materia del grupo de origen no está en el grupo destino se pondrá como dado de baja
+				//Checa que exista esa materia en el Grupo nuevo 
 				if(CicloGrupoCurso.getCursoId().equals(curso.getCursoId())){
 					// Crea listado de evaluaciones
 					ArrayList<aca.kardex.KrdxAlumEval> listCursoEval = KardexCursoEvalLista.getListAlumMat(conElias, codigoAlumno, cicloGrupoIdActual, curso.getCursoId(), "ORDER BY EVALUACION_ID");
@@ -201,21 +202,22 @@
 									}
 								}
 							}
-						}//end for evaluaciones
+						}//finaliza for de evaluaciones
 					}
-				}else{//Si la materia no se encuentra en el nuevo grupo
+				}else{
+					//Si la materia no se encuentra en el nuevo grupo
 					tipoTraspaso = tipoTraspaso<2?2:tipoTraspaso;
 					listMateriasCambios.put(curso.getCursoId(), 2);
 				}
-			}//end for curso
-		}//end if not error on CicloGrupoId
+			}//finaliza for de curso
+		}//finaliza si es que no hubo error en CicloGrupoId
 		
 		if(!error && tipoTraspaso != 2){
 			
 			for(aca.kardex.KrdxCursoAct curso: listKrdxCursoAct){
 				//Se mapea con los datos del Grupo nuevo para ese curso en ese ciclo
 				CicloGrupoCurso.mapeaRegId(conElias, cicloGrupoIdNuevo, curso.getCursoId());
-				//Si alguna materia del grupo de origen no está en el grupo destino se pondrá como dado de baja
+				//Checa que la materia actual esté en el grupo nuevo también
 				if(CicloGrupoCurso.getCursoId().equals(curso.getCursoId())){
 					// Crea listado de evaluaciones
 					ArrayList<aca.kardex.KrdxAlumEval> listCursoEval = KardexCursoEvalLista.getListAlumMat(conElias, codigoAlumno, cicloGrupoIdActual, curso.getCursoId(), "ORDER BY EVALUACION_ID");
@@ -227,10 +229,15 @@
 								for(aca.kardex.KrdxAlumEval eval: listCursoEval){
 									KardexAlumEval.mapeaRegId(conElias, codigoAlumno, cicloGrupoIdActual, curso.getCursoId(), eval.getEvaluacionId());
 									KardexAlumEval.setCicloGrupoId(cicloGrupoIdNuevo);
-									if(!KardexAlumEval.existeReg(conElias)){
-										if(KardexAlumEval.insertReg(conElias)){
+									// Checa que no exista el registro en el nuevo grupo
+									if(!KardexAlumEval.existeReg(conElias)){ 
+										// Inserta la evaluación en el grupo nuevo
+										if(KardexAlumEval.insertReg(conElias)){ 
 											KardexAlumEval.setCicloGrupoId(cicloGrupoIdActual);
-											if(!KardexAlumEval.deleteReg(conElias)){
+											// Borra la evaluación en el grupo pasado
+											if(KardexAlumEval.deleteReg(conElias)){ 
+												// Todo salió bien hasta este punto
+											}else{
 												error = true; break;
 											}
 										}else{
@@ -238,20 +245,22 @@
 										}
 									}
 									if(tipoTraspaso == 5){
-										//AQUÍ IRÁ EL CÓDIGO PARA BORRAR LAS ACTIVIDADES
+										//BORRAR LAS ACTIVIDADES
 										//Checa si tiene actividades
 										if(CicloGrupoActividad.tieneActividades(conElias, cicloGrupoIdActual, curso.getCursoId(), eval.getEvaluacionId())){
 											//Si tiene, crea una lista de ellas
 											ArrayList<aca.kardex.KrdxAlumActiv> listActiv = KardexCursoActivLista.getListEvaluacion(conElias, cicloGrupoIdActual, curso.getCursoId(), eval.getEvaluacionId(), "ORDER BY ACTIVIDAD_ID");
 											//Con ese método se intentan borran los registros de las actividades de ese alumno en ese grupo. Si no se borran hay error.
-											if(!listActiv.get(0).deleteRegGrupo(conElias, codigoAlumno, cicloGrupoIdActual)){
+											if(listActiv.get(0).deleteRegGrupo(conElias, codigoAlumno, cicloGrupoIdActual)){
+												// Todo salió bien hasta aquí
+											}else{
 												error = true;
 												break;
 											}
 										}
 									}
 								}
-								if(error) break;
+								if(error) break; // En teoría no debería llegar a este punto si hubiera un error pero por si...
 							}
 						}
 						
@@ -278,25 +287,29 @@
 						if(!curso.existeReg(conElias)){
 							if(curso.insertReg(conElias)){
 								curso.setCicloGrupoId(cicloGrupoIdActual);
-								if(!curso.deleteReg(conElias)){
+								if(curso.deleteReg(conElias)){
+									// Actualización exitosa
+								}else{
 									error = true; break;
 								}
 							}else{
 								error = true; break;	
 							}
 						}
-						
-						if(!error)
-							TodoSalioBien = true;
 					}
-				}else{
+				}else{ 
+					//Si alguna materia del grupo de origen no está en el grupo destino se pondrá como dado de baja
 					curso.setTipoCalId("6");
-					if(!curso.updateReg(conElias)){
+					if(curso.updateReg(conElias)){
+						// Se actualizó correctamente el registro
+					}else{
 						error = true;
 					}
 				}
-			}//end for curso
-		}//Borrar al entregar
+			}//finaliza for curso
+			if(!error)
+				TodoSalioBien = true;
+		}
 		
 		//COMMIT OR ROLLBACK TO DB
 		if(error){
@@ -311,9 +324,12 @@
 	}
 	
 	/*
-	 * Es necesario traspasar las calificaciones de las faltas y la conducta. No importa el tipo de trapaso que sea el traspaso de estos datos es de
-	 * la misma manera para todas. Pero solo se debe de realizar una vez que todas las materias se traspasaron de forma correcta. De esta manera, al
-	 * saber que todo salió bien, realiza este paso y, en teoría, nada debería de salir mal.
+	 * Es necesario traspasar las calificaciones de las faltas y la conducta. 
+	 * No importa el tipo de trapaso que sea el traspaso de estos datos es de
+	 * la misma manera para todas. Pero solo se debe de realizar una vez que 
+	 * todas las materias se traspasaron de forma correcta. De esta manera, al
+	 * saber que todo salió bien, realiza este paso y, en teoría, nada debería 
+	 * de salir mal.
 	 *
 	 */
 	 
@@ -340,17 +356,19 @@
 								KardexFalta.setCicloGrupoId(cicloGrupoIdNuevo);
 								if(KardexFalta.insertReg(conElias)){
 									KardexFalta.setCicloGrupoId(cicloGrupoIdActual);
-									if(!KardexFalta.deleteReg(conElias)){
+									if(KardexFalta.deleteReg(conElias)){
+										// Borrado exitoso.
+									}else{
 										error = true;
 										break;
-									}//end if not delete
-								}//end if insert
-								else{
+									}
+								}else{
 									error = true;
 									break;
-								}//end if not insert
-							}//end if mapeó
-						}//end if get Falta curso
+								}
+							}//finaliza if mapeó
+						}
+						//Checa si evalua conducta
 						if(Curso.getConducta().equals("S")){
 							//Traspasa la conducta si es que tiene
 							KardexConducta.mapeaRegId(conElias, codigoAlumno, cicloGrupoIdActual, curso.getCursoId(), lisPromedio.get(i).getPromedioId(), lisBloque.get(t).getBloqueId());
@@ -358,20 +376,21 @@
 								KardexConducta.setCicloGrupoId(cicloGrupoIdNuevo);
 								if(KardexConducta.insertReg(conElias)){
 									KardexConducta.setCicloGrupoId(cicloGrupoIdActual);
-									if(!KardexConducta.deleteReg(conElias)){
+									if(KardexConducta.deleteReg(conElias)){
+										// Borrado exitoso
+									}else{
 										error = true;
 										break;
-									}//end if not delete
-								}//end if insert
-								else{
+									}
+								}else{
 									error = true;
 									break;
-								}//end if not insert
-							}//end if mapeó
-						}//end if get Conducta curso
-					}//end for evaluación
+								}
+							}//finaliza if mapeó
+						}
+					}//finaliza for evaluaciones
 				}
-			}//end if nivelEvaluación
+			}
 			else if(nivelEvaluacion.equals("P")){			/* Si es por Promedio */
 				for(int i = 0; lisPromedio.size() > i; i++){
 					//Checa si evalua asistencias
@@ -382,17 +401,19 @@
 							KardexFalta.setCicloGrupoId(cicloGrupoIdNuevo);
 							if(KardexFalta.insertReg(conElias)){
 								KardexFalta.setCicloGrupoId(cicloGrupoIdActual);
-								if(!KardexFalta.deleteReg(conElias)){
+								if(KardexFalta.deleteReg(conElias)){
+									// Se borró exitosamente
+								}else{
 									error = true;
 									break;
-								}//end if not delete
-							}//end if insert
-							else{ 
+								}
+							}else{ 
 								error = true;
 								break;
-							}//end if not insert
-						}//end if mapeó
-					}//end if get Falta curso
+							}
+						}//finaliza if mapeó
+					}
+					//Checa si evalua conducta
 					if(Curso.getConducta().equals("S")){
 						//Traspasa la conducta si es que tiene
 						KardexConducta.mapeaRegId(conElias, codigoAlumno, cicloGrupoIdActual, curso.getCursoId(), lisPromedio.get(i).getPromedioId(), "0");
@@ -400,19 +421,20 @@
 							KardexConducta.setCicloGrupoId(cicloGrupoIdNuevo);
 							if(KardexConducta.insertReg(conElias)){
 								KardexConducta.setCicloGrupoId(cicloGrupoIdActual);
-								if(!KardexConducta.deleteReg(conElias)){
+								if(KardexConducta.deleteReg(conElias)){
+									// Borrado exitoso
+								}else{
 									error = true;
 									break;
-								}//end if not delete
-							}//end if insert
-							else{ //if not insert
+								}
+							}else{
 								error = true;
 								break;
-							}//end if get Conducta curso
-						}//end if mapeó
+							}
+						}//finaliza if mapeó
 					}
-				}//end for evaluación
-			}//end if nivelEvaluación
+				}//finaliza for evaluaciones
+			}
 		}
 		
 		//COMMIT OR ROLLBACK TO DB
@@ -448,10 +470,11 @@
 	<% 
 	if(tipoTraspaso != 2){
 		if (!error && msj.equals("DatosModificados")){%>
-   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
-  	<% }else if(error){%>
-  		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
-  	<%}} %>
+   		  <div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
+  	<%  }else if(error){%>
+  		  <div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
+  	<%  }
+	} %>
 	<form action="cambioGrupo.jsp" method="post" name="frmCambio" id="frmCambio" target="_self">
 		<input type="hidden" name="Accion">
 		<input type="hidden" name="Grupo">
@@ -505,7 +528,7 @@
 						numCursos 		= aca.ciclo.CicloGrupoCurso.numCursosGrupo(conElias, cicloGrupoId);
 						numAlumnos 		= aca.kardex.KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoId);
 						if ((numCursos!=0 || numAlumnos!=0) && Alumno.getGrado().equals(grupo.getGrado()) && !Alumno.getGrupo().equals(grupo.getGrupo())){	
-							System.out.println(grupo.getGrupo()+": "+CicloGrupoNuevo.getGrupo().equals(grupo.getGrupo()));
+							//System.out.println(grupo.getGrupo()+": "+CicloGrupoNuevo.getGrupo().equals(grupo.getGrupo()));
 				%>    	
 			      	  		<option value="<%=cicloGrupoId %>" <%if(CicloGrupoNuevo.getGrupo().equals(grupo.getGrupo())) out.print("selected");%>><%=grupo.getGrupo()%></option>
 				<%		}
@@ -548,12 +571,16 @@
 	  		<h4 class="center">Se realizarán los siguientes cambios:</h4>
 	  		<table class="table table-bordered">
    			<tr>
+	   			<th>Id</th>
 	   			<th>Materia</th>
 	   			<th>Cambio</th>
 	   		</tr>
-	  		<%for(Map.Entry<String, Integer> matCambio : listMateriasCambios.entrySet() ){ %>
+	  		<%for(Map.Entry<String, Integer> matCambio : listMateriasCambios.entrySet() ){ 
+	  			Curso.mapeaRegId(conElias, matCambio.getKey());
+	  		%>
    				<tr>
 	   				<td><%=matCambio.getKey() %></td>
+	   				<td><%=Curso.getCursoNombre()%></td>
 	   				<td><%=msjCambio.get(matCambio.getValue()) %></td>
 	   			</tr>
 	   		<%}%>
