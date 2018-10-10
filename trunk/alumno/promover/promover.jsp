@@ -12,25 +12,21 @@
 <jsp:useBean id="AlumPlan" class="aca.alumno.AlumPlan" scope="page" />
 
 <script>
-	function Buscar() {
-		document.forma.Accion.value = "1";
-		document.forma.submit();
-	}
 
 	function Promover() {
-		if (document.forma.PlanId2.value != "Selecciona" && document.forma.grado2 != null && document.forma.grupo2 != null) {
-			document.forma.Accion.value = "2";
-			document.forma.submit();
+		if (document.formBuscar.PlanId2.value != "Selecciona" && document.formBuscar.grado2 != null && document.formBuscar.grupo2 != null) {
+			document.formBuscar.Accion.value = "2";
+			document.formBuscar.submit();
 		} else {
 			alert("<fmt:message key="aca.CompletaCampos"/>");
 		}
 	}
 
-	function seleccionarTodos(checkAll) {
+	function seleccionarTodos(CheckAll) {
 		var inputs = document.getElementsByTagName("INPUT");
 		for (i = 0; i < inputs.length; i++) {
 			if (inputs[i].type == "checkbox") {
-				inputs[i].checked = checkAll.checked;
+				inputs[i].checked = CheckAll.checked;
 			}
 		}
 	}
@@ -61,285 +57,289 @@
 	ArrayList<aca.ciclo.Ciclo> lisCiclo		= CicloLista.getListActivos(conElias, escuelaId, " ORDER BY CICLO_ID");
 	String [] arreglo 						= new String[0];// arreglo para guardar codigos_id a promover
 	
-	if(accion.equals("2")){
-		
-		ArrayList<aca.alumno.AlumPersonal> lisPro2	= AlumLista.getListPromover(conElias, escuelaId, ciclo, planId, grado, grupo, "ORDER BY NOMBRE");
-		arreglo 			= new String[lisPro2.size()];
-		
-		/* BEGIN TRANSACTION */
-		conElias.setAutoCommit(false);
-		boolean error = false;
-		
-		for (int i=0; i< lisPro2.size(); i++){
-			aca.alumno.AlumPersonal alum = (aca.alumno.AlumPersonal) lisPro2.get(i);
-			String alumnoSeleccionado = request.getParameter("Alum"+ (alum.getCodigoId()));
-		
-			if(alumnoSeleccionado!=null){// PROMOVER
-		
-				// DESACTIVAR EL PLAN ANTERIOR (SI ES QUE ES DIFERENTE AL NUEVO)
-				AlumPlan.setCodigoId(alum.getCodigoId());
-				AlumPlan.setPlanId(planId);
-				if (AlumPlan.existeReg(conElias) && !planId.equals(planId2) ){
-					if (AlumPlan.updateRegDesactivarPlan(conElias, alum.getCodigoId(), planId)){
-						//Se desactivo correctamente						
-					}else{
-						error = true;
-					}
-				}
-		
-				// ACTUALIZAMOS DATOS EN ALUM_PLAN
-				AlumPlan.setCodigoId(alum.getCodigoId());
-				AlumPlan.setPlanId(planId2);
-				if (AlumPlan.existeReg(conElias)){
-					AlumPlan.mapeaRegId(conElias, alum.getCodigoId(), planId2);
-					AlumPlan.setGrado(grado2);
-					AlumPlan.setGrupo(grupo2);
-					AlumPlan.setEstado("1");
-					if (AlumPlan.updateReg(conElias)){
-						//Se mofico en Alum_plan				
-					}else{
-						error = true;
-					}
-				}else{
-					AlumPlan.setCodigoId(alum.getCodigoId());
-					AlumPlan.setFInicio(fecha);
-					AlumPlan.setEstado("1");
-					AlumPlan.setPlanId(planId2);							
-					AlumPlan.setGrado(grado2);
-					AlumPlan.setGrupo(grupo2);
-					if (AlumPlan.insertReg(conElias)){
-						//Se grabo en Alum_plan						
-					}else{
-						error = true;
-					}
-				}
-								
-				// ACUTALIZAMOS DATOS EN ALUM_PERSONAL
-				if (error == false){
-					nivelId = aca.plan.Plan.getNivel(conElias, planId2);
-					Alum.setCodigoId(alum.getCodigoId());
-					Alum.setNivelId(nivelId);
-					Alum.setGrado(grado2);
-					Alum.setGrupo(grupo2);
-					if(Alum.existeReg(conElias)){
-						if (Alum.updateRegPromover(conElias)){
-							num++;
-							arreglo[contadorArreglo] = alum.getCodigoId();
-							contadorArreglo++;
-						}else{							
-							error = true;
-						}
-					}else{
-						error = true;
-					}	
-				}
-				
-			}//End if alumno seleccionado		  
-		}//End for que recorre alumnos
-		
-		
-		if(error == true){
-			conElias.rollback();
-			sResultado = "NoGuardo";
-		}else{
-			conElias.commit();
-			sResultado = "Guardado";
-		}
-		
-		/* END TRANSACTION */
-		conElias.setAutoCommit(true);
-		
-	}
 	
-	pageContext.setAttribute("resultado", sResultado);
 %>
-
-
 <div id="content">
-
-	<form action="promover.jsp" method="post" name="forma">
 		<input type="hidden" name="Accion">
-	
-		<h3><fmt:message key="boton.Buscar" /></h3>
+		<h3><fmt:message key="aca.PromoverAlumnos" /></h3>
+   		<div class='alert alert-info' id="info"><fmt:message key="aca.InstruccionPromover" /></div>
+   		<div class='alert alert-success' id="Resultado"></div>
+		<hr>
 		
-		<% if (sResultado.equals("Eliminado") || sResultado.equals("Modificado") || sResultado.equals("Guardado")){%>
-	   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
-	  	<% }else if(!sResultado.equals("")){%>
-	  		<div class='alert alert-danger'><fmt:message key="aca.${resultado}" /></div>
-	  	<%} %>
-		
-		<hr />
-	
 		<div class="row">
 			<div class="span4">
-				
-					<fieldset>
-						<label> <fmt:message key="aca.Ciclo" /></label> 
-						<select name="ciclo" id="ciclo" style="width: 310px;" onchange="refreshPlan();">
-							<option value="Selecciona" selected><fmt:message key="aca.SeleccionaP" /></option>
-							<%for(aca.ciclo.Ciclo cic : lisCiclo){%>
-								<option value="<%=cic.getCicloId() %>" <%if (cic.getCicloId().equals(ciclo)){ out.print("selected"); } %>><%=cic.getCicloNombre() %></option>
-							<%}%>
-						</select>
-					</fieldset>
-					<fieldset>
-						<label> <fmt:message key="aca.Plan"/> </label>
-						<select name="PlanId" id="PlanId">
-							<option value="Selecciona" selected><fmt:message key="aca.SeleccionaP" /></option>
-							<%for(aca.plan.Plan plan : lisPlan){%>
-								<option value="<%=plan.getPlanId() %>" <%if (plan.getPlanId().equals(planId)){ out.print("selected"); } %>><%=plan.getPlanNombre() %></option>
-							<%} %>	
-						</select>
-					</fieldset>
-					<fieldset>
-						<label> <fmt:message key="aca.Grado" /> </label> 
-						<input name="grado" type="text" id="grado" size="3" maxlength="2" value="<%=grado%>">
-					</fieldset>
-					<fieldset>	
-						<label> <fmt:message key="aca.Grupo" /> </label> 
-						<input name="grupo" type="text" id="grupo" size="3" maxlength="2" value="<%=grupo%>">
-					</fieldset>
-					
-					<div class="well">
-						<a class="btn btn-primary" id="buscar" onclick="javascript:Buscar()">
-							<i class="icon-search icon-white"></i> <fmt:message key="boton.Buscar" />
-						</a>
-					</div>
-				
-			</div>
-			
-			<div class="span4">
-				<%
-					if(accion.equals("1")||accion.equals("2")){ 
-				  	ArrayList<aca.alumno.AlumPersonal> lisPro	= AlumLista.getListPromover(conElias, escuelaId, ciclo, planId, grado, grupo, "ORDER BY NOMBRE");
-				%>
-					<table class="table table-condensed table-bordered">
-						<tr>
-							<th width="1%">
-								<input name="CheckAll" type="checkbox" value="S" checked onclick='javascript:seleccionarTodos(CheckAll)'>
-							</th>
-							<th width="5%">#</th>
-							<th width="8%"><fmt:message key="aca.Matricula" /></th>
-							<th width="30%"><fmt:message key="aca.Nombre" /></th>
-							<th width="2%"><fmt:message key="aca.Edad" /></th>
-						</tr>
-						<%int contador = 0; %>
-						<%for (aca.alumno.AlumPersonal alum : lisPro){%>
-							<%contador++; %>
-							<tr>
-								<td><input type="checkbox" id="alum" name="Alum<%=alum.getCodigoId()%>" value="<%=alum.getCodigoId()%>" /></td>
-								<td><%=contador%></td>
-								<td><%=alum.getCodigoId()%></td>
-								<td><%=alum.getNombre()+" "+alum.getApaterno()+" "+alum.getAmaterno()%></td>
-								<td><%=alum.getEdad(conElias, alum.getCodigoId())%></td>
-							</tr>
+			<h4><fmt:message key="aca.BuscarAlumnos" /></h4>
+				<form action="promover.jsp" method="post" name="formBuscar">
+				<fieldset>
+					<label><fmt:message key="aca.Ciclo" /></label> 
+					<select name="ciclo" id="ciclo" style="width: 310px;">
+						<option value="" selected><fmt:message key="aca.SeleccionaCiclo" /></option>
+						<%for(aca.ciclo.Ciclo cic : lisCiclo){%>
+							<option value="<%=cic.getCicloId() %>" <%if (cic.getCicloId().equals(ciclo)){ out.print("selected"); } %>><%=cic.getCicloNombre() %></option>
 						<%}%>
-					</table>
-				<%
-					}
-				%>
-			</div>
-		</div>
-		
-		<%if(accion.equals("1")||accion.equals("2")){%>
-			<h3><fmt:message key="aca.Promover" /></h3>
-		
-			<hr />
-		<%} %>
-		
-		<div class="row">
-			<div class="span4">
+					</select>
+				</fieldset>
+				<fieldset>
+					<label> <fmt:message key="aca.Plan"/> </label>
+					<select name="PlanId" id="PlanId">
+						<option value="" selected><fmt:message key="aca.SeleccionaPlan" /></option>
+						<%for(aca.plan.Plan plan : lisPlan){%>
+							<option value="<%=plan.getPlanId() %>" <%if (plan.getPlanId().equals(planId)){ out.print("selected"); } %>><%=plan.getPlanNombre() %></option>
+						<%} %>	
+					</select>
+				</fieldset>
+				<fieldset>
+					<label> <fmt:message key="aca.Grado" /> </label> 
+					<select name="grado" id="grado">
+						<option value="" selected><fmt:message key="aca.SeleccionaGdo" /></option>
+					</select>
+				</fieldset>
+				<fieldset>	
+					<label> <fmt:message key="aca.Grupo" /> </label> 
+					<select name="grupo" id="grupo">
+						<option value="" selected><fmt:message key="aca.SeleccionaGpo" /></option>
+					</select>
+				</fieldset>
 				
-				<%if(accion.equals("1")||accion.equals("2")){%>
-						
-						<fieldset>
-							<label><fmt:message key="aca.Plan" /></label>
-							<select name="PlanId2" id="PlanId2">
-								<option value="Selecciona" selected><fmt:message key="aca.SeleccionaP" /></option>
-								<%for(aca.plan.Plan plan : lisPlan){%>
-									<option value="<%=plan.getPlanId() %>" <%if (plan.getPlanId().equals(planId2)){ out.print("selected"); } %>><%=plan.getPlanNombre() %></option>
-								<%} %>
-							</select>
-						</fieldset>
-						
-						<fieldset>
-							<label><fmt:message key="aca.Grado" /></label>
-							<input name="grado2" type="text" id="grado2" size="3" maxlength="2" value="<%=grado2%>">
-						</fieldset>
-						
-						<fieldset>
-							<label><fmt:message key="aca.Grupo" /></label>
-							<input name="grupo2" type="text" id="grupo2" size="3" maxlength="2" value="<%=grupo2%>">
-						</fieldset>
-						
-						<div class="well">
-							<a class="btn btn-primary" onclick="Promover()">
-								<i class="icon icon-ok icon-white"></i> <fmt:message key="boton.Promovers" />
-							</a>
-						</div>
-						
-				<%}%>
+				<div class="well">
+					<a class="btn btn-primary" id="buscar" >
+						<i class="icon-search icon-white"></i> <fmt:message key="boton.Buscar" />
+					</a>
+				</div>
+				</form>
 				
 			</div>
 			
-			<div class="span4">
+			<div class="span4" id="tablaAlum"></div>
+		
+			<div class="span4" id="Promover">
+				<h4><fmt:message key="aca.PromoverA" /></h4>
 				
-				<%
-					if(accion.equals("2")){
-						ArrayList<aca.alumno.AlumPersonal> lisPro3	= AlumLista.getListPromover(conElias, escuelaId, ciclo, planId2, grado2, grupo2, "ORDER BY NOMBRE");
-				%>
-						<table class="table table-bordered table-condesed">
-							<tr>
-								<th width="5%">#</th>
-								<th width="8%"><fmt:message key="aca.Matricula" /></th>
-								<th width="30%"><fmt:message key="aca.Nombre" /></th>
-							</tr>
-							<%
-								int conta = 0;
-								for (aca.alumno.AlumPersonal alum : lisPro3){
-									boolean promovido = false;
-									conta++;
-									for(int k=0; k<arreglo.length; k++){
-										String temp = arreglo[k];
-										if(temp==null){
-											temp="";
-										}
-										if(temp.equals(alum.getCodigoId())){
-											promovido = true;
-										}
-									}
-							%>
-									<tr>
-										<td <%if(promovido==true){%> style="color: red" <%}%>><%=conta%></td>
-										<td <%if(promovido==true){%> style="color: red" <%}%>><%=alum.getCodigoId()%></td>
-										<td <%if(promovido==true){%> style="color: red" <%}%>><%=alum.getNombre()+" "+alum.getApaterno()+" "+alum.getAmaterno()%></td>
-									</tr>
-							<%
-								}	
-							%>
-
-					</table> 
-				<%
-					}
-				%>
+				<form action="promover.jsp" method="post" name="formPromover">
+				
+				<fieldset>
+					<label><fmt:message key="aca.Plan" /></label>
+					<select name="PlanId2" id="PlanId2">
+						<option value="" selected><fmt:message key="aca.SeleccionaPlan" /></option>
+						<%for(aca.plan.Plan plan : lisPlan){%>
+							<option value="<%=plan.getPlanId() %>" <%if (plan.getPlanId().equals(planId2)){ out.print("selected"); } %>><%=plan.getPlanNombre() %></option>
+						<%} %>
+					</select>
+				</fieldset>
+				
+				<fieldset>
+					<label><fmt:message key="aca.Grado" /></label>
+					<select name="grado2" id="grado2">
+						<option value="" selected><fmt:message key="aca.SeleccionaGdo" /></option>
+					</select>
+				</fieldset>
+				
+				<fieldset>
+					<label><fmt:message key="aca.Grupo" /></label>
+					<select name="grupo2" id="grupo2">
+						<option value="" selected><fmt:message key="aca.SeleccionaGpo" /></option>
+					</select>
+				</fieldset>
+				
+				
+				<br>
+				<br>
+				<br>
+				
+				<div class="well">
+					<a class="btn btn-primary" id="promover">
+						<i class="icon icon-ok icon-white"></i> <fmt:message key="boton.Promovers" />
+					</a>
+				</div>
+				</form>
 				
 			</div>
 		</div>
 		
-	</form>
 </div>
 
+
 <script>
-	function refreshPlan() {
 
-		jQuery('#PlanId').html('<option>Actualizando</option>');
-
-		var ciclo = document.forma.ciclo.value;
-
-		jQuery.get('getPlanes.jsp?ciclo=' + ciclo, function(data) {
-			jQuery("#PlanId").html(data);
+	$('#Promover').hide();
+	$('#Resultado').hide();
+	
+	$('#ciclo').change(function (){
+		$('#PlanId').html('<option>Actualizando</option>');
+		
+		var accion = '1';
+		var actualizar = 'plan';
+		var ciclo = document.formBuscar.ciclo.value;
+		var dataSend = 'Accion='+accion+'&Actualizar='+actualizar+'&ciclo='+ciclo;
+		
+		$.get('getPlanes.jsp?' + dataSend, function(data) {
+			$("#PlanId").html(data);
+			fnRefreshGrade();
 		});
+	});
+	
+	$('#PlanId').change(function(){
+	
+		fnRefreshGrade();
+	});
+		
+	function fnRefreshGrade(){
+		jQuery('#grado').html('<option>Actualizando</option>');
 
+		var accion = '1';
+		var actualizar = 'grado';
+		var plan = document.formBuscar.PlanId.value;
+		var dataSend = 'Accion='+accion+'&Actualizar='+actualizar+"&PlanId="+plan+"&escuelaId="+'<%=escuelaId%>';
+		
+		jQuery.get('getPlanes.jsp?' + dataSend, function(data) {
+			jQuery("#grado").html(data);
+			fnRefreshGroup();
+		});
 	}
+	
+	$('#grado').change(function(){
+		
+		fnRefreshGroup();
+	});
+		
+	function fnRefreshGroup(){
+		jQuery('#grupo').html('<option>Actualizando</option>');
+		
+		var accion = '1';
+		var actualizar = 'grupo';
+		var ciclo = document.formBuscar.ciclo.value;
+		var plan = document.formBuscar.PlanId.value;
+		var grado = document.formBuscar.grado.value;
+		var dataSend = 'Accion='+accion+'&Actualizar='+actualizar+"&ciclo="+ciclo+"&PlanId="+plan+"&grado="+grado+"&escuelaId="+'<%=escuelaId%>';
+		
+		jQuery.get('getPlanes.jsp?' + dataSend, function(data){
+			jQuery("#grupo").html(data);
+		});
+	}
+	
+	
+	
+	$('#PlanId2').change(function(){
+		
+		fnRefreshGrade2();
+	});
+		
+	function fnRefreshGrade2(){
+		jQuery('#grado2').html('<option>Actualizando</option>');
+	
+		var accion = '2';
+		var actualizar = 'grado';
+		var plan = document.formPromover.PlanId2.value;
+		var dataSend = "Accion="+accion+"&Actualizar="+actualizar+"&PlanId="+plan+"&escuelaId="+'<%=escuelaId%>';
+		
+		jQuery.get('getPlanes.jsp?' + dataSend, function(data) {
+			jQuery("#grado2").html(data);
+			fnRefreshGroup2();
+		});
+	}
+	
+	$('#grado2').change(function(){
+		
+		fnRefreshGroup2();
+	});
+		
+	function fnRefreshGroup2(){
+		jQuery('#grupo2').html('<option>Actualizando</option>');
+		
+		var accion = '2';
+		var actualizar = 'grupo';
+		var ciclo = document.formBuscar.ciclo.value;
+		var plan = document.formPromover.PlanId2.value;
+		var grado = document.formPromover.grado2.value;
+		var dataSend = "Accion="+accion+"&Actualizar="+actualizar+"&ciclo="+ciclo+"&PlanId="+plan+"&grado="+grado+"&escuelaId="+'<%=escuelaId%>';
+		
+		jQuery.get('getPlanes.jsp?' + dataSend, function(data) {
+			jQuery("#grupo2").html(data);
+		});
+	}
+	
+	$('#buscar').click(function(){
+		if($('#ciclo').val()==""){
+			alert("<fmt:message key='aca.SeleccionaCiclo'/>.");
+		}else{
+			var $accion = '1';
+			var $ciclo = document.formBuscar.ciclo.value;
+			var $planId = document.formBuscar.PlanId.value;
+			var $grado = document.formBuscar.grado.value;
+			var $grupo = document.formBuscar.grupo.value;
+			var dataSend = {Accion:$accion,
+							ciclo:$ciclo,
+							PlanId:$planId,
+							grado:$grado,
+							grupo:$grupo};
+			
+			$.get('ajaxPromover.jsp?'+$.param(dataSend), function(data){
+				$("#tablaAlum").html(data);
+				$('#Resultado').hide();
+				$('#Promover').show();
+			});
+		}
+	});
+	
+	
+	$('#promover').click(function(){
+		if($('#PlanId2').val()==""){
+			alert("<fmt:message key='aca.SeleccionaPlan'/>.");
+		}else{
+			// Se obtienen los datos del formulario
+			var $accion = '2'; // Promover
+			var $ciclo = document.formBuscar.ciclo.value;
+			var $planId = document.getElementById('planId').value;
+			var $grado = document.formBuscar.grado.value;
+			var $grupo = document.formBuscar.grupo.value;
+			var $planId2 = document.formPromover.PlanId2.value;
+			var $grado2 = document.formPromover.grado2.value;
+			var $grupo2 = document.formPromover.grupo2.value;
+			
+			// Se crea una lista con los codigos de los alumnos a promover
+			var $listaAlumnos = [];
+			$(':checkbox[name=Alum]').each(function(){
+				if(this.checked){
+					$listaAlumnos.push($(this).val());	
+				}
+			});
+			// Parámetros a enviar
+			var dataSend = { Accion:$accion, 
+							 ciclo:$ciclo, 
+							 PlanId:$planId, 
+							 grado:$grado, 
+							 grupo:$grupo,
+							 PlanId2:$planId2, 
+							 grado2:$grado2, 
+							 grupo2:$grupo2, 
+							 alumnos:$listaAlumnos };
+			
+			// Verifica que se hayan seleccionado alumnos
+			if($listaAlumnos.length){
+				
+				// Se envian los parametros al jsp
+				jQuery.get('ajaxPromover.jsp?'+$.param(dataSend), function(data){
+					// Se añade la lista de alumnos al HTML
+					jQuery("#tablaAlum").html(data);
+					if(continuar){
+						jQuery.get('ajaxPromover.jsp?continuar=1&'+$.param(dataSend), function(data){
+							$("#tablaAlum").html(data);
+						    var result = $('#result').val();
+							if(result=="1"){
+						    	$('#Resultado').html("<fmt:message key='aca.Guardado'/>");
+							} else if(result=="2"){ 
+								$('#Resultado').html("<fmt:message key='aca.NoGuardo'/>");
+						    	$('#Resultado').attr('class', 'alert alert-danger');
+							}					    
+					    	$('#Resultado').show();
+						});
+					}
+				});
+			} else {
+				alert("<fmt:message key='aca.NoAlumnoSeleccionado'/>.");
+			}
+		}
+		});
+	
 </script>
 <%@ include file="../../cierra_elias.jsp"%>
