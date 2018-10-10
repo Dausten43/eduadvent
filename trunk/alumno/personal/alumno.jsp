@@ -790,7 +790,7 @@
 						<%}%>
 	              	</select>
 	              	<%if(inscrito){ %>
-					<!--<a class="btn btn-primary" href="../cambiarGpo/cambioGrupo.jsp" style='margin-bottom:10px;'><i class="icon-file icon-white"></i> <fmt:message key="boton.Cambiar"/></a>-->
+						<a class="btn btn-primary" href="../cambiarGpo/cambioGrupo.jsp" style='margin-bottom:10px;'><i class="icon-file icon-white"></i> <fmt:message key="boton.Cambiar"/></a>
 					<%} %>
 	            </p>
 				<p>
