@@ -25,11 +25,9 @@
 	String periodoId	= aca.ciclo.CicloPeriodo.periodoActual(conElias, cicloId);
 	String sBgcolor		= "";
 	String edad			= "";
-	int i=0;
 	String Insc			= request.getParameter("ins");
 	
-	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = AlumnoLista.getListAlumnosGrado(conElias, escuelaId, cicloId, periodoId, nivelId, grado, " AND GRUPO='"+grupo+"' ORDER BY APATERNO, AMATERNO, NOMBRE, GRUPO");
-	
+	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = AlumnoLista.getListAlumnosGrado(conElias, escuelaId, cicloId, periodoId, nivelId, grado, "ORDER BY APATERNO, AMATERNO, NOMBRE, GRUPO");
 	java.util.HashMap<String,aca.alumno.AlumPadres> listTutores = AlumnoPadresLista.getMapEscuela(conElias, escuelaId);
 	java.util.HashMap<String,EmpPersonal> listPadres = new java.util.HashMap<String, EmpPersonal>();
 	String codigoPadre, codigoMadre, codigoTutor;
@@ -61,7 +59,7 @@
 	</div>
 
 	<div class="well">
-		<a href="grupo.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>		
+		<a href="grupo.jsp?ciclo=<%=cicloId%>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>		
 	</div>
 	
     <table class="table table-bordered table-condensed">
@@ -86,7 +84,7 @@
 	  	</tr>  
 		<%	
 			String colonia, direccion, telefono;
-	   		for (i=0; i< lisAlumnos.size(); i++){
+	   		for (int i=0, cont = 0; i< lisAlumnos.size(); i++){
 		    	aca.alumno.AlumPersonal alumno = (aca.alumno.AlumPersonal) lisAlumnos.get(i);
 	   
     			if (alumno.getGrupo().equals(grupo)){
@@ -95,7 +93,7 @@
     				telefono = listPadres.get(alumno.getCodigoId())==null?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono()==null?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono().equals("")?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono();
 		%>
 	  				<tr>
-						<td><%=i+1%></td>
+						<td><%=++cont%></td>
 						<td><%=alumno.getCodigoId()%></td>
 						<td><%=alumno.getApaterno()%>&nbsp;<%=alumno.getAmaterno()%>&nbsp;<%=alumno.getNombre()%></td>
 						<td><%=alumno.getCurp() %></td>
