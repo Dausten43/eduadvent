@@ -96,7 +96,7 @@ else{
 				lisGrupos = alumPersonalL.getListGrupos(conElias, nivel.getNivelId(), String.valueOf(j));
 				for(int k = 0; k < lisGrupos.size(); k++){
 					String grupo = ((String)lisGrupos.get(k));
-					lisAlumnos = alumPersonalL.getListAlumnosGrado(conElias, escuelaId, cicloId, periodoId, nivel.getNivelId(), String.valueOf(j), " AND GRUPO = '"+grupo+"' ORDER BY APATERNO, AMATERNO, NOMBRE, GRUPO");
+					lisAlumnos = alumPersonalL.getListAlumnosGrado(conElias, escuelaId, cicloId, periodoId, nivel.getNivelId(), String.valueOf(j), " AND C.GRUPO = '"+grupo+"' ORDER BY APATERNO, AMATERNO, NOMBRE, GRUPO");
 					
 					if(lisAlumnos.size() > 0){
 	%>
