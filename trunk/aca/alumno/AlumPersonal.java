@@ -1231,10 +1231,10 @@ public class AlumPersonal {
 		
 		try{
 			comando = "SELECT COUNT(CODIGO_ID) AS RESULTADO FROM ALUM_PERSONAL" +
-					" WHERE NIVEL_ID = '"+nivel+"' AND GRADO = '"+grado+"' "+
-					" AND GRUPO = '"+grupo+"'" +
-					" AND CODIGO_ID IN " +
-					" 	(SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"' AND ESTADO = 'I')" ;
+					" WHERE CODIGO_ID IN " +
+					" 	(SELECT CODIGO_ID FROM ALUM_CICLO WHERE CICLO_ID = '"+cicloId+"'"+
+							" AND NIVEL = '"+nivel+"' AND GRADO = '"+grado+"' "+
+							" AND GRUPO = '"+grupo+"' AND ESTADO = 'I')" ;
 			rs = st.executeQuery(comando);
 			if (rs.next()){
 				numAlum = rs.getInt("RESULTADO");
