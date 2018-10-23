@@ -50,7 +50,7 @@
   <h2>Reporte de Alumnos Inscritos</h2>
   <form name="forma" action="inscritos_grupo.jsp" method='post'>
   <div class="well">
-  	<select id="ciclo" name="ciclo" onchange="document.forma.submit();">
+  	<select id="ciclo" name="ciclo" onchange="document.forma.submit();" style="width:310px;">
 <%
 	for(int i = 0; i < lisCiclo.size(); i++){
 		Ciclo = (aca.ciclo.Ciclo) lisCiclo.get(i);
@@ -59,7 +59,7 @@
 <%	}%>
 	</select>
 	&nbsp;
-	<a onclick="location='inscritos.jsp'" class="btn btn-primary" ><i class="icon-th-list icon-white"></i> <fmt:message key="catalogo.ListaInscritos" /></a>
+	<a onclick="location='inscritos.jsp?ciclo=<%=ciclo%>'" class="btn btn-primary" ><i class="icon-th-list icon-white"></i> <fmt:message key="catalogo.ListaInscritos" /></a>
   </div>
   </form>
 <table class="table table-fullcondensed" width="80%">
@@ -194,7 +194,7 @@ for(int i=0; i<lisInscritos.size();i++){
 			  <td align="left"><%= aca.catalogo.CatEstado.getEstado(conElias, pais, estado)%></td>
 			  <td align="left"><%= aca.catalogo.CatCiudad.getCiudad(conElias,pais,estado,ciudad)%></td>
 			  <td align="left"><%= colonia%></td>
-			  <td align="left"><%= direccion%></td>
+			  <td width="150%" align="left"><%= direccion%></td>
 			  <td align="left"><%= telefono%></td>
 			  <td align="left"><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, inscrito.getClasfinId())%></td>
 			  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,religion)%></td>
