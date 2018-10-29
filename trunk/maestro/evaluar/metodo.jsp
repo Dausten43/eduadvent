@@ -166,17 +166,18 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 				<tr>
 					<td>
 						<%=act.getActividadNombre()%>
-<%				if( aca.ciclo.Ciclo.getEditarActividad(conElias, cicloId).equals("SI") ){ %>
+<%				if( aca.ciclo.Ciclo.getEditarActividad(conElias, cicloId).equals("SI")){ %>
 <%
 					if (!aca.ciclo.CicloGrupoEval.getEstado(conElias, cicloGrupoId, cursoId, Integer.parseInt(evaluacion.getEvaluacionId())).equals("C")) {
+						if(!act.getActividadId().equals("-1")){
+%> 	
+							<a href="actividad.jsp?Accion=4&EvaluacionId=<%=act.getEvaluacionId()%>&ActividadId=<%=act.getActividadId()%>&Valor=<%=act.getValor()%>">
+							<i class="icon-pencil"></i>
+							</a> 
+<%						
+						}if (!KrdxAlumActiv.tieneNotas(conElias, cicloGrupoId, cursoId, act.getEvaluacionId(), act.getActividadId())) {
 %> 
-						<a href="actividad.jsp?Accion=4&EvaluacionId=<%=act.getEvaluacionId()%>&ActividadId=<%=act.getActividadId()%>&Valor=<%=act.getValor()%>">
-						<i class="icon-pencil"></i>
-						</a> 
-<%
-						if (!KrdxAlumActiv.tieneNotas(conElias, cicloGrupoId, cursoId, act.getEvaluacionId(), act.getActividadId())) {
-%> 
-						<i class="icon-remove" onclick="borrarAct('<%=act.getEvaluacionId()%>','<%=act.getActividadId()%>');" ></i> 
+							<i class="icon-remove" onclick="borrarAct('<%=act.getEvaluacionId()%>','<%=act.getActividadId()%>');" ></i> 
 <%
 						}
 					}

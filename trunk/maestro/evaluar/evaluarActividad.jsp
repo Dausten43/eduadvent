@@ -363,7 +363,7 @@
 				<tr>
 					<td  class="text-center"><%=cont %></td>
 					<td>
-						<%if(estado.equals("A")){ %>
+						<%if(estado.equals("A") && !cicloGrupoActividad.getActividadId().equals("-1")){ %>
 							<a href="javascript:muestraInput('<%=cicloGrupoActividad.getActividadId()%>');">
 								<%=cicloGrupoActividad.getActividadNombre()%>
 							</a> 
