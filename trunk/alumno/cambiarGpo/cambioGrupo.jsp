@@ -159,9 +159,9 @@
 	}
 
 // Dejé libre la acción número dos por si fuere necesario agregar alguna otra de menor precedencia que el traspaso.
+
 // -------- CAMBIAR GRUPO ----------->
 	if(accion.equals("3")){
-		//System.out.println("cicloGrupoIdActual: "+cicloGrupoIdActual+" cicloGrupoIdNuevo: "+cicloGrupoIdNuevo);
 		
 		if(cicloGrupoIdNuevo.equals("")){
 			error = true;
@@ -182,7 +182,6 @@
 				if(!listIdCursos.contains(cicloGrupo.getCursoId())){
 					// Si la lista de Ids no lo contiene, es una materia que está en el destino y no el origen (6).
 					tipoTraspaso = tipoTraspaso!=-1?(tipoTraspaso<6?6:tipoTraspaso):tipoTraspaso;
-					System.out.println("curso.getCursoId() = "+cicloGrupo.getCursoId()+" || tipoTraspaso "+6);
 					listMateriasTraspaso.put(cicloGrupo.getCursoId(), new TreeMap<String, Integer>()
 						{{
 							this.put("0", 6);
@@ -210,47 +209,49 @@
 								if(CicloGrupoActividad.tieneActividades(conElias, cicloGrupoIdActual, curso.getCursoId(), eval.getEvaluacionId())){
 									// Checa si la evaluación del otro grupo tiene actividades
 									if(CicloGrupoActividad.tieneActividades(conElias, cicloGrupoIdNuevo, curso.getCursoId(), eval.getEvaluacionId())){
-										// TABLA
+										// Obtiene el estado de la evaluación
 										String estadoEval = cicloGrupoEvaluacion.getEstado(conElias, cicloGrupoIdNuevo, curso.getCursoId(), Integer.parseInt(eval.getEvaluacionId()));
+										// Checa que esté cerrada
 										if(estadoEval.equals("C")){
+											// Si está cerrada le asigna el tipo de traspaso
 											tipoTraspaso = tipoTraspaso!=-1?(tipoTraspaso<4?4:tipoTraspaso):tipoTraspaso;
 											dicTempEval.put(eval.getEvaluacionId(), 4);
-											//listMateriasTraspaso.put(curso.getCursoId(), new HashMap<String, Integer>(){{}});
 										}else{
+											// Si no está cerrada no se puede realizar el traspaso
 											tipoTraspaso = tipoTraspaso!=-1?(tipoTraspaso<7?7:tipoTraspaso):tipoTraspaso;
 											dicTempEval.put(eval.getEvaluacionId(), 7);
-											//listMateriasTraspaso.put(curso.getCursoId(), 7);
 										}
 									}else{
-										// No Importa. Se traspasa y se borran las calificaciones de las actividades (msj)
+										// No Importa. Se traspasa y se borran las calificaciones de las actividades
 										tipoTraspaso = tipoTraspaso!=-1?(tipoTraspaso<2?2:tipoTraspaso):tipoTraspaso;
 										dicTempEval.put(eval.getEvaluacionId(), 2);
-										//listMateriasTraspaso.put(curso.getCursoId(), 2);
 									}
 								}else{
 									// Checa si la evaluación del otro grupo tiene actividades
 									if(CicloGrupoActividad.tieneActividades(conElias, cicloGrupoIdNuevo, curso.getCursoId(), eval.getEvaluacionId())){
+										// Obtiene el estado de la evaluación
 										String estadoEval = cicloGrupoEvaluacion.getEstado(conElias, cicloGrupoIdNuevo, curso.getCursoId(), Integer.parseInt(eval.getEvaluacionId()));
+										// Checa que esté cerrada
 										if(estadoEval.equals("C")){
+											// Si está cerrada le asigna el tipo de traspaso
 											tipoTraspaso = tipoTraspaso!=-1?(tipoTraspaso<3?3:tipoTraspaso):tipoTraspaso;
 											dicTempEval.put(eval.getEvaluacionId(), 3);
-											//listMateriasTraspaso.put(curso.getCursoId(), 3);
 										}else{
+											// Si no está cerrada no se puede realizar el traspaso
 											tipoTraspaso = tipoTraspaso!=-1?(tipoTraspaso<7?7:tipoTraspaso):tipoTraspaso;
 											dicTempEval.put(eval.getEvaluacionId(), 7);
-											//listMateriasTraspaso.put(curso.getCursoId(), 7);
 										}
 									}else{
 										// No Importa (Se traspasa sin problema)
 										tipoTraspaso = tipoTraspaso!=-1?(tipoTraspaso<1?1:tipoTraspaso):tipoTraspaso;
 										dicTempEval.put(eval.getEvaluacionId(), 1);
-										//listMateriasTraspaso.put(curso.getCursoId(), 1);
 									}
 								}
 							}
 						}//finaliza for de evaluaciones
 						listMateriasTraspaso.put(curso.getCursoId(), new TreeMap<String, Integer>(dicTempEval));
 					}else{
+						// Si la materia no tiene calificaciones
 						tipoTraspaso = tipoTraspaso!=-1?(tipoTraspaso<0?0:tipoTraspaso):tipoTraspaso;
 						listMateriasTraspaso.put(curso.getCursoId(), new TreeMap<String, Integer>()
 							{{
@@ -269,12 +270,7 @@
 				}
 			}//finaliza for de curso
 		}//finaliza si es que no hubo error en CicloGrupoId
-		System.out.println("ERR " + error + " || tipoTraspaso " + tipoTraspaso);
-		for(Map.Entry<String, TreeMap<String, Integer>> list: listMateriasTraspaso.entrySet()){
-			for(Map.Entry<String, Integer> listEval: list.getValue().entrySet()){
-				System.out.println(list.getKey()+" => "+listEval.getKey()+" | "+listEval.getValue());
-			}
-		}
+		
 		/*
 		 *
 		 * Aquí va el traspaso por materia:
@@ -299,16 +295,18 @@
 			// El traspaso se realiza por cada materia en listMateriaTraspaso
 			for(Map.Entry<String, TreeMap<String, Integer>> materia: listMateriasTraspaso.entrySet()){
 				aca.kardex.KrdxCursoAct curso = new aca.kardex.KrdxCursoAct();
-				int tipo = -1;
+				
 				TreeMap<String, Integer> listTiposEval = materia.getValue();
+				// Este tipo se usa para saber si el tipo de traspaso es por materia (!-1) o por evaluación (-1)
+				int tipo = -1;
 				try{
+					// Intenta obtener el tipo de traspaso si es por materia
+					// Si no tiene nada con la llave "0" es que es por evaluación
 					tipo = materia.getValue().get("0");
 				}catch(Exception ex){
-					System.out.println("No tiene calificaciones");
 					tipo = -1;
 				}
 				
-				System.out.println("Materia: "+materia.getKey()+" => tipo: " + tipo);
 				// Se obtiene el objeto Materia con la que se trabajará
 				for(aca.kardex.KrdxCursoAct krdxCurso: listKrdxCursoAct){
 					if(krdxCurso.getCursoId().equals(materia.getKey())){
@@ -333,17 +331,9 @@
 					continue;
 				}
 				
-				/* if(tipo > 2){   // Se colocó para probar que funcione con tipo = {0, 1, 2, 5, 6}
-					error = true;
-					TodoSalioBien = false;    // Se colocó para que no traspase conductas y asistencias. Se borrará después.
-					System.out.println("Error => "+tipo+" | "+materia.getKey());
-					break;
-				} */
 				
 				// El traspaso de calificaciones lo realiza por evaluación
-				// ArrayList<aca.kardex.KrdxAlumEval> listCursoEval = KardexCursoEvalLista.getListAlumMat(conElias, codigoAlumno, cicloGrupoIdActual, curso.getCursoId(), "ORDER BY EVALUACION_ID");
-				// for(aca.kardex.KrdxAlumEval eval: listCursoEval){
-				   for(Map.Entry<String, Integer> eval: listTiposEval.entrySet()){
+				for(Map.Entry<String, Integer> eval: listTiposEval.entrySet()){
 					// OBTENER PROMEDIO
 					String evalId = eval.getKey();
 					int evalTipo = eval.getValue();
@@ -393,11 +383,16 @@
 						//Procesamos la nota si no es Panamá
 						BigDecimal calTmp = new BigDecimal(KardexAlumEval.getNota(), MATH_CTX);
 						if (escuelaId.substring(0,1).equals("H")){
-							calTmp = calTmp.multiply(new BigDecimal("100", MATH_CTX).divide(new BigDecimal(escala, MATH_CTX), MATH_CTX));
-							System.out.println("escala="+escala);
-							System.out.println("notamin="+notaMinima);
-							System.out.println("calTmp="+calTmp);
-							//Si es menor a la nota mínima se le asigna esta
+							// calTmp = calTmp.multiply(new BigDecimal("100", MATH_CTX).divide(new BigDecimal(escala, MATH_CTX), MATH_CTX));
+							
+							/* 
+							 * Panamá califica del 1 - 5 tanto a nivel evaluación como a nivel de actividades.
+							 * Falta checar como evaluar con diferentes tipos de evaluación. O sea, entender
+							 * como es que funciona la escala del ciclo.
+							 *
+							 */
+							 
+							// Si es menor a la nota mínima se le asigna esta
 							if(calTmp.compareTo(notaMinima) < 0) 
 								calTmp = notaMinima;
 						}else{
@@ -415,7 +410,6 @@
 							 * solo se agregará la calificación a esa.
 							 *
 							 */
-							System.out.println(calTmp.toString());
 							KardexAlumActiv.setActividadId("-1");
 							KardexAlumActiv.setCicloGrupoId(cicloGrupoIdNuevo);
 							KardexAlumActiv.setCodigoId(codigoAlumno);
@@ -496,8 +490,6 @@
 			if(!error){
 				TodoSalioBien = true;
 			}
-			
-			System.out.println("TodoSalioBien: " + TodoSalioBien + " | Error: " + error);
 			
 			/*
 			 * Es necesario traspasar las calificaciones de las faltas y la conducta. 
@@ -616,12 +608,10 @@
 			if(error){
 				conElias.rollback();
 				msj = "NoPosibleCompletar";
-				System.out.println("adentro");
 			}else{
 				conElias.commit();
 				msj = "DatosModificados";
 			}
-			System.out.println("mensaje: "+msj);
 			conElias.setAutoCommit(true);//** END TRANSACTION **	
 		}
 	}
@@ -707,9 +697,7 @@
 						String cicloGrupoId 	= aca.ciclo.CicloGrupo.getCicloGrupoId(conElias, nivelAlumno, grupo.getGrado(), grupo.getGrupo(), cicloId, planAlumno);
 						numCursos 		= aca.ciclo.CicloGrupoCurso.numCursosGrupo(conElias, cicloGrupoId);
 						numAlumnos 		= aca.kardex.KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoId);
-						System.out.println("Alumno grupo: "+Alumno.getGrupo()+" | Grupo: "+grupo.getGrupo());
 						if ((numCursos!=0 || numAlumnos!=0) && Alumno.getGrado().equals(grupo.getGrado()) && !Alumno.getGrupo().equals(grupo.getGrupo())){	
-							//System.out.println(grupo.getGrupo()+": "+CicloGrupoNuevo.getGrupo().equals(grupo.getGrupo()));
 				%>    	
 			      	  		<option value="<%=cicloGrupoId %>" <%if(CicloGrupoNuevo.getGrupo().equals(grupo.getGrupo())) out.print("selected");%>><%=grupo.getGrupo()%></option>
 				<%		}
@@ -737,7 +725,6 @@
 				try{
 					tipo = matCambio.getValue().get("0");
 				}catch(Exception ex){
-					System.out.println(tipo);
 					for(Map.Entry<String, Integer> eval: matCambio.getValue().entrySet()){
 						if(eval.getValue() >= 7){
 							Curso.mapeaRegId(conElias, matCambio.getKey());
