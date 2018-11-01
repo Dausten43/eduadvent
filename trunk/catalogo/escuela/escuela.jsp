@@ -34,7 +34,7 @@
 	<form action="" name="forma">	
 		<div class="well" style="overflow:hidden;">
 			<a class="btn btn-primary" href="accion.jsp?Accion=1&unionId=<%=unionId %>"><i class="icon-plus icon-white"></i>&nbsp;<fmt:message key="boton.Anadir" /></a>&nbsp;
-	 		<input type="text" class="input-medium search-query" placeholder="<fmt:message key="aca.Buscarr"/>" id="buscar">
+	 		<input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar"/>" id="buscar">
 	 
 	 		<select name="unionId" id="unionId" onchange="document.forma.submit()">
 	 		<%for(aca.catalogo.CatUnion union: uniones){%>
