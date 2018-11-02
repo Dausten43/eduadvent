@@ -1,3 +1,4 @@
+<%@page import="javafx.scene.layout.Border"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
@@ -186,7 +187,7 @@
 				
 				float headerwidths[] = {15f, 70f, 15f};
 				PdfPTable topTable = new PdfPTable(headerwidths);
-				topTable.setWidthPercentage(80f);
+				topTable.setWidthPercentage(100f);
 				topTable.setHorizontalAlignment(Element.ALIGN_CENTER);
 				topTable.setSpacingAfter(5f);
 				
@@ -207,14 +208,14 @@
         		}else{
         			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/logoIASD.png");
         		}
-	            //System.out.println("Ruta Boleta:"+dirFoto);
-	            jpg.setAlignment(Image.LEFT | Image.UNDERLYING);
-	            jpg.scaleAbsolute(50, 49);	            
+	            jpg.setAlignment(Element.ALIGN_CENTER);
+	            jpg.scaleToFit(64f,64f);
 	            
 	            cell = new PdfPCell();
-            	cell.addElement(jpg);
             	cell.setBorder(borde);
             	cell.setRowspan(4);
+            	cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            	cell.addElement(jpg);
 				topTable.addCell(cell);
 								
 				/* 
@@ -232,16 +233,15 @@
 	            jpg = null;
 				jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/MEDUCA.png");
         		
-	            //System.out.println("Ruta Boleta:"+dirFoto);
-	            jpg.setAlignment(Image.RIGHT | Image.UNDERLYING);
-	            jpg.scaleAbsolute(80, 49);	            
+	            jpg.setAlignment(Element.ALIGN_CENTER);
+	            jpg.scaleAbsolute(50f, 50f);            
 	            
 	            cell = new PdfPCell();
             	cell.addElement(jpg);
             	cell.setBorder(borde);
             	cell.setRowspan(4);
+            	cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				topTable.addCell(cell);
-				
 
 	            cell = new PdfPCell(new Phrase("MINISTERIO DE EDUCACIÓN", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
