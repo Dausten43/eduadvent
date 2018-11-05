@@ -209,7 +209,7 @@
         			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/logoIASD.png");
         		}
 	            jpg.setAlignment(Element.ALIGN_CENTER);
-	            jpg.scaleToFit(64f,64f);
+	            jpg.scaleToFit(70f,70f);
 	            
 	            cell = new PdfPCell();
             	cell.setBorder(borde);
@@ -234,7 +234,7 @@
 				jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/MEDUCA.png");
         		
 	            jpg.setAlignment(Element.ALIGN_CENTER);
-	            jpg.scaleAbsolute(50f, 50f);            
+	            jpg.scaleAbsolute(60f, 60f);            
 	            
 	            cell = new PdfPCell();
             	cell.addElement(jpg);
