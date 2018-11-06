@@ -141,7 +141,48 @@ public class FinAlumSaldos {
 					+ "auxiliar not in "
 					+ "		(select codigo_id from alum_ciclo where estado='I' and ciclo_id in "
 					+ "			( 	SELECT ciclo_id FROM CICLO where current_timestamp BETWEEN f_inicial AND f_final and ciclo_id like '"+ escuela_id +"%')) "
-					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N') group by auxiliar order by plan_id,nombre");
+					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')  group by auxiliar order by plan_id,nombre");
+			System.out.println(pst);
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()){
+				FinEdoCtaReporte fr = new FinEdoCtaReporte();
+				fr.setCodigoid(rs.getString("auxiliar"));
+				fr.setFfinal(rs.getString("fecham"));
+				fr.setNivelgradogrupo(rs.getString("plan"));
+				fr.setNombre(rs.getString("nombre"));
+				fr.setSaldo(rs.getBigDecimal("saldo").abs());
+				if(rs.getBigDecimal("saldo").compareTo(BigDecimal.ZERO)>=0){
+					fr.setNaturaleza("D");
+				}else{
+					fr.setNaturaleza("C");
+				}
+				salida.add(fr);
+			}
+			rs.close();
+			pst.close();
+			
+		}catch(SQLException sqle ){
+			System.err.println("Error en getSaldosNoMatriculados " + sqle);
+		}
+		return salida;
+		
+	}
+	
+	public List<FinEdoCtaReporte> getSaldosNoMatriculadosFecha(Connection con, String escuela_id, String fecha){
+		List<FinEdoCtaReporte> salida = new ArrayList<FinEdoCtaReporte>();
+		try{
+			PreparedStatement pst = con.prepareStatement("select  	"
+					+ "mo.auxiliar, alum_apellido(mo.auxiliar) as nombre, "
+					+ "alum_plan_id(mo.auxiliar) plan_id, 	"
+					+ "(select plan_nombre from plan where plan_id like '"+ escuela_id +"%' and plan_id=alum_plan_id(mo.auxiliar)) as plan,  	"
+					+ "COALESCE(SUM(mo.IMPORTE * CASE mo.NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO,  	"
+					+ "max(mo.fecha) as fecham  "
+					+ "from fin_movimientos mo where "
+					+ "auxiliar not in "
+					+ "		(select codigo_id from alum_ciclo where estado='I' and ciclo_id in "
+					+ "			( 	SELECT ciclo_id FROM CICLO where current_timestamp BETWEEN f_inicial AND f_final and ciclo_id like '"+ escuela_id +"%')) "
+					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N') and fecha::date <= to_date('"+fecha+"','dd-mm-yyyy') group by auxiliar order by plan_id,nombre");
 			System.out.println(pst);
 			ResultSet rs = pst.executeQuery();
 			

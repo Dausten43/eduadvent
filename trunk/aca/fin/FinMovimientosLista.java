@@ -545,6 +545,41 @@ public class FinMovimientosLista {
 		return map;
 	}
 	
+	public HashMap<String,String> getMapSaldosFecha(Connection conn, String escuelaId, String fecha) throws SQLException{
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		Statement st 				= conn.createStatement();
+		ResultSet rs 				= null;
+		String comando				= "";
+
+		try{//se cambio el query 
+			comando = "  SELECT alum_personal.codigo_id, alum_personal.escuela_id, alum_personal.nivel_id, "
+					+ "alum_personal.grado, alum_personal.grupo, "
+					+ "( SELECT COALESCE(sum("
+					+ "		CASE fin_movimientos.naturaleza "
+					+ "		WHEN 'C' THEN fin_movimientos.importe * (-1) "
+					+ "		ELSE fin_movimientos.importe * 1 END), 0) AS \"coalesce\" "
+					+ "FROM fin_movimientos           "
+					+ "WHERE fin_movimientos.auxiliar = alum_personal.codigo_id AND fin_movimientos.estado <> 'C' "
+					+ "AND (fin_movimientos.cuenta_id IN ( SELECT fin_cuenta.cuenta_id                    "
+					+ "FROM fin_cuenta                  "
+					+ " WHERE fin_cuenta.cuenta_aislada = 'N')) and fecha::date <= to_date('"+fecha+"','dd-mm-yyyy') ) AS saldo    FROM alum_personal where escuela_id='"+escuelaId+"'  ";
+			//System.out.println(comando);
+			rs = st.executeQuery(comando);
+			while (rs.next()){				
+				map.put(rs.getString("codigo_id"), rs.getString("SALDO"));
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.fin.FinMovmientosLista|getMapSaldos|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		
+		return map;
+	}
+	
 	public HashMap<String,String> getMapSaldos(Connection conn, String escuelaId) throws SQLException{
 		
 		HashMap<String,String> map = new HashMap<String,String>();
