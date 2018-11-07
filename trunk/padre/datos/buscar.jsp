@@ -140,7 +140,7 @@
 <%
 	if(!strResultado.equals("")){
 %>
-		<div class=""><fmt:message key="aca.${strResutado}" /></div>
+		<div class="alert"><fmt:message key="aca.${strResultado}" /></div>
 <%		
 	}
 %>
