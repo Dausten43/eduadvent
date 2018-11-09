@@ -9,7 +9,7 @@
 FinMovimientosLista fml = new FinMovimientosLista();
 
 if(request.getParameter("cta")!=null){
-	Map<String,FinSaldoAlumno> mapSaldos = fml.getMapSaldosCta(conElias, request.getParameter("cta"));
+	Map<String,FinSaldoAlumno> mapSaldos = fml.getMapSaldosCta(conElias, request.getParameter("cta"),request.getParameter("escuela"), request.getParameter("fechai"),request.getParameter("fechaf"));
 	
 	%>
 	

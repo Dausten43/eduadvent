@@ -1,3 +1,6 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="aca.fin.FinCuenta"%>
 <%@page import="java.util.List"%>
 <%@page import="aca.fin.FinCuentaLista"%>
@@ -14,14 +17,31 @@ String escuelaId = session.getAttribute("escuela")!=null ? (String) session.getA
 FinCuentaLista fc = new FinCuentaLista();
 List<FinCuenta> lsCuentas = fc.getListCuentas(conElias, escuelaId, " and CUENTA_AISLADA='S' ");
 
+Calendar cal = Calendar.getInstance();
+cal.set(Calendar.DAY_OF_MONTH,1);
+cal.set(Calendar.MONTH,0);
+
+
+
+String fecha = "";
+SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+fecha = sdf.format(new Date());
+
+if(request.getParameter("fecha")!=null){
+	fecha = request.getParameter("fecha");
+}
+String fechai = sdf.format(cal.getTime());
 
 %>
+<link rel="stylesheet" href="../../bootstrap/datepicker/datepicker.css" />
+<script type="text/javascript"	src="../../bootstrap/datepicker/datepicker.js"></script>
 <div class="well">
 <p>
 <a href="menu.jsp" class="btn btn-primary"><i class="icon-white icon-arrow-left"></i> Regresar</a>&nbsp;&nbsp;
 </p>
 	<h3>Saldos Cuentas de Abono</h3>
-	<p>
+	<form name="frmRptCta" action="" class="form-inline">
+	<div>
 		<select id="cta">
 		<% if(lsCuentas.size()>0){  %>
 			<option value="0">Seleccione...</option>
@@ -33,18 +53,25 @@ List<FinCuenta> lsCuentas = fc.getListCuentas(conElias, escuelaId, " and CUENTA_
 	 		<option value="0">No hay Cuentas Para Seleccionar...</option>
 	 	<% } %>	
 		</select>
-	</p>
+		<label>Fecha inicial:</label><input type="text" name="fechaI" id="fechaI" data-date-format="dd-mm-yyyy" value="<%=fechai%>"  class="form-control" style="width: 100px; text-align: center;" >
+		<label>Fecha final:</label><input type="text" name="fechaF" id="fechaF" data-date-format="dd-mm-yyyy" value="<%=fecha%>"  class="form-control" style="width: 100px; text-align: center;" >
+		<input type="hidden" name="escuela" id="escuela" value="<%= escuelaId  %>">
+		<input type="button" name="generar" id="generar" value="Generar" class="btn btn-success">
+		</div>
+	</form>
 </div>
 
 <div id="tablaArea">
 
 </div>
 <script>
+jQuery('#fechaI').datepicker();
+jQuery('#fechaF').datepicker();
 
-	$('#cta').change(function(){
-		console.log($(this).val());
-		if(!$.isNumeric($(this).val())){
-			var datadata ='cta=' + $(this).val();
+	$('#generar').click(function(){
+		console.log($('#cta').val());
+		if(!$.isNumeric($('#cta').val())){
+			var datadata ='cta=' + $('#cta').val()+ '&escuela='+$('#escuela').val() + '&fechai=' + $('#fechaI').val() + '&fechaf=' + $('#fechaF').val();
 			$.ajax({url: 'ajaxCuentasAbono.jsp',
                 type: "post",
                 data: datadata,
