@@ -606,7 +606,7 @@ public class FinMovimientosLista {
 		return map;
 	}
 	
-public HashMap<String,FinSaldoAlumno> getMapSaldosCta(Connection conn, String cuenta) throws SQLException{
+public HashMap<String,FinSaldoAlumno> getMapSaldosCta(Connection conn, String cuenta, String escuela, String fechai, String fechaf) throws SQLException{
 		
 		HashMap<String,FinSaldoAlumno> map = new HashMap<String,FinSaldoAlumno>();
 		Statement st 				= conn.createStatement();
@@ -622,7 +622,7 @@ public HashMap<String,FinSaldoAlumno> getMapSaldosCta(Connection conn, String cu
 					+ "end) saldo "
 					+ "from fin_movimientos mv "
 					+ "join alum_personal ap on ap.codigo_id=mv.auxiliar "
-					+ "where mv.ejercicio_id like 'H99%' and mv.estado <> 'C' and mv.cuenta_id='"+cuenta+"' "
+					+ "where mv.ejercicio_id like '"+escuela+"%' and mv.estado <> 'C' and mv.cuenta_id='"+cuenta+"'  and fecha::date between to_date('"+fechai+"','dd-mm-yyyy')  and to_date('"+fechaf+"','dd-mm-yyyy')"
 					+ "group by mv.auxiliar,ap.nombre, ap.apaterno, ap.amaterno";
 			
 			rs = st.executeQuery(comando);
@@ -648,6 +648,48 @@ public HashMap<String,FinSaldoAlumno> getMapSaldosCta(Connection conn, String cu
 		return map;
 	}
 	
+
+public HashMap<String,FinSaldoAlumno> getMapSaldosCtaAbono(Connection conn, String cuenta, String escuela) throws SQLException{
+	
+	HashMap<String,FinSaldoAlumno> map = new HashMap<String,FinSaldoAlumno>();
+	Statement st 				= conn.createStatement();
+	ResultSet rs 				= null;
+	String comando				= "";
+
+	try{//se cambio el query 
+		comando = "select auxiliar, ap.nombre, ap.apaterno, ap.amaterno,"
+				+ "sum(	"
+				+ "case mv.naturaleza 	"
+				+ "when 'C' then mv.importe*(1)  "
+				+ "else mv.importe*(-1) "
+				+ "end) saldo "
+				+ "from fin_movimientos mv "
+				+ "join alum_personal ap on ap.codigo_id=mv.auxiliar "
+				+ "where mv.ejercicio_id like '"+escuela+"%' and mv.estado <> 'C' and mv.cuenta_id='"+cuenta+"' "
+				+ "group by mv.auxiliar,ap.nombre, ap.apaterno, ap.amaterno";
+		
+		rs = st.executeQuery(comando);
+		while (rs.next()){				
+			
+			FinSaldoAlumno sa = new FinSaldoAlumno();
+			sa.setAuxiliar(rs.getString("auxiliar"));
+			sa.setNombre(rs.getString("nombre"));
+			sa.setApaterno(rs.getString("apaterno"));
+			sa.setAmaterno(rs.getString("amaterno"));
+			sa.setSaldo(rs.getBigDecimal("saldo"));
+			
+			map.put(rs.getString("auxiliar"), sa);
+		}
+		
+	}catch(Exception ex){
+		System.out.println("Error - aca.fin.FinMovmientosLista|getMapSaldos|:"+ex);
+	}finally{
+		if (rs!=null) rs.close();
+		if (st!=null) st.close();
+	}
+	
+	return map;
+}
 	
 	public HashMap<String,String> getMapSaldosAlumDeudores(Connection conn, String codigoId) throws SQLException{
 		
