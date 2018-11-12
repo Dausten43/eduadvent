@@ -8,6 +8,7 @@
 <jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 <jsp:useBean id="kardexLista" scope="page" class="aca.kardex.KrdxCursoActLista"/>
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
+<jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="plan" scope="page" class="aca.plan.Plan"/>
 <jsp:useBean id="cicloGrupoCursoLista" scope="page" class="aca.ciclo.CicloGrupoCursoLista"/>
 <jsp:useBean id="cicloGrupoCurso" scope="page" class="aca.ciclo.CicloGrupoCurso"/>
@@ -15,20 +16,34 @@
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista"/>
 <jsp:useBean id="GrupoEvalLista" scope="page" class="aca.ciclo.CicloGrupoEvalLista"/>
 <%	
-
-	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("###,##0.0;-###,##0.0");
-	java.text.DecimalFormat frmDecimal2 = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
-	
-	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
-	
 	String escuelaId	= (String) session.getAttribute("escuela");
-		
+	
 	if(request.getParameter("Ciclo")!=null){
 		session.setAttribute("cicloId", request.getParameter("Ciclo"));
 	}
-	String cicloId 		= (String)session.getAttribute("cicloId");
 	
+	String cicloId 		= (String)session.getAttribute("cicloId");
 	cicloGrupo.mapeaRegId(conElias, request.getParameter("CicloGrupoId"));
+
+	java.text.DecimalFormat frmDecimal;
+	java.text.DecimalFormat frmDecimal2 = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	
+	ciclo.mapeaRegId(conElias, cicloId);
+	
+	if(ciclo.getDecimales().equals("1")){
+		frmDecimal = new java.text.DecimalFormat("###,##0.0;-###,##0.0");
+	}else{
+		frmDecimal = new java.text.DecimalFormat("##0;-##0");
+	}
+	
+	if(ciclo.getRedondeo().equals("T")){
+		frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
+	}else{
+		frmDecimal.setRoundingMode(java.math.RoundingMode.HALF_UP);
+	}
+	
+	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
+	
 %>
 <div id="content">
 	<h2><fmt:message key="aca.PromedioGeneral"/></h2>
@@ -57,11 +72,11 @@
 		String materias[] = new String[lisMaterias.size()];
 		
 		//Almacena los promedios por materia
-		double promMaterias[] = new double[lisMaterias.size()];
+		BigDecimal promMaterias[] = new BigDecimal[lisMaterias.size()];
 		
 		//Almacena el total de alumnos por materia
-		double alumMaterias[] = new double[lisMaterias.size()];
-		
+		int alumMaterias[] = new int[lisMaterias.size()];
+	
 	%>		
 		<table class="table table-condensed table-nohover ">
 			<tr>
@@ -75,7 +90,9 @@
 				cicloGrupoCurso = (aca.ciclo.CicloGrupoCurso) lisMaterias.get(i);
 				
 				// inicializa a cero el promedio y el numero de alumnos en cada materia
-				promMaterias[i] = 0; alumMaterias[i] = 0; materias[i]="x";
+				promMaterias[i] = new BigDecimal(0, mc); 
+				alumMaterias[i] = 0;
+				materias[i]="x";
 				
 				// Obtiene el nombre de la materia
 				materias[i] = aca.plan.PlanCurso.getCursoNombre(conElias, cicloGrupoCurso.getCursoId());
@@ -100,7 +117,12 @@
 	
 	String materia 		= "";
 	
-	double promGral=0, prom1=0, prom2=0, prom3=0;
+
+	BigDecimal promGral = new BigDecimal(0,mc);
+	BigDecimal prom1 = new BigDecimal(0,mc);
+	BigDecimal prom2 = new BigDecimal(0,mc);
+	BigDecimal prom3 = new BigDecimal(0,mc);
+	
 	int todos=0, tipo1=0, tipo2=0, tipo3=0;
 	String tipoCurso 	= "";
 	String promMateria 	= "";
@@ -113,15 +135,15 @@
 			Despliega la matricula, nombre y promedio del alumno en cada materia, además calcula el promedio de la materia.
 		*/
 		String alumno 	= "";
-		String nota		= "";
-		double prom 	= 0.0;
+		BigDecimal nota;
+		BigDecimal prom;
 		
 		for(int j = 0; j < lisAlumnos.size(); j++){		
 			alumno = (String) lisAlumnos.get(j);
 			String nombreAlumno = aca.alumno.AlumPersonal.getNombre(conElias, alumno, "APELLIDO");
 			
 			// Calcula el promedio del alumno
-			double promAlum = 0;
+			BigDecimal promAlum = new BigDecimal(0,mc);
 			int numMaterias = 0;
 		
 	%>
@@ -141,7 +163,8 @@
 				if (treeCurso.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno)){
 					aca.kardex.KrdxCursoAct kardex = (aca.kardex.KrdxCursoAct) treeCurso.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno);
 					
-					nota = "0"; prom = 0;
+					String notaStr = "0"; 
+					prom = new BigDecimal(0, mc);
 					
 					// Si tiene la materia cuenta el alumno para promediar
 					alumMaterias[i]++;
@@ -150,34 +173,35 @@
 					if(kardex.getTipoCalId().equals("1")){
 						if (treeProm.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+kardex.getCodigoId())){
 							aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno);
-							prom = Double.parseDouble(alumProm.getPromedio())+Double.parseDouble(alumProm.getPuntosAjuste());
-							nota =  String.valueOf(prom);
+							prom = new BigDecimal(alumProm.getPromedio(), mc).add(new BigDecimal(alumProm.getPuntosAjuste(), mc), mc);
+							notaStr =  String.valueOf(prom);
 						}
-						if(nota.trim().equals("0.0")||nota.trim().equals("0.5")) nota = "0";					
+						if(notaStr.trim().equals("0.0")||notaStr.trim().equals("0.5")) notaStr = "0";					
 						
 					// Si ya esta cerrado el ordinario	
 					}else if(kardex.getTipoCalId().equals("2") || kardex.getTipoCalId().equals("3")){
-						nota = kardex.getNota();
+						notaStr = kardex.getNota();
 					
-					// Si tiene nota extraordinaria	
+					// Si tiene notaStr extraordinaria	
 					}else if(kardex.getTipoCalId().equals("4") || kardex.getTipoCalId().equals("5")){
-						nota = kardex.getNotaExtra();
+						notaStr = kardex.getNotaExtra();
 					}
+					nota = new BigDecimal(notaStr,  mc);
 					// Seccion para promediar de acuerdo al tipo de materia(Oficial, no oficial e ingles)
 					// Pendiente de implementar en la presentación de los datos
 					tipoCurso = aca.plan.PlanCurso.getTipocurso(conElias,kardex.getCursoId());
-					if (nota!=null && !nota.equals("0")){
+					if (notaStr!=null && !notaStr.equals("0")){
 						if ( tipoCurso.equals("1")){
 							tipo1++;
-							prom1 += Double.valueOf(nota).doubleValue();
+							prom1 = prom1.add(nota, mc);
 						}else if(tipoCurso.equals("2")){
 							tipo2++;
-							prom2 += Double.valueOf(nota).doubleValue();
+							prom2 = prom2.add(nota, mc);
 						}else if(tipoCurso.equals("3")){
 							tipo3++;
-							prom3 += Double.valueOf(nota).doubleValue();
+							prom3 = prom3.add(nota, mc);
 						}
-						promMaterias[i] += Double.valueOf(nota).doubleValue();
+						promMaterias[i] = promMaterias[i].add(nota, mc);
 					}
 					//System.out.println("Datos:"+lisMaterias.size()+":"+alumno+":"+materias[i]+":"+nota);
 	%>
@@ -186,12 +210,12 @@
 									style="width:100%;height:100%;text-align:center;"
 									title="<%=materias[i] %> "
 								>
-								<%=frmDecimal.format(Double.valueOf(nota))%>
+								<%=frmDecimal.format(nota)%>
 								</div>
 							</td>
 	<%				
 					//Calcula el promedio del alumno
-					promAlum += Double.valueOf(nota);
+					promAlum = promAlum.add(nota, mc);
 					numMaterias++;
 					
 				}else{
@@ -207,7 +231,7 @@
 	<%						
 				}
 			} // fin de for de lista de materias
-			promAlum = promAlum/numMaterias;
+			promAlum = promAlum.divide(new BigDecimal(numMaterias, mc), mc);
 	%>
 							<td>
 								<div 
@@ -230,17 +254,17 @@
 					int totMaterias=lisMaterias.size();
 					for(int i = 0; i < lisMaterias.size(); i++){
 						if(alumMaterias[i]!=0){
-							promMaterias[i] 	= promMaterias[i]/alumMaterias[i];
+							promMaterias[i] = promMaterias[i].divide(new BigDecimal(alumMaterias[i], mc), mc);
 						}
 						else{
-							promMaterias[i] 	= 0;
+							promMaterias[i] = new BigDecimal(0, mc);
 						}
-						promMateria 		= frmDecimal2.format(promMaterias[i]);
+						promMateria = frmDecimal2.format(promMaterias[i]);
 						
 						if (Double.parseDouble(promMateria) < 1){ 
 							totMaterias--;
 						}else{
-							promGral 			+=  Double.valueOf(promMateria).doubleValue();
+							promGral = promGral.add(new BigDecimal(promMateria, mc), mc);
 						}	
 						
 	%>
@@ -254,12 +278,12 @@
 							</th>
 	<%				}
 					if(totMaterias!=0){
-						promGral 		= promGral / totMaterias;
+						promGral = promGral.divide(new BigDecimal(totMaterias, mc), mc);
 					}
 					else{
-						promGral 		= 0;
+						promGral = new BigDecimal(0, mc);
 					}
-					promGrupo 		= frmDecimal2.format(promGral);
+					promGrupo = frmDecimal2.format(promGral);
 	%>										
 						<th>
 							<div 
