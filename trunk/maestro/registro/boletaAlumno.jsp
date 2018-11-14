@@ -10,6 +10,7 @@
 
 <jsp:useBean id="AlumPersonal" scope="page" class="aca.alumno.AlumPersonal" />
 <jsp:useBean id="Grupo" scope="page" class="aca.ciclo.CicloGrupo" />
+<jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista" />
 <jsp:useBean id="AlumProm" scope="page" class="aca.vista.AlumnoProm" />
 <jsp:useBean id="kardex" scope="page" class="aca.kardex.KrdxCursoAct" />
@@ -19,9 +20,6 @@
 <jsp:useBean id="CatEscuela" scope="page" class="aca.catalogo.CatEscuela"/>
 <jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 <%
-	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
 	
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloId 			= (String) session.getAttribute("cicloId");
@@ -44,11 +42,17 @@
 	int evalcerradas		= 0;
 	
 	double promTotal 		= 0;
-	
+
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
+	formato0.setRoundingMode(java.math.RoundingMode.HALF_UP );
+	formato1.setRoundingMode(java.math.RoundingMode.HALF_UP );
+	formato2.setRoundingMode(java.math.RoundingMode.HALF_UP );
 	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)");
-	DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)");	
-	
-	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);	
+	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
+	//DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)");
+	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
 	
 	String msj 			= "";
 	if(accion.equals("1")){
@@ -248,8 +252,16 @@
 							
 							// Formato de la evaluacion
 							String notaFormato = formato0.format(notaEval);
-							if (cicloBloque.getDecimales().equals("1")) 
+							if (cicloBloque.getDecimales().equals("1")){
 								notaFormato = formato1.format(notaEval);
+							}
+							if(cicloBloque.getRedondeo().equals("T")){
+								formato0.setRoundingMode(java.math.RoundingMode.DOWN);
+								formato1.setRoundingMode(java.math.RoundingMode.DOWN);
+							} else{
+								formato0.setRoundingMode(java.math.RoundingMode.HALF_UP);
+								formato1.setRoundingMode(java.math.RoundingMode.HALF_UP);
+							}
 							
 							// Inserta columnas de evaluaciones (Habilitado para modificar aunque este cerrado el bimestre)
 							if(estadoEval.equals("A") || estadoEval.equals("C")){
@@ -284,7 +296,16 @@
 					}else if (cicloPromedio.getDecimales().equals("2")){
 						promFormato 		= formato2.format(promEval);
 						puntosFormato 		= formato2.format(puntosEval);
-					}	
+					}
+					if(cicloPromedio.getRedondeo().equals("T")){
+						formato0.setRoundingMode(java.math.RoundingMode.DOWN);
+						formato1.setRoundingMode(java.math.RoundingMode.DOWN);
+						formato2.setRoundingMode(java.math.RoundingMode.DOWN);
+					}else{
+						formato0.setRoundingMode(java.math.RoundingMode.HALF_UP);
+						formato1.setRoundingMode(java.math.RoundingMode.HALF_UP);
+						formato2.setRoundingMode(java.math.RoundingMode.HALF_UP);
+					}
 					
 					// Color del promedio
 					String colorProm = "color:blue;";
@@ -298,14 +319,17 @@
 					// Inserta columna de los puntos
 					out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
 				}
-				if (lisPromedio.size() > 1){
-					out.print("<td class='text-center' width='2%'>"+alumCurso.getNota()+"</td>");
-				}
+
+					java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias, cicloGrupoId,"");
+					aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId+alumCurso.getCursoId()+codigoAlumno);
+					BigDecimal prom = new BigDecimal(alumProm.getPromedio(), mc).add(new BigDecimal(alumProm.getPuntosAjuste(), mc), mc);
+					out.print("<td class='text-center' width='2%'>"+prom+"</td>");
+					
 				if (evalcerradas>0 && evalcerradas == lisBloque.size()){
 %>				
 				<td>
 					<a href="notasMetodo.jsp?Accion=1&CursoId=<%=alumCurso.getCursoId()%>&CicloGrupoId=<%=cicloGrupoId %>&CodigoAlumno=<%=codigoAlumno %>&EvaluacionId=0" class="btn btn-primary btn-mini">
-						<i class="icon-refresh icon-white"></i>
+						<i class="icon-refresh icon-black"></i>
 					</a>
 				</td>
 
