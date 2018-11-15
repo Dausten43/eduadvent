@@ -318,8 +318,6 @@
 		cicloGrupoCurso.updateReg(conElias);
 	}
 	
-	
-	
 	//LISTA DE ALUMNOS
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos			= krdxCursoActL.getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ORDEN, ALUM_APELLIDO(CODIGO_ID)");
 	ArrayList<aca.kardex.KrdxAlumExtra> lisKardexAlumnosExtra	= kardexAlumnoExtra.getAlumnoExtra(conElias, codigoId, cicloGrupoId, cursoId);
@@ -471,7 +469,6 @@
 		}
 	}
 
-
 //------------- GUARDA CALIFICACIONES DE UNA EVALUACION ------------->
 	if (accion.equals("1")) {
 		String evaluacion 		= request.getParameter("Evaluacion");
@@ -486,6 +483,7 @@
 			kardexEval.setCursoId(cursoId);
 			kardexEval.setEvaluacionId(evaluacion);
 			String nota = request.getParameter("nota" + cont + "-" + evaluacion);
+			
 			if (nota != null) {
 				if (nota.equals("")){//Si no tiene nota entonces eliminala si es que existe, si no pues ignora esa nota 
 					
@@ -1732,13 +1730,15 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 						%>
 								<td class="text-center"><div><%=strNota%></div>
 									<!-- INPUT PARA EDITAR LAS NOTAS (ESCONDIDO POR DEFAULT) -->
-									<%if (!kardex.getTipoCalId().equals("6") && estadoEval.equals("A") ) { /* Si el alumno no se ha dado de baja puede editar su nota */ %>
+									<%if (!kardex.getTipoCalId().equals("6") && estadoEval.equals("A") ) { /* Si el alumno no se ha dado de baja puede editar su nota */
+										int decimales = Integer.parseInt(cicloBloque.getDecimales());%>
 										<div class="editar<%=cicloBloque.getBloqueId() %>" style="display:none;">
 											<input 
 												style="margin-bottom:0;text-align:center;" 
 												class="input-mini onlyNumbers" 
 												data-allow-decimal="<%=evaluaConPunto.equals("S")?"si":"no" %>"
 												data-max-num="<%=escala %>"
+												maxlength = "<%=(int)(Math.log10(escala)+1)+decimales%>"
 												type="text" 
 												tabindex="<%=i+1%>" 
 												name="nota<%=i%>-<%=cicloBloque.getBloqueId()%>"
