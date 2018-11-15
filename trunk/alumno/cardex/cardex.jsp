@@ -11,11 +11,13 @@
 <jsp:useBean id="CicloPromedioL" scope="page" class="aca.ciclo.CicloPromedioLista"/>
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="AlumnoCursoL" scope="page" class="aca.vista.AlumnoCursoLista"/>
+<jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista" />
 <%	
 	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
 	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
 	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
 	java.text.DecimalFormat formato4	= new java.text.DecimalFormat("##0.0000;-##0.0000");
+	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoAlumno");
@@ -284,15 +286,16 @@
 						
 						// Inserta columna de los puntos
 						//out.print("<td class='text-center' width='2%' title='' style='"+colorProm+"'>"+puntosFormato+"</td>");
-					
-						promedioFinal = promedioFinal + (Double.parseDouble(promFormato) * Double.parseDouble(cicloPromedio.getValor()) / escalaEval);
-					
 					}
-					
-					String muestraPromedioFinal = Double.toString(promedioFinal);
+
+					java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias, cicloGrupoId,"");
+					aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId+alumCurso.getCursoId()+codigoId);
+					BigDecimal promFinalCurso = new BigDecimal(alumProm.getPromedio(), mc).add(new BigDecimal(alumProm.getPuntosAjuste(), mc), mc);
+
+					String promConRedondeo = aca.ciclo.Ciclo.numRedondeo(conElias, String.valueOf(promFinalCurso), Integer.parseInt(aca.ciclo.Ciclo.getDecimales(conElias, ciclo.getCicloId())), redondeoCiclo);
 
 					if (lisPromedio.size() > 1){
-						out.print("<td class='text-center' width='2%'>"+muestraPromedioFinal+"</td>");
+						out.print("<td class='text-center' width='2%'>"+promConRedondeo+"</td>");
 					}
 %>
 			<td class="text-center" width="5%"><%if(alumCurso.getFNota() == null) out.print("-"); else out.print(alumCurso.getFNota()); %></td>
