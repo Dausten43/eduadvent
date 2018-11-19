@@ -823,7 +823,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 				String notaExtra = request.getParameter("notaExtra2"+cont)==null?"0":request.getParameter("notaExtra2"+cont);
 				
 				if (!notaExtra.equals("")) {			
-					System.out.println("Datos:"+notaExtra);
+					//System.out.println("Datos:"+notaExtra);
 					/* OBTIENE EL PROMEDIO DEL EXTRAORDINARIO ANTERIOR (#1) **/
 					double promAnt = Double.parseDouble(aca.kardex.KrdxAlumExtra.getPromedio(conElias, kardex.getCodigoId(), kardex.getCicloGrupoId(), kardex.getCursoId(), "1"));				
 						
@@ -1086,7 +1086,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 								if( cantidadMaterias.compareTo(BigDecimal.ZERO) == 0 || sumaNotas.compareTo(new BigDecimal("1")) == -1 ){
 									kardexProm.setNota("0");
 								}else{
-									System.out.println(sumaNotas+":"+cantidadMaterias+":"+sumaNotas.divide(cantidadMaterias, 2, RoundingMode.HALF_UP));
+									//System.out.println(sumaNotas+":"+cantidadMaterias+":"+sumaNotas.divide(cantidadMaterias, 2, RoundingMode.HALF_UP));
 									kardexProm.setNota( sumaNotas.divide(cantidadMaterias, 2, RoundingMode.HALF_UP ).toString());
 								}
 								
@@ -1654,7 +1654,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 						aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId + cursoId + kardex.getCodigoId());
 						promedio = Double.parseDouble(alumProm.getPromedio());
 					} else {
-						System.out.println("No encontro el promedio de:" + kardex.getCodigoId());
+						//System.out.println("No encontro el promedio de:" + kardex.getCodigoId());
 					}
 			%>
 					<tr>
@@ -1693,7 +1693,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 									double notaEval = 0;
 									if (treeNota.containsKey(cicloGrupoId + cursoId + cicloBloque.getBloqueId() + kardex.getCodigoId())) {
 										notaEval = Double.parseDouble(treeNota.get(cicloGrupoId+cursoId+cicloBloque.getBloqueId()+kardex.getCodigoId()).getNota());
-										System.out.println("nota eval " + notaEval);
+										//System.out.println("nota eval " + notaEval);
 										// Formato de la evaluacion
 										strNota = formato0.format(notaEval);
 										if (cicloBloque.getDecimales().equals("1")) 
@@ -1738,7 +1738,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 												class="input-mini onlyNumbers" 
 												data-allow-decimal="<%=evaluaConPunto.equals("S")?"si":"no" %>"
 												data-max-num="<%=escala %>"
-												maxlength = "<%=(int)(Math.log10(escala)+1)+decimales%>"
+												maxlength="<%=((int)Math.log10(escala)+1!=3?2:(int)Math.log10(escala)+1)+decimales%>"
 												type="text" 
 												tabindex="<%=i+1%>" 
 												name="nota<%=i%>-<%=cicloBloque.getBloqueId()%>"
@@ -1799,14 +1799,14 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 							
 							// Inserta columna de los puntos
 							out.print("<td class='text-center' width='2%'  >"+puntosFormato+"</td>");
-							System.out.println("prom "+ promedioFinal + " c " + puntosFormato );
+							//System.out.println("prom "+ promedioFinal + " c " + puntosFormato );
 							promedioFinal = promedioFinal + Double.parseDouble(puntosFormato);
 							eval++;
 							
 						}//End for de promedio
 						
 						if (lisPromedio.size() > 1){
-							System.out.println("promedio final "+ promedioFinal + " " + sumaValor );
+							//System.out.println("promedio final "+ promedioFinal + " " + sumaValor );
 							double puntosEscala = 0;
 							if (escalaEval == 5){
 								//promedioFinal = (promedioFinal * 5)/sumaValor;

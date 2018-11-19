@@ -1787,7 +1787,7 @@
 								<td class="text-center" style="<%=colorEval%>"><div><%=strNota%></div>
 									<!-- INPUT PARA EDITAR LAS NOTAS (ESCONDIDO POR DEFAULT) -->
 									<% /*System.out.println("Datos:"+cicloBloque.getBloqueId()+":"+estadoEval+":"+kardex.getCodigoId());*/ %>
-									<%if (!kardex.getTipoCalId().equals("6") && estadoEval.equals("A") ) { /* Si el alumno no se ha dado de baja y puede editar su nota */ 
+									<%if (!kardex.getTipoCalId().equals("6") && estadoEval.equals("A") ) { /* Si el alumno no se ha dado de baja y puede editar su nota */
 										int decimales = Integer.parseInt(cicloBloque.getDecimales());%>
 										<div class="editar<%=cicloBloque.getBloqueId()%>" style="display:none;">
 										<input 
@@ -1795,7 +1795,7 @@
 											class="input-mini onlyNumbers" 
 											data-allow-decimal="<%=evaluaConPunto.equals("S")?"si":"no" %>"
 											data-max-num="<%=escala %>"
-											maxlength = "<%=(int)(Math.log10(escala)+1)+decimales%>"
+											maxlength="<%=((int)Math.log10(escala)+1!=3?2:(int)Math.log10(escala)+1)+decimales%>"
 											type="text" 
 											tabindex="<%=i+1%>" 
 											name="nota<%=i%>-<%=cicloBloque.getBloqueId()%>"
