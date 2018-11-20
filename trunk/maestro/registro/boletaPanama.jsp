@@ -209,7 +209,7 @@
         			jpg = Image.getInstance(application.getRealPath("/imagenes/")+"/logos/logoIASD.png");
         		}
 	            jpg.setAlignment(Element.ALIGN_CENTER);
-	            jpg.scaleToFit(70f,70f);
+	            jpg.scaleToFit(100f,62f);
 	            
 	            cell = new PdfPCell();
             	cell.setBorder(borde);
