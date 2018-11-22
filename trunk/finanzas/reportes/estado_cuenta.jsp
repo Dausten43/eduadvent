@@ -151,6 +151,7 @@ body {
 				<td></td>
 				<td></td>
 				<td></td>
+				<td></td>
 				<td>Saldo Anterior</td>
 				<td style="text-align: right;"><%=saldoCuenta.compareTo(BigDecimal.ZERO) >= 0 ? saldoCuenta : ""%></td>
 				<td style="text-align: right;"><%=saldoCuenta.compareTo(BigDecimal.ZERO) < 0 ? saldoCuenta.abs() : ""%></td>
@@ -185,7 +186,7 @@ body {
 				}
 			%>
 			<tr>
-				<td colspan="6"></td>
+				<td colspan="7"></td>
 				<td style="text-align: right;"><%=formato.format(debitos)%></td>
 				<td style="text-align: right;"><%=formato.format(creditos)%></td>
 				<td></td>
