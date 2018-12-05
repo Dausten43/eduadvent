@@ -14,6 +14,7 @@
 <jsp:useBean id="kardexEval" scope="page" class="aca.kardex.KrdxAlumEval"/>
 <jsp:useBean id="planCurso" scope="page" class="aca.plan.PlanCurso"/>
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 
 <script>
 
@@ -79,6 +80,8 @@
 	
 	String planId			= aca.plan.PlanCurso.getPlanId(conElias, cursoId);
 	String nivelId  		= aca.plan.Plan.getNivel(conElias, planId);
+	
+	cicloGrupo.mapeaRegId(conElias, cicloGrupoId);	
 	
 	//CONDICIONES DE LAS NOTAS ---------------------------->
 	//String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
@@ -319,11 +322,12 @@
 <div id="content">
 	
 	<h2>
-		<fmt:message key="aca.Actividades" /> 
+		<fmt:message key="aca.Actividades" />
 		<small>
-		( <%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%> |
-		<%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> | <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> |
-		<%=aca.plan.Plan.getNombrePlan(conElias, planId)%>
+		( <%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%> 
+		| <%=aca.plan.PlanCurso.getCursoNombre(conElias, cursoId)%> 
+		| <%=aca.ciclo.CicloGrupo.getGrupoNombre(conElias, cicloGrupoId)%> <%= cicloGrupo.getGrupo() %> 
+		| <%=aca.plan.Plan.getNombrePlan(conElias, planId)%> )
 		</small>
 	</h2>
 	
