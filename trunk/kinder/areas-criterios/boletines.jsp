@@ -26,12 +26,20 @@ Boletines Maternal, Pre-Kinder y Kinder
 				onchange="document.frmCiclo.submit();" class="input-xxlarge">
 				<%
 					for (aca.ciclo.Ciclo ciclo : lisCiclo) {
-				%>
-				<option value="<%=ciclo.getCicloId()%>"
-					<%if (ciclo.getCicloId().equals(cicloId)) {
-						out.print("selected");
-					}%>><%=ciclo.getCicloNombre()%></option>
-				<%
+						int nivel;
+						try{
+							nivel = Integer.parseInt(ciclo.getNivelAcademicoSistema());
+							if(0 <= nivel && nivel <= 2){
+								%>
+									<option value="<%=ciclo.getCicloId()%>"
+									<%if (ciclo.getCicloId().equals(cicloId)) {
+										out.print("selected");
+									}%>><%=ciclo.getCicloNombre()%></option>
+								<%
+							}
+						}catch(Exception e){
+							System.out.println("Probable formato erroneo en la base de datos en el ciclo "+ciclo.getCicloNombre()+". ERROR => "+e);
+						}
 					}
 				%>
 			</select>
