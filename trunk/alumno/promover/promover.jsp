@@ -198,7 +198,6 @@
 	}
 	
 	$('#grado').change(function(){
-		
 		fnRefreshGroup();
 	});
 		
@@ -213,7 +212,8 @@
 		var dataSend = 'Accion='+accion+'&Actualizar='+actualizar+"&ciclo="+ciclo+"&PlanId="+plan+"&grado="+grado+"&escuelaId="+'<%=escuelaId%>';
 		
 		jQuery.get('getPlanes.jsp?' + dataSend, function(data){
-			jQuery("#grupo").html(data);
+			jQuery("#grupo").html('<option value=""> - </option>');
+			jQuery("#grupo").append(data);
 		});
 	}
 	
@@ -247,7 +247,7 @@
 		jQuery('#grupo2').html('<option>Actualizando</option>');
 		
 		var accion = '2';
-		var actualizar = 'grupo';
+		var actualizar = 'grupo2';
 		var ciclo = document.formBuscar.ciclo.value;
 		var plan = document.formPromover.PlanId2.value;
 		var grado = document.formPromover.grado2.value;

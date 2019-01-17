@@ -30,6 +30,7 @@
 		
 	} else if(actualizar.equals("grupo")) {
 		ArrayList<aca.catalogo.CatGrupo> lisGrupoAlta = CatGrupoL.getListGruposAlta(conElias, cicloId, planId, escuelaId, nivelId, "ORDER BY NIVEL_ID, GRADO, GRUPO");
+		
 		int numCursos = 0, numAlumnos;
 		for(int i = 0; i < lisGrupoAlta.size(); i++){
 			aca.catalogo.CatGrupo grupo = (aca.catalogo.CatGrupo) lisGrupoAlta.get(i);
@@ -42,6 +43,20 @@
 				if((numCursos!=0 || numAlumnos!=0)){
 					out.print(" <option value='" + grupo.getGrupo() + "'>" + grupo.getGrupo() + "</option>");
 				}
+			}
+		}
+	}else if(actualizar.equals("grupo2")) {
+		ArrayList<aca.catalogo.CatGrupo> lisGrupoAlta = CatGrupoL.getListGruposAlta(conElias, cicloId, planId, escuelaId, nivelId, "ORDER BY NIVEL_ID, GRADO, GRUPO");
+		ArrayList<aca.catalogo.CatGrupo> lisGrupoNotAlta = CatGrupoL.getListGrupos(conElias, cicloId, planId, escuelaId, nivelId, "ORDER BY NIVEL_ID, GRADO, GRUPO");
+		ArrayList<aca.catalogo.CatGrupo> lisGrupo = new ArrayList<aca.catalogo.CatGrupo>();
+		lisGrupo.addAll(lisGrupoAlta);
+		lisGrupo.addAll(lisGrupoNotAlta);
+		
+		int numCursos = 0, numAlumnos;
+		for(int i = 0; i < lisGrupo.size(); i++){
+			aca.catalogo.CatGrupo grupo = (aca.catalogo.CatGrupo) lisGrupo.get(i);
+			if(grupo.getGrado().equals(grado)){
+				out.print(" <option value='" + grupo.getGrupo() + "'>" + grupo.getGrupo() + "</option>");
 			}
 		}
 	}
