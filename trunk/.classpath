@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/servlet-2_3-fcs-classfiles.zip"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/twain.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/xmlbeans-2.3.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/gson-2.8.0.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
