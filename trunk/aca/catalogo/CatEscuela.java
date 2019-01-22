@@ -841,6 +841,27 @@ public class CatEscuela {
 		return estadoEscuela;
 	}
 	
+	public static String getTelefono(Connection conn, String escuelaId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String telefono			= "";		
+		try{
+			ps = conn.prepareStatement("SELECT TELEFONO FROM CAT_ESCUELA WHERE ESCUELA_ID = ? ");
+			ps.setString(1, escuelaId);
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				telefono = rs.getString("TELEFONO");
+			}			
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatEscuela|getTelefono|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}		
+		
+		return telefono;
+	}	
+	
 	public static String getAsociacionId(Connection conn, String escuelaId) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
