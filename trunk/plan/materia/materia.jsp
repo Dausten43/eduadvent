@@ -75,30 +75,37 @@
 
 <table class="table table-condensed">  
   <tr> 
-    <th width="5%"><fmt:message key="aca.Operacion" /></th>
-    <th width="8%"><fmt:message key="aca.Curso" /></th>
-    <th width="28%"><fmt:message key="aca.Nombre" /></th>    
+    <th width="5%"><fmt:message key="aca.Op" /></th>
+    <th width="15%"><fmt:message key="aca.Clave" /></th>
+    <th width="20%"><fmt:message key="aca.Nombre" /></th>  
+    <th width="3%"><fmt:message key="aca.Tipo" /></th>  
     <th width="3%"><fmt:message key="aca.Hrs" /></th>    
-    <th width="10%"><fmt:message key="aca.Tipo" /></th>
-    <th width="7%"><fmt:message key="aca.NotaAC" /></th>
-	<th width="7%"><fmt:message key="maestros.RegistrodeFaltas" /></th>
-	<th width="7%"><fmt:message key="aca.EvConducta" /></th>
+    <!-- <th width="10%"><fmt:message key="aca.Tipo" /></th> -->
+    <th width="7%"><fmt:message key="aca.NotaMin" /></th>
+	<th width="7%"><fmt:message key="aca.Faltas" /></th>
+	<th width="7%"><fmt:message key="aca.Conducta" /></th>
 	<th width="3%"><fmt:message key="aca.Orden" /></th>
 	<th width="3%"><fmt:message key="aca.Decimal" /></th>
 	<th width="7%"><fmt:message key="aca.Estado" /></th>
-	<th width="28%"><fmt:message key="aca.Base" /></th>
-	<th width="9%"><fmt:message key="aca.TipoEval" /></th>
 	
+	<%if (escuelaId.contains("H")){%>
+	<th width="20%"><fmt:message key="aca.CursoBase" /></th>
+	<%} %>
+	
+	<th width="9%"><fmt:message key="aca.TipoEval" /></th>
 	
 	<th width="7%">
 	<%if (!escuelaId.contains("H")){%>
 		<fmt:message key="aca.BoletaAlumno" />
 	<%}else{%>
-		Boletin
+		Boletín
 	<%} %>
+	
 	</th>	
-	<th width="3%"><fmt:message key="aca.TipoCurso" /></th>
+	<%if (escuelaId.contains("H")){%>
 	<th width="3%"><fmt:message key="aca.HabitosyActitudes" /></th>
+	<%} %>
+	
   </tr>
 <%
 	
@@ -141,24 +148,31 @@
       </a> 
     </td>
     <td align="left"><%=curso.getCursoId() %></td>
-    <td align="left"><%=curso.getCursoNombre() %></td>    
+    <td align="left"><%=curso.getCursoNombre() %></td>   
+    <td align="center"><%if (curso.getTipocursoId().equals("1")){%><fmt:message key='aca.Oficial' />
+    					<%}else if (curso.getTipocursoId().equals("2")){%><fmt:message key='aca.NoOficial' />
+    					<%}else if (curso.getTipocursoId().equals("3")){%><fmt:message key='aca.Ingles' />
+    					<%} %> 
     <td align="center"><%=curso.getHoras()%></td>    
-    <td align="center"><%=CatTipocurso.getNombre(conElias, curso.getTipocursoId())%></td>    
+    <!-- Esto es un comentario -->
+    <!-- <td align="center"><%=CatTipocurso.getNombre(conElias, curso.getTipocursoId())%></td>  --> 
+    
     <td align="center"><%=curso.getNotaAc() %></td>
 	<td align="center"><%=curso.getFalta() %></td>
 	<td align="center"><%=curso.getConducta() %></td>
 	<td align="center"><%=curso.getOrden() %></td>
 	<td align="center"><%=curso.getPunto().equals("S")?"SI":"NO"%></td>
 	<td align="center"><%=curso.getEstado().equals("A")?"Activo":"Inactivo"%></td>
+	<%if (escuelaId.contains("H")){%>
 	<td align="left"><%=cursoBase%></td>
+	<%} %> 
 	<td align="center"><%=curso.getTipoEvaluacion().equals("C")?"Calculado":"Pase"%></td>
 	<td align="center"><%=boleta%></td>
-    <td align="center"><%if (curso.getTipocursoId().equals("1")){%><fmt:message key='aca.Oficial' />
-    					<%}else if (curso.getTipocursoId().equals("2")){%><fmt:message key='aca.NoOficial' />
-    					<%}else if (curso.getTipocursoId().equals("3")){%><fmt:message key='aca.Ingles' />
-    					<%} %>
-    					
-	 <td align="center"><%=curso.getAspectos()%></td>
+    
+    <%if (escuelaId.contains("H")){%>					
+	<td align="center"><%=curso.getAspectos()%></td>
+	<%} %> 
+	 
   </tr>
 <%	} %>  
 </table>
