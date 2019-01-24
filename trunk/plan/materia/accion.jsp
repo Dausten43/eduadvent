@@ -223,7 +223,7 @@
 						</div>
 						
 						<div class="control-group ">
-							<label for="CursoNombre"> <fmt:message key="aca.Nombre" />: </label>
+							<label for="CursoNombre"> <fmt:message key="aca.NombreMateria" />: </label>
 							<input name="CursoNombre" type="text" id="CursoNombre" value="<%=Curso.getCursoNombre()%>" size="30" maxlength="70">
 						</div>
 						<div class="control-group ">
@@ -231,7 +231,7 @@
 							<input name="CursoCorto" type="text" id="CursoCorto" value="<%=Curso.getCursoCorto()%>" size="15" maxlength="20">
 						</div>
 						<div class="control-group ">
-							<label for="Grado"> <fmt:message key="aca.Grado" />: </label>
+							<label for="Grado"> <fmt:message key="aca.GradoDondeImparte" />: </label>
 							<select name="Grado" id="Grado" class="input-mini">
 							<%for(int i = 1; i<=Integer.parseInt(nivel.getGradoFin()); i++){ %>
 								<option value="<%=i %>" <%if(Curso.getGrado().equals(i+"")){out.print("selected");} %>><%=i %></option>
@@ -239,7 +239,7 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Horas"> <fmt:message key="aca.Horas" />: </label>
+							<label for="Horas"> <fmt:message key="aca.HorasSemanales" />: </label>
 							<input name="Horas" type="text" id="Horas" value="<%=Curso.getHoras()%>" class="input-mini" maxlength="3">
 						</div>
 						<div class="control-group ">
@@ -286,13 +286,15 @@
 								<option value="P" <%=Curso.getConducta().equals("P")?" Selected":""%>><fmt:message key="aca.Promedio" /></option>
 							</select>
 						</div>
-						<div class="control-group ">
-							<label for="Aspectos"> <fmt:message key="aca.HabitosyActitudes" />: </label>
-							<select name="Aspectos" id="Aspectos">
-								<option value="S" <%=Curso.getAspectos().equals("S")?" Selected":""%>><fmt:message key="aca.Si" /></option>
-								<option value="N" <%=Curso.getAspectos().equals("N")?" Selected":""%>><fmt:message key="aca.Negacion" /></option>
-							</select>
-						</div>
+						<%if(escuelaId.contains("H")){%>
+							<div class="control-group ">
+								<label for="Aspectos"> <fmt:message key="aca.HabitosyActitudes" />: </label>
+								<select name="Aspectos" id="Aspectos">
+									<option value="S" <%=Curso.getAspectos().equals("S")?" Selected":""%>><fmt:message key="aca.Si" /></option>
+									<option value="N" <%=Curso.getAspectos().equals("N")?" Selected":""%>><fmt:message key="aca.Negacion" /></option>
+								</select>
+							</div>
+						<%}%>
 						<div class="control-group ">
 							<label for="Orden"> <fmt:message key="aca.Orden" />: </label> <input name="Orden"
 								type="text" id="orden" value="<%=Curso.getOrden().equals("")?"1":Curso.getOrden()%>" class="input-mini"
@@ -310,7 +312,7 @@
 							</select>
 						</div>
 						<div class="control-group ">
-							<label for="Estado"> <fmt:message key="aca.Estado" />: </label> <%//System.out.println((String) session.getAttribute("cicloId")+" "+ cursoId) ;%>
+							<label for="Estado"> <fmt:message key="maestros.EstadoMateria" />: </label> <%//System.out.println((String) session.getAttribute("cicloId")+" "+ cursoId) ;%>
 <%
 					if( aca.plan.PlanCurso.existeReg(conElias, cursoId, cicloId) && aca.ciclo.Ciclo.getCicloActivo(conElias, cicloId)){
 %>
@@ -340,7 +342,7 @@
 						</div>
 						<div class="control-group ">
 <%
-						if(!cursoId.equals("")){		
+						if(!cursoId.equals("") && escuelaId.contains("H")){		
 %>						
 							<label for="CursoBase"> <fmt:message key="aca.CursoBase" />: </label>
 							<select name="CursoBase" id="CursoBase">
@@ -356,18 +358,16 @@
 <%
 						}		
 %>							
-						</div>
-						<div class="control-group ">									
-							<%if (!escuelaId.contains("H")){%>
-							<label for="BoletaAparece"><fmt:message key="aca.BoletaAparece" />: </label> 
-							<%}else{%>
-								<label for="BoletaAparece"> Aparece en boletin: </label> 
-							<%} %>							
-							<select name="BoletaAparece" id="BoletaAparece">
-								<option value="S" <%=Curso.getBoleta().equals("S")?" selected":""%>><fmt:message key="aca.Si" /></option>
-								<option value="N" <%=Curso.getBoleta().equals("N")?" selected":""%>><fmt:message key="aca.Negacion" /></option>
-							</select>
-						</div>
+						</div>					
+							<%if (escuelaId.contains("H")){%>
+							<div class="control-group ">	
+								<label for="BoletaAparece"><fmt:message key="aca.BoletínAparece" />: </label>
+								<select name="BoletaAparece" id="BoletaAparece">
+									<option value="S" <%=Curso.getBoleta().equals("S")?" selected":""%>><fmt:message key="aca.Si" /></option>
+									<option value="N" <%=Curso.getBoleta().equals("N")?" selected":""%>><fmt:message key="aca.Negacion" /></option>
+								</select>
+							</div>
+							<%} %>
 					</fieldset>
 				</div>
 			</div>
