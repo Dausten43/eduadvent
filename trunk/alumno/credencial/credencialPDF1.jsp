@@ -108,17 +108,17 @@
 			//System.out.println("Datos:"+escuelaId+":"+nombreFirma);
 			String dirFirmas =application.getRealPath("/imagenes/firmas/");
 			java.io.File firma = new java.io.File(dirFirmas+"/"+nombreFirma);
-			//System.out.println("Antes de firma"+dirFirmas+"/"+nombreFirma);
+			
 			if(firma.exists()){
 				tieneFirma = true;
 				jpg = Image.getInstance(dirFirmas+"/"+nombreFirma);
 			}else{
 				tieneFirma = false;
 				jpg = Image.getInstance(dirFirmas+"/firma.png");
-			}
+			} 
 			//System.out.println("Despues de firma");
-			jpg.scaleAbsolute(50f, 30f);			
-			jpg.setAbsolutePosition(485, 625+extra);
+			jpg.scaleAbsolute(40f, 24f);			
+			jpg.setAbsolutePosition(489, 631+extra);
 			document.add(jpg);
 			
 			
@@ -276,14 +276,14 @@
 				firmaTable.setLockedWidth(true);
 				firmaTable.setSpacingAfter(10F);
 				
-				frase = new Phrase("Juan Jorge Acuña", 
+				frase = new Phrase("Abdiel Isaí Aguirre López", 
 						FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new Color(0,0,0)));
 				celda = new PdfPCell(frase);
 				celda.setHorizontalAlignment(Element.ALIGN_LEFT);
 				celda.setBorder(0);
 				firmaTable.addCell(celda);
 				
-				firmaTable.writeSelectedRows(0, -1, 482,638+extra, pdf.getDirectContent());
+				firmaTable.writeSelectedRows(0, -1, 475,634+extra, pdf.getDirectContent());
 			}
 			
 			// Crea una nueva página
