@@ -435,8 +435,9 @@
 			    				
 			    				
 			    				String nota = "0";
-			    				
-		    					BigDecimal promFinal = valorAlumPorcentajeProm.doubleValue() <= 0d?new BigDecimal(0, mc):valorAlumPorcentajeProm.divide(valorTotalPorcentajeProm, mc);
+			    				// El siguiente código comentado se puede ocupar para sacar el promedio únicamente con las evaluaciones calificadas
+			    				// BigDecimal promFinal = valorAlumPorcentajeProm.doubleValue() <= 0d?new BigDecimal(0, mc):valorAlumPorcentajeProm.divide(valorTotalPorcentajeProm, mc);
+		    					BigDecimal promFinal = valorAlumPorcentajeProm.doubleValue() <= 0d?new BigDecimal(0, mc):valorAlumPorcentajeProm.divide(new BigDecimal("100", mc), mc);
 		    					if(promFinal.compareTo(new BigDecimal(0, mc)) != 0){
 		    						frmProm.setRoundingMode(RoundingMode.HALF_UP);
 									promFinal = new BigDecimal(frmProm.format(promFinal), mc);
