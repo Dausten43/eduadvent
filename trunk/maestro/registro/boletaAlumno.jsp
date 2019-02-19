@@ -51,6 +51,7 @@
 	formato2.setRoundingMode(java.math.RoundingMode.HALF_UP );
 	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)");
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
+	java.text.DecimalFormat frmProm = new java.text.DecimalFormat("##0.0;-##0.0");
 	//DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)");
 	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
 	
@@ -215,12 +216,12 @@
 			int row = 0;
 			for (aca.vista.AlumnoCurso alumCurso: lisAlumnoCurso) {
 				row++;
-				
+				double sumPuntosEval = 0;
 				aca.plan.PlanCurso curso = new aca.plan.PlanCurso();
 				// Si el alumno tiene el curso
 				if (mapCurso.containsKey(alumCurso.getCursoId())){
 					curso = mapCurso.get(alumCurso.getCursoId());		
-				}    
+				}
 %>
 			<tr> 
 		    	<td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
@@ -279,13 +280,14 @@
 					}
 					
 					// Obtiene el promedio del alumno en las evaluaciones (tabla Krdx_Alum_Prom)
-					double promEval = 0; 
+					double promEval = 0;
 					if (mapPromAlumno.containsKey(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId())){
 						promEval = Double.parseDouble(mapPromAlumno.get(cicloGrupoId+alumCurso.getCursoId()+cicloPromedio.getPromedioId()).getNota());
 					}
 					
 					// Puntos del promedio
 					double puntosEval = (promEval * Double.parseDouble(cicloPromedio.getValor())) / escalaEval;
+					sumPuntosEval = sumPuntosEval + puntosEval;
 					
 					// Formato del promedio y los puntos (decimales usados)
 					String promFormato		= formato1.format(promEval);
@@ -323,6 +325,11 @@
 					java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias, cicloGrupoId,"");
 					aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupoId+alumCurso.getCursoId()+codigoAlumno);
 					BigDecimal prom = new BigDecimal(alumProm.getPromedio(), mc).add(new BigDecimal(alumProm.getPuntosAjuste(), mc), mc);
+					if(escuelaId.contains("S")){
+						prom = new BigDecimal(sumPuntosEval, mc);
+					}
+					frmProm.setRoundingMode(RoundingMode.HALF_UP);
+					prom = new BigDecimal(frmProm.format(prom), mc);
 					out.print("<td class='text-center' width='2%'>"+prom+"</td>");
 					
 				if (evalcerradas>0 && evalcerradas == lisBloque.size()){
