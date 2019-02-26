@@ -29,7 +29,8 @@
 	java.text.DecimalFormat frmDecimal2 = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 	
 	ciclo.mapeaRegId(conElias, cicloId);
-	
+	int escalaEval 			= aca.ciclo.Ciclo.getEscala(conElias, cicloId );
+	frmDecimal = new java.text.DecimalFormat("###,##0.0;-###,##0.0");
 	if(ciclo.getDecimales().equals("1")){
 		frmDecimal = new java.text.DecimalFormat("###,##0.0;-###,##0.0");
 	}else{
@@ -62,7 +63,7 @@
 		ArrayList<String> lisAlumnos = kardexLista.getListAlumnosGrupo(conElias, cicloGrupo.getCicloGrupoId());	
 		
 		// lista de los Promedios del alumno en cada materias(calcula el promedio cuando la materia esta en proceso de evaluacion)
-		java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm 	= AlumPromLista.getTreeCurso(conElias, cicloGrupo.getCicloGrupoId(),"");
+		java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias, cicloGrupo.getCicloGrupoId(),"");
 		
 		//lista de cursos del alumno y sus notas al cierre de la materia (determina el promedio cuando se cerro la materia)
 		java.util.TreeMap<String, aca.kardex.KrdxCursoAct> treeCurso 	= kardexLista.getTreeAlumnoCurso(conElias, cicloGrupo.getCicloGrupoId(),"");
@@ -132,7 +133,8 @@
 	
 	
 		/*
-			Despliega la matricula, nombre y promedio del alumno en cada materia, además calcula el promedio de la materia.
+			Despliega la matricula, nombre y promedio del alumno en cada materia, 
+			además calcula el promedio de la materia.
 		*/
 		String alumno 	= "";
 		BigDecimal nota;
@@ -158,11 +160,9 @@
 	<%		
 			for(int i = 0; i < lisMaterias.size(); i++){
 				cicloGrupoCurso = (aca.ciclo.CicloGrupoCurso) lisMaterias.get(i);
-				
 				// Si el alumno tiene la materia
 				if (treeCurso.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno)){
 					aca.kardex.KrdxCursoAct kardex = (aca.kardex.KrdxCursoAct) treeCurso.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno);
-					
 					String notaStr = "0"; 
 					prom = new BigDecimal(0, mc);
 					
@@ -170,19 +170,26 @@
 					alumMaterias[i]++;
 					
 					// Si está en proceso de evaluación
-					if(kardex.getTipoCalId().equals("1")){
+					if(kardex.getTipoCalId().equals("1")||kardex.getTipoCalId().equals("6")){
 						if (treeProm.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+kardex.getCodigoId())){
 							aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno);
 							prom = new BigDecimal(alumProm.getPromedio(), mc).add(new BigDecimal(alumProm.getPuntosAjuste(), mc), mc);
+							if(escuelaId.contains("S")){
+								prom = new BigDecimal(alumProm.getPuntosAlum(), mc).add(new BigDecimal(alumProm.getPuntosAjuste(), mc), mc);
+								if(escalaEval==10){
+									prom = prom.divide(new BigDecimal(10, mc));
+								}
+							}
+
 							notaStr =  String.valueOf(prom);
 						}
-						if(notaStr.trim().equals("0.0")||notaStr.trim().equals("0.5")) notaStr = "0";					
+						if(notaStr.trim().equals("0.0")||notaStr.trim().equals("0.5")) notaStr = "0";
 						
-					// Si ya esta cerrado el ordinario	
+					// Si ya esta cerrado el ordinario
 					}else if(kardex.getTipoCalId().equals("2") || kardex.getTipoCalId().equals("3")){
 						notaStr = kardex.getNota();
 					
-					// Si tiene notaStr extraordinaria	
+					// Si tiene notaStr extraordinaria
 					}else if(kardex.getTipoCalId().equals("4") || kardex.getTipoCalId().equals("5")){
 						notaStr = kardex.getNotaExtra();
 					}
@@ -213,23 +220,23 @@
 								<%=frmDecimal.format(nota)%>
 								</div>
 							</td>
-	<%				
+	<%
 					//Calcula el promedio del alumno
 					promAlum = promAlum.add(nota, mc);
 					numMaterias++;
-					
 				}else{
-	%>				
-							<td>
-								<div 
-									style="width:100%;height:100%;text-align:center;"
-									title="<%=materias[i] %> "
-								>
-								X
-								</div>
-							</td>
-	<%						
-				}
+					%>				
+											<td>
+												<div 
+													style="width:100%;height:100%;text-align:center;"
+													title="<%=materias[i]%> "
+												>
+												X
+												</div>
+											</td>
+					<%						
+								}
+				
 			} // fin de for de lista de materias
 			promAlum = promAlum.divide(new BigDecimal(numMaterias, mc), mc);
 	%>
@@ -279,8 +286,7 @@
 	<%				}
 					if(totMaterias!=0){
 						promGral = promGral.divide(new BigDecimal(totMaterias, mc), mc);
-					}
-					else{
+					}else{
 						promGral = new BigDecimal(0, mc);
 					}
 					promGrupo = frmDecimal2.format(promGral);
