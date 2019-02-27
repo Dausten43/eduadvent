@@ -128,7 +128,7 @@ public class GradoReporte {
 			
 			rs = ps.executeQuery();
 			while(rs.next()){
-				MateriaReporte materia = new MateriaReporte(rs.getString("CURSO_ID"), rs.getString("CURSO_NOMBRE"), Double.parseDouble(rs.getString("HORAS")), "");
+				MateriaReporte materia = new MateriaReporte(rs.getString("CURSO_ID"), rs.getString("CURSO_NOMBRE"), Double.parseDouble(rs.getString("HORAS")), "", rs.getString("CURSO_BASE"));
 				lista.add(materia);
 			}
 			
@@ -154,6 +154,7 @@ public class GradoReporte {
 		
 		// Si es null significa que no tiene calificada la materia
 		// Si la calificación es cero igual la ignora
+		
 		if(alumProm != null && !alumProm.getPromedio().equals("0.00000")){
 			BigDecimal promFinalCurso = new BigDecimal(alumProm.getPromedio(), this.mc).add(new BigDecimal(alumProm.getPuntosAjuste(), this.mc), this.mc);
 			String promConRedondeo = aca.ciclo.Ciclo.numRedondeo(conElias, String.valueOf(promFinalCurso), Integer.parseInt(this.numDecimales), this.redondeoCiclo);
