@@ -6,6 +6,7 @@ public class MateriaReporte {
 	private Double horas;
 	private String calificacion;
 	private String convalidacion;
+	private String cursoBase; //Si es madre o hija
 	
 	public MateriaReporte(){
 		cursoId = "";
@@ -13,13 +14,15 @@ public class MateriaReporte {
 		horas = 0.0;
 		calificacion = "0.0";
 		convalidacion = "";
+		cursoBase = "";
 	}
 	
-	public MateriaReporte(String cursoId, String nombre, Double horas, String convalidacion){
+	public MateriaReporte(String cursoId, String nombre, Double horas, String convalidacion, String cursoBase){
 		setCursoId(cursoId);
 		setNombre(nombre);
 		setHoras(horas);
 		setConvalidacion(convalidacion);
+		setCursoBase(cursoBase);
 	}
 	
 	public String getCursoId() {
@@ -60,5 +63,13 @@ public class MateriaReporte {
 	
 	public void setConvalidacion(String convalidacion) {
 		this.convalidacion = convalidacion;
+	}
+	
+	public String getCursoBase() {
+		return cursoBase;
+	}
+	
+	public void setCursoBase(String cursoBase) {
+		this.cursoBase = cursoBase;
 	}
 }
