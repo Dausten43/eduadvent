@@ -13,6 +13,8 @@ public class GradoReporte {
 	private String nombreGrado;
 	private String cicloGrupoId;
 	private String observaciones;
+	private String fechaInicial;
+	private String fechaFinal;
 	private ArrayList<MateriaReporte> listaMaterias;
 	
 	// Escala de evaluación... daaa xD
@@ -45,6 +47,10 @@ public class GradoReporte {
 		 * De lo contrario se ignoran para evadir la llamada a la base de datos.
 		 */
 		if(!cicloGrupoId.equals("")){
+			aca.ciclo.Ciclo ciclo = new aca.ciclo.Ciclo();
+			ciclo.mapeaRegId(conElias, this.cicloId);
+			setFInicial(ciclo.getFInicial());
+			setFFinal(ciclo.getFFinal());
 			setEscalaEval(aca.ciclo.Ciclo.getEscala(conElias, this.cicloId));
 			setRedondeoCiclo(aca.ciclo.Ciclo.getRedondeo(conElias, this.cicloId));
 			setNumDecimales(aca.ciclo.Ciclo.getDecimales(conElias, this.cicloId));
@@ -113,6 +119,22 @@ public class GradoReporte {
 
 	public void setCicloGrupoId(String cicloGrupoId) {
 		this.cicloGrupoId = cicloGrupoId;
+	}
+	
+	public String getFInicial(){
+		return fechaInicial;
+	}
+	
+	public void setFInicial(String fecha){
+		this.fechaInicial = fecha;
+	}
+	
+	public String getFFinal(){
+		return fechaFinal;
+	}
+	
+	public void setFFinal(String fecha){
+		this.fechaFinal = fecha;
 	}
 	
 	public static ArrayList<MateriaReporte> listaMaterias(Connection con, String cicloGrupoId, String codigoId) throws SQLException{
