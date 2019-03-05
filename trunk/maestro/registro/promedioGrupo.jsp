@@ -43,7 +43,7 @@
 		frmDecimal.setRoundingMode(java.math.RoundingMode.HALF_UP);
 	}
 	
-	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
+	java.math.MathContext mc = new java.math.MathContext(8, RoundingMode.HALF_EVEN);
 	
 %>
 <div id="content">
@@ -118,7 +118,6 @@
 	
 	String materia 		= "";
 	
-
 	BigDecimal promGral = new BigDecimal(0,mc);
 	BigDecimal prom1 = new BigDecimal(0,mc);
 	BigDecimal prom2 = new BigDecimal(0,mc);
@@ -169,7 +168,7 @@
 					// Si tiene la materia cuenta el alumno para promediar
 					alumMaterias[i]++;
 					
-					// Si está en proceso de evaluación
+					// Si está en proceso de evaluación o dado de baja
 					if(kardex.getTipoCalId().equals("1")||kardex.getTipoCalId().equals("6")){
 						if (treeProm.containsKey(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+kardex.getCodigoId())){
 							aca.vista.AlumnoProm alumProm = (aca.vista.AlumnoProm) treeProm.get(cicloGrupo.getCicloGrupoId()+cicloGrupoCurso.getCursoId()+alumno);
@@ -180,7 +179,6 @@
 									prom = prom.divide(new BigDecimal(10, mc));
 								}
 							}
-
 							notaStr =  String.valueOf(prom);
 						}
 						if(notaStr.trim().equals("0.0")||notaStr.trim().equals("0.5")) notaStr = "0";
@@ -193,7 +191,12 @@
 					}else if(kardex.getTipoCalId().equals("4") || kardex.getTipoCalId().equals("5")){
 						notaStr = kardex.getNotaExtra();
 					}
-					nota = new BigDecimal(notaStr,  mc);
+
+					if(ciclo.getRedondeo().equals("T")){
+						nota = new BigDecimal(notaStr).setScale(Integer.valueOf(ciclo.getDecimales()), RoundingMode.DOWN);
+					} else{
+						nota = new BigDecimal(notaStr).setScale(Integer.valueOf(ciclo.getDecimales()), RoundingMode.HALF_UP);
+					}
 					// Seccion para promediar de acuerdo al tipo de materia(Oficial, no oficial e ingles)
 					// Pendiente de implementar en la presentación de los datos
 					tipoCurso = aca.plan.PlanCurso.getTipocurso(conElias,kardex.getCursoId());
@@ -210,9 +213,7 @@
 						}
 						promMaterias[i] = promMaterias[i].add(nota, mc);
 					}
-					//System.out.println("Datos:"+lisMaterias.size()+":"+alumno+":"+materias[i]+":"+nota);
-	%>
-							<td>
+	%>						<td>
 								<div 
 									style="width:100%;height:100%;text-align:center;"
 									title="<%=materias[i] %> "

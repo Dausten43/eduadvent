@@ -69,8 +69,8 @@
 		 session.setAttribute("cicloId", request.getParameter("Ciclo"));
 	}
 	String cicloId 		= (String)session.getAttribute("cicloId");
-
 	String maestro		= empPersonal.getNombre()+" "+empPersonal.getApaterno()+" "+empPersonal.getAmaterno();
+	cicloGrupo.mapeaRegId(conElias, empPersonal.getCodigoId(), cicloId);
 	String nivel_sistema = "";
 %>
 
@@ -112,7 +112,7 @@
 			
 				<div class="pull-right" style="margin-right: 10px;">
 					<%if(aca.ciclo.CicloGrupo.getEsMaestroPlantaEnCualquierCiclo(conElias, maestroId, cicloId)){%>
-						<a href="grupo.jsp" class="btn btn-primary btn-mobile">
+						<a href="grupo.jsp?CicloGrupoId=<%=cicloGrupo.getCicloGrupoId()%>" class="btn btn-primary btn-mobile">
 							<i class="icon-th icon-white"></i> <fmt:message key="aca.Grupo" />
 						</a>
 					<%}%>

@@ -55,8 +55,6 @@
 	//Map de promedios del alumno en cada materia
 	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
 
-	
-	//java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("###,##0.0;-###,##0.0");
 	java.text.DecimalFormat frmCiclo 	= new java.text.DecimalFormat();
 	java.text.DecimalFormat frmPromedio = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
 
@@ -145,7 +143,6 @@
 	
 	<%
 	int maxEval	= aca.ciclo.CicloGrupo.getMaxEval(conElias, cicloGrupo.getCicloGrupoId());
-	
 	if(maxEval>0){
 		%>
 		<div class="pagination" style="text-align:right;margin-bottom:13px;display:inline-block;float:right;">
@@ -281,9 +278,15 @@
 						}else if(kardex.getTipoCalId().equals("4") || kardex.getTipoCalId().equals("5")){
 							nota = kardex.getNotaExtra();
 						}
+						
+						if(Ciclo.getRedondeo().equals("T")){
+							nota = new BigDecimal(nota).setScale(Integer.valueOf(Ciclo.getDecimales()), RoundingMode.DOWN).toString();
+						} else{
+							nota = new BigDecimal(nota).setScale(Integer.valueOf(Ciclo.getDecimales()), RoundingMode.HALF_UP).toString();
+						}
+						
 						// Seccion para promediar de acuerdo al tipo de materia(Oficial, no oficial e ingles)
 						// Pendiente de implementar en la presentación de los datos
-						//tipoCurso = aca.plan.PlanCurso.getTipocurso(conElias,kardex.getCursoId());
 						tipoCurso = curso.getTipocursoId();
 						if (nota!=null && !nota.equals("0")){
 							if ( tipoCurso.equals("1")){
