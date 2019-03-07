@@ -67,7 +67,7 @@ public class ReporteAlumno {
 				 * en las materias que el alumno cursó.
 				 * 
 				 */
-				ps = con.prepareStatement(" select b.CODIGO_ID, a.GRADO, b.CICLO_GRUPO_ID, a.CURSO_ID, a.HORAS, a.CURSO_NOMBRE, a.CURSO_BASE "+
+				ps = con.prepareStatement(" select b.CODIGO_ID, a.GRADO, b.CICLO_GRUPO_ID, a.CURSO_ID, a.HORAS, a.CURSO_NOMBRE, a.CURSO_BASE, a.BOLETA"+
 										  " from ( " +
 										  "			select * "+
 										  "			from plan_curso"+ 
@@ -115,7 +115,7 @@ public class ReporteAlumno {
 						grado_reporte = new GradoReporte(con, rs.getString("CICLO_GRUPO_ID") == null?"":rs.getString("CICLO_GRUPO_ID"), grado);
 					}
 					// Se inicializa el modelo de la Materia
-					MateriaReporte materia = new MateriaReporte(rs.getString("CURSO_ID"), rs.getString("CURSO_NOMBRE"), Double.parseDouble(rs.getString("HORAS")), "", rs.getString("CURSO_BASE"));
+					MateriaReporte materia = new MateriaReporte(rs.getString("CURSO_ID"), rs.getString("CURSO_NOMBRE"), Double.parseDouble(rs.getString("HORAS")), "", rs.getString("CURSO_BASE"), rs.getString("BOLETA"));
 					// Se agrega a la lista de materias
 					listMaterias.add(materia);
 					

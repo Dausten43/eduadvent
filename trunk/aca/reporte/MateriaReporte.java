@@ -7,6 +7,7 @@ public class MateriaReporte {
 	private String calificacion;
 	private String convalidacion;
 	private String cursoBase; //Si es madre o hija
+	private String boleta;//"S":sí aparece en boleta, "N": no aparece
 	
 	public MateriaReporte(){
 		cursoId = "";
@@ -15,14 +16,16 @@ public class MateriaReporte {
 		calificacion = "0.0";
 		convalidacion = "";
 		cursoBase = "";
+		boleta = "";
 	}
 	
-	public MateriaReporte(String cursoId, String nombre, Double horas, String convalidacion, String cursoBase){
+	public MateriaReporte(String cursoId, String nombre, Double horas, String convalidacion, String cursoBase, String boleta){
 		setCursoId(cursoId);
 		setNombre(nombre);
 		setHoras(horas);
 		setConvalidacion(convalidacion);
 		setCursoBase(cursoBase);
+		setBoleta(boleta);
 	}
 	
 	public String getCursoId() {
@@ -71,5 +74,13 @@ public class MateriaReporte {
 	
 	public void setCursoBase(String cursoBase) {
 		this.cursoBase = cursoBase;
+	}
+	
+	public String getBoleta() {
+		return boleta;
+	}
+	
+	public void setBoleta(String boleta) {
+		this.boleta = boleta;
 	}
 }

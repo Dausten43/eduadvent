@@ -137,33 +137,6 @@ public class GradoReporte {
 		this.fechaFinal = fecha;
 	}
 	
-	public static ArrayList<MateriaReporte> listaMaterias(Connection con, String cicloGrupoId, String codigoId) throws SQLException{
-		ArrayList<MateriaReporte> lista 	= new ArrayList<MateriaReporte>();
-		ResultSet rs 				= null;
-		PreparedStatement ps 		= null;
-		
-		try{
-			
-			ps = con.prepareStatement("SELECT * FROM KRDX_CURSO_ACT WHERE CICLO_GRUPO_ID = ? AND CODIGO_ID = ?");
-			ps.setString(1, cicloGrupoId);
-			ps.setString(2, codigoId);
-			
-			rs = ps.executeQuery();
-			while(rs.next()){
-				MateriaReporte materia = new MateriaReporte(rs.getString("CURSO_ID"), rs.getString("CURSO_NOMBRE"), Double.parseDouble(rs.getString("HORAS")), "", rs.getString("CURSO_BASE"));
-				lista.add(materia);
-			}
-			
-		}catch(Exception ex){
-			System.out.println("Error - aca.reporte.Grado|listaMaterias|:"+ex);
-		}finally{
-			if (rs!=null) rs.close();
-			if (ps!=null) ps.close();
-		}
-		
-		return lista;
-	}
-	
 	public void setCalificaciónFinal(Connection conElias, String codigoId, MateriaReporte materia, AlumnoProm alumProm) throws Exception{
 		// Aquí se calculará la calificación final de la materia...
 		
