@@ -24,7 +24,7 @@ public class ReporteAlumno {
 		setNombreAlumno(aca.alumno.AlumPersonal.getNombre(con, codigoId, ""));
 		setMapaGrados(mapeaGradosPlan(con, codigoId));
     }
-
+	
 	public String getNombreAlumno() {
 		return nombreAlumno;
 	}
@@ -32,6 +32,7 @@ public class ReporteAlumno {
 	public void setNombreAlumno(String nombreAlumno) {
 		this.nombreAlumno = nombreAlumno;
 	}
+	
 	public HashMap<String, GradoReporte> getMapaGrados(){
 		return mapaGrados;
 	}
@@ -103,7 +104,7 @@ public class ReporteAlumno {
 						// Inicializa el modelo del Grado siguiente.
 						// Si trae ciclo grupo id significa que el
 						// alumno estuvo inscrito a esa materia
-						grado_reporte = new GradoReporte(con, rs.getString("CICLO_GRUPO_ID") == null?"":rs.getString("CICLO_GRUPO_ID"), grado);
+						grado_reporte = new GradoReporte(con, plan_id, rs.getString("CICLO_GRUPO_ID") == null?"":rs.getString("CICLO_GRUPO_ID"), grado);
 					}
 					// Si grado aún no ha sido asignado por primera vez
 					else if(grado.equals("")){
@@ -112,7 +113,8 @@ public class ReporteAlumno {
 						// Se inicializa el modelo del Grado inicial.
 						// Si trae ciclo grupo id significa que el
 						// alumno estuvo inscrito a esa materia
-						grado_reporte = new GradoReporte(con, rs.getString("CICLO_GRUPO_ID") == null?"":rs.getString("CICLO_GRUPO_ID"), grado);
+						//grado_reporte = new GradoReporte(con, plan_id, rs.getString("CICLO_GRUPO_ID"), grado);
+						grado_reporte = new GradoReporte(con, plan_id, rs.getString("CICLO_GRUPO_ID") == null?"":rs.getString("CICLO_GRUPO_ID"), grado);
 					}
 					// Se inicializa el modelo de la Materia
 					MateriaReporte materia = new MateriaReporte(rs.getString("CURSO_ID"), rs.getString("CURSO_NOMBRE"), Double.parseDouble(rs.getString("HORAS")), "", rs.getString("CURSO_BASE"), rs.getString("BOLETA"));
