@@ -13,6 +13,7 @@ public class GradoReporte {
 	private String nombreGrado;
 	private String cicloGrupoId;
 	private String observaciones;
+	private String nombrePlan;
 	private String fechaInicial;
 	private String fechaFinal;
 	private ArrayList<MateriaReporte> listaMaterias;
@@ -34,12 +35,11 @@ public class GradoReporte {
 		listaMaterias = new ArrayList<MateriaReporte>();
 	}
 	
-	public GradoReporte(Connection conElias, String cicloGrupoId, String grado) throws Exception{
+	public GradoReporte(Connection conElias, String planId, String cicloGrupoId, String grado) throws Exception{
 		setCicloId(cicloGrupoId.equals("")?"":cicloGrupoId.substring(0, 8));
 		setNombreGrado(aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(grado)));
 		setCicloGrupoId(cicloGrupoId);
-		// Aquí va el setObservaciones:
-		// Si tuviera observaciones...
+		setNombrePlan(aca.plan.Plan.getNombrePlan(conElias, planId));
 		listaMaterias 	= new ArrayList<MateriaReporte>();
 		
 		/* Solo si el alumno tiene la posibilidad de tener
@@ -66,6 +66,14 @@ public class GradoReporte {
 		this.cicloId = cicloId;
 	}
 
+	public String getNombrePlan() {
+		return nombrePlan;
+	}
+	
+	public void setNombrePlan(String nombrePlan) {
+		this.nombrePlan = nombrePlan;
+	}
+	
 	public String getNombreGrado() {
 		return nombreGrado;
 	}
@@ -120,7 +128,7 @@ public class GradoReporte {
 	public void setCicloGrupoId(String cicloGrupoId) {
 		this.cicloGrupoId = cicloGrupoId;
 	}
-	
+
 	public String getFInicial(){
 		return fechaInicial;
 	}
@@ -136,6 +144,7 @@ public class GradoReporte {
 	public void setFFinal(String fecha){
 		this.fechaFinal = fecha;
 	}
+
 	
 	public void setCalificaciónFinal(Connection conElias, String codigoId, MateriaReporte materia, AlumnoProm alumProm) throws Exception{
 		// Aquí se calculará la calificación final de la materia...
