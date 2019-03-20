@@ -6,7 +6,7 @@ public class MateriaReporte {
 	private Double horas;
 	private String calificacion;
 	private String convalidacion;
-	private String cursoBase; //Si es madre o hija
+	private String cursoBase;//Si es madre o hija
 	private String boleta;//"S":sí aparece en boleta, "N": no aparece
 	
 	public MateriaReporte(){
