@@ -1,6 +1,8 @@
 package aca.reporte;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,10 +14,10 @@ public class UtilReporte {
 	
 	private String escuelaId;
 	private String nombreEscuela;
-	private String telefono;
+	private String telefono;//ciudad,estado,direccion,telefono. -- numero Personal
 	private String nombreDirector;
+	private String nombrePais;
 	private HashMap<String, ReporteAlumno> mapaReportes;
-	
 	Gson gson = new GsonBuilder().create();
 	
 	public UtilReporte(){
@@ -23,14 +25,17 @@ public class UtilReporte {
 		nombreEscuela = "";
 		telefono = "";
 		nombreDirector = "";
+		nombrePais = "";
 		mapaReportes = new HashMap<String, ReporteAlumno>();
 	}
 	
 	public UtilReporte(Connection con, String escuelaId, ArrayList<String> listaAlumnos) throws SQLException{
 		setEscuelaId(escuelaId);
 		setNombreEscuela(aca.catalogo.CatEscuela.getNombre(con, escuelaId));
-		setTelefono(aca.catalogo.CatEscuela.getTelefono(con, escuelaId));
 		setNombreDirector(aca.empleado.EmpPersonal.getDirectorEscuela(con, escuelaId));
+		mapeaRegId(con, escuelaId);
+		setTelefono(telefono);
+		setNombrePais(nombrePais);
 		setMapaReportes(getReportes(con, escuelaId, listaAlumnos));
 	}
 	
@@ -78,6 +83,14 @@ public class UtilReporte {
 		this.nombreDirector = nombreDirector;
 	}
 	
+	public String getNombrePais() {
+		return nombrePais;
+	}
+
+	public void setNombrePais(String nombrePais) {
+		this.nombrePais = nombrePais;
+	}
+		
 	public static ReporteAlumno datosReportePorAlumno(Connection con, String escuelaId, String codigoId) throws SQLException{
 		ReporteAlumno datos  = new ReporteAlumno(con, escuelaId, codigoId);
 
@@ -91,6 +104,44 @@ public class UtilReporte {
 			lista.put(codigoId, datos);
 		}
 		return lista;
+	}
+	
+	public void mapeaRegId(Connection con, String escuelaId) throws SQLException{
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try{
+			ps = con.prepareStatement("SELECT p.PAIS_ID, p.PAIS_NOMBRE, e.ESTADO_ID, e.ESTADO_NOMBRE, c.CIUDAD_ID, c.CIUDAD_NOMBRE, esc.DIRECCION, esc.TELEFONO "+
+									"FROM CAT_ESCUELA as esc "+
+									"JOIN CAT_PAIS as p on esc.PAIS_ID = p.PAIS_ID "+
+									"JOIN CAT_ESTADO as e on esc.ESTADO_ID = e.ESTADO_ID "+
+									"JOIN CAT_CIUDAD as c on esc.CIUDAD_ID = c.CIUDAD_ID "+
+									"WHERE esc.ESCUELA_ID = ? "+
+									"AND p.PAIS_ID = e.PAIS_ID "+
+									"AND e.PAIS_ID = c.PAIS_ID "+
+									"AND c.PAIS_ID = esc.PAIS_ID "+
+									"AND e.ESTADO_ID = c.ESTADO_ID "+
+									"AND c.ESTADO_ID = esc.ESTADO_ID "+
+									"AND c.CIUDAD_ID = esc.CIUDAD_ID");
+					
+			ps.setString(1, escuelaId);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()){
+				nombrePais			= rs.getString("PAIS_NOMBRE");
+				telefono			= rs.getString("CIUDAD_NOMBRE")+", "+rs.getString("ESTADO_NOMBRE")+", "+
+									  rs.getString("DIRECCION")+", "+rs.getString("TELEFONO");
+				
+			}
+		
+		}catch(Exception ex){
+			System.out.println("Error - aca.catalogo.CatCiudad|mapeaRegId|:"+ex);
+			ex.printStackTrace();
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}	
+		
 	}
 	
 }
