@@ -15,6 +15,8 @@ public class UtilReporte {
 	private String escuelaId;
 	private String nombreEscuela;
 	private String telefono;//ciudad,estado,direccion,telefono. -- numero Personal
+	private String ciudad;
+	private String estado;
 	private String nombreDirector;
 	private String nombrePais;
 	private HashMap<String, ReporteAlumno> mapaReportes;
@@ -129,8 +131,9 @@ public class UtilReporte {
 			
 			if(rs.next()){
 				nombrePais			= rs.getString("PAIS_NOMBRE");
-				telefono			= rs.getString("CIUDAD_NOMBRE")+", "+rs.getString("ESTADO_NOMBRE")+", "+
-									  rs.getString("DIRECCION")+", "+rs.getString("TELEFONO");
+				telefono			= rs.getString("DIRECCION")+", "+rs.getString("TELEFONO");
+				ciudad 				= rs.getString("CIUDAD_NOMBRE");
+				estado 				= rs.getString("ESTADO_NOMBRE");
 				
 			}
 		
@@ -142,6 +145,34 @@ public class UtilReporte {
 			if (ps!=null) ps.close();
 		}	
 		
+	}
+
+	/**
+	 * @return the ciudad
+	 */
+	public String getCiudad() {
+		return ciudad;
+	}
+
+	/**
+	 * @param ciudad the ciudad to set
+	 */
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 	
 }
