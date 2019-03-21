@@ -610,7 +610,7 @@ public class FinMovimientos {
         try {
             ps = conn.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO" +
             		" FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_TIMESTAMP(?,'DD/MM/YYYY HH24:MI:SS') and estado<>'C' "
-            		+ "and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')");
+            		+ "and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N' )  ");  
             
             ps.setString(1, auxiliar);
 	        ps.setString(2, fecha);
@@ -692,7 +692,9 @@ public class FinMovimientos {
 		
 		try{
 			comando = " SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'D' THEN 1 ELSE -1 END),0) AS SALDO FROM FIN_MOVIMIENTOS"
-					+ " WHERE to_date(to_char(fecha,'dd/mm/yyyy'),'dd/mm/yyyy')< to_date('"+fecha+"','dd/mm/yyyy') and cuenta_id='"+cuenta+"' and estado<>'C'";				
+					+ " WHERE to_date(to_char(fecha,'dd/mm/yyyy'),'dd/mm/yyyy')< to_date('"+fecha+"','dd/mm/yyyy') and cuenta_id='"+cuenta+"' and estado<>'C'"
+							+ " and auxiliar<>'-' "
+							+ "";				
 			
 			rs = st.executeQuery(comando);					
 			if(rs.next()){

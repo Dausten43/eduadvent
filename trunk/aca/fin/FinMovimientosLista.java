@@ -24,7 +24,7 @@ public class FinMovimientosLista {
 					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA,'DD/MM/YYYY HH24:MI:SS') AS FECHA,"
 					+ " RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS "
-					+ " WHERE AUXILIAR = '"+auxiliar+"' AND CUENTA_ID IN (SELECT CUENTA_ID FROM FIN_CUENTA WHERE TIPO LIKE '%-ALUMNO%') "
+					+ " WHERE AUXILIAR = '"+auxiliar+"' AND CUENTA_ID IN (SELECT CUENTA_ID FROM FIN_CUENTA) "
 					+ " AND ESTADO = 'R' " + orden;
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
