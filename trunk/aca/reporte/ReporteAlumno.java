@@ -11,6 +11,7 @@ import java.util.HashMap;
 public class ReporteAlumno {
 	private String codigoId;
 	private String nombreAlumno;
+	private String cip;
 	private HashMap<String, GradoReporte> mapaGrados;
 	
 	public ReporteAlumno(){
@@ -22,6 +23,9 @@ public class ReporteAlumno {
 	public ReporteAlumno(Connection con, String escuelaId, String codigoId) throws SQLException {
 		setCodigoId(codigoId);
 		setNombreAlumno(aca.alumno.AlumPersonal.getNombre(con, codigoId, ""));
+		aca.alumno.AlumPersonal alm = new aca.alumno.AlumPersonal();
+		alm.mapeaRegId(con, codigoId);
+		setCip(alm.getCurp());
 		setMapaGrados(mapeaGradosPlan(con, codigoId));
     }
 	
@@ -219,5 +223,19 @@ public class ReporteAlumno {
 		}
 		
 		return lista;
+	}
+
+	/**
+	 * @return the cip
+	 */
+	public String getCip() {
+		return cip;
+	}
+
+	/**
+	 * @param cip the cip to set
+	 */
+	public void setCip(String cip) {
+		this.cip = cip;
 	}
 }
