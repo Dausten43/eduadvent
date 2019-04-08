@@ -10,8 +10,12 @@
 <%
 	boolean error 		= false;
 
-	String dir			= application.getRealPath("/alumno/respaldo")+"/";
+	String dir			= application.getRealPath("informe/carnet")+"/";
 	
+	if(request.getParameter("alumnos") != null){
+		dir = application.getRealPath("/alumno/respaldo")+"/";
+	}
+		
 	try{
 		 
 		new File(dir+"respaldo.zip").delete();

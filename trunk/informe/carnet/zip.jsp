@@ -10,7 +10,9 @@
 <%@ page import="java.sql.*" %>
 
 <%
-	boolean error 		= false;
+	boolean error 			= false;
+	boolean withoutPhotos 	= false;
+	boolean withoutUsers = false;
 
 	String dir				= application.getRealPath("informe/carnet")+"/";
 	String fechaIni			= request.getParameter("fechaIni");
@@ -21,131 +23,147 @@
 	String ciclo="";
 	
 	if(request.getParameter("empleados")==null){
+		dir				= application.getRealPath("/alumno/respaldo")+"/";
 	
+		ciclo = aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
+					
+		cicloId = ciclo;
+		
+			
+		//LISTA DE ESCUELAS
 	
-	
-	ciclo = aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
+		ArrayList<aca.vista.AlumInscrito> lisAlumnos 	= inscritosLista.getListaInscritos(conElias, escuelaId, " ORDER BY NIVEL, GRADO, GRUPO, NOMBRE,APATERNO,AMATERNO");
+		//ArrayList<aca.alumno.AlumPersonal> lisAlumnos = alumPersonalL.getListAlumnosInscritos(conElias, escuelaId, cicloId, "");
+		if(lisAlumnos.size() > 0){
+			System.out.println("datoos "+ cicloId + " " + escuelaId + " " + lisAlumnos.size());
+			Connection  conn2 				= null;
+			Statement   stmt2 				= null;
+			ResultSet   rset2 				= null;
+			String COMANDO 					= "";
+			int cont						= 0;
+			org.postgresql.largeobject.LargeObject obj			= null;
+			org.postgresql.largeobject.LargeObjectManager lobj	= null;
+			// Elegir el mejor ciclo
+		
+			/* --- PONER EN UN ARCHIVO .ZIP LAS IMAGENES --- */
+			try{ 
+				System.out.println("Respaldando...");
 				
-cicloId = ciclo;
-
-	
-//LISTA DE ESCUELAS
-
-	ArrayList<aca.vista.AlumInscrito> lisAlumnos 	= inscritosLista.getListaInscritos(conElias, escuelaId, " ORDER BY NIVEL, GRADO, GRUPO, NOMBRE,APATERNO,AMATERNO");
-	//ArrayList<aca.alumno.AlumPersonal> lisAlumnos = alumPersonalL.getListAlumnosInscritos(conElias, escuelaId, cicloId, "");
-	System.out.println("datoos "+ cicloId + " " + escuelaId );
-	Connection  conn2 				= null;
-	Statement   stmt2 				= null;
-	ResultSet   rset2 				= null;
-	String COMANDO 					= "";
-	int cont						= 0;
-	org.postgresql.largeobject.LargeObject obj			= null;
-	org.postgresql.largeobject.LargeObjectManager lobj	= null;
-	// Elegir el mejor ciclo
-
-	/* --- PONER EN UN ARCHIVO .ZIP LAS IMAGENES --- */
-	try{ 
-		System.out.println("Respaldando...");
-		
-		String zipFile = dir+"respaldo.zip";
-		FileOutputStream fout	= new FileOutputStream(zipFile);
-		ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
-		
-		for(aca.vista.AlumInscrito listaAl : lisAlumnos){
-		
-		String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
-		java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
-			if(f.exists()){
-			
-				String NombreArch 		= listaAl.getCodigoId()+".jpg";
-				//System.out.println(NombreArch);
-				//System.out.println("Nombre de Archivo:"+NombreArch);
-			    zout.putNextEntry(new ZipEntry(NombreArch));
-				 FileInputStream fis = new FileInputStream(f);
-				 
-				 byte[] buffer = new byte[4092];
-			        int byteCount = 0;
-			        while ((byteCount = fis.read(buffer)) != -1)
-			        {
-			            zout.write(buffer, 0, byteCount);
-			            System.out.print('.');
-			            System.out.flush();
-			        }
-			        cont++;
-			        fis.close();
-				    zout.closeEntry();
-			}			
-		    
-			
-		 }
-		
-		
-		zout.close();
-		fout.close();
-		
-		
-		 System.out.println("OK... "+String.valueOf(cont) + " archivos respaldados...");	
-	}catch (Exception ex){
-		ex.printStackTrace();
-		error = true;
-	}
-	
+				String zipFile = dir+"respaldo.zip";
+				FileOutputStream fout	= new FileOutputStream(zipFile);
+				ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
+				
+				for(aca.vista.AlumInscrito listaAl : lisAlumnos){
+				
+				String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
+				java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
+					if(f.exists()){
+					
+						String NombreArch 		= listaAl.getCodigoId()+".jpg";
+						//System.out.println(NombreArch);
+						//System.out.println("Nombre de Archivo:"+NombreArch);
+					    zout.putNextEntry(new ZipEntry(NombreArch));
+						 FileInputStream fis = new FileInputStream(f);
+						 
+						 byte[] buffer = new byte[4092];
+					        int byteCount = 0;
+					        while ((byteCount = fis.read(buffer)) != -1)
+					        {
+					            zout.write(buffer, 0, byteCount);
+					            System.out.print('.');
+					            System.out.flush();
+					        }
+					        cont++;
+					        fis.close();
+						    zout.closeEntry();
+					}else{
+						withoutPhotos = true;
+					}
+				    
+					
+				 }
+				
+				
+				zout.close();
+				fout.close();
+				
+				
+				 System.out.println("OK... "+String.valueOf(cont) + " archivos respaldados...");	
+			}catch (Exception ex){
+				ex.printStackTrace();
+				error = true;
+			}
+		}else{
+			withoutUsers = true;	
+		}
 	}else{
 		ArrayList<aca.empleado.EmpPersonal> lisEmpleadosActivos 	= empeladosLista.listEmpleados(conElias, escuelaId, "'E'","'A'", "ORDER BY NOMBRE,APATERNO,AMATERNO");
-		int cont						= 0;
-		System.out.println("Empleados " + lisEmpleadosActivos.size());
-		try{ 
-			System.out.println("Respaldando...");
-			
-			String zipFile = dir+"respaldo.zip";
-			FileOutputStream fout	= new FileOutputStream(zipFile);
-			ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
-			
-			for(aca.empleado.EmpPersonal listaAl : lisEmpleadosActivos){
-			
-			String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
-			java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
-				if(f.exists()){
+		if(lisEmpleadosActivos.size() > 0){
+			int cont						= 0;
+			System.out.println("Empleados " + lisEmpleadosActivos.size());
+			try{ 
+				System.out.println("Respaldando...");
 				
-					String NombreArch 		= listaAl.getCodigoId()+".jpg";
-					//System.out.println(NombreArch);
-					//System.out.println("Nombre de Archivo:"+NombreArch);
-				    zout.putNextEntry(new ZipEntry(NombreArch));
-					 FileInputStream fis = new FileInputStream(f);
-					 
-					 byte[] buffer = new byte[4092];
-				        int byteCount = 0;
-				        while ((byteCount = fis.read(buffer)) != -1)
-				        {
-				            zout.write(buffer, 0, byteCount);
-				            System.out.print('.');
-				            System.out.flush();
-				        }
-				        cont++;
-				        fis.close();
-					    zout.closeEntry();
-				}			
-			    
+				String zipFile = dir+"respaldo.zip";
+				System.out.println(zipFile);
+				FileOutputStream fout	= new FileOutputStream(zipFile);
+				ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
 				
-			 }
-			
-			
-			zout.close();
-			fout.close();
-			
-			
-			 System.out.println("OK... "+String.valueOf(cont) + " archivos respaldados...");	
-		}catch (Exception ex){
-			ex.printStackTrace();
-			error = true;
+				for(aca.empleado.EmpPersonal listaAl : lisEmpleadosActivos){
+				
+				String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
+				java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
+					if(f.exists()){
+					
+						String NombreArch 		= listaAl.getCodigoId()+".jpg";
+						//System.out.println(NombreArch);
+						//System.out.println("Nombre de Archivo:"+NombreArch);
+					    zout.putNextEntry(new ZipEntry(NombreArch));
+						 FileInputStream fis = new FileInputStream(f);
+						 
+						 byte[] buffer = new byte[4092];
+					        int byteCount = 0;
+					        while ((byteCount = fis.read(buffer)) != -1)
+					        {
+					            zout.write(buffer, 0, byteCount);
+					            System.out.print('.');
+					            System.out.flush();
+					        }
+					        cont++;
+					        fis.close();
+						    zout.closeEntry();
+					}else{
+						withoutPhotos = true;
+					}
+				    
+					
+				 }
+				
+				
+				zout.close();
+				fout.close();
+				
+				System.out.println(" => " + withoutPhotos);	
+				System.out.println("OK... "+String.valueOf(cont) + " archivos respaldados...");	
+			}catch (Exception ex){
+				ex.printStackTrace();
+				error = true;
+			}
+		}else{
+			withoutUsers = true;	
 		}
-		
 	}
 	
 	
 	if(error){
 		out.print("<div class='error'>Error</div>");
 		new File(dir+"respaldo.zip").delete();
+	}
+	else if(withoutPhotos){
+		out.print("withoutPhotos");
+	}
+	else if(withoutUsers){
+		out.print("withoutUsers");
 	}
 %>
 

@@ -122,10 +122,18 @@
 				$this.html('<i class="icon-folder-open icon-white"></i> Crear');
 				error.hide();
 				
-				if( $(r).filter('.error')[0] != undefined ){
+				let res = r+"";
+				if( res.includes("error") ){
 			    	error.html('<i class="icon-warning-sign"></i> Ocurrió un Error al Crear el Respaldo').show();
 			    	completado.hide();
 			    }
+				else if( res.includes("withoutPhotos") ){
+					alert("Hay usuarios sin fotografía. Se guardarán únicamente las existentes.");
+				}
+				else if(res.includes("withoutUsers")){
+					alert("No hay ningun usuario para respaldar.");
+					completado.hide();
+				}
 			});
 		})
 		
@@ -142,7 +150,7 @@
 			procesando.html('<img src="../../imagenes/wait.gif" style="width:14px;vertical-align:text-top;" /> Eliminando Respaldo del Servidor</strong>').show();
 			error.hide();
 			
-			$.get('deleteZip.jsp', function(r){
+			$.get('deleteZip.jsp?alumnos=true', function(r){
 				completado.html('<i class="icon-ok"></i> Respaldo Eliminado').show();
 				procesando.hide();
 				$this.prop('disabled', false);
@@ -167,7 +175,7 @@
 			procesando.hide();
 			error.hide();
 			
-			$.get('existeZip.jsp', function(r){
+			$.get('existeZip.jsp?alumnos=true', function(r){
 				if( $(r).filter('.error')[0] != undefined ){
 			    	error.html('<i class="icon-warning-sign"></i> No Existe el Archivo de Respaldo en el Servidor, Favor de Crearlo').show();
 			    }else{
