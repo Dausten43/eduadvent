@@ -208,7 +208,18 @@
 	String tieneFoto 			= "No";
 	String muestraYear			= String.valueOf(year.get(Calendar.YEAR));
 
-	for(aca.empleado.EmpPersonal empleado : lisEmpleadosActivos){	
+	ArrayList<String> listCodes = new ArrayList<String>();
+	
+	for(aca.empleado.EmpPersonal empleado : lisEmpleadosActivos){
+		
+		// Avoid duplicate ids
+		if(listCodes.contains(empleado.getCodigoId())){
+			System.out.println("Id repetido");
+			continue;
+		}else{
+			listCodes.add(empleado.getCodigoId());
+		}
+		
 		// Verifica si existe la imagen	
 		String dirFoto = application.getRealPath("/WEB-INF/fotos/"+empleado.getCodigoId()+".jpg");
 		java.io.File foto = new java.io.File(dirFoto);

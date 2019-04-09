@@ -211,8 +211,17 @@
 	String codigoAlumno			= "";
 	String tieneFoto 			= "No";
 	String muestraYear			= String.valueOf(year.get(Calendar.YEAR));
-
-	for(aca.vista.AlumInscrito inscrito : lisInscritos){	
+	
+	ArrayList<String> listCodes = new ArrayList<String>();
+	
+	for(aca.vista.AlumInscrito inscrito : lisInscritos){
+		// Avoid duplicate ids
+		if(listCodes.contains(inscrito.getCodigoId())){
+			System.out.println("Id repetido");
+			continue;
+		}else{
+			listCodes.add(inscrito.getCodigoId());
+		}
 		// Verifica si existe la imagen	
 		String dirFoto = application.getRealPath("/WEB-INF/fotos/"+inscrito.getCodigoId()+".jpg");
 		java.io.File foto = new java.io.File(dirFoto);
