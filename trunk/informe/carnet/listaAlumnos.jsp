@@ -124,6 +124,7 @@
 				
 				let res = r+"";
 				if( res.includes("error") ){
+					console.log(res);
 			    	error.html('<i class="icon-warning-sign"></i> Ocurrió un Error al Crear el Respaldo').show();
 			    	completado.hide();
 			    }
@@ -157,8 +158,9 @@
 				$this.html('<i class="icon-folder-open icon-white"></i> Eliminar');
 				error.hide();
 				
-				if( $(r).filter('.error')[0] != undefined ){
-			    	error.html('<i class="icon-warning-sign"></i> Ocurrió un Error al Eliminar el Respaldo').show();
+				let res = r+"";
+				if( res.includes("error") ){
+			    	error.html('<i class="icon-warning-sign"></i> Ocurrió un Error al elimniar el Respaldo').show();
 			    	completado.hide();
 			    }
 			})
@@ -176,10 +178,11 @@
 			error.hide();
 			
 			$.get('existeZip.jsp?alumnos=true', function(r){
-				if( $(r).filter('.error')[0] != undefined ){
+				let res = r+"";
+				if( res.includes("error") ){
 			    	error.html('<i class="icon-warning-sign"></i> No Existe el Archivo de Respaldo en el Servidor, Favor de Crearlo').show();
 			    }else{
-			    	location.href="respaldo.zip";
+			    	location.href="./respaldoAl.zip";
 			    }
 			})
 		})

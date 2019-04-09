@@ -12,15 +12,16 @@
 
 	String dir			= application.getRealPath("informe/carnet")+"/";
 	
-	if(request.getParameter("alumnos") != null){
-		dir = application.getRealPath("/alumno/respaldo")+"/";
-	}
-	
 	try{
-		 
-		File f = new File(dir+"respaldo.zip");
+		File f;
+		if(request.getParameter("alumnos") != null){
+			f = new File(dir+"respaldoAl.zip");
+		}else{
+			f = new File(dir+"respaldoEmp.zip");
+		}
+		
 		System.out.println("Aqui vamos");
-		if(f.exists() && !f.isDirectory()) { 
+		if(f.exists() && !f.isDirectory()) {
  			//Everything cool man :D
 		}else{
 			error = true;

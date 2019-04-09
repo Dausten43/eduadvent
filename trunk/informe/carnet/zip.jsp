@@ -21,10 +21,10 @@
 	String cicloId			= request.getParameter("Ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("Ciclo");
 	
 	String ciclo="";
+	String errorMessage = "";
 	
 	if(request.getParameter("empleados")==null){
-		dir				= application.getRealPath("/alumno/respaldo")+"/";
-	
+		System.out.println("Dir => " + dir);
 		ciclo = aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
 					
 		cicloId = ciclo;
@@ -49,16 +49,16 @@
 			try{ 
 				System.out.println("Respaldando...");
 				
-				String zipFile = dir+"respaldo.zip";
+				String zipFile = dir+"respaldoAl.zip";
 				FileOutputStream fout	= new FileOutputStream(zipFile);
 				ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
 				
 				for(aca.vista.AlumInscrito listaAl : lisAlumnos){
-				
-				String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
-				java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
-					if(f.exists()){
 					
+					String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
+					java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
+					if(f.exists()){
+						System.out.println(listaAl.getCodigoId());
 						String NombreArch 		= listaAl.getCodigoId()+".jpg";
 						//System.out.println(NombreArch);
 						//System.out.println("Nombre de Archivo:"+NombreArch);
@@ -91,6 +91,7 @@
 				 System.out.println("OK... "+String.valueOf(cont) + " archivos respaldados...");	
 			}catch (Exception ex){
 				ex.printStackTrace();
+				errorMessage = ex.getMessage();
 				error = true;
 			}
 		}else{
@@ -104,15 +105,15 @@
 			try{ 
 				System.out.println("Respaldando...");
 				
-				String zipFile = dir+"respaldo.zip";
+				String zipFile = dir+"respaldoEmp.zip";
 				System.out.println(zipFile);
 				FileOutputStream fout	= new FileOutputStream(zipFile);
 				ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
 				
 				for(aca.empleado.EmpPersonal listaAl : lisEmpleadosActivos){
-				
-				String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
-				java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
+					
+					String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
+					java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
 					if(f.exists()){
 					
 						String NombreArch 		= listaAl.getCodigoId()+".jpg";
@@ -147,6 +148,7 @@
 				System.out.println("OK... "+String.valueOf(cont) + " archivos respaldados...");	
 			}catch (Exception ex){
 				ex.printStackTrace();
+				errorMessage = ex.getMessage();
 				error = true;
 			}
 		}else{
@@ -156,8 +158,12 @@
 	
 	
 	if(error){
-		out.print("<div class='error'>Error</div>");
-		new File(dir+"respaldo.zip").delete();
+		if(request.getParameter("empleados")==null){
+			new File(dir+"respaldoAl.zip").delete();
+		}else{
+			new File(dir+"respaldoEmp.zip").delete();
+		}
+		out.print("error: " + errorMessage);
 	}
 	else if(withoutPhotos){
 		out.print("withoutPhotos");
