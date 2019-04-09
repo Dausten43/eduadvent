@@ -53,7 +53,16 @@
 				FileOutputStream fout	= new FileOutputStream(zipFile);
 				ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
 				
+				ArrayList<String> listCodes = new ArrayList<String>();
 				for(aca.vista.AlumInscrito listaAl : lisAlumnos){
+					
+					// Avoid duplicate ids
+					if(listCodes.contains(listaAl.getCodigoId())){
+						System.out.println("Id repetido");
+						continue;
+					}else{
+						listCodes.add(listaAl.getCodigoId());
+					}
 					
 					String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
 					java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
@@ -110,7 +119,17 @@
 				FileOutputStream fout	= new FileOutputStream(zipFile);
 				ZipOutputStream zout	= new ZipOutputStream(new BufferedOutputStream(fout));
 				
+				
+				ArrayList<String> listCodes = new ArrayList<String>();
 				for(aca.empleado.EmpPersonal listaAl : lisEmpleadosActivos){
+					
+					// Avoid duplicate ids
+					if(listCodes.contains(listaAl.getCodigoId())){
+						System.out.println("Id repetido");
+						continue;
+					}else{
+						listCodes.add(listaAl.getCodigoId());
+					}
 					
 					String dirAlumnos=application.getRealPath("/WEB-INF/fotos/");
 					java.io.File f = new java.io.File(dirAlumnos+"/"+listaAl.getCodigoId()+".jpg");
