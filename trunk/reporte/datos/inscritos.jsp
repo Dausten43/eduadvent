@@ -191,14 +191,14 @@
 					  <td align="left"><%= aca.catalogo.CatPais.getPais(conElias,inscrito.getPaisId())%></td>
 					  <td align="left"><%= aca.catalogo.CatEstado.getEstado(conElias,inscrito.getPaisId(),inscrito.getEstadoId())%></td>
 					  <td align="left"><%= aca.catalogo.CatCiudad.getCiudad(conElias,inscrito.getPaisId(),inscrito.getEstadoId(),inscrito.getCiudadId())%></td>
-					  <td align="left"><%= inscrito.getColonia()%></td>
-					  <td align="left"><%= inscrito.getDireccion()%></td>
-					  <td align="left"><%= inscrito.getTelefono()%></td>
+					  <td align="left"><%= Personal.getColonia() != null ? Personal.getColonia() : inscrito.getColonia() != null ? inscrito.getColonia() : "-"%></td>
+					  <td align="left"><%= Personal.getDireccion() != null ? Personal.getDireccion() : inscrito.getDireccion() != null ? inscrito.getDireccion(): "-"%></td>
+					  <td align="left"><%= Personal.getTelefono()%></td>
 					  <td align="left"><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias,escuelaId,inscrito.getClasfinId())%></td>
 					  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,inscrito.getReligion())%></td>
-					  <td align="left"><%= inscrito.getTutor()%></td> 
-					  <td align="left"><%= inscrito.getCelular()%></td> 
-					  <td align="left"><%= inscrito.getEmail()%></td>
+					  <td align="left"><%= inscrito.getTutor() == null ? "-" : inscrito.getTutor()%></td> 
+					  <td align="left"><%= inscrito.getCelular() == null ? "-" : inscrito.getCelular()%></td> 
+					  <td align="left"><%= Personal.getEmail() != null ? Personal.getEmail() : inscrito.getEmail() != null ? inscrito.getEmail() : "-"%></td>
 					  <td align="left"><%= inscrito.getTipoSangre() %></td>
 					  <td align="left"><%= inscrito.getCorreo()%></td>
 					  <td align="left"><%= inscrito.getIglesia()%></td> 
