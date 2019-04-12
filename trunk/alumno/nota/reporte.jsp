@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@page contentType="application/json; charset=UTF-8" language="java"%>
 <%@page import="aca.reporte.UtilReporte"%>
@@ -8,6 +9,13 @@ String[] codigoAlumno = request.getParameterValues("alumnos[]");
 
 if(codigoAlumno != null){
 	String escuelaId = codigoAlumno[0].substring(0,2);
+List<String> lsALumnos = Arrays.asList(codigoAlumno);
+for(String alumnos : lsALumnos){
+	if(alumnos.length()>=3){
+		escuelaId=alumnos.substring(0,3);
+	}
+}
+System.out.println(escuelaId);
 
 	UtilReporte ur = new UtilReporte(conElias, escuelaId, new ArrayList<String>( Arrays.asList(codigoAlumno) ));
 
