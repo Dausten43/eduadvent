@@ -18,7 +18,6 @@
 	
 	//VARIABLES ---------------------------->
 	String escuelaId 		= (String) session.getAttribute("escuela");
-	String cicloId 			= (String) session.getAttribute("cicloId");
 	String codigoId 		= (String) session.getAttribute("codigoId");
 	
 	alumPersonal.mapeaRegId(conElias, codigoId);
