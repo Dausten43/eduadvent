@@ -58,7 +58,8 @@ System.out.println(lsTareasPlan.size() +" " + lsTareasAct.size() +" " + cicloIdM
          <th></th>
          <th><fmt:message key="aca.FechaEntrega"/></th>
          <th><fmt:message key="aca.Materia"/></th>
-         <th><fmt:message key="aca.Actividad"/></th>
+         <th><fmt:message key="aca.Titulo"/></th>
+         <th><fmt:message key="aca.Descripcion"/></th>
          <th><fmt:message key="portal.EnviarTarea"/></th>
          <th><fmt:message key="aca.FechaEnvio"/></th>
        </tr>
@@ -75,6 +76,7 @@ System.out.println(lsTareasPlan.size() +" " + lsTareasAct.size() +" " + cicloIdM
 							%>
 						  </td>
 				          <td><%= aca.plan.PlanCurso.getCursoNombre(conElias,tarea.getCursoId())%></td>
+				          <td><%=tarea.getTareaNombre() %></td>
 				          <td><%=tarea.getDescripcion()%></td>
 				          <td> - </td>
 				          <td> - </td>
@@ -106,6 +108,7 @@ System.out.println(lsTareasPlan.size() +" " + lsTareasAct.size() +" " + cicloIdM
 	%>
 			  </td>	  
 			  <td><%= aca.plan.PlanCurso.getCursoNombre(conElias,actividad.getCursoId())%></td>
+			  <td><fmt:message key="aca.Actividad"/></td>
 			  <td><%= actividad.getActividadNombre()%></td>
 	  	<% 			
 	  	
