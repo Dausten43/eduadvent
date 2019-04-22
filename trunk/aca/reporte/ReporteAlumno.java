@@ -132,8 +132,7 @@ public class ReporteAlumno {
 						grado_reporte.setListaMaterias(con, listMaterias, codigoId);
 						// Agrega el grado al HashMap
 						mapa.put(grado, grado_reporte);
-						// Se limpia la lista de materias para comenzar
-						// Comenzar a llenarla con las materias del siguiente rgado
+						// Se limpia la lista de materias para finalizar
 						listMaterias.clear();
 					}
 				}
