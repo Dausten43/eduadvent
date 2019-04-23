@@ -76,7 +76,7 @@ public class ReporteAlumno {
 										  " from ( " +
 										  "			select * "+
 										  "			from plan_curso"+ 
-										  "			where plan_id = ? and estado = 'A'"+
+										  "			where plan_id = ? and estado = 'A' and boleta = 'S'"+
 										  "	      ) as a"+
 										  "	left join ("+
 										  "			select *"+
@@ -84,7 +84,7 @@ public class ReporteAlumno {
 										  "			where codigo_id = ? and substring(curso_id FOR 6) = ?"+
 										  "    	 ) as b"+
 										  "	on a.curso_id = b.curso_id"+
-										  "	order by a.grado, a.orden"); // Order
+										  "	order by a.grado, a.orden, b.codigo_id"); // Order
 				ps.setString(1, plan_id);
 				ps.setString(2, codigoId);
 				ps.setString(3, plan_id);
