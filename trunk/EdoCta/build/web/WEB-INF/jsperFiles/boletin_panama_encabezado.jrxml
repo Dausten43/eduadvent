@@ -61,13 +61,13 @@
 		<groupHeader>
 			<band height="145">
 				<rectangle>
-					<reportElement x="306" y="111" width="253" height="16" uuid="799c7f76-a9ce-4f96-bd3e-296e3fa870b4"/>
+					<reportElement x="290" y="111" width="253" height="16" uuid="799c7f76-a9ce-4f96-bd3e-296e3fa870b4"/>
 				</rectangle>
 				<rectangle>
-					<reportElement x="27" y="127" width="279" height="18" uuid="21b9397b-42e7-4086-8c60-0918af9a01b5"/>
+					<reportElement x="11" y="127" width="279" height="18" uuid="21b9397b-42e7-4086-8c60-0918af9a01b5"/>
 				</rectangle>
 				<rectangle>
-					<reportElement x="27" y="111" width="279" height="16" uuid="d5bba1f5-89e0-46a1-bf06-b3570d1e281c"/>
+					<reportElement x="11" y="111" width="279" height="16" uuid="d5bba1f5-89e0-46a1-bf06-b3570d1e281c"/>
 				</rectangle>
 				<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
 					<reportElement x="0" y="1" width="68" height="64" uuid="3cddbd68-2934-4976-a8eb-602e48dfe77d"/>
@@ -81,60 +81,60 @@
 					<textFieldExpression><![CDATA[$F{escuela}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="442" y="95" width="117" height="16" uuid="1093ffaa-2699-41ca-bd34-ffac783564ca"/>
+					<reportElement x="426" y="95" width="117" height="16" uuid="1093ffaa-2699-41ca-bd34-ffac783564ca"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Año Lectivo: "+ $F{ciclo}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="27" y="95" width="116" height="16" uuid="2734dcaa-2dea-451f-850f-509d483f4bb4"/>
+					<reportElement x="11" y="95" width="116" height="16" uuid="2734dcaa-2dea-451f-850f-509d483f4bb4"/>
 					<textElement verticalAlignment="Middle">
 						<font size="12" isBold="false"/>
 					</textElement>
 					<text><![CDATA[Informe Trimestral]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true">
-					<reportElement stretchType="RelativeToBandHeight" x="30" y="111" width="275" height="16" uuid="195495e2-2633-4220-b6e5-7c5e8efeb6ee"/>
+					<reportElement stretchType="RelativeToBandHeight" x="14" y="111" width="275" height="16" uuid="195495e2-2633-4220-b6e5-7c5e8efeb6ee"/>
 					<textElement verticalAlignment="Middle">
 						<font size="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Estudiante: " + $F{nombre_estudiante}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="30" y="127" width="275" height="18" uuid="1ddff017-2841-4ab0-b449-ae0e2a1e97fb"/>
+					<reportElement x="14" y="127" width="275" height="18" uuid="1ddff017-2841-4ab0-b449-ae0e2a1e97fb"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA["No. Cédula: " + $F{codigo_estudiante}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="316" y="111" width="243" height="16" uuid="bd3cf3a2-56f5-45d7-aa80-fac878986b47"/>
+					<reportElement x="300" y="111" width="243" height="16" uuid="bd3cf3a2-56f5-45d7-aa80-fac878986b47"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA["Consejero(a): " + $F{nombre_consejera}]]></textFieldExpression>
 				</textField>
 				<rectangle>
-					<reportElement x="306" y="127" width="253" height="18" uuid="6784c763-9bd1-4201-88be-ccd2b61e547f"/>
+					<reportElement x="290" y="127" width="253" height="18" uuid="6784c763-9bd1-4201-88be-ccd2b61e547f"/>
 				</rectangle>
 				<textField>
-					<reportElement x="316" y="127" width="243" height="18" uuid="960f45a6-5594-48a6-9a06-b776f948aa02"/>
+					<reportElement x="300" y="127" width="243" height="18" uuid="960f45a6-5594-48a6-9a06-b776f948aa02"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA["Nivel: " + $F{nivel}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="458" y="132" width="80" height="10" uuid="46b1fb1f-8afe-4c72-b4ec-d59f3f008078"/>
+					<reportElement x="442" y="132" width="80" height="10" uuid="46b1fb1f-8afe-4c72-b4ec-d59f3f008078"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
-					<reportElement x="538" y="132" width="40" height="10" uuid="d4330f7f-17e0-43b5-8dc9-839cb987202a"/>
+					<reportElement x="522" y="132" width="40" height="10" uuid="d4330f7f-17e0-43b5-8dc9-839cb987202a"/>
 					<textElement verticalAlignment="Middle">
 						<font size="6"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<image>
-					<reportElement x="473" y="0" width="86" height="35" uuid="a01c4812-e186-4983-bf31-d39ab7b24946"/>
+					<reportElement x="455" y="0" width="86" height="35" uuid="a01c4812-e186-4983-bf31-d39ab7b24946"/>
 					<imageExpression><![CDATA["MEDUCA.gif"]]></imageExpression>
 				</image>
 				<staticText>
@@ -165,7 +165,7 @@
 	<detail>
 		<band height="14">
 			<subreport>
-				<reportElement stretchType="RelativeToTallestObject" x="27" y="0" width="378" height="14" uuid="5a4637bb-2979-48d2-b7ea-3d7c48cbbe12"/>
+				<reportElement stretchType="RelativeToTallestObject" x="11" y="0" width="378" height="14" uuid="5a4637bb-2979-48d2-b7ea-3d7c48cbbe12"/>
 				<dataSourceExpression><![CDATA[$F{calificaciones}]]></dataSourceExpression>
 				<subreportExpression><![CDATA["boletin_panama.jasper"]]></subreportExpression>
 			</subreport>
@@ -173,7 +173,7 @@
 				<reportElement x="0" y="13" width="100" height="1" uuid="7262a739-47b1-4e19-85b1-47dba1a30cae"/>
 			</break>
 			<subreport>
-				<reportElement positionType="Float" x="405" y="0" width="160" height="14" printWhenGroupChanges="dsReportgp" uuid="9aff5d56-6f19-4904-863f-61a6ab044a90"/>
+				<reportElement positionType="Float" x="389" y="0" width="160" height="14" printWhenGroupChanges="dsReportgp" uuid="9aff5d56-6f19-4904-863f-61a6ab044a90"/>
 				<subreportParameter name="director">
 					<subreportParameterExpression><![CDATA[$F{director}]]></subreportParameterExpression>
 				</subreportParameter>
