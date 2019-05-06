@@ -89,7 +89,12 @@ public class ReporteAlumno {
 				ps.setString(2, codigoId);
 				ps.setString(3, plan_id);
 				rs = ps.executeQuery();
+				
+				
 				while(rs.next()){
+					
+					System.out.println(rs.getString("GRADO") + " " + rs.getString("CICLO_GRUPO_ID") + " if1 " +  (!grado.equals("") && !grado.equals(rs.getString("GRADO"))) + " if2 " + (grado.equals("")));
+					
 					// Si la variable grado ya fue asignada 
 					// y si el grado de la siguiente materia es
 					// diferente a la materia anterior entonces
@@ -118,6 +123,7 @@ public class ReporteAlumno {
 						// Si trae ciclo grupo id significa que el
 						// alumno estuvo inscrito a esa materia
 						//grado_reporte = new GradoReporte(con, plan_id, rs.getString("CICLO_GRUPO_ID"), grado);
+						
 						grado_reporte = new GradoReporte(con, plan_id, rs.getString("CICLO_GRUPO_ID") == null?"":rs.getString("CICLO_GRUPO_ID"), grado);
 					}
 					// Se inicializa el modelo de la Materia
