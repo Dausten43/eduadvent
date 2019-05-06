@@ -133,9 +133,9 @@ body {
 								" and to_date(to_char(fecha,'dd/mm/yyyy'),'dd/mm/yyyy') between to_date('"
 										+ request.getParameter("FechaIni") + "','dd/mm/yyyy') and to_date('"
 										+ request.getParameter("FechaFin") + "','dd/mm/yyyy') and cuenta_id='"
-										+ request.getParameter("cuenta") + "' and estado<>'C' order by cuenta_id");
-						BigDecimal saldoCuenta = aca.fin.FinMovimientos.saldoPolizas(conElias,
-								request.getParameter("cuenta"), request.getParameter("FechaIni"));
+										+ request.getParameter("cuenta") + "' and estado<>'C' and auxiliar <>'-' order by cuenta_id");
+						BigDecimal saldoCuenta = BigDecimal.ZERO; //  aca.fin.FinMovimientos.saldoPolizas(conElias,
+								//request.getParameter("cuenta"), request.getParameter("FechaIni"));
 						if (saldoCuenta.compareTo(BigDecimal.ZERO) >= 0) {
 							debitos = debitos.add(saldoCuenta);
 						} else {
