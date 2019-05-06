@@ -73,6 +73,7 @@ String ciclo = request.getParameter("ciclo") == null
 	<div class="container-fluid">
 	
 	<form name="frmEstado" id="frmEstado" method="post"	action="http://172.16.199.168:8080/kardex/pdf" class="form-inline" target="_new">
+<!-- 	<form name="frmEstado" id="frmEstado" method="post"	action="https://eduadvent.um.edu.mx/reportes/kardex/pdf" class="form-inline" target="_new"> -->
 	<table style="width: 100%">
 		<tr>
 		<td style="width: 70%"><div class="form-group">
@@ -298,6 +299,16 @@ function cargaListaAlumnos(){
 	
 }
 
+
+function selecciona(elemento){
+	if( $(elemento).is(':checked')){
+		console.log('checados');
+		$('.alumnos').prop('checked',true);
+	}else{
+		console.log('no checados');
+		$('.alumnos').prop('checked',false);
+	}
+}
 	</script>
 
 <%@ include file="../../cierra_elias.jsp"%>
