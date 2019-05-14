@@ -46,15 +46,19 @@
 		<%int cont=0; %>
 		<%for(aca.alumno.AlumPersonal alumno : alumnos){ %>
 			<%
-				cont++; 
-				AlumPadres.mapeaRegId(conElias, alumno.getCodigoId());
-				if(!AlumPadres.getCodigoTutor().equals("") || !AlumPadres.getCodigoTutor().equals("-"))
-					EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoTutor());
-				if(!AlumPadres.getCodigoMadre().equals("") || !AlumPadres.getCodigoMadre().equals("-"))
-					EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoMadre());
-				if(!AlumPadres.getCodigoPadre().equals("") || !AlumPadres.getCodigoPadre().equals("-"))
-					EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoPadre());
-
+				cont++;
+				boolean tutorConUsuario = false;
+				AlumPadres.setCodigoId(alumno.getCodigoId());
+				if(AlumPadres.existeReg(conElias)){
+					AlumPadres.mapeaRegId(conElias, alumno.getCodigoId());
+					tutorConUsuario = true;
+					if(!AlumPadres.getCodigoTutor().equals("") || !AlumPadres.getCodigoTutor().equals("-"))
+						EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoTutor());
+					if(!AlumPadres.getCodigoMadre().equals("") || !AlumPadres.getCodigoMadre().equals("-"))
+						EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoMadre());
+					if(!AlumPadres.getCodigoPadre().equals("") || !AlumPadres.getCodigoPadre().equals("-"))
+						EmpPersonal.mapeaRegId(conElias, AlumPadres.getCodigoPadre());
+				}
 			%>
 			<tr>
 				<td><%=cont %></td>
@@ -65,10 +69,10 @@
 				<td><%=alumno.getGrupo() %></td>
 				<td><%=alumno.getFNacimiento() %></td>
 				<td><%=alumno.getGenero() %></td>
-				<td><%=EmpPersonal.getCodigoId().equals("")?alumno.getDireccion():EmpPersonal.getDireccion() %></td>
-				<td><%=EmpPersonal.getCodigoId().equals("")?alumno.getTelefono():EmpPersonal.getTelefono() %></td>
-				<td><%=alumno.getCelular()%></td>
-				<td><%=EmpPersonal.getCodigoId().equals("")?alumno.getTutor():EmpPersonal.getNombre()+" "+EmpPersonal.getApaterno()+" "+EmpPersonal.getAmaterno() %></td>
+				<td><%=EmpPersonal.getCodigoId().equals("")? alumno.getDireccion() == null ? "-" : alumno.getDireccion() : EmpPersonal.getDireccion() %></td>
+				<td><%=EmpPersonal.getCodigoId().equals("")? alumno.getTelefono()  == null ? "-" : alumno.getTelefono()  : EmpPersonal.getTelefono() %></td>
+				<td><%=alumno.getCelular() == null ? "-" : alumno.getCelular() %></td>
+				<td><%=tutorConUsuario?EmpPersonal.getNombre()+" "+EmpPersonal.getApaterno()+" "+EmpPersonal.getAmaterno() : alumno.getTutor() == null? "-" : alumno.getTutor()%></td>
 				<td><%=alumno.getCurp() %></td>
 			</tr>
 		<%} %>
