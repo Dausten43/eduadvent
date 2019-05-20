@@ -171,7 +171,7 @@
 			
 			
 			
-			float[] DataColumnDefinitionSize = { 200F };
+			float[] DataColumnDefinitionSize = { 700f };
 			PdfPTable dataTable = new PdfPTable(DataColumnDefinitionSize);
 			dataTable.getDefaultCell().setBorder(0);
 			dataTable.setHorizontalAlignment(0);
@@ -200,24 +200,33 @@
 			dataTable.addCell(celda);
 	
 			
+			frase = new Phrase(aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), AlumPlan.getNivelAlumno(conElias, codigoAlumno)+""),
+					FontFactory.getFont(FontFactory.HELVETICA, 6, Font.BOLD, new Color(0,0,0)));
+			celda = new PdfPCell(frase);
+			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+			celda.setBorder(0);
+			celda.setPaddingTop(7f);
+			celda.setPaddingBottom(0f);
+			dataTable.addCell(celda);
+		
+			frase = new Phrase(" "
+				, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
 			
-					frase = new Phrase(""
-					, FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
+			if(!alumPersonal.getCurp().equals("")){
+				frase = new Phrase("CURP: "+alumPersonal.getCurp()
+				, FontFactory.getFont(FontFactory.HELVETICA, 5, Font.NORMAL, new Color(0,0,0)));
+			}
+			
 		    celda = new PdfPCell(frase);
 			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
+			celda.setPaddingTop(1f);
 			celda.setBorder(0);
 			celda.setPaddingBottom(2.5f);
 			dataTable.addCell(celda);
 			
 			
 			
-			frase = new Phrase(aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, (String) session.getAttribute("escuela"), AlumPlan.getNivelAlumno(conElias, codigoAlumno)+""),
-					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
-			celda = new PdfPCell(frase);
-			celda.setHorizontalAlignment(Element.ALIGN_LEFT);
-			celda.setBorder(0);
-			celda.setPaddingBottom(4f);
-			dataTable.addCell(celda);
+			
 			
 // 			frase = new Phrase(codigoAlumno, 
 // 					FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new Color(0,0,0)));
