@@ -72,7 +72,7 @@ String ciclo = request.getParameter("ciclo") == null
 	</form>
 	<div class="container-fluid">
 	
-	<form name="frmEstado" id="frmEstado" method="post"	action="http://172.16.199.168:8080/kardex/pdf" class="form-inline" target="_new">
+	<form name="frmEstado" id="frmEstado" method="post"	action="http://localhost:8082/kardex/pdf" class="form-inline" target="_new">
 <!-- 	<form name="frmEstado" id="frmEstado" method="post"	action="https://eduadvent.um.edu.mx/reportes/kardex/pdf" class="form-inline" target="_new"> -->
 	<table style="width: 100%">
 		<tr>
@@ -93,15 +93,18 @@ String ciclo = request.getParameter("ciclo") == null
 		<td><div class="form-group">
 				<label>Modelo de Certificado</label>
 					<select name="modelo">
-					<option value="1">Normal</option>
-					<option value="2">Educación Básica Primaria</option>
-					<option value="3">Primaria Incompleto</option>
-					<option value="4">Premedia y Media</option>
-					<option value="8">Premedia y Media incompleto</option>
-					<option value="5">Premedia Incompleto</option>
-					<option value="7">Media Incompleto</option>
+					<option value="12">Premedia incompleta o Media incompleta</option>
 					<option value="6">Educacion Basica General</option>
-					
+					<option value="5">Premedia Incompleta</option>
+					<option value="8">Premedia y Media completas</option>
+					<option value="11">Premedia incompleta y Media incompleta</option>
+					<option value="10">Premedia completa y Media incompleta</option>
+					<option value="7">Media Incompleta</option>
+					<option value="9">Media completa</option>
+					<option value="2">Educación Básica Primaria</option>
+					<option value="3">Primaria Incompleta</option>
+					<!-- <option value="1">Normal</option> -->
+					<!-- <option value="4">Premedia y Media</option> -->
 				</select>
 			</div></td>
 		</tr>
