@@ -5,7 +5,7 @@
 <%@page import="java.util.Arrays"%>
 <%
 
-String[] codigoAlumno = request.getParameterValues("alumnos[]");
+String[] codigoAlumno = request.getParameterValues("alumno");
 
 if(codigoAlumno != null){
 	String escuelaId = codigoAlumno[0].substring(0,2);
