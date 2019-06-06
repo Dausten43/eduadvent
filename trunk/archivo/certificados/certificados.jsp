@@ -72,7 +72,7 @@ String ciclo = request.getParameter("ciclo") == null
 	</form>
 	<div class="container-fluid">
 	
-	<form name="frmEstado" id="frmEstado" method="post"	action="http://localhost:8082/kardex/pdf" class="form-inline" target="_new">
+	<form name="frmEstado" id="frmEstado" method="post"	action="http://172.16.251.14:8080/reportes/kardex/pdf" class="form-inline" target="_new">
 <!-- 	<form name="frmEstado" id="frmEstado" method="post"	action="https://eduadvent.um.edu.mx/reportes/kardex/pdf" class="form-inline" target="_new"> -->
 	<table style="width: 100%">
 		<tr>
