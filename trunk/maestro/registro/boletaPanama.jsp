@@ -1,4 +1,4 @@
-<%@page import="javafx.scene.layout.Border"%>
+<%-- <%@page import="javafx.scene.layout.Border"%> --%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.TreeMap"%>
 <%@page import="aca.kardex.KrdxAlumEval"%>
