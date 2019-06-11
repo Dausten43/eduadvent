@@ -227,11 +227,7 @@ public class PlanCurso{
 	}
 
 	public void setAspectos(String aspectos) {
-		if(aspectos == null){
-			this.aspectos = "N";
-		}else{
-			this.aspectos = aspectos;
-		}
+		this.aspectos = aspectos;
 	}	
 
 	/**
