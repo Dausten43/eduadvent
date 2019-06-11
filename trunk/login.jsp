@@ -33,36 +33,6 @@ System.out.println("DATO EN LA SESION USER" + session.getAttribute("user"));
 		<img src="imagenes/eduAdvent.png" >
 	</div>
 
-	<div class="well-white">
-        <div class="page-header">
-            <h1>Entrar al Sistema</h1>
-        </div>
-
-        <form action="" method="post">
-        
-        	<p>
-        		<div class="control-group">
-        			<input id="Usuario" name="Usuario" type="text" placeholder="Usuario">
-        		</div>
-        	</p>
-        	
-        	<p>
-        		<div class="control-group">
-        			<input id="Clave" name="Clave" type="password" placeholder="Password">
-        		</div>
-			</p>
-			
-			<p>
-				<span class="loginError"></span>
-			</p>
-			
-			<p>
-        		<button id="entrar" class="btn btn-success btn-large"><i class="icon-user icon-white"></i> Iniciar Sesi&oacute;n</button>
-        	</p>
-			
-        </form>
-        &nbsp;
-    </div>
 
 	<div class="footer">
 		<a target="_blank" href="AvisoDePrivacidad.pdf" style="color: #D8D8D8;">Aviso de privacidad</a>
