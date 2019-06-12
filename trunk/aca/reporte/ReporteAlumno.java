@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class ReporteAlumno {
 	private String codigoId;
@@ -55,7 +56,7 @@ public class ReporteAlumno {
 	
 	public static HashMap<String, GradoReporte> mapeaGradosPlan(Connection con, String codigoId) throws SQLException{
 		HashMap<String, GradoReporte> mapa 	= new HashMap<String, GradoReporte>();
-		ArrayList<MateriaReporte> listMaterias = new ArrayList<MateriaReporte>();
+		LinkedHashMap<String, MateriaReporte> hashMaterias = new LinkedHashMap<String, MateriaReporte>();
 		ResultSet rs 					= null;
 		PreparedStatement ps 			= null;
 		
@@ -84,7 +85,7 @@ public class ReporteAlumno {
 										  "			where codigo_id = ? and substring(curso_id FOR 6) = ?"+
 										  "    	 ) as b"+
 										  "	on a.curso_id = b.curso_id"+
-										  "	order by a.grado, a.orden, b.codigo_id"); // Order
+										  "	order by a.grado, b.codigo_id, b.ciclo_grupo_id, a.orden "); // Order
 				ps.setString(1, plan_id);
 				ps.setString(2, codigoId);
 				ps.setString(3, plan_id);
@@ -100,12 +101,12 @@ public class ReporteAlumno {
 					if(!grado.equals("") && !grado.equals(rs.getString("GRADO"))){
 						// Le asigna la lista de materias al grupo que se acaba de terminar
 						// Si cursó ese grado se calculan las calificaciones a la vez
-						grado_reporte.setListaMaterias(con, listMaterias, codigoId);
+						grado_reporte.setMapaMaterias(con, hashMaterias, codigoId);
 						// Agrega el grado al HashMap
 						mapa.put(grado, grado_reporte);
 						// Se limpia la lista de materias para comenzar
 						// a llenarla con las materias del siguiente grado
-						listMaterias.clear();
+						hashMaterias.clear();
 						// Se actualiza al grado que continua
 						grado = rs.getString("GRADO");
 						// Inicializa el modelo del Grado siguiente.
@@ -125,19 +126,24 @@ public class ReporteAlumno {
 						grado_reporte = new GradoReporte(con, plan_id, rs.getString("CICLO_GRUPO_ID") == null?"":rs.getString("CICLO_GRUPO_ID"), grado);
 					}
 					// Se inicializa el modelo de la Materia
-					MateriaReporte materia = new MateriaReporte(rs.getString("CURSO_ID"), rs.getString("CURSO_NOMBRE"), Double.parseDouble(rs.getString("HORAS")), "", rs.getString("CURSO_BASE"), rs.getString("BOLETA"));
+					MateriaReporte materia = new MateriaReporte(rs.getString("CURSO_ID"), rs.getString("CURSO_NOMBRE"), Double.parseDouble(rs.getString("HORAS")), "", rs.getString("CURSO_BASE"), rs.getString("BOLETA"), rs.getString("CICLO_GRUPO_ID"));
+					//
+					if(!hashMaterias.getOrDefault(materia.getCursoId(), new MateriaReporte()).getCursoId().equals("")) {
+						hashMaterias.remove(materia.getCursoId());
+					}
+					hashMaterias.put(materia.getCursoId(), materia);
 					// Se agrega a la lista de materias
-					listMaterias.add(materia);
+					
 					
 					// Si es la última fila del ResultSet
 					if(rs.isLast()){
 						// Le asigna la lista de materias al grupo que se acaba de terminar
 						// Si cursó ese grado se calculan las calificaciones a la vez
-						grado_reporte.setListaMaterias(con, listMaterias, codigoId);
+						grado_reporte.setMapaMaterias(con, hashMaterias, codigoId);
 						// Agrega el grado al HashMap
 						mapa.put(grado, grado_reporte);
 						// Se limpia la lista de materias para finalizar
-						listMaterias.clear();
+						hashMaterias.clear();
 					}
 				}
 			}

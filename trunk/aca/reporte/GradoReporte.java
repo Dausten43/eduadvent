@@ -1,6 +1,9 @@
 package aca.reporte;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.LinkedHashMap;
+
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +19,7 @@ public class GradoReporte {
 	private String nombrePlan;
 	private String fechaInicial;
 	private String fechaFinal;
-	private ArrayList<MateriaReporte> listaMaterias;
+	private LinkedHashMap <String, MateriaReporte> mapaMaterias;
 	
 	// Escala de evaluación... daaa xD
 	private int escalaEval;
@@ -32,7 +35,7 @@ public class GradoReporte {
 		nombreGrado = "";
 		cicloGrupoId = "";
 		observaciones = "";
-		listaMaterias = new ArrayList<MateriaReporte>();
+		mapaMaterias = new LinkedHashMap<String, MateriaReporte>();
 	}
 	
 	public GradoReporte(Connection conElias, String planId, String cicloGrupoId, String grado) throws Exception{
@@ -40,7 +43,7 @@ public class GradoReporte {
 		setNombreGrado(aca.catalogo.CatNivel.getGradoNombreCorto(Integer.parseInt(grado)));
 		setCicloGrupoId(cicloGrupoId);
 		setNombrePlan(aca.plan.Plan.getNombrePlan(conElias, planId));
-		listaMaterias 	= new ArrayList<MateriaReporte>();
+		mapaMaterias 	= new LinkedHashMap<String, MateriaReporte>();
 		
 		/* Solo si el alumno tiene la posibilidad de tener
 		 * calificaciones se inicializan las variables necesarias.
@@ -82,33 +85,33 @@ public class GradoReporte {
 		this.nombreGrado = nombreGrado;
 	}
 	
-	public ArrayList<MateriaReporte> getListaMaterias() {
-		return listaMaterias;
+	public LinkedHashMap<String, MateriaReporte> getMapaMaterias() {
+		return mapaMaterias;
 	}
 	
-	public void setListaMaterias(ArrayList<MateriaReporte> listaMaterias){
-		this.listaMaterias.addAll(listaMaterias);
+	public void setMapaMaterias(LinkedHashMap<String, MateriaReporte> mapaMaterias){
+		this.mapaMaterias.putAll(mapaMaterias);
 	}
 	
-	public void setListaMaterias(Connection conElias, ArrayList<MateriaReporte> listaMaterias, String codigoId) throws Exception {
-		this.listaMaterias.addAll(listaMaterias);
+	public void setMapaMaterias(Connection conElias, LinkedHashMap<String, MateriaReporte> mapaMaterias, String codigoId) throws Exception {
+		this.mapaMaterias.putAll(mapaMaterias);
 		
 		java.util.TreeMap<String, AlumnoProm> treeProm = new java.util.TreeMap<String, AlumnoProm>();
 		// Solo se inicializa si el alumno curso ese grado
 		// para intentar evitar tantas llamadas a la base de datos
 		if(!this.cicloGrupoId.equals("")){
-			treeProm = new  aca.vista.AlumnoPromLista().getTreeCurso(conElias, this.cicloGrupoId,"");
+			treeProm = new  aca.vista.AlumnoPromLista().getTreeAlumno(conElias, codigoId,"");
 		}
 		
-		for(MateriaReporte materia: this.listaMaterias){
+		for(Entry<String, MateriaReporte> materia : mapaMaterias.entrySet()){
 			// Si el alumno curso esa materia se le calcula la calificación final
-			if(!this.cicloGrupoId.equals("")){
-				AlumnoProm alumProm = (AlumnoProm) treeProm.get(this.cicloGrupoId+materia.getCursoId()+codigoId);
-				setCalificaciónFinal(conElias, codigoId, materia, alumProm);
+			if(!materia.getValue().getCicloGrupoId().equals("")){
+				AlumnoProm alumProm = (AlumnoProm) treeProm.get(materia.getValue().getCicloGrupoId()+materia.getKey()+codigoId);
+				setCalificaciónFinal(conElias, materia.getValue(), alumProm);
 			}
-			// Si no se le asigna -
+			// Si no se le asigna "-"
 			else{
-				materia.setCalificacion("-");
+				materia.getValue().setCalificacion("-");
 			}
 		}
 	}
@@ -146,7 +149,7 @@ public class GradoReporte {
 	}
 
 	
-	public void setCalificaciónFinal(Connection conElias, String codigoId, MateriaReporte materia, AlumnoProm alumProm) throws Exception{
+	public void setCalificaciónFinal(Connection conElias, MateriaReporte materia, AlumnoProm alumProm) throws Exception{
 		// Aquí se calculará la calificación final de la materia...
 		
 		// THINK ABOUT IT

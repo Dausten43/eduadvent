@@ -8,6 +8,7 @@ public class MateriaReporte {
 	private String convalidacion;
 	private String cursoBase;//Si es madre o hija
 	private String boleta;//"S":sí aparece en boleta, "N": no aparece
+	private String cicloGrupoId;
 	
 	public MateriaReporte(){
 		cursoId = "";
@@ -17,15 +18,17 @@ public class MateriaReporte {
 		convalidacion = "";
 		cursoBase = "";
 		boleta = "";
+		cicloGrupoId = "";
 	}
 	
-	public MateriaReporte(String cursoId, String nombre, Double horas, String convalidacion, String cursoBase, String boleta){
+	public MateriaReporte(String cursoId, String nombre, Double horas, String convalidacion, String cursoBase, String boleta, String cicloGrupoId){
 		setCursoId(cursoId);
 		setNombre(nombre);
 		setHoras(horas);
 		setConvalidacion(convalidacion);
 		setCursoBase(cursoBase);
 		setBoleta(boleta);
+		setCicloGrupoId(cicloGrupoId);
 	}
 	
 	public String getCursoId() {
@@ -82,5 +85,16 @@ public class MateriaReporte {
 	
 	public void setBoleta(String boleta) {
 		this.boleta = boleta;
+	}
+
+	public String getCicloGrupoId() {
+		return cicloGrupoId;
+	}
+
+	public void setCicloGrupoId(String cicloGrupoId) {
+		if(cicloGrupoId == null) {
+			cicloGrupoId = "";
+		}
+		this.cicloGrupoId = cicloGrupoId;
 	}
 }
