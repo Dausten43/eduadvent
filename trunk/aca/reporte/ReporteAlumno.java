@@ -73,22 +73,26 @@ public class ReporteAlumno {
 				 * en las materias que el alumno cursó.
 				 * 
 				 */
-				ps = con.prepareStatement(" select b.CODIGO_ID, a.GRADO, b.CICLO_GRUPO_ID, a.CURSO_ID, a.HORAS, a.CURSO_NOMBRE, a.CURSO_BASE, a.BOLETA"+
-										  " from ( " +
-										  "			select * "+
-										  "			from plan_curso"+ 
-										  "			where plan_id = ? and estado = 'A' and boleta = 'S'"+
-										  "	      ) as a"+
-										  "	left join ("+
-										  "			select *"+
-										  "			from krdx_curso_act"+ 
-										  "			where codigo_id = ? and substring(curso_id FOR 6) = ?"+
-										  "    	 ) as b"+
-										  "	on a.curso_id = b.curso_id"+
-										  "	order by a.grado, b.codigo_id, b.ciclo_grupo_id, a.orden "); // Order
+				ps = con.prepareStatement(" select b.CODIGO_ID, a.GRADO, b.CICLO_GRUPO_ID, a.CURSO_ID, a.HORAS, a.CURSO_NOMBRE, a.CURSO_BASE, a.BOLETA" + 
+						"  from ( " + 
+						"  		select grado, curso_id, horas, curso_nombre, curso_base, boleta, orden" + 
+						"  		from plan_curso " + 
+						"  		where plan_id = ? and estado = 'A' and boleta = 'S'" + 
+						"        ) as a" + 
+						"  left join (" + 
+						"  		select codigo_id, ciclo_grupo_id, curso_id" + 
+						"  		from krdx_curso_act " + 
+						"  		where codigo_id = ? and substring(curso_id FOR 6) = ?" + 
+						"     	 ) as b" + 
+						"  on a.curso_id = b.curso_id" + 
+						"  where substring(b.ciclo_grupo_id FOR 8) not in (" + 
+						"  	select ciclo_id from ciclo where now() between f_inicial and f_final and substring(ciclo_id for 3) = substring(? for 3)" + 
+						"  )" + 
+						"  order by a.grado, b.codigo_id, b.ciclo_grupo_id, a.orden ");
 				ps.setString(1, plan_id);
 				ps.setString(2, codigoId);
 				ps.setString(3, plan_id);
+				ps.setString(4, codigoId);
 				rs = ps.executeQuery();
 				
 				
