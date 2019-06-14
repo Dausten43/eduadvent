@@ -39,7 +39,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 			<form>
 				<div id="cicloSelect">
 					<label for="cicloid">Ciclo:</label>
-					<select name="ciclo_id" id="cicloid" style="width: 350px;">
+					<select name="ciclo_id" id="cicloid">
 						<option value="">Seleccione un ciclo</option>
 						<%
 							Collections.reverse(lisCiclo);
