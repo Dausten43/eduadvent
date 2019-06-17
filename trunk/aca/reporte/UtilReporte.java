@@ -18,6 +18,8 @@ public class UtilReporte {
 	private String ciudad;
 	private String estado;
 	private String nombreDirector;
+	private String nombreSecretaria; // Secretaría de registro
+	private String logo;
 	private String nombrePais;
 	private HashMap<String, ReporteAlumno> mapaReportes;
 	Gson gson = new GsonBuilder().create();
@@ -27,6 +29,8 @@ public class UtilReporte {
 		nombreEscuela = "";
 		telefono = "";
 		nombreDirector = "";
+		nombreSecretaria = "";
+		logo = "";
 		nombrePais = "";
 		mapaReportes = new HashMap<String, ReporteAlumno>();
 	}
@@ -35,6 +39,8 @@ public class UtilReporte {
 		setEscuelaId(escuelaId);
 		setNombreEscuela(aca.catalogo.CatEscuela.getNombre(con, escuelaId));
 		setNombreDirector(aca.empleado.EmpPersonal.getDirectorEscuela(con, escuelaId));
+		setNombreSecretaria(aca.empleado.EmpPersonal.getSecretarioDeRegistro(con, escuelaId));
+		setLogo(aca.catalogo.CatEscuela.getLogo(con, escuelaId));
 		mapeaRegId(con, escuelaId);
 		setTelefono(telefono);
 		setNombrePais(nombrePais);
@@ -77,6 +83,14 @@ public class UtilReporte {
 		this.telefono = telefono;
 	}
 
+	public String getNombreSecretaria() {
+		return nombreSecretaria;
+	}
+	
+	public void setNombreSecretaria(String nombreSecretaria) {
+		this.nombreSecretaria = nombreSecretaria;
+	}
+	
 	public String getNombreDirector() {
 		return nombreDirector;
 	}
@@ -173,6 +187,14 @@ public class UtilReporte {
 	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
 	}
 	
 }
