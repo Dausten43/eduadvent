@@ -3,10 +3,10 @@
 <%@page contentType="application/json; charset=UTF-8" language="java"%>
 <%@page import="aca.reporte.UtilReporte"%>
 <%@page import="java.util.Arrays"%>
-<%@page import="java.io.File"%>
 <%
 
 String[] codigoAlumno = request.getParameterValues("alumno");
+final String url = "https://eduadvent.um.edu.mx/escuela/imagenes/logos/";
 
 if(codigoAlumno != null){
 	String escuelaId = codigoAlumno[0].substring(0,2);
@@ -19,11 +19,8 @@ if(codigoAlumno != null){
 	System.out.println(escuelaId);
 	
 	UtilReporte ur = new UtilReporte(conElias, escuelaId, new ArrayList<String>( Arrays.asList(codigoAlumno) ));
-
-	ServletContext context = this.getServletConfig().getServletContext();
 	
-	File file = new File(context.getRealPath("/imagenes/logos") + "/" + ur.getLogo());
-	ur.setLogo(file.getAbsolutePath());
+	ur.setLogo(url + ur.getLogo());
 	
 	String urJson = ur.getJson();
 	out.print(urJson);
