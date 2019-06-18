@@ -3,6 +3,7 @@
 <%@page contentType="application/json; charset=UTF-8" language="java"%>
 <%@page import="aca.reporte.UtilReporte"%>
 <%@page import="java.util.Arrays"%>
+<%@page import="java.io.File"%>
 <%
 
 String[] codigoAlumno = request.getParameterValues("alumno");
@@ -19,6 +20,11 @@ if(codigoAlumno != null){
 	
 	UtilReporte ur = new UtilReporte(conElias, escuelaId, new ArrayList<String>( Arrays.asList(codigoAlumno) ));
 
+	ServletContext context = this.getServletConfig().getServletContext();
+	
+	File file = new File(context.getRealPath("/imagenes/logos") + "/" + ur.getLogo());
+	ur.setLogo(file.getAbsolutePath());
+	
 	String urJson = ur.getJson();
 	out.print(urJson);
 }
