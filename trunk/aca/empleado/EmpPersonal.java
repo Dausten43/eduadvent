@@ -992,13 +992,14 @@ public class EmpPersonal {
  		try{ 							
 		 			ps = conn.prepareStatement("SELECT * FROM EMP_PERSONAL" +
 		 					" WHERE CODIGO_ID LIKE '"+escuela+"'||'%'" +
-		 					" AND TIPO_ID = 17");
+		 					" AND TIPO_ID = 17" +
+		 					" AND ESTADO = 'A'");
 		 			
 		 			rs = ps.executeQuery();
 		 			if (rs.next())
 		 				nombre = rs.getString("NOMBRE")+" "+rs.getString("APATERNO")+" "+rs.getString("AMATERNO");		
 		 			else
-		 				nombre = "0000000";
+		 				nombre = "";
  			} 			
  			catch(Exception ex){
  			System.out.println("Error - aca.empleado.EmpPersonal|getDirectorEscuela|:"+ex);
