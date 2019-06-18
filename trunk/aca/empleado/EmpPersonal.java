@@ -938,7 +938,8 @@ public class EmpPersonal {
  		try{ 							
 		 			ps = conn.prepareStatement("SELECT * FROM EMP_PERSONAL" +
 		 					" WHERE CODIGO_ID LIKE '"+escuela+"'||'%'" +
-		 					" AND TIPO_ID = 40");
+		 					" AND TIPO_ID = 40" +
+		 					" AND ESTADO = 'A'");
 		 			
 		 			rs = ps.executeQuery();
 		 			if (rs.next())
