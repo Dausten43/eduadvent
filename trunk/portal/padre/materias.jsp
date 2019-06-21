@@ -28,8 +28,6 @@
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoAlumno");
-	String cicloId			= request.getParameter("ciclo");
-	//String nivelEvaluacion 	= aca.ciclo.Ciclo.getNivelEval(conElias, cicloId);
 	
 	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	
@@ -246,7 +244,7 @@ function enviaMsg(){
 			$('#enviadoMsg').modal('show'); 
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
-			console.log("error " + datadata);
+			console.err("error " + datadata);
 			alert(xhr.status + " " + thrownError);
 		}
 	});
