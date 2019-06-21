@@ -28,6 +28,7 @@
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoAlumno");
+	cicloId					= request.getParameter("ciclo");
 	
 	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	

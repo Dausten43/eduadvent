@@ -26,7 +26,7 @@
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String colorPortal 	= (String)session.getAttribute("colorPortal")==null?colorPortal="":(String)session.getAttribute("colorPortal");
 	
-	String cicloId 		= request.getParameter("ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("ciclo");
+	cicloId 			= request.getParameter("ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("ciclo");
 	String codigoId 	= request.getParameter("codigoId");
 	String cicloGrupoId = request.getParameter("cicloGrupoId");
 	String cursoId      = request.getParameter("cursoId");

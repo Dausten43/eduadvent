@@ -27,6 +27,7 @@
 	String colorPortal 		= (String)session.getAttribute("colorPortal");	
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	
+	cicloId 			= aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId);
 	String periodoId		= aca.ciclo.CicloPeriodo.periodoActual(conElias, cicloId);
 	
 	alumPersonal.mapeaRegId(conElias, codigoId);

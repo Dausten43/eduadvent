@@ -24,7 +24,7 @@
 	cursoId 			= (String) session.getAttribute("cursoId");	
 	String Modu 		= request.getParameter("ModuloId")==null?"0":request.getParameter("ModuloId");
 	
-	String cicloId		= aca.ciclo.CicloGrupo.getCicloId(conElias,cicloGrupo);
+	cicloId				= aca.ciclo.CicloGrupo.getCicloId(conElias,cicloGrupo);
 	int numModulos 		= aca.ciclo.Ciclo.getModulos(conElias,cicloId);
 	String maestro 		= aca.ciclo.CicloGrupoCurso.getMaestro(conElias, cicloGrupo, cursoId);	
 	
