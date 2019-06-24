@@ -12,6 +12,29 @@
 
 
 <script>
+	function CheckAccents(curso_id){
+		let tmp_accents = [];
+		
+		tmp_accents.push(curso_id.match(/á/gi));
+		tmp_accents.push(curso_id.match(/é/gi));
+		tmp_accents.push(curso_id.match(/í/gi));
+		tmp_accents.push(curso_id.match(/ó/gi));
+		tmp_accents.push(curso_id.match(/ú/gi));
+		
+		tmp_accents = tmp_accents.filter((el) => el);
+
+		return tmp_accents != false;
+	}
+
+	function IsValidCursoId(curso_id){
+		let tmp_id = curso_id.replace(/\s+/g, '');
+		if (tmp_id === '' || tmp_id.length < 4 || CheckAccents(tmp_id)) {
+			alert("<fmt:message key="js.CursoIdErroneo" />");
+			return false;
+		}
+		return true;
+	}
+
 	function Nuevo(planId) {
 		document.frmPlan.PlanId.value = planId;
 		document.frmPlan.CursoId.value = "";
@@ -30,7 +53,9 @@
 	}
 
 	function Grabar() {
-		if (document.frmPlan.CursoId.value != "" && document.frmPlan.CursoNombre.value != "" && document.frmPlan.CursoId.value.length >= 4) {
+		let curso_id = document.getElementById("CursoId").value;
+		
+		if (document.frmPlan.CursoNombre.value != "" && IsValidCursoId(curso_id)) {
 			document.frmPlan.Accion.value = "2";
 			document.frmPlan.submit();
 		}else{
