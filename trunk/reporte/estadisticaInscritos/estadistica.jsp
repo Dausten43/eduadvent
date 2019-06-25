@@ -29,11 +29,12 @@
 	//String ciclo		= request.getParameter("ciclo")==null?Ciclo.getCargaActual(conElias,escuela):request.getParameter("ciclo");
 	
 	int maternal 			= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "0");
-	int preescolar 			= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "1");
-	int primaria 			= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "2");
-	int secundaria 			= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "3");
-	int prepa 				= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "4");
-	int totalInscritos 		= maternal+preescolar+primaria+secundaria+prepa;
+	int pre_kinder 			= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "1");
+	int preescolar_kinder 	= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "2");
+	int primaria 			= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "3");
+	int secundaria 			= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "4");
+	int prepa 				= AlumPersonal.getCantidadPorNivel(conElias, ciclo, "5");
+	int totalInscritos 		= maternal+preescolar_kinder+pre_kinder+primaria+secundaria+prepa;
 	
 	ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuela, "ORDER BY 1");
 	ArrayList<String> lisReligion = personalLista.getListAlumnosInscritosReligion(conElias, escuela, ciclo);
@@ -55,6 +56,7 @@
 <%	
 	for(int i = 0; i < lisCiclo.size(); i++){
 		Ciclo = (aca.ciclo.Ciclo) lisCiclo.get(i);
+		Ciclo.getNivelAcademicoSistema();
 %>
 		<option value="<%=Ciclo.getCicloId() %>"<%=Ciclo.getCicloId().equals(ciclo)?" Selected":"" %>><%=Ciclo.getCicloNombre() %></option>
 <%	}%>
@@ -82,7 +84,10 @@
 		double promMaternal 	= maternal==0 ? 0 : ((double)maternal)*100/totalInscritos;
 		promMaternal 			= Double.valueOf(getformato.format(promMaternal).replaceAll(",","."));
 		
-		double promPreescolar 	= preescolar==0 ? 0 : ((double)preescolar)*100/totalInscritos;
+		double promPreKinder 	= pre_kinder==0 ? 0 : ((double)pre_kinder)*100/totalInscritos;
+		promPreKinder 			= Double.valueOf(getformato.format(promPreKinder).replaceAll(",","."));
+		
+		double promPreescolar 	= preescolar_kinder==0 ? 0 : ((double)preescolar_kinder)*100/totalInscritos;
 		promPreescolar 			= Double.valueOf(getformato.format(promPreescolar).replaceAll(",","."));
 		
 		double promPrimaria  	= primaria==0 ? 0 : ((double)primaria)*100/totalInscritos;
