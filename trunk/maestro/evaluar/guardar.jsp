@@ -32,14 +32,14 @@
 	    
 	    File fi = new File(ruta+nombre);
 		FileInputStream fis = new FileInputStream(fi);
-		org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.Connection)conEliasDir).getLargeObjectAPI();
-		int oid = lobj.create(org.postgresql.largeobject.LargeObjectManager.READ | org.postgresql.largeobject.LargeObjectManager.WRITE);
+		org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.PGConnection)conEliasDir).getLargeObjectAPI();
+		Long oid = lobj.createLO(org.postgresql.largeobject.LargeObjectManager.READ | org.postgresql.largeobject.LargeObjectManager.WRITE);
 		org.postgresql.largeobject.LargeObject obj = lobj.open(oid, org.postgresql.largeobject.LargeObjectManager.WRITE);
 		byte buf[] = new byte[(int)fi.length()];
 		int le; 
 		while ((le=fis.read(buf)) !=-1){
 			obj.write(buf,0,le);
-		}	
+		}		
 		
 		archivo.setCicloGrupoId(cicloGrupo);
 		archivo.setCursoId(cursoId);

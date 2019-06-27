@@ -11,7 +11,7 @@ public class CicloGrupoArchivo {
 	private String cursoId;
 	private String temaId;
 	private String folio;
-	private int archivo;
+	private long archivo;
 	private String descripcion;
 	private String nombre;
 	
@@ -84,14 +84,14 @@ public class CicloGrupoArchivo {
 	/**
 	 * @return the archivo
 	 */
-	public int getArchivo() {
+	public long getArchivo() {
 		return archivo;
 	}
 
 	/**
 	 * @param archivo the archivo to set
 	 */
-	public void setArchivo(int archivo) {
+	public void setArchivo(long archivo) {
 		this.archivo = archivo;
 	}
 
@@ -134,7 +134,7 @@ public class CicloGrupoArchivo {
 			ps.setString(2, cursoId);
 			ps.setString(3, temaId);
 			ps.setString(4, folio);
-			ps.setInt(5, archivo);
+			ps.setLong(5, archivo);
 			ps.setString(6, descripcion);
 			ps.setString(7, nombre);
 			
@@ -336,7 +336,7 @@ public class CicloGrupoArchivo {
 		return maximo;
 	}
 	
-	public int getCantidadOID(Connection conn, int oid) throws SQLException{
+	public int getCantidadOID(Connection conn, long oid) throws SQLException{
 		int cantidad 			= 0;
 		ResultSet rs			= null;
 		PreparedStatement ps	= null;

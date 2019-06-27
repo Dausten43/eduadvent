@@ -148,7 +148,7 @@ public class Conectar{
 		return "postgres";
 	}
 	public static String getPassword(){
-		return "jete17";
+		return "";
 	}
 	
 	
