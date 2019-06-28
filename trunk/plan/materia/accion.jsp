@@ -223,7 +223,7 @@
 	
 		<form action="accion.jsp" method="post" name="frmPlan">
 			<input type="hidden" name="Accion">
-			<input type="hidden" name="PlanId" value=<%=planId%>>
+			<input type="hidden" name="PlanId" id="PlanId" value=<%=planId%>>
 
 			<div class="row">
 				<div class="span4">
@@ -233,7 +233,7 @@
 							<%
 								if (n_accion != 1) {
 							%>
-								<input name="CursoId" type="hidden" value="<%=cursoId%>"><%=cursoId%>
+								<input name="CursoId" type="hidden" id="CursoId" value="<%=cursoId%>"><%=cursoId%>
 							<%
 								} else {
 							%>
@@ -372,13 +372,6 @@
 							<label for="CursoBase"> <fmt:message key="aca.CursoBase" />: </label>
 							<select name="CursoBase" id="CursoBase">
 								<option value="-" >No aplica</option>
-<%								
-								for(aca.plan.PlanCurso cursos : lisCursos){
-%>	
-								<option value="<%= cursos.getCursoId()%>" <%=cursos.getCursoId().equals(Curso.getCursoBase())?" Selected":""%>><%= cursos.getCursoNombre() %></option>
-<%
-								}
-%>
 							</select>
 <%
 						}		
@@ -409,10 +402,12 @@
 	</div>
 
 <script>
+	updateCursosBases();
 	select();
 
 	jQuery("#Grado").change(function(){
 		select();
+		updateCursosBases();
 	})
 	
 	function select(){
@@ -420,6 +415,34 @@
 		if(grado<10) grado = "0"+grado;
 		jQuery(".grado").html(grado);
 	}
+	
+	
+	function updateCursosBases(){
+		
+		let data = {
+			planId 		: $('#PlanId').val(),
+			cursoBaseId : '<%=Curso.getCursoBase()%>',
+			grado 		: $('#Grado').val()
+		};
+		
+		if(data.cursoBaseId){
+			$.ajax({
+				url : 'ajaxMaterias.jsp',
+				type : 'post',
+				data : data,
+				success : function(output) {
+					$('#CursoBase').html("<option value='-' >No aplica</option>");
+					$('#CursoBase').append(output);
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					console.log("error ");
+					alert(xhr.status + " " + thrownError);
+				}
+			});
+		}
+	}
+	
+	
 </script>
 <% 	if (!salto.equals("X")){%>
 		<meta http-equiv="refresh" content="0; url=<%=salto%>" />
