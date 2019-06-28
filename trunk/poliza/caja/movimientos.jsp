@@ -63,12 +63,13 @@
 	}
 	
 	/* INFORMACION DE LA POLIZA */
+	String polizaId = request.getParameter("polizaId");
 	
-	if(request.getParameter("polizaId") != null){
-		session.setAttribute("polizaId", request.getParameter("polizaId"));
+	if(polizaId != null){
+		session.setAttribute("polizaId", polizaId);
+	} else {
+		polizaId 	= (String) session.getAttribute("polizaId");
 	}
-	
-	String polizaId 	= (String) session.getAttribute("polizaId");
 	
 	if( polizaId == null ){
 		salto = "caja.jsp";
@@ -234,6 +235,7 @@
 			<form action="movimientos.jsp" method="post" name="forma">
 				<input type="hidden" name="Accion" />
 				<input type="hidden" name="MovimientoId"/>
+				<input type="hidden" name="polizaId" value="<%=polizaId %>"/>
 										
 				<div class="alert">						
 					<fieldset>								
