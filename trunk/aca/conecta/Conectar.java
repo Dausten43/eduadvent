@@ -141,8 +141,8 @@ public class Conectar{
 	
 	//Datos de la coneccion a postgres 
 	public static String getConeccion(){
-		return "jdbc:postgresql://localhost:5432/elias";
-		//return "jdbc:postgresql://172.16.7.77:5432/elias";
+		//return "jdbc:postgresql://localhost:5432/elias";
+		return "jdbc:postgresql://172.16.251.25:5432/elias";
 	}
 	public static String getUsuario(){
 		return "postgres";
