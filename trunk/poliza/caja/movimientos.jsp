@@ -80,6 +80,11 @@
 	
 	/* ACCIONES */
 	String accion 	= request.getParameter("Accion")==null?"":request.getParameter("Accion");
+	
+	if(!FinPoliza.getEstado().equals("A")){
+		accion = "";	
+	}
+	
 	String msj 		= "";
 	
 	if( accion.equals("1") ){//Guardar
