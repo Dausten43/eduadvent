@@ -48,7 +48,7 @@ public class PrintEstadoCuenta extends HttpServlet {
     public void conectar() {
         try {
             Class.forName("org.postgresql.Driver");
-            con = (DriverManager.getConnection("jdbc:postgresql://172.16.7.77:5432/elias", "postgres", "jete17"));
+            con = (DriverManager.getConnection("jdbc:postgresql://172.16.251.25:5432/elias", "postgres", ""));
 
         } catch (SQLException sqle) {
             System.err.println("Error al conectar postgres centauro " + sqle);
@@ -157,7 +157,7 @@ public class PrintEstadoCuenta extends HttpServlet {
             PreparedStatement psta = con.prepareStatement(comando);
 
                PreparedStatement pstb = con.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO "
-                    + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD-MM-YYYY') and estado<>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')");
+                    + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND FECHA < TO_DATE(?,'DD-MM-YYYY') and estado<>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N' and TIPO LIKE '%-ALUMNO%')");
 
             PreparedStatement pstc = con.prepareStatement(" SELECT MO.EJERCICIO_ID, "
                     + " MO.POLIZA_ID, MO.MOVIMIENTO_ID, MO.CUENTA_ID, MO.AUXILIAR, MO.DESCRIPCION,"
@@ -168,7 +168,7 @@ public class PrintEstadoCuenta extends HttpServlet {
                     + " JOIN FIN_POLIZA PO ON PO.POLIZA_ID=MO.POLIZA_ID AND PO.EJERCICIO_ID=MO.EJERCICIO_ID"
                     + " WHERE MO.AUXILIAR = ? "
                     + " AND MO.FECHA <= '" + ffin + "' AND MO.FECHA >= '" + fini + "'"
-                    + " AND MO.ESTADO <> 'C' and MO.cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')"
+                    + " AND MO.ESTADO <> 'C' and MO.cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N' and TIPO LIKE '%-ALUMNO%')"
                     + " ORDER BY MO.FECHA");
             System.out.println("pstc = " + pstc);
             Calendar calb = Calendar.getInstance();
