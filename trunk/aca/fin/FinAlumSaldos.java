@@ -97,7 +97,7 @@ public class FinAlumSaldos {
 
              PreparedStatement pstb = con.prepareStatement("SELECT COALESCE(SUM(IMPORTE * CASE NATURALEZA WHEN 'C' THEN -1 ELSE 1 END),0) AS SALDO "
                      + "            		 FROM FIN_MOVIMIENTOS WHERE AUXILIAR = ? AND TO_DATE(to_char(FECHA,'DD-MM-YYYY'),'DD-MM-YYYY') <= TO_DATE(?,'DD-MM-YYYY') and estado<>'C' "
-                     + "						and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N' and TIPO LIKE '%-ALUMNO%')");
+                     + "						and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')");
              
              ResultSet rsa = psta.executeQuery();
              while (rsa.next()) {
