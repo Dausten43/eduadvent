@@ -47,7 +47,7 @@ public class PrintBoletinKinder extends HttpServlet {
     public void conectar() {
         try {
             Class.forName("org.postgresql.Driver");
-            con = (DriverManager.getConnection("jdbc:postgresql://172.16.7.77:5432/elias", "postgres", "jete17"));
+            con = (DriverManager.getConnection("jdbc:postgresql://172.16.251.25:5432/elias", "postgres", ""));
             //con = (DriverManager.getConnection("jdbc:postgresql://localhost:8432/elias", "postgres", "jete17"));
 
         } catch (SQLException sqle) {
