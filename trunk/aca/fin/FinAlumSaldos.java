@@ -141,7 +141,7 @@ public class FinAlumSaldos {
 					+ "auxiliar not in "
 					+ "		(select codigo_id from alum_ciclo where estado='I' and ciclo_id in "
 					+ "			( 	SELECT ciclo_id FROM CICLO where current_timestamp BETWEEN f_inicial AND f_final and ciclo_id like '"+ escuela_id +"%')) "
-					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N' and TIPO LIKE '%-ALUMNO%')  group by auxiliar order by plan_id,nombre");
+					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N')  group by auxiliar order by plan_id,nombre");
 			System.out.println(pst);
 			ResultSet rs = pst.executeQuery();
 			
@@ -182,7 +182,7 @@ public class FinAlumSaldos {
 					+ "auxiliar not in "
 					+ "		(select codigo_id from alum_ciclo where estado='I' and ciclo_id in "
 					+ "			( 	SELECT ciclo_id FROM CICLO where current_timestamp BETWEEN f_inicial AND f_final and ciclo_id like '"+ escuela_id +"%')) "
-					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N' and TIPO LIKE '%-ALUMNO%') and fecha::date <= to_date('"+fecha+"','dd-mm-yyyy') group by auxiliar order by plan_id,nombre");
+					+ "				and auxiliar like '"+ escuela_id +"%' and mo.estado <>'C' and cuenta_id in (select cuenta_id from fin_cuenta where cuenta_aislada='N') and fecha::date <= to_date('"+fecha+"','dd-mm-yyyy') group by auxiliar order by plan_id,nombre");
 			System.out.println(pst);
 			ResultSet rs = pst.executeQuery();
 			
