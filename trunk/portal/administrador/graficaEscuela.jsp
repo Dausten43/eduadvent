@@ -34,10 +34,11 @@
 	int primaria 			= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "2");
 	int secundaria 			= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "3");
 	int prepa 				= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "4");
-	int totalInscritos 		= maternal+preescolar+primaria+secundaria+prepa;
+	int otro 				= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "5");
 	
 	int mujeres 			= AlumPersonal.getNumMujeresTotalEscuela(conElias, allEscuelas);
 	int hombres 			= AlumPersonal.getNumHombresTotalEscuela(conElias, allEscuelas);
+	int totalInscritos 		= mujeres+hombres;
 	
 	int acfe 				= AlumPersonal.getNumAcfeTotalEscuela(conElias, allEscuelas);
 	int nAcfe 				= AlumPersonal.getNumNAcfeTotalEscuela(conElias, allEscuelas);
@@ -74,6 +75,9 @@
 		double promPrepa		= prepa==0 ? 0 : ((double)prepa)*100/totalInscritos;
 		promPrepa				= Double.valueOf(getformato.format(promPrepa).replaceAll(",","."));
 		
+		double promOtro			= otro==0 ? 0 : ((double)otro)*100/totalInscritos;
+		promOtro				= Double.valueOf(getformato.format(promOtro).replaceAll(",","."));
+		
 		double promHombres 		= 0;
 		if (totalInscritos>0){ promHombres = ((double)hombres)*100/totalInscritos;}
 		promHombres 			= Double.valueOf(getformato.format(promHombres).replaceAll(",","."));
@@ -90,7 +94,7 @@
 	
 		
 		String serieNivel 		= "['Maternal: "+maternal+"', "+promMaternal+"], ['Preescolar: "+preescolar+"', "+promPreescolar+"], ['Primaria: "+primaria+"',"+promPrimaria+"],"+
-				  "['Secundaria: "+secundaria+"',"+promSecundaria+"], ['Preparatoria: "+prepa+"',"+promPrepa+"]";
+				  "['Secundaria: "+secundaria+"',"+promSecundaria+"], ['Preparatoria: "+prepa+"',"+promPrepa+"], ['Otro: "+otro+"', "+promOtro+"]";
 			
 		String serieGenero 		= "['Hombres: "+hombres+"', "+promHombres+"], ['Mujeres: "+mujeres+"',"+promMujeres+"]";
 		
