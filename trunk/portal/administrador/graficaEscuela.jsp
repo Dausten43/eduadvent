@@ -9,8 +9,10 @@
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario"/>
 <jsp:useBean id="catEscuela" scope="page" class="aca.catalogo.CatEscuela"/>
 <jsp:useBean id="catEscuelaU" scope="page" class="aca.catalogo.CatEscuelaLista"/>
+<jsp:useBean id="catNivelEscList" scope="page" class="aca.catalogo.CatNivelEscuelaLista"/>
 <jsp:useBean id="personalLista" scope="page" class="aca.alumno.AlumPersonalLista"/>
 <%@page import="aca.alumno.AlumPersonal"%>
+<%@page import="aca.catalogo.CatNivelEscuela"%>
 
 <head>
   <!-- ---------------------JS GRAFICAS--------------------- -->
@@ -29,19 +31,13 @@
 	
 	String allEscuelas 		= "'"+escuelaId+"'";
 	
-	int maternal 			= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "0");
-	int preescolar 			= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "1");
-	int primaria 			= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "2");
-	int secundaria 			= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "3");
-	int prepa 				= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "4");
-	int otro 				= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "5");
-	
 	int mujeres 			= AlumPersonal.getNumMujeresTotalEscuela(conElias, allEscuelas);
 	int hombres 			= AlumPersonal.getNumHombresTotalEscuela(conElias, allEscuelas);
 	int totalInscritos 		= mujeres+hombres;
 	
 	int acfe 				= AlumPersonal.getNumAcfeTotalEscuela(conElias, allEscuelas);
 	int nAcfe 				= AlumPersonal.getNumNAcfeTotalEscuela(conElias, allEscuelas);
+
 %>
 
 <style>
@@ -60,23 +56,6 @@
 
 <%
 	if (totalInscritos>0){
-		double promMaternal 	= maternal==0 ? 0 : ((double)maternal)*100/totalInscritos;
-		promMaternal 			= Double.valueOf(getformato.format(promMaternal).replaceAll(",","."));
-		
-		double promPreescolar 	= preescolar==0 ? 0 : ((double)preescolar)*100/totalInscritos;
-		promPreescolar 			= Double.valueOf(getformato.format(promPreescolar).replaceAll(",","."));
-		
-		double promPrimaria  	= primaria==0 ? 0 : ((double)primaria)*100/totalInscritos;
-		promPrimaria		    = Double.valueOf(getformato.format(promPrimaria).replaceAll(",","."));
-		
-		double promSecundaria	= secundaria==0 ? 0 : ((double)secundaria)*100/totalInscritos;
-		promSecundaria			= Double.valueOf(getformato.format(promSecundaria).replaceAll(",","."));
-		
-		double promPrepa		= prepa==0 ? 0 : ((double)prepa)*100/totalInscritos;
-		promPrepa				= Double.valueOf(getformato.format(promPrepa).replaceAll(",","."));
-		
-		double promOtro			= otro==0 ? 0 : ((double)otro)*100/totalInscritos;
-		promOtro				= Double.valueOf(getformato.format(promOtro).replaceAll(",","."));
 		
 		double promHombres 		= 0;
 		if (totalInscritos>0){ promHombres = ((double)hombres)*100/totalInscritos;}
@@ -91,10 +70,22 @@
 		
 		double promNAcfe		= nAcfe==0 ? 0 : ((double)nAcfe)*100/totalInscritos;
 		promNAcfe				= Double.valueOf(getformato.format(promNAcfe).replaceAll(",","."));
-	
 		
-		String serieNivel 		= "['Maternal: "+maternal+"', "+promMaternal+"], ['Preescolar: "+preescolar+"', "+promPreescolar+"], ['Primaria: "+primaria+"',"+promPrimaria+"],"+
-				  "['Secundaria: "+secundaria+"',"+promSecundaria+"], ['Preparatoria: "+prepa+"',"+promPrepa+"], ['Otro: "+otro+"', "+promOtro+"]";
+		String serieNivel = "";
+		
+		ArrayList<CatNivelEscuela> ListNivel = new ArrayList<CatNivelEscuela>();
+		ListNivel = catNivelEscList.getListEscuela(conElias, escuelaId, "");
+		
+		for (CatNivelEscuela n: ListNivel)
+		{
+			int totalNiv 	 	= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, n.getNivelId());
+			double promNivel 	= totalNiv == 0 ? 0 : ((double)totalNiv)*100/totalInscritos;
+			promNivel 	     	= Double.valueOf(getformato.format(promNivel).replaceAll(",","."));		
+			String nombreNivel 	= n.getNivelNombre();
+			
+			serieNivel += "['"+nombreNivel+": "+totalNiv+"', "+promNivel+"],";
+			
+		}
 			
 		String serieGenero 		= "['Hombres: "+hombres+"', "+promHombres+"], ['Mujeres: "+mujeres+"',"+promMujeres+"]";
 		
