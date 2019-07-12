@@ -11,7 +11,7 @@ public class ArchImagen {
 	private String escuelaId;
 	private String documentoId;
 	private String hoja;
-	private int imagen;
+	private long imagen;
 	private String nombre;
 	
 	public ArchImagen(){
@@ -87,14 +87,14 @@ public class ArchImagen {
 	/**
 	 * @return the imagen
 	 */
-	public int getImagen() {
+	public long getImagen() {
 		return imagen;
 	}
 
 	/**
 	 * @param imagen the imagen to set
 	 */
-	public void setImagen(int imagen) {
+	public void setImagen(long imagen) {
 		this.imagen = imagen;
 	}
 	
@@ -126,7 +126,7 @@ public class ArchImagen {
 			ps.setString(2, escuelaId);
 			ps.setString(3, documentoId);
 			ps.setString(4, hoja);
-			ps.setInt(5, imagen);
+			ps.setLong(5, imagen);
 			ps.setString(6, nombre);
 			
 			if ( ps.executeUpdate()== 1){

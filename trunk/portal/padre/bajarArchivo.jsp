@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@page import="java.sql.*"%>
 <%
 	aca.archivo.ArchImagen Archivo		= new aca.archivo.ArchImagen();
@@ -30,9 +31,9 @@
 		if (rs.next()) {
 			nombre = rs.getString("NOMBRE");
 	        org.postgresql.largeobject.LargeObject obj;
-			org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.Connection)conn2).getLargeObjectAPI();
-			int oid = rs.getInt(1);
-	   		obj = lobj.open(oid, org.postgresql.largeobject.LargeObjectManager.READ);
+			org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.PGConnection)conn2).getLargeObjectAPI();
+			Integer oid = rs.getInt(1);
+	   		obj = lobj.open(oid.longValue(), org.postgresql.largeobject.LargeObjectManager.READ);
 		    archivo = new byte[obj.size()];	    
 		    archivo =  obj.read(obj.size()); 
 			obj.close();        

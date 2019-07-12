@@ -13,7 +13,7 @@ public class FinDescargaSunplus {
 	private String codigoId;
 	private String fecha; 
 	private String tipoPoliza;
-	private int archivo;
+	private long archivo;
 	
 	public FinDescargaSunplus(){
 		descargaId	= "";
@@ -56,11 +56,11 @@ public class FinDescargaSunplus {
 		this.tipoPoliza = tipoPoliza;
 	}
 	
-	public int getArchivo() {
+	public long getArchivo() {
 		return archivo;
 	}
 
-	public void setArchivo(int archivo) {
+	public void setArchivo(long archivo) {
 		this.archivo = archivo;
 	}
 
@@ -79,7 +79,7 @@ public class FinDescargaSunplus {
             ps.setString(2, codigoId);
             ps.setString(3, fecha);
             ps.setString(4, tipoPoliza);
-            ps.setInt(5, archivo);
+            ps.setLong(5, archivo);
 
             if(ps.executeUpdate() == 1){
                 ok = true;

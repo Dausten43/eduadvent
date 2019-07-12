@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@page import="java.sql.*"%>
 <%
 	aca.ciclo.CicloGrupoArchivo Archivo		= new aca.ciclo.CicloGrupoArchivo();
@@ -18,9 +19,9 @@
 		byte archivo[]=null;
 		if (rs.next()) {
 	        org.postgresql.largeobject.LargeObject obj;
-			org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.Connection)conn2).getLargeObjectAPI();	
-			int oid = rs.getInt("ARCHIVO");
-	   		obj = lobj.open(oid, org.postgresql.largeobject.LargeObjectManager.READ);
+			org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.PGConnection)conn2).getLargeObjectAPI();	
+			Integer oid = rs.getInt("ARCHIVO");
+	   		obj = lobj.open(oid.longValue(), org.postgresql.largeobject.LargeObjectManager.READ);
 		    archivo = new byte[obj.size()];	    
 		    archivo =  obj.read(obj.size()); 
 			obj.close();        

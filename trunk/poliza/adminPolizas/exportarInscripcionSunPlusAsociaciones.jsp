@@ -717,8 +717,8 @@
 			
 			File fi = new File(dir2);
 			FileInputStream fis = new FileInputStream(fi);
-			org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.Connection)conEliasDir).getLargeObjectAPI();
-			int oid = lobj.create(org.postgresql.largeobject.LargeObjectManager.READ | org.postgresql.largeobject.LargeObjectManager.WRITE);
+			org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.PGConnection)conEliasDir).getLargeObjectAPI();
+			long oid = lobj.createLO(org.postgresql.largeobject.LargeObjectManager.READ | org.postgresql.largeobject.LargeObjectManager.WRITE);
 			org.postgresql.largeobject.LargeObject obj = lobj.open(oid, org.postgresql.largeobject.LargeObjectManager.WRITE);
 			
 			byte buf[] = new byte[(int)fi.length()];

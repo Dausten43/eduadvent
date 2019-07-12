@@ -1,3 +1,4 @@
+<%@ page trimDirectiveWhitespaces="true" %>
 <%@ page import="java.sql.*" %>
 <%
 	DriverManager.registerDriver (new org.postgresql.Driver());	
@@ -20,9 +21,9 @@
 	if (rset.next()){	
 				
 	    org.postgresql.largeobject.LargeObject obj;
-		org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.Connection)conn).getLargeObjectAPI();	
-		int oid = rset.getInt("imagen");
-			obj = lobj.open(oid, org.postgresql.largeobject.LargeObjectManager.READ);
+		org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.PGConnection)conn).getLargeObjectAPI();	
+		Integer oid = rset.getInt("imagen");
+		obj = lobj.open(oid.longValue(), org.postgresql.largeobject.LargeObjectManager.READ);
 	    byte buf[] = new byte[obj.size()];
 	    obj.read(buf, 0, obj.size());
 	    response.setContentType("image/jpeg");

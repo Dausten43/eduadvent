@@ -33,7 +33,7 @@
 	    File fi = new File(ruta+nombre);
 		FileInputStream fis = new FileInputStream(fi);
 		org.postgresql.largeobject.LargeObjectManager lobj = ((org.postgresql.PGConnection)conEliasDir).getLargeObjectAPI();
-		Long oid = lobj.createLO(org.postgresql.largeobject.LargeObjectManager.READ | org.postgresql.largeobject.LargeObjectManager.WRITE);
+		long oid = lobj.createLO(org.postgresql.largeobject.LargeObjectManager.READ | org.postgresql.largeobject.LargeObjectManager.WRITE);
 		org.postgresql.largeobject.LargeObject obj = lobj.open(oid, org.postgresql.largeobject.LargeObjectManager.WRITE);
 		byte buf[] = new byte[(int)fi.length()];
 		int le; 
