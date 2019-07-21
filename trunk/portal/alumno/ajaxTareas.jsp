@@ -1,4 +1,5 @@
 
+<%@page import="java.util.Locale"%>
 <%@page import="java.util.Date"%>
 <%@page import="aca.ciclo.CicloGrupoActividad"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -41,8 +42,8 @@ String codigoId 			= (String) session.getAttribute("codigoAlumno");
 String cicloIdM 			= (String) session.getAttribute("cicloId");
 
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-SimpleDateFormat sdfb = new SimpleDateFormat("EEEEE");
-SimpleDateFormat sdfc = new SimpleDateFormat("dd MMMMM");
+SimpleDateFormat sdfb = new SimpleDateFormat("EEEEE", new Locale("es_MX"));
+SimpleDateFormat sdfc = new SimpleDateFormat("dd MMMMM", new Locale("es_MX"));
 
 if(request.getParameter("semana")!=null){
 	System.out.println("entrando a cargar tareas " + cicloIdM);

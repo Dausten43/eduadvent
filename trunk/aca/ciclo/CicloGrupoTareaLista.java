@@ -75,30 +75,38 @@ public class CicloGrupoTareaLista {
 	public String getInicioFinSemana(String semana){
         String salida = "";
         
-        SimpleDateFormat sdfc = new SimpleDateFormat("dd 'de' MMM");
+        SimpleDateFormat sdfc = new SimpleDateFormat("dd 'de' MMM",new Locale("es_ES"));
         SimpleDateFormat sdfd = new SimpleDateFormat("yyyy");
         
         String[] se = semana.split("-");
         
-        Calendar calb = Calendar.getInstance(Locale.US);
+        Calendar calb = Calendar.getInstance(new Locale("es_ES"));
+        Calendar cala = Calendar.getInstance(new Locale("es_ES"));
             
         calb.set(Calendar.YEAR,new Integer(se[0].trim()));
         calb.set(Calendar.WEEK_OF_YEAR, new Integer(se[1].trim()));
+        
+        cala.set(Calendar.YEAR,new Integer(se[0].trim()));
+        cala.set(Calendar.WEEK_OF_YEAR, new Integer(se[1].trim()));
+        
+        calb.set(Calendar.DAY_OF_WEEK,2);
+        cala.set(Calendar.DAY_OF_WEEK,6);
+        
         //calb.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-        System.out.println(calb.getTime() + " se[0] " + se[0].trim() + " se[1] " + se[1].trim());
-            while(calb.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY){
-                calb.add(Calendar.DATE, -1); 
-            }
+        System.out.println(calb.getFirstDayOfWeek() + " " + calb.getTime() + " se[0] " + se[0].trim() + " se[1] " + se[1].trim());
+//            while(calb.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY){
+//                calb.add(Calendar.DATE, -1); 
+//            }
             Date semanaIni = calb.getTime();
+//            
+//            while(cala.get(Calendar.DAY_OF_WEEK)!=Calendar.FRIDAY){
+//                cala.add(Calendar.DATE, 1); 
+//            }
             
-            while(calb.get(Calendar.DAY_OF_WEEK)!=Calendar.FRIDAY){
-                calb.add(Calendar.DATE, 1); 
-            }
-            
-            Date semanaFin = calb.getTime(); 
+            Date semanaFin = cala.getTime(); 
             
             salida = "Semana del " + sdfc.format(semanaIni) + " al " + sdfc.format(semanaFin) + " " + sdfd.format(semanaFin);
-        
+            
         return salida;
     }
 	
