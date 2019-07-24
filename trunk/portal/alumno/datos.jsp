@@ -32,8 +32,10 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, c
 		ciclo 	= (aca.ciclo.Ciclo) lisCiclo.get(lisCiclo.size()-1);
 		cicloIdM = ciclo.getCicloId();
 			
-		session.setAttribute("cicloId", cicloIdM);
+		
 	}
+	
+	session.setAttribute("cicloId", cicloIdM);
 	
 	if( request.getParameter("ciclo") != null ){
 		cicloIdM = request.getParameter("ciclo");

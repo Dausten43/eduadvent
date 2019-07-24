@@ -1,7 +1,10 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="aca.fin.FinProrrogas"%>
 <jsp:useBean id="CatParametro" scope="page" class="aca.catalogo.CatParametro"/>
 <jsp:useBean id="cicloPrincipal" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="ciclom" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <style>
 	.navbar{
 		margin-bottom:10px;
@@ -22,13 +25,34 @@ String escuela		= (String) session.getAttribute("escuela");
 String fechaHoy 	= aca.util.Fecha.getHoy();
 String cicloId 		= session.getAttribute("cicloId").toString();
 
+
+ ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, auxiliar, "ORDER BY CICLO_ID");
+
+// //Verifica que el ciclo este en la lista de ciclo
+	boolean encontro = false;
+	for(aca.ciclo.Ciclo c : lisCiclo){
+		if(cicloId != null && c.equals(cicloId)){
+			encontro = true; break;
+		}
+	}
+	
+	// Elige el mejor ciclo para el alumno. 
+	if( encontro==false && lisCiclo.size()>0 ){
+		ciclom 	= (aca.ciclo.Ciclo) lisCiclo.get(lisCiclo.size()-1);
+		cicloId = ciclom.getCicloId();
+			
+		
+	}
+	
+// 	session.setAttribute("cicloId", cicloId);
+
 // Define si despliega notas de kinder
 cicloPrincipal.mapeaRegId(conElias, cicloId);
 
 boolean iskinder = false;
 Integer nivelsistema = new Integer(cicloPrincipal.getNivelAcademicoSistema()!=null ? cicloPrincipal.getNivelAcademicoSistema() : "-1");
 String urlNotas = "notas.jsp";
-
+System.out.println(nivelsistema + " nivel sistema 2 " +  (nivelsistema>-1 && nivelsistema<3));
 if(nivelsistema>-1 && nivelsistema<3){
 	urlNotas = "notas_kinder.jsp";
 	iskinder = true;

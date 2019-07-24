@@ -8,9 +8,11 @@
 <jsp:useBean id="escuela" scope="page" class="aca.catalogo.CatEscuela" />
 <jsp:useBean id="EncuestaLista" scope="page" class="aca.est.EstEncuestaLista" />
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario" />
-
+<jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="cicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <%
 
+		
 	String strEscuela 			= (String)session.getAttribute("escuela");
 	String sCodigoPersonal 		= (String)session.getAttribute("codigoId");
 	String salto				= "X";
@@ -21,6 +23,29 @@
 	String strNombreUsuario		= "";
 	String paisNombre 			= aca.catalogo.CatPais.getPais(conElias, escuela.getPaisId() );
 	String barrioNombre			= aca.catalogo.CatBarrio.getBarrio(conElias, escuela.getPaisId(), escuela.getEstadoId(), escuela.getCiudadId(), escuela.getBarrioId());
+	String cicloIdM 	= (String) session.getAttribute("cicloId");
+	
+	ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, sCodigoPersonal, "ORDER BY CICLO_ID");
+	
+	//Verifica que el ciclo este en la lista de ciclo
+		boolean encontro = false;
+		for(aca.ciclo.Ciclo c : lisCiclo){
+			if(cicloIdM != null && c.equals(cicloIdM)){
+				encontro = true; break;
+			}
+		}
+		
+		// Elige el mejor ciclo para el alumno. 
+		if( encontro==false && lisCiclo.size()>0 ){
+			ciclo 	= (aca.ciclo.Ciclo) lisCiclo.get(lisCiclo.size()-1);
+			cicloIdM = ciclo.getCicloId();
+				
+			
+		}
+		
+		session.setAttribute("cicloId", cicloIdM);
+
+	
 	
 	int intTipoUsuario	= aca.usuario.Usuario.getTipo(conElias, sCodigoPersonal);
 	if (intTipoUsuario ==1){
