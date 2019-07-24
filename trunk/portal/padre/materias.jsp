@@ -32,23 +32,23 @@
 	
 	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	
-	ArrayList<aca.ciclo.Ciclo> lisCiclo 		= cicloLista.getListCiclosAlumno(conElias, codigoId, "ORDER BY CICLO_ID");
+// 	ArrayList<aca.ciclo.Ciclo> lisCiclo 		= cicloLista.getListCiclosAlumno(conElias, codigoId, "ORDER BY CICLO_ID");
 	
-	//Verifica que el ciclo este en la lista de ciclo
-	boolean encontro = false;
-	for(aca.ciclo.Ciclo c : lisCiclo){
-		if(cicloId != null && c.equals(cicloId)){
-			encontro = true; break;
-		}
-	}
+// 	//Verifica que el ciclo este en la lista de ciclo
+// 	boolean encontro = false;
+// 	for(aca.ciclo.Ciclo c : lisCiclo){
+// 		if(cicloId != null && c.equals(cicloId)){
+// 			encontro = true; break;
+// 		}
+// 	}
 		
-	// Elige el mejor ciclo para el alumno. 
-	if( encontro==false && lisCiclo.size()>0 ){
-		ciclo 	= (aca.ciclo.Ciclo) lisCiclo.get(lisCiclo.size()-1);
-		cicloId = ciclo.getCicloId();
+// 	// Elige el mejor ciclo para el alumno. 
+// 	if( encontro==false && lisCiclo.size()>0 ){
+// 		ciclo 	= (aca.ciclo.Ciclo) lisCiclo.get(lisCiclo.size()-1);
+// 		cicloId = ciclo.getCicloId();
 		
-		session.setAttribute("cicloId", cicloId);
-	}
+// 		session.setAttribute("cicloId", cicloId);
+// 	}
 	
 	if( request.getParameter("ciclo") != null ){
 		cicloId = request.getParameter("ciclo");
