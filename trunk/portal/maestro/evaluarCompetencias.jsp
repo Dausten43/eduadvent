@@ -17,7 +17,8 @@
 <jsp:useBean id="kardexConductaLista" scope="page" class="aca.kardex.KrdxAlumConductaLista" />
 <jsp:useBean id="kardexEval" scope="page" class="aca.kardex.KrdxAlumEval" />
 <jsp:useBean id="planCurso" scope="page" class="aca.plan.PlanCurso" />
-
+<jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
+<jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 <script>
 	
 	/*
@@ -489,7 +490,7 @@
 /* ********************************** END ACCIONES ********************************** */
 
 	
-	
+	cicloGrupo.mapeaRegId(conElias, cicloGrupoCurso.getCicloGrupoId());		
 	
 
 	// TREEMAP DE LAS NOTAS DE LAS EVALUACIONES DE LOS ALUMNOS
@@ -518,6 +519,7 @@
 		<%}%>
 		
 		<small><%=empPersonal.getNombre() + " " + empPersonal.getApaterno()+ " " + empPersonal.getAmaterno()%></small>
+		<span id="countMsg"></span>
 	</h2>
 	
 	<% if (msj.equals("Eliminado") || msj.equals("Modificado") || msj.equals("Guardado")){%>
@@ -547,6 +549,8 @@
 		<a class="btn btn-mobile" target="_blank" href="formatoAsistencia.jsp?CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>">
 			<i class="icon-list-alt"></i> <fmt:message key="aca.FormatoAsistencia" />
 		</a>
+		<a data-toggle="modal" data-id="<%= cicloGrupoId %>" data-tipomsg="G" data-informacion="<%= aca.plan.PlanCurso.getCursoNombre(conElias, cursoId) %>-<%=cicloGrupo.getGrupoNombre() %> <%=cicloGrupo.getGrupo() %>"
+							class="open-MensajeBox btn btn-warning" href="#mensajeBox" >Enviar Mensaje al Grupo</a>
 	</div>
 	
 <!--  -------------------- TABLA DE EVALUACIONES -------------------- -->
@@ -742,9 +746,13 @@
 						<%
 							}
 						%>
-					  		<a href="mensaje.jsp?CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>&CodigoEmpleado=<%=codigoId%>&CodigoId=<%=kardex.getCodigoId()%>">
+						<a data-toggle="modal" title="Envia Mensaje" data-id="<%= kardex.getCodigoId()  %>" data-tipomsg="P" 
+						data-informacion="<%= aca.plan.PlanCurso.getCursoNombre(conElias, cursoId) %>-<%=cicloGrupo.getGrupoNombre() %> <%=cicloGrupo.getGrupo() %>"
+							class="open-MensajeBox btn btn-default btn-mini" href="#mensajeBox" >
+							<i class="icon-envelope icon-black"></i></a>
+<%-- 					  		<a href="mensaje.jsp?CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>&CodigoEmpleado=<%=codigoId%>&CodigoId=<%=kardex.getCodigoId()%>"> --%>
 					  			<%=aca.alumno.AlumPersonal.getNombre(conElias, kardex.getCodigoId(), "APELLIDO")%>
-					  		</a>
+<!-- 					  		</a> -->
 					  							  		
 					  		<%if(kardex.getTipoCalId().equals("6")){ %>
 					  			<span class="label label-important" title="<fmt:message key="aca.EsteAlumnoHaSidoDadoDeBajar" />" ><fmt:message key="aca.Baja" /></span>
@@ -843,7 +851,167 @@
 		</table>
 	</form>
 
+<!-- MODAL -->
+		<div id="mensajeBox" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		    <h3 id="myModalLabel"><fmt:message key="boton.EscribirMensaje" /></h3>
+		  </div>
+		  <div class="modal-body ">
+		  <form id="formSendMsg" method="post">
+		  		<label for="asunto">Asunto</label>
+		  		<input type="text" name="asunto" id="asunto">
+		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
+		        <input type="hidden" id="destino" value="">
+		        <input type="hidden" id="complemento" value="">
+		        <input type="hidden" id="tipo_destino" value="">
+		        <input type="hidden" id="envia" value="<%= codigoId %>">
+		        <input type="hidden" id="envia_mensaje" name="envia_mensaje" value="true">	
+				<input type="file" name="adjunto" id="adjunto">
+		   </form>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
+		    <a class="btn btn-primary" href="javascript:enviaMsg()"><i class="icon-envelope icon-white"></i> <fmt:message key="boton.EnviarMensaje" /></a>
+		  </div>
+		</div>
+	<!-- END MODAL -->
+		<!-- nuevo modal -->
 
+<div class="modal fade" id="enviadoMsg" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Aviso</h4>
+        </div>
+        <div class="modal-body">
+          <p>Su mensaje fue enviado correctamente.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- end nuevo modal -->	
+</div>
+<script type="text/javascript">
+
+// $('body').on('keydown', 'input, select, textarea', function(e) {
+//     var self = $(this)
+//       , form = self.parents('form:eq(0)')
+//       , focusable
+//       , next
+//       ;
+//     if (e.keyCode == 13) {
+//         focusable = form.find('input,a,select,button,textarea').filter(':visible');
+//         next = focusable.eq(focusable.index(this)+1);
+//         if (next.length) {
+//             next.focus();
+//         } else {
+//             form.submit();
+//         }
+//         return false;
+//     }
+// });
+
+function enviaMsg(){
+	
+	var datadata = 'envia_mensaje=true&envia='+$('#envia').val()
+	+'&tipo_destino='+$('#tipo_destino').val()+'&destino='+$('#destino').val()
+	+'&asunto='+$('#asunto').val()+' '+$('#complemento').val()+'&mensaje='
+	+$('#Comentario').val();
+	$.ajax({
+		url : '../../mensajes/accionMensajes.jsp',
+		type : 'post',
+		data : datadata,
+		success : function(output) {
+			var idmsg = parseInt(output);
+			if ($('#formSendMsg #adjunto').get(0).files.length === 0) {
+				console.log(output + ' no tiene adjunto ' + idmsg );
+			}else{
+				console.log(output + ' tiene adjunto ' + idmsg );
+				if(idmsg>=0)
+					enviaMsgNFile(idmsg);
+			}
+		
+			$('#mensajeBox').modal('toggle');
+			$('#enviadoMsg').modal('show'); 
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			console.log("error " + datadata);
+			alert(xhr.status + " " + thrownError);
+		}
+	});
+
+}
+		
+		function enviaMsgNFile(idmsg) {
+			
+			var formData = new FormData(document.getElementById("formSendMsg"));
+		    formData.append("dato", "valor");
+		    formData.append("idmsg", idmsg);
+		    //formData.append(f.attr("name"), $(this)[0].files[0]);
+		    $.ajax({
+		        url: "../../mensajes/uploadFile.jsp",
+		        type: "post",
+		        dataType: false,
+		        data: formData,
+		        cache: false,
+		        contentType: false,
+		 		processData: false
+		    })
+		        .done(function(res){
+		            $("#mensaje").html("Respuesta: " + res);
+		        });
+		
+		}
+<!--
+$(document).on("click", ".open-MensajeBox", function () {
+    var destinatario = $(this).data('id');
+    var complemento = $(this).data('informacion');
+    var tipo_destino = $(this).data('tipomsg');
+    
+    $(".modal-body #destino").val( destinatario );
+    $(".modal-body #complemento").val( complemento );
+    $(".modal-body #tipo_destino").val( tipo_destino );
+    // As pointed out in comments, 
+    // it is superfluous to have to manually call the modal.
+    // $('#addBookDialog').modal('show');
+});
+
+$(function(){
+	var suma = 0;
+	var codigoid = '<%= codigoId %>'
+	var escuela = '<%=  (String) session.getAttribute("escuela") %>';
+	var tipodestino = '\'P\',\'A\',\'G\'';
+	var datadataA = 'cuenta_msgs=true&destino=\''+codigoid+'\',\''+escuela+'\'&tipodestino='+tipodestino;
+	console.log(datadataA);
+	$.ajax({
+		url : '../../mensajes/accionMensajes.jsp',
+		type : 'post',
+		data : datadataA,
+		success : function(output) {
+			suma += $.isNumeric(output) ? parseInt(output) : 0;
+			if(suma>0){
+				$('#countMsg').html('<div class="pull-right"><a href="mensaje.jsp" class="btn btn-warning btn-mini">'+ suma + ' Mensajes Nuevos</a></div>');
+			}else{
+				$('#countMsg').html('<div class="pull-right"><a href="mensaje.jsp" class="btn btn-warning  btn-mini">Revisar Mensajes</a></div>');
+			}
+			
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			console.log("error " + datadata);
+			alert(xhr.status + " " + thrownError);
+		}
+	});
+});
+	
+	
+//-->
+</script>
 </div>
 
 
