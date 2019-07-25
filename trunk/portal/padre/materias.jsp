@@ -28,13 +28,13 @@
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoAlumno");
-	cicloId					= request.getParameter("ciclo");
+	cicloId					= request.getParameter("ciclo") !=null ? request.getParameter("ciclo")  : session.getAttribute("cicloId").toString();
 	
 	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	
-// 	ArrayList<aca.ciclo.Ciclo> lisCiclo 		= cicloLista.getListCiclosAlumno(conElias, codigoId, "ORDER BY CICLO_ID");
+	ArrayList<aca.ciclo.Ciclo> lisCiclo 		= cicloLista.getListCiclosAlumno(conElias, codigoId, "ORDER BY CICLO_ID");
 	
-// 	//Verifica que el ciclo este en la lista de ciclo
+	//Verifica que el ciclo este en la lista de ciclo
 // 	boolean encontro = false;
 // 	for(aca.ciclo.Ciclo c : lisCiclo){
 // 		if(cicloId != null && c.equals(cicloId)){
@@ -57,7 +57,7 @@
 	
 	alumPersonal.mapeaRegId(conElias, codigoId);
 	alumPlan.mapeaRegActual(conElias, codigoId);
-	
+	System.out.println(codigoId + " " +  cicloId);
 	cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,codigoId,cicloId));	
 	String plan			= aca.kardex.KrdxCursoAct.getAlumPlan(conElias,codigoId,cicloId);	
 	int nivelId 		= -1;	
@@ -106,7 +106,11 @@ $('.materias').addClass('active');
 		</div>		
 		
 		<table class="table table-hover">
+		
 <%
+
+
+
 		ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupo.getCicloGrupoId()+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");	
 		
 		for(int i = 0; i < lisKrdx.size(); i++){

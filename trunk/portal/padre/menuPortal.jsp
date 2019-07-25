@@ -29,15 +29,15 @@ String cicloId 		= session.getAttribute("cicloId").toString();
  ArrayList<aca.ciclo.Ciclo> lisCiclom	= cicloListam.getListCiclosAlumno(conElias, auxiliar, "ORDER BY CICLO_ID");
 
 // //Verifica que el ciclo este en la lista de ciclo
-	boolean encontro = false;
+	boolean encontroM = false;
 	for(aca.ciclo.Ciclo c : lisCiclom){
 		if(cicloId != null && c.equals(cicloId)){
-			encontro = true; break;
+			encontroM = true; break;
 		}
 	}
 	
 	// Elige el mejor ciclo para el alumno. 
-	if( encontro==false && lisCiclom.size()>0 ){
+	if( encontroM==false && lisCiclom.size()>0 ){
 		ciclom 	= (aca.ciclo.Ciclo) lisCiclom.get(lisCiclom.size()-1);
 		cicloId = ciclom.getCicloId();
 			
