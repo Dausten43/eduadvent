@@ -130,23 +130,33 @@ lsAreas.addAll(ua.getLsAreas(0L, "", cicloId, 1));
 			cargaTabla(datos);
 		}
 	});
-		
-		$('#guardarCriterio').click(function(e){
+	
+	let txtIsEmpty = txt => txt.replace(/\s/g,'') === "";
+	
+	$('#guardarCriterio').click(function(e){
 		console.log('si entra a guardar');
 		var idcriterio = $("#idCriterio").val();	
 		var criteriotxt = $('#criteriotxt').val();
 		var areaid = $('#areaid').val();
 		var ciclo_id = '<%= cicloId %>';
 		var datos = '';
-		if(idcriterio!=''){
-			datos = 'idcriterio='+idcriterio+'&criterio='+criteriotxt+'&ciclo_id='+ciclo_id+'&area_id='+areaid+'&modificar=true';
-		}else{
-			datos = 'criterio='+criteriotxt+'&ciclo_id='+ciclo_id+'&area_id='+areaid+'&guardarCriterio=true';
+		if(txtIsEmpty(areaid)){
+			alert("Debe tener seleccionada un área");
 		}
-		console.log(datos);
-		cargaTabla(datos);
-		$('#idCriterio').val('');
-		$('#criteriotxt').val('');
+		else if(txtIsEmpty(criteriotxt)){
+			alert("Falta nombre del criterio/indicador");
+		}
+		else{
+			if(idcriterio!=''){
+				datos = 'idcriterio='+idcriterio+'&criterio='+criteriotxt+'&ciclo_id='+ciclo_id+'&area_id='+areaid+'&modificar=true';
+			}else{
+				datos = 'criterio='+criteriotxt+'&ciclo_id='+ciclo_id+'&area_id='+areaid+'&guardarCriterio=true';
+			}
+			console.log(datos);
+			cargaTabla(datos);
+			$('#idCriterio').val('');
+			$('#criteriotxt').val('');
+		}
 		
 		return false;
 		

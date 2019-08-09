@@ -89,6 +89,36 @@ function cargaTabla(datadata){
 	});
 }
 
+function generarBoletin(ciclogpoid, cicloId, escuelaId, codigoid){
+	let link = "/EdoCta/PrintBoletinKinder?ciclo_gpo_id="+ciclogpoid+"&ciclo_id="+cicloId+"&curso_id=H98-04COGN01&escuela_id="+escuelaId;
+	
+	if(codigoid)
+		link = link+"&codigo_id="+codigoid;
+	
+	window.open(link, '_blank');
+}
+
+function generar(codigoid){
+	let datadata = "";
+	
+	$.ajax({
+		url : 'ajaxCheck.jsp',
+		type : 'post',
+		data : datadata,
+		success : function(r) {
+			if(r.isOk){
+				generarBoletin($('#ciclo_gpo_id').val(), '<%= cicloId %>', '<%= escuelaId %>', codigoid);
+			}else{
+				alert("Las siguientes áreas tienen criterios/indicadores con problemas y se necesitan corregir: \n" + r.areasError );
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			console.log("error " + datadata);
+			alert(xhr.status + " " + thrownError);
+		}
+	});
+}
+
 $('#ciclo_gpo_id').change(function(){
 	var ciclogpoid =  $(this).val();
 	var datadata = 'ciclo_gpo_id='+ciclogpoid;
