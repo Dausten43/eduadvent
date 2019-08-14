@@ -308,7 +308,9 @@ public class PrintBoletinKinder extends HttpServlet {
             ResultSet rsb = pstb.executeQuery();
             while (rsb.next()) {
                 System.out.println("****Splirt "+ rsb.getString("id")+"- -" + rsb.getString("areaid") + "\t" + rsb.getString("area") + "\t" + rsb.getString("criterioid") + "\t" + rsb.getString("criterio"));
-                lsCriteriosAreas.add(rsb.getString("areaid").trim() + "\t" + rsb.getString("area").trim() + "\t" + rsb.getString("criterioid").trim() + "\t" + rsb.getString("criterio").trim());
+                if(rsb.getString("criterio") != null && !rsb.getString("criterio").equals("")){
+                    lsCriteriosAreas.add(rsb.getString("areaid").trim() + "\t" + rsb.getString("area").trim() + "\t" + rsb.getString("criterioid").trim() + "\t" + rsb.getString("criterio").trim());
+                }
             }
             rsb.close();
             pstb.close();
