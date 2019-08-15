@@ -129,7 +129,7 @@
 	
 
 	<%//SI ES ERY MOSTRAR INFORMACION EXTRA
-	if(session.getAttribute("admin").equals("B01P0002")){
+	if(session.getAttribute("admin").equals("B01P0002") || session.getAttribute("admin").equals("B01P0321")){
 	%>
 	<div class="alert">		
 			<h5><fmt:message key="aca.InformacionSesion"/></h5>
