@@ -1,6 +1,7 @@
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file= "../../head.jsp" %>
+<%@ include file= "../../administradores.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 <%@ page import="sun.misc.BASE64Encoder"%>
 <%@ page import="java.security.MessageDigest"%>
@@ -129,7 +130,7 @@
 	
 
 	<%//SI ES ERY MOSTRAR INFORMACION EXTRA
-	if(session.getAttribute("admin").equals("B01P0002")){
+	if(admins.contains(String.valueOf(session.getAttribute("admin")))){
 	%>
 	<div class="alert">		
 			<h5><fmt:message key="aca.InformacionSesion"/></h5>

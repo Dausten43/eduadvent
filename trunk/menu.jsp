@@ -156,7 +156,7 @@
            	
            	<!-- ********************** SEARCH INPUT ********************** -->
            	<%
-           	if(menuUSER.contains("E") || menuUSER.equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){ %>
+           	if(menuUSER.contains("E") || menuUSER.equals("B01P0002") || admins.contains(String.valueOf(session.getAttribute("admin")))){ %>
            	<form class="navbar-search form-search pull-right" action="" style="margin-right:10px;">
                    	<div class="input-prepend">
 					    
@@ -165,7 +165,7 @@
 					    	<a class="btn suplantar"><i class="icon-user"></i></a>
 					    <%}%>
 					    <% 
-					    if(aca.empleado.EmpPersonal.existeReg(conElias, menuUSER) &&  !menuUSER.contains("P") || menuUSER.equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){ %>
+					    if(aca.empleado.EmpPersonal.existeReg(conElias, menuUSER) &&  !menuUSER.contains("P") || menuUSER.equals("B01P0002") || admins.contains(String.valueOf(session.getAttribute("admin")))){ %>
 					    <input type="text" class="span2 search-query" placeholder="Buscar" style="border-radius:0;">
 					    <button class="btn" style="border-radius: 0 14px 14px 0;border-left:0;"><i class="icon-search"></i></button>
 					    <%} %>
@@ -178,7 +178,7 @@
       </div>
     </div>
 
-<%if(menuUSER.contains("E") || menuUSER.equals("B01P0002") || session.getAttribute("admin").equals("B01P0002")){ %> 
+<%if(menuUSER.contains("E") || menuUSER.equals("B01P0002") || admins.contains(String.valueOf(session.getAttribute("admin")))){ %> 
     
 <!-- SOLO PARA LOS QUE TIENEN ACCESO A LA BUSQUEDA -->
    

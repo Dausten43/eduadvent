@@ -2,6 +2,7 @@
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
 <%@ include file= "../../head.jsp" %>
+<%@ include file= "../../administradores.jsp" %>
 
 <jsp:useBean id="Usuario" scope="page" class="aca.vista.Usuarios"/>
 <jsp:useBean id="moduloLista" scope="page" class="aca.menu.ModuloLista"/>
@@ -31,15 +32,17 @@
 	String salto				= "X";
 	
 	if( accion.equals("3") && !session.getAttribute("admin").equals("-------") ){
-		if( ((String)session.getAttribute("admin")).equals("B01P0002") ){	
-			if(matricula.equals("ETORRES") || matricula.equals("B01P0002")){
-				Usuario.setCodigoId(matricula = "B01P0002");
-				Usuario.setEscuelaId("B01");
-			}
-			else{
-				Usuario.setCodigoId(matricula);
-				Usuario.setEscuelaId(escuelaId = matricula.substring(0,3));
-			}
+		
+		if( admins.contains(String.valueOf(session.getAttribute("admin")))){
+			if(matricula.equals("ETORRES"))
+				matricula = "B01P0002";
+			else if(matricula.equals("ALGARCIA"))
+				matricula = "B01E0092";
+			else if(matricula.equals("ULISESJP"))
+				matricula = "B01E0093";
+			
+			Usuario.setCodigoId(matricula);
+			Usuario.setEscuelaId(escuelaId = matricula.substring(0,3));
 		}
 		else{
 			Usuario.setCodigoId(matricula);
