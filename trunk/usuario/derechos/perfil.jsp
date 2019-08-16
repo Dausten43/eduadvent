@@ -172,6 +172,8 @@
 			if(!nivel.equals(""))nivel=nivel+"-";
 			
 			usuario.setCodigoId(strCodigoId);
+			conElias.setAutoCommit(false);
+			
 			if(usuario.existeReg(conElias)){
 				usuario.mapeaRegId(conElias, strCodigoId);
 				usuario.setNivel(nivel);
@@ -180,8 +182,10 @@
 					respuesta = "NivelesModificados";
 				}else{
 					respuesta = "ErrorNivelesModificados";
-				}
+					conElias.rollback();
+				}			
 			}
+			conElias.setAutoCommit(false);
 		}break;
 	}
 	
