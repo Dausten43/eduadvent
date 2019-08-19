@@ -1,4 +1,4 @@
-
+<%@ include file= "../../administradores.jsp" %>
 <%
 	java.util.ArrayList<aca.menu.Menu> MENU				= (java.util.ArrayList<aca.menu.Menu>) session.getAttribute("lisMenuPrincipal");
 	java.util.ArrayList<aca.menu.Modulo> MODULO			= (java.util.ArrayList<aca.menu.Modulo>) session.getAttribute("lisMenu");
