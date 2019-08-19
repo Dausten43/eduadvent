@@ -211,27 +211,31 @@
 			materia = PlanCurso.getCursoNombre(conElias, cicloGrupoCurso.getCursoId());
 %>
 			<tr>
-				<% if(Modulo.existeEnGrupo(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId())){ %>
-						<td>
-							<input type="radio" checked disabled />
-						</td>
-				<% }else{ %>
-						<td>
+				<% if(!Modulo.existeEnGrupo(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId())){ %>
+						
+						<td style ="text-align:center">
 					  		<input class="radioCurso" type="radio" name="curso" />
 					  		<input class="curso" type="hidden" value="<%=cicloGrupoCurso.getCursoId() %>">
 					  		<input class="cicloGrupo" type="hidden" value="<%=cicloGrupoCurso.getCicloGrupoId() %>">
+					  		
+						</td>
+						
+				<% } else{%>
+						<td>
+						
 						</td>
 				<% } %>
 				<td>
+					<%=Plan.getNombrePlan(conElias, cicloGrupo.getPlanId()) %> 
+				</td>
+				<td style="width:1%; white-space:nowrap">
+					<strong><%=materia%></strong>
+					
+				</td>
+				<td style="border-left:0">
 					<% if(Modulo.existeEnGrupo(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId())){ %>
 						<span class="label label-info"><fmt:message key="aca.MateriaConPlaneacion" /></span>
 					<% } %>
-				</td>
-				<td>
-					<%=Plan.getNombrePlan(conElias, cicloGrupo.getPlanId()) %> 
-				</td>
-				<td>
-					<strong><%=materia%></strong>
 				</td>
 				<td>
 					<%=cicloGrupo.getGrupoNombre() %> 
