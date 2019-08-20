@@ -34,7 +34,7 @@
 	if( accion.equals("3") && !session.getAttribute("admin").equals("-------") ){
 		
 		if( admins.contains(String.valueOf(session.getAttribute("admin")))){
-			if(matricula.equals("ETORRES"))
+			if(matricula.equals("GERMANENCINAS"))
 				matricula = "B01P0002";
 			else if(matricula.equals("ALGARCIA"))
 				matricula = "B01E0092";
