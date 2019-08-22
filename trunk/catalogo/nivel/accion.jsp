@@ -122,10 +122,10 @@
 		
 		<fieldset>
 		    <label for="gradoIni">
-		    	<span class="grado"><fmt:message key="aca.GradoIni" /></span>
-		    	<span class="semestre"><fmt:message key="aca.SemestreIni" /></span>
-		    	<span class="trimestre"><fmt:message key="aca.Trimestre" /></span>
-		    	<span class="cuatrimestre"><fmt:message key="aca.Cuatrimestre" /></span>
+		    	<span class="grado"><fmt:message key="aca.Grado"/> <fmt:message key="aca.Final"/></span>
+		    	<span class="semestre"><fmt:message key="aca.Semestre"/> <fmt:message key="aca.Final"/></span>
+		    	<span class="trimestre"><fmt:message key="aca.Trimestre"/> <fmt:message key="aca.Final"/></span>
+		    	<span class="cuatrimestre"><fmt:message key="aca.Cuatrimestre"/> <fmt:message key="aca.Final"/></span>
 		    </label>
 		    <select name="gradoIni" id="gradoIni" class="input-mini">
 		    	<%for(int i = 1; i<=12; i++){ %>
@@ -136,10 +136,10 @@
 		
 		<fieldset>
 		    <label for="gradoFin">
-		       	<span class="grado"><fmt:message key="aca.GradoFin" /></span>
-		    	<span class="semestre"><fmt:message key="aca.SemestreFin" /></span>
-		    	<span class="trimestre"><fmt:message key="aca.Trimestre" /></span>
-		    	<span class="cuatrimestre"><fmt:message key="aca.Cuatrimestre" /></span>
+		       	<span class="grado"><fmt:message key="aca.Grado"/> <fmt:message key="aca.Final"/></span>
+		    	<span class="semestre"><fmt:message key="aca.Semestre"/> <fmt:message key="aca.Final"/></span>
+		    	<span class="trimestre"><fmt:message key="aca.Trimestre"/> <fmt:message key="aca.Final"/></span>
+		    	<span class="cuatrimestre"><fmt:message key="aca.Cuatrimestre"/> <fmt:message key="aca.Final"/></span>
 		    </label>
 		    <select name="gradoFin" id="gradoFin" class="input-mini">
 		    	<%for(int i = 1; i<=12; i++){ %>
@@ -260,7 +260,7 @@
 				semestre.show();
 				trimestre.hide();
 				cuatrimestre.hide();
-			}else if (tipo.val() == 'Semestre'){
+			}else if (tipo.val() == 'Trimestre'){
 				grado.hide();
 				semestre.hide();
 				trimestre.show();
