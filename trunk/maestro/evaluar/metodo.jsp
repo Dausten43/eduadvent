@@ -136,10 +136,15 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 					<fmt:message key="aca.Actividades" />
 					&nbsp;
 					<%if( aca.ciclo.Ciclo.getEditarActividad(conElias, cicloId).equals("SI") ){ %>
-						<a class="btn btn-mini" href="actividad.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>&EvaluacionId=<%= evaluacion.getEvaluacionId()%>">
-							<i class="icon-plus"></i> <fmt:message key="boton.AnadirActividad" />
+						<a class="btn btn-mini" href="actividad.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>&EvaluacionId=<%= evaluacion.getEvaluacionId()%>" >
+						<i class="icon-plus"></i> <fmt:message key="boton.AnadirActividad" />
 						</a>
-					<%} %>
+				    <%}if(aca.ciclo.CicloGrupoActividad.tieneActividades(conElias,cicloGrupoId,cursoId, evaluacion.getEvaluacionId())){%>
+						<a class="btn btn-success btn-mini " href="traspasoMetodoEvalucion.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>&EvaluacionId=<%= evaluacion.getEvaluacionId()%>" style = "float:right;">
+						<fmt:message key="maestros.TraspasarActividades" /> 
+					    <i class="icon-random icon-white"></i>
+					    </a>
+				   <%} %>
 				</h6>
 			</div>
 <%
