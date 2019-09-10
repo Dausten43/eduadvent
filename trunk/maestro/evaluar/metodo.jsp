@@ -140,7 +140,7 @@ if (listEstrategias.size() < modulos && escuelaId.equals("A17")){
 						<i class="icon-plus"></i> <fmt:message key="boton.AnadirActividad" />
 						</a>
 				    <%}if(aca.ciclo.CicloGrupoActividad.tieneActividades(conElias,cicloGrupoId,cursoId, evaluacion.getEvaluacionId())){%>
-						<a class="btn btn-success btn-mini " href="traspasoMetodoEvalucion.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>&EvaluacionId=<%= evaluacion.getEvaluacionId()%>" style = "float:right;">
+						<a class="btn btn-success btn-mini " href="traspasoMetodoEvaluacion.jsp?Accion=1&CicloGrupoId=<%=cicloGrupoId%>&CursoId=<%=cursoId%>&EvaluacionId=<%= evaluacion.getEvaluacionId()%>" style = "float:right;">
 						<fmt:message key="maestros.TraspasarActividades" /> 
 					    <i class="icon-random icon-white"></i>
 					    </a>
