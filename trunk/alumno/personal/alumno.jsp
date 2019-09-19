@@ -607,7 +607,7 @@
 				<p>
 					<label><fmt:message key="aca.Pais"/></label>
 					
-			        <select name="PaisId" id="PaisId" onChange = "javascript:PEC('1','<%=sTipo%>')" tabindex="7">
+			        <select name="PaisId" id="PaisId" tabindex="7">
 				<%	
 					ArrayList<aca.catalogo.CatPais> lisPais = PaisL.getListAll(conElias,"ORDER BY 2");
 					for(aca.catalogo.CatPais pais: lisPais){
@@ -627,7 +627,7 @@
 				<%	}else{ %>
 					<label><fmt:message key="aca.Provincia"/></label>
 				<%	} %>					
-				    <select name="EstadoId" id="EstadoId" onChange= "javascript:PEC('2','<%=sTipo%>')">
+				    <select name="EstadoId" id="EstadoId" >
 	                <%	
 						ArrayList<aca.catalogo.CatEstado> lisEstado = EstadoL.getArrayList(conElias, Personal.getPaisId(), "ORDER BY 1,3");
 						for(aca.catalogo.CatEstado estado: lisEstado){
@@ -645,7 +645,7 @@
 				<%	}else{ %>
 					<label><fmt:message key="aca.Distrito"/></label>
 				<%	} %>	
-          			<select name="CiudadId" id="CiudadId" onchange="javascript:PEC('3','<%=sTipo%>')">
+          			<select name="CiudadId" id="CiudadId" >
               	<%	
 					ArrayList<aca.catalogo.CatCiudad> lisCiudad = CiudadL.getArrayList(conElias, Personal.getPaisId(), Personal.getEstadoId(), "ORDER BY 4");
 					for(aca.catalogo.CatCiudad ciudad: lisCiudad){
@@ -948,7 +948,57 @@
 <script src="../../js-plugins/datepicker/datepicker.js"></script>
 
 <script>
-	$('#FNacimiento').datepicker();
+
+	$('#PaisId').change(function(e){
+		updateInfo('EstadoId');
+	});
+	
+	$('#EstadoId').change(function(e){
+		updateInfo('CiudadId');
+	});
+	$('#CiudadId').change(function(e){
+		updateInfo('BarrioId');
+	})
+	
+	
+	
+	function updateInfo(tipo){
+		let data = {
+			tipo,
+			PaisId : $('#PaisId').val(),
+			EstadoId : $('#EstadoId').val(),
+			CiudadId : $('#CiudadId').val(),
+			BarrioId  : $('#BarrioId').val(),
+			
+		};
+		
+		console.log(data);
+		$.ajax({
+			
+			url: 'ajaxUbicacion.jsp',
+			type : 'post',
+			data : data,
+			success : function (output){
+				$('#'+tipo).html("<option value='' disabled selected > Seleccione " + tipo + "</option>");
+				$('#'+tipo).append(output);
+				
+			
+			},
+			error : function (xhr, ajaxOptions, thrownError) {
+				console.log("error ");
+				alert(xhr.status + " " + thrownError);
+			}
+			
+			
+		});
+	}
+	
+		
+		
+		
+	
+
+	
 </script>
 
 <%@ include file= "../../cierra_elias.jsp" %>
