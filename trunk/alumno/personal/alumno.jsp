@@ -949,17 +949,20 @@
 
 <script>
 
-	$('#PaisId').change(function(e){
-		updateInfo('EstadoId');
+	$('#FNacimiento').datepicker();
+
+	
+	$('#PaisId').on('change', function(e){
+		updateInfo('Estado');
 	});
 	
-	$('#EstadoId').change(function(e){
-		updateInfo('CiudadId');
+	$('#EstadoId').on('change', function(e){
+		updateInfo('Ciudad');
 	});
-	$('#CiudadId').change(function(e){
-		updateInfo('BarrioId');
-	})
 	
+	$('#CiudadId').on('change', function(e){
+		updateInfo('Barrio');
+	});
 	
 	
 	function updateInfo(tipo){
@@ -968,37 +971,23 @@
 			PaisId : $('#PaisId').val(),
 			EstadoId : $('#EstadoId').val(),
 			CiudadId : $('#CiudadId').val(),
-			BarrioId  : $('#BarrioId').val(),
-			
+			BarrioId  : $('#BarrioId').val()
 		};
 		
-		console.log(data);
 		$.ajax({
-			
 			url: 'ajaxUbicacion.jsp',
-			type : 'post',
+			type : 'POST',
 			data : data,
 			success : function (output){
-				$('#'+tipo).html("<option value='' disabled selected > Seleccione " + tipo + "</option>");
-				$('#'+tipo).append(output);
-				
-			
+				$('#'+tipo+"Id").html(output);
+				$('#'+tipo+"Id").trigger('change');
 			},
 			error : function (xhr, ajaxOptions, thrownError) {
 				console.log("error ");
 				alert(xhr.status + " " + thrownError);
 			}
-			
-			
 		});
 	}
-	
-		
-		
-		
-	
-
-	
 </script>
 
 <%@ include file= "../../cierra_elias.jsp" %>
