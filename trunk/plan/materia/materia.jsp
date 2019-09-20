@@ -57,7 +57,8 @@
 		
 		if (plan.getPlanId().equals(strPlanId)){
 			out.print(" <option value='"+plan.getPlanId()+"' Selected>"+ plan.getPlanNombre()+"</option>");
-		}else{
+			
+		}else if(!plan.getPlanId().equals(strPlanId) && !plan.getEstado().equals("I")){
 			out.print(" <option value='"+plan.getPlanId()+"'>"+ plan.getPlanNombre()+"</option>");
 		}
 	}	
