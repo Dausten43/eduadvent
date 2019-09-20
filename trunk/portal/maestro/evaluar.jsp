@@ -413,7 +413,9 @@
 					}
 				}
 				
-				String total = frm.format(sumaNota.divide(sumaValor,8,RoundingMode.HALF_EVEN).doubleValue());
+				String total = frm.format(0.0d);
+				if(sumaNota.floatValue() > 0f && sumaValor.floatValue() > 0f)
+					total = frm.format(sumaNota.divide(sumaValor,mc).doubleValue());
 				
 				kardexProm.setCodigoId(alumno);
 				kardexProm.setCicloGrupoId(cicloGrupoId);
