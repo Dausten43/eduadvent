@@ -53,14 +53,15 @@
 <%
 	for( int j=0;j<lisPlan.size();j++){
 		aca.plan.Plan plan = (aca.plan.Plan) lisPlan.get(j);
-		if (strPlanId==null&&j==0) strPlanId = plan.getPlanId();
 		
-		if (plan.getPlanId().equals(strPlanId)){
+		if (strPlanId==null&&j==0)
+			strPlanId = plan.getPlanId();
+		
+		if (plan.getPlanId().equals(strPlanId))
 			out.print(" <option value='"+plan.getPlanId()+"' Selected>"+ plan.getPlanNombre()+"</option>");
 			
-		}else if(!plan.getPlanId().equals(strPlanId) && !plan.getEstado().equals("I")){
+		else if(!plan.getEstado().equals("I"))
 			out.print(" <option value='"+plan.getPlanId()+"'>"+ plan.getPlanNombre()+"</option>");
-		}
 	}	
 %>
 	</select>
