@@ -75,7 +75,7 @@
 							AlumFalta.setEvaluacionId(eval.getEvaluacionId());
 							AlumFalta.setCodigoId(codigoAlumno);
 							if (AlumFalta.existeReg(conElias)){
-								AlumFalta.mapeaRegId(conElias, codigoAlumno, cicloGrupoId, grupoCurso.getCursoId(),eval.getEvaluacionId());
+								AlumFalta.mapeaRegId(conElias, codigoAlumno, cicloGrupoId, grupoCurso.getCursoId(),eval.getPromedioId(),eval.getEvaluacionId());
 								falta = Integer.parseInt(AlumFalta.getFalta());
 							}else{
 								falta = 0;	
