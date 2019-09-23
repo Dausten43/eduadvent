@@ -232,7 +232,7 @@ public String maximoReg(Connection conn, String escuelaId) throws SQLException{
 		
 		try{
 			ps = conn.prepareStatement("SELECT COALESCE(MAX(TIPO_ID)+1,'1') AS MAXIMO " +
-					"FROM COND_TIPOREPORTE WHERE ESCUELA_ID = ?");
+					"FROM COND_TIPOREPORTE");
 			rs= ps.executeQuery();		
 			if(rs.next()){
 				maximo = rs.getString("MAXIMO");

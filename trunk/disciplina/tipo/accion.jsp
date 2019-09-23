@@ -63,6 +63,7 @@
 		reporte.setTipoNombre(request.getParameter("TipoNombre"));
 		reporte.setComentario(request.getParameter("Comentario"));
 		reporte.setEscuelaId(escuelaId);
+		conElias.setAutoCommit(false);
 		if (reporte.existeReg(conElias) == false) {
 			if (reporte.insertReg(conElias)) {
 				sResultado = "Guardado";
@@ -74,7 +75,7 @@
 		} else {
 			sResultado = "Existe";
 		}
-
+		conElias.setAutoCommit(true);
 		break;
 	}
 	case 3: { // Modificar
@@ -82,6 +83,7 @@
 		reporte.setTipoId(request.getParameter("TipoId"));
 		reporte.setTipoNombre(request.getParameter("TipoNombre"));
 		reporte.setComentario(request.getParameter("Comentario"));
+		conElias.setAutoCommit(false);
 		if (reporte.existeReg(conElias) == true) {
 			if (reporte.updateReg(conElias)) {
 				sResultado = "Modificado";
@@ -93,9 +95,11 @@
 		} else {
 			sResultado = "NoExiste";
 		}
+		conElias.setAutoCommit(true);
 		break;
 	}
-	case 4: { // Borrar			
+	case 4: { // Borrar
+		conElias.setAutoCommit(false);
 		if (reporte.existeReg(conElias) == true) {
 			if (reporte.deleteReg(conElias)) {
 				sResultado = "Eliminado";
@@ -107,7 +111,7 @@
 		} else {
 			sResultado = "NoExiste: ";
 		}
-
+		conElias.setAutoCommit(true);
 		break;
 	}
 	case 5: { // Consultar
