@@ -62,6 +62,7 @@
 	<div id="content">
 		<h2><fmt:message key="aca.Elegir" /></h2>
 		<form name="frmCiclo" action="permiso.jsp" method="post">
+			<input name="Accion" type="hidden">
 			<div class="well">
 				<select name="Ciclo" id="Ciclo" onchange='javascript:cambiaCiclo()'
 					style="width: 310px;">
