@@ -9,6 +9,7 @@
 <jsp:useBean id="PlanCursoLista"  class="aca.plan.PlanCursoLista" scope="page"/>
 <jsp:useBean id="Curso"  class="aca.plan.PlanCurso" scope="page"/>
 <jsp:useBean id="Plan"  class="aca.plan.Plan" scope="page"/>
+<jsp:useBean id="cicloGrupoCurso"  class="aca.ciclo.CicloGrupoCurso" scope="page" />
 <%
 	String escuelaId		= (String) session.getAttribute("escuela");
     String strPlanId		= request.getParameter("PlanId");
@@ -146,8 +147,13 @@
     <td align="center">
       <a class="icon-pencil" href="accion.jsp?Accion=5&CursoId=<%=curso.getCursoId().replaceAll("&", "}") %>&PlanId=<%=strPlanId %>&nivelId=<%=nivelId%>">
       </a>
-      <a class="icon-remove" href="javascript:Borrar('<%=curso.getCursoId().replaceAll("&", "}") %>')">
-      </a> 
+     <%
+     cicloGrupoCurso.setCursoId(curso.getCursoId());
+     if(!cicloGrupoCurso.existeRegCursoId(conElias)){
+	 %>
+	 <a class="icon-remove" href="javascript:Borrar('<%=curso.getCursoId().replaceAll("&", "}") %>')">
+     </a>
+     <%} %>
     </td>
     <td align="left"><%=curso.getCursoId() %></td>
     <td align="left"><%=curso.getCursoNombre() %></td>   
