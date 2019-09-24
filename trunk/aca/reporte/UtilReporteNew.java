@@ -312,12 +312,12 @@ public class UtilReporteNew {
 	public HashMap<Integer, ReportePromedio> mapeaPromedios(String jsonEval){
 		HashMap<Integer, ReportePromedio> mapaPromedios = new HashMap<Integer, ReportePromedio>();
 		
-		Type listType = new TypeToken<List<ReporteCalificacion>>(){}.getType();
-		List<ReporteCalificacion> listCalf = new Gson().fromJson(jsonEval, listType);
+		Type listType = new TypeToken<List<CalificacionDTO>>(){}.getType();
+		List<CalificacionDTO> listCalf = new Gson().fromJson(jsonEval, listType);
 		
 		int prom_id = -1;
 		int eval_id = -1;
-		for(ReporteCalificacion item: listCalf) {
+		for(CalificacionDTO item: listCalf) {
 			if(item.getPromedioId() != prom_id) {
 				prom_id = item.getPromedioId();
 				mapaPromedios.put(prom_id, new ReportePromedio(item.getPromCorto(), item.getPromValor()));

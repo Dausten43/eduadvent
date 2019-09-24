@@ -4,7 +4,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="aca.reporte.Reporte"%>
-<jsp:useBean id="utilReporte" scope="page" class="aca.reporte.UtilReport"/>
+<jsp:useBean id="utilReporte" scope="page" class="aca.reporte.UtilReporteNew"/>
 <%
 response.setContentType("application/json");
 response.setHeader("Content-Disposition", "inline");

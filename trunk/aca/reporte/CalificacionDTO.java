@@ -1,6 +1,6 @@
 package aca.reporte;
 
-public class ReporteCalificacion {
+public class CalificacionDTO {
 
 	private int promedio_id;
 	private String prom_corto;
