@@ -4,7 +4,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="aca.reporte.Reporte"%>
-<jsp:useBean id="utilReporte" scope="page" class="aca.reporte.UtilReporteNew"/>
+<%@page import="aca.reporte.UtilReporteNew"%>
 <%
 response.setContentType("application/json");
 response.setHeader("Content-Disposition", "inline");
@@ -14,7 +14,7 @@ String[] codigoAlumno = request.getParameterValues("alumno");
 if(codigoAlumno != null){
 	List<String> lsALumnos = Arrays.asList(codigoAlumno);
 	
-	Reporte reportes = utilReporte.generaReportes(conElias, lsALumnos);
+	Reporte reportes = UtilReporteNew.generaReportes(conElias, lsALumnos);
 	
 	String rep = new Gson().toJson(reportes);
 	out.print(rep);

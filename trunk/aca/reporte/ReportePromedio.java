@@ -9,7 +9,7 @@ public class ReportePromedio{
 	private String valor;
 	private HashMap<Integer, ReporteEvaluacion> mapaEvaluaciones = new HashMap<Integer, ReporteEvaluacion>();
 	
-	ReportePromedio(String nombreCorto, String valor) {
+	public ReportePromedio(String nombreCorto, String valor) {
 		this.setNombreCorto(nombreCorto);
 		this.setValor(valor);
 	}

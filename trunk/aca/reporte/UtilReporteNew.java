@@ -1,6 +1,5 @@
 package aca.reporte;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
@@ -9,19 +8,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class UtilReporteNew {
 	
-	private java.math.MathContext mc = new java.math.MathContext(4, java.math.RoundingMode.HALF_EVEN); 	// Math Context para manejar los formatos de los BigDecimal
+	private static java.math.MathContext mc = new java.math.MathContext(4, java.math.RoundingMode.HALF_EVEN); 	// Math Context para manejar los formatos de los BigDecimal
 
-	public Reporte mapeaDatosEscuela(ResultSet rs) throws SQLException {
+	public static Reporte mapeaDatosEscuela(ResultSet rs) throws SQLException {
 		Reporte reporte = new Reporte();
 		
 		reporte.setEscuelaId(rs.getString("ESCUELA_ID"));
@@ -37,7 +36,7 @@ public class UtilReporteNew {
 		return reporte;
 	}
 	
-	public ReporteAlumnoNew mapeaDatosAlumno(ResultSet rs) throws SQLException {
+	public static ReporteAlumnoNew mapeaDatosAlumno(ResultSet rs) throws SQLException {
 		ReporteAlumnoNew reporteAlumno = new ReporteAlumnoNew();
 		
 		reporteAlumno.setCodigoId(rs.getString("CODIGO_ID"));
@@ -47,7 +46,7 @@ public class UtilReporteNew {
 		return reporteAlumno;
 	}
 	
-	public ReporteGrado mapeaGradoAlumno(ResultSet rs) throws SQLException {
+	public static ReporteGrado mapeaGradoAlumno(ResultSet rs) throws SQLException {
 		ReporteGrado reporteGrado = new ReporteGrado();
 		
 		reporteGrado.setCicloId(rs.getString("CICLO_ID"));
@@ -66,7 +65,7 @@ public class UtilReporteNew {
 		return reporteGrado;
 	}
 	
-	public ReporteMateria mapeaMateriaGrado(ResultSet rs) throws SQLException {
+	public static ReporteMateria mapeaMateriaGrado(ResultSet rs) throws SQLException {
 		ReporteMateria reporteMateria = new ReporteMateria();
 		
 		reporteMateria.setCursoId(rs.getString("CURSO_ID"));
@@ -88,7 +87,7 @@ public class UtilReporteNew {
 	}
 
 	
-	public Reporte cargaDatosEscuela(Connection con, String escuelaId) throws SQLException {
+	public static Reporte cargaDatosEscuela(Connection con, String escuelaId) throws SQLException {
 		Reporte reporte = new Reporte();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -114,7 +113,7 @@ public class UtilReporteNew {
 		return reporte;
 	}
 	
-	public ReporteAlumnoNew cargaDatosAlumno(Connection con, String codigoId) throws SQLException {
+	public static ReporteAlumnoNew cargaDatosAlumno(Connection con, String codigoId) throws SQLException {
 		ReporteAlumnoNew reporteAlumno = new ReporteAlumnoNew();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -140,7 +139,7 @@ public class UtilReporteNew {
 		return reporteAlumno;
 	}
 	
-	public ArrayList<String> listaGruposAlumno(Connection con, String codigoId) throws SQLException {
+	public static ArrayList<String> listaGruposAlumno(Connection con, String codigoId) throws SQLException {
 		ArrayList<String> listaGrupos = new ArrayList<String>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -166,7 +165,7 @@ public class UtilReporteNew {
 		return listaGrupos;
 	}
 	
-	public ReporteGrado cargaGradoAlumno(Connection con, String cicloGrupoId) throws SQLException {
+	public static ReporteGrado cargaGradoAlumno(Connection con, String cicloGrupoId) throws SQLException {
 		ReporteGrado reporteGrado = new ReporteGrado();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -192,7 +191,7 @@ public class UtilReporteNew {
 		return reporteGrado;
 	}
 	
-	public LinkedHashMap<String, ReporteMateria> cargaMateriasAlumno(Connection con, String codigoId, String cicloGrupoId) throws SQLException {
+	public static LinkedHashMap<String, ReporteMateria> cargaMateriasAlumno(Connection con, String codigoId, String cicloGrupoId) throws SQLException {
 		LinkedHashMap<String, ReporteMateria> mapaMaterias = new LinkedHashMap<String, ReporteMateria>();
 		ReporteMateria reporteMateria = new ReporteMateria();
 		PreparedStatement ps = null;
@@ -222,7 +221,7 @@ public class UtilReporteNew {
 		return mapaMaterias;
 	}
 	
-	public LinkedHashMap<Integer, ReporteAspecto> cargaAspectosAlumno(Connection con, String codigoId, String cicloGrupoId) throws SQLException {
+	public static LinkedHashMap<Integer, ReporteAspecto> cargaAspectosAlumno(Connection con, String codigoId, String cicloGrupoId) throws SQLException {
 		LinkedHashMap<Integer, ReporteAspecto> mapaAspectos = new LinkedHashMap<Integer, ReporteAspecto>();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -245,7 +244,7 @@ public class UtilReporteNew {
 					mapaAspectos.put(aspecto_id, new ReporteAspecto());
 					
 					nombre = rs.getString("ASPECTOS_NOMBRE");
-					mapaAspectos.get(aspecto_id).setAspectoNombre(nombre);
+					mapaAspectos.get(aspecto_id).setNombre(nombre);
 				}
 				
 				prom_eval = rs.getString("PROMEDIO_ID") + "" + rs.getString("EVALUACION_ID");
@@ -264,7 +263,7 @@ public class UtilReporteNew {
 		return mapaAspectos;
 	}
 	
-	public Reporte generaReportes(Connection con, List<String> listaAlumnos) throws SQLException{
+	public static Reporte generaReportes(Connection con, List<String> listaAlumnos) throws SQLException{
 		Reporte reporte = new Reporte();
 		
 		if(listaAlumnos.size() > 0) {			
@@ -309,11 +308,11 @@ public class UtilReporteNew {
 		return reporte;
 	}
 	
-	public HashMap<Integer, ReportePromedio> mapeaPromedios(String jsonEval){
+	public static HashMap<Integer, ReportePromedio> mapeaPromedios(String jsonEval){
 		HashMap<Integer, ReportePromedio> mapaPromedios = new HashMap<Integer, ReportePromedio>();
 		
-		Type listType = new TypeToken<List<CalificacionDTO>>(){}.getType();
-		List<CalificacionDTO> listCalf = new Gson().fromJson(jsonEval, listType);
+		CalificacionDTO[] lsCalfFromJson = new Gson().fromJson(jsonEval, CalificacionDTO[].class);
+		List<CalificacionDTO> listCalf = Arrays.asList(lsCalfFromJson);
 		
 		int prom_id = -1;
 		int eval_id = -1;
@@ -344,7 +343,7 @@ public class UtilReporteNew {
 		return mapaPromedios;
 	}
 	
-	public String calcularCalificacionPromedio(Collection<ReporteEvaluacion> evaluaciones, DecimalFormat frm) {
+	public static String calcularCalificacionPromedio(Collection<ReporteEvaluacion> evaluaciones, DecimalFormat frm) {
 		String calificacion = "";
 		BigDecimal totalCalf = new BigDecimal("0", mc);
 		BigDecimal totalValor = new BigDecimal("0", mc);
@@ -372,7 +371,7 @@ public class UtilReporteNew {
 		return "-";
 	}
 	
-	public void calcularCalificacionesMaterias(Collection<ReporteMateria> materias, DecimalFormat frm) {
+	public static void calcularCalificacionesMaterias(Collection<ReporteMateria> materias, DecimalFormat frm) {
 		String calificacion = "";
 		BigDecimal totalCalf;
 		BigDecimal totalValor;
@@ -407,7 +406,7 @@ public class UtilReporteNew {
 		}
 	}
 	
-	private DecimalFormat setFormat(String decimales, String redondeo){
+	private static DecimalFormat setFormat(String decimales, String redondeo){
 		DecimalFormat frm;
 		
 		if(decimales.equals("1")){
