@@ -83,7 +83,7 @@ public class FinReciboLista {
 			comando = " SELECT CLIENTE, RECIBO_ID, EJERCICIO_ID, IMPORTE, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA, DOMICILIO, CHEQUE, BANCO," +
 					" OBSERVACIONES, USUARIO, RFC, TIPO, ESTADO, TIPOPAGO"
 					+ " FROM FIN_RECIBO "
-					+ " WHERE RECIBO_ID IN( SELECT RECIBO_ID FROM FIN_MOVIMIENTOS WHERE POLIZA_ID = '"+polizaId+"' ) AND EJERCICIO_ID = '"+ejercicioId+"' "+orden;
+					+ " WHERE RECIBO_ID IN( SELECT RECIBO_ID FROM FIN_MOVIMIENTOS WHERE POLIZA_ID = '"+polizaId+"' AND EJERCICIO_ID = '"+ejercicioId+"') AND EJERCICIO_ID = '"+ejercicioId+"' "+orden;
 			
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
