@@ -1,4 +1,6 @@
 <%@page import="java.util.List"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -45,92 +47,92 @@
 		ArrayList<aca.fin.FinMovimientos> movimientos = FinMovLista.getMovimientos(conElias, ejercicioId, polizaId, FinFolio.getReciboActual() , "");
 		
 		if(movimientos.size()==0){
-		/* **** BEGIN TRANSACTION **** */
-		conElias.setAutoCommit(false);
-		boolean error = false;
-		boolean seHaSolicitadoUnaCancelacion = false;
-		
-		/* ==== CAMBIAR ESTADO DE LA POLIZA ==== */
-		FinPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
-		if(!FinPoliza.getEstado().equals("A")){
-			error = true;
-		}
-		FinPoliza.setEstado("T");//Transicion, cerrada temporalmente hasta que se mande al SunPlus
-		
-		if( FinPoliza.updateEstado(conElias) ){
-			//Actualizado
-		}else{
-			error = true;
-		}
-		
-		/* ==== SUMAR MOVIMIENTOS Y BORRAR LOS QUE NUNCA LLEGARON AL RECIBO ==== */
-		ArrayList<aca.fin.FinMovimientos> movs = FinMovLista.getAllMovimientosPoliza(conElias, ejercicioId, polizaId, "");
-	
-		float totalImporte = 0;	
-		for(aca.fin.FinMovimientos mov : movs){
+			/* **** BEGIN TRANSACTION **** */
+			conElias.setAutoCommit(false);
+			boolean error = false;
+			boolean seHaSolicitadoUnaCancelacion = false;
 			
-			//Si esta creado y nunca paso a guardar el recibo
-			if( mov.getEstado().equals("A") ){
-				if( mov.deleteReg(conElias) ){
-					//Eliminado
-				}else{
-					error = true; break;
-				}
+			/* ==== CAMBIAR ESTADO DE LA POLIZA ==== */
+			FinPoliza.mapeaRegId(conElias, ejercicioId, polizaId);
+			if(!FinPoliza.getEstado().equals("A")){
+				error = true;
 			}
-			//Si se ha solicitado una cancelacion
-			else if( mov.getEstado().equals("S") ){
-				error = true; seHaSolicitadoUnaCancelacion = true; break;
-			}
-			//Si se guardo el recibo
-			else if( mov.getEstado().equals("R") ){
-				totalImporte += Float.parseFloat(mov.getImporte());
-			}
+			FinPoliza.setEstado("T");//Transicion, cerrada temporalmente hasta que se mande al SunPlus
 			
-		}
-		
-		/* ==== GUARDAR MOVIMIENTO PARA CUADRAR LA POLIZA ==== */
-		FinMovs.setEjercicioId(ejercicioId);
-		FinMovs.setPolizaId(polizaId);
-		FinMovs.setMovimientoId("0");
-		FinMovs.setCuentaId("0");
-		FinMovs.setAuxiliar("-");
-		FinMovs.setDescripcion("Diario de caja");
-		FinMovs.setImporte(String.valueOf(totalImporte));
-		FinMovs.setNaturaleza("D"); /* Debito */
-		FinMovs.setReferencia("-");
-		FinMovs.setEstado("R"); /* Recibo */
-		FinMovs.setFecha(aca.util.Fecha.getDateTime());
-		FinMovs.setReciboId("0");
-		FinMovs.setCicloId("00000000");
-		FinMovs.setPeriodoId("0");
-		FinMovs.setTipoMovId("0");
-		
-		if( FinMovs.existeReg(conElias) ){
-			error = true;
-		}else{
-			if( FinMovs.insertReg(conElias) ){
-				//Guardado
+			if( FinPoliza.updateEstado(conElias) ){
+				//Actualizado
 			}else{
 				error = true;
 			}
-		}
-		
-		if( error==true ){
-			conElias.rollback();
 			
-			if( seHaSolicitadoUnaCancelacion==true ){
-				msj = "NoSePuedeCerrarLaPolizaRecibosPendientes";
-			}else{
-				msj = "NoGuardo";
+			/* ==== SUMAR MOVIMIENTOS Y BORRAR LOS QUE NUNCA LLEGARON AL RECIBO ==== */
+			ArrayList<aca.fin.FinMovimientos> movs = FinMovLista.getAllMovimientosPoliza(conElias, ejercicioId, polizaId, "");
+		
+			float totalImporte = 0;	
+			for(aca.fin.FinMovimientos mov : movs){
+				
+				//Si esta creado y nunca paso a guardar el recibo
+				if( mov.getEstado().equals("A") ){
+					if( mov.deleteReg(conElias) ){
+						//Eliminado
+					}else{
+						error = true; break;
+					}
+				}
+				//Si se ha solicitado una cancelacion
+				else if( mov.getEstado().equals("S") ){
+					error = true; seHaSolicitadoUnaCancelacion = true; break;
+				}
+				//Si se guardo el recibo
+				else if( mov.getEstado().equals("R") ){
+					totalImporte += Float.parseFloat(mov.getImporte());
+				}
+				
 			}
 			
-		}else{
-			conElias.commit();
-			msj = "Guardado";
-		}
-		
-		conElias.setAutoCommit(true);
-		/* **** END TRANSACTION **** */
+			/* ==== GUARDAR MOVIMIENTO PARA CUADRAR LA POLIZA ==== */
+			FinMovs.setEjercicioId(ejercicioId);
+			FinMovs.setPolizaId(polizaId);
+			FinMovs.setMovimientoId("0");
+			FinMovs.setCuentaId("0");
+			FinMovs.setAuxiliar("-");
+			FinMovs.setDescripcion("Diario de caja");
+			FinMovs.setImporte(String.valueOf(totalImporte));
+			FinMovs.setNaturaleza("D"); /* Debito */
+			FinMovs.setReferencia("-");
+			FinMovs.setEstado("R"); /* Recibo */
+			FinMovs.setFecha(aca.util.Fecha.getDateTime());
+			FinMovs.setReciboId("0");
+			FinMovs.setCicloId("00000000");
+			FinMovs.setPeriodoId("0");
+			FinMovs.setTipoMovId("0");
+			
+			if( FinMovs.existeReg(conElias) ){
+				error = true;
+			}else{
+				if( FinMovs.insertReg(conElias) ){
+					//Guardado
+				}else{
+					error = true;
+				}
+			}
+			
+			if( error==true ){
+				conElias.rollback();
+				
+				if( seHaSolicitadoUnaCancelacion==true ){
+					msj = "NoSePuedeCerrarLaPolizaRecibosPendientes";
+				}else{
+					msj = "NoGuardo";
+				}
+				
+			}else{
+				conElias.commit();
+				msj = "Guardado";
+			}
+			
+			conElias.setAutoCommit(true);
+			/* **** END TRANSACTION **** */
 		}else{
 			msj = "MovimientosSinRecibo";
 		}
@@ -140,6 +142,9 @@
 	
 	List<aca.fin.FinPoliza> listaPoliza = new ArrayList();
 	listaPoliza.addAll(FinPolizaLista.getPolizaPorUsuarioDeCaja(conElias, usuario, ejercicioId, " ORDER BY FECHASYS desc"));
+	
+	SimpleDateFormat dtFormat = new SimpleDateFormat();
+	Date dt = new Date();
 	
 %>
 	
@@ -168,57 +173,74 @@
 	</div>
 	 	
 	<table class="table table-striped table-bordered" id="table">
-		<tr>
-			<th style="width:5%;"><fmt:message key="aca.Operacion" /></th>
-			<th style="width:5%;"><fmt:message key="aca.Poliza" /></th>			
-			<th><fmt:message key="aca.Descripcion" /></th>
-			<th><fmt:message key="aca.Fecha" /></th>
-			<th><fmt:message key="aca.Reportes" /></th>
-			<th style="width:2%;"><fmt:message key="boton.Cerrar" /></th>
-			<th><fmt:message key="aca.Estado" /></th>
-		</tr>
-		<%for(aca.fin.FinPoliza poliza : listaPoliza){%>
+		<thead>
 			<tr>
-				<td>
-					<a href="accion.jsp?polizaId=<%=poliza.getPolizaId() %>">
-						<i class="icon-pencil"></i>
-					</a>
-					<%if(!aca.fin.FinMovimientos.existePoliza(conElias, ejercicioId, poliza.getPolizaId())){ %>	
-					<a href="javascript:if(confirm('<fmt:message key="js.Confirma" /> ')){location.href='accion.jsp?Accion=2&polizaId=<%=poliza.getPolizaId() %>';}">
-						<i class="icon-remove"></i>
-					</a>
-					<%} %>
-				</td>
-				<td><%= poliza.getPolizaId() %></td>
-				<td>
-					<a href="movimientos.jsp?polizaId=<%=poliza.getPolizaId() %>"><%=poliza.getDescripcion() %></a>
-				</td>
-				<td><%=poliza.getFecha() %></td>
-				<td>
-					<a href="verRecibos.jsp?polizaId=<%=poliza.getPolizaId() %>" class="btn btn-mini"><fmt:message key="aca.Recibos" /></a>
-					<a href="verMovimientos.jsp?polizaId=<%=poliza.getPolizaId() %>" class="btn btn-mini"><fmt:message key="aca.Movimientos" /></a>
-					<%//if(aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId).equals("7")){%>
-					<%if(false){ %>
-					<a href="exportacionSunPlus.jsp?polizaId=<%=poliza.getPolizaId() %>" class="btn btn-mini btn-info"><i class="icon-asterisk icon-white"></i> SunPlus</a>
-					<%} %>
-				</td>
-				<td>
-					<%if(poliza.getEstado().equals("A")){%>
-						<a href="javascript:cerrarPoliza('<%=poliza.getPolizaId() %>');" class="btn btn-mini btn-primary"><fmt:message key="aca.CerrarPoliza" /></a>
-					<%}else{ %>
-						<a disabled class="btn btn-mini btn-primary" title="<fmt:message key="aca.PolizaYaEstaCerrada" />"><fmt:message key="aca.CerrarPoliza" /></a>
-					<%} %>
-				</td>
-				<td>
-					<%if(poliza.getEstado().equals("A")){%>
-						<span class="label label-success"><fmt:message key="aca.Abierta" /></span>
-					<%}else if(poliza.getEstado().equals("T")){ %>
-						<span class="label label-inverse"><fmt:message key="aca.Cerrada" /></span>
-					<%}else{ %>
-						<span class="label label-info"><fmt:message key="aca.SunPlus" /></span>
-					<%} %>
-				</td>
+				<th style="width:5%;"><fmt:message key="aca.Operacion" /></th>
+				<th style="width:5%;"><fmt:message key="aca.Poliza" /></th>			
+				<th><fmt:message key="aca.Descripcion" /></th>
+				<th><fmt:message key="aca.RangoRecibo" /></th>
+				<th><fmt:message key="aca.Fecha" /></th>
+				<th><fmt:message key="aca.Reportes" /></th>
+				<th style="width:2%;"><fmt:message key="boton.Cerrar" /></th>
+				<th><fmt:message key="aca.Estado" /></th>
 			</tr>
+		</thead>
+		<%for(aca.fin.FinPoliza poliza : listaPoliza){
+			ArrayList<aca.fin.FinMovimientos> movs = FinMovLista.getAllMovimientosPoliza(conElias, poliza.getEjercicioId(), poliza.getPolizaId(), " ORDER BY MOVIMIENTO_ID");
+		%>
+		<tr>
+			<td>
+				<a href="accion.jsp?polizaId=<%=poliza.getPolizaId() %>">
+					<i class="icon-pencil"></i>
+				</a>
+				<%if(!aca.fin.FinMovimientos.existePoliza(conElias, ejercicioId, poliza.getPolizaId())){ %>	
+				<a href="javascript:if(confirm('<fmt:message key="js.Confirma" /> ')){location.href='accion.jsp?Accion=2&polizaId=<%=poliza.getPolizaId() %>';}">
+					<i class="icon-remove"></i>
+				</a>
+				<%} %>
+			</td>
+			<td><%= poliza.getPolizaId() %></td>
+			<td>
+				<a href="movimientos.jsp?polizaId=<%=poliza.getPolizaId() %>"><%=poliza.getDescripcion() %></a>
+			</td>
+			<td>
+			<% if(movs.size() > 0){ %>
+				<%=poliza.getEstado().equals("A") ? movs.get(0).getReciboId() : movs.get(1).getReciboId()%> - <%=movs.get(movs.size() - 1).getReciboId()%>
+			<% } %>
+			</td>
+			<td>
+			<%
+				dtFormat.applyPattern("dd/MM/yyyy");
+				dt = dtFormat.parse(poliza.getFecha());
+				dtFormat.applyPattern("yyyy-MM-dd");
+			%>
+			<%= dtFormat.format(dt) %>
+			</td>
+			<td>
+				<a href="verRecibos.jsp?polizaId=<%=poliza.getPolizaId() %>" class="btn btn-mini"><fmt:message key="aca.Recibos" /></a>
+				<a href="verMovimientos.jsp?polizaId=<%=poliza.getPolizaId() %>" class="btn btn-mini"><fmt:message key="aca.Movimientos" /></a>
+				<%//if(aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId).equals("7")){%>
+				<%if(false){ %>
+				<a href="exportacionSunPlus.jsp?polizaId=<%=poliza.getPolizaId() %>" class="btn btn-mini btn-info"><i class="icon-asterisk icon-white"></i> SunPlus</a>
+				<%} %>
+			</td>
+			<td>
+				<%if(poliza.getEstado().equals("A")){%>
+					<a href="javascript:cerrarPoliza('<%=poliza.getPolizaId() %>');" class="btn btn-mini btn-primary"><fmt:message key="aca.CerrarPoliza" /></a>
+				<%}else{ %>
+					<a disabled class="btn btn-mini btn-primary" title="<fmt:message key="aca.PolizaYaEstaCerrada" />"><fmt:message key="aca.CerrarPoliza" /></a>
+				<%} %>
+			</td>
+			<td>
+				<%if(poliza.getEstado().equals("A")){%>
+					<span class="label label-success"><fmt:message key="aca.Abierta" /></span>
+				<%}else if(poliza.getEstado().equals("T")){ %>
+					<span class="label label-inverse"><fmt:message key="aca.Cerrada" /></span>
+				<%}else{ %>
+					<span class="label label-info"><fmt:message key="aca.SunPlus" /></span>
+				<%} %>
+			</td>
+		</tr>
 		<%}%>
 	</table>	
 <%}else{%>
