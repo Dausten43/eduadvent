@@ -204,8 +204,10 @@
 				<a href="movimientos.jsp?polizaId=<%=poliza.getPolizaId() %>"><%=poliza.getDescripcion() %></a>
 			</td>
 			<td>
-			<% if(movs.size() > 0){ %>
+			<% if(movs.size() > 1){ %>
 				<%=poliza.getEstado().equals("A") ? movs.get(0).getReciboId() : movs.get(1).getReciboId()%> - <%=movs.get(movs.size() - 1).getReciboId()%>
+			<% } else if(movs.size() == 1) { %>
+				<%=poliza.getEstado().equals("A") ? movs.get(0).getReciboId() : "-"%>
 			<% } %>
 			</td>
 			<td>
