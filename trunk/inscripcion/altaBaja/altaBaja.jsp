@@ -101,7 +101,7 @@
 			KrdxCursoAct.setNota("-1");
 			conElias.setAutoCommit(false);
 			if (KrdxCursoAct.insertRegMateria(conElias)){
-				//conElias.commit();
+				conElias.commit();
 				mensaje = "MateriaGrabada";
 			}else{
 				mensaje = "ErrorGrabarMateria";
@@ -127,10 +127,7 @@
 			}else{
 				if (tieneEval&&tieneActiv){
 					mensaje = "ErrorPorActividades";
-					
-				}
-			
-				else{
+				}else{
 					mensaje = "ErrorPorEvaluaciones";	
 				}
 			}
@@ -171,14 +168,13 @@
 	else if(accion.equals("4")){
 		KrdxCursoAct.mapeaRegId(conElias, codigoId, request.getParameter("Grupo"), request.getParameter("Curso"));
 		KrdxCursoAct.setTipoCalId("1");
-		conElias.setAutoCommit(false);
 		if (KrdxCursoAct.existeReg(conElias) ){				
 			if(KrdxCursoAct.updateReg(conElias)){
 				mensaje = "AltaDeMateria";	
 			}else{
 				mensaje = "ErrorAltaDeMateria";
 			}
-			conElias.setAutoCommit(true);
+			
 		}
 		else{
 			mensaje = "ErrorAltaDeMateria";
@@ -188,7 +184,6 @@
 	else if(accion.equals("5")){
 		KrdxCursoAct.mapeaRegId(conElias, codigoId, request.getParameter("Grupo"), request.getParameter("Curso"));
 		KrdxCursoAct.setTipoCalId("6");
-		
 		if (KrdxCursoAct.existeReg(conElias) ){				
 			if(KrdxCursoAct.updateReg(conElias)){
 				mensaje = "BajaDeMateria";	
@@ -199,7 +194,6 @@
 		else{
 			mensaje = "ErrorBajaDeMateria";
 		}
-		
 	}
 		
 		
