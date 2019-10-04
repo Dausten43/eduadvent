@@ -65,12 +65,14 @@
 		case 2: { // Grabar
 			Ciudad.setCiudadNombre(request.getParameter("CiudadNombre"));
 			if (Ciudad.existeReg(conElias) == false) {
+				conElias.setAutoCommit(false);
 				if (Ciudad.insertReg(conElias)) {
 					sResultado = "Guardado";
 					conElias.commit();
 				} else {
 					sResultado = "NoGuardo";
 				}
+				conElias.setAutoCommit(true);
 			} else {
 				sResultado = "Existe";
 			}
@@ -79,12 +81,14 @@
 		case 3: { // Modificar
 			Ciudad.setCiudadNombre(request.getParameter("CiudadNombre"));
 			if (Ciudad.existeReg(conElias) == true) {
+				conElias.setAutoCommit(false);
 				if (Ciudad.updateReg(conElias)) {
 					sResultado = "Modificado";
 					conElias.commit();
 				} else {
 					sResultado = "NoModifico";
 				}
+				conElias.setAutoCommit(true);
 			} else {
 				sResultado = "NoExiste";
 			}
@@ -92,12 +96,14 @@
 		}
 		case 4: { // Borrar
 			if (Ciudad.existeReg(conElias) == true) {
+				conElias.setAutoCommit(false);
 				if (Ciudad.deleteReg(conElias)) {
 					sResultado = "Eliminado";
 					conElias.commit();
 				} else {
 					sResultado = "NoElimino";
 				}
+				conElias.setAutoCommit(true);
 
 			} else {
 				sResultado = "NoExiste";

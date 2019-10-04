@@ -67,12 +67,14 @@
 			Estado.setEstadoNombre(request.getParameter("EstadoNombre"));
 			Estado.setClave(request.getParameter("Clave"));
 			if (Estado.existeReg(conElias) == false) {
+				conElias.setAutoCommit(false);
 				if (Estado.insertReg(conElias)) {
 					strResultado = "Guardado";
 					conElias.commit();
 				} else {
 					strResultado = "NoGuardo";
 				}
+				conElias.setAutoCommit(true);
 			} else {
 				strResultado = "Existe";
 			}
@@ -83,12 +85,14 @@
 			Estado.setEstadoNombre(request.getParameter("EstadoNombre"));
 			Estado.setClave(request.getParameter("Clave"));
 			if (Estado.existeReg(conElias) == true) {
+				conElias.setAutoCommit(false);
 				if (Estado.updateReg(conElias)) {
 					strResultado = "Modificado";
 					conElias.commit();
 				} else {
 					strResultado = "NoModifico";
 				}
+				conElias.setAutoCommit(true);
 			} else {
 				strResultado = "NoExiste";
 			}
@@ -96,12 +100,14 @@
 		}
 		case 4: { // Borrar
 			if (Estado.existeReg(conElias) == true) {
+				conElias.setAutoCommit(false);
 				if (Estado.deleteReg(conElias)) {
 					strResultado = "Eliminado";
 					conElias.commit();
 				} else {
 					strResultado = "NoElimino";
 				}
+				conElias.setAutoCommit(true);
 
 			} else {
 				strResultado = "NoExiste";
