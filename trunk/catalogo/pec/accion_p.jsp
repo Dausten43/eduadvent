@@ -63,12 +63,14 @@
 		case 2: { // Grabar
 			Pais.setPaisNombre(request.getParameter("PaisNombre"));
 			if (Pais.existeReg(conElias) == false) {
+				conElias.setAutoCommit(false);
 				if (Pais.insertReg(conElias)) {
 					strResultado = "Guardado";
 					conElias.commit();
 				} else {
 					strResultado = "NoGuardo";
 				}
+				conElias.setAutoCommit(true);
 			} else {
 				strResultado = "Existe";
 			}
@@ -78,12 +80,14 @@
 		case 3: { // Modificar
 			Pais.setPaisNombre(request.getParameter("PaisNombre"));
 			if (Pais.existeReg(conElias) == true) {
+				conElias.setAutoCommit(false);
 				if (Pais.updateReg(conElias)) {
 					strResultado = "Modificado";
 					conElias.commit();
 				} else {
 					strResultado = "NoModifico";
 				}
+				conElias.setAutoCommit(true);
 			} else {
 				strResultado = "NoExiste";
 			}
@@ -91,12 +95,14 @@
 		}
 		case 4: { // Borrar
 			if (Pais.existeReg(conElias) == true) {
+				conElias.setAutoCommit(false);
 				if (Pais.deleteReg(conElias)) {
 					strResultado = "Eliminado";
 					conElias.commit();
 				} else {
 					strResultado = "NoElimino";
 				}
+				conElias.setAutoCommit(true);
 
 			} else {
 				strResultado = "NoExiste";
@@ -106,8 +112,7 @@
 		}
 		case 5: { // Consultar			
 			if (Pais.existeReg(conElias) == true) {
-				Pais.mapeaRegId(conElias,
-						request.getParameter("PaisId"));
+				Pais.mapeaRegId(conElias,request.getParameter("PaisId"));
 				strResultado = "Consulta";
 			} else {
 				strResultado = "NoExiste";
