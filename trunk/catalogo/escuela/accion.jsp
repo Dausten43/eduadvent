@@ -210,7 +210,7 @@
 				
 				<fieldset>
 					<label for="NombreCorto"> <fmt:message key="aca.NombreCorto" /></label>
-					 <input name="NombreCorto" type="text" id="NombreCorto" value="<%=Escuela.getNombreCorto()%>" size="20" maxlength="20">
+					 <input name="NombreCorto" type="text" id="NombreCorto" value="<%=Escuela.getNombreCorto()%>" size="25" maxlength="25">
 				</fieldset>
 				
 				<fieldset>
