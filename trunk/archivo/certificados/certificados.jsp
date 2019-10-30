@@ -80,7 +80,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 			</form>
 		</section>
 		<section class="busqueda_matricula">
-			<form name="frmEstado" id="frmEstado" method="post"	action="https://eduadvent.um.edu.mx/reportes/kardex/pdf" target="_new">
+			<form name="frmEstado" id="frmEstado" method="post"	action="/reportes_test/kardex/pdf" target="_new">
 			
 				<div id="matriculaSelect">
 					<label for="codigoid">Código(s) Alumno:</label> 
