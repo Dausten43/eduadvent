@@ -494,8 +494,6 @@
 		    				alumnoCurso.setCal9( alumnoCurso.getCal9().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal9())) );
 		    				alumnoCurso.setCal10( alumnoCurso.getCal10().equals("-")?"-":frm.format(Double.parseDouble(alumnoCurso.getCal10())) );
 		    				
-		    				//System.out.println("Paso 4.1:"+codigoAlumno+":"+curso.getCursoNombre()+":"+);
-		    				//if(alumnoCurso.getCursoId().equals(curso.getCursoId()) && cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
 		    				if(cicloGrupoId.indexOf(alumnoCurso.getCicloId()) != -1){
 		    					
 		    					if (Integer.parseInt(curso.getGrado()) != numGrado){
@@ -580,12 +578,6 @@
 		    						celda.setBorder(0);
 		    						tabla.addCell(celda);
 		    						
-		    						/*celda = new PdfPCell(new Phrase());
-		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-		    						celda.setColspan(3);
-		    						tabla.addCell(celda);*/
-		    						
 		    						if(ciclo.getNivelEval().equals("P")){
 		    		 					for(CicloPromedio cp: cicloPromedioList){
 		    								celda = new PdfPCell(new Phrase(cp.getCorto(), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
@@ -641,18 +633,6 @@
 		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(2);
 		    						tabla.addCell(celda);
-		    						/*celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(2);
-		    						tabla.addCell(celda);
-		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(2);
-		    						tabla.addCell(celda);
-		    						celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-		    						celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(2);
-		    						tabla.addCell(celda);*/
 		    						
 		    						if(ciclo.getNivelEval().equals("P")){
 		    		 					for(CicloPromedio cp: cicloPromedioList){
@@ -728,13 +708,8 @@
 		    	    		    		
 		    	    		    		BigDecimal notaDeTodas = new BigDecimal("0", mc);
 		    	    		    		for(int l=0; l<lisBloque.size(); l++){
-		    	    		    		//	System.out.println(sumaPorBimestreTmp[l]);
 		    	    		    			notaDeTodas = notaDeTodas.add(sumaPorBimestreTmp[l], mc);
 		    	    		    		}
-		    	    		    		/*System.out.println("Nota: "+notaDeTodas);
-		    	    		    		if(lisBloque.size()!=0){
-		    	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
-		    	    		    		}*/
 		    	    		    		notaDeTodas = (notaDeTodas.divide(new BigDecimal(lisBloque.size(), mc), mc));
 		    	    		    		celda = new PdfPCell(new Phrase( frm3.format(notaDeTodas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 		    	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -744,16 +719,6 @@
 		    	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    	        				tabla.addCell(celda);
 		    	    		    	}
-		    	    		    	/*celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    	    				tabla.addCell(celda);
-		    	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    	    				tabla.addCell(celda);
-		    	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    	    				tabla.addCell(celda);*/
-		    	   	    	    				
 		    	    				for(int l = 0; l < lisBloque.size(); l++){
 		    	    					if(faltasPorBimestre[l] > 0){
 			    	    		    		celda = new PdfPCell(new Phrase(String.valueOf(faltasPorBimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
@@ -813,80 +778,12 @@
 			    				
 			    				if(curso.getTipocursoId().equals("3"))
 			    					materiasIngles++;
-			    				//for(int l = 0; l < lisBloque.size(); l++){
-			    				/*for(int l = 0; l < cantidadTrimestres; l++){
-			    					
-			    					switch(l+1){
-			    						case 1:{
-			    		    				celda = new PdfPCell(new Phrase(alumnoCurso.getCal1().equals("-")?"--": alumnoCurso.getCal1(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    		    			}break;
-			    						case 2:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal2().equals("-")?"--": alumnoCurso.getCal2(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						case 3:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal3().equals("-")?"--": alumnoCurso.getCal3(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						case 4:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal4().equals("-")?"--": alumnoCurso.getCal4(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						case 5:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal5().equals("-")?"--": alumnoCurso.getCal5(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						case 6:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal6().equals("-")?"--": alumnoCurso.getCal6(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						case 7:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal7().equals("-")?"--": alumnoCurso.getCal7(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						case 8:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal8().equals("-")?"--": alumnoCurso.getCal8(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						case 9:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal9().equals("-")?"--": alumnoCurso.getCal9(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						case 10:{
-			    							celda = new PdfPCell(new Phrase(alumnoCurso.getCal10().equals("-")?"--": alumnoCurso.getCal10(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-				    						celda.setBorder(0);
-			    		    				tabla.addCell(celda);
-			    						}break;
-			    						
-			    					}
-			    				}*/
 			    				BigDecimal sumaNotas = new BigDecimal("0", mc);
 			    				int trimestresConNota = 0;
 			    				boolean esMateriaMadreDeIngles = aca.plan.PlanCursoLista.esMateriaMadreDeIngles(conElias, curso.getCursoId());
 			    				if(ciclo.getNivelEval().equals("P")){
 				 					for(int l = 0; l < cicloPromedioList.size(); l++){
 										cicloPromedio = (CicloPromedio) cicloPromedioList.get(l);
-										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
 										String valor = "--";
 										
 										boolean show = cicloPromedio.getPromedioId().equals(request.getParameter(cicloPromedio.getNombre()));
@@ -915,28 +812,17 @@
 												trimestresConNota++;
 											}
 										}else{
-											//System.out.println("Trimestre "+l+"; nota = "+valor);
 											materiasSinNota[l]++;
 											if(curso.getTipocursoId().equals("3"))
 												materiasSinNotaIngles[l]++;
 										}
 										
-										//System.out.println("sumaPorTrimestre["+l+"] = "+sumaPorTrimestre[l]+" materiasSinNota[l] = "+materiasSinNota[l]);
-										//System.out.println(cicloPromedioList.get(l).getPromedioId());
-										//System.out.println(request.getParameter(cicloPromedioList.get(l).getNombre()));
-										
-										//No muestra la nota del trimestre si tiene hijas que sean de ingles
-										/*if(esMateriaMadreDeIngles){
-											celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-											celda.setBorder(0);
-							 				tabla.addCell(celda);
-										}else{*/
+
 											celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 											celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 											celda.setBorder(0);
 							 				tabla.addCell(celda);
-										/*}*/
+
 									}
 								}else if(ciclo.getNivelEval().equals("E")){
 									//Aqui va el for para ciclo_grupo_eval ciclo_grupo_eval
@@ -978,18 +864,12 @@
 												}
 											}
 											
-											//No muestra la nota del trimestre si tiene hijas que sean de ingles
-											/*if(esMateriaMadreDeIngles){
-												celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-												celda.setBorder(0);
-								 				tabla.addCell(celda);
-											}else{*/
+
 												celda = new PdfPCell(new Phrase(espacioHija+valor, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 												celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 												celda.setBorder(0);
 								 				tabla.addCell(celda);
-											/*}*/
+
 											
 											
 							 				contador++;
@@ -997,29 +877,16 @@
 									}
 								}
 			    				
-			    				//boolean estanTodasCerradas = CicloGrupoEval.estanTodasCerradas(conElias, cicloGrupoId, alumnoCurso.getCursoId());
 			    				
 			    				String nota;
 			    				
-			    				//if(!estanTodasCerradas){
 			    					nota = "0";
 			    					BigDecimal calculo = new BigDecimal("0", mc);
 			    					if(sumaNotas.compareTo(BigDecimal.ZERO) > 0){
 			    						calculo = sumaNotas.divide(new BigDecimal(trimestresConNota, mc),mc);
 			    					}
-			    					//nota = String.valueOf(calculo);
-			    					// Colocar formato con una decimal
 			    					nota = frm4.format(calculo);
-			    					
-			    				/*}else{
-			    					nota = "0a";
-			    					BigDecimal calculo = new BigDecimal("0", mc);
-			    					if(sumaNotas.compareTo(BigDecimal.ZERO) > 0){
-			    						calculo = sumaNotas.divide(new BigDecimal(cantidadTrimestres, mc),mc);
-			    					}
-			    					//nota = String.valueOf(calculo);
-			    					nota = frm4.format(calculo);
-			    				}*/
+
 			    				if(curso.getCursoBase().equals("-"))
 			    					promedioPorMateria[j] = new BigDecimal(nota, mc);
 			    				
@@ -1038,184 +905,10 @@
 				    				if(curso.getTipocursoId().equals("3"))
 				    					promedioDeIngles = nota;
 								}
-			    		        /*if(!estanTodasCerradas){
-			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFNota(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }
-			    		        if(alumnoCurso.getNotaExtra() == null){//Si no tiene nota de extraordinario
-			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getNotaExtra().trim(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }
-			    		        if(alumnoCurso.getFExtra() == null){//Si no tiene nota de extraordinario
-			    		        	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }else{
-			    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFExtra(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    						celda.setBorder(0);
-				    				tabla.addCell(celda);
-			    		        }*/
-			    		        //for(int l = 0; l < lisBloque.size(); l++){
-			    		        /*for(int l = 0; l < cantidadTrimestres; l++){
-			    		        	switch(l+1){
-			    		        		case 1:{
-			    		        			if(alumnoCurso.getFalta1().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta1(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-			    		        		case 2:{
-			    		        			 if(alumnoCurso.getFalta2().equals("0")){
-			    			    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    		    						celda.setBorder(0);
-			    				    				tabla.addCell(celda);
-			    			    		        }else{
-			    			    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta2(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    		    						celda.setBorder(0);
-			    				    				tabla.addCell(celda);
-			    			    		        }
-			    		        		}break;
-			    		        		case 3:{
-			    		        			if(alumnoCurso.getFalta3().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta3(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-			    		        		case 4:{
-			    		        			if(alumnoCurso.getFalta4().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta4(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-			    		        		case 5:{
-			    		        			if(alumnoCurso.getFalta5().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta5(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-			    		        		case 6:{
-			    		        			if(alumnoCurso.getFalta6().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta6(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-			    		        		case 7:{
-			    		        			if(alumnoCurso.getFalta7().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta7(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-		
-			    		        		case 8:{
-			    		        			if(alumnoCurso.getFalta8().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta8(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-		
-			    		        		case 9:{
-			    		        			if(alumnoCurso.getFalta9().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta9(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-		
-			    		        		case 10:{
-			    		        			if(alumnoCurso.getFalta10().equals("0")){
-			    		    		        	celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }else{
-			    		    		        	celda = new PdfPCell(new Phrase(alumnoCurso.getFalta10(), FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-			    			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    	    						celda.setBorder(0);
-			    			    				tabla.addCell(celda);
-			    		    		        }
-			    		        		}break;
-	
-			    		        	}
-			    		        }*/
 			    		        
 			    				int sumaFaltas = 0, sumaTardanzas = 0;
 			    		        
 			    		        if(ciclo.getNivelEval().equals("P")){
-			    		        	
-			    		        
 				 					for(int l = 0; l < cicloPromedioList.size(); l++){
 										cicloPromedio = (CicloPromedio) cicloPromedioList.get(l);
 										int faltas = 0, tardanzas = 0;
@@ -1278,28 +971,6 @@
 							 				tabla.addCell(celda);
 										}
 									}
-									/*for(CicloBloque cb: lisBloque){
-										//System.out.println("listaActitud: "+listaKrdxAlumActitud.size());
-										String valor = "-";
-										for(KrdxAlumActitud krdxAlumActitud: listaKrdxAlumActitud){
-											//System.out.println(krdxAlumActitud.getAspectos());
-											if(krdxAlumActitud.getCursoId().equals(curso.getCursoId()) && 
-													krdxAlumActitud.getPromedioId().equals(cb.getPromedioId()) &&
-													krdxAlumActitud.getAspectosId().equals(catAspectos.getAspectosId())){
-												valor = krdxAlumActitud.getNota();
-												valor = valor.equals("1")?"X":valor;
-												valor = valor.equals("2")?"R":valor;
-												valor = valor.equals("3")?"S":valor;
-												break;
-											}
-										}
-										
-										cell = new PdfPCell(new Phrase("-", FontFactory.getFont(FontFactory.HELVETICA, 7, Font.BOLD, new BaseColor(0,0,0))));
-						 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-										cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
-						 				cell.setBorder(0);
-						 				aspectosTable.addCell(cell);
-									}*/
 								}
 			    		        
 			    		        if(sumaFaltas > 0){//Si la suma de faltas es mayor que cero
@@ -1350,19 +1021,6 @@
 		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     						celda.setBorder(0);
 		    				tabla.addCell(celda);
-		    				/*celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    						celda.setBorder(0);
-		    				tabla.addCell(celda);
-		    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    						celda.setBorder(0);
-		    				tabla.addCell(celda);
-		    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
-		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    						celda.setBorder(0);
-		    				tabla.addCell(celda);*/
-		    				//for(int l = 0; l < lisBloque.size(); l++){
 		    				for(int l = 0; l < cantidadTrimestres; l++){
 		    					celda = new PdfPCell(new Phrase("--", FontFactory.getFont(FontFactory.HELVETICA, 6, Font.NORMAL, new BaseColor(0,0,0))));
 			    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1377,127 +1035,6 @@
 		    			
 		    			
 	    			}
-	    			/*if(j==lisCurso.size()-1){	//Promedios
-	    				boolean todasTienenCalificacion = true;
-		    			
-		    			celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-						celda.setBorder(0);
-						celda.setColspan(8+(cantidadTrimestres*3));
-	    				tabla.addCell(celda);
-	    				
-	    				celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-						celda.setBorder(0);
-	    				tabla.addCell(celda);
-	    				celda = new PdfPCell(new Phrase("Promedio General", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-						celda.setBorder(0);
-	    				tabla.addCell(celda);
-	    				
-	    				//for(int l = 0; l < lisBloque.size(); l++){
-	    				for(int l = 0; l < cantidadTrimestres; l++){
-	    					
-	    					if(sumaPorBimestre[l] > 0 && cantidadMaterias > 0){
-	    						int materiasTmp = materias;
-	    						materiasTmp = materiasTmp-materiasSinNota[l];
-	    						
-    	    					sumaPorBimestre[l] = new BigDecimal(sumaPorBimestre[l]+"").divide(new BigDecimal(materiasTmp+""), 1, RoundingMode.DOWN).floatValue();
-    	    					celda = new PdfPCell(new Phrase( sumaPorBimestre[l]+"", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-    	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    							celda.setBorder(0);
-    	        				tabla.addCell(celda);
-    	    				}else{ 
-    	    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-    	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    							celda.setBorder(0);
-    	        				tabla.addCell(celda);
-    	    					todasTienenCalificacion &= false;
-    	    				}
-						}
-	    				
-	    		    	if(todasTienenCalificacion ){
-	    		    		float notaDeTodas = 0;
-	    		    		for(int l=0; l<cantidadTrimestres; l++){
-	    		    			notaDeTodas += sumaPorBimestre[l];
-	    		    		}
-	    		    		//if(lisBloque.size()!=0){
-	    		    		//	notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
-	    		    		//}
-	    		    		notaDeTodas = (notaDeTodas/cantidadTrimestres);
-	    		    		celda = new PdfPCell(new Phrase( frm3.format(notaDeTodas), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(0);
-	        				tabla.addCell(celda);
-	    		    	}else{
-	    		    		celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(0);
-	        				tabla.addCell(celda);
-	    		    	}
-	    		    	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-						celda.setBorder(0);
-	    				tabla.addCell(celda);
-	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-						celda.setBorder(0);
-	    				tabla.addCell(celda);
-	    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-						celda.setBorder(0);
-	    				tabla.addCell(celda);
-	   	    	    				
-	    				for(int l = 0; l < cantidadTrimestres; l++){
-	    					if(faltasPorBimestre[l] > 0){
-    	    		    		celda = new PdfPCell(new Phrase(String.valueOf(faltasPorBimestre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    							celda.setBorder(0);
-    		    				tabla.addCell(celda);
-    		    				
-    		    				celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    							celda.setBorder(0);
-    		    				tabla.addCell(celda);
-    	    		    	}else{
-    		    		    	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    							celda.setBorder(0);
-    		    				tabla.addCell(celda);
-    		    				
-    		    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-    		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-    							celda.setBorder(0);
-    		    				tabla.addCell(celda);
-    	    		    	}
-						}
-	    				
-	    				float sumaFaltasTodosLosBimestres = faltasPorBimestre[0]+faltasPorBimestre[1]+faltasPorBimestre[2]+faltasPorBimestre[3]+faltasPorBimestre[4]+faltasPorBimestre[5]+faltasPorBimestre[6]+faltasPorBimestre[7]+faltasPorBimestre[8]+faltasPorBimestre[9];
-    					if(sumaFaltasTodosLosBimestres > 0){
-	    		    		celda = new PdfPCell(new Phrase(String.valueOf((int)sumaFaltasTodosLosBimestres), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(0);
-		    				tabla.addCell(celda);
-		    				
-		    				celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(0);
-		    				tabla.addCell(celda);
-	    		    	}else{
-		    		    	celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(0);
-		    				tabla.addCell(celda);
-		    				
-		    				celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-		    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(0);
-		    				tabla.addCell(celda);
-	    		    	}
-    					oficial = curso.getTipocursoId();
-	    			}*/
-	    			//promedio acumulado
-	    			//System.out.println("-------"+j+" == "+lisCurso.size()+"-1");
 	    			if(j==lisCurso.size()-1){	//Promedios
 						boolean todasTienenCalificacionIngles = true;
 	    				
@@ -1509,32 +1046,15 @@
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(0);
 	    				tabla.addCell(celda);
-	    				/*if(ciclo.getRedondeo().equals("T")){
-							mc = new java.math.MathContext(8, RoundingMode.HALF_EVEN);
-						}else{
-							mc = new java.math.MathContext(8, RoundingMode.HALF_UP);
-						}*/
+	    				
 	    				
 	    				for(int l = 0; l < cantidadTrimestres; l++){
 	    					if(sumaPorTrimestreInglesMadre[l].compareTo(BigDecimal.ZERO) > 0 && cantidadMaterias > 0){
-	    						/*int materiasTmp = materiasIngles;
-	    						materiasTmp = materiasTmp-materiasSinNotaIngles[l];
-	    						double resultado =  0d;
-	    						
-	    						if(ciclo.getRedondeo().equals("T")){
-	    							resultado = sumaPorTrimestreIngles[l].divide(new BigDecimal(materiasTmp+"", mc), 8, RoundingMode.DOWN).doubleValue();
-	    						}else{ //Si es redondeado
-	    						    resultado = sumaPorTrimestreIngles[l].divide(new BigDecimal(materiasTmp+"", mc), 8, RoundingMode.HALF_UP).doubleValue();
-	    						}*/
-	    						//System.out.println("resultado Ingles: "+resultado);
-	    						
-    	    					//celda = new PdfPCell(new Phrase( frm.format(resultado), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
     	    					celda = new PdfPCell(new Phrase( frm.format(sumaPorTrimestreInglesMadre[l]), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
     							celda.setBorder(0);
     	        				tabla.addCell(celda);
     	        				
-    	        				//sumaPorTrimestreIngles[l] = new BigDecimal(frm.format(resultado), mc);
     	    				}else{ 
     	    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
     	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1544,37 +1064,11 @@
     	    				}
 						}
 	    				
-	    		    	//if(todasTienenCalificacionIngles ){
-	    		    		BigDecimal notaDeTodas = new BigDecimal("0", mc);
-	    		    		/*int trimestresSinNotaIngles = 0;
-	    		    		for(int l=0; l<cantidadTrimestres; l++){
-	    		    			notaDeTodas = notaDeTodas.add(sumaPorTrimestreIngles[l], mc);
-	    		    			//System.out.println(sumaPorTrimestreIngles[l]);
-	    		    			if(sumaPorTrimestreIngles[l].compareTo(BigDecimal.ZERO) == 0)
-	    		    				trimestresSinNotaIngles++;
-	    		    		}*/
-	    		    		/*if(lisBloque.size()!=0){
-	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
-	    		    		}*/
-	    		    		//System.out.println(codigoAlumno+" Total Ingles");
-	    		    		//System.out.println("notaDeTodas = ("+notaDeTodas+"/("+cantidadTrimestres+"-"+trimestresSinNotaIngles+"));");
-	    		    		//notaDeTodas = (notaDeTodas/(float)(cantidadTrimestres-trimestresSinNotaIngles));
-	    		    		/*BigDecimal totalIngles = new BigDecimal("0", mc);
-	    		    		if(notaDeTodas.compareTo(BigDecimal.ZERO) > 0)
-	    		    			totalIngles = notaDeTodas.divide(new BigDecimal((cantidadTrimestres-trimestresSinNotaIngles)+"", mc), mc);*/
-	    		    		//System.out.println(notaDeTodas+" format = "+frm3.format(Double.parseDouble(String.valueOf(notaDeTodas))));
-	    		    		
-	    		    		//celda = new PdfPCell(new Phrase( frm3.format(totalIngles), FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
-	    		    		celda = new PdfPCell(new Phrase( promedioDeIngles, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
-	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(0);
-	        				tabla.addCell(celda);
-	    		    	/*}else{
-	    		    		celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(0);
-	        				tabla.addCell(celda);
-	    		    	}*/
+    		    		BigDecimal notaDeTodas = new BigDecimal("0", mc);
+    		    		celda = new PdfPCell(new Phrase( promedioDeIngles, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLDITALIC, new BaseColor(0,0,0))));
+        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+						celda.setBorder(0);
+        				tabla.addCell(celda);
 	    		    	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(0);
@@ -1616,42 +1110,19 @@
     	    				}
 						}
 	    				
-	    		    	//if(todasTienenCalificacion ){
-	    		    		notaDeTodas = new BigDecimal("0", mc);
-	    		    		//System.out.println(codigoAlumno+"total de curso en todas las materias");
-	    		    		/*for(int l=0; l<cantidadTrimestres; l++){
-	    		    			notaDeTodas = notaDeTodas.add(sumaPorTrimestre[l], mc);
-	    		    			System.out.println(notaDeTodas +"= notaDeTodas.add("+sumaPorTrimestre[l]+", mc);");
-	    		    		}*/
-	    		    		/*if(lisBloque.size()!=0){
-	    		    			notaDeTodas = new BigDecimal(notaDeTodas+"").divide(new BigDecimal(lisBloque.size()+""), 1, RoundingMode.DOWN).floatValue();
-	    		    		}*/
-	    		    		
-	    		    		//notaDeTodas = (notaDeTodas/trimestresConNota);
-	    		    		//System.out.println("("+notaDeTodas+"/"+trimestresConNota+")");
-	    		    		
-	    		    		for (int h=0; h < lisCurso.size(); h++){
-	    		    			notaDeTodas = notaDeTodas.add(promedioPorMateria[h], mc);
-	    		    			//System.out.println(promedioPorMateria[h]);
-	    		    		}
-	    		    		//System.out.println(notaDeTodas);
-	    		    		//System.out.println("materias principales = "+materias);
-	    		    		
-	    		    		//System.out.println("promedioTrimestres = "+notaDeTodas.toString()+".divide("+new BigDecimal(materias+"", mc).toString()+", mc);");
-	    		    		BigDecimal promedioTrimestres = BigDecimal.ZERO;
-	    		    		if(notaDeTodas.compareTo(BigDecimal.ZERO) > 0 && trimestresConNota > 0)
-	    		    			promedioTrimestres = notaDeTodas.divide(new BigDecimal(materias+"", mc), mc);
-	    		    		//System.out.println(promedioTrimestres.floatValue());
-	    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
-	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(2);
-	        				tabla.addCell(celda);
-	    		    	/*}else{
-	    		    		celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
-	        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
-							celda.setBorder(2);
-	        				tabla.addCell(celda);
-	    		    	}*/
+    		    		notaDeTodas = new BigDecimal("0", mc);
+    		    		
+    		    		for (int h=0; h < lisCurso.size(); h++){
+    		    			notaDeTodas = notaDeTodas.add(promedioPorMateria[h], mc);
+    		    		}
+    		    		BigDecimal promedioTrimestres = BigDecimal.ZERO;
+    		    		if(notaDeTodas.compareTo(BigDecimal.ZERO) > 0 && trimestresConNota > 0)
+    		    			promedioTrimestres = notaDeTodas.divide(new BigDecimal(materias+"", mc), mc);
+    		    		
+    		    		celda = new PdfPCell(new Phrase( frm4.format(promedioTrimestres), FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
+        				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+						celda.setBorder(2);
+        				tabla.addCell(celda);
 	    		    	celda = new PdfPCell(new Phrase(" ", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD, new BaseColor(0,0,0))));
 	    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 						celda.setBorder(2);
@@ -1659,12 +1130,10 @@
 	    				tabla.addCell(celda);
 	    				
     					oficial = curso.getTipocursoId();
-    					//System.out.println(codigoAlumno+" despues del oficial que ni se para que sea");
 	    			}
 	    			
 	    			
 	    		}
-	    		//System.out.println(codigoAlumno+" Promedio Acumulado");
 				celda = new PdfPCell(new Phrase("Promedio Acumulado", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD, new BaseColor(0,0,0))));
 				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 				tabla.addCell(celda);
