@@ -284,7 +284,7 @@ public class KrdxAlumFalta {
 	public static String totalTardanzas(Connection conn, String codigoId, String cicloGrupoId) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
-		String faltas			= "";
+		String tardanzas		= "";
 		
 		try{
 			ps = conn.prepareStatement("SELECT SUM(TARDANZA) AS TOTAL FROM KRDX_ALUM_FALTA " +
@@ -292,7 +292,7 @@ public class KrdxAlumFalta {
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
-				faltas = rs.getString("TOTAL");
+				tardanzas = rs.getString("TOTAL");
 			}
 			
 		}catch(Exception ex){
@@ -302,7 +302,7 @@ public class KrdxAlumFalta {
 			if (ps!=null) ps.close();
 		}
 		
-		return faltas;
+		return tardanzas;
 	}
 	
 	public static String faltasPorCiclo(Connection conn, String codigoId, String cicloGrupoId, String evaluacionId) throws SQLException{
@@ -311,12 +311,12 @@ public class KrdxAlumFalta {
 		String faltas			= "";
 		
 		try{
-			ps = conn.prepareStatement("SELECT FALTA AS FALTA FROM KRDX_ALUM_FALTA " +
+			ps = conn.prepareStatement("SELECT SUM(FALTA) AS TOTAL FROM KRDX_ALUM_FALTA " +
 					" WHERE CODIGO_ID='"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = '"+evaluacionId+"'");
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
-				faltas = rs.getString("FALTA");
+				faltas = rs.getString("TOTAL");
 			}
 			
 		}catch(Exception ex){
@@ -326,21 +326,21 @@ public class KrdxAlumFalta {
 			if (ps!=null) ps.close();
 		}
 		
-		return faltas;
+		return faltas == null ? "" : faltas;
 	}
 	
 	public static String tardanzasPorCiclo(Connection conn, String codigoId, String cicloGrupoId, String evaluacionId) throws SQLException{
 		PreparedStatement ps	= null;
 		ResultSet rs 			= null;
-		String tardanzas			= "";
+		String tardanzas		= null;
 		
 		try{
-			ps = conn.prepareStatement("SELECT TARDANZA AS TARDANZA FROM KRDX_ALUM_FALTA " +
+			ps = conn.prepareStatement("SELECT SUM(TARDANZA) AS TOTAL FROM KRDX_ALUM_FALTA " +
 					" WHERE CODIGO_ID='"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND EVALUACION_ID = '"+evaluacionId+"'");
 			
 			rs= ps.executeQuery();		
 			if(rs.next()){
-				tardanzas = rs.getString("TARDANZA");
+				tardanzas = rs.getString("TOTAL");
 			}
 			
 		}catch(Exception ex){
@@ -350,6 +350,54 @@ public class KrdxAlumFalta {
 			if (ps!=null) ps.close();
 		}
 		
-		return tardanzas;
+		return tardanzas == null ? "" : tardanzas;
+	}
+	
+	public static String faltasPorPromedioId(Connection conn, String codigoId, String cicloGrupoId, String promedioId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String faltas			= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT SUM(FALTA) AS TOTAL FROM KRDX_ALUM_FALTA " +
+					" WHERE CODIGO_ID='"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND PROMEDIO_ID = '"+promedioId+"'");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				faltas = rs.getString("TOTAL");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumFalta|faltasPorPromedioId|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return faltas == null ? "" : faltas;
+	}
+	
+	public static String tardanzasPorPromedioId(Connection conn, String codigoId, String cicloGrupoId, String promedioId) throws SQLException{
+		PreparedStatement ps	= null;
+		ResultSet rs 			= null;
+		String tardanzas		= null;
+		
+		try{
+			ps = conn.prepareStatement("SELECT SUM(TARDANZA) AS TOTAL FROM KRDX_ALUM_FALTA " +
+					" WHERE CODIGO_ID='"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' AND PROMEDIO_ID = '"+promedioId+"'");
+			
+			rs= ps.executeQuery();		
+			if(rs.next()){
+				tardanzas = rs.getString("TOTAL");
+			}
+			
+		}catch(Exception ex){
+			System.out.println("Error - aca.kardex.KrdxAlumFalta|tardanzasPorPromedioId|:"+ex);
+		}finally{
+			if (rs!=null) rs.close();
+			if (ps!=null) ps.close();
+		}
+		
+		return tardanzas == null ? "" : tardanzas;
 	}
 }
