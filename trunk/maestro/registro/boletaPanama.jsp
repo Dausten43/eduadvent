@@ -969,6 +969,9 @@
 				    		        String totalFaltas = KrdxAlumFalta.totalfaltas(conElias, codigoAlumno, cicloGrupoId);
 				    		        String totalTardanzas = KrdxAlumFalta.totalTardanzas(conElias, codigoAlumno, cicloGrupoId);
 				    		        
+				    		        totalFaltas = totalFaltas == null ? "" : totalFaltas;
+				    		        totalTardanzas = totalTardanzas == null ? "" : totalTardanzas;
+				    		        
 				    		 		celda = new PdfPCell();
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
 		    						celda.setBorder(0);
