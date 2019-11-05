@@ -34,7 +34,7 @@
 		}
 		
 	}
-	ArrayList<aca.catalogo.CatAspectos> list	= CatAspectosU.getListAspectos(conElias, escuelaId, "");
+	ArrayList<aca.catalogo.CatAspectos> list	= CatAspectosU.getListAspectos(conElias, escuelaId, "ORDER By NIVEL_ID, ORDEN");
 %>
 <body>
 
