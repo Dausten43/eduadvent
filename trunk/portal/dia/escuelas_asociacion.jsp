@@ -9,13 +9,14 @@
 <jsp:useBean id="escuelaL" scope="page" class="aca.catalogo.CatEscuelaLista"/>
 <jsp:useBean id="empleadoL" scope="page" class="aca.empleado.EmpPersonalLista"/>
 <jsp:useBean id="alumInscritoL" scope="page" class="aca.vista.AlumInscritoLista"/>
+<jsp:useBean id="CatAsociacion" scope="page" class="aca.catalogo.CatAsociacion"/>
 
 <%
 	java.text.DecimalFormat getFormato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
 
 	String codigoId 		= (String)session.getAttribute("codigoId");
-	String unionId			= request.getParameter("UnionId");
 	String asociacion		= request.getParameter("asociacion")==null?"1":request.getParameter("asociacion");
+	CatAsociacion.mapeaRegId(conElias, asociacion);
 	int row = 0;
 	
 	ArrayList<aca.catalogo.CatEscuela> lisEscuelas = escuelaL.getListAsociacion(conElias, asociacion, "ORDER BY ESCUELA_ID");
@@ -30,7 +31,7 @@
 <div id="content">
 	<h2>DIA-<%=aca.catalogo.CatAsociacion.getNombre(conElias, asociacion)%><small>Listado de Escuelas </small></h2>
 	<div class="well">
-		<a href="asociaciones.jsp?UnionId=<%=unionId %>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
+		<a href="asociaciones.jsp?UnionId=<%=CatAsociacion.getUnionId()%>" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 	</div>
 	<table class="table table-bordered table-striped">
 	<tr>
