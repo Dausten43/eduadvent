@@ -180,7 +180,7 @@ public class NumberToLetter {
 		{
 			if (numero >= 900 && numero <= 999)
 			{
-				num_letra = "nolisientos ";
+				num_letra = "novecientos ";
 				if (numero > 900)
 					num_letra = num_letra.concat(decena(numero - 900));
 			}
