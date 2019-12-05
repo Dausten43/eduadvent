@@ -913,7 +913,7 @@
 										cicloPromedio = (CicloPromedio) cicloPromedioList.get(l);
 										boolean show = cicloPromedio.getPromedioId().equals(request.getParameter(cicloPromedio.getNombre()));
 										
-										if(show && j == 0){
+										if(show && cantidadMaterias == 0){
 					    		    		String faltas = KrdxAlumFalta.faltasPorPromedioId(conElias, codigoAlumno, cicloGrupoId, cicloPromedio.getPromedioId());
 						    		        String tardanzas = KrdxAlumFalta.tardanzasPorPromedioId(conElias, codigoAlumno, cicloGrupoId, cicloPromedio.getPromedioId());
 						    		        
@@ -941,7 +941,7 @@
 												cge.getCursoId().equals(curso.getCursoId())){
 											
 											boolean show = cge.getEvaluacionId().equals(request.getParameter(cge.getEvaluacionNombre()));
-											if(show && j == 0){
+											if(show && cantidadMaterias == 0){
 						    		    		String faltas = KrdxAlumFalta.faltasPorCiclo(conElias, codigoAlumno, cicloGrupoId, cge.getEvaluacionId());
 							    		        String tardanzas = KrdxAlumFalta.tardanzasPorCiclo(conElias, codigoAlumno, cicloGrupoId, cge.getEvaluacionId());
 							    		        
@@ -965,7 +965,7 @@
 									}
 								}
 			    		        
-			    		        if(j == 0){
+			    		        if(cantidadMaterias == 0){
 				    		        String totalFaltas = KrdxAlumFalta.totalfaltas(conElias, codigoAlumno, cicloGrupoId);
 				    		        String totalTardanzas = KrdxAlumFalta.totalTardanzas(conElias, codigoAlumno, cicloGrupoId);
 				    		        
