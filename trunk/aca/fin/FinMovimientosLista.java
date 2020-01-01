@@ -409,7 +409,8 @@ public class FinMovimientosLista {
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION," +
 					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"+
 					  " FROM FIN_MOVIMIENTOS" +
-					  " WHERE AUXILIAR = '"+auxiliar+"' AND FECHA <= '"+fechaFinal+"' AND FECHA >= '"+fechaInicio+"' "+orden;
+					  " WHERE AUXILIAR = '"+auxiliar+"' AND date(FECHA) <= to_date('"+fechaFinal+"', 'dd/mm/yyyy') AND date(FECHA) >= to_date('"+fechaInicio+"', 'dd/mm/yyyy') "+orden;
+			System.out.printnl(comando);
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				FinMovimientos fm = new FinMovimientos();
@@ -438,8 +439,9 @@ public class FinMovimientosLista {
 					+ " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"
 					+ " FROM FIN_MOVIMIENTOS"
 					+ " WHERE AUXILIAR = '"+auxiliar+"' AND CUENTA_ID IN (SELECT CUENTA_ID FROM FIN_CUENTA)"
-					+ " AND FECHA <= '"+fechaFinal+"' AND FECHA >= '"+fechaInicio+"'"
+					+ " AND date(FECHA) <= '"+fechaFinal+"' AND date(FECHA) >= '"+fechaInicio+"'"
 					+ " AND ESTADO IN ("+ estado +" ) " + orden;
+			System.out.println(comando);
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				FinMovimientos fm = new FinMovimientos();
