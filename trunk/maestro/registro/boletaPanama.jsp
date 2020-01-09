@@ -932,8 +932,8 @@
 													if(kaf.getCodigoId().equals(codigoAlumno) && 
 															kaf.getCursoId().equals(curso.getCursoId()) &&
 															kaf.getPromedioId().equals(cicloPromedio.getPromedioId())){
-														faltas += Integer.valueOf(kaf.getFalta());
-														tardanzas += Integer.valueOf(kaf.getTardanza());
+														faltas = String.valueOf(Integer.valueOf(faltas) + Integer.valueOf(kaf.getFalta()));
+														tardanzas = String.valueOf(Integer.valueOf(tardanzas) + Integer.valueOf(kaf.getTardanza()));
 														sumaFaltas += Integer.valueOf(kaf.getFalta());
 														sumaTardanzas += Integer.valueOf(kaf.getTardanza());
 													}
