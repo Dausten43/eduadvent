@@ -22,6 +22,7 @@
 			if(!isNaN(parseFloat(importe)) && parseFloat(importe)!=0){
 			document.forma.Accion.value = "1";
 			document.forma.MovimientoId.value = movimiento;
+			console.log(document.forma);
 			document.forma.submit();	
 			}else{
 				alert('El Importe es numerico.decimal y no puede ser Cero');

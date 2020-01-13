@@ -410,7 +410,7 @@ public class FinMovimientosLista {
 					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"+
 					  " FROM FIN_MOVIMIENTOS" +
 					  " WHERE AUXILIAR = '"+auxiliar+"' AND date(FECHA) <= to_date('"+fechaFinal+"', 'dd/mm/yyyy') AND date(FECHA) >= to_date('"+fechaInicio+"', 'dd/mm/yyyy') "+orden;
-			System.out.printnl(comando);
+			
 			rs = st.executeQuery(comando);
 			while (rs.next()){
 				FinMovimientos fm = new FinMovimientos();

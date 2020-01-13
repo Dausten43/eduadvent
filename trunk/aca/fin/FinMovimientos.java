@@ -162,7 +162,7 @@ public class FinMovimientos {
 			ps.setString(13, cicloId);
 			ps.setString(14, periodoId);
 			ps.setString(15, tipoMovId);
-			
+			System.out.println(ps);
 			if ( ps.executeUpdate()== 1){
 				ok = true;				
 			}else{

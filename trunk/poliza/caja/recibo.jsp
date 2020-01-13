@@ -71,11 +71,11 @@
 	
 		conElias.setAutoCommit(false);//** BEGIN TRANSACTION **
 		boolean error = false;
-		
+		System.out.println("74");
 		BigDecimal importeTotal  = new BigDecimal("0");
 		for(aca.fin.FinMovimientos mov : movimientos){
 			importeTotal = importeTotal.add(new BigDecimal(mov.getImporte()));
-			
+			System.out.println("importe total " + importeTotal);
 			mov.setEstado("R");
 			if(mov.updateEstado(conElias)){
 				//Actualizado
@@ -84,12 +84,12 @@
 			}
 			
 		}
-		
+		System.out.println("87");
 		String reciboActual = FinFolio.getReciboActual();
 		
 		FinRecibo.setReciboId(reciboActual);
 		FinRecibo.setEjercicioId(ejercicioId);
-		FinRecibo.setImporte(frmSimple.format(importeTotal));
+		FinRecibo.setImporte((importeTotal.toString()));
 		FinRecibo.setFecha(aca.util.Fecha.getDateTime());
 		FinRecibo.setCliente(request.getParameter("Cliente"));
 		FinRecibo.setDomicilio(!request.getParameter("Domicilio").equals("") ? request.getParameter("Domicilio") : "-" );
@@ -101,15 +101,18 @@
 		FinRecibo.setTipo("R");
 		FinRecibo.setEstado("A");
 		FinRecibo.setTipoPago(request.getParameter("tipoPago"));
-		
+		System.out.println("104");
+		System.out.println(FinRecibo.toString());
 		if(!FinRecibo.existeReg(conElias) ){
+			System.out.println("106");
 			if(new BigDecimal(FinRecibo.getImporte()!=null ? FinRecibo.getImporte() : "0").compareTo(BigDecimal.ZERO)>0  && FinRecibo.insertReg(conElias)){
-				
+				System.out.println("108");
 				FinFolio.setEjercicioId(ejercicioId);
 				FinFolio.setUsuario(usuario);
 				FinFolio.setReciboActual( (String.valueOf(Integer.parseInt(reciboActual)+1)));
 				if(FinFolio.updateReciboActual(conElias)){
 					//Guardado
+					System.out.println("si guardo");
 				}else{
 					error = true;
 				}
@@ -121,7 +124,7 @@
 		}else{
 			error = true;
 		}
-		
+		System.out.println("125");
 		//COMMIT OR ROLLBACK TO DB
 		if(error){
 			conElias.rollback();
@@ -130,7 +133,7 @@
 			conElias.commit();
 			salto = "imprimirRecibo.jsp?reciboId="+reciboActual+"&from=movimientos";
 		}
-		
+		System.out.println("134");
 		conElias.setAutoCommit(true);//** END TRANSACTION **
 		
 	}

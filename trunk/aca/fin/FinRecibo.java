@@ -46,6 +46,20 @@ public class FinRecibo {
 		estado 			= "";
 		tipoPago		= "";
 	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "FinRecibo [reciboId=" + reciboId + ", ejercicioId=" + ejercicioId + ", importe=" + importe + ", fecha="
+				+ fecha + ", cliente=" + cliente + ", domicilio=" + domicilio + ", cheque=" + cheque + ", banco="
+				+ banco + ", observaciones=" + observaciones + ", usuario=" + usuario + ", rfc=" + rfc + ", tipo="
+				+ tipo + ", estado=" + estado + ", tipoPago=" + tipoPago + "]";
+	}
+
+
+
 
 	/**
 	 * @return the banco
@@ -261,7 +275,9 @@ public class FinRecibo {
             ps.setString(12, tipo);
             ps.setString(13, estado);
             ps.setString(14, tipoPago);
-
+            
+            System.out.println(toString());
+            
             if(ps.executeUpdate() == 1){
                 ok = true;
             }
