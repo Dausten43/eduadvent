@@ -232,15 +232,15 @@
 </script>
 <%	
 	//FORMATOS ---------------------------->
-	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
-	java.text.DecimalFormat formato4	= new java.text.DecimalFormat("##0.0000;-##0.0000");
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato4	= new java.text.DecimalFormat("##0.0000;-##0.0000", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	formato4.setRoundingMode(java.math.RoundingMode.DOWN);
 
-	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
 	
@@ -358,11 +358,11 @@
 				String alumno = "";
 				java.math.MathContext mc;
 				
-				java.text.DecimalFormat frm = new java.text.DecimalFormat("##0.0;-##0.0");
+				java.text.DecimalFormat frm = new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 				if(decimales.equals("1"))
-					frm	= new java.text.DecimalFormat("##0.0;-##0.0");
+					frm	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 				if(decimales.equals("2"))
-					frm	= new java.text.DecimalFormat("##0.00;-##0.00");
+					frm	= new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 				if(redondeo.equals("T")){
 					frm.setRoundingMode(java.math.RoundingMode.DOWN);
 					mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
@@ -1709,9 +1709,9 @@
 										if(escuelaId.startsWith("S")){
 											DecimalFormat dfFinal = null;
 											if(cicloBloque.getDecimales().equals("1")){
-												dfFinal = new DecimalFormat("##0.0;-##0.0");
+												dfFinal = new DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 											}else{
-												dfFinal = new DecimalFormat("##0;-##0");
+												dfFinal = new DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 											}
 											if(cicloBloque.getRedondeo().equals("T")){
 												dfFinal.setRoundingMode(java.math.RoundingMode.DOWN);
@@ -1884,9 +1884,9 @@
 							else if(escuelaId.startsWith("S")){
 								DecimalFormat dfFinal = null;
 								if(ciclo.getDecimales().equals("1")){
-									dfFinal = new DecimalFormat("##0.0;-##0.0");	
+									dfFinal = new DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));	
 								}else{
-									dfFinal = new DecimalFormat("##0;-##0");
+									dfFinal = new DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 								}
 								
 								if(ciclo.getRedondeo().equals("T")){
