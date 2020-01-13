@@ -56,8 +56,8 @@
 
 <%
 	//FORMATOS ---------------------------->
-	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat frmDecimal1 	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat frmDecimal1 	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	frmEntero.setRoundingMode(java.math.RoundingMode.DOWN);
 	frmDecimal1.setRoundingMode(java.math.RoundingMode.DOWN);
