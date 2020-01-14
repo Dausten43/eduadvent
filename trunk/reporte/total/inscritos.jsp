@@ -11,7 +11,7 @@
 <jsp:useBean id="CatClas" scope="page" class="aca.catalogo.CatClasFinLista"/>
 
 <%
-	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	String fecha = aca.util.Fecha.getHoy();
 	String escuela 	= (String)session.getAttribute("escuela");
 	String ciclo	= request.getParameter("ciclo")==null?aca.ciclo.Ciclo.getCargaActual(conElias,escuela):request.getParameter("ciclo");

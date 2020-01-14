@@ -492,7 +492,7 @@ public class UtilCiclo {
 	public void cierraMateria(String escuela, String curso_id, String ciclo_grupo_id, String tipo_eval, String ciclo_id){
 		KrdxCursoActLista kls = new KrdxCursoActLista();
 		AlumnoPromLista apl = new AlumnoPromLista();
-		DecimalFormat df = new DecimalFormat("##0.0;-##0.0");
+		DecimalFormat df = new DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		CicloGrupoCurso cgc = new CicloGrupoCurso();
 		
 		

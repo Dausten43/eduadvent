@@ -22,7 +22,7 @@
 		
 		ArrayList<aca.empleado.EmpPersonal> lisMaestros 	= MaestroL.getListMaestrosCiclo(conElias, escuelaId, cicloId, "ORDER BY 1");
 		
-		java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");	
+		java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));	
 %>
 
 <script src="../../js/jquery-1.7.1.min.js"></script>

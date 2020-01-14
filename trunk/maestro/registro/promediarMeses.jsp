@@ -20,8 +20,8 @@
 	}
 </script>
 <%	
-	DecimalFormat frmDecimal	= new DecimalFormat("###,##0.0;(###,##0.0)");
-	DecimalFormat frmEntero		= new DecimalFormat("###,##0;(###,##0)");
+	DecimalFormat frmDecimal	= new DecimalFormat("###,##0.0;(###,##0.0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	DecimalFormat frmEntero		= new DecimalFormat("###,##0;(###,##0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
 

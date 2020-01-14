@@ -49,7 +49,7 @@
 	String entidadId		= request.getParameter("EntidadId")==null?"0":request.getParameter("EntidadId");
 	String accion			= request.getParameter("Accion")==null?"0":request.getParameter("Accion");
 	
-	java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	/* Actualiza el cicloId */
 	if(cicloId.equals("0")){

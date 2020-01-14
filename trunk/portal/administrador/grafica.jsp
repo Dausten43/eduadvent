@@ -86,7 +86,7 @@
 <div id="content">
 
 <%
-	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	int maternal 			= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "0");
 	int preescolar 			= AlumPersonal.getCantidadPorNivelEscuela(conElias, allEscuelas, "1");

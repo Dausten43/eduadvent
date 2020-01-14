@@ -410,11 +410,11 @@ public class UtilReporteNew {
 		DecimalFormat frm;
 		
 		if(decimales.equals("1")){
-			frm = new java.text.DecimalFormat("##0.0;-##0.0");
+			frm = new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		}else if(decimales.equals("2")){
-			frm = new java.text.DecimalFormat("##0.00;-##0.00");
+			frm = new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		}else{
-			frm = new java.text.DecimalFormat("##0;-##0");
+			frm = new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		}
 		
 		if(redondeo.equals("T")){

@@ -124,7 +124,7 @@
 						<th>Estado</th>						
 					</tr>
 <%
-	DecimalFormat getformato = new DecimalFormat("##0;(##0)");
+	DecimalFormat getformato = new DecimalFormat("##0;(##0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	// Recorre la lista de Alumnos en la materia
 	for(int i = 0; i < lisKardex.size(); i++){
 		kardex = (KrdxCursoAct) lisKardex.get(i);

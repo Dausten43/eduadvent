@@ -32,7 +32,7 @@
 	String nivel		= aca.plan.Plan.getNivel(conElias, planId);
 	
 	//java.text.DecimalFormat frmEntero	= new java.text.DecimalFormat("##0;-##0");
-		java.text.DecimalFormat frmDecimal	= new java.text.DecimalFormat("##0.0;-##0.0");
+		java.text.DecimalFormat frmDecimal	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		
 		//float[] sumaPorBimestre 	= new float[10];
 		int grado 					= 0;

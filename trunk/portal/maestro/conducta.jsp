@@ -9,9 +9,9 @@
 <jsp:useBean id="krdxAlumConductaL" scope="page" class="aca.kardex.KrdxAlumConductaLista"/>
 <%
 	//FORMATOS ---------------------------->
-	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat frmDecimal1 	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat frmDecimal2 	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat frmDecimal1 	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat frmDecimal2 	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloId 			= (String) session.getAttribute("cicloId");

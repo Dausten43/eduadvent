@@ -23,7 +23,7 @@
 	
 	ArrayList<aca.catalogo.CatNivelEscuela> lisNivel = CatNivelL.getListNivelesPermitidos(conElias,escuelaId,cicloId,"ORDER BY NIVEL_ID");
 	
-	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.0;(###,##0.0)");
+	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.0;(###,##0.0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	int cont = 0;
 %>

@@ -56,7 +56,7 @@
 	java.util.HashMap<String, aca.kardex.KrdxAlumProm> mapPromAlumno	= aca.kardex.KrdxAlumPromLista.mapPromGrupo(conElias, cicloGrupoId);
 
 	java.text.DecimalFormat frmCiclo 	= new java.text.DecimalFormat();
-	java.text.DecimalFormat frmPromedio = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat frmPromedio = new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	java.math.MathContext mc = new java.math.MathContext(8,RoundingMode.HALF_UP);
 	

@@ -80,15 +80,15 @@
 	java.text.DecimalFormat frmProm = null;
 	java.text.DecimalFormat frmCiclo = null;
 	if(ciclo.getDecimales().equals("1")){
-		frmCiclo = new java.text.DecimalFormat("##0.0;-##0.0");
+		frmCiclo = new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	}else{
-		frmCiclo = new java.text.DecimalFormat("##0;-##0");
+		frmCiclo = new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	}
 	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
 	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	if(escala == 100){
-		frmEval = new java.text.DecimalFormat("###,##0;(###,##0)");
+		frmEval = new java.text.DecimalFormat("###,##0;(###,##0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	}
 	if(ciclo.getRedondeo().equals("T")){
 		frmCiclo.setRoundingMode(java.math.RoundingMode.DOWN);
@@ -347,11 +347,11 @@
 			    				for(CicloPromedio cp: cicloPromedioList){
 			    					// Inicializa el formato para los decimales
 			    					if(cp.getDecimales().equals("1")){
-			    						frmProm = new java.text.DecimalFormat("##0.0;-##0.0");
+			    						frmProm = new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 			    					}else if(cp.getDecimales().equals("2")){
-			    						frmProm = new java.text.DecimalFormat("##0.00;-##0.00");
+			    						frmProm = new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 			    					}else{
-			    						frmProm = new java.text.DecimalFormat("##0;-##0");
+			    						frmProm = new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 			    					}
 			    					if(cp.getRedondeo().equals("T")){
 										frmProm.setRoundingMode(RoundingMode.DOWN);
@@ -368,11 +368,11 @@
 			    					for(CicloGrupoEval cge: listaCicloGrupoEval){
 			    						tmpDecimales = lisBloqueAlum.get(cge.getPromedioId()+cge.getEvaluacionId()).getDecimales();
 			    						if(tmpDecimales.equals("1")){
-				    						frmEval = new java.text.DecimalFormat("##0.0;-##0.0");
+				    						frmEval = new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 				    					}else if(tmpDecimales.equals("2")){
-				    						frmEval = new java.text.DecimalFormat("##0.00;-##0.00");
+				    						frmEval = new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 				    					}else{
-				    						frmEval = new java.text.DecimalFormat("##0;-##0");
+				    						frmEval = new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 				    					}
 				    					if(lisBloqueAlum.get(cge.getPromedioId()+cge.getEvaluacionId()).getRedondeo().equals("T")){
 				    						frmEval.setRoundingMode(RoundingMode.DOWN);

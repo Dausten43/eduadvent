@@ -178,8 +178,8 @@
 <%
 	
 	//FORMATOS ---------------------------->
-	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat frmEntero 	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat frmDecimal 	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	//VARIABLES ---------------------------->
 	String escuelaId 		= (String) session.getAttribute("escuela");

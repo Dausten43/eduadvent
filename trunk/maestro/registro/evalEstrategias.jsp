@@ -32,7 +32,7 @@
 
 
 <%
-	java.text.DecimalFormat frmNum = new java.text.DecimalFormat("###,##0.0;-###,##0.0");
+	java.text.DecimalFormat frmNum = new java.text.DecimalFormat("###,##0.0;-###,##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String cicloId = (String) session.getAttribute("cicloId");
 	String escuelaId = (String) session.getAttribute("escuela");

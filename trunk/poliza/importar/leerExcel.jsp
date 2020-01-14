@@ -39,7 +39,7 @@
 	</div>
 
 <%
-	java.text.DecimalFormat formato = new java.text.DecimalFormat("####;-####");
+	java.text.DecimalFormat formato = new java.text.DecimalFormat("####;-####", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	// APACHE FILE UPLOAD ------------------------------------------>	
 	DiskFileItemFactory factory 	= new DiskFileItemFactory();
 	ServletFileUpload upload 		= new ServletFileUpload(factory);

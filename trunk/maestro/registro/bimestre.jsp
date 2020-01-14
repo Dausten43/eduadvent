@@ -33,8 +33,8 @@
 			"#9EA2C5", "#E9ED3F", "#DF01D7", "#01DFD7", "#7D64B1",
 			"#ABE17F", "#D52D0C", "#48B0F1" };
 
-	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)");
-	DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)");	
+	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
 
 	String escuelaId 			= (String) session.getAttribute("escuela");

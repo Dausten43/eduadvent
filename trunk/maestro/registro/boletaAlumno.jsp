@@ -43,15 +43,15 @@
 	
 	double promTotal 		= 0;
 
-	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	formato0.setRoundingMode(java.math.RoundingMode.HALF_UP );
 	formato1.setRoundingMode(java.math.RoundingMode.HALF_UP );
 	formato2.setRoundingMode(java.math.RoundingMode.HALF_UP );
-	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)");
+	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
-	java.text.DecimalFormat frmProm = new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat frmProm = new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	//DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)");
 	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
 	
@@ -227,6 +227,7 @@
 		    	<td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
 		    	<td width="20%"><%=curso.getCursoNombre()%></td>
 <%
+				System.out.println("Name => " + lisAlumnoCurso);
 				for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 					int evalCerradas = 0;
 					for(aca.ciclo.CicloBloque cicloBloque : lisBloque){

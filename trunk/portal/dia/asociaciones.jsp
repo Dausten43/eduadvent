@@ -9,7 +9,7 @@
 <jsp:useBean id="CatAsociacionLista" scope="page" class="aca.catalogo.CatAsociacionLista"/>
 
 <%
-	java.text.DecimalFormat getFormato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+	java.text.DecimalFormat getFormato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String codigoId 		= (String)session.getAttribute("codigoId");
 	String unionId			= request.getParameter("UnionId");

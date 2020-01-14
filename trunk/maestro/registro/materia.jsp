@@ -20,9 +20,9 @@
 	}
 </script>
 <%	
-	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");	
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String cicloGrupoId		= (String) request.getParameter("CicloGrupoId");
 	String cursoId			= (String) request.getParameter("CursoId");

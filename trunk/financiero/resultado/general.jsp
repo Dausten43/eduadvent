@@ -9,7 +9,7 @@
 <jsp:useBean id="contMayor" scope="page" class="aca.cont.ContMayor"/>
 <jsp:useBean id="contMayorL" scope="page" class="aca.cont.ContMayorLista"/>
 <%
-	java.text.DecimalFormat getformato = new java.text.DecimalFormat("#,###,###,##0.00;-#,###,###,##0.00");
+	java.text.DecimalFormat getformato = new java.text.DecimalFormat("#,###,###,##0.00;-#,###,###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String ejercicioId	= request.getParameter("ejercicioId");
 	String wildcard		= "";

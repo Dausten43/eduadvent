@@ -75,7 +75,7 @@
 <script type="text/javascript"
 	src="../../bootstrap/datepicker/datepicker.js"></script>
 <%
-	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 		String escuelaId = (String) session.getAttribute("escuela");
 		String codigoId = (String) session.getAttribute("codigoAlumno");

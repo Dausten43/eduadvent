@@ -22,7 +22,7 @@
 	</script>
 </head>
 <%
-	DecimalFormat frmDecimal	= new DecimalFormat("##0.0;-##0.0");
+	DecimalFormat frmDecimal	= new DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String escuelaId	= (String) session.getAttribute("escuela");
 	String cicloId		= (String) session.getAttribute("cicloId");	

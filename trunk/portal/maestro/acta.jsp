@@ -32,9 +32,9 @@
 	}
 </style>
 <%
-	DecimalFormat frmDecimal = new DecimalFormat("###,##0.0;(###,##0.0)");
-		DecimalFormat frmDecimal2 = new DecimalFormat("###,##0.00;(###,##0.00)");
-		DecimalFormat frmEntero = new DecimalFormat("###,##0;(###,##0)");
+	DecimalFormat frmDecimal = new DecimalFormat("###,##0.0;(###,##0.0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+		DecimalFormat frmDecimal2 = new DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+		DecimalFormat frmEntero = new DecimalFormat("###,##0;(###,##0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 		String codigoId = (String) session.getAttribute("codigoId");
 		String evaluacion = request.getParameter("Evaluacion");

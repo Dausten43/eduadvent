@@ -16,7 +16,7 @@
 
 <%
 	
-	java.text.DecimalFormat frmDecimal	= new java.text.DecimalFormat("##0.0;-##0.0");
+	java.text.DecimalFormat frmDecimal	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String codigoId 	= (String) session.getAttribute("codigoAlumno");

@@ -24,7 +24,7 @@
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista"/>
 
 <%
-	java.text.DecimalFormat df = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat df = new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	String escuelaId	= (String) session.getAttribute("escuela");
 	String codigoId 	= (String) session.getAttribute("codigoId");

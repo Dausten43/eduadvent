@@ -16,7 +16,7 @@
 	String cicloGrupoId			= request.getParameter("CicloGrupoId");
 	String cursoId				= request.getParameter("CursoId");
 	String resultado			= "";
-	DecimalFormat getformato	= new DecimalFormat("##0.00;(##0.00)");
+	DecimalFormat getformato	= new DecimalFormat("##0.00;(##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	// Mapea el registro del grupo.
 	//cicloGrupoCurso.mapeaRegId(conElias, cicloGrupoId, cursoId);

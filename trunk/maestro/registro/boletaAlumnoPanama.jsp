@@ -24,9 +24,9 @@
 <jsp:useBean id="AlumAspecto" scope="page" class="aca.kardex.KrdxAlumActitud" />
 <jsp:useBean id="planClase" scope="page" class="aca.plan.Plan"/>
 <%
-	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String cicloId 			= (String) session.getAttribute("cicloId");
@@ -53,8 +53,8 @@
 	
 	double promTotal 		= 0;
 	
-	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)");
-	DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)");	
+	DecimalFormat frmDecimal 	= new DecimalFormat("###,##0.0;(###,##0.0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	DecimalFormat frmEntero 	= new DecimalFormat("###,##0;(###,##0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);	
 	

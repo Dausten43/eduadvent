@@ -15,7 +15,7 @@
 <jsp:useBean id="Coordenada" scope="page" class="aca.fin.FinCoordenada"/>
 
 <%
-	java.text.DecimalFormat frmNum = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat frmNum = new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String codigoAlumno = (String) session.getAttribute("codigoAlumno");
 	String recibo 		= request.getParameter("Recibo");	

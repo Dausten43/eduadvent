@@ -26,15 +26,15 @@
 	cicloGrupo.mapeaRegId(conElias, request.getParameter("CicloGrupoId"));
 
 	java.text.DecimalFormat frmDecimal;
-	java.text.DecimalFormat frmDecimal2 = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat frmDecimal2 = new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	ciclo.mapeaRegId(conElias, cicloId);
 	int escalaEval 			= aca.ciclo.Ciclo.getEscala(conElias, cicloId );
-	frmDecimal = new java.text.DecimalFormat("###,##0.0;-###,##0.0");
+	frmDecimal = new java.text.DecimalFormat("###,##0.0;-###,##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	if(ciclo.getDecimales().equals("1")){
-		frmDecimal = new java.text.DecimalFormat("###,##0.0;-###,##0.0");
+		frmDecimal = new java.text.DecimalFormat("###,##0.0;-###,##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	}else{
-		frmDecimal = new java.text.DecimalFormat("##0;-##0");
+		frmDecimal = new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	}
 	
 	if(ciclo.getRedondeo().equals("T")){

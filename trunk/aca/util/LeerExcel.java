@@ -14,7 +14,7 @@ public class LeerExcel{
 	
 	public static void main(String[] args){
 		
-		java.text.DecimalFormat formato = new java.text.DecimalFormat("####;-####");
+		java.text.DecimalFormat formato = new java.text.DecimalFormat("####;-####", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		
 		try{	
 			FileInputStream file = new FileInputStream("C:/Trabajo/Alumno.xls");

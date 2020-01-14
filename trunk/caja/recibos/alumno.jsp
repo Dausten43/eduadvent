@@ -32,7 +32,7 @@
 				</tr>
 <%
 		ArrayList lisRecibos = finReciboLista.getListAlumno(conElias, codigoId, "ORDER BY FECHA");
-		java.text.DecimalFormat getformato= new java.text.DecimalFormat("#,###,###,##0.00;-#,###,###,##0.00");
+		java.text.DecimalFormat getformato= new java.text.DecimalFormat("#,###,###,##0.00;-#,###,###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		for(int i = 0; i < lisRecibos.size(); i++){
 			finRecibo = (aca.fin.FinRecibo) lisRecibos.get(i);
 %>

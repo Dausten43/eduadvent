@@ -49,7 +49,7 @@
 	
 	ArrayList<aca.ciclo.CicloGrupoActividad> lisActividad 	= cicloGrupoActividadL.getListGrupo(conElias, cicloGrupoId, cursoId, "ORDER BY EVALUACION_ID, ACTIVIDAD_ID");
 	
-	DecimalFormat getformato  	= new DecimalFormat("##0.00;(##0.00)");
+	DecimalFormat getformato  	= new DecimalFormat("##0.00;(##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	empPersonal.mapeaRegId(conElias, codigoId);
 	

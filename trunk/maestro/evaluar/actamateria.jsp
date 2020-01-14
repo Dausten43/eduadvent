@@ -31,8 +31,8 @@
 <jsp:useBean id="CicloBloqueL" scope="page" class="aca.ciclo.CicloBloqueLista"/>
 <jsp:useBean id="krdxCursoActL" scope="page" class="aca.kardex.KrdxCursoActLista"/>
 <%
-	DecimalFormat frmDecimal = new DecimalFormat("###,##0.0;(###,##0.0)");
-	DecimalFormat frmEntero = new DecimalFormat("###,##0;(###,##0)");
+	DecimalFormat frmDecimal = new DecimalFormat("###,##0.0;(###,##0.0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	DecimalFormat frmEntero = new DecimalFormat("###,##0;(###,##0)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
 
@@ -83,9 +83,9 @@
 	java.util.TreeMap<String, aca.vista.AlumnoProm> treeProm = AlumPromLista.getTreeCurso(conElias,	cicloGrupoId, cursoId, "");
 	String evaluaConPunto		= aca.plan.PlanCurso.getPunto(conElias, cursoId); /* Evalua con punto decimal el cursoId */
 	
-	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	int escala 					= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	

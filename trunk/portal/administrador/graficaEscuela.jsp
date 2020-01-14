@@ -23,7 +23,7 @@
   <!-- ---------------------END JS GRAFICAS--------------------- -->
 <%
 
-	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	String codigoId 	= (String)session.getAttribute("codigoId");
 	String escuelaId	= request.getParameter("EscuelaId");

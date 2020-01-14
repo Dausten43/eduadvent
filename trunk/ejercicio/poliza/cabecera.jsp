@@ -158,7 +158,7 @@
     </td>
   </tr>
 <%
-	java.text.DecimalFormat format = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat format = new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	String mes = "";
 	for (int i=0; i< lisPoliza.size(); i++){
 		aca.cont.ContPoliza poliza = (aca.cont.ContPoliza) lisPoliza.get(i);

@@ -123,7 +123,7 @@
 							}else
 								promedios[l] = -1;
 						}
-						DecimalFormat getformato= new DecimalFormat("##0.0#;-##0.0#");
+						DecimalFormat getformato= new DecimalFormat("##0.0#;-##0.0#", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 						for(int l = 0; l < lisKardex.size(); l++){
 							kardexCA = (KrdxCursoAct) lisKardex.get(l);
 							kardexCA.setNota(String.valueOf(getformato.format(((String.valueOf(promedios[l]).indexOf(".") != -1)?Double.parseDouble(String.valueOf(promedios[l]).substring(0, String.valueOf(promedios[l]).indexOf(".")+2)):promedios[l])).replace(',', '.')));

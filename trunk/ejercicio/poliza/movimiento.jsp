@@ -314,7 +314,7 @@
 <%
 	double sumD = 0;
 	double sumC = 0;
-	java.text.DecimalFormat format = new java.text.DecimalFormat("###,###,##0.00;-###,###,##0.00");
+	java.text.DecimalFormat format = new java.text.DecimalFormat("###,###,##0.00;-###,###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	for(int i = 0; i < lisMovimiento.size(); i++){
 		contMovimiento = (ContMovimiento) lisMovimiento.get(i);
 		contRelacion.mapeaRegMayorId(conElias, contMovimiento.getMayorId(), contMovimiento.getCcostoId(), contMovimiento.getAuxiliarId());

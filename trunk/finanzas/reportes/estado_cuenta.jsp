@@ -40,7 +40,7 @@ body {
 	class="aca.fin.FinCuentaLista" />
 <html>
 <%
-	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 		String escuelaId = (String) session.getAttribute("escuela");
 		String fechaInicioMes = aca.util.Fecha.getInicioMes();

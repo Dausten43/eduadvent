@@ -27,9 +27,9 @@
 	String nivelNombre		= aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, nivel);
 	String nivelTitulo		= aca.catalogo.CatNivelEscuela.getTitulo(conElias, escuelaId, nivel).toUpperCase();
 	
-	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	
 	
 	//Map de materias del plan seleccionado

@@ -16,7 +16,7 @@
 </script>
 
 <%
-	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String cicloId 			= session.getAttribute("cicloId").toString();
 	String promedioId		= request.getParameter("promedioId") == null?"vacio":request.getParameter("promedioId");

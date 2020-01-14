@@ -35,7 +35,7 @@
 		
 		PdfPCell cell = null;
 		java.util.Locale.setDefault(java.util.Locale.US);
-		java.text.DecimalFormat getformato= new java.text.DecimalFormat("#,###,###,##0.00;-#,###,###,##0.00");
+		java.text.DecimalFormat getformato= new java.text.DecimalFormat("#,###,###,##0.00;-#,###,###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		String importe = getformato.format(Float.parseFloat(finRecibo.getImporte()));
 		cell = new PdfPCell(new Phrase(importe, FontFactory.getFont(FontFactory.HELVETICA, 12, Font.NORMAL, new Color(0,0,0))));
 		cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -107,7 +107,7 @@
 		table = new PdfPTable(headerwidths);
 		table.setTotalWidth(450);
 		
-		getformato= new java.text.DecimalFormat("#########0.00;-#########0.00");
+		getformato= new java.text.DecimalFormat("#########0.00;-#########0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 		importe = getformato.format(Float.parseFloat(finRecibo.getImporte()));
 		//System.out.println(N2t.convertirLetras(Integer.parseInt(importe.substring(0, importe.indexOf("."))))+" Pesos "+importe.substring(importe.indexOf(".")+1, importe.length()-1)+"/100 M.N.");
 		cell = new PdfPCell(new Phrase((NumberToLetter.convertirLetras(Integer.parseInt(importe.substring(0, importe.indexOf("."))))).toUpperCase()+" PESOS "+importe.substring(importe.indexOf(".")+1, importe.length())+"/100 M.N.", FontFactory.getFont(FontFactory.HELVETICA, 10, Font.NORMAL, new Color(0,0,0))));

@@ -13,10 +13,10 @@
 <jsp:useBean id="AlumnoCursoL" scope="page" class="aca.vista.AlumnoCursoLista"/>
 <jsp:useBean id="AlumPromLista" scope="page" class="aca.vista.AlumnoPromLista" />
 <%	
-	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0");
-	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0");
-	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00");
-	java.text.DecimalFormat formato4	= new java.text.DecimalFormat("##0.0000;-##0.0000");
+	java.text.DecimalFormat formato0	= new java.text.DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato1	= new java.text.DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato2	= new java.text.DecimalFormat("##0.00;-##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat formato4	= new java.text.DecimalFormat("##0.0000;-##0.0000", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	java.math.MathContext mc = new java.math.MathContext(4, RoundingMode.HALF_EVEN);
 
 	String escuelaId 		= (String) session.getAttribute("escuela");

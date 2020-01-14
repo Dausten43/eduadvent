@@ -20,7 +20,7 @@
   <script type="text/javascript" src="../../js/exporting.js"></script>
 </head>
 <%
-	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
+	java.text.DecimalFormat getformato	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String escuela 		= (String)session.getAttribute("escuela");	
 	String ciclo 		= request.getParameter("ciclo")==null?(String)session.getAttribute("cicloId"):request.getParameter("ciclo");

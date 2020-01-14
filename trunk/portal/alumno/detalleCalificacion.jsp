@@ -24,8 +24,8 @@
 <jsp:useBean id="archivoLista" scope="page" class="aca.kardex.KrdxAlumArchivoLista"/>
 
 <%
-	DecimalFormat frmEntero		= new DecimalFormat("##0;-##0");
-	DecimalFormat frmDecimal	= new DecimalFormat("##0.0;-##0.0");
+	DecimalFormat frmEntero		= new DecimalFormat("##0;-##0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	DecimalFormat frmDecimal	= new DecimalFormat("##0.0;-##0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	frmDecimal.setRoundingMode(java.math.RoundingMode.DOWN);
 	
 	String escuelaId 	= (String) session.getAttribute("escuela");

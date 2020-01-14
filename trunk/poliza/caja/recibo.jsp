@@ -27,8 +27,8 @@
 </script>
 
 <%
-	java.text.DecimalFormat getFormato 	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)");
-	java.text.DecimalFormat frmSimple 	= new java.text.DecimalFormat("#####0.00;(#####0.00)");
+	java.text.DecimalFormat getFormato 	= new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
+	java.text.DecimalFormat frmSimple 	= new java.text.DecimalFormat("#####0.00;(#####0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 
 	String escuelaId 	= (String) session.getAttribute("escuela");
 	String ejercicioId 	= (String)session.getAttribute("ejercicioId");

@@ -147,7 +147,7 @@
 	     	System.out.println(sum);
      		double prom = (double)sum/(double)divisor;
 	     	System.out.println(prom);
-	     	DecimalFormat decimal = new DecimalFormat("0.0");
+	     	DecimalFormat decimal = new DecimalFormat("0.0", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	     	
 	     	String n = String.valueOf(decimal.format(prom));
 	     	

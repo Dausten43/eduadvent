@@ -42,7 +42,7 @@
 </script>
 
 <%
-	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;(###,##0.00)");	
+	java.text.DecimalFormat getformato = new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));	
 
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String ejercicioId 		= (String)session.getAttribute("ejercicioId");

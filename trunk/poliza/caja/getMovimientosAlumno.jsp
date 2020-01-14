@@ -29,7 +29,7 @@
 	</thead>
 <%
 	float total = 0f;
-	java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+	java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 	ArrayList<aca.fin.FinMovimientos> lisMovimientos = FinMovL.getMovimientosAlumno(conElias, codigoId, " and cuenta_id IN ( SELECT fin_cuenta.cuenta_id  FROM fin_cuenta WHERE fin_cuenta.cuenta_aislada = 'N')  ORDER BY TO_CHAR(FECHA,'YYYY'),TO_CHAR(FECHA,'MM'),TO_CHAR(FECHA,'DD'), MOVIMIENTO_ID") ;
 	for(int i = 0; i < lisMovimientos.size(); i++){
 		FinMov = (aca.fin.FinMovimientos) lisMovimientos.get(i);

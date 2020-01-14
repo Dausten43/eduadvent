@@ -76,7 +76,7 @@
 	<table class="table table-fullcondensed" width="80%">
 	<%	 	
 			String gradoAndGrupo = "0";
-			java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00");
+			java.text.DecimalFormat formato= new java.text.DecimalFormat("###,##0.00;-###,##0.00", new java.text.DecimalFormatSymbols(java.util.Locale.US));
 			float total = 0f;
 			for(int i=0; i<lisInscritos.size();i++){
 				cont++;			
