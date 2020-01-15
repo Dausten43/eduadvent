@@ -1046,8 +1046,8 @@
 										
 					    		        tabla.addCell(celda);
 				    		        } else if(cantidadMaterias == 0){
-				    		        	totalFaltas = KrdxAlumFalta.totalfaltasPromedio(conElias, codigoAlumno, cicloGrupoId);
-					    		        totalTardanzas = KrdxAlumFalta.totalTardanzasPromedio(conElias, codigoAlumno, cicloGrupoId);
+				    		        	totalFaltas = KrdxAlumFalta.totalfaltasEvaluacion(conElias, codigoAlumno, cicloGrupoId);
+					    		        totalTardanzas = KrdxAlumFalta.totalTardanzasEvaluacion(conElias, codigoAlumno, cicloGrupoId);
 			    						
 			    						celda.setPhrase(new Phrase(totalFaltas == null ? "---" : totalFaltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 					    				tabla.addCell(celda);
