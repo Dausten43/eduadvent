@@ -256,7 +256,7 @@
 					
 				CatEscuela ce = new CatEscuela();
 				ce.mapeaRegId(conElias, escuela);
-	            
+				
 	            cell = new PdfPCell(new Phrase(ce.getEscuelaNombre(), FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD, new BaseColor(0,0,0))));
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(borde);
@@ -892,7 +892,6 @@
 			    				if(curso.getCursoBase().equals("-"))
 			    					promedioPorMateria[j] = new BigDecimal(nota, mc);
 			    				
-			    				
 			    				if(!curso.getCursoBase().equals("-")){//Si es materia hija
 			    					celda = new PdfPCell(new Phrase("---", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 				    				celda.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -907,9 +906,10 @@
 				    				if(curso.getTipocursoId().equals("3"))
 				    					promedioDeIngles = nota;
 								}
-			    		        
+			    				
 			    				int sumaFaltas = 0, sumaTardanzas = 0;
-			    				int nivelAcademico = Integer.valueOf(ciclo.getNivelAcademicoSistema());
+			    				int nivelAcademico = Integer.valueOf(ciclo.getNivelAcademicoSistema() == null ? "-1" : ciclo.getNivelAcademicoSistema());
+			    				boolean desplegarPorMateria = nivelAcademico != 3; // Cualquiera menos primaria
 			    				
 			    		        if(ciclo.getNivelEval().equals("P")){
 				 					for(int l = 0; l < cicloPromedioList.size(); l++){
@@ -923,12 +923,9 @@
 										
 											String faltas = "";
 						    		        String tardanzas = "";
-										
-						    		        if(nivelAcademico <= 3 && cantidadMaterias == 0){ // Si es algún nivel arriba de primaria
-						    		        	faltas = KrdxAlumFalta.faltasPorPromedioId(conElias, codigoAlumno, cicloGrupoId, cicloPromedio.getPromedioId());
-							    		        tardanzas = KrdxAlumFalta.tardanzasPorPromedioId(conElias, codigoAlumno, cicloGrupoId, cicloPromedio.getPromedioId());
-											} else if(nivelAcademico >= 4){
-												faltas = faltas.equals("") ? "0" : faltas;
+						    		        
+						    		        if(desplegarPorMateria){
+						    		        	faltas = faltas.equals("") ? "0" : faltas;
 												tardanzas = tardanzas.equals("") ? "0" : tardanzas;
 												for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
 													if(kaf.getCodigoId().equals(codigoAlumno) && 
@@ -940,12 +937,15 @@
 														sumaTardanzas += Integer.valueOf(kaf.getTardanza());
 													}
 												}
+											} else if(cantidadMaterias == 0){
+												faltas = KrdxAlumFalta.faltasPorPromedioId(conElias, codigoAlumno, cicloGrupoId, cicloPromedio.getPromedioId());
+							    		        tardanzas = KrdxAlumFalta.tardanzasPorPromedioId(conElias, codigoAlumno, cicloGrupoId, cicloPromedio.getPromedioId());
 											}
 											
-											celda.setPhrase(new Phrase(faltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+											celda.setPhrase(new Phrase(faltas.equals("0") && desplegarPorMateria ? "---" : faltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 						    				tabla.addCell(celda);
 						    				
-						    				celda.setPhrase(new Phrase(tardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+						    				celda.setPhrase(new Phrase(tardanzas.equals("0") && desplegarPorMateria ? "---" : tardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 						    				tabla.addCell(celda);
 										}else {
 					    		        	celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
@@ -959,16 +959,7 @@
 				 					String totalFaltas = "";
 				    		        String totalTardanzas = "";
 				    		        
-				    		        if(nivelAcademico <= 3 && cantidadMaterias == 0){ // Si es algún nivel arriba de primaria
-					    		        totalFaltas = KrdxAlumFalta.totalfaltasPromedio(conElias, codigoAlumno, cicloGrupoId);
-					    		        totalTardanzas = KrdxAlumFalta.totalTardanzasPromedio(conElias, codigoAlumno, cicloGrupoId);
-			    						
-			    						celda.setPhrase(new Phrase(totalFaltas == null ? "---" : totalFaltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-					    				tabla.addCell(celda);
-					    				
-					    				celda.setPhrase(new Phrase(totalTardanzas == null ? "---" : totalTardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-					    				tabla.addCell(celda);
-				    		        } else if(nivelAcademico >= 4){
+				    		        if(desplegarPorMateria){
 				    		        	totalFaltas = String.valueOf(sumaFaltas);
 				    		        	totalTardanzas = String.valueOf(sumaTardanzas);
 				    		        
@@ -978,6 +969,15 @@
 						    			celda.setPhrase(new Phrase(totalTardanzas.equals("0") ? "---" : totalTardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 										
 					    		        tabla.addCell(celda);
+				    		        } else if(cantidadMaterias == 0){
+				    		        	totalFaltas = KrdxAlumFalta.totalfaltasPromedio(conElias, codigoAlumno, cicloGrupoId);
+					    		        totalTardanzas = KrdxAlumFalta.totalTardanzasPromedio(conElias, codigoAlumno, cicloGrupoId);
+			    						
+			    						celda.setPhrase(new Phrase(totalFaltas == null ? "---" : totalFaltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+					    				tabla.addCell(celda);
+					    				
+					    				celda.setPhrase(new Phrase(totalTardanzas == null ? "---" : totalTardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+					    				tabla.addCell(celda);
 				    		        }else {
 				    		        	celda.setPhrase(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 					    				tabla.addCell(celda);
@@ -999,11 +999,8 @@
 												String faltas = "";
 							    		        String tardanzas = "";
 											
-							    		        if(nivelAcademico <= 3 && cantidadMaterias == 0){ // Si es algún nivel arriba de primaria
-													faltas = KrdxAlumFalta.faltasPorCiclo(conElias, codigoAlumno, cicloGrupoId, cge.getEvaluacionId());
-								    		        tardanzas = KrdxAlumFalta.tardanzasPorCiclo(conElias, codigoAlumno, cicloGrupoId, cge.getEvaluacionId());
-												} else if(nivelAcademico >= 4){
-													faltas = faltas.equals("") ? "0" : faltas;
+							    		        if(desplegarPorMateria){
+							    		        	faltas = faltas.equals("") ? "0" : faltas;
 													tardanzas = tardanzas.equals("") ? "0" : tardanzas;
 													for(KrdxAlumFalta kaf: listaKrdxAlumFalta){
 														if(kaf.getCodigoId().equals(codigoAlumno) && 
@@ -1015,12 +1012,15 @@
 															sumaTardanzas += Integer.valueOf(kaf.getTardanza());
 														}
 													}
+												} else if(cantidadMaterias == 0){
+													faltas = KrdxAlumFalta.faltasPorCiclo(conElias, codigoAlumno, cicloGrupoId, cge.getEvaluacionId());
+								    		        tardanzas = KrdxAlumFalta.tardanzasPorCiclo(conElias, codigoAlumno, cicloGrupoId, cge.getEvaluacionId());
 												}
 												
-												celda.setPhrase(new Phrase(faltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+												celda.setPhrase(new Phrase(faltas.equals("0") && desplegarPorMateria ? "---" : faltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 							    				tabla.addCell(celda);
 							    				
-							    				celda.setPhrase(new Phrase(tardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+							    				celda.setPhrase(new Phrase(tardanzas.equals("0") && desplegarPorMateria ? "---" : tardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 							    				tabla.addCell(celda);
 											}else {
 						    		        	celda = new PdfPCell(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
@@ -1035,16 +1035,7 @@
 									String totalFaltas = "";
 				    		        String totalTardanzas = "";
 				    		        
-				    		        if(nivelAcademico <= 3 && cantidadMaterias == 0){ // Si es algún nivel arriba de primaria
-					    		        totalFaltas = KrdxAlumFalta.totalfaltasEvaluacion(conElias, codigoAlumno, cicloGrupoId);
-					    		        totalTardanzas = KrdxAlumFalta.totalTardanzasEvaluacion(conElias, codigoAlumno, cicloGrupoId);
-			    						
-			    						celda.setPhrase(new Phrase(totalFaltas == null ? "---" : totalFaltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-					    				tabla.addCell(celda);
-					    				
-					    				celda.setPhrase(new Phrase(totalTardanzas == null ? "---" : totalTardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
-					    				tabla.addCell(celda);
-				    		        } else if(nivelAcademico >= 4){
+				    		        if(desplegarPorMateria){
 				    		        	totalFaltas = String.valueOf(sumaFaltas);
 				    		        	totalTardanzas = String.valueOf(sumaTardanzas);
 				    		        
@@ -1054,6 +1045,15 @@
 						    			celda.setPhrase(new Phrase(totalTardanzas.equals("0") ? "---" : totalTardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 										
 					    		        tabla.addCell(celda);
+				    		        } else if(cantidadMaterias == 0){
+				    		        	totalFaltas = KrdxAlumFalta.totalfaltasPromedio(conElias, codigoAlumno, cicloGrupoId);
+					    		        totalTardanzas = KrdxAlumFalta.totalTardanzasPromedio(conElias, codigoAlumno, cicloGrupoId);
+			    						
+			    						celda.setPhrase(new Phrase(totalFaltas == null ? "---" : totalFaltas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+					    				tabla.addCell(celda);
+					    				
+					    				celda.setPhrase(new Phrase(totalTardanzas == null ? "---" : totalTardanzas, FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
+					    				tabla.addCell(celda);
 				    		        }else {
 				    		        	celda.setPhrase(new Phrase("", FontFactory.getFont(FontFactory.HELVETICA, 8, Font.NORMAL, new BaseColor(0,0,0))));
 					    				tabla.addCell(celda);
