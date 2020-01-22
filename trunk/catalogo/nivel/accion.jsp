@@ -122,10 +122,10 @@
 		
 		<fieldset>
 		    <label for="gradoIni">
-		    	<span class="grado"><fmt:message key="aca.Grado"/> <fmt:message key="aca.Final"/></span>
-		    	<span class="semestre"><fmt:message key="aca.Semestre"/> <fmt:message key="aca.Final"/></span>
-		    	<span class="trimestre"><fmt:message key="aca.Trimestre"/> <fmt:message key="aca.Final"/></span>
-		    	<span class="cuatrimestre"><fmt:message key="aca.Cuatrimestre"/> <fmt:message key="aca.Final"/></span>
+		    	<span class="grado"><fmt:message key="aca.Grado"/> <fmt:message key="aca.Inicial"/></span>
+		    	<span class="semestre"><fmt:message key="aca.Semestre"/> <fmt:message key="aca.Inicial"/></span>
+		    	<span class="trimestre"><fmt:message key="aca.Trimestre"/> <fmt:message key="aca.Inicial"/></span>
+		    	<span class="cuatrimestre"><fmt:message key="aca.Cuatrimestre"/> <fmt:message key="aca.Inicial"/></span>
 		    </label>
 		    <select name="gradoIni" id="gradoIni" class="input-mini">
 		    	<%for(int i = 1; i<=12; i++){ %>
