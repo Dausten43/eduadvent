@@ -772,10 +772,13 @@
          			</label> 
 	              	
 	              	<select name="Grado" class="input-mini" <%if(inscrito){out.print("readonly");} %>>
+	              		<option value="0">X</option>
 	              		<%for(int i = 1; i<=12; i++){ %>
 	              			<%if(inscrito && !Personal.getGrado().equals(i+""))continue; %>
 		    				<option value="<%=i %>" <%if(Personal.getGrado().equals(i+"")){out.print("selected");} %>><%=i %></option>
 		    			<%}%>
+		    			
+		    			
 	              	</select>
 	            </p>
 	            
