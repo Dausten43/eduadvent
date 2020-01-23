@@ -2,6 +2,7 @@
 
 <%@page import="java.util.HashMap"%>
 <%@ include file= "con_elias.jsp" %>
+<%@ include file= "idioma.jsp" %>
 
 <jsp:useBean id="usuariosU" scope="page" class="aca.vista.UsuariosLista"/>
 <jsp:useBean id="AlumPlanLista" scope="page" class="aca.alumno.AlumPlanLista"/>
@@ -136,6 +137,7 @@
 				
 				planId = mapAlumPlan.get(usuario.getCodigoId()).getPlanId();
 				grado  = mapAlumPlan.get(usuario.getCodigoId()).getGrado();
+				
 				grupo  = mapAlumPlan.get(usuario.getCodigoId()).getGrupo();
 				
 				if(mapPlan.containsKey(planId)){
@@ -156,8 +158,13 @@
 			<%}%>
 			
 				<td width="25%"><%=nivel %></td>
-				<td width="5%"><%=grado%><%=grupo%></td>	
-			
+				
+				<%if(grado.equals(""+0)){%>
+					<td width="5%" style=color:red><fmt:message key="aca.Desactivado"/></td>
+				<%}else{%>
+					<td width="5%"><%=grado%><%=grupo%></td>	
+				<%} %>
+				
 			</tr>
 <%	
 		}

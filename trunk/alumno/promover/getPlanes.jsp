@@ -25,7 +25,7 @@
 			out.print(" <option value='" + i + "'>" + i + "</option>");
 		}
 		if(accion.equals("2")){
-			out.print(" <option value='" + (Integer.parseInt(Nivel.getGradoFin())+1) + "'> Inactivar </option>");
+			out.print(" <option value='" + (0) + "'> Inactivar </option>");
 		}
 		
 	} else if(actualizar.equals("grupo")) {
