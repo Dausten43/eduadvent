@@ -128,8 +128,6 @@
 			}else{
 				out.print("<table align=\"center\"><tr><td><h3><strong >El usuario ya existe. Elija otro nombre de usuario</strong></h3></td></tr></table>");
 			}
-			
-			strResultado = "LlenarFormulario";
 			break;
 		}		
 		case 3: { // Graba Privilegios de Datos
