@@ -45,17 +45,19 @@
 	</div>	
 	<table class="table table-condensed table-bordered">
 		<tr>
+			<th style="width:40px;" ><fmt:message key="aca.Elegir" /></th>
 			<th><fmt:message key="aca.Actividad" /></th>
 			<th><fmt:message key="aca.FechaEntrega" /></th>
 			<th><fmt:message key="aca.Valor" /> </th> 
-			<th><fmt:message key="aca.Mostrar" /> </th>						
+			<th><fmt:message key="aca.Mostrar" /> </th>	
 		</tr>
 		<% 
 	for (int i=0; i < lisActEvaluacion.size(); i++){
 		aca.ciclo.CicloGrupoActividad act = (aca.ciclo.CicloGrupoActividad) lisActEvaluacion.get(i);		
 %>	
 		<tr>
-			<td> <%=act.getActividadNombre()%> </td> 
+			<td> <input name="Check<%=i%>" type="checkbox" value=""> </td> 
+			<td> <%=act.getActividadNombre()%> </td>
 			<td> <%=act.getFecha()%> </td>
 			<td> <%=act.getValor()%>%</td>
 			<td> <%= act.getMostrar().equals("S")?"SI":"NO" %></td>			
