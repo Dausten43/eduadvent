@@ -86,13 +86,13 @@
 				</select>
 			
 				<select name="curso_id" id="cursoid" class="form-control">
-					<option value=""></option>
+					<option	>Antes seleccione un ciclo</option>
 				</select>
 				<select name="promedio_id" id="promedioid" class="form-control">
-					<option></option>
+					<option>Antes seleccione un curso</option>
 				</select>
 				<select name="evaluacion_id" id="evaluacionid" class="form-control">
-					<option></option>
+					<option>Antes seleccione una evaluación</option>
 				</select>
 			
 				<input type="button" id="btnConfirm" value="Traspasar" class="btn btn-primary">
@@ -101,10 +101,6 @@
 	</div>
 </div>
 <script>
-
-	$('#cursoid').hide();
-	$('#promedioid').hide();
-	$('#evaluacionid').hide();
 	resetMessage();
 	$('#btnConfirm').attr("disabled", true);
 	
