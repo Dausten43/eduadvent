@@ -70,7 +70,9 @@ public class CicloGrupoLista {
 		try{
 			comando = "SELECT CICLO_GRUPO_ID, CICLO_ID, GRUPO_NOMBRE, " +
 			 		"EMPLEADO_ID, HORARIO_ID, SALON_ID, NIVEL_ID, GRADO, GRUPO, PLAN_ID "+
-					"FROM CICLO_GRUPO WHERE CICLO_ID = '"+cicloId+"' "+orden;
+					"FROM CICLO_GRUPO AS CG WHERE CICLO_ID = '"+cicloId+"' "+ 
+			 		"AND PLAN_ID NOT IN (SELECT PLAN_ID FROM PLAN WHERE PLAN_ID = CG.PLAN_ID AND ESTADO = 'I') "+
+					orden;
 			rs = st.executeQuery(comando);			
 			while (rs.next()){
 				
