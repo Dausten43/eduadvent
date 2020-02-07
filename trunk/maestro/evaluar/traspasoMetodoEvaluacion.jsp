@@ -56,7 +56,7 @@
 		aca.ciclo.CicloGrupoActividad act = (aca.ciclo.CicloGrupoActividad) lisActEvaluacion.get(i);		
 %>	
 		<tr>
-			<td> <input name="Check<%=i%>" type="checkbox" value=""> </td> 
+			<td> <input type="checkbox" value="<%=  act.getActividadId()%>"> </td> 
 			<td> <%=act.getActividadNombre()%> </td>
 			<td> <%=act.getFecha()%> </td>
 			<td> <%=act.getValor()%>%</td>
@@ -159,8 +159,7 @@
 			}
 		});
 	}
-
-	function save(){
+		function save(){
 		resetMessage();
 		
 		let data = {
@@ -171,8 +170,9 @@
 			cursoId 		: $('#cursoid').val(),
 			promedioId 		: $('#promedioid').val(),
 			evaluacionId	: $('#evaluacionid').val(),
-			listaActividades: '<%= new Gson().toJson(lisActEvaluacion) %>'
-		};
+			listaActividades: '<%= new Gson().toJson(lisActEvaluacion) %>',
+			listaid			: $( "input:checked" ).map((index, input) => input.value).get()
+		}
 		
 		$.ajax({
 			url : 'ajaxEvaluaciones.jsp',
