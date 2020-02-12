@@ -45,7 +45,10 @@
 	</div>	
 	<table class="table table-condensed table-bordered">
 		<tr>
-			<th style="width:40px;" ><fmt:message key="aca.Elegir" /></th>
+			<th style="width:65px;" >
+				<fmt:message key="aca.Elegir" />
+				<input type="checkbox" id="choose-all">
+			</th>
 			<th><fmt:message key="aca.Actividad" /></th>
 			<th><fmt:message key="aca.FechaEntrega" /></th>
 			<th><fmt:message key="aca.Valor" /> </th> 
@@ -56,7 +59,7 @@
 		aca.ciclo.CicloGrupoActividad act = (aca.ciclo.CicloGrupoActividad) lisActEvaluacion.get(i);		
 %>	
 		<tr>
-			<td> <input type="checkbox" value="<%=  act.getActividadId()%>"> </td> 
+			<td> <input type="checkbox" class="actividad-id" value="<%= act.getActividadId()%>"> </td> 
 			<td> <%=act.getActividadNombre()%> </td>
 			<td> <%=act.getFecha()%> </td>
 			<td> <%=act.getValor()%>%</td>
@@ -94,7 +97,7 @@
 					<option>Antes seleccione un curso</option>
 				</select>
 				<select name="evaluacion_id" id="evaluacionid" class="form-control">
-					<option>Antes seleccione una evaluación</option>
+					<option>Antes seleccione un promedio</option>
 				</select>
 			
 				<input type="button" id="btnConfirm" value="Traspasar" class="btn btn-primary">
@@ -159,7 +162,7 @@
 			}
 		});
 	}
-		function save(){
+	function save(){
 		resetMessage();
 		
 		let data = {
@@ -171,7 +174,7 @@
 			promedioId 		: $('#promedioid').val(),
 			evaluacionId	: $('#evaluacionid').val(),
 			listaActividades: '<%= new Gson().toJson(lisActEvaluacion) %>',
-			listaid			: $( "input:checked" ).map((index, input) => input.value).get()
+			listaid			: $( "input.actividad-id:checked" ).map((index, input) => input.value).get()
 		}
 		
 		$.ajax({
@@ -196,6 +199,12 @@
 			}
 		});
 	}
+
+	$('#choose-all').on('change', function() {
+		$('input').each((_, checkbox) => {
+			checkbox.checked = this.checked;
+		});
+	});
 
 	function resetMessage(){
 		$('#guardo').hide();

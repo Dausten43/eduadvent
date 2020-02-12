@@ -73,37 +73,37 @@
 	
 	else if(tipo.equals("guardar")){
 		boolean isOk = false;
-			response.setContentType("application/json");
-			response.setHeader("Content-Disposition", "inline");
-			String listActividades = request.getParameter("listaActividades");
+		response.setContentType("application/json");
+		response.setHeader("Content-Disposition", "inline");
+		
+		String listActividades = request.getParameter("listaActividades");
+		String[] lista = request.getParameterValues("listaid[]");
+		
+		Type listType = new TypeToken<List<CicloGrupoActividad>>(){}.getType();
+		List<CicloGrupoActividad> listAct = new Gson().fromJson(listActividades, listType);
+		
+		int i=0;
+		for(CicloGrupoActividad act: listAct){
+			if(act.getActividadId().equals(lista[i])){
 			
-			Type listType = new TypeToken<List<CicloGrupoActividad>>(){}.getType();
-			List<CicloGrupoActividad> listAct = new Gson().fromJson(listActividades, listType);
-			String[] lista = request.getParameterValues("listaid[]");
-			
-			int i=0;
-			for(CicloGrupoActividad act: listAct){
-				if(act.getActividadId().equals(lista[i])){
+				cicloGrupoActividad.setCicloGrupoId(cicloGrupoId);
+				cicloGrupoActividad.setCursoId(cursoId);
+				cicloGrupoActividad.setEvaluacionId(evaluacionId);
+				cicloGrupoActividad.setActividadId(cicloGrupoActividad.maximoReg(conElias));
+				cicloGrupoActividad.setActividadNombre(act.getActividadNombre());
+				cicloGrupoActividad.setValor(act.getValor());
+				cicloGrupoActividad.setTipoactId(act.getTipoactId());
+				cicloGrupoActividad.setEtiquetaId(act.getEtiquetaId().equals("") ? null : act.getEtiquetaId());
+				cicloGrupoActividad.setMostrar(act.getMostrar());
+				cicloGrupoActividad.setFecha(act.getFecha());
 				
-					cicloGrupoActividad.setCicloGrupoId(cicloGrupoId);
-					cicloGrupoActividad.setCursoId(cursoId);
-					cicloGrupoActividad.setEvaluacionId(evaluacionId);
-					cicloGrupoActividad.setActividadId(cicloGrupoActividad.maximoReg(conElias));
-					cicloGrupoActividad.setActividadNombre(act.getActividadNombre());
-					cicloGrupoActividad.setValor(act.getValor());
-					cicloGrupoActividad.setTipoactId(act.getTipoactId());
-					cicloGrupoActividad.setEtiquetaId(act.getEtiquetaId().equals("") ? null : act.getEtiquetaId());
-					cicloGrupoActividad.setMostrar(act.getMostrar());
-					cicloGrupoActividad.setFecha(act.getFecha());
-					
-					if(cicloGrupoActividad.insertReg(conElias)){
-						isOk = true;
-					}
-					
-					if(lista.length == i + 1) break;
-					i++;
-				}
+				if(cicloGrupoActividad.insertReg(conElias))
+					isOk = true;
+				
+				if(lista.length == i + 1) break;
+				i++;
 			}
+		}
 		
 		%>
 		{
