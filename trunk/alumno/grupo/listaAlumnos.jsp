@@ -87,9 +87,9 @@
 				}
 		    	
     			if (alumno.getGrupo().equals(grupo)){
-    				colonia = 	tutor.getCodigoId().equals("") ? alumno.getColonia()	: tutor.getColonia().equals("")		? alumno.getColonia()	: tutor.getColonia().equals("")		? alumno.getColonia()	: tutor.getColonia();
-    				direccion = tutor.getCodigoId().equals("") ? alumno.getDireccion(): tutor.getDireccion().equals("")	? alumno.getDireccion()	: tutor.getDireccion().equals("")	? alumno.getDireccion()	: tutor.getDireccion();
-    				telefono = 	tutor.getCodigoId().equals("") ? alumno.getTelefono()	: tutor.getTelefono().equals("")	? alumno.getTelefono()	: tutor.getTelefono().equals("")	? alumno.getTelefono()	: tutor.getTelefono();
+    				colonia = 	tutor.getCodigoId().equals("") ? alumno.getColonia()	: tutor.getColonia() == null	? alumno.getColonia()	: tutor.getColonia().equals("")		? alumno.getColonia()	: tutor.getColonia();
+    				direccion = tutor.getCodigoId().equals("") ? alumno.getDireccion()  : tutor.getDireccion() == null	? alumno.getDireccion()	: tutor.getDireccion().equals("")	? alumno.getDireccion()	: tutor.getDireccion();
+    				telefono = 	tutor.getCodigoId().equals("") ? alumno.getTelefono()	: tutor.getTelefono() == null	? alumno.getTelefono()	: tutor.getTelefono().equals("")	? alumno.getTelefono()	: tutor.getTelefono();
 		%>
 	  				<tr>
 						<td><%=++cont%></td>
