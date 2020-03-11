@@ -29,24 +29,6 @@
 	
 	ArrayList<aca.alumno.AlumPersonal> lisAlumnos = AlumnoLista.getListAlumnosGrado(conElias, escuelaId, cicloId, periodoId, nivelId, grado, "ORDER BY APATERNO, AMATERNO, NOMBRE, GRUPO");
 	java.util.HashMap<String,aca.alumno.AlumPadres> listTutores = AlumnoPadresLista.getMapEscuela(conElias, escuelaId);
-	java.util.HashMap<String,EmpPersonal> listPadres = new java.util.HashMap<String, EmpPersonal>();
-	String codigoPadre, codigoMadre, codigoTutor;
-	for(aca.alumno.AlumPersonal alumno: lisAlumnos){
-		if(listTutores.containsKey(alumno.getCodigoId())){
-			codigoPadre = listTutores.get(alumno.getCodigoId()).getCodigoPadre();
-			codigoMadre = listTutores.get(alumno.getCodigoId()).getCodigoMadre();
-			codigoTutor = listTutores.get(alumno.getCodigoId()).getCodigoTutor();
-			
-			listPadres.put(alumno.getCodigoId(), new EmpPersonal());
-			if (codigoPadre != null || codigoPadre != ""){
-				listPadres.get(alumno.getCodigoId()).mapeaRegId(conElias, codigoPadre);
-			}else if (codigoMadre != null || codigoMadre != ""){
-				listPadres.get(alumno.getCodigoId()).mapeaRegId(conElias, codigoMadre);
-			}else if (codigoTutor != null || codigoTutor != ""){
-				listPadres.get(alumno.getCodigoId()).mapeaRegId(conElias, codigoTutor);
-			}
-		}
-	}
 %>
 
 <div id="content">
@@ -83,14 +65,31 @@
 	    	<th><fmt:message key="aca.CelularTutor"/></th>
 	  	</tr>  
 		<%	
+			EmpPersonal tutor;
+			String codigoPadre, codigoMadre, codigoTutor;
 			String colonia, direccion, telefono;
 	   		for (int i=0, cont = 0; i< lisAlumnos.size(); i++){
 		    	aca.alumno.AlumPersonal alumno = (aca.alumno.AlumPersonal) lisAlumnos.get(i);
-	   
+		    	
+		    	tutor = new EmpPersonal();
+		    	if(listTutores.containsKey(alumno.getCodigoId())){
+					codigoPadre = listTutores.get(alumno.getCodigoId()).getCodigoPadre();
+					codigoMadre = listTutores.get(alumno.getCodigoId()).getCodigoMadre();
+					codigoTutor = listTutores.get(alumno.getCodigoId()).getCodigoTutor();
+					
+					if (codigoPadre != null && !codigoPadre.equals("-")){
+						tutor.mapeaRegId(conElias, codigoPadre);
+					}else if (codigoMadre != null && !codigoMadre.equals("-")){
+						tutor.mapeaRegId(conElias, codigoMadre);
+					}else if (codigoTutor != null && !codigoTutor.equals("-")){
+						tutor.mapeaRegId(conElias, codigoTutor);
+					}
+				}
+		    	
     			if (alumno.getGrupo().equals(grupo)){
-    				colonia = listPadres.get(alumno.getCodigoId())==null?alumno.getColonia():listPadres.get(alumno.getCodigoId()).getColonia()==null?alumno.getColonia():listPadres.get(alumno.getCodigoId()).getColonia().equals("")?alumno.getColonia():listPadres.get(alumno.getCodigoId()).getColonia();
-    				direccion = listPadres.get(alumno.getCodigoId())==null?alumno.getDireccion():listPadres.get(alumno.getCodigoId()).getDireccion()==null?alumno.getDireccion():listPadres.get(alumno.getCodigoId()).getDireccion().equals("")?alumno.getDireccion():listPadres.get(alumno.getCodigoId()).getDireccion();
-    				telefono = listPadres.get(alumno.getCodigoId())==null?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono()==null?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono().equals("")?alumno.getTelefono():listPadres.get(alumno.getCodigoId()).getTelefono();
+    				colonia = 	tutor.getCodigoId().equals("") ? alumno.getColonia()	: tutor.getColonia().equals("")		? alumno.getColonia()	: tutor.getColonia().equals("")		? alumno.getColonia()	: tutor.getColonia();
+    				direccion = tutor.getCodigoId().equals("") ? alumno.getDireccion(): tutor.getDireccion().equals("")	? alumno.getDireccion()	: tutor.getDireccion().equals("")	? alumno.getDireccion()	: tutor.getDireccion();
+    				telefono = 	tutor.getCodigoId().equals("") ? alumno.getTelefono()	: tutor.getTelefono().equals("")	? alumno.getTelefono()	: tutor.getTelefono().equals("")	? alumno.getTelefono()	: tutor.getTelefono();
 		%>
 	  				<tr>
 						<td><%=++cont%></td>
