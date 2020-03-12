@@ -327,12 +327,13 @@
 
 <script>
 
+	const MAX_ACTIVIDADES = 200;
+
 	$('#Nombre').maxlength({ 
 	    max: 500
 	});
 	
 	$('#Fecha').change(function(){
-		console.log('si hizo el cambio pero no se ve nada claro :D');
 		var ciclogpoid = '<%= cicloGrupoId %>';
 		var fecha = $(this).val();
 		var numeroTareas = 0;
@@ -344,9 +345,8 @@
 			data : datadata,
 			success : function(output) {
 				numeroTareas = parseInt(output);
-				console.log('numero de tareas ' + numeroTareas + "---");
-				if(numeroTareas>=3){
-					$('#numeroTareas').html('Las 3 tareas para este día ya están asignadas. Selecciona una nueva fecha o elija no mostrar la actividad');
+				if(numeroTareas >= MAX_ACTIVIDADES){
+					$('#numeroTareas').html('Las ' + MAX_ACTIVIDADES + ' tareas para este día ya están asignadas. Selecciona una nueva fecha o elija no mostrar la actividad');
 					$('#guardarLink').attr("disabled", "true");
 				}else{
 					$('#numeroTareas').html('');
