@@ -248,6 +248,7 @@
 	
 	CKEDITOR.config.height = 200;
 	
+	const MAX_ACTIVIDADES = 200;
 	
 	$('#Fecha').change(function(){
 		
@@ -262,9 +263,8 @@
 			data : datadata,
 			success : function(output) {
 				numeroTareas = parseInt(output);
-				console.log('numero de tareas ' + numeroTareas + "---");
-				if(numeroTareas>=3){
-					$('#numeroTareas').html('Las 3 tareas para este día ya están asignadas. Selecciona una nueva fecha.');
+				if(numeroTareas >= MAX_ACTIVIDADES){
+					$('#numeroTareas').html('Las ' + MAX_ACTIVIDADES + ' tareas para este día ya están asignadas. Selecciona una nueva fecha.');
 					$('#guardarLink').attr("href", "javascript:void(0)");
 				}else{
 					$('#numeroTareas').html('');

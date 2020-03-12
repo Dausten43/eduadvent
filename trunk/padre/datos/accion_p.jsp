@@ -411,14 +411,14 @@
 	                    <fmt:message key="aca.Direccion" />
 	                    <span class="required-indicator">*</span>
 	                </label>
-	                <input name="Direccion" type="text" id="Direccion" size="40" maxlength="50" value="<%=Personal.getDireccion() %>">
+	                <input name="Direccion" type="text" id="Direccion" size="40" maxlength="200" value="<%=Personal.getDireccion() %>">
 	            </div>
 	            
 	            <div class="control-group ">
 	                <label for="Colonia">
 	                    <fmt:message key="aca.Colonia" />
 	                </label>
-	                <input name="Colonia" type="text" id="Colonia" size="40" maxlength="50" value="<%=Personal.getColonia() %>">
+	                <input name="Colonia" type="text" id="Colonia" size="40" maxlength="100" value="<%=Personal.getColonia() %>">
 	            </div>
 	            
 	            <div class="control-group ">
