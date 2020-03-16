@@ -2,6 +2,7 @@
 <%@page errorPage="../../paginaerror.jsp" %>
 <%@ include file= "idioma.jsp" %>
 <%@ page buffer= "none" %>
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 
 <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../bootstrap/css/bootstrap-responsive.min.css" />
@@ -13,7 +14,7 @@ httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); 
 httpResponse.setHeader("Pragma", "no-cache"); // HTTP 1.0
 httpResponse.setDateHeader("Expires", 0); // Proxies.
 %>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- needed for mobile devices -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
      <meta http-equiv="Pragma" content="no-cache"/>
@@ -37,7 +38,7 @@ httpResponse.setDateHeader("Expires", 0); // Proxies.
 
 <%
 	
-	// Sube a sesión el idJsp
+	// Sube a sesiÃ³n el idJsp
 	if ( !idJsp.equals("0") ){
 		session.setAttribute("idJsp", idJsp);		
 	}
