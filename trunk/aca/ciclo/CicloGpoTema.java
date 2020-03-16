@@ -235,7 +235,7 @@ public class CicloGpoTema {
 		ResultSet rs = null;		
 		try{
 			ps = con.prepareStatement("SELECT CICLO_GRUPO_ID, MODULO_ID, TEMA_NOMBRE," +
-					" TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN, FECHA FROM CICLO_GRUPO_TEMA" +
+					" TEMA_ID, DESCRIPCION, CURSO_ID, ORDEN, TO_CHAR(FECHA,'DD/MM/YYYY') AS FECHA FROM CICLO_GRUPO_TEMA" +
 					" WHERE CICLO_GRUPO_ID = ?" +
 					" AND TEMA_ID = ? " +
 					" AND CURSO_ID = ?");		
