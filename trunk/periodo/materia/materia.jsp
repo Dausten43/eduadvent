@@ -1,3 +1,5 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -213,7 +215,7 @@
 <% 			for(int i: lisGrupoAltaInt){
 %>
 	  			<li <%if(grado.equals(i+"")){out.print("class='active'");} %>>
-					<a href="javascript:CambiaGrado('<%=i%>');"><%=i%>°</a>
+					<a href="javascript:CambiaGrado('<%=i%>');"><%=i%>Â°</a>
 				</li>
 <% 
 			} 
