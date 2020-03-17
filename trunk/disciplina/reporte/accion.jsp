@@ -82,72 +82,76 @@
 
 		// Operaciones a realizar en la pantalla
 		switch (nAccion) {
-		case 1: { // Nuevo			
-			sResultado = "LlenarFormulario";
-			Reporte.setFecha(aca.util.Fecha.getHoy());
-			break;
-		}
-		case 2: { // Grabar			
-			Reporte.setCodigoId(request.getParameter("CodigoId"));
-			Reporte.setTipoId(request.getParameter("TipoId"));
-			Reporte.setFecha(request.getParameter("Fecha"));
-			Reporte.setComentario(request.getParameter("Comentario"));
-			Reporte.setEstado(request.getParameter("Estado"));
-			Reporte.setFolio(request.getParameter("Folio"));
-			Reporte.setCicloId(request.getParameter("CicloId"));
-			Reporte.setCompromiso(request.getParameter("Compromiso"));
-			Reporte.setEmpleadoId(request.getParameter("Reporto"));
-
-			if (Reporte.existeReg(conElias) == false) {
-				if (Reporte.insertReg(conElias)) {
-					sResultado = "Grabado";
-					conElias.commit();
-					salto = "repalumno.jsp";
-				} else {
-					sResultado = "NoGrabo";
-				}
-			} else {
-				if (Reporte.updateReg(conElias)) {
-					sResultado = "Modificado";
-					conElias.commit();
-					salto = "repalumno.jsp";
-				} else {
-					sResultado = "NoCambio";
-				}
+			case 1: { // Nuevo			
+				sResultado = "LlenarFormulario";
+				Reporte.setFecha(aca.util.Fecha.getHoy());
+				break;
 			}
-
-			break;
-		}
-		case 4: { // Borrar		
-			Reporte.setCodigoId(request.getParameter("CodigoId"));
-			Reporte.setFolio(request.getParameter("Folio"));
-			Reporte.setCicloId(request.getParameter("CicloId"));
-			if (Reporte.existeReg(conElias) == true) {
-				if (Reporte.deleteReg(conElias)) {
-					sResultado = "Eliminado";
-					conElias.commit();
-					salto = "repalumno.jsp";
+			case 2: { // Grabar			
+				Reporte.setCodigoId(request.getParameter("CodigoId"));
+				Reporte.setTipoId(request.getParameter("TipoId"));
+				Reporte.setFecha(request.getParameter("Fecha"));
+				Reporte.setComentario(request.getParameter("Comentario"));
+				Reporte.setEstado(request.getParameter("Estado"));
+				Reporte.setFolio(request.getParameter("Folio"));
+				Reporte.setCicloId(request.getParameter("CicloId"));
+				Reporte.setCompromiso(request.getParameter("Compromiso"));
+				Reporte.setEmpleadoId(request.getParameter("Reporto"));
+				conElias.setAutoCommit(false);
+	
+				if (Reporte.existeReg(conElias) == false) {
+					if (Reporte.insertReg(conElias)) {
+						sResultado = "Grabado";
+						conElias.commit();
+						salto = "repalumno.jsp";
+					} else {
+						sResultado = "NoGrabo";
+					}
 				} else {
-					sResultado = "NoBorro";
+					if (Reporte.updateReg(conElias)) {
+						sResultado = "Modificado";
+						conElias.commit();
+						salto = "repalumno.jsp";
+					} else {
+						sResultado = "NoCambio";
+					}
 				}
-			} else {
-				sResultado = "NoExiste";
+				conElias.setAutoCommit(true);
+			
+				break;
 			}
-
-			break;
-		}
-		case 5: { // Consultar
-
-			Reporte.setCicloId(request.getParameter("CicloId"));
-			Reporte.setFolio(request.getParameter("Folio"));
-			if (Reporte.existeReg(conElias) == true) {
-				Reporte.mapeaRegId(conElias);
-				sResultado = "Consulta";
-			} else {
-				sResultado = "NoExiste";
+			case 4: { // Borrar		
+				Reporte.setCodigoId(request.getParameter("CodigoId"));
+				Reporte.setFolio(request.getParameter("Folio"));
+				Reporte.setCicloId(request.getParameter("CicloId"));
+				conElias.setAutoCommit(false);
+				if (Reporte.existeReg(conElias) == true) {
+					if (Reporte.deleteReg(conElias)) {
+						sResultado = "Eliminado";
+						conElias.commit();
+						salto = "repalumno.jsp";
+					} else {
+						sResultado = "NoBorro";
+					}
+				} else {
+					sResultado = "NoExiste";
+				}
+				conElias.setAutoCommit(true);
+	
+				break;
 			}
-			break;
-		}
+			case 5: { // Consultar
+	
+				Reporte.setCicloId(request.getParameter("CicloId"));
+				Reporte.setFolio(request.getParameter("Folio"));
+				if (Reporte.existeReg(conElias) == true) {
+					Reporte.mapeaRegId(conElias);
+					sResultado = "Consulta";
+				} else {
+					sResultado = "NoExiste";
+				}
+				break;
+			}
 		}
 %>
 <body>
