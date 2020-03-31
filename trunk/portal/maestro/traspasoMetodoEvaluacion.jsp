@@ -45,6 +45,10 @@
 	</div>	
 	<table class="table table-condensed table-bordered">
 		<tr>
+			<th style="width:65px;" >
+				<fmt:message key="aca.Elegir" />
+				<input type="checkbox" id="choose-all">
+			</th>
 			<th><fmt:message key="aca.Actividad" /></th>
 			<th><fmt:message key="aca.FechaEntrega" /></th>
 			<th><fmt:message key="aca.Valor" /> </th> 
@@ -55,6 +59,7 @@
 		aca.ciclo.CicloGrupoActividad act = (aca.ciclo.CicloGrupoActividad) lisActEvaluacion.get(i);		
 %>	
 		<tr>
+			<td> <input type="checkbox" class="actividad-id" value="<%= act.getActividadId()%>"> </td> 
 			<td> <%=act.getActividadNombre()%> </td> 
 			<td> <%=act.getFecha()%> </td>
 			<td> <%=act.getValor()%>%</td>
@@ -86,13 +91,13 @@
 				</select>
 			
 				<select name="curso_id" id="cursoid" class="form-control">
-					<option value=""></option>
+					<option	>Antes seleccione un ciclo</option>
 				</select>
 				<select name="promedio_id" id="promedioid" class="form-control">
-					<option></option>
+					<option>Antes seleccione un curso</option>
 				</select>
 				<select name="evaluacion_id" id="evaluacionid" class="form-control">
-					<option></option>
+					<option>Antes seleccione un promedio</option>
 				</select>
 			
 				<input type="button" id="btnConfirm" value="Traspasar" class="btn btn-primary">
@@ -101,10 +106,6 @@
 	</div>
 </div>
 <script>
-
-	$('#cursoid').hide();
-	$('#promedioid').hide();
-	$('#evaluacionid').hide();
 	resetMessage();
 	$('#btnConfirm').attr("disabled", true);
 	
@@ -161,7 +162,6 @@
 			}
 		});
 	}
-
 	function save(){
 		resetMessage();
 		
@@ -173,7 +173,8 @@
 			cursoId 		: $('#cursoid').val(),
 			promedioId 		: $('#promedioid').val(),
 			evaluacionId	: $('#evaluacionid').val(),
-			listaActividades: '<%= new Gson().toJson(lisActEvaluacion) %>'
+			listaActividades: '<%= new Gson().toJson(lisActEvaluacion) %>',
+			listaid			: $( "input.actividad-id:checked" ).map((index, input) => input.value).get()
 		};
 		
 		$.ajax({
@@ -198,6 +199,12 @@
 			}
 		});
 	}
+
+	$('#choose-all').on('change', function() {
+		$('input').each((_, checkbox) => {
+			checkbox.checked = this.checked;
+		});
+	});
 
 	function resetMessage(){
 		$('#guardo').hide();

@@ -73,20 +73,23 @@
 	
 	else if(tipo.equals("guardar")){
 		boolean isOk = false;
-		if(!CicloGrupoActividad.tieneActividades(conElias, cicloGrupoId, cursoId, evaluacionId)){
-			response.setContentType("application/json");
-			response.setHeader("Content-Disposition", "inline");
-			String listActividades = request.getParameter("listaActividades");
+		response.setContentType("application/json");
+		response.setHeader("Content-Disposition", "inline");
+		
+		String listActividades = request.getParameter("listaActividades");
+		String[] lista = request.getParameterValues("listaid[]");
+		
+		Type listType = new TypeToken<List<CicloGrupoActividad>>(){}.getType();
+		List<CicloGrupoActividad> listAct = new Gson().fromJson(listActividades, listType);
+		
+		int i=0;
+		for(CicloGrupoActividad act: listAct){
+			if(act.getActividadId().equals(lista[i])){
 			
-			Type listType = new TypeToken<List<CicloGrupoActividad>>(){}.getType();
-			List<CicloGrupoActividad> listAct = new Gson().fromJson(listActividades, listType);
-	
-			for(CicloGrupoActividad act: listAct){
-				
-				cicloGrupoActividad.setActividadId(act.getActividadId());
-			    cicloGrupoActividad.setCicloGrupoId(cicloGrupoId);
+				cicloGrupoActividad.setCicloGrupoId(cicloGrupoId);
 				cicloGrupoActividad.setCursoId(cursoId);
 				cicloGrupoActividad.setEvaluacionId(evaluacionId);
+				cicloGrupoActividad.setActividadId(cicloGrupoActividad.maximoReg(conElias));
 				cicloGrupoActividad.setActividadNombre(act.getActividadNombre());
 				cicloGrupoActividad.setValor(act.getValor());
 				cicloGrupoActividad.setTipoactId(act.getTipoactId());
@@ -94,9 +97,11 @@
 				cicloGrupoActividad.setMostrar(act.getMostrar());
 				cicloGrupoActividad.setFecha(act.getFecha());
 				
-				if(cicloGrupoActividad.insertReg(conElias)){
+				if(cicloGrupoActividad.insertReg(conElias))
 					isOk = true;
-				}
+				
+				if(lista.length == i + 1) break;
+				i++;
 			}
 		}
 		
