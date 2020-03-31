@@ -1,3 +1,6 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -14,6 +17,8 @@
 		String modulo	= request.getParameter("ModuloId");
 		String temaId	= request.getParameter("TemaId") == null ? "0" : request.getParameter("TemaId");
 		String salto	= "X";
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 		int numAccion = 0;
 		if (request.getParameter("Accion") != null)
@@ -121,7 +126,7 @@
 		
 		<fieldset>
 			<label for="Fecha"><fmt:message key="aca.Fecha" /></label> 
-			<input name="Fecha" type="text" class="text " id="Fecha" value="<%=Tema.getFecha()!=null ? Tema.getFecha() :"" %>" readonly="readonly" style="cursor: pointer;">
+			<input name="Fecha" type="text" class="text " id="Fecha" value="<%= !Tema.getFecha().equals("") ? Tema.getFecha() : sdf.format(new Date()) %>" readonly="readonly" style="cursor: pointer;">
 		</fieldset>
 		
 		<fieldset>

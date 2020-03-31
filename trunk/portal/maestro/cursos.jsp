@@ -1,3 +1,5 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -164,7 +166,7 @@
 						<h4 style="margin-top:0;">
 							<%
 								/*
-								 *	¿Tiene Mensajes?
+								 *	Â¿Tiene Mensajes?
 								 */
 								int cantidadMensajes = Integer.parseInt(aca.alumno.AlumMensaje.mensajesNoLeidosPorMateria(conElias, cicloGrupo.getCicloGrupoId(), cicloGrupoCurso.getCursoId()));
 								if(cantidadMensajes>0){
