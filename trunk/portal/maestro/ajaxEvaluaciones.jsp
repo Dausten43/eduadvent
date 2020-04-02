@@ -59,7 +59,7 @@
 
 		for (aca.ciclo.CicloGrupoEval cicloEval: listEvaluaciones){
 			//Si tiene actividades o esta cerrada n ose le permite transferir
-			if(CicloGrupoActividad.tieneActividades(conElias, cicloGrupoId, cursoId, cicloEval.getEvaluacionId()) || cicloEval.getEstado().equals("C")){
+			if(cicloEval.getEstado().equals("C")){
 	%>
 				<option value="<%= cicloEval.getEvaluacionId()%>" disabled style="color:#ed837b;"><del><%= cicloEval.getEvaluacionNombre() %></del></option>
 	<%

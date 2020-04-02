@@ -48,20 +48,45 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, c
 	
 	
 	cicloGrupo.mapeaRegId(conElias,aca.kardex.KrdxCursoAct.getAlumGrupo(conElias,codigoId,cicloIdM)); 
-	
-	System.out.println("ciclo " + cicloGrupo.getCicloGrupoId() + " ---- " + cicloIdM + " ----  " + codigoId);
-	
-	System.out.println("Si llega a la 19");
 %>
 
 
 <div id="content">
 
-
 <h2><fmt:message key="empleados.DatosPersonalesMin"/></h2>
 <a href="mensaje.jsp?cicloGrupoId=<%= cicloGrupo.getCicloGrupoId() %>&codigoAlumno=<%= codigoId %>" id="msg-<%= codigoId %>" class="btn btn-info btn-mini"></a> <br />
 <hr />
 
+<%if(codigoId.substring(0, 1).equals("S")){ %>
+<div class='alert alert-warning text-center'>
+	<a data-toggle="modal" class="btn btn-warning" href="#pago"><i class="icon-envelope icon-white"></i> RECORDATORIO DE PAGO</a>
+</div>
+<!-- MODAL -->
+<div id="pago" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-pago" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Recordatorio de pago</h3>
+  </div>
+  <div class="modal-body ">
+  		<h5>BANCO: DAVIVIENDA</h5>
+  		<h5>CUENTA CORRIENTE: 092510007606</h5>
+  		<h5>NOMBRE: MISIÓN ADVENTISTA</h5>
+  		<ol>
+  			<li>Realiza tu pago en la cuenta anterior.</li>
+  			<li>En el comprobante que te da el banco, escribe el nombre y grado del alumno y los servicios que estás pagando.</li>
+  			<li>Envía la fotografía del voucher al WhatsApp 7851 8397 para que tú pago sea aplicado.</li>
+  		</ol>
+  		<h5>También puedes hacer uso del servicio "UNI" para realizar transferencias desde cualquier banco</h5>
+  		<div class="alert alert-warning">
+  			<p>EN LA MEDIDA DE TUS POSIBILIDADES PON AL DÍA TUS CUENTAS; ESTO SERÁ UNA BENDICIÓN PARA NUESTRO PERSONAL Y NUESTRAS OBLIGACIONES ADMINISTRATIVAS.
+  		</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Aceptar</button>
+  </div>
+</div>
+<!-- END MODAL -->
+<%} %>
 <div style="float:left;">
 	<a href="" class="thumbnail">
 	  <img src='imagen.jsp?id=<%=new java.util.Date().getTime()%>' width="270">

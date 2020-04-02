@@ -1,3 +1,5 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -89,7 +91,7 @@
 	int escalaCiclo				= aca.ciclo.Ciclo.getEscala(conElias, cicloId); /* La escala de evaluacion del ciclo (10 o 100) */
 	int escala 					= 0;
 	
-	// En Panama respetamos la configuracion del sistema, en México y Dominicana evaluacion de 0-100 pero promediamos en 10 
+	// En Panama respetamos la configuracion del sistema, en MÃ©xico y Dominicana evaluacion de 0-100 pero promediamos en 10 
 	if (!escuelaId.substring(0,1).equals("H")) 
 		escala = 100;
 	else
@@ -391,7 +393,7 @@
 			<thead>
 				<tr>
 					<td colspan="20" class="text-center alert">					
-						Las actividades se evalúan de <%=frmEntero.format(notaMinima)%> a <%= escala %>
+						Las actividades se evalÃºan de <%=frmEntero.format(notaMinima)%> a <%= escala %>
 						&nbsp;&nbsp;
 					</td>
 				</tr>		
@@ -407,7 +409,7 @@
 							<th style="width:4%;" class="text-center" title="<%=cicloGrupoActividad.getActividadNombre() %>"><%=cont%></th>
 					<%
 						}						
-						String txtEscala=notaMinima+" a "+escala+", "+(decimales.equals("1")?"Evaluación con punto decimal":"Evaluación con enteros");
+						String txtEscala=notaMinima+" a "+escala+", "+(decimales.equals("1")?"EvaluaciÃ³n con punto decimal":"EvaluaciÃ³n con enteros");
 					%>
 					<th class="text-center" title="<fmt:message key='aca.MensajePromedioActividades' />">
 						<fmt:message key="aca.Promedio"/>

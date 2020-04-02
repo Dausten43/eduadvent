@@ -1,3 +1,5 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -29,10 +31,10 @@
 		editar.each(function(){
 			var $this = $(this);
 			
-			//Esconde la calificaci髇
+			//Esconde la calificaci贸n
 			$this.siblings('div').hide();
 			
-			//Muestra el input con la calificaci髇
+			//Muestra el input con la calificaci贸n
 			$this.fadeIn(300);
 		});
 	}
@@ -99,7 +101,7 @@
 	
 	int decimal				= Integer.parseInt(decimales);
 	
-	// En Panama respetamos la configuracion del sistema, en M閤ico y Dominicana evaluacion de 0-100 pero promediamos en 10
+	// En Panama respetamos la configuracion del sistema, en M茅xico y Dominicana evaluacion de 0-100 pero promediamos en 10
 	if (!escuelaId.substring(0,1).equals("H")) 
 		escala = 100;
 	else
@@ -400,7 +402,7 @@
 			<thead>
 				<tr>
 					<td colspan="20" class="text-center alert">											  
-						 Las actividades se eval鷄n de <%=frmEntero.format(notaMinima)%> a <%= escala %>
+						 Las actividades se eval煤an de <%=frmEntero.format(notaMinima)%> a <%= escala %>
 						&nbsp;&nbsp;
 					</td>
 				</tr>				
@@ -417,7 +419,7 @@
 					<%
 						}					
 						
-						String txtEscala=notaMinima+" a "+escala+", "+(decimales.equals("1")?"Evaluaci髇 con punto decimal":"Evaluaci髇 con enteros");
+						String txtEscala=notaMinima+" a "+escala+", "+(decimales.equals("1")?"Evaluaci贸n con punto decimal":"Evaluaci贸n con enteros");
 					%>
 					<th class="text-center" title="<fmt:message key='aca.MensajePromedioActividades' />">
 						<fmt:message key="aca.PA"/>

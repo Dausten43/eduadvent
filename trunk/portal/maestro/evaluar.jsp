@@ -1,3 +1,5 @@
+<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="aca.ciclo.Ciclo"%>
 <%@page import="aca.ciclo.CicloBloque"%>
@@ -465,7 +467,7 @@
 		}else{
 		%>
 		<script>
-			alert("No estan cerradas las evaluaciones de la(s) materia(s) hija(s), por lo tanto no se realizÛ el c·lculo");
+			alert("No estan cerradas las evaluaciones de la(s) materia(s) hija(s), por lo tanto no se realiz√≥ el c√°lculo");
 		</script>
 		<% 	
 		}
@@ -1887,10 +1889,10 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
  								kardexAlumnoExtra.setCodigoId(kardex.getCodigoId());
  								kardexAlumnoExtra.setCursoId(cursoId);
  								kardexAlumnoExtra.setOportunidad("2");
-//Esta variable "promedioFinal" era antes "promedio" y se cambiÛ porque
-//la variable promedio tiene mal el c·lculo porque a la hora de cerrar la evaluaciÛn
-//no se pusieron en 0 las notas que no tenÌan nada ingresado. AsÌ que hay que corregir
-//el algoritmo de cerrar la evaluaciÛn
+//Esta variable "promedioFinal" era antes "promedio" y se cambi√≥ porque
+//la variable promedio tiene mal el c√°lculo porque a la hora de cerrar la evaluaci√≥n
+//no se pusieron en 0 las notas que no ten√≠an nada ingresado. As√≠ que hay que corregir
+//el algoritmo de cerrar la evaluaci√≥n
 								if(promedio < notaAC && !kardexAlumnoExtra.existeReg(conElias)){
 									muestraBotonGuardarExtra = true;
 									
