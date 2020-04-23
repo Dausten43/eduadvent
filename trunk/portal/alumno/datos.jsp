@@ -56,8 +56,31 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, c
 <h2><fmt:message key="empleados.DatosPersonalesMin"/></h2>
 <a href="mensaje.jsp?cicloGrupoId=<%= cicloGrupo.getCicloGrupoId() %>&codigoAlumno=<%= codigoId %>" id="msg-<%= codigoId %>" class="btn btn-info btn-mini"></a> <br />
 <hr />
+<div class='alert alert-info'>
+	<h5>Avisos generales:
+		<a data-toggle="modal" class="btn btn-info" href="#encuesta"><i class="icon-envelope icon-white"></i> Nueva encuesta </a>
+	</h5>
+</div>
+<!-- MODAL -->
+<div id="encuesta" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-pago" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 id="myModalLabel">Encuesta a estudiantes con intención de estudios universitarios</h3>
+  </div>
+  <div class="modal-body ">
+  		<p>Solicitamos tu valiosa opinión.
+  		Te tomará menos de 4 minutos contestar la encuesta. 
+		Gracias por tu tiempo y apoyo.
+		</p>
+  		<a href="https://umingeniriasnuevas.questionpro.com" target="_blank"><h4>CLICK AQUÍ PARA VER ENCUESTA</h4></a>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Aceptar</button>
+  </div>
+</div>
+<!-- END MODAL -->
 
-<%if(codigoId.substring(0, 1).equals("S")){ %>
+<%if(codigoId.substring(0,3).equals("S19")){ %>
 <div class='alert alert-warning text-center'>
 	<a data-toggle="modal" class="btn btn-warning" href="#pago"><i class="icon-envelope icon-white"></i> RECORDATORIO DE PAGO</a>
 </div>
