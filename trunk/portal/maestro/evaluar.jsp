@@ -1320,8 +1320,12 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 <%	} %>	
 <!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->	
 	<div class="well text-center" style="overflow:visible;">
-		<a class="btn btn-primary btn-mobile" href="#" id="btnExamenes">Aplicar examenes</a> 
 	<%
+		if (codigoId.equals("H24E0026")) {			
+	%>
+		<a class="btn btn-primary btn-mobile" href="#" id="btnExamenes">Aplicar exámenes</a> 
+	<%
+		}
 		if (planCurso.getFalta().equals("S")) {
 			
 			if (nivelEvaluacion.equals("E")){

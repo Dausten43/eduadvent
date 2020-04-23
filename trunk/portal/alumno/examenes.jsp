@@ -9,13 +9,8 @@
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
 <jsp:useBean id="krdxCursoActLista" scope="page" class="aca.kardex.KrdxCursoActLista"/>
 <%
-	String codigoId = (String) session.getAttribute("codigoAlumno");
-	String cicloIdM = (String) session.getAttribute("cicloId");
-	String escuelaId = (String) session.getAttribute("escuela");
-
-	String cicloGrupoId = aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoId, cicloIdM);
 	
-	ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaId, "AND CODIGO_ID = '"+codigoId+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");
+	ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaMenu, "AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");
 	ArrayList<String> cursos = new ArrayList<>();
 	for(aca.kardex.KrdxCursoAct kca: lisKrdx){
 		cursos.add(kca.getCursoId());
@@ -49,11 +44,11 @@
 		</table>
 	</div>
 </div>
-<form action="https://eduadvent.um.edu.mx/exam/test/alumno/examen/" method="POST" name="startExam">
+<form action="https://eduadvent.um.edu.mx/exam/test/alumno/examen/" method="POST" name="startExam" target="_blank">
 	<input type="hidden" name="cicloGpoId" id="cicloGpoId" value="<%=cicloGrupoId%>">
 	<input type="hidden" name="cursoId" id="cursoId" value="">
 	<input type="hidden" name="examenId" id="examenId" value="">
-	<input type="hidden" name="codigoPersonal" id="codigoPersonal" value="<%=codigoId%>">
+	<input type="hidden" name="codigoPersonal" id="codigoPersonal" value="<%=codigoAlumno%>">
 </form>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
