@@ -83,6 +83,7 @@ if(saldo.compareTo(BigDecimal.ZERO)>=0){
 	  <li class="materias"><a href="materias.jsp"><fmt:message key="aca.Materias"/></a></li>
 	  <li class="notas"><a href="<%= urlNotas %>"><fmt:message key="aca.Notas"/></a></li>
 	  <li class="disciplina"><a href="disciplina.jsp"><fmt:message key="aca.Mentoria"/></a></li>	
+	  <li class="examenes"><a href="examenes.jsp">Exámenes</a></li>
 <%	} %>	  
 	  <li class="tareas"><a href="tareas_new.jsp"><fmt:message key="portal.Tareas"/></a></li>
   

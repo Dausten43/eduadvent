@@ -232,7 +232,10 @@
 		document.forma.EvalId.value = evalId;
 		document.forma.submit();
 	}
-	
+
+	function goExams(){
+		document.formExams.submit();
+	}
 </script>
 <%
 	//FORMATOS ---------------------------->
@@ -1317,6 +1320,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 <%	} %>	
 <!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->	
 	<div class="well text-center" style="overflow:visible;">
+		<a class="btn btn-primary btn-mobile" href="#" id="btnExamenes">Aplicar examenes</a> 
 	<%
 		if (planCurso.getFalta().equals("S")) {
 			
@@ -2281,7 +2285,16 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 
 <!-- end nuevo modal -->	
 </div>
+<form action="/exam/test/maestro/listado_eval" target="_blank" name="formExams" method="POST">
+	<input type="hidden" value="-1" name="actividadId"/>
+	<input type="hidden" value="<%=cursoId %>" name="cursoId"/>
+	<input type="hidden" value="<%=cicloGrupoId %>" name="cicloGpoId"/>
+</form>
 <script type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function(){
+	document.getElementById('btnExamenes').addEventListener('click', goExams);
+});
 
 $('body').on('keydown', 'input, select, textarea', function(e) {
     var self = $(this)
