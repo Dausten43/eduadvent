@@ -1323,7 +1323,7 @@ else if (accion.equals("5")) { //Guardar Extraordinarios
 	<%
 		if (codigoId.equals("H24E0026")) {			
 	%>
-		<a class="btn btn-primary btn-mobile" href="#" id="btnExamenes">Aplicar exámenes</a> 
+		<a class="btn btn-primary btn-mobile" href="#" id="btnExamenes">Exámenes</a> 
 	<%
 		}
 		if (planCurso.getFalta().equals("S")) {
