@@ -10,6 +10,8 @@
 <jsp:useBean id="krdxCursoActLista" scope="page" class="aca.kardex.KrdxCursoActLista"/>
 <%
 	
+	String cicloGrupoId = aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoAlumno, cicloId);
+
 	ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaMenu, "AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");
 	ArrayList<String> cursos = new ArrayList<>();
 	for(aca.kardex.KrdxCursoAct kca: lisKrdx){

@@ -52,6 +52,7 @@
 	String cicloGrupoId 	= (String) session.getAttribute("cicloGrupoId");
 	String cursoId 			= (String) session.getAttribute("cursoId");
 	String escuelaId 		= (String) session.getAttribute("escuela");
+	String cicloId 			= (String) session.getAttribute("cicloId");
 			
 	String unionId 			= aca.catalogo.CatEscuela.getUnionId(conElias, escuelaId);
 	
@@ -103,8 +104,11 @@
 			
 			cicloGrupoActividad.setFecha(fecha);
 			
+			Ciclo.mapeaRegId(conElias, cicloId);
 			boolean tieneNotasLaEstrategia = cicloGrupoEval.notasReg(conElias, cicloGrupoId, cursoId, cicloGrupoActividad.getEvaluacionId());
-			if((!tieneNotasLaEstrategia) || (tieneNotasLaEstrategia && CicloGrupoActividad.tieneActividades(conElias, cicloGrupoId, cursoId, cicloGrupoActividad.getEvaluacionId()))){
+			boolean esKinderOPrekinder = Ciclo.getNivelAcademicoSistema() == null ? false
+					: Ciclo.getNivelAcademicoSistema().equals("1") || Ciclo.getNivelAcademicoSistema().equals("2");
+			if(esKinderOPrekinder || (!tieneNotasLaEstrategia) || (tieneNotasLaEstrategia && CicloGrupoActividad.tieneActividades(conElias, cicloGrupoId, cursoId, cicloGrupoActividad.getEvaluacionId()))){
 				if((CicloGrupoActividad.getSumActividades(conElias, cicloGrupoId, cursoId, cicloGrupoActividad.getEvaluacionId(), cicloGrupoActividad.getActividadId())+Float.parseFloat(cicloGrupoActividad.getValor()))<= 100){
 					if(cicloGrupoActividad.existeReg(conElias) == false){//Grabar
 						if(cicloGrupoActividad.insertReg(conElias)){
