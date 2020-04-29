@@ -1,0 +1,208 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+#forum {
+	padding: 0px 10px;
+}
+
+header {
+	padding: 30px;
+	margin-bottom:10px;
+	border-bottom: 1px solid gray;
+}
+
+header span {
+	margin-bottom: 10px;
+}
+
+.verde {
+	background-color: #008000;
+}
+
+.rojo {
+	background-color: #cc0000;
+}
+
+header p {
+	margin-bottom: 10px;
+}
+
+p {
+	margin: 0px;
+}
+
+.list-comentarios {
+	display: grid;
+	grid-template-columns: 99%;
+	padding-bottom: 90px;
+	grid-row-gap: 10px;
+	justify-items:center;
+}
+
+.description-subject {
+	text-align: justify;
+}
+
+.comentario {
+	font-family: "Nunito", sans-serif;
+	justify-self: center;
+	align-self: center;
+	place-self: center stretch;
+	grid-column-start: 1;
+  	grid-column-end: 1;
+	width: 100%;
+	heght: auto;
+
+	background-color: #f3f3f3;
+	text-decoration: none;
+  	color: inherit;
+  	outline: 0;
+  	cursor: auto;
+  	
+	transition: all 0.3s ease;
+
+	border: 1px solid #f3f3f3;
+	border-radius: 5px;
+	
+	display:grid;
+	grid-template-columns: 0.1fr 0.9fr;
+	grid-template-areas: 
+    "head body";
+    grid-gap:10px;
+}
+
+.comentario-head {
+	grid-area: head;
+	display: flex;
+	flex-direction: column;
+	padding: 10px 10px;
+	background-color: #349AB8;
+	border-radius: 5px 5px 0px;
+	box-shadow: 0px 0px 5px 0px;
+}
+
+.picture {
+	align-self: center;
+	grid-area: img;
+	width: 3em;
+	height: auto;
+	margin: 0px 10px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 5px 0px;
+}
+
+.name {
+	color:white;
+	font-weight: 700;
+	font-size: 12px;
+	text-align: center;
+}
+
+.comentario-body {
+	grid-area: body;
+	display: grid;
+	grid-template-columns: 0.7fr 0.3fr;
+	grid-template-areas: 
+    "star ."
+    "date options"
+    "comment comment"
+    ". respond";
+	padding: 10px 0px;
+}
+
+.date-publish {
+	opacity: 0.8;
+	grid-area:date;
+	align-self: center;
+}
+
+.options {
+	font-weight: 400;
+	grid-area: options;
+	align-self: center;
+	justify-self: stretch;
+	text-align: right;
+}
+
+.badge {
+	margin-right: 15px;
+}
+
+.click {
+	cursor: pointer;	
+}
+
+#outstanding, i {
+}
+
+.remove {
+	background-color: red;
+}
+
+.red {
+	background-color: red;
+}
+
+.outstanding {
+	background-color: #edd400;
+}
+
+.student {
+	grid-area: star;
+	height: 18px;
+}
+
+.body {
+	padding: 5px;
+	border-top: 1px solid gray;
+	grid-area: comment;
+	min-width: 200px;
+}
+
+.respond {
+	grid-area: respond;
+	justify-self: end;
+	margin-right: 20px;
+}
+
+.escribir-comentario {
+	position:fixed;
+	left:0px;
+	right: 0px;
+	bottom:0px;
+	height:60px;
+	width:100%;
+	padding: 10px;
+	background:#999;
+}
+
+.editor-comentario {
+	margin: 0 auto;
+	width: auto;
+	display: grid;
+	grid-template-columns: 80% 20%;
+	column-gap: 10px;
+	justify-content: center; 
+	justify-items: center;
+	align-items: start;
+}
+
+.escribir-comentario textarea {
+	width:auto;
+	height:auto;
+	grid-column: 1;
+	place-self: center stretch;
+	
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.escribir-comentario a {
+	grid-column: 2;
+	height: 3em;
+}

@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+#forum {
+	padding: 0px 10px;
+}
+
+header {
+	margin-bottom:10px;
+}
+
+.list-temas {
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-row-gap: 10px;
+	justify-items:center;
+}
+
+.tema, .tema:hover, .tema:visited, .tema:focus, .tema:active {
+	font-family: "Nunito", sans-serif;
+	justify-self: center;
+	align-self: center;
+	place-self: center stretch;
+	grid-column-start: 1;
+  	grid-column-end: 1;
+	width: 100%;
+	heght: auto;
+
+	background-color: #f3f3f3;
+	text-decoration: none;
+  	color: inherit;
+  	outline: 0;
+  	cursor: auto;
+  	
+	transition: all 0.3s ease;
+
+	border: 1px solid #f3f3f3;
+	border-radius: 5px;
+	
+	display:flex;
+	flex-direction: row;
+}
+
+.tema:hover {
+	border: 1px solid #5499C7;
+}
+
+.tema-head {
+	flex: 0 20% 30%;
+	transition: all 0.3s ease;
+	padding:8px;
+	background-color: #349AB8;
+	border-radius: 5px;
+	
+	display: grid;
+	grid-template-rows: auto;
+	grid-gap:10px;
+	align-content: start;
+	align-items:start;
+	
+	min-width: 60px;
+	
+}
+
+.tema-head:hover {
+	opacity: 1;
+}
+
+.picture {
+	width: 5em;
+	height: auto;
+	border-radius: 30px;
+}
+
+.tema-title {
+	margin: 0px;
+}
+
+.tema-body-title {
+	display: flex;
+	justify-content: space-between;
+}
+
+.verde {
+	background-color: #008000;
+}
+
+.rojo {
+	background-color: #cc0000;
+}
+
+.tema-body {
+	padding: 5px 10px;
+	border-radius: 0px 0px 5px 5px;
+	
+	display:grid;
+	grid-column:auto;
+	grid-row:auto;
+	flex: 1 1 calc(33% - 1rem);
+}
+
+.options i {
+	cursor: pointer;
+}
+
+.description-subject {
+	text-align: justify;
+}
+
+.tema-body .btn-tema-enter {
+	height: 3em;
+	align-self: stretch;
+}
