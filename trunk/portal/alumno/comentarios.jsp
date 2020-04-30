@@ -117,6 +117,8 @@ const DEFAULT_COMENTARIO = {
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+	const URL = "/edusystems/foros/temas";
+	
 	const app = new Vue({
 		el: "#forum",
 		data:{
@@ -139,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 			deleteComment: function(comentarioId) {
 				if(confirm("¿Está seguro que desea eliminar el comentario?")){
-					fetch('http://localhost:8089/temas/'+temaId+'/comentarios/'+comentarioId, {
+					fetch(URL+'/'+temaId+'/comentarios/'+comentarioId, {
 						method: 'DELETE'
 					})
 				    .then( res => {
@@ -175,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	})();
 
 	function getDetailsTema() {
-		fetch('http://localhost:8089/temas/'+temaId, {
+		fetch(URL+'/'+temaId, {
 			method: 'GET'
 		})
 	    .then( res => res.text())
@@ -184,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	}
 
 	function getComentarios() {
-		fetch('http://localhost:8089/temas/'+temaId+'/comentarios', {
+		fetch(URL+'/'+temaId+'/comentarios', {
 			method: 'GET'
 		})
 	    .then( res => res.text())
@@ -194,24 +196,28 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function add() {
 		let comentario = mapObjectWithForm();
-		
-		fetch('http://localhost:8089/temas/'+temaId+'/comentarios', {
-			method: 'POST',
-			body: JSON.stringify(comentario),
-			headers:{
-			    'Content-Type': 'application/json'
-			}
-		})
-	    .then( res => res.text())
-	    .then(JSON.parse)
-	    .then(comentario => {
-		    if(comentario.id) {
-		    	app.comentarios.push(comentario);
-		    	document.getElementById('comentario').value = "";
-		    } else {
-				alert("No se pudo añadir el comentario");
-			}
-		});
+
+		if(isNotEmpty(comentario)){
+			fetch(URL+'/'+temaId+'/comentarios', {
+				method: 'POST',
+				body: JSON.stringify(comentario),
+				headers:{
+				    'Content-Type': 'application/json'
+				}
+			})
+		    .then( res => res.text())
+		    .then(JSON.parse)
+		    .then(comentario => {
+			    if(comentario.id) {
+			    	app.comentarios.push(comentario);
+			    	document.getElementById('comentario').value = "";
+			    } else {
+					alert("No se pudo añadir el comentario");
+				}
+			});
+		}else {
+			alert("No puede dejar en blanco su comentario");
+		}
 	}
 
 	function update(comentarioId) {
@@ -219,22 +225,30 @@ document.addEventListener("DOMContentLoaded", function(){
 		
 		comentario["comentario"] = document.getElementById("descripcion").value;
 
-		fetch('http://localhost:8089/temas/'+temaId+'/comentarios/'+comentarioId, {
-			method: 'PUT',
-			body: JSON.stringify(comentario),
-			headers:{
-			    'Content-Type': 'application/json'
-			}
-		})
-	    .then( res => res.text())
-	    .then(JSON.parse)
-	    .then(comentario => {
-		    if(comentario.id) {
-		    	app.comentarios[findIndexOfCommentOnList(comentarioId)]["comentario"] = comentario["comentario"];
-		    } else {
-				alert("No se pudo actualizar el comentario");
-			}
-		});
+		if(isNotEmpty(comentario)){
+			fetch(URL+'/'+temaId+'/comentarios/'+comentarioId, {
+				method: 'PUT',
+				body: JSON.stringify(comentario),
+				headers:{
+				    'Content-Type': 'application/json'
+				}
+			})
+		    .then( res => res.text())
+		    .then(JSON.parse)
+		    .then(comentario => {
+			    if(comentario.id) {
+			    	app.comentarios[findIndexOfCommentOnList(comentarioId)]["comentario"] = comentario["comentario"];
+			    } else {
+					alert("No se pudo actualizar el comentario");
+				}
+			});
+		}else {
+			alert("No puede dejar en blanco el comentario");
+		}
+	}
+
+	function isNotEmpty(comentario){
+		return comentario.comentario.replace(" ", "").length > 0;
 	}
 
 	function mapObjectWithForm(){

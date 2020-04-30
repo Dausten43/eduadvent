@@ -1,3 +1,7 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="aca.preescolar.UtilPreescolar"%>
 <%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
@@ -32,9 +36,16 @@
 	
 	String resultado			= "";
 	
+	UtilPreescolar up = new UtilPreescolar();
+	Map<String, Integer> contadorTareasPEA = new HashMap();
+	
+	contadorTareasPEA.putAll(up.getNumeroTareas(cicloGrupoId, cursoId, cicloId));
+	
+	up.close();
+	
 	ArrayList<aca.ciclo.CicloPromedio> listPromedio 		= promedioL.getListPromedioCiclo(conElias, cicloId," ORDER BY ORDEN");
 	ArrayList<aca.ciclo.CicloGrupoEval> listEstrategias 	= new ArrayList();
-	System.out.println(cicloGrupoId + " " + cursoId);
+	//System.out.println(cicloGrupoId + " " + cursoId);
 	
 	ArrayList<aca.ciclo.CicloGrupoActividad> lisActividad 	= cicloGrupoActividadL.getListGrupo(conElias, cicloGrupoId, cursoId, "ORDER BY EVALUACION_ID, ACTIVIDAD_ID");
 	
@@ -189,8 +200,11 @@
 								</td>
 <%
 								String fecha = act.getFecha();
-%>
-								<td><%=fecha.substring(0, 10)%> <%=fecha.substring(10)%></td>
+								int contadorActividades = contadorTareasPEA.containsKey(promedios.getPromedioId() + "-" + evaluacion.getEvaluacionId() + "-" + act.getActividadId()) ? 
+										 contadorTareasPEA.get(promedios.getPromedioId() + "-" + evaluacion.getEvaluacionId() + "-" + act.getActividadId()) : 0;
+%>									
+	 
+								<td><%= contadorActividades  %></td>
 								<td><%=act.getValor()%>%</td>
 								<td><%= aca.catalogo.CatActividadEtiqueta.getNombreEtiqueta(conElias, aca.catalogo.CatEscuela.getUnionId(conElias, (String)session.getAttribute("escuela")), act.getEtiquetaId()) %></td>
 								<td><%= act.getMostrar().equals("S")?"SI":"NO" %></td>
@@ -222,7 +236,7 @@
 			</table>
 	
 <%
-			if (actividades){
+			if (false){
 %>
 					<div class="alert">
 						<fmt:message key="aca.SumaDeActividades" /> <%=sumaActividades%>%

@@ -173,6 +173,9 @@
 						 	<strong><%=cicloGrupo.getGrupoNombre() %> <%=cicloGrupo.getGrupo() %></strong> 
 						</p>
 						<div >
+						<%if(maestroId.equals("H99E0003")){ %>
+							<a class="btn btn-info btn-mini stopPropagation" href="foros.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>">foros</a>
+						<%} %>
 							<a class="btn btn-primary btn-mini stopPropagation" href="lista.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>"><fmt:message key="maestros.Lista" /></a>
 							<a class="btn btn-primary btn-mini stopPropagation" href="modulo.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>"><fmt:message key="maestros.Planeacion" /></a> 
 							<a class="btn btn-success btn-mini stopPropagation" target="_blank" href="tarjeta.jsp?Curso=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId() %>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <%=KrdxCursoAct.cantidadAlumnos(conElias, cicloGrupoCurso.getCicloGrupoId(), cicloGrupoCurso.getCursoId() ) %> <fmt:message key="aca.Alumnos" /></a>
@@ -180,7 +183,7 @@
 							if(metodo.equals("S")){
 								if(nivelPlan.compareTo(new Integer(2))<0 && cicloId.startsWith("H")){
 									%>	
-											<a class="btn btn-mini stopPropagation" href="../../portal/maestro/metodo_kinder.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <fmt:message key="aca.MetodoEval" /></a>
+											<a class="btn btn-mini stopPropagation" href="metodo_kinder.jsp?CursoId=<%=cicloGrupoCurso.getCursoId() %>&CicloGrupoId=<%=cicloGrupoCurso.getCicloGrupoId()%>&Materia=<%=materia %>&Maestro=<%=maestro%>"> <fmt:message key="aca.MetodoEval" /></a>
 									<%
 											}else{
 									%>

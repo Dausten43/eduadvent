@@ -78,6 +78,7 @@ const cursosMaestrosIds = <%=cursosMaestrosJson%>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+	const URL = "/edusystems/foros/temas";
 	
 	const app = new Vue({
 		el: "#forum",
@@ -115,6 +116,20 @@ document.addEventListener("DOMContentLoaded", function(){
 		cursosIds.forEach(cursoId => getTemas(cursoId));
 	})();
 	
+	function getTemas(cursoId) {
+		let params = generateParams({
+					cursoId,
+					cicloGrupoId:'<%=cicloGrupoId%>'
+				});
+		
+		fetch(URL + '?' + params, {
+			method: 'GET'
+		})
+	    .then( res => res.text())
+	    .then(JSON.parse)
+	    .then(listaTemas => app.temas.push(...listaTemas));
+	}
+
 	function generateParams(objParams){
 	    let params = "";
 	    let size = Object.keys(objParams).length;
@@ -124,20 +139,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	            params += "&";
 	    }
 	    return params;
-	}
-
-	function getTemas(cursoId) {
-		let params = generateParams({
-					cursoId,
-					cicloGrupoId:'<%=cicloGrupoId%>'
-				});
-		
-		fetch('http://localhost:8089/temas?' + params, {
-			method: 'GET'
-		})
-	    .then( res => res.text())
-	    .then(JSON.parse)
-	    .then(listaTemas => app.temas.push(...listaTemas));
 	}
 
 	function findIndexOfSubjectOnList(subjectId) {

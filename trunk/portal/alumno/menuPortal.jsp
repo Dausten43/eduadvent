@@ -72,8 +72,6 @@ if(saldo.compareTo(BigDecimal.ZERO)>=0){
 
 
 String codigoAlumno = (String) session.getAttribute("codigoAlumno");
-
-String cicloGrupoId = aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoAlumno, cicloId);
 %>
 
 <ul class="nav nav-tabs">	
@@ -84,10 +82,13 @@ String cicloGrupoId = aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoAlumn
 	  <li class="materias"><a href="materias.jsp"><fmt:message key="aca.Materias"/></a></li>
 	  <li class="notas"><a href="<%= urlNotas %>"><fmt:message key="aca.Notas"/></a></li>
 	  <li class="disciplina"><a href="disciplina.jsp"><fmt:message key="aca.Mentoria"/></a></li>	
-	  <% if(cicloGrupoId.equals("H241919D010")){ %>
+	  <% if(false){ %>
 	  <li class="examenes"><a href="examenes.jsp">Exámenes</a></li>
 	  <% } %>
-<%	} %>	  
+<%	} %>
+	  <% if(aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoAlumno, cicloId).equals("H992020A001")){ %>
+	  <li class="tareas"><a href="foros.jsp">Foro</a></li>
+	  <% } %>
 	  <li class="tareas"><a href="tareas_new.jsp"><fmt:message key="portal.Tareas"/></a></li>
   
 </ul>
