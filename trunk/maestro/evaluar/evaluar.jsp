@@ -1339,12 +1339,8 @@
 <%	} %>		
 <!--  -------------------- SECCION DE CONDUCTA Y FALTAS -------------------- -->	
 	<div class="well text-center" style="overflow:visible;">
-	<%
-		if (codigoId.equals("H24E0026")) {			
-	%>
 		<a class="btn btn-primary btn-mobile" href="#" id="btnExamenes">Exámenes</a> 
 	<%
-		}
 		if (planCurso.getFalta().equals("S")) {			
 		
 			// El nivel de evaluacion se determina en la tabla ciclo
