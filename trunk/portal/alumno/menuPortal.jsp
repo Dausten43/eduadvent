@@ -82,9 +82,7 @@ String codigoAlumno = (String) session.getAttribute("codigoAlumno");
 	  <li class="materias"><a href="materias.jsp"><fmt:message key="aca.Materias"/></a></li>
 	  <li class="notas"><a href="<%= urlNotas %>"><fmt:message key="aca.Notas"/></a></li>
 	  <li class="disciplina"><a href="disciplina.jsp"><fmt:message key="aca.Mentoria"/></a></li>	
-	  <% if(false){ %>
 	  <li class="examenes"><a href="examenes.jsp">Exámenes</a></li>
-	  <% } %>
 <%	} %>
 	  <% if(aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoAlumno, cicloId).equals("H992020A001")){ %>
 	  <li class="tareas"><a href="foros.jsp">Foro</a></li>
