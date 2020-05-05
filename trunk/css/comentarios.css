@@ -45,6 +45,7 @@ p {
 }
 
 .description-subject {
+	white-space: pre-line;
 	text-align: justify;
 }
 
