@@ -8,6 +8,8 @@
 <%@page import="aca.plan.PlanCurso"%>
 <%@page import="aca.kardex.KrdxCursoAct"%>
 <%@page import="aca.plan.Plan"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 
 <jsp:useBean id="empPersonal" scope="page" class="aca.empleado.EmpPersonal"/>
 <jsp:useBean id="ciclo" scope="page" class="aca.ciclo.Ciclo"/>
@@ -27,7 +29,7 @@
 
 
 <%
-
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	String codigoId 	= (String)session.getAttribute("codigoEmpleado");
 	String cicloId 		= request.getParameter("Ciclo")==null?(String) session.getAttribute("cicloId"):request.getParameter("Ciclo");
 
@@ -79,6 +81,7 @@
 						Tema.setModuloId(modulo2.getModuloId());
 						Tema.setTemaId(Tema.maximoReg(conElias));
 						Tema.setOrden(tema.getOrden());
+						Tema.setFecha(sdf.format(new Date()));
 						
 						if(Tema.insertReg(conElias)){
 							
