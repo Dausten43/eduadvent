@@ -5,6 +5,8 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 
 <jsp:useBean id="ModuloFrom" scope="page" class="aca.ciclo.CicloGpoModulo"/>
 <jsp:useBean id="ModuloL" scope="page" class="aca.ciclo.CicloGpoModuloLista"/>
@@ -18,6 +20,7 @@
 
 
 <%
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	String codigoId 	= (String)session.getAttribute("codigoId");
 
@@ -61,6 +64,7 @@
 		Tema.setModuloId(moduloIdTo);
 		Tema.setTemaId(Tema.maximoReg(conElias));
 		Tema.setOrden(tema.getOrden());
+		Tema.setFecha(sdf.format(new Date()));
 
 		
 		if(Tema.insertReg(conElias)){
@@ -189,6 +193,7 @@
 		Tema.setModuloId(moduloIdTo);
 		Tema.setTemaId(temaIdTo);
 		Tema.setOrden(tema.getOrden());
+		Tema.setFecha(sdf.format(new Date()));
 		
 		if(Tema.updateReg(conEliasDir)){
 			
