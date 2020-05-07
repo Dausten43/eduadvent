@@ -17,7 +17,9 @@
 	String escuelaId = codigoId.substring(0, 3);
 	String temaId = request.getParameter("id")==null?"0":request.getParameter("id");
 	String cursoId = request.getParameter("CursoId")==null?"0":request.getParameter("CursoId");
-	String cicloGrupoId = request.getParameter("CicloGrupoId")==null?"0":request.getParameter("CicloGrupoId");
+	String cicloId 		= session.getAttribute("cicloId").toString();
+	
+	String cicloGrupoId = aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoId, cicloId);
 	
 	//LISTA DE ALUMNOS
 	ArrayList<aca.kardex.KrdxCursoAct> lisKardexAlumnos			= new aca.kardex.KrdxCursoActLista().getListAll(conElias, escuelaId, " AND CICLO_GRUPO_ID = '" + cicloGrupoId + "' AND CURSO_ID = '" + cursoId + "' ORDER BY ORDEN, ALUM_APELLIDO(CODIGO_ID)");
@@ -71,7 +73,7 @@ const DEFAULT_COMENTARIO = {
 	</div>
 </div>
 <div id="forum">
-	<header v-if="tema.visible">
+	<header v-if="tema.visible && (tema.cicloGrupoId === '<%=cicloGrupoId%>' && tema.cursoId === '<%=cursoId%>')">
 		<h1>{{tema.titulo}}</h1>
 	    <p v-if="tema.agendado">{{ parseDate(tema.createdAt) }}</p>
 		<p><%=cursoNombre%> - [{{tema.cursoId}}]</p>
@@ -79,7 +81,7 @@ const DEFAULT_COMENTARIO = {
 		<p class="description-subject">{{ tema.descripcion ? tema.descripcion : "No tiene descripción" }}</p>
 		<a href="foros.jsp" class="btn">Regresar</a>
 	</header>
-	<section class="list-comentarios" v-if="tema.visible">
+	<section class="list-comentarios" v-if="tema.visible && (tema.cicloGrupoId === '<%=cicloGrupoId%>' && tema.cursoId === '<%=cursoId%>')">
 		<div v-for="comentario in comentarios" class="comentario" :id="comentario.id">
 		  <div class="comentario-head">
 	  	  	<img class="picture" :src="'../../maestro/evaluar/imagen.jsp?mat=' + comentario.codigoId" width="300">
@@ -107,13 +109,15 @@ const DEFAULT_COMENTARIO = {
 		  </div>
 		</div>
 	</section>
-	<div v-else><h1>Foro no visible</h1></div>
-	<section v-if="!tema.cerrado && tema.visible" class="escribir-comentario">
+	<section v-if="!tema.cerrado && tema.visible && (tema.cicloGrupoId === '<%=cicloGrupoId%>' && tema.cursoId === '<%=cursoId%>')" class="escribir-comentario">
 		<div class="editor-comentario">
 			<textarea id="comentario" placeholder="Escribe tu comentario"></textarea>
 			<a @click="addComment()" class="btn btn-info">Enviar comentario</a>
 		</div>
 	</section>
+	<div v-if="!tema.visible || tema.cicloGrupoId !== '<%=cicloGrupoId%>' || tema.cursoId !== '<%=cursoId%>'" style="text-align: center">
+		<h1>Foro no permitido</h1>
+	</div>
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function(){

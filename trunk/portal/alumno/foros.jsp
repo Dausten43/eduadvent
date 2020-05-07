@@ -104,7 +104,6 @@ document.addEventListener("DOMContentLoaded", function(){
 				let tema = {...app.temas[findIndexOfSubjectOnList(temaId)]};
 				let params = {
 						id: temaId,
-						CicloGrupoId: tema.cicloGrupoId,
 					    CursoId: tema.cursoId
 					};
 				document.location = 'comentarios.jsp?' + generateParams(params);
