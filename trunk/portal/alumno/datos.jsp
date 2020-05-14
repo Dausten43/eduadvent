@@ -56,12 +56,15 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, c
 <h2><fmt:message key="empleados.DatosPersonalesMin"/></h2>
 <a href="mensaje.jsp?cicloGrupoId=<%= cicloGrupo.getCicloGrupoId() %>&codigoAlumno=<%= codigoId %>" id="msg-<%= codigoId %>" class="btn btn-info btn-mini"></a> <br />
 <hr />
+
+<!-- Sección de avisos generales
 <div class='alert alert-info'>
 	<h5>Avisos generales:
 		<a data-toggle="modal" class="btn btn-info" href="#encuesta"><i class="icon-envelope icon-white"></i> Nueva encuesta </a>
 	</h5>
 </div>
-<!-- MODAL -->
+<!-- MODAL de avisos -->
+<!--
 <div id="encuesta" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-pago" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
@@ -78,6 +81,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, c
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Aceptar</button>
   </div>
 </div>
+ -->
 <!-- END MODAL -->
 
 <%if(codigoId.substring(0,3).equals("S19")){ %>
