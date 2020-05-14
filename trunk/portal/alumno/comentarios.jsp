@@ -56,23 +56,42 @@ const DEFAULT_COMENTARIO = {
 	    respuestaId: -1
 	};
 </script>
-<div id="editComment" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editComment" aria-hidden="true">
-  	<div class="modal-header">
-    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-    	<h3 id="editComment">Editar comentario</h3>
-  	</div>
-  	<div class="modal-body ">
-		<fieldset>
-			<label for="descripcion">Comentario:</label>
-   			<textarea name="descripcion" class="boxsizingBorder" id="descripcion" style="width:100%;height:80px;margin:0;" placeholder="Puedes escribir una breve descripción del tema"></textarea>
-    	</fieldset>
-  	</div>
-  	<div class="modal-footer">
-    	<button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
-    	<a class="btn btn-primary" data-dismiss="modal" id="update-comment"><fmt:message key="boton.Guardar" /></a>
-	</div>
-</div>
 <div id="forum">
+	<div id="editComment" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editComment" aria-hidden="true">
+	  	<div class="modal-header">
+	    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+	    	<h3 id="editComment">Editar comentario</h3>
+	  	</div>
+	  	<div class="modal-body ">
+			<fieldset>
+				<label for="descripcion">Comentario:</label>
+	   			<textarea name="descripcion" class="boxsizingBorder" id="descripcion" style="width:100%;height:80px;margin:0;" placeholder="Puedes escribir una breve descripción del tema"></textarea>
+	    	</fieldset>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
+	    	<a class="btn btn-primary" data-dismiss="modal" id="update-comment"><fmt:message key="boton.Guardar" /></a>
+		</div>
+	</div>
+	<div id="respondComment" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editComment" aria-hidden="true">
+	  	<div class="modal-header">
+	    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+	    	<h3>Responder comentario</h3>
+	  	</div>
+	  	<div class="modal-body ">
+	  		<p style="font-weight: bold;">Comentario:</p>
+		  	<p id="commentToRespond"></p>
+		  	<input type="hidden" id="comentario-respuesta-id"/>
+			<fieldset>
+				<label for="descripcion" style="font-weight:bold; margin-top: 10px;">Respuesta:</label>
+	   			<textarea name="descripcion-respuesta" class="boxsizingBorder" id="descripcion-respuesta" style="width:100%;height:80px;margin:0;" placeholder="Escribe aquí tu respuesta"></textarea>
+	    	</fieldset>
+	  	</div>
+	  	<div class="modal-footer">
+	    	<button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
+	    	<a class="btn btn-primary" data-dismiss="modal" @click="addRespuesta()"><fmt:message key="boton.Guardar" /></a>
+		</div>
+	</div>
 	<header v-if="tema.visible && (tema.cicloGrupoId === '<%=cicloGrupoId%>' && tema.cursoId === '<%=cursoId%>')">
 		<h1>{{tema.titulo}}</h1>
 	    <p v-if="tema.agendado">{{ parseDate(tema.createdAt) }}</p>
@@ -98,14 +117,18 @@ const DEFAULT_COMENTARIO = {
 			    <span class="badge click" href="#editComment" data-toggle="modal" @click="setInfoModalFromCommentToEdit(comentario.id)">
 			    		<i class="icon-pencil icon-white"></i>
 			    </span>
-			    <span class="badge remove click">
-			    	<i class="icon-remove icon-white" @click="deleteComment(comentario.id)"></i>
+			    <span class="badge remove click" @click="deleteComment(comentario.id)">
+			    	<i class="icon-remove icon-white"></i>
 			    </span>
 		    </div>
-		    <p class="body">{{ comentario.comentario }}</p>
-		    <%if(notReadyForProduction) { %>
-		    <a class="respond">Responder</a>
-		    <%} %>
+		    <div class="body">
+		    	{{ comentario.comentario }}
+		    	<div v-if="comentario.respuestaId !== -1" class="comentario-respuesta">
+		    		<span style="font-weight:bold">En respuesta a:</span> {{getFrom(comentario.respuestaId)}}<br>
+		    		{{getResponses(comentario)}}
+		    	</div>
+		    </div>
+		    <a v-if="!tema.cerrado" class="respond" href="#respondComment" data-toggle="modal" @click="setInfoModalToRespondComment(comentario.id)">Responder</a>
 		  </div>
 		</div>
 	</section>
@@ -171,7 +194,31 @@ document.addEventListener("DOMContentLoaded", function(){
 				});
 			},
 
-			addComment: () => add()
+			setInfoModalToRespondComment: function (comentarioId) {
+				let comentario = app.comentarios[findIndexOfCommentOnList(comentarioId)];
+
+				document.getElementById("commentToRespond").innerHTML = comentario.comentario;
+				document.getElementById("comentario-respuesta-id").value = comentarioId;
+				document.getElementById("descripcion-respuesta").value = "";
+			},
+
+			addRespuesta: () => add(document.getElementById("descripcion-respuesta").value, document.getElementById("comentario-respuesta-id").value),
+
+			addComment: () => add(),
+
+			getResponses: (comentario) => {
+				const responseTo = app.comentarios[findIndexOfCommentOnList(comentario.respuestaId)];
+				if (responseTo !== undefined)
+					return responseTo.comentario;
+				else
+					return "Comentario eliminado"; 
+			},
+
+			getFrom: (respuestaId) => {
+				const responseTo = app.comentarios[findIndexOfCommentOnList(respuestaId)];
+				if (responseTo !== undefined)
+					return responseTo.codigoId.includes("E") ? maestros[responseTo.codigoId] : alumnos[responseTo.codigoId];
+			}
 		}
 	});
 
@@ -198,8 +245,13 @@ document.addEventListener("DOMContentLoaded", function(){
 	    .then(comentarios => app.comentarios = comentarios);
 	}
 
-	function add() {
-		let comentario = mapObjectWithForm();
+	function add(descripcion = document.getElementById("comentario").value, 
+			respuestaId = -1) 
+	{
+		let comentario = {...DEFAULT_COMENTARIO};
+	
+		comentario["comentario"] = descripcion;
+		comentario["respuestaId"] = respuestaId;
 
 		if(isNotEmpty(comentario)){
 			fetch(URL+'/'+temaId+'/comentarios', {
@@ -257,8 +309,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function mapObjectWithForm(){
 		const comentario = {...DEFAULT_COMENTARIO};
-		
-		comentario["comentario"] = document.getElementById("comentario").value;
 
 		return comentario;
 	}
