@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+body {
+    padding: 0px 10px;
+}
+
+/** GENERAL PURPPOSE **/
+/* Borders */
+.bd-gray {
+    border: 3px solid #30343F;
+}
+
+.bd-green {
+    border: 3px solid #99C24D;
+}
+
+.bd-blue {
+    border: 3px solid #369CBA;
+}
+
+.bd-orange {
+    border: 3px solid #F18F01;
+}
+
+.bd-red {
+    border: 3px solid #D00000;
+}
+
+/* Backgrounds */
+.bg-gray {
+    background-color: #30343F;
+}
+
+.bg-green {
+    background-color: #99C24D;
+}
+
+.bg-blue {
+    background-color: #369CBA;
+}
+
+.bg-red {
+    background-color: #D00000;
+}
+
+.bg-orange {
+    background-color: #F18F01;
+}
+
+/**
+*** 
+*** 
+*** BASIC DESIGN
+***
+***
+***/
+
+:root {
+    --ck-z-default: 100 !important;
+    --ck-z-modal: calc( var(--ck-z-default) + 999 );
+}
+
+#foro {
+	padding: 0 10px;
+}
+
+section.lista-temas {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    font-family: 'Nunito', sans-serif;
+}
+
+/** TEMA **/
+.tema {
+    display: flex;
+    grid-row: row;
+    margin: 10px 0;
+    border: 1px solid #878c8f28;
+    background-color: #FAFAFF;
+
+    transition-property: border-color;
+    transition-duration: .3s;
+}
+
+.tema:hover {
+    border-color: #878c8fb9;
+}
+
+/** CONTENIDO TEMA **/
+.maestro,
+.contenido {
+    padding: 10px;
+}
+
+.maestro {
+    flex: 0;
+    min-width: 6vw;
+    text-align: center;
+}
+
+.foto {
+    width: 70px;
+}
+
+.contenido {
+    width: 100%;
+}
+
+.encabezado {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.titulo {
+    font-weight: 700;
+    margin: 0;
+}
+
+.descripcion {
+    white-space: pre-line;
+    text-align: justify;
+}
+
+#descripcion {
+    min-height: 100px;
+    border: 1px solid #ccc !important;
+}
+
+/** REDUCE MEDIA SIZE **/
+figure {
+    margin: 0 !important;
+    width: fit-content;
+    height: fit-content;
+}
+
+figure div div {
+    padding-bottom: 0 !important;
+    height: fit-content !important;
+}
+
+iframe {
+    position: relative !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
+/** SWITCH MODAL **/
+
+.switch {
+    display: flex;
+    flex-direction: row;
+    padding: 0 5px;
+    margin-top: 10px;
+}
+
+.switch > p {
+    margin: 0;
+}
+
+.switch > input[type=checkbox] {
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.switch > label {
+	cursor: pointer;
+	width: 40px;
+	height: 18px;
+    border-radius: 100px;
+    margin-right: 5px;
+    position: relative;
+    
+    transition-property: background;
+    transition-duration: 0.3s;
+}
+
+.switch > label:after {
+	content: '';
+	position: absolute;
+	top: 1.8px;
+	left: 4px;
+	width: 14px;
+	height: 14px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+.switch > input:checked + label:after {
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+/* Default colors for switch */
+.switch > input#visible + label {
+    background: #30343F;
+}
+
+.switch > input:checked#visible + label {
+    background: #369CBA;
+}
+
+.switch > input#cerrado + label {
+    background: #30343F;
+}
+
+.switch > input:checked#cerrado + label {
+    background: #D00000;
+}

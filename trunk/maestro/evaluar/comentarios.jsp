@@ -9,8 +9,9 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 
-<link rel="stylesheet" type="text/css" href="../../css/comentarios.css">
+<link rel="stylesheet" type="text/css" href="../../css/foros/comentarios.css">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/inline/ckeditor.js"></script>
 
 <%
 	String codigoId 	= (String)session.getAttribute("codigoEmpleado");
@@ -39,298 +40,96 @@
 	String cursoNombre = PlanCurso.getCursoNombre(conElias, cursoId);
 	String cicloGrupoAlumnosJson = new Gson().toJson(alumnosNombres);
 	String cicloGrupoMaestrosJson = new Gson().toJson(maestrosNombres);
-	
-	boolean notReadyForProduction = false;
 %>
 <script>
-const temaId = '<%=temaId%>';
-const alumnos = JSON.parse('<%=cicloGrupoAlumnosJson%>');
-const maestros = JSON.parse('<%=cicloGrupoMaestrosJson%>');
-
-const DEFAULT_COMENTARIO = {
-		temaId: temaId,
-	    codigoId: '<%=codigoId%>',
-	    comentario: null,
-	    respuestaId: -1
-	};
+	const CursoId = '<%=cursoId%>';
+	const CicloGrupoId = '<%=cicloGrupoId%>';
+	const CodigoId = '<%=codigoId%>';
+	const TemaId = '<%=temaId%>';
+	const Alumnos = JSON.parse('<%=cicloGrupoAlumnosJson%>');
+	const Maestros = JSON.parse('<%=cicloGrupoMaestrosJson%>');
 </script>
-<div id="forum">
-	<div id="editComment" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editComment" aria-hidden="true">
-	  	<div class="modal-header">
-	    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-	    	<h3 id="editComment">Editar comentario</h3>
-	  	</div>
-	  	<div class="modal-body ">
-			<fieldset>
-				<label for="descripcion">Comentario:</label>
-	   			<textarea name="descripcion" class="boxsizingBorder" id="descripcion" style="width:100%;height:80px;margin:0;"></textarea>
-	    	</fieldset>
-	  	</div>
-	  	<div class="modal-footer">
-	    	<button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
-	    	<a class="btn btn-primary" data-dismiss="modal" id="update-comment"><fmt:message key="boton.Guardar" /></a>
-		</div>
-	</div>
-	<div id="respondComment" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editComment" aria-hidden="true">
-	  	<div class="modal-header">
-	    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-	    	<h3>Responder comentario</h3>
-	  	</div>
-	  	<div class="modal-body ">
-	  		<p style="font-weight: bold;">Comentario:</p>
-		  	<p id="commentToRespond"></p>
-		  	<input type="hidden" id="comentario-respuesta-id"/>
-			<fieldset>
-				<label for="descripcion" style="font-weight:bold; margin-top: 10px;">Respuesta:</label>
-	   			<textarea name="descripcion-respuesta" class="boxsizingBorder" id="descripcion-respuesta" style="width:100%;height:80px;margin:0;" placeholder="Escribe aquí tu respuesta"></textarea>
-	    	</fieldset>
-	  	</div>
-	  	<div class="modal-footer">
-	    	<button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
-	    	<a class="btn btn-primary" data-dismiss="modal" @click="addRespuesta()"><fmt:message key="boton.Guardar" /></a>
-		</div>
-	</div>
+<div id="foro">
+
 	<header>
-		<h1>{{tema.titulo}}</h1>
-	    <p v-if="tema.agendado">{{ parseDate(tema.createdAt) }}</p>
-		<span class="badge" :class="{'verde': tema.visible}" >{{ tema.visible ? "Visible" : "No visible" }}</span>
-	    <span class="badge" :class="{'rojo': tema.cerrado, 'verde': !tema.cerrado}">{{ tema.cerrado ? "Cerrado" : "Abierto" }}</span>
-		<p class="description-subject">{{ tema.descripcion ? tema.descripcion : "No tiene descripción" }}</p>
-		<a href="foros.jsp?CursoId=<%=cursoId%>&CicloGrupoId=<%=cicloGrupoId%>" class="btn">Regresar</a>
+	    <h1>{{tema.titulo}}</h1>
+	    <p>{{ mapearFecha(tema.createdAt) }}</p>
+	    <p>MATEMATICAS - [{{tema.cursoId}}]</p>
+	    <span class="badge" :class="{'bg-red': tema.cerrado, 'bg-green': !tema.cerrado}">{{ tema.cerrado ? "Cerrado" : "Abierto" }}</span>
+	    <div class="descripcion-tema" v-html="tema.descripcion ?? '<p>No tiene descripción</p>'"></div>
+	    <a class="btn" @click="regresarATemas()">Regresar</a>
+	    <a v-if="(permitido || esMaestro) && !tema.cerrado" class="btn btn-info" href="#guardarComentario" data-toggle="modal" @click="preAgregar()">COMENTAR</a>
 	</header>
-	<section class="list-comentarios">
-		<div v-for="comentario in comentarios" class="comentario" :id="comentario.id">
-		  <div class="comentario-head">
-	  	  	<img class="picture" :src="'imagen.jsp?mat=' + comentario.codigoId" width="300">
-		    <p class="name">[{{comentario.codigoId}}]</p>
-		    <p class="name">{{ comentario.codigoId.includes("E") ? maestros[comentario.codigoId] : alumnos[comentario.codigoId] }}</p>
-		  </div>
-		  <div class="comentario-body">
-		  	<div class="date-publish">
-	      		<p class="">{{ parseDate(comentario.createdAt) }}</p>
-	      	</div>
-	      	<div class="options">
-			    <span class="badge click" id="outstanding" :class="{'outstanding': comentario.destacado}" @click="toogleDestacado(comentario.id, comentario.destacado)"><i class="icon-star icon-white"></i> </span>
-			    <span class="badge click" href="#editComment" data-toggle="modal" @click="setInfoModalFromCommentToEdit(comentario.id)">
-			    		<i class="icon-pencil icon-white"></i>
-			    </span>
-			    <span class="badge remove click" @click="deleteComment(comentario.id)">
-			    	<i class="icon-remove icon-white"></i>
-			    </span>
-		    </div>
-		    <div class="body">
-		    	{{ comentario.comentario }}
-		    	<div v-if="comentario.respuestaId !== -1" class="comentario-respuesta">
-		    		<span style="font-weight:bold">En respuesta a</span> {{getFrom(comentario.respuestaId)}}:<br>
-		    		{{getResponses(comentario)}}
-		    	</div>
-		    </div>
-		    <a v-if="!tema.cerrado" class="respond" href="#respondComment" data-toggle="modal" @click="setInfoModalToRespondComment(comentario.id)">Responder</a>
-		  </div>
-		</div>
-	</section>
-	<section v-if="!tema.cerrado" class="escribir-comentario">
-		<div class="editor-comentario">
-			<textarea id="comentario" placeholder="Escribe tu comentario"></textarea>
-			<a @click="addComment()" class="btn btn-info">Enviar comentario</a>
-		</div>
-	</section>
-</div>
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-	const URL = "/edusystems/foros/temas";
 	
-	const app = new Vue({
-		el: "#forum",
-		data:{
-			comentarios: [],
-			tema: {}
-		},
-		methods: {
-			parseDate: function (dateUnparsed){
-				const date = new Date(dateUnparsed);
-				let day = date.getDate() > 10 ? date.getDate(): "0" + date.getDate();
-				let month = date.getMonth() > 9 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1); 
-				let hours = date.getHours() > 9 ? date.getHours() : "0" + date.getHours();
-				let minutes = date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes();
-				let seconds = date.getSeconds() > 9 ? date.getSeconds() : "0" + date.getSeconds();
-				let SSSZ = date.toISOString().split(".");
+	<section v-if="permitido || esMaestro" class="lista-comentarios">
+	    <div v-for="comentario in comentarios" class="comentario" :id="comentario.id">
+	        <div class="comentador">
+	            <picture>
+	                <source :srcset="'../../maestro/evaluar/imagen.jsp?mat=' + comentario.codigoId" media="(min-width: 444px)">
+	                <img class="foto" srcset="" alt="">
+	            </picture>
+	            <p class="nombre">{{ obtenerNombreComentador(comentario.codigoId) }}</p>
+	        </div>
+	        <div class="contenido">
+	            <div class="encabezado">
+	                <p>{{ mapearFecha(comentario.createdAt) }}</p>
+	                <div>
+	                    <span class="badge" :class="{'bg-yellow': comentario.destacado}" @click="destacar(comentario.id)">
+	                        <i class="icon-star icon-white"></i>
+	                    </span>
+	                    <span class="badge" href="#guardarComentario" data-toggle="modal" @click="preEditar(comentario.id)">
+	                        <i class="icon-pencil icon-white"></i>
+	                    </span>
+	                    <span class="badge bg-red" @click="borrar(comentario.id)">
+	                        <i class="icon-remove icon-white"></i>
+	                    </span>
+	                </div>
+	            </div>
+	            <div class="cuerpo">
+                    <div class="respuesta" v-if="comentario.respuestaId !== -1">
+                        <span class="prefijo">En respuesta a</span> {{ obtenerUsuarioAResponder(comentario.respuestaId) }}:
+                        <div v-html="obtenerComentarioAResponder(comentario.respuestaId)"></div>
+                        <a v-if="obtenerIndexDelComentario(comentario.respuestaId) !== -1" :href="'#'+comentario.respuestaId">Ver original</a>
+                    </div>
+                    <div v-html="comentario.comentario"></div>
+                </div>
+	            <div class="responder" v-if="!tema.cerrado">
+	                <a href="#guardarComentario" data-toggle="modal" @click="preResponder(comentario.id)">Responder</a>
+	            </div>
+	      </div>
+	    </div>
+	</section>
+	
+	<section v-if="(permitido || esMaestro) && !tema.cerrado" class="contenedor-editor">
+	    <a class="btn btn-info" href="#guardarComentario" data-toggle="modal" @click="preAgregar()">Comentar</a>
+	</section>
+	
+	<!-- MODAL -->
+    <div id="guardarComentario" class="modal hide fade" role="dialog" aria-labelledby="editComment" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3 id="modal-title">Editar comentario</h3>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" name="id" id="id">
+            <input type="hidden" name="respuestaId" id="respuestaId">
+            <div id="modal-responder"></div>
+            <fieldset>
+                <label for="comentario">Comentario:</label>
+                <div id="comentario">
+                </div>
+            </fieldset>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i>Cancelar</button>
+            <a class="btn btn-primary" data-dismiss="modal" @click="btnGuardar()">Guardar</a>
+      </div>
+  </div>
+  <!-- END MODAL -->
 
-				const now = day + "/" + month + "/" + date.getFullYear() + " " + hours + ":" + minutes + ":" + seconds;
-				return now;
-			},
-
-			deleteComment: function(comentarioId) {
-				if(confirm("¿Está seguro que desea eliminar el comentario?")){
-					fetch(URL+'/'+temaId+'/comentarios/'+comentarioId, {
-						method: 'DELETE'
-					})
-				    .then( res => {
-					    if(!res.ok)
-				    		throw res.text();
-			    		app.comentarios.splice(findIndexOfCommentOnList(comentarioId), 1);
-					})
-					.catch(async (err) => {
-						console.log(await err);
-					});
-				}
-			},
-
-			toogleDestacado: function (comentarioId, destacado) {
-				let comentario = app.comentarios[findIndexOfCommentOnList(comentarioId)];
-				comentario.destacado = !destacado;
-				fetch(URL+'/'+temaId+'/comentarios/'+comentarioId, {
-					method: 'PUT',
-					body: JSON.stringify({...comentario}),
-					headers:{
-					    'Content-Type': 'application/json'
-					}
-				})
-			    .then( res => {
-				    if(!res.ok)
-			    		throw res.text();
-				})
-				.catch(async (err) => {
-					console.log(await err);
-					alert("No se pudo destacar");
-					comentario.destacado = destacado; 
-				});
-			},
-
-			setInfoModalFromCommentToEdit: function (comentarioId) {
-				let comentario = app.comentarios[findIndexOfCommentOnList(comentarioId)];
-				document.getElementById("descripcion").value = comentario.comentario;
-
-				
-				let btnEditar = document.getElementById("update-comment");
-				btnEditar.addEventListener("click", function() {
-					update(comentarioId);
-					this.removeEventListener("click", arguments.callee);
-				});
-			},
-
-			setInfoModalToRespondComment: function (comentarioId) {
-				let comentario = app.comentarios[findIndexOfCommentOnList(comentarioId)];
-
-				document.getElementById("commentToRespond").innerHTML = comentario.comentario;
-				document.getElementById("comentario-respuesta-id").value = comentarioId;
-				document.getElementById("descripcion-respuesta").value = "";
-			},
-
-			addRespuesta: () => add(document.getElementById("descripcion-respuesta").value, document.getElementById("comentario-respuesta-id").value),
-
-			addComment: () => add(),
-
-			getResponses: (comentario) => {
-				const responseTo = app.comentarios[findIndexOfCommentOnList(comentario.respuestaId)];
-				if (responseTo !== undefined)
-					return responseTo.comentario;
-				else
-					return "Comentario eliminado"; 
-			},
-
-			getFrom: (respuestaId) => {
-				const responseTo = app.comentarios[findIndexOfCommentOnList(respuestaId)];
-				if (responseTo !== undefined)
-					return responseTo.codigoId.includes("E") ? maestros[responseTo.codigoId] : alumnos[responseTo.codigoId];
-			}
-		}
-	});
-
-	(function(){
-		getDetailsTema();
-		getComentarios();
-	})();
-
-	function getDetailsTema() {
-		fetch(URL+'/'+temaId, {
-			method: 'GET'
-		})
-	    .then( res => res.text())
-	    .then(JSON.parse)
-	    .then(tema => app.tema = tema);
-	}
-
-	function getComentarios() {
-		fetch(URL+'/'+temaId+'/comentarios', {
-			method: 'GET'
-		})
-	    .then( res => res.text())
-	    .then(JSON.parse)
-	    .then(comentarios => app.comentarios = comentarios);
-	}
-
-	function add(descripcion = document.getElementById("comentario").value, 
-				respuestaId = -1) 
-	{
-		let comentario = {...DEFAULT_COMENTARIO};
-
-		comentario["comentario"] = descripcion;
-		comentario["respuestaId"] = respuestaId;
-
-		if(isNotEmpty(comentario)){
-			fetch(URL+'/'+temaId+'/comentarios', {
-				method: 'POST',
-				body: JSON.stringify(comentario),
-				headers:{
-				    'Content-Type': 'application/json'
-				}
-			})
-		    .then( res => res.text())
-		    .then(JSON.parse)
-		    .then(comentario => {
-			    if(comentario.id) {
-			    	app.comentarios.push(comentario);
-			    	document.getElementById('comentario').value = "";
-			    } else {
-					alert("No se pudo añadir el comentario");
-				}
-			});
-		}else {
-			alert("No puede dejar en blanco su comentario");
-		}
-	}
-
-	function update(comentarioId) {
-		const comentario = {...app.comentarios[findIndexOfCommentOnList(comentarioId)]};
-		
-		comentario["comentario"] = document.getElementById("descripcion").value;
-
-		if(isNotEmpty(comentario)){
-			fetch(URL+'/'+temaId+'/comentarios/'+comentarioId, {
-				method: 'PUT',
-				body: JSON.stringify(comentario),
-				headers:{
-				    'Content-Type': 'application/json'
-				}
-			})
-		    .then( res => res.text())
-		    .then(JSON.parse)
-		    .then(comentario => {
-			    if(comentario.id) {
-			    	app.comentarios[findIndexOfCommentOnList(comentarioId)]["comentario"] = comentario["comentario"];
-			    } else {
-					alert("No se pudo actualizar el comentario");
-				}
-			});
-		}else {
-			alert("No puede dejar en blanco el comentario");
-		}
-	}
-
-	function isNotEmpty(comentario){
-		return comentario.comentario.replace(" ", "").length > 0;
-	}
-
-	function mapObjectWithForm(){
-		const comentario = {...DEFAULT_COMENTARIO};
-
-		return comentario;
-	}
-
-	function findIndexOfCommentOnList(commentId) {
-		return app.comentarios.findIndex(comment => comment.id === commentId);
-	}
-});
-</script>
+</div>
+<script src="../../js/foros/ForoUtils.js"></script>
+<script src="../../js/foros/API.js"></script>
+<script src="../../js/foros/ComentariosAPI.js"></script>
+<script src="../../js/foros/comentarios.js"></script>
 <%@ include file= "../../cierra_elias.jsp" %>
