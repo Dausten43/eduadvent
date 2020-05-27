@@ -84,6 +84,7 @@
 		}
 		
 		case 2: {
+			conElias.setAutoCommit(false);
 			
 			// Borrar los alumnos registrados en la materia
 			if (aca.kardex.KrdxCursoAct.deleteAlumGrupo(conElias, cicloGrupoId, cursoId)){
@@ -92,7 +93,9 @@
 				resultado = "¡Se eliminó el registro de los alumnos enlistados en la materia!";
 			}else{				
 				resultado = "¡Error al borrar las notas de las actividades!";
-			}			
+			}
+			
+			conElias.setAutoCommit(true);
 			break;
 		}
 	}
