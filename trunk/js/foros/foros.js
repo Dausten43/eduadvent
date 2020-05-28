@@ -115,16 +115,42 @@ function DOMFunctions() {
 
     var editor;
 
-    InlineEditor
-    .create(document.querySelector('#descripcion'), {
-        toolbar: [ 'mediaEmbed','bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'undo', 'redo'],
-        mediaEmbed: {
-            previewsInData: true
-        },
-        placeholder: 'Escribe aquí la descripción del tema'
-    })
-    .then(newEditor => editor = newEditor)
-    .catch(error => {
-        console.error(error);
-    });
+    ClassicEditor
+	.create( document.querySelector( '#descripcion' ), {
+		toolbar: {
+			items: [
+				'fontColor',
+				'fontBackgroundColor',
+				'|',
+				'bold',
+				'italic',
+				'underline',
+				'strikethrough',
+				'|',
+				'bulletedList',
+				'numberedList',
+				'|',
+				'link',
+				//'imageUpload',
+				'mediaEmbed',
+				'|',
+				'undo',
+				'redo'
+			]
+		},
+		mediaEmbed: {
+			previewsInData: true
+		},
+		language: 'es',
+		licenseKey: '',
+		placeholder: 'Aquí puedes agregar una breve descripción'
+	})
+	.then( newEditor => {
+		editor = newEditor;	
+	})
+	.catch( error => {
+		console.error( 'Oops, something gone wrong with CKEditor!' );
+		console.error(error);
+	});  
+    
 }

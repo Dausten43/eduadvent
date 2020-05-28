@@ -106,23 +106,6 @@ header {
     text-align: justify;
 }
 
-/** REDUCE MEDIA SIZE **/
-figure {
-    margin: 0 !important;
-    width: fit-content;
-    height: fit-content;
-}
-
-figure div div {
-    padding-bottom: 0 !important;
-    height: fit-content !important;
-}
-
-iframe {
-    position: relative !important;
-    width: 100% !important;
-}
-
 /** COMENTARIOS **/
 
 section.lista-comentarios {
@@ -230,4 +213,35 @@ section.contenedor-editor {
     font-size: 1.1em;
     text-transform: uppercase;
     border-radius: 5px;
+}
+
+/** FIX OVERFLOW MODAL CONTEN **/
+
+.modal {
+	left:50%;
+	margin-left: 0px;
+	width: 80vw;
+	transform: translateX(-50%);
+}
+
+.modal-body {
+	max-height: 60vh;
+}
+
+/** REDUCE MEDIA SIZE **/
+figure {
+    margin: 0 !important;
+    width: max-content;
+    height: max-content;
+}
+
+figure div div {
+    padding-bottom: 0 !important;
+    height: max-content !important;
+}
+
+iframe {
+    position: relative !important;
+    height: 100% !important;
+    width: 100% !important;
 }

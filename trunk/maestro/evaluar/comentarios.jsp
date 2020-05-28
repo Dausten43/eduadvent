@@ -10,8 +10,6 @@
 <%@ include file= "../../menu.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="../../css/foros/comentarios.css">
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/inline/ckeditor.js"></script>
 
 <%
 	String codigoId 	= (String)session.getAttribute("codigoEmpleado");
@@ -121,13 +119,15 @@
             </fieldset>
         </div>
         <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i>Cancelar</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
             <a class="btn btn-primary" data-dismiss="modal" @click="btnGuardar()">Guardar</a>
       </div>
   </div>
   <!-- END MODAL -->
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="../../js/ckeditor.js"></script>
 <script src="../../js/foros/ForoUtils.js"></script>
 <script src="../../js/foros/API.js"></script>
 <script src="../../js/foros/ComentariosAPI.js"></script>

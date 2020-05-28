@@ -7,8 +7,6 @@
 <%@ include file= "../../menu.jsp" %>
 
 <link rel="stylesheet" type="text/css" href="../../css/foros/foros.css">
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/19.0.0/inline/ckeditor.js"></script>
 
 <%
 	String maestroId 	= (String)session.getAttribute("codigoEmpleado");
@@ -97,6 +95,8 @@
     </div>
     <!-- END MODAL -->
 </div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="../../js/ckeditor.js"></script>
 <script src="../../js/foros/ForoUtils.js"></script>
 <script src="../../js/foros/API.js"></script>
 <script src="../../js/foros/TemasAPI.js"></script>
