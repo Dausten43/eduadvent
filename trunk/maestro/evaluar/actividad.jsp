@@ -13,6 +13,7 @@
 <jsp:useBean id="cicloGrupoEval" scope="page" class="aca.ciclo.CicloGrupoEval"/>
 <jsp:useBean id="cicloGrupoEvalL" scope="page" class="aca.ciclo.CicloGrupoEvalLista"/>
 <jsp:useBean id="cicloGrupoActividad" scope="page" class="aca.ciclo.CicloGrupoActividad"/>
+<jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo"/>
 
 <jsp:useBean id="krdxAlumAct" scope="page" class="aca.kardex.KrdxAlumActiv"/>
 <jsp:useBean id="tipoactLista" scope="page" class="aca.catalogo.CatTipoactLista"/>
