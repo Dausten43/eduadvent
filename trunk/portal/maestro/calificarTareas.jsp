@@ -5,6 +5,7 @@
 <%@ include file="../../menu.jsp"%>
 
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.TreeMap"%>
 
 <jsp:useBean id="ArchivosEnviadosLista" scope="page" class="aca.kardex.KrdxAlumArchivoLista"/>
 <jsp:useBean id="RevisarArchivos" scope="page" class="aca.kardex.KrdxAlumActiv"/>
@@ -30,6 +31,7 @@
 	
 	//ArrayList<aca.kardex.KrdxAlumArchivo> archivosEnviados = ArchivosEnviadosLista.getListArchivosEnviados(conElias, cicloGrupoId, cursoId, evaluacionId, actividadId, " ORDER BY CODIGO_ID, FECHA");
 	ArrayList<String> archivosEnviados = ArchivosEnviadosLista.getListCodigoSinRepetir(conElias, cicloGrupoId, cursoId, evaluacionId, actividadId, " ORDER BY CODIGO_ID");
+	TreeMap<String, aca.kardex.KrdxAlumActiv> actividadesPorAlumno = new aca.kardex.KrdxAlumActivLista().getTreeActividades(conElias, cicloGrupoId, cursoId, evaluacionId, "");
 	
 	if(accion.equals("1")){
 		
@@ -127,13 +129,13 @@
 				}%>
 				</td>
 				<%
-				RevisarArchivos.mapeaRegId(conElias, codigoIdAlum, cicloGrupoId, cursoId, evaluacionId, actividadId);
+				String nota = actividadesPorAlumno.getOrDefault(cicloGrupoId + cursoId + evaluacionId + actividadId + codigoIdAlum, new aca.kardex.KrdxAlumActiv()).getNota();
 				%>
 		
 				<td><%=fechaEnvio%></td>
 				<td><%=aca.alumno.AlumPersonal.getNombre(conElias, codigoIdAlum, "NOMBRE")%></td>			
 				<td>
-					<input type="text" id="nota-<%=codigoIdAlum%>" name="nota-<%=codigoIdAlum%>" size="3" maxlength="3" value="<%=RevisarArchivos.getNota()%>"/>
+					<input type="text" id="nota-<%=codigoIdAlum%>" name="nota-<%=codigoIdAlum%>" size="3" maxlength="3" value="<%=nota%>"/>
 				</td>
 			</tr>
 		<%					
