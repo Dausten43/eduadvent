@@ -12,14 +12,20 @@
 %>
 
 <script>
-	function guardar(){
+	function guardar(e){
+		e.preventDefault();
 		if(document.formaEnviar.archivo.value != ""){
-			document.formaEnviar.btnGuardar.disabled = true;
-			document.formaEnviar.btnGuardar.value = "<fmt:message key="aca.Guardando" />";
-			document.formaEnviar.submit();
+			if(document.formaEnviar.archivo.value.split("\\").slice(-1)[0].length <= 50){
+				document.formaEnviar.btnGuardar.value = "<fmt:message key="aca.Guardando" />";
+				document.formaEnviar.btnGuardar.disabled = true;
+				document.formaEnviar.submit();
+			}else{
+				alert("El nombre del archivo es muy grande");
+			}
 		}else{
 			alert("<fmt:message key="aca.SeleccioneArchivo" />");
 		}
+		document.formaEnviar.btnGuardar.disabled = false;
 	}
 </script>
 
@@ -39,7 +45,7 @@
 			<input type="file" id="archivo" name="archivo"/>
 		</div >
 		<div class="well">
-			  <button id="btnGuardar" onclick="guardar();" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></button>
+			  <button id="btnGuardar" onclick="guardar(event);" class="btn btn-primary btn-large"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar" /></button>
 		</div>
 	</form>
 	
