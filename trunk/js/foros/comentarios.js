@@ -84,10 +84,42 @@ function DOMFunctions() {
                 }
             },
 
+            fijar: (id) => {          	
+            	let comentarioAFijar = app.comentarios[app.obtenerIndexDelComentario(parseInt(id))];
+            	let primerComentario = app.comentarios[0];
+            	let elPrimerComentarioSeDebeActualizar = false;
+
+            	if(comentarioAFijar.id !== primerComentario.id && primerComentario.fijo) {
+            		elPrimerComentarioSeDebeActualizar = true;
+            		primerComentario.fijo = !primerComentario.fijo;
+            	}
+            	
+            	
+            	comentarioAFijar.fijo = !comentarioAFijar.fijo;
+                
+                api.update(comentarioAFijar)
+                .then(() => {
+                	if(elPrimerComentarioSeDebeActualizar){
+                		api.update(primerComentario)
+                		.then(() => app.obtenerComentarios())
+                		.catch((err) => {
+                			primerComentario.fijo = !primerComentario.fijo;
+                		});                		
+                	} else {
+                		app.obtenerComentarios();
+                	}
+                })
+                .catch((err) => {
+                	console.error(err);
+                	comentarioAFijar.fijo = !comentarioAFijar.fijo;
+                });
+            },
+            
             destacar: (id) => {
                 let comentario = app.comentarios[app.obtenerIndexDelComentario(parseInt(id))];
-                comentario.destacado = !comentario.destacado;
-                app.actualizar(comentario);
+                let comentario_a_guardar= {...comentario};
+                comentario_a_guardar.destacado = !comentario.destacado;
+                app.actualizar(comentario_a_guardar);
             },
 
             btnGuardar: () => {
@@ -189,7 +221,7 @@ function DOMFunctions() {
 				'numberedList',
 				'|',
 				'link',
-				//'imageUpload',
+				'imageUpload',
 				'mediaEmbed',
 				'|',
 				'undo',
@@ -198,6 +230,9 @@ function DOMFunctions() {
 		},
 		mediaEmbed: {
 			previewsInData: true
+		},
+		simpleUpload: {
+			uploadUrl: '/edusystems/api/imagenes'
 		},
 		language: 'es',
 		licenseKey: '',

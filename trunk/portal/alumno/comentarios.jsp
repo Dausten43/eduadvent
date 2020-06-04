@@ -77,6 +77,9 @@
 			      		<span v-if="comentario.destacado" class="badge bg-yellow">
 			      			<i class="icon-star icon-white"></i>
 			      		</span>
+			      		<span v-if="comentario.fijo" class="badge bg-gray">
+	                        <i class="icon-magnet icon-white"></i>
+	                    </span>
 				  	</p>
 			      	<div v-if="comentario.codigoId === '<%=codigoId%>' && !tema.cerrado">
 		                <span class="badge" href="#guardarComentario" data-toggle="modal" @click="preEditar(comentario.id)">

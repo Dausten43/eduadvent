@@ -72,13 +72,16 @@
 	            <div class="encabezado">
 	                <p>{{ mapearFecha(comentario.createdAt) }}</p>
 	                <div>
-	                    <span class="badge" :class="{'bg-yellow': comentario.destacado}" @click="destacar(comentario.id)">
-	                        <i class="icon-star icon-white"></i>
+	                	<span class="badge" :class="{'bg-gray': comentario.fijo}" :title="comentario.fijo ? 'Liberar' : 'Fijar'" @click="fijar(comentario.id)">
+	                        <i class="icon-magnet icon-white"></i>
 	                    </span>
-	                    <span class="badge" href="#guardarComentario" data-toggle="modal" @click="preEditar(comentario.id)">
+	                    <span class="badge" :class="{'bg-yellow': comentario.destacado}" :title="comentario.destacado ? 'Quitar destacado' : 'Destacar'" @click="destacar(comentario.id)">
+	                        <i class="icon-white" :class="{'icon-star': comentario.destacado, 'icon-star-empty': !comentario.destacado}"></i>
+	                    </span>
+	                    <span class="badge" href="#guardarComentario" data-toggle="modal" :title="'Editar'" @click="preEditar(comentario.id)">
 	                        <i class="icon-pencil icon-white"></i>
 	                    </span>
-	                    <span class="badge bg-red" @click="borrar(comentario.id)">
+	                    <span class="badge bg-red" :title="'Borrar'" @click="borrar(comentario.id)">
 	                        <i class="icon-remove icon-white"></i>
 	                    </span>
 	                </div>

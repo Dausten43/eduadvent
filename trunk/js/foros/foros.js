@@ -131,7 +131,7 @@ function DOMFunctions() {
 				'numberedList',
 				'|',
 				'link',
-				//'imageUpload',
+				'imageUpload',
 				'mediaEmbed',
 				'|',
 				'undo',
@@ -140,6 +140,9 @@ function DOMFunctions() {
 		},
 		mediaEmbed: {
 			previewsInData: true
+		},
+		simpleUpload: {
+			uploadUrl: '/edusystems/api/imagenes'
 		},
 		language: 'es',
 		licenseKey: '',

@@ -150,7 +150,7 @@ section.lista-comentarios {
     opacity: 0.8;
 }
 
-.encabezado .badge {
+.encabezado div .badge {
     cursor: pointer;
 }
 
@@ -229,10 +229,16 @@ section.contenedor-editor {
 }
 
 /** REDUCE MEDIA SIZE **/
-figure {
-    margin: 0 !important;
+/** REDUCE IMAGE SIZE **/
+.image, .media {
+    margin: 5px 0 !important;
     width: max-content;
     height: max-content;
+}
+
+.image img {
+	position: relative !important;
+	width: 300px;
 }
 
 figure div div {
