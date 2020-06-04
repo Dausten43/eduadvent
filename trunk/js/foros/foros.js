@@ -138,6 +138,9 @@ function DOMFunctions() {
 				'redo'
 			]
 		},
+		link: {
+			addTargetToExternalLinks: true,
+		},
 		mediaEmbed: {
 			previewsInData: true
 		},
