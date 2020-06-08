@@ -144,7 +144,9 @@
 				<p style="font-size:15px; font-weight: bold;">
 				<%=CatEscuela.getDireccion()%>,<%=CatEscuela.getColonia()%><br>
 				Telefono: <%=CatEscuela.getTelefono()%><br>
+				<%if(!CatEscuela.getFax().equals("")){ %>
 				Fax: <%=CatEscuela.getFax()%>
+				<%} %>
 				</p>
 				<p style="font-size:20px; font-weight: bold;">
 				Boleta de Calificaciones
@@ -154,14 +156,18 @@
 	</table>
 	<table class="table table-bordered table-condensed">
 		<tr>
-			<th width="5%">No.</th>
+			<th width="5%">Matrícula</th>
 			<th width="25%">Nombres</th>
 			<th width="30%">Apellidos</th>
 			<th width="15%">Ciclo Escolar</th>
 			<th width="10%">Nivel</th>
 			<th width="5%">Curso</th>
 			<th width="5%">Sección</th>
-			<th width="5%">Tanda</th>
+			<%if(escuelaId.charAt(0)== 'S' || escuelaId.charAt(0)== 'G'){ %>
+			<th width="5%">Tanda</th> 
+			<%}else{ %>
+			<th width="5%">Turno</th>
+			<%} %>
 		</tr>
 		<tr>
 <%
@@ -169,7 +175,7 @@
 		content = content.replace("NIVEL", "");
 %>
 		
-			<td><%=kardex.getOrden() %></td>
+			<td><%=AlumPersonal.getCodigoId()%></td>
 			<td><%=AlumPersonal.getNombre() %></td>
 			<td><%=AlumPersonal.getApaterno() %> <%=AlumPersonal.getAmaterno() %></td>
 			<td><%= aca.ciclo.Ciclo.getCicloNombre(conElias, cicloId)%></td> 
@@ -187,8 +193,8 @@
 		<table class="table table-condensed table-striped table-bordered table-condensed">
 			<thead>
 			<tr>
-				<th width="2%">#</th>
-			    <th width="20%"><fmt:message key="aca.NombreMateria"/></th>
+				<th width="2%" class="text-center">#</th>
+			    <th width="20%" class="text-center"><!--<fmt:message key="aca.NombreMateria"/>-->Nombre de la materia</th>
 <%
 			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
 					
@@ -224,7 +230,7 @@
 				}
 %>
 			<tr> 
-		    	<td width="2%" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
+		    	<td width="2%" class="text-center" title='<%=alumCurso.getCursoId()%>'><%=row %></td>
 		    	<td width="20%"><%=curso.getCursoNombre()%></td>
 <%
 				System.out.println("Name => " + lisAlumnoCurso);
