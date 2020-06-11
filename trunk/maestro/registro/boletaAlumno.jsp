@@ -129,18 +129,13 @@
 		dirLogo = "../../imagenes/logos/logoIASD.png";
 	}	
 %>
-
 <div id="content">	
-	<table class="table" style="width:70%; margin:0 auto;">
-		<tr>
-			<td width="10%"> 
-				<a class="btn btn-primary" href="alumnos.jsp?CicloGrupoId=<%=cicloGrupoId%>"><i class="icon-arrow-left icon-white"></i></a>
-			</td>
-			<td width="20%"> 
+	<div style="display: flex; flex-direction:row; width: max-content; margin:20px auto;">
+			<div style= "margin: auto 10px"> 
 				<img width="120px" src="<%=dirLogo%>">
-			</td>
-			<td width="70%">
-				<p style="font-size:30px; font-weight: bold;"><%=CatEscuela.getEscuelaNombre()%></p>
+			</div>
+			<div style= "margin: auto 10px">
+				<p style="font-size:25px; font-weight: bold;"><%=CatEscuela.getEscuelaNombre()%></p>
 				<p style="font-size:15px; font-weight: bold;">
 				<%=CatEscuela.getDireccion()%>,<%=CatEscuela.getColonia()%><br>
 				Telefono: <%=CatEscuela.getTelefono()%><br>
@@ -151,18 +146,17 @@
 				<p style="font-size:20px; font-weight: bold;">
 				Boleta de Calificaciones
 				<p style="font-size:15px; font-weight: bold;">
-			</td>
-		</tr>			
-	</table>
-	<table class="table table-bordered table-condensed">
+			</div>					
+	</div>
+	<table class="table table-bordered table-condensed" id ="tabla-info">
 		<tr>
 			<th width="5%">Matrícula</th>
 			<th width="25%">Nombres</th>
 			<th width="30%">Apellidos</th>
 			<th width="15%">Ciclo Escolar</th>
 			<th width="10%">Nivel</th>
-			<th width="5%">Curso</th>
-			<th width="5%">Sección</th>
+			<th width="5%">Grado</th>
+			<th widths="5%">Grupo</th>
 			<%if(escuelaId.charAt(0)== 'S' || escuelaId.charAt(0)== 'G'){ %>
 			<th width="5%">Tanda</th> 
 			<%}else{ %>
@@ -394,30 +388,45 @@
 		</table>
 	</form>
 	<br><br><br><br>
-	<div class="row">
-		<div class="span1"  style="align:center;"></div>
-		<div class="span5 signatures"  style="align:center;">
-			<center>
+	<div class="row" >
+		<!-- <div class="span1"  style="align:center;"></div> -->
+		<div class=" signatures"  style="align:center; ">
 			<br>
 			<%=aca.empleado.EmpPersonal.getNombre(conElias, Grupo.getEmpleadoId(), "NOMBRE") %>
 			<br>
-			PROF. TITULAR</center>
+			PROF. TITULAR
 		</div>
-
-		<div class="span5 signatures" style="margin-left:20px;">
-			<center>
+		<div class="signatures" style="align:center; margin: auto 20px;">			
 			<br>
 			<%=aca.empleado.EmpPersonal.getNombre(conElias, nivel.getDirector(conElias, escuelaId, Grupo.getNivelId()), "NOMBRE")%>
 			<br>
-			DIRECTOR (A)</center>
-		</div>
-		
-		<style>
+			DIRECTOR (A)
+		</div>	
+	</div>
+	<style>
 		.signatures{
-			border-top: 1px solid #000000;
+			border-top: 1px solid black;
+		  	width: 300px;
+		  	text-align: center;
+		  	
+		}
+		
+		.row{
+			display:flex;
+			flex-direction: row; 
+			width: max-content; 
+			margin:20px auto;
+	
+		}
+		
+		#tabla-info th{
+			text-align: center;
+		}
+		
+		#tabla-info td{
+			text-align: center;
 		}
 		</style>
-	</div>
 	
 </div>
 <%@ include file="../../cierra_elias.jsp"%>
