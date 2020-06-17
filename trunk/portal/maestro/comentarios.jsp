@@ -52,7 +52,7 @@
 	<header>
 	    <h1>{{tema.titulo}}</h1>
 	    <p>{{ mapearFecha(tema.createdAt) }}</p>
-	    <p>MATEMATICAS - [{{tema.cursoId}}]</p>
+	    <p><%=cursoNombre%> - [{{tema.cursoId}}]</p>
 	    <span class="badge" :class="{'bg-red': tema.cerrado, 'bg-green': !tema.cerrado}">{{ tema.cerrado ? "Cerrado" : "Abierto" }}</span>
 	    <div class="descripcion-tema" v-html="tema.descripcion ?? '<p>No tiene descripción</p>'"></div>
 	    <a class="btn" @click="regresarATemas()">Regresar</a>
