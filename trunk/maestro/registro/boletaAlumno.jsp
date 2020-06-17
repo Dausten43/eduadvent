@@ -131,24 +131,25 @@
 %>
 <div id="content">	
 	<div style="display: flex; flex-direction:row; width: max-content; margin:20px auto;">
-			<div style= "margin: auto 10px"> 
-				<img width="120px" src="<%=dirLogo%>">
-			</div>
-			<div style= "margin: auto 10px">
-				<p style="font-size:25px; font-weight: bold;"><%=CatEscuela.getEscuelaNombre()%></p>
-				<p style="font-size:15px; font-weight: bold;">
-				<%=CatEscuela.getDireccion()%>,<%=CatEscuela.getColonia()%><br>
-				Telefono: <%=CatEscuela.getTelefono()%><br>
-				<%if(!CatEscuela.getFax().equals("")){ %>
-				Fax: <%=CatEscuela.getFax()%>
-				<%} %>
-				</p>
-				<p style="font-size:20px; font-weight: bold;">
-				Boleta de Calificaciones
-				<p style="font-size:15px; font-weight: bold;">
-			</div>					
+		<div style= "margin: auto 10px"> 
+			<img width="120px" src="<%=dirLogo%>">
+		</div>
+		<div style= "margin: auto 12vw">
+			<p style="font-size:25px; font-weight: bold;"><%=CatEscuela.getEscuelaNombre()%></p>
+			<p style="font-size:15px; font-weight: bold;">
+			<%=CatEscuela.getDireccion()%>,<%=CatEscuela.getColonia()%><br>
+			Telefono: <%=CatEscuela.getTelefono()%><br>
+			<%if(!CatEscuela.getFax().equals("")){ %>
+			Fax: <%=CatEscuela.getFax()%>
+			<%} %>
+			</p>
+			<p style="font-size:20px; font-weight: bold;">
+			Boleta de Calificaciones
+			<p style="font-size:15px; font-weight: bold;">
+		</div>					
 	</div>
-	<table class="table table-bordered table-condensed" id ="tabla-info">
+	
+	<table class="table table-bordered table-condensed" id="tabla-info">
 		<tr>
 			<th width="5%">Matrícula</th>
 			<th width="25%">Nombres</th>
