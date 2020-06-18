@@ -128,7 +128,7 @@ public class CicloGpoTema {
 		boolean ok = false;
 		try{
 			ps = conn.prepareStatement("INSERT INTO CICLO_GRUPO_TEMA" +
-					" (CICLO_GRUPO_ID, MODULO_ID, TEMA_ID, TEMA_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN)" +
+					" (CICLO_GRUPO_ID, MODULO_ID, TEMA_ID, TEMA_NOMBRE, DESCRIPCION, CURSO_ID, ORDEN, FECHA)" +
 					" VALUES(?, ?, ?, ? , ?, ?, TO_NUMBER(?, '99.99'), to_date(?, 'dd/mm/yyyy'))");
 			
 			ps.setString(1, cicloGrupoId);
