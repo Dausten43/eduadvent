@@ -67,6 +67,8 @@
 			Modulo.setCicloGrupoId(cicloGrupo);
 			Modulo.setCursoId(cursoId);
 			Modulo.setModuloId(request.getParameter("ModuloId"));
+			
+			conElias.setAutoCommit(false);
 			if (Modulo.existeReg(conElias) == true) {
 				if (Modulo.deleteReg(conElias)) {
 					resultado = "Eliminado";
@@ -78,6 +80,8 @@
 			} else {
 				resultado = "NoExiste";
 			}
+			conElias.setAutoCommit(true);
+			
 			break;
 		}
 
