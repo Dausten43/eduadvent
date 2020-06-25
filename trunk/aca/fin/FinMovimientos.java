@@ -135,6 +135,18 @@ public class FinMovimientos {
 	public void setTipoMovId(String tipoMovId) {
 		this.tipoMovId = tipoMovId;
 	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "FinMovimientos [ejercicioId=" + ejercicioId + ", polizaId=" + polizaId + ", movimientoId="
+				+ movimientoId + ", cuentaId=" + cuentaId + ", auxiliar=" + auxiliar + ", descripcion=" + descripcion
+				+ ", importe=" + importe + ", naturaleza=" + naturaleza + ", referencia=" + referencia + ", estado="
+				+ estado + ", fecha=" + fecha + ", reciboId=" + reciboId + ", cicloId=" + cicloId + ", periodoId="
+				+ periodoId + ", tipoMovId=" + tipoMovId + "]";
+	}
 
 	public boolean insertReg(Connection conn ) throws SQLException{
 		boolean ok = false;

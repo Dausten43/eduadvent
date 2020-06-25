@@ -109,6 +109,8 @@
 			    	Cell folio 			= row.getCell(11);
 			    	Cell pago 			= row.getCell(12);
 			    	
+			    
+			    	
 			    	// Si el renglon tiene la bandera de grabar
 			    	if ( grabar!=null && grabar.getCellType()==HSSFCell.CELL_TYPE_STRING ){
 			    	System.out.println("Entre..."+linea);

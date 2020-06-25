@@ -75,6 +75,16 @@ public class FinPoliza {
 	public void setDescargaId(String descargaId) {
 		this.descargaId = descargaId;
 	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "FinPoliza [ejercicioId=" + ejercicioId + ", polizaId=" + polizaId + ", fecha=" + fecha
+				+ ", descripcion=" + descripcion + ", usuario=" + usuario + ", estado=" + estado + ", tipo=" + tipo
+				+ ", descargaId=" + descargaId + "]";
+	}
 
 	public boolean insertReg(Connection conn) throws SQLException{
         boolean ok = false;
@@ -93,7 +103,7 @@ public class FinPoliza {
             ps.setString(5, usuario);
             ps.setString(6, estado);
             ps.setString(7, tipo);
-            
+            System.out.println(ps);
             if(ps.executeUpdate()==1){
                 ok = true;
             }
