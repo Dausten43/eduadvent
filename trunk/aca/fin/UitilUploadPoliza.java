@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
 import aca.conecta.Conectar;
+import aca.usuario.Usuario;
 
 public class UitilUploadPoliza {
 	
@@ -44,6 +46,13 @@ public class UitilUploadPoliza {
 		ServletFileUpload upload 		= new ServletFileUpload(factory);
 		List<FileItem> lsFileItem = new ArrayList<FileItem>();
 		
+		Calendar cal = Calendar.getInstance();
+		Integer year = cal.get(Calendar.YEAR);
+		
+		Usuario usrObj = new Usuario();
+		
+		String usuario = "x";
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		
 		
@@ -54,10 +63,10 @@ public class UitilUploadPoliza {
 			
 		}
 		
-		String folio = null;
+		String folio = "";
 
 	    List<FinMovimientos> lsMovimientos = new ArrayList<FinMovimientos>();
-	    FinPoliza poliza = new FinPoliza();
+	    FinPoliza poliza = null;
 		
 		for(FileItem fi : lsFileItem) {
 			String fieldname 	= fi.getFieldName();
@@ -85,6 +94,7 @@ public class UitilUploadPoliza {
 				    XSSFSheet sheet = sheetIterator.next();
 				   	
 				    int linea = 0;
+				    int mov_id =0;
 				    java.util.Iterator<Row> rowIterator = sheet.iterator();
 
 				    while(rowIterator.hasNext()) {			    	
@@ -109,52 +119,52 @@ public class UitilUploadPoliza {
 				    	Cell m 			= row.getCell(12);
 				    	
 				    	
+				    	String ejercicio = a.getStringCellValue().trim() +  "-" + year;
 				    	
 				    	
 				    	
-				    	
-				    	if(linea==1) {
-				    		
-				    		folio = a.getStringCellValue().substring(0,3) + poliza.maximoReg(con, a.getStringCellValue().trim());
-				    	   		
-				    		poliza.setPolizaId(folio);
-				    		poliza.setEjercicioId(a.getStringCellValue());
-				    		poliza.setFecha(sdf.format(b.getDateCellValue()));
-				    		poliza.setUsuario(c.getStringCellValue());
-				    		poliza.setDescripcion(d.getStringCellValue());
-				    		poliza.setTipo("G");
-				    		poliza.setEstado("A");
-				    		
-				    		//poliza.insertReg(con);
-				    		
-				    	}else {
-				    		
-				    		
-				    		
-				    		
-				    		
-				    		//System.out.println(folio);
-				    		FinMovimientos mv = new FinMovimientos();
-				    		mv.setEjercicioId(a.getStringCellValue().trim());
-				    		mv.setPolizaId(folio);
-				    		mv.setMovimientoId((int) b.getNumericCellValue() + "" );
-				    		mv.setCuentaId(f.getStringCellValue().trim());
-				    		mv.setAuxiliar(d.getStringCellValue().trim());
-				    		mv.setDescripcion(h.getStringCellValue().trim());
-				    		mv.setImporte(g.getNumericCellValue() + "");
-				    		mv.setNaturaleza(i.getStringCellValue().trim().toUpperCase().startsWith("C") ? "C" : "D");
-				    		mv.setEstado("R");
-				    		mv.setFecha(sdf.format(c.getDateCellValue()));
-				    		mv.setReciboId("0");
-				    		mv.setCicloId("00000000");
-				    		mv.setPeriodoId("0");
-				    		mv.setTipoMovId("0");
-				    		
-				    		lsMovimientos.add(mv);
-				    		
-				    		
+				    	if(usuario.equals("x")) {
+				    		usuario =  usrObj.getEsUsuario(con, c.getStringCellValue().trim().toUpperCase()) ;
 				    	}
-				    	
+				    	if(!usuario.equals("x")) {
+					    	if(linea==1) {
+					    		poliza = new FinPoliza();
+					    		folio = a.getStringCellValue().trim() + poliza.maximoReg(con, ejercicio);
+					    		
+					    		poliza.setPolizaId(folio);
+					    		poliza.setEjercicioId(ejercicio);
+					    		poliza.setFecha(sdf.format(b.getDateCellValue()));
+					    		poliza.setUsuario(usuario);
+					    		poliza.setDescripcion(d.getStringCellValue());
+					    		poliza.setTipo("G");
+					    		poliza.setEstado("A");
+					    		
+					    		//poliza.insertReg(con);
+					    		
+					    	}else {
+					    		mov_id++;
+					    		//System.out.println(folio);
+					    		FinMovimientos mv = new FinMovimientos();
+					    		mv.setEjercicioId(ejercicio);
+					    		mv.setPolizaId(folio);
+					    		mv.setMovimientoId(mov_id + "" );
+					    		mv.setCuentaId(e.getStringCellValue().trim());
+					    		mv.setAuxiliar(c.getStringCellValue().trim());
+					    		mv.setDescripcion(g.getStringCellValue().trim());
+					    		mv.setImporte(f.getNumericCellValue() + "");
+					    		mv.setNaturaleza(h.getStringCellValue().trim().toUpperCase().startsWith("C") ? "C" : "D");
+					    		mv.setEstado("R");
+					    		mv.setFecha(sdf.format(b.getDateCellValue()));
+					    		mv.setReciboId("0");
+					    		mv.setCicloId("00000000");
+					    		mv.setPeriodoId("0");
+					    		mv.setTipoMovId("0");
+					    		
+					    		lsMovimientos.add(mv);
+					    		
+					    		
+					    	}
+				    	}
 				    }
 				   	
 				    
@@ -170,16 +180,20 @@ public class UitilUploadPoliza {
 		    }
 		}
 		
-		try {
-			
-			poliza.insertReg(con);
-			
-			for(FinMovimientos fm : lsMovimientos) {
-				fm.insertReg(con);
+		if(poliza!=null && !lsMovimientos.isEmpty()) {
+			/**
+			try {
+				
+				poliza.insertReg(con);
+				
+				for(FinMovimientos fm : lsMovimientos) {
+					fm.insertReg(con);
+				}
+			}catch(SQLException sqle) {
+				
 			}
-		}catch(SQLException sqle) {
-			
+			**/
 		}
-		return lsMovimientos;
+				return lsMovimientos;
 	}
 }

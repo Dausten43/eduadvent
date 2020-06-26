@@ -443,6 +443,34 @@ public class Usuario {
  		return codigoId;
  	}
 	
+	
+public String getEsUsuario(Connection conn, String cuenta) throws SQLException{
+ 		
+ 		ResultSet 		rs		= null;
+ 		PreparedStatement ps	= null; 		
+ 		String codigoId		 	= "x";
+ 		
+ 		try{
+ 			ps = conn.prepareStatement("SELECT CODIGO_ID FROM USUARIO "+
+ 				"WHERE upper(CUENTA) = ? ");				
+ 			ps.setString(1,cuenta);
+			
+ 			rs = ps.executeQuery(); 
+ 			if (rs.next()){
+				codigoId = rs.getString("CODIGO_ID");
+			}else{
+				codigoId = "x";
+			}
+
+ 		}catch(Exception ex){
+ 			System.out.println("Error - aca.usuario.Usuario|getValidaClave|:"+ex);
+ 		}finally{
+ 			if (rs!=null) rs.close();
+ 			if (ps!=null) ps.close();
+ 		}
+ 		return codigoId;
+ 	}
+	
 	public static boolean getValidaCuenta(Connection conn, String cuenta) throws SQLException{
  		
  		ResultSet 		rs		= null;
