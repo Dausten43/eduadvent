@@ -181,7 +181,7 @@ public class UitilUploadPoliza {
 		}
 		
 		if(poliza!=null && !lsMovimientos.isEmpty()) {
-			/**
+			
 			try {
 				
 				poliza.insertReg(con);
@@ -192,7 +192,7 @@ public class UitilUploadPoliza {
 			}catch(SQLException sqle) {
 				
 			}
-			**/
+			
 		}
 				return lsMovimientos;
 	}
