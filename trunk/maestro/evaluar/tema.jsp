@@ -174,9 +174,9 @@
 	    max: 75
 	});
 	
-	$('#Descripcion').maxlength({ 
-	    max: 2000
-	});
+	//$('#Descripcion').maxlength({ 
+	 //   max: 
+//	});
 	
 	function grabar() {
 		if (document.frmAlta.TemaId.value.value != ""

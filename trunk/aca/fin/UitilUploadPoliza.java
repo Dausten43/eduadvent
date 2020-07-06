@@ -41,6 +41,8 @@ public class UitilUploadPoliza {
 	}
 	
 	
+	
+	
 	public List<FinMovimientos> uploadFile(HttpServletRequest request) {
 		DiskFileItemFactory factory 	= new DiskFileItemFactory();
 		ServletFileUpload upload 		= new ServletFileUpload(factory);
@@ -66,8 +68,9 @@ public class UitilUploadPoliza {
 		String folio = "";
 
 	    List<FinMovimientos> lsMovimientos = new ArrayList<FinMovimientos>();
-	    FinPoliza poliza = null;
-		
+	    List<FinMovimientos> lsErrores = new ArrayList<FinMovimientos>();
+	    FinPoliza poliza = new FinPoliza();
+		int error = 0;
 		for(FileItem fi : lsFileItem) {
 			String fieldname 	= fi.getFieldName();
 		    String filename 	= fi.getName();
@@ -99,6 +102,8 @@ public class UitilUploadPoliza {
 
 				    while(rowIterator.hasNext()) {			    	
 				        Row row = rowIterator.next();
+				        
+				       
 				        //System.out.println("linea:"+linea);
 				        linea++;
 				        
@@ -118,53 +123,72 @@ public class UitilUploadPoliza {
 				    	Cell l 			= row.getCell(11);
 				    	Cell m 			= row.getCell(12);
 				    	
+				    
+				    	//
 				    	
-				    	String ejercicio = a.getStringCellValue().trim() +  "-" + year;
 				    	
 				    	
-				    	
-				    	if(usuario.equals("x")) {
-				    		usuario =  usrObj.getEsUsuario(con, c.getStringCellValue().trim().toUpperCase()) ;
-				    	}
-				    	if(!usuario.equals("x")) {
-					    	if(linea==1) {
-					    		poliza = new FinPoliza();
-					    		folio = a.getStringCellValue().trim() + poliza.maximoReg(con, ejercicio);
+				    	if((a!=null )) {
+				    		System.out.println(linea + "--->>" + a.getCellType() + " - " +b.getCellType() + " - " +c.getCellType() + " - " +d.getCellType() + " - " +e.getCellType() + " - " +f.getCellType() + " - " +g.getCellType() + " - " +h.getCellType() );
+					    	String ejercicio = a.getStringCellValue().trim() +  "-" + year;
+					    	
+
+					    	if(c!=null) {
 					    		
-					    		poliza.setPolizaId(folio);
-					    		poliza.setEjercicioId(ejercicio);
-					    		poliza.setFecha(sdf.format(b.getDateCellValue()));
-					    		poliza.setUsuario(usuario);
-					    		poliza.setDescripcion(d.getStringCellValue());
-					    		poliza.setTipo("G");
-					    		poliza.setEstado("A");
-					    		
-					    		//poliza.insertReg(con);
-					    		
-					    	}else {
-					    		mov_id++;
-					    		//System.out.println(folio);
-					    		FinMovimientos mv = new FinMovimientos();
-					    		mv.setEjercicioId(ejercicio);
-					    		mv.setPolizaId(folio);
-					    		mv.setMovimientoId(mov_id + "" );
-					    		mv.setCuentaId(e.getStringCellValue().trim());
-					    		mv.setAuxiliar(c.getStringCellValue().trim());
-					    		mv.setDescripcion(g.getStringCellValue().trim());
-					    		mv.setImporte(f.getNumericCellValue() + "");
-					    		mv.setNaturaleza(h.getStringCellValue().trim().toUpperCase().startsWith("C") ? "C" : "D");
-					    		mv.setEstado("R");
-					    		mv.setFecha(sdf.format(b.getDateCellValue()));
-					    		mv.setReciboId("0");
-					    		mv.setCicloId("00000000");
-					    		mv.setPeriodoId("0");
-					    		mv.setTipoMovId("0");
-					    		
-					    		lsMovimientos.add(mv);
-					    		
-					    		
+						    	if(linea==1) {
+						    		System.out.println("fecha  + " + b.getStringCellValue());
+						    		poliza = new FinPoliza();
+						    		folio = a.getStringCellValue().trim() + poliza.maximoReg(con, ejercicio);
+						    		
+						    		poliza.setPolizaId(folio);
+						    		poliza.setEjercicioId(ejercicio);
+						    		poliza.setFecha(b.getStringCellValue());
+						    		poliza.setUsuario(c.getStringCellValue().trim().toUpperCase());
+						    		poliza.setDescripcion(d.getStringCellValue());
+						    		poliza.setTipo("G");
+						    		poliza.setEstado("A");
+						    		
+						    		//poliza.insertReg(con);
+						    		
+						    	}else {
+						    		if((f.getCellType()==0)) {
+						    		mov_id++;
+						    		//System.out.println(folio);
+						    		FinMovimientos mv = new FinMovimientos();
+						    		mv.setEjercicioId(ejercicio);
+						    		mv.setPolizaId(folio);
+						    		mv.setMovimientoId(mov_id + "" );
+						    		mv.setCuentaId(e.getStringCellValue().trim());
+						    		mv.setAuxiliar(c.getStringCellValue().trim());
+						    		mv.setDescripcion(g.getStringCellValue().trim());
+						    		mv.setImporte(f.getNumericCellValue() + "");
+						    		mv.setNaturaleza(h.getStringCellValue().trim().toUpperCase().startsWith("C") ? "C" : "D");
+						    		mv.setEstado("R");
+						    		mv.setFecha(b.getStringCellValue());
+						    		mv.setReciboId("0");
+						    		mv.setCicloId("00000000");
+						    		mv.setPeriodoId("0");
+						    		mv.setTipoMovId("0");
+						    		
+						    		lsMovimientos.add(mv);
+						    		}else{
+							    		System.out.println("celda vacia");
+							    		FinMovimientos errorm = new FinMovimientos();
+							    		errorm.setEjercicioId("ERROR EN LA LINEA " + linea) ;
+							    		lsErrores.add(errorm);
+							    	}
+						    	}
 					    	}
+				    	}else {
+				    		System.out.println("celda vacia");
+				    		error++;
+				    		//FinMovimientos error = new FinMovimientos();
+				    		//error.setEjercicioId("ERROR EN LA LINEA " + linea) ;
+				    		//lsErrores.add(error);
 				    	}
+				    	 if(error == 10) {
+					        	break;
+					        }
 				    }
 				   	
 				    
@@ -179,8 +203,8 @@ public class UitilUploadPoliza {
 		    	
 		    }
 		}
-		
-		if(poliza!=null && !lsMovimientos.isEmpty()) {
+		System.out.println(error);
+		if(poliza!=null && !lsMovimientos.isEmpty() && lsErrores.isEmpty()) {
 			
 			try {
 				
@@ -189,11 +213,20 @@ public class UitilUploadPoliza {
 				for(FinMovimientos fm : lsMovimientos) {
 					fm.insertReg(con);
 				}
-			}catch(SQLException sqle) {
+			}catch(Exception sqle) {
 				
 			}
 			
 		}
+		
+		
+		
+		
+		if(!lsErrores.isEmpty()) {
+			lsMovimientos = new ArrayList<FinMovimientos>();
+			lsMovimientos.addAll(lsErrores);
+		}
+		
 				return lsMovimientos;
 	}
 }
