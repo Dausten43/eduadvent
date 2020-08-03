@@ -43,8 +43,11 @@
     $.fn.search = function(options) {
         return this.each(function(key, value){
             var element = $(this);
+            var dontUpdate = options.dontUpdate ?? true;
             // Return early if this element already has a plugin instance
-            if (element.data('search')) return element.data('search');
+            if (dontUpdate && element.data('search')) {
+            	return element.data('search');
+            }
             // Pass options to plugin constructor
             var search = new Search(this, options);
             // Store plugin object in this element's data

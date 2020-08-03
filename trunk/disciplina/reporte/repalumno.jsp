@@ -84,8 +84,6 @@
 
 <link rel="stylesheet" href="../../js-plugins/tablesorter/themes/blue/style.css" />
 <script src="../../js-plugins/tablesorter/jquery.tablesorter.js"></script>
-
-
 <script src="../../js/search.js"></script>
 
 <script>
@@ -113,10 +111,10 @@
 			document.getElementById('reportes').innerHTML = r;
 			
 			$('#table').tablesorter();
-
 			$('#buscar').search({
-				table:$("#table")}
-			);
+				table:$("#table"),
+				dontUpdate: false,
+			});
 			
 		})
         .fail((e, textStatus) => console.error('ERROR >> ', textStatus));
