@@ -62,13 +62,14 @@
 		String escuelaId 		= (String) session.getAttribute("escuela");
 		String codigoAlumno 	= (String) session.getAttribute("codigoAlumno");
 		String codigoEmpleado 	= (String) session.getAttribute("codigoEmpleado");
+		String cicloId			= request.getParameter("CicloId");
 
 		String accion 			= request.getParameter("Accion") == null ? "1":request.getParameter("Accion");
 		int nAccion 			= Integer.parseInt(accion);
 		String TipoId 			= request.getParameter("TipoId");
 		String sResultado 		= "";
 		String salto			= "X";
-
+		
 		ArrayList lisRep = ReporteL.getListEscuela(conElias, escuelaId,	"ORDER BY 1");
 		ArrayList lisEmp = EmpleadoL.getListEmp(conElias, escuelaId, "ORDER BY APATERNO, AMATERNO, NOMBRE");
 
@@ -215,8 +216,8 @@
 					<fieldset>
 						<div class="control-group ">
 							<label for="CicloId"> <fmt:message key="aca.Ciclo" />: </label>
-							<%=aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId)%>
-							<input type="hidden" name="CicloId" id="CicloId" value="<%=aca.ciclo.Ciclo.getCargaActual(conElias, escuelaId)%>">
+							<%=cicloId%>
+							<input type="hidden" name="CicloId" id="CicloId" value="<%=cicloId%>">
 						</div>
 
 						<div class="control-group ">

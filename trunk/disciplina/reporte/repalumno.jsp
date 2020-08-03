@@ -5,8 +5,11 @@
 <%@ include file= "../../menu.jsp" %>
 
 <%@ page import= "aca.alumno.AlumPersonal"%>
+<%@ page import= "aca.ciclo.Ciclo"%>
 <jsp:useBean id="tipoU" scope="page" class="aca.cond.CondReporteLista"/>
 <jsp:useBean id="Alumno" scope="page" class="aca.alumno.AlumPersonal"/>
+<jsp:useBean id="Ciclos" scope="page" class="aca.ciclo.CicloLista"/>
+
 <%		
 	String codigoAlumno 		= (String) session.getAttribute("codigoAlumno");
 	String escuelaId 			= (String) session.getAttribute("escuela");
@@ -28,6 +31,8 @@
 	
 	ArrayList lisReporte	= new ArrayList();
 	lisReporte	 			= tipoU.getListAll(conElias,"WHERE CODIGO_ID = '"+codigoAlumno+"' ORDER BY FOLIO");
+	ArrayList lisCiclos 	= Ciclos.getListCiclosAlumno(conElias, codigoAlumno, "ORDER BY CICLO_ID");
+	String cicloId 			="";
 %>
 <body>
 <div id="content">
@@ -35,11 +40,24 @@
    
    <div class="well" style="overflow:hidden;">
 	 	<input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">
+	 	<select id="cicle" name="cicle">
+	 	<%
+	 		for(int j = 0; j < lisCiclos.size(); j++){
+	 			Ciclo cicloL = (Ciclo)lisCiclos.get(j);
+	 			if(lisCiclos.size()-1==j){
+	 				cicloId = cicloL.getCicloId();
+	 			}
+	 	%>
+	 		<option <%if(cicloL.getCicloId().equals(cicloId)) out.print("selected");%> value="<%=cicloL.getCicloId()%>"><%=cicloL.getCicloNombre()%></option>
+	 	<%} %>
+	 	</select>
 	</div>
    
    <div class="well" style="overflow:hidden;">
-		<%	if(existeAlumno){ %>
-        <a href="accion.jsp?Accion=1" class="btn btn-primary"><i class="icon-plus icon-white"></i> A&ntilde;adir</a>
+		<%	if(existeAlumno){ 
+			
+			%>
+        <a href="accion.jsp?Accion=1&CicloId=<%=cicloId %>" class="btn btn-primary" id="button"><i class="icon-plus icon-white" ></i> A&ntilde;adir</a>
 		<% 	}else{
 			out.print("¡ Busca un alumno !");
 		}%>   
@@ -52,60 +70,17 @@
  	  <fmt:message key="aca.Grupo" />: [ <font color='gray'><%=Alumno.getGrupo()%></font> ]
  	  </strong>
 	</td>
-  
-  <table width="110%" class="table table-bordered" align="center" id="table">
-  <tr> 
-    <th width="5%"><fmt:message key="aca.Operacion" /></th>
-    <th width="3%">#</th>
-    <th width="8%"><fmt:message key="aca.Ciclo" /></th>    
-    <th width="8%"><fmt:message key="aca.Tipo" /></th>   
-    <th width="8%"><fmt:message key="aca.Fecha" /></th>
-    <th width="20%"><fmt:message key="aca.Reporto" /></th>
-    <th width="20%"><fmt:message key="aca.Comentario" /></th>   
-    <th width="20%"><fmt:message key="aca.Compromiso" /></th>   
-    <th width="5%"><fmt:message key="aca.Estado" /></th>     
-   </tr>
-<% 		
-		if (lisReporte.size()==0){
-			out.println("<tr><td colspan='8'>¡ No existen reportes !</td></tr>");
-		}
-
-		for (int i=0; i< lisReporte.size(); i++){
-			aca.cond.CondReporte reporte = (aca.cond.CondReporte) lisReporte.get(i);		 
-  %>
-  <tr> 
-    <td align="center">
-      <a class="icon-pencil" href="accion.jsp?Accion=5&TipoId=<%=reporte.getTipoId()%>&Folio=<%=reporte.getFolio()%>&CodigoId=<%=reporte.getCodigoId()%>&Comentario=<%=reporte.getComentario()%>&Estado=<%=reporte.getEstado()%>&Fecha=<%=reporte.getFecha()%>&CicloId=<%=reporte.getCicloId()%>">
-      </a> 
-      <a class="icon-remove"  onclick="javascript:borrar('<%=reporte.getCodigoId()%>','<%=reporte.getFolio()%>','<%=reporte.getCicloId()%>');">
-      </a>
-    </td>    
-	    <td align="center"><%=i+1%></td>
-	    <td align="center">&nbsp;<%=reporte.getCicloId()%></td> 
-	    <td align="center">&nbsp;<%=aca.cond.CondTipoReporte.getTipoReporteNombre(conElias, reporte.getTipoId())%></td>
-	    <td align="center">&nbsp;<%=reporte.getFecha()%></td>
-	    <td align="center">&nbsp;<%= aca.empleado.EmpPersonal.getNombre(conElias,reporte.getEmpleadoId(),"NOMBRE") %></td>
-	    <td align="center">&nbsp;<%=reporte.getComentario()%></td>
-	    <td align="center">&nbsp;<%=reporte.getCompromiso()%></td>
-	    <td align="center">&nbsp;<%=reporte.getEstado()%></td>
-    </tr>
-  <%
-		}
+  <div id="reportes"></div>
+<%  
+	
 	} // Si existe un alumno
 		lisReporte			= null;
 %>
-</table>
+	
+
 </div>
 
 </body>
-<script>
-	function borrar(codigoId,folio, cicloId){
-		if(confirm("<fmt:message key="js.BorrarReporte"/>")==true){
-			console.log("sdf");
-			document.location.href = "accion.jsp?Accion=4&CodigoId="+codigoId+"&Folio="+folio+"&CicloId="+cicloId+"";
-		}
-	}
-</script>
 
 <link rel="stylesheet" href="../../js-plugins/tablesorter/themes/blue/style.css" />
 <script src="../../js-plugins/tablesorter/jquery.tablesorter.js"></script>
@@ -114,10 +89,46 @@
 <script src="../../js/search.js"></script>
 
 <script>
-	$('#table').tablesorter();
+	(function () {
+	    let defaultCicle = document.getElementById('cicle').value;
+	    call(defaultCicle);
+	  })();
+	  
+	  document.getElementById('cicle').addEventListener('change', (el) => {
+	      let cicle = el.target.value;
+	      call(cicle);
+	      let btn = document.getElementById('button'); 
+	      const href = "accion.jsp?Accion=1&CicloId="+cicle;
+	      btn.href=href;
+	    });
+	  
+	function call(cicle){
+		$.ajax('ajaxOrdenCiclo.jsp', {
+			data: {
+				cicloId: cicle,
+			}
+		})
+		
+		.done((r) => {
+			document.getElementById('reportes').innerHTML = r;
+			
+			$('#table').tablesorter();
 
-	$('#buscar').search({
-		table:$("#table")}
-	);
+			$('#buscar').search({
+				table:$("#table")}
+			);
+			
+		})
+        .fail((e, textStatus) => console.error('ERROR >> ', textStatus));
+	}
+	
+	
+	function borrar(codigoId,folio, cicloId){
+		if(confirm("<fmt:message key="js.BorrarReporte"/>")==true){
+			console.log("sdf");
+			document.location.href = "accion.jsp?Accion=4&CodigoId="+codigoId+"&Folio="+folio+"&CicloId="+cicloId+"";
+		}
+	}
+	
 </script>
 <%@ include file= "../../cierra_elias.jsp" %> 
