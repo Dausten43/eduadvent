@@ -128,29 +128,31 @@ public class UitilUploadPoliza {
 				    	
 				    	
 				    	
-				    	if((a!=null )) {
-				    		System.out.println(linea + "--->>" + a.getCellType() + " - " +b.getCellType() + " - " +c.getCellType() + " - " +d.getCellType() + " - " +e.getCellType() + " - " +f.getCellType() + " - " +g.getCellType() + " - " +h.getCellType() );
+				    	if((a!=null && !a.getStringCellValue().trim().isEmpty() )) {
+				    		
 					    	String ejercicio = a.getStringCellValue().trim() +  "-" + year;
 					    	
 
 					    	if(c!=null) {
 					    		
 						    	if(linea==1) {
+						    		//System.out.println(linea + "--->>" + a.getCellType() + " - " +b.getCellType() + " - " +c.getCellType() + " - " +d.getCellType()  );
 						    		System.out.println("fecha  + " + b.getStringCellValue());
 						    		poliza = new FinPoliza();
 						    		folio = a.getStringCellValue().trim() + poliza.maximoReg(con, ejercicio);
 						    		
 						    		poliza.setPolizaId(folio);
 						    		poliza.setEjercicioId(ejercicio);
-						    		poliza.setFecha(b.getStringCellValue());
-						    		poliza.setUsuario(c.getStringCellValue().trim().toUpperCase());
-						    		poliza.setDescripcion(d.getStringCellValue());
+						    		poliza.setFecha(b.getStringCellValue().trim());
+						    		poliza.setUsuario( c.getStringCellValue().length()>8 ? c.getStringCellValue().substring(0,8).toUpperCase() :  c.getStringCellValue().trim().toUpperCase());
+						    		poliza.setDescripcion(d.getStringCellValue().trim());
 						    		poliza.setTipo("G");
 						    		poliza.setEstado("A");
 						    		
 						    		//poliza.insertReg(con);
 						    		
 						    	}else {
+						    		//System.out.println(linea + "--->>" + a.getCellType() + " - " +b.getCellType() + " - " +c.getCellType() + " - " +d.getCellType() + " - " +e.getCellType() + " - " +f.getCellType() + " - " +g.getCellType() + " - " +h.getCellType() );
 						    		if((f.getCellType()==0)) {
 						    		mov_id++;
 						    		//System.out.println(folio);
@@ -176,8 +178,11 @@ public class UitilUploadPoliza {
 							    		FinMovimientos errorm = new FinMovimientos();
 							    		errorm.setEjercicioId("ERROR EN LA LINEA " + linea) ;
 							    		lsErrores.add(errorm);
+							    		error++;
 							    	}
 						    	}
+					    	}else {
+					    		error++;
 					    	}
 				    	}else {
 				    		System.out.println("celda vacia");
@@ -186,7 +191,7 @@ public class UitilUploadPoliza {
 				    		//error.setEjercicioId("ERROR EN LA LINEA " + linea) ;
 				    		//lsErrores.add(error);
 				    	}
-				    	 if(error == 10) {
+				    	 if(error == 5) {
 					        	break;
 					        }
 				    }
