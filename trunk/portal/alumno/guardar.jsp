@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.Arrays"%>
 <%@ include file= "../../con_elias.jsp" %>
 <%@ include file= "id.jsp" %>
 <%@ include file= "../../seguro.jsp" %>
@@ -51,7 +53,11 @@
 			
 		boolean guardo = false;	
 		try{
-			com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, 10*1024*1024);
+			// Hasta 3 mb de tamaño
+			final int megabytes = 10;
+			final int LIMIT_SIZE = megabytes * 1024 * 1024;
+			
+			com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, LIMIT_SIZE);
 			
 			nombre	= multi.getFilesystemName("archivo");
 			
@@ -64,29 +70,44 @@
 			File dirFinal = new File(carpetaAlumno+"/"+codigoAlumno+"-"+folio+"."+ext[ext.length-1]);			   
 			File dirInicial = new File(ruta+nombre);
 			
-			// Hasta 10 mb. de tamaño
-			if (dirInicial.length() <= 10485760){
-				try {
-					FileChannel srcChannel = new FileInputStream(dirInicial).getChannel ();
+			if (dirInicial.length() <= LIMIT_SIZE){
+				ArrayList<String> filenameSplit = (ArrayList<String>) Arrays.asList(dirInicial.getName().split("."));
+				boolean isImage = false;
+				
+				if (filenameSplit.size() > 0 && filenameSplit.get(filenameSplit.size() - 1) != null) {
+					isImage = filenameSplit.get(filenameSplit.size() - 1).matches("(?i)jpeg|jpg|png");
+				}
+				
+				if(isImage){
 					
-					FileChannel dstChannel = new FileOutputStream(dirFinal).getChannel();
+					// Here will go te code for reducing the size...
 					
-					dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
-					
-					srcChannel.close();
-					dstChannel.close();
-					
-					archivo.setCodigoId(codigoAlumno);
-					archivo.setFolio(folio);
-					archivo.setCicloGrupoId(cicloGrupoId);
-					archivo.setCursoId(cursoId);
-					archivo.setEvaluacionId(evaluacionId);
-					archivo.setActividadId(actividadId);
-					archivo.setArchivo(nombre);
-					
-					if(archivo.insertReg(conElias)) guardo = true;
-				} catch (Exception e) {
-					guardo = false;
+				}
+				
+				// TODO: Add code thta reduce size for images
+				if(true){					
+					try {
+						FileChannel srcChannel = new FileInputStream(dirInicial).getChannel ();
+						
+						FileChannel dstChannel = new FileOutputStream(dirFinal).getChannel();
+						
+						dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
+						
+						srcChannel.close();
+						dstChannel.close();
+						
+						archivo.setCodigoId(codigoAlumno);
+						archivo.setFolio(folio);
+						archivo.setCicloGrupoId(cicloGrupoId);
+						archivo.setCursoId(cursoId);
+						archivo.setEvaluacionId(evaluacionId);
+						archivo.setActividadId(actividadId);
+						archivo.setArchivo(nombre);
+						
+						if(archivo.insertReg(conElias)) guardo = true;
+					} catch (Exception e) {
+						guardo = false;
+					}
 				}
 			}else{
 	%>
