@@ -54,7 +54,7 @@
 		boolean guardo = false;	
 		try{
 			// Hasta 3 mb de tamaño
-			final int megabytes = 10;
+			final int megabytes = 3;
 			final int LIMIT_SIZE = megabytes * 1024 * 1024;
 			
 			com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, LIMIT_SIZE);
@@ -71,7 +71,7 @@
 			File dirInicial = new File(ruta+nombre);
 			
 			if (dirInicial.length() <= LIMIT_SIZE){
-				ArrayList<String> filenameSplit = (ArrayList<String>) Arrays.asList(dirInicial.getName().split("."));
+				List<String> filenameSplit = Arrays.asList(dirInicial.getName().split("."));
 				boolean isImage = false;
 				
 				if (filenameSplit.size() > 0 && filenameSplit.get(filenameSplit.size() - 1) != null) {
@@ -103,7 +103,6 @@
 						archivo.setEvaluacionId(evaluacionId);
 						archivo.setActividadId(actividadId);
 						archivo.setArchivo(nombre);
-						
 						if(archivo.insertReg(conElias)) guardo = true;
 					} catch (Exception e) {
 						guardo = false;
@@ -111,7 +110,7 @@
 				}
 			}else{
 	%>
-				<a href="subir.jsp?Regresar=<%=request.getParameter("Regresar")%>">&lsaquo;&lsaquo; <fmt:message key="boton.Regresar"/></a><br><br><br>
+				<a href="subir.jsp?cicloGrupoId=<%=cicloGrupoId%>&cursoId=<%=cursoId%>&evaluacionId=<%=evaluacionId%>&actividadId=<%=actividadId%>&fechaTarea=<%=fechaTarea%>">&lsaquo;&lsaquo; <fmt:message key="boton.Regresar"/></a><br><br><br>
 				<font size="4" color="black"><b><fmt:message key="aca.ErrorGrande"/></b></font>
 	<%			
 				
@@ -121,7 +120,7 @@
 		}catch(Exception e){
 			System.out.println("Error al subir el archivo: "+e);
 	%>
-			<a href="subir.jsp?Regresar=<%=request.getParameter("Regresar")%>">&lsaquo;&lsaquo; <fmt:message key="boton.Regresar"/></a><br><br><br>
+			<a href="subir.jsp?cicloGrupoId=<%=cicloGrupoId%>&cursoId=<%=cursoId%>&evaluacionId=<%=evaluacionId%>&actividadId=<%=actividadId%>&fechaTarea=<%=fechaTarea%>">&lsaquo;&lsaquo; <fmt:message key="boton.Regresar"/></a><br><br><br>
 			<font size="4" color="black"><b><fmt:message key="aca.ErrorGrande"/></b></font>
 	<%
 		}

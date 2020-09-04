@@ -58,7 +58,7 @@
 		String Regresar = request.getParameter("Regresar") == null?"":request.getParameter("Regresar");
 		if(Regresar.equals("1")){
 	%>
-			<a class="btn btn-primary" href="tareas.jsp?Accion=2"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
+			<a class="btn btn-primary" href="tareas_new.jsp"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
 	<%	}else if(Regresar.equals("0")){
 	%>
 			<a class="btn btn-primary" href="materias.jsp?Accion=3"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar"/></a>
