@@ -37,10 +37,12 @@
 <body>
 <div id="content">
    <h2><fmt:message key="disciplina.ReportesdelAlumno" /></h2>
+
+<%	if (existeAlumno){ %> 
    
    <div class="well" style="overflow:hidden;">
-	 	<input type="text" class="input-medium search-query" placeholder="<fmt:message key="boton.Buscar" />" id="buscar">
-	 	<select id="cicle" name="cicle">
+	 	<input type="text" class="input-medium search-query" placeholder="Filtrar" id="buscar">
+	 	<select id="cicle" name="cicle" style= "width:280px">
 	 	<%
 	 		for(int j = 0; j < lisCiclos.size(); j++){
 	 			Ciclo cicloL = (Ciclo)lisCiclos.get(j);
@@ -62,7 +64,7 @@
 			out.print("¡ Busca un alumno !");
 		}%>   
    </div>
-<%	if (existeAlumno){ %>  
+ 
    <td align="center"><strong>
  	  <fmt:message key="aca.Alumno" />: [ <font color='gray'><%=codigoAlumno%></font> ] [ <font color='gray'><%=strNombreAlumno%></font> ] - 
  	  <fmt:message key="aca.Nivel" />: [ <font color='gray'><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, strNivel)%></font> ] - 
@@ -73,7 +75,12 @@
   <div id="reportes"></div>
 <%  
 	
-	} // Si existe un alumno
+	} else{// Si no existe un alumno
+%>
+		<div class="alert">
+		<fmt:message key="aca.NoAlumnoSeleccionado" />
+		</div>
+<% 	}
 		lisReporte			= null;
 %>
 	

@@ -11,18 +11,20 @@
 	ArrayList<aca.cond.CondReporte> lisReporte	 			= tipoU.getListAll(conElias,"WHERE CODIGO_ID = '"+codigoAlumno+"' AND CICLO_ID = '"+cicloId+"'  ORDER BY FOLIO");
 %>	
 
-	<table width="110%" class="table table-bordered" align="center" id="table">
-	  <tr> 
-	    <th width="5%"><fmt:message key="aca.Operacion" /></th>
-	    <th width="3%">#</th>
-	    <th width="8%"><fmt:message key="aca.Ciclo" /></th>    
-	    <th width="8%"><fmt:message key="aca.Tipo" /></th>   
-	    <th width="8%"><fmt:message key="aca.Fecha" /></th>
-	    <th width="20%"><fmt:message key="aca.Reporto" /></th>
-	    <th width="20%"><fmt:message key="aca.Comentario" /></th>   
-	    <th width="20%"><fmt:message key="aca.Compromiso" /></th>   
-	    <th width="5%"><fmt:message key="aca.Estado" /></th>     
-	   </tr>	
+	<table width="110%" class="table table-condensed table-bordered" align="center" id="table">
+		<thead>
+		  <tr> 
+		    <th width="8%"><fmt:message key="aca.Operacion" /></th>
+		    <th width="3%">#</th>
+		    <th width="8%"><fmt:message key="aca.Ciclo" /></th>    
+		    <th width="8%"><fmt:message key="aca.Tipo" /></th>   
+		    <th width="8%"><fmt:message key="aca.Fecha" /></th>
+		    <th width="20%"><fmt:message key="aca.Reporto" /></th>
+		    <th width="20%"><fmt:message key="aca.Comentario" /></th>   
+		    <th width="19%"><fmt:message key="aca.Compromiso" /></th>   
+		    <th width="6%"><fmt:message key="aca.Estado" /></th>     
+		   </tr>	
+		 </thead>
 <%	
 	if (lisReporte.size()==0){
 		out.println("<tr><td colspan='8'>¡ No existen reportes !</td></tr>");
