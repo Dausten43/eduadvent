@@ -29,7 +29,7 @@
 </head>
 <%
 	String escuelaId 	= (String) session.getAttribute("escuela");
-	String cicloId 		= (String) session.getAttribute("clicloId");
+	String cicloId 		= (String) session.getAttribute("cicloId");
 
 	String planId 		= request.getParameter("PlanId") == null ? "00-00": request.getParameter("PlanId");
 	String grado 		= request.getParameter("Grado") == null ? "1": request.getParameter("Grado");
