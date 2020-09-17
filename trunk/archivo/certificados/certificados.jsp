@@ -73,14 +73,10 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 						<option></option>
 					</select>
 				</div>
-				
-				<div id="grupoButtonSelect">
-					<input type="button" id="btnListAlm" onclick="cargaListaAlumnos();" value="Listar Alumnos">
-				</div>
 			</form>
 		</section>
 		<section class="busqueda_matricula">
-			<form name="frmEstado" id="frmEstado" method="post"	action="/reportes_test/kardex/pdf" target="_new">
+			<form name="frmEstado" id="frmEstado" method="post"	action="http://172.16.54.160:8080/reportes/kardex/pdf" target="_new"> <!-- TIENES QUE BORRAR ADRIANA -->
 			
 				<div id="matriculaSelect">
 					<label for="codigoid">Código(s) Alumno:</label> 
@@ -98,7 +94,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 					
 				</div>
 				<div id="kardexButtonUp">
-					<input type="submit" name="enviar" value="Generar">
+					<input type="submit" id="btnGenera" name="enviar" value="Generar">
 				</div>
 				
 				<div id="modeloSelect">
@@ -138,7 +134,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 		$('#grupoSelect').hide();
 		$('#matriculaSelect').hide();
 		$('#kardexButtonDown').hide();
-		$('#btnListAlm').attr("disabled", true);
+		$('#btnGenera').prop("disabled", true);   
 
 		$('#codigoid').keyup(function(e){
 			
@@ -150,7 +146,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 				$('#nivelSelect').hide();
 				$('#gradoSelect').hide();
 				$('#grupoSelect').hide();
-				$('#btnListAlm').attr("disabled", true);
+				$('#btnGenera').prop("disabled", true);
 			}else{
 				$('#cicloSelect').show();
 			}
@@ -171,6 +167,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 	                    //alert(output);
 	                    $('#nivelid').html(output);
 	                    $('#nivelSelect').show();
+	                    
 	                },
 	                error: function (xhr, ajaxOptions, thrownError) {
 	                    alert(xhr.status + " " + thrownError);
@@ -180,7 +177,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 				$('#nivelSelect').hide();
 				$('#gradoSelect').hide();
 				$('#grupoSelect').hide();
-				$('#btnListAlm').attr("disabled", true);
+				$('#btnGenera').prop("disabled", true);
 			}
 			
 	
@@ -213,7 +210,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 				$('#nivelSelect').hide();
 				$('#gradoSelect').hide();
 				$('#grupoSelect').hide();
-				$('#btnListAlm').attr("disabled", true);
+				$('#btnGenera').prop("disabled", true);
 			}
 				
 		
@@ -246,7 +243,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 				//$('#nivelSelect').hide();
 				$('#gradoSelect').hide();
 				$('#grupoSelect').hide();
-				$('#btnListAlm').attr("disabled", true);
+				$('#btnGenera').prop("disabled", true);
 			}
 		});
 
@@ -267,7 +264,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 		                //alert(output);
 		                $('#grupoid').html(output);
 		                $('#grupoSelect').show();
-		                $('#btnListAlm').attr("disabled", false);
+		                $('#btnGenera').prop("disabled", true);
 		            },
 		            error: function (xhr, ajaxOptions, thrownError) {
 		                alert(xhr.status + " " + thrownError);
@@ -277,11 +274,17 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 				//$('#nivelSelect').hide();
 				//$('#gradoSelect').hide();
 				$('#grupoSelect').hide();
-				$('#btnListAlm').attr("disabled", true);
 			}
 			
 		
 		});
+		
+		$('#grupoid').change(function(e) {
+			cargaListaAlumnos();
+			$('#btnGenera').prop("disabled", false);
+		});
+		
+		
 		
 		$('#tipo_busqueda').change(function(e){
 			$('#matriculaSelect').toggle();
@@ -291,9 +294,11 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 			if(tipo === 'M'){
 				$('#alumList').html('');
 				$('#kardexButtonDown').hide();
+				$('#btnGenera').prop("disabled", false);
 			}
 			else if(tipo === 'G'){
 				$('.chosen').val('').trigger("chosen:updated");
+				$('#btnGenera').prop("disabled", true);
 			}
 		});
 
