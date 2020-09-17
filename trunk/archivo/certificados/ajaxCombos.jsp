@@ -41,7 +41,7 @@
 
 			if (request.getParameter("ciclo_id") != null && request.getParameter("getniveles") != null) {
 %>
-<option value="">Elija un nivel...</option>
+<option disabled value="">Elija un nivel...</option>
 <%
 	for (String nivel : lsNivel) {
 %>
@@ -52,7 +52,7 @@
 
 			if (request.getParameter("nivel_id") != null && request.getParameter("getgrados") != null) {
 %>
-<option value="">Elija un grado...</option>
+<option disabled value="">Elija un grado...</option>
 <%
 	for (String grado : lsGrado) {
 %>
@@ -63,7 +63,7 @@
 
 			if (request.getParameter("grado_id") != null && request.getParameter("getgrupos") != null) {
 %>
-<option value="">Elija un grupo...</option>
+<option disabled value="">Elija un grupo...</option>
 <%
 	for (String grupo : lsGrupo) {
 %>
