@@ -55,7 +55,7 @@ String ciclo = request.getParameter("ciclo_id")!=null ?request.getParameter("cic
 					<tr>
 						<td><%= rs.getString("codigo_id") %></td>
 						<td><%= rs.getString("apaterno") %> <%= rs.getString("amaterno") %>, <%= rs.getString("nombre") %></td>
-						<td><%= request.getParameter("grado_id") != null ? request.getParameter("grado_id") : ""  %> <%= request.getParameter("grupo_id") != null ? request.getParameter("grupo_id") : ""  %></td>
+						<td><%= rs.getString("grado")  %> <%= rs.getString("grupo")  %></td>
 						<td><input type="checkbox" class="alumnos" name="matricula" value="<%= rs.getString("codigo_id") %>" checked="checked"> </td>
 						<td></td>
 					</tr>
