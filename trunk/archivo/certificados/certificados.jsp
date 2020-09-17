@@ -26,7 +26,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 	<h2>Generador de certificados</h2>
 	<div class="well">
 		<section class="tipo_busqueda">
-			<label for="cicloid">Buscar por:</label>
+			<label for="cicloid" style="display: inline;">Buscar por:</label>
 			<select id="tipo_busqueda">
 				<option value="G" selected>Grupo</option>
 				<option value="M">Matrícula</option>
@@ -40,7 +40,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 				<div id="cicloSelect">
 					<label for="cicloid">Ciclo:</label>
 					<select name="ciclo_id" id="cicloid">
-						<option value="">Seleccione un ciclo</option>
+						<option disabled value="">Seleccione un ciclo</option>
 						<%
 							Collections.reverse(lisCiclo);
 								for (aca.ciclo.Ciclo c : lisCiclo) {
@@ -76,7 +76,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 			</form>
 		</section>
 		<section class="busqueda_matricula">
-			<form name="frmEstado" id="frmEstado" method="post"	action="http://172.16.54.160:8080/reportes/kardex/pdf" target="_new"> <!-- TIENES QUE BORRAR ADRIANA -->
+			<form name="frmEstado" id="frmEstado" method="post"	action="/reportes/kardex/pdf" target="_new">
 			
 				<div id="matriculaSelect">
 					<label for="codigoid">Código(s) Alumno:</label> 
@@ -92,9 +92,6 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 					<% } %>
 					</select>
 					
-				</div>
-				<div id="kardexButtonUp">
-					<input type="submit" id="btnGenera" name="enviar" value="Generar">
 				</div>
 				
 				<div id="modeloSelect">
@@ -113,6 +110,10 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 						<!-- <option value="1">Normal</option> -->
 						<!-- <option value="4">Premedia y Media</option> -->
 					</select>
+				</div>
+				
+				<div id="kardexButtonUp">
+					<input type="submit" id="btnGenera" name="enviar" value="Generar">
 				</div>
 										
 				<div id="alumList">
@@ -134,73 +135,68 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 		$('#grupoSelect').hide();
 		$('#matriculaSelect').hide();
 		$('#kardexButtonDown').hide();
-		$('#btnGenera').prop("disabled", true);   
+		$('#btnGenera').prop("disabled", true);
 
-		$('#codigoid').keyup(function(e){
+		// For defining the search type
+		$('#tipo_busqueda').change(function(e){
+			$('#matriculaSelect').toggle();
+			$('.busqueda_grupo').toggle();
 			
-			var codigoid = $(this).val();
-			console.log(codigoid);
-			if(codigoid!=''){
-				
-				$('#cicloSelect').hide();
-				$('#nivelSelect').hide();
-				$('#gradoSelect').hide();
-				$('#grupoSelect').hide();
+			var tipo = $('#tipo_busqueda').val();
+			if(tipo === 'M'){
+				$('#alumList').html('');
+				$('#kardexButtonDown').hide();
 				$('#btnGenera').prop("disabled", true);
-			}else{
-				$('#cicloSelect').show();
 			}
-		});	
-		
+			else if(tipo === 'G'){
+				$('.chosen').val('').trigger("chosen:updated");
+				$('#btnGenera').prop("disabled", true);
+			}
+		});
+
+		// For ids search
+		$('#matricula').change(function(e) {
+			var codigosid = $(this).val();
+			if(codigosid) $('#btnGenera').prop("disabled", false);
+			else $('#btnGenera').prop("disabled", true);
+		});
+
+		// For group search
 		$('#cicloid').each(function(e) {
-			
-			var cicloSelected = $(this).val();
-			
-			if(cicloSelected!=''){
-				var datadata = 'ciclo_id='+ cicloSelected + '&getniveles=true';
-				console.log(datadata);
-				//Make AJAX request, using the selected value as the GET
-	            $.ajax({url: 'ajaxCombos.jsp',
-	                type: "post",
-	                data: datadata,
-	                success: function (output) {
-	                    //alert(output);
-	                    $('#nivelid').html(output);
-	                    $('#nivelSelect').show();
-	                    
-	                },
-	                error: function (xhr, ajaxOptions, thrownError) {
-	                    alert(xhr.status + " " + thrownError);
-	                }
-	            });
-			}else{
-				$('#nivelSelect').hide();
-				$('#gradoSelect').hide();
-				$('#grupoSelect').hide();
-				$('#btnGenera').prop("disabled", true);
-			}
-			
-	
+			refreshLevel(this);	
 		});
 	
 		$('#cicloid').change(function(e) {
-			
 			$('#gradoSelect').hide();
 			$('#grupoSelect').hide();
 			
-			var cicloSelected = $(this).val();
+			refreshLevel(this);
+		});
+	
+		$('#nivelid').change(function(e) {
+			refreshGrade(this);
+		});
+
+		$('#gradoid').change(function(e) {			
+			refreshGroup(this);
+		});
+		
+		$('#grupoid').change(function(e) {
+			cargaListaAlumnos();
+		});
+		
+		function refreshLevel(cicle) {
+			var cicloSelected = $(cicle).val();
 			
 			if(cicloSelected!=''){
 				var datadata = 'ciclo_id='+ cicloSelected + '&getniveles=true';
-				//Make AJAX request, using the selected value as the GET
-				console.log(datadata);
 		           $.ajax({url: 'ajaxCombos.jsp',
 		               type: "post",
 		               data: datadata,
 		               success: function (output) {
-		                   //alert(output);
 		                   $('#nivelid').html(output);
 		                   $('#nivelSelect').show();
+		                   refreshGrade($('#nivelid'));
 		               },
 		               error: function (xhr, ajaxOptions, thrownError) {
 		                   alert(xhr.status + " " + thrownError);
@@ -212,58 +208,49 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 				$('#grupoSelect').hide();
 				$('#btnGenera').prop("disabled", true);
 			}
-				
-		
-		});
-	
-		$('#nivelid').change(function(e) {
-			
+		}
+
+		function refreshGrade(level) {
 			$('#grupoSelect').hide();
 			
 			var cicloSelected = $('#cicloid').val();
-			var nivelSelected = $(this).val();
+			var nivelSelected = $(level).val();
 			
 			if(nivelSelected!=''){
 				var datadata = 'nivel_id='+ nivelSelected + '&ciclo_id=' + cicloSelected + '&getgrados=true';
-				//Make AJAX request, using the selected value as the GET
-				console.log(datadata);
 		        $.ajax({url: 'ajaxCombos.jsp',
 		            type: "post",
 		            data: datadata,
 		            success: function (output) {
-		                //alert(output);
 		                $('#gradoid').html(output);
 		                $('#gradoSelect').show();
+		                refreshGroup($('#gradoid'));
 		            },
 		            error: function (xhr, ajaxOptions, thrownError) {
 		                alert(xhr.status + " " + thrownError);
 		            }
 		        });
 			}else{
-				//$('#nivelSelect').hide();
 				$('#gradoSelect').hide();
 				$('#grupoSelect').hide();
 				$('#btnGenera').prop("disabled", true);
 			}
-		});
+		}
 
-		$('#gradoid').change(function(e) {
-			
+		function refreshGroup(grade) {
 			var cicloSelected = $('#cicloid').val();
 			var nivelSelected = $('#nivelid').val();
-			var gradoSelected = $(this).val();
+			var gradoSelected = $(grade).val();
 			
 			if(gradoSelected!=''){
 				var datadata = 'nivel_id='+ nivelSelected + '&ciclo_id=' + cicloSelected + '&grado_id=' + gradoSelected + '&getgrupos=true';
-				//Make AJAX request, using the selected value as the GET
-				console.log(datadata);
 		        $.ajax({url: 'ajaxCombos.jsp',
 		            type: "post",
 		            data: datadata,
 		            success: function (output) {
-		                //alert(output);
 		                $('#grupoid').html(output);
 		                $('#grupoSelect').show();
+		                cargaListaAlumnos();
 		                $('#btnGenera').prop("disabled", true);
 		            },
 		            error: function (xhr, ajaxOptions, thrownError) {
@@ -271,36 +258,9 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 		            }
 		        });
 			}else{
-				//$('#nivelSelect').hide();
-				//$('#gradoSelect').hide();
 				$('#grupoSelect').hide();
 			}
-			
-		
-		});
-		
-		$('#grupoid').change(function(e) {
-			cargaListaAlumnos();
-			$('#btnGenera').prop("disabled", false);
-		});
-		
-		
-		
-		$('#tipo_busqueda').change(function(e){
-			$('#matriculaSelect').toggle();
-			$('.busqueda_grupo').toggle();
-			
-			var tipo = $('#tipo_busqueda').val();
-			if(tipo === 'M'){
-				$('#alumList').html('');
-				$('#kardexButtonDown').hide();
-				$('#btnGenera').prop("disabled", false);
-			}
-			else if(tipo === 'G'){
-				$('.chosen').val('').trigger("chosen:updated");
-				$('#btnGenera').prop("disabled", true);
-			}
-		});
+		}
 
 		function cargaListaAlumnos(){
 			var cicloSelected = $('#cicloid').val();
@@ -312,16 +272,14 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 				datadata+= '&grado_id=' + gradoSelected;
 			if(grupoSelected!= undefined)
 				datadata+= '&grupo_id=' + grupoSelected;
-			console.log(datadata);
 			
 				$.ajax({url: 'ajaxListado.jsp',
 		        type: "post",
 		        data: datadata,
 		        success: function (output) {
-		            //alert(output);
 		            $('#alumList').html(output);
 		            $('#kardexButtonDown').show();
-		            
+		            $('#btnGenera').prop("disabled", false);
 		        },
 		        error: function (xhr, ajaxOptions, thrownError) {
 		            alert(xhr.status + " " + thrownError);
@@ -331,15 +289,11 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo = cicloLista.getListActivos(conElias, escuel
 			
 		}
 
-
 		function selecciona(elemento){
-			if( $(elemento).is(':checked')){
-				console.log('checados');
+			if( $(elemento).is(':checked'))
 				$('.alumnos').prop('checked',true);
-			}else{
-				console.log('no checados');
+			else
 				$('.alumnos').prop('checked',false);
-			}
 		}
 	</script>
 </div>
