@@ -71,8 +71,9 @@
 			    System.out.println("CARGANDO LOS PRIMEROS VALORES  " + strEscuelaId + "\t" + strEstadoEscuela);
 			}
 	
-			// Si es usuario				
-			if(!strCodigoId.equals("x") && strEstadoEscuela.equals("A")){
+			// Si es usuario	
+			boolean isActive = aca.empleado.EmpPersonal.getEstadoEmp(conn, strCodigoId);
+			if(!strCodigoId.equals("x") && strEstadoEscuela.equals("A") && isActive){
 				
 				// Guarda en sesion el codigo si es administrador(usado para mirar portal de otros usuarios)
 				if (aca.usuario.Usuario.esAdministrador(conn, strCodigoId)){
@@ -199,6 +200,8 @@
 					%>errorPassword<%
 				}else if(strEstadoEscuela.equals ("I")){
 					%>escuelaInactiva<%
+				}else if(!isActive){
+					%>usuarioInactivo<%
 				}
 				entrar=false;
 				error = true;

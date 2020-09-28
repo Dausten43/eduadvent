@@ -61,7 +61,7 @@
 	pageContext.setAttribute("resultado", msj);
 	
 	ArrayList<aca.catalogo.CatNivel> niveles = nivelU.getListAll(conElias," WHERE NIVEL_ID NOT IN(SELECT NIVEL_ID FROM CAT_NIVEL_ESCUELA WHERE ESCUELA_ID='"+escuela+"')  ORDER BY NIVEL_ID");
-	ArrayList<aca.empleado.EmpPersonal> lisEmpleados = empleadoU.getListEmp(conElias, escuela,"");
+	ArrayList<aca.empleado.EmpPersonal> lisEmpleados = empleadoU.getListEmp(conElias, escuela,"AND ESTADO = 'A' ");
 %>
 
 <div id="content">

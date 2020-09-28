@@ -112,6 +112,9 @@ System.out.println("DATO EN LA SESION USER" + session.getAttribute("user"));
     				}else if($.trim(r) == 'correcto'){
     					usuario.parent('div').addClass('error');
     					$('<div class="alert alert-error">Tu escuela se encuentra inactiva.</div>').fadeIn().prependTo(form);
+    				}else if($.trim(r) == 'usuarioInactivo'){
+    					usuario.parent('div').addClass('error');
+    					$('<div class="alert alert-error">El usuario se encuentra inactivo.</div>').fadeIn().prependTo(form);
     				}
     				
     				$this.removeClass('disabled').html('<i class="icon-user icon-white"></i> Iniciar Sesi&oacute;n');

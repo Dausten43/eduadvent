@@ -1120,4 +1120,36 @@ public static int getTotalEmpleadosActivos(Connection conn, String escuelaId ) t
 		return numEmp;
 	}
 	
+	public static boolean getEstadoEmp(Connection conn, String codigoId) throws SQLException{
+		boolean activo			= false;
+		Statement st		 	= conn.createStatement();
+		ResultSet rs			= null;
+		String comando 			= "";
+		String estado			= "";
+		
+		try {
+			comando = " SELECT ESTADO FROM EMP_PERSONAL " 
+					+ " WHERE CODIGO_ID = '"+codigoId+"'";
+
+			rs = st.executeQuery(comando);
+			if(rs.next()){
+				estado = rs.getString("ESTADO");	
+			}
+			
+			if(estado.equals("A")) {
+				activo = true;
+			}else if(estado.equals("I")){
+				activo = false;
+			}
+						
+		}catch(Exception ex){
+			System.out.println("Error - aca.empleado.EmpPersonal|getEstadoEmp|:"+ex);	
+		}finally {
+			if (rs!=null) rs.close();
+			if (st!=null) st.close();
+		}
+		return activo;
+	}
+	
+	
 }

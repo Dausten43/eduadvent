@@ -5,10 +5,8 @@
 
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.Ciclo" />
 <jsp:useBean id="Reporte" scope="page" class="aca.cond.CondReporte" />
-<jsp:useBean id="ReporteL" scope="page"
-	class="aca.cond.CondTipoReporteLista" />
-<jsp:useBean id="EmpleadoL" scope="page"
-	class="aca.empleado.EmpPersonalLista" />
+<jsp:useBean id="ReporteL" scope="page" class="aca.cond.CondTipoReporteLista" />
+<jsp:useBean id="EmpleadoL" scope="page" class="aca.empleado.EmpPersonalLista" />
 
 <head>
 
@@ -71,7 +69,7 @@
 		String salto			= "X";
 		
 		ArrayList lisRep = ReporteL.getListEscuela(conElias, escuelaId,	"ORDER BY 1");
-		ArrayList lisEmp = EmpleadoL.getListEmp(conElias, escuelaId, "ORDER BY APATERNO, AMATERNO, NOMBRE");
+		ArrayList lisEmp = EmpleadoL.getListEmp(conElias, escuelaId, "AND ESTADO = 'A' ORDER BY APATERNO, AMATERNO, NOMBRE");
 
 		int i = 0;
 		int y = 0;
