@@ -129,7 +129,8 @@
 			}else{
 				serieEscuela += ",['"+nombre+": "+inscritosAsoc+"',"+Double.valueOf(getformato.format((double)inscritosAsoc*100/(double)totalInscritos).replaceAll(",","."))+"]";
 			}
-	    }
+	    } 
+		
 	
 %>
 
@@ -327,9 +328,81 @@
  		</div>
  	</div>
 
-<%} else{ %>
- 
-	<div class="alert alert-danger">No hay Inscritos <a href="grafica.jsp"><fmt:message key="boton.Regresar" /></a></div>
+<%} else{ 
+
+	
+	
+/*-------------------------------------------------------------
+-
+-
+-
+- Contenido si no hay inscritos
+-
+-
+-
+-----------------------------------------------------------------*/
+
+
+
+
+%>
+ 	
+	<div class="alert alert-warning">No hay Inscritos <a href="grafica.jsp"><fmt:message key="boton.Regresar" /></a></div>
+	<h2><%= aca.catalogo.CatAsociacion.getNombre(conElias, asociacionId)%></h2>
+	
+
+	<div class="row">
+
+ 		
+ 		<div class="span8">
+ 		
+ 			<table class="table table-bordered table-hover">
+					<tr>
+						<th width="90%"><fmt:message key="aca.Escuelas" /></th>
+						<th><fmt:message key="aca.Alumnos" /></th>
+						<th><fmt:message key="aca.Empleados" /></th>
+						<th><fmt:message key="aca.EnDocencia" /></th>
+						
+					</tr>
+					<%
+					int total	 	= 0;
+					int totalReg 	= 0;
+					int totalEmp	= 0;
+					int totalEmpDoc	= 0;
+					for (int i=0; i<EscuelasUsuario.size();i++){
+						if(aca.catalogo.CatEscuela.getStatus(conElias, EscuelasUsuario.get(i)).equals("A")){
+							String nombre = aca.catalogo.CatEscuela.getNombre(conElias, EscuelasUsuario.get(i));
+							int registrosAsoc = AlumPersonal.getTotalRegistros(conElias, EscuelasUsuario.get(i));
+							
+							int empTotEsc	  = aca.empleado.EmpPersonal.getTotalEmpleadosActivos(conElias, EscuelasUsuario.get(i));
+							int empDocenciaEsc =0;
+							if(mapEmpDoc.containsKey(EscuelasUsuario.get(i))){
+								empDocenciaEsc = Integer.parseInt(mapEmpDoc.get(EscuelasUsuario.get(i)));
+							}
+							totalReg 	+= registrosAsoc;
+							totalEmp	+=empTotEsc;
+							totalEmpDoc += empDocenciaEsc;
+						%>
+						<tr style="cursor:pointer;" onclick="document.location='graficaEscuela.jsp?EscuelaId=<%=EscuelasUsuario.get(i)%>&AsociacionId=<%=asociacionId%>'"
+							class="button">
+							<td><%=nombre %></td>
+							<td><%=registrosAsoc %></td>
+							<td><%=empTotEsc %></td>
+							<td><%=empDocenciaEsc %></td>
+						</tr>
+					<%	}
+					} %>
+					<tr>
+						<td><strong><fmt:message key="aca.Total" /></strong></td>
+						<td><strong><%=totalReg %></strong></td>
+						<td><strong><%=totalEmp %></strong></td>
+						<td><strong><%=totalEmpDoc %></strong></td>
+						
+					</tr>
+				</table>
+ 		
+ 		</div>
+ 	</div>
 <%} %>
 
 
