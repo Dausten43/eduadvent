@@ -237,28 +237,24 @@
 		          		<th>#</th>
 		          		<th>%</th>
 		          	</tr>
-<%						
-						String edadTemp = "";
-						int otros = 0;
+<%			
 						ArrayList<String> list = personalLista.getListEdadesEscuela(conElias, allEscuelas);
+						java.util.LinkedHashMap <String, Integer> edadOrden = new java.util.LinkedHashMap<String, Integer>();
+						for(String edad: list){
+						      if(edadOrden.containsKey(edad)){
+						        int contEdad = edadOrden.get(edad);
+						        edadOrden.put(edad, ++contEdad);
+						      }else{
+						        edadOrden.put(edad,1);
+						      }
+						}
+												
+						String edadTemp="";
+						int contTmp=0;
+						int otros = 0;
 						ArrayList<Double> porcentajes = new ArrayList<Double>();
 						ArrayList<String> edades = new ArrayList<String>();
-						int contEdades = 0;
-						
-						ArrayList<Integer> contadorEdades = new ArrayList<Integer>();
-						edadTemp = list.get(0);
-						for (int i=0; i<list.size();i++){
-							if(!edadTemp.equals(list.get(i))){
-								contadorEdades.add(contEdades);
-								edadTemp=list.get(i);
-								contEdades=0;
-							}
-							contEdades++;
-							if(i==list.size()-1)contadorEdades.add(contEdades);
-						}
-						
-						edadTemp="";
-						int contTmp=0;
+						ArrayList<Integer> contadorEdades = new ArrayList<Integer>(edadOrden.values());
 						for (int i=0; i<list.size();i++){
 							
 							
@@ -292,7 +288,7 @@
 							<tr>					
 								<td><fmt:message key="aca.Otros" /></td>		
 								<td><%=otros %></td>
-								<td><%=getformato.format(((double)otros)*100/totalInscritos)%>%</td>
+								<td><%=otros>0 ? getformato.format(((double)otros)*100/totalInscritos) : "00.00"%>%</td>
 							</tr>  						
 <%
 %>						<tr>
