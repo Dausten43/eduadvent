@@ -80,7 +80,7 @@
 <div id="content">
 
 <%
-	if (totalInscritos>0){
+		
 		double promMaternal 	= maternal==0 ? 0 : ((double)maternal)*100/totalInscritos;
 		promMaternal 			= Double.valueOf(getformato.format(promMaternal).replaceAll(",","."));
 		
@@ -120,17 +120,15 @@
 	
 		String serieEscuela  = "";
 		
-		for (int i=0; i<EscuelasUsuario.size();i++){
-			String nombre = aca.catalogo.CatEscuela.getNombre(conElias, EscuelasUsuario.get(i));
-			int inscritosAsoc = AlumPersonal.getNumInscritosPorEscuela(conElias, EscuelasUsuario.get(i));
-			
-			if (i==0){
-				serieEscuela += "['"+nombre+": "+inscritosAsoc+"',"+Double.valueOf(getformato.format((double)inscritosAsoc*100/(double)totalInscritos).replaceAll(",","."))+"]";
-			}else{
-				serieEscuela += ",['"+nombre+": "+inscritosAsoc+"',"+Double.valueOf(getformato.format((double)inscritosAsoc*100/(double)totalInscritos).replaceAll(",","."))+"]";
-			}
-	    } 
-		
+		if(totalInscritos > 0) {
+			for (int i=0; i<EscuelasUsuario.size();i++){
+				String nombre = aca.catalogo.CatEscuela.getNombre(conElias, EscuelasUsuario.get(i));
+				int inscritosAsoc = AlumPersonal.getNumInscritosPorEscuela(conElias, EscuelasUsuario.get(i));
+	
+				serieEscuela += "['"+nombre+": "+inscritosAsoc+"',"+Double.valueOf(getformato.format((double)inscritosAsoc*100/(double)totalInscritos).replaceAll(",","."))+"],";
+				
+		    }
+		}
 	
 %>
 
@@ -140,7 +138,7 @@
 		<a href="grafica.jsp" class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		<a class="btn btn-primary" href="reporteInscritosAsoc.jsp?AsociacionId=<%=asociacionId %>"><i class="icon-th-list icon-white"></i> Reporte de Inscritos</a>
 	</div>
-
+	<%if(totalInscritos <= 0) out.println("<div class='alert alert-warning'>No hay Inscritos</div>"); %>
 	<div class="row">
  		<div class="span4">
  		
@@ -242,7 +240,6 @@
 <%						
 						String edadTemp = "";
 						int otros = 0;
-						int cont = 0;
 						ArrayList<String> list = personalLista.getListEdadesEscuela(conElias, allEscuelas);
 						ArrayList<Double> porcentajes = new ArrayList<Double>();
 						ArrayList<String> edades = new ArrayList<String>();
@@ -272,21 +269,18 @@
 								if(Integer.parseInt(list.get(i))>3 && Integer.parseInt(list.get(i))<20){
 									
 									porcentajes.add(((double)numEdades)*100/totalInscritos);//añadir los porcenatjes de la lista
+									
 									edades.add(list.get(i));
 %>         					<tr>					
 								<td align="center" width="8%"><%=list.get(i) %></td>		
 								<td align="right"width="8%"><%=(int)numEdades %></td>
 								<td align="right"width="15%"><%=getformato.format((numEdades)*100/totalInscritos).replaceAll(",", ".") %>%</td>
 							</tr>
-<%								cont++;
-								}else{
+<%								}else{
 									otros = otros + (int)numEdades;
 								}
 								edadTemp=list.get(i);
-								
-								contEdades=0;
 							}
-							contEdades++;
 						}
 						if(totalInscritos!=0){
 							porcentajes.add(((double)otros)*100/totalInscritos);//añadir los porcentajes de la clasificacion "otros"
@@ -327,83 +321,6 @@
  		
  		</div>
  	</div>
-
-<%} else{ 
-
-	
-	
-/*-------------------------------------------------------------
--
--
--
-- Contenido si no hay inscritos
--
--
--
------------------------------------------------------------------*/
-
-
-
-
-%>
- 	
-	<div class="alert alert-warning">No hay Inscritos <a href="grafica.jsp"><fmt:message key="boton.Regresar" /></a></div>
-	<h2><%= aca.catalogo.CatAsociacion.getNombre(conElias, asociacionId)%></h2>
-	
-
-	<div class="row">
-
- 		
- 		<div class="span8">
- 		
- 			<table class="table table-bordered table-hover">
-					<tr>
-						<th width="90%"><fmt:message key="aca.Escuelas" /></th>
-						<th><fmt:message key="aca.Alumnos" /></th>
-						<th><fmt:message key="aca.Empleados" /></th>
-						<th><fmt:message key="aca.EnDocencia" /></th>
-						
-					</tr>
-					<%
-					int total	 	= 0;
-					int totalReg 	= 0;
-					int totalEmp	= 0;
-					int totalEmpDoc	= 0;
-					for (int i=0; i<EscuelasUsuario.size();i++){
-						if(aca.catalogo.CatEscuela.getStatus(conElias, EscuelasUsuario.get(i)).equals("A")){
-							String nombre = aca.catalogo.CatEscuela.getNombre(conElias, EscuelasUsuario.get(i));
-							int registrosAsoc = AlumPersonal.getTotalRegistros(conElias, EscuelasUsuario.get(i));
-							
-							int empTotEsc	  = aca.empleado.EmpPersonal.getTotalEmpleadosActivos(conElias, EscuelasUsuario.get(i));
-							int empDocenciaEsc =0;
-							if(mapEmpDoc.containsKey(EscuelasUsuario.get(i))){
-								empDocenciaEsc = Integer.parseInt(mapEmpDoc.get(EscuelasUsuario.get(i)));
-							}
-							totalReg 	+= registrosAsoc;
-							totalEmp	+=empTotEsc;
-							totalEmpDoc += empDocenciaEsc;
-						%>
-						<tr style="cursor:pointer;" onclick="document.location='graficaEscuela.jsp?EscuelaId=<%=EscuelasUsuario.get(i)%>&AsociacionId=<%=asociacionId%>'"
-							class="button">
-							<td><%=nombre %></td>
-							<td><%=registrosAsoc %></td>
-							<td><%=empTotEsc %></td>
-							<td><%=empDocenciaEsc %></td>
-						</tr>
-					<%	}
-					} %>
-					<tr>
-						<td><strong><fmt:message key="aca.Total" /></strong></td>
-						<td><strong><%=totalReg %></strong></td>
-						<td><strong><%=totalEmp %></strong></td>
-						<td><strong><%=totalEmpDoc %></strong></td>
-						
-					</tr>
-				</table>
- 		
- 		</div>
- 	</div>
-<%} %>
 
 
 </div>
