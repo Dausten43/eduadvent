@@ -7,6 +7,9 @@
 <jsp:useBean id="CicloLista" scope="page" class="aca.ciclo.CicloLista"/>
 <jsp:useBean id="Permiso" scope="page" class="aca.ciclo.CicloPermiso"/>
 <jsp:useBean id="PermisoLista" scope="page" class="aca.ciclo.CicloPermisoLista"/>
+<jsp:useBean id="CatGrupoL" scope="page" class="aca.catalogo.CatGrupoLista"/>
+<jsp:useBean id="PlanLista" scope="page" class="aca.plan.PlanLista"/>
+
 
 <script>
 
@@ -135,11 +138,22 @@
 			          	<th><fmt:message key="aca.Nombre" /></th>
 			        </tr>
 			        <% i = 0; %>
-					<%for(aca.ciclo.CicloPermiso permiso : lisConPermiso){%>
+					<%
+				    java.util.TreeMap<String, Integer> nivelAlta = new java.util.TreeMap<String, Integer>();
+					java.util.ArrayList<aca.plan.Plan> pPlanLista = PlanLista.getListPlanPermiso(conElias, cicloId, "ORDER BY NIVEL_ID");
+				    for(aca.plan.Plan plan : pPlanLista){			
+				    	int numCursosAlta=CatGrupoL.getListGruposAlta(conElias, cicloId, plan.getPlanId(), escuelaId, plan.getNivelId(), "ORDER BY NIVEL_ID, GRADO, GRUPO").size();
+				    	nivelAlta.put(plan.getNivelId(), numCursosAlta);
+					}
+					for(aca.ciclo.CicloPermiso permiso : lisConPermiso){
+						
+					%>
 			        	<tr>
 			          		<td>
+			          			<%if(nivelAlta.get(permiso.getNivelId()) <= 0){%>
 					    		<input name="Check<%=i%>" type="checkbox" value="S">
 								<input name="Nivel<%=i%>" type="hidden" value="<%=permiso.getNivelId()%>">
+								<%}%>
 					  		</td>
 			          		<td><%=permiso.getNivelId()%></td>
 			          		<td><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, permiso.getNivelId())%></td>
