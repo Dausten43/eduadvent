@@ -11,6 +11,10 @@
 <%@page import="java.nio.channels.FileChannel"%>
 <%@page import="aca.util.Fecha"%>
 <%@page import="java.util.Date"%>
+<%@page import="java.io.IOException"%>
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.io.InputStreamReader"%>
+
 
 <jsp:useBean id="archivo" scope="page" class="aca.kardex.KrdxAlumArchivo"/>
 
@@ -57,6 +61,7 @@
 			final int megabytes = 3;
 			final int LIMIT_SIZE = megabytes * 1024 * 1024;
 			
+			
 			com.oreilly.servlet.MultipartRequest multi = new com.oreilly.servlet.MultipartRequest(request, ruta, LIMIT_SIZE);
 			
 			nombre	= multi.getFilesystemName("archivo");
@@ -69,44 +74,42 @@
 			String [] ext = nombre.split("\\.");			
 			File dirFinal = new File(carpetaAlumno+"/"+codigoAlumno+"-"+folio+"."+ext[ext.length-1]);			   
 			File dirInicial = new File(ruta+nombre);
-			
 			if (dirInicial.length() <= LIMIT_SIZE){
-				List<String> filenameSplit = Arrays.asList(dirInicial.getName().split("."));
-				boolean isImage = false;
-				
-				if (filenameSplit.size() > 0 && filenameSplit.get(filenameSplit.size() - 1) != null) {
-					isImage = filenameSplit.get(filenameSplit.size() - 1).matches("(?i)jpeg|jpg|png");
-				}
+				boolean isImage = ext[ext.length-1].matches("(?i)jpeg|jpg|png");
 				
 				if(isImage){
-					
-					// Here will go te code for reducing the size...
-					
+					try {
+	           			Process process = Runtime.getRuntime().exec("cmd /c magick " + dirInicial +   " -resize 1280x720 " + dirInicial);
+	           			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+	           			String resultOfExecution = null;
+           				while((resultOfExecution = br.readLine()) != null){
+               				System.out.println(resultOfExecution);
+           				}
+       				} catch (IOException e) {
+       					guardo = false;
+       				}
 				}
 				
-				// TODO: Add code thta reduce size for images
-				if(true){					
-					try {
-						FileChannel srcChannel = new FileInputStream(dirInicial).getChannel ();
-						
-						FileChannel dstChannel = new FileOutputStream(dirFinal).getChannel();
-						
-						dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
-						
-						srcChannel.close();
-						dstChannel.close();
-						
-						archivo.setCodigoId(codigoAlumno);
-						archivo.setFolio(folio);
-						archivo.setCicloGrupoId(cicloGrupoId);
-						archivo.setCursoId(cursoId);
-						archivo.setEvaluacionId(evaluacionId);
-						archivo.setActividadId(actividadId);
-						archivo.setArchivo(nombre);
-						if(archivo.insertReg(conElias)) guardo = true;
-					} catch (Exception e) {
-						guardo = false;
-					}
+				try {
+					FileChannel srcChannel = new FileInputStream(dirInicial).getChannel ();
+					
+					FileChannel dstChannel = new FileOutputStream(dirFinal).getChannel();
+					
+					dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
+					
+					srcChannel.close();
+					dstChannel.close();
+					
+					archivo.setCodigoId(codigoAlumno);
+					archivo.setFolio(folio);
+					archivo.setCicloGrupoId(cicloGrupoId);
+					archivo.setCursoId(cursoId);
+					archivo.setEvaluacionId(evaluacionId);
+					archivo.setActividadId(actividadId);
+					archivo.setArchivo(nombre);
+					if(archivo.insertReg(conElias)) guardo = true;
+				} catch (Exception e) {
+					guardo = false;
 				}
 			}else{
 	%>
