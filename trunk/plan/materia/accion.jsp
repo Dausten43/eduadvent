@@ -1,4 +1,4 @@
-<%@ include file="../../con_elias.jsp"%>
+	<%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
 <%@ include file="../../head.jsp"%>
@@ -8,6 +8,8 @@
 <jsp:useBean id="PlanCursoLista"  class="aca.plan.PlanCursoLista" scope="page"/>
 <jsp:useBean id="Ciclo" scope="page" class="aca.ciclo.CicloGrupoCurso" />
 <jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
+
+<%@ page import="java.util.HashMap" %>
 
 
 
@@ -88,18 +90,25 @@
 		String cursoId 			= request.getParameter("CursoId").replaceAll("}", "&");
 		String planId			= request.getParameter("PlanId");	
 		String cicloId			= (String) session.getAttribute("cicloId");
-
+		String grado 			= request.getParameter("Grado");
+		
+		
+		
 		int n_accion 		= Integer.parseInt(request.getParameter("Accion"));
 		String strResultado = "";
 		String salto			= "X";
 		
 		String nivelId 			= aca.plan.Plan.getNivel(conElias,planId);
-		nivel.mapeaRegId(conElias, nivelId, escuelaId);		
+		nivel.mapeaRegId(conElias, nivelId, escuelaId);	
+		
+		
 		
 		Curso.setCursoId(cursoId.toUpperCase());
 		if (Curso.existeReg(conElias)) {
 			Curso.mapeaRegId(conElias, cursoId);
 		}
+		
+		
 		// Operaciones a realizar en la pantalla
 		switch (n_accion) {
 
@@ -122,41 +131,43 @@
 			break;
 		}
 
-		case 2: { // Grabar
-
+		case 2: { // Grabar  
+			
+			
 			Curso.setPlanId(planId);
 			Curso.setCursoId(request.getParameter("CursoId").toUpperCase());
-			Curso.setCursoNombre(request.getParameter("CursoNombre"));
-			Curso.setCursoCorto(request.getParameter("CursoCorto"));
-			Curso.setGrado(request.getParameter("Grado"));
-			Curso.setNotaAc(request.getParameter("NotaAC"));
-			Curso.setTipocursoId(request.getParameter("Tipocurso"));
-			Curso.setFalta(request.getParameter("Falta"));			
-			Curso.setAspectos(request.getParameter("Aspectos"));
-			Curso.setConducta(request.getParameter("Conducta"));
-			Curso.setOrden(request.getParameter("Orden"));
-			Curso.setPunto(request.getParameter("Punto"));
-			Curso.setHoras(request.getParameter("Horas"));
-			Curso.setCreditos(request.getParameter("Creditos"));
-			Curso.setEstado(request.getParameter("Estado"));
-			Curso.setTipoEvaluacion(request.getParameter("TipoEvaluacion"));
-			Curso.setCursoBase(request.getParameter("CursoBase"));			
-			Curso.setBoleta(request.getParameter("BoletaAparece"));	
+			Curso.setCursoNombre(request.getParameter("CursoNombre")); //
+			Curso.setCursoCorto(request.getParameter("CursoCorto")); //
+			Curso.setGrado(request.getParameter("Grado"));   //
+			Curso.setNotaAc(request.getParameter("NotaAC")); //
+			Curso.setTipocursoId(request.getParameter("Tipocurso")); //
+			Curso.setFalta(request.getParameter("Falta"));		 //	
+			Curso.setAspectos(request.getParameter("Aspectos"));  // HÁBITOS Y ACTITUDES
+			Curso.setConducta(request.getParameter("Conducta")); //
+			Curso.setOrden(request.getParameter("Orden"));  //
+			Curso.setPunto(request.getParameter("Punto"));   //
+			Curso.setHoras(request.getParameter("Horas"));  //
+			Curso.setCreditos(request.getParameter("Creditos")); //
+			Curso.setEstado(request.getParameter("Estado"));  //
+			Curso.setTipoEvaluacion(request.getParameter("TipoEvaluacion"));  //
+			Curso.setCursoBase(request.getParameter("CursoBase"));		//	
+			Curso.setBoleta(request.getParameter("BoletaAparece"));	//
 			
 			if(Curso.getCursoBase() == null){
 				Curso.setCursoBase("-");
 			}
+
 
 			if (Curso.existeReg(conElias)) {
 
 				if (Curso.updateReg(conElias)) {
 					strResultado = "Modificado";
 					Curso.mapeaRegId(conElias, planId); // mapeamos el registro que actualizamos
-				} else {
-					strResultado = "NoModifico";
 				}
+				else {
+					strResultado = "NoModifico";
+				} 
 			} else {
-				String grado = request.getParameter("Grado");
 				if(Integer.parseInt(grado)<10) grado = "0"+grado;
 				Curso.setCursoId(planId+request.getParameter("CursoId").toUpperCase()+grado);
 				if (Ciclo.existeRegCursoId(conElias)) {
@@ -164,11 +175,12 @@
 				} else if (Curso.insertReg(conElias)) {
 					strResultado = "Guardado";
 					cursoId = planId + request.getParameter("CursoId")+grado;
-				} else {
+				}else {
 						strResultado = "NoGuardo";
 						n_accion = 1;
 				}
 			}
+			
 			break;
 		}
 
@@ -203,20 +215,37 @@
 		}
 		
 		
-		// Lista de cursos
-		ArrayList<aca.plan.PlanCurso> lisCursos	= PlanCursoLista.getCursosPorGrado(conElias, planId, Curso.getGrado(), "ORDER BY CURSO_NOMBRE");
+		ArrayList<aca.plan.PlanCurso> lisCursos	= PlanCursoLista.getCursosPorGrado(conElias, planId, Curso.getGrado(), "ORDER BY CURSO_NOMBRE"); 
+		HashMap<String, String> cursos = new HashMap<String, String>();
 		
+		for(aca.plan.PlanCurso curso:lisCursos){
+			cursos.put(curso.getAspectos(),curso.getCursoId());
+		}
+		
+		boolean existeCursoAspectos = false;
+		
+		for(aca.plan.PlanCurso curso : lisCursos){
+			if(curso.getAspectos().contains("S")){
+				existeCursoAspectos = true;
+			}
+		}
+		
+		
+		
+		// Lista de cursos
 		pageContext.setAttribute("resultado", strResultado);		
-%>
+%>		
 
 	<div id="content">
 		<h2>Datos de la Materia</h2>
 		<% if (strResultado.equals("Eliminado") || strResultado.equals("Modificado") || strResultado.equals("Guardado")){%>
 	   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
-	  	<% }else if(!strResultado.equals("")){%>
+	  	<%}else if(strResultado.equals("No Modificado")){%>
 	  		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
-	  	<%} %>
-
+	  	<%} else if(!strResultado.equals("")){%>
+			 <div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
+		<%}%>	
+		
 		<div class="well" style="overflow: hidden;">
 		<a href="materia.jsp?PlanId=<%=planId%>"class="btn btn-primary"><i class="icon-arrow-left icon-white"></i> <fmt:message key="boton.Regresar" /></a>
 		</div>
@@ -319,7 +348,17 @@
 									<option value="N" <%=Curso.getAspectos().equals("N")?" Selected":""%>><fmt:message key="aca.Negacion" /></option>
 								</select>
 							</div>
-						<%}%>
+							
+						<%	if(existeCursoAspectos && !cursoId.equals(cursos.get("S"))){ //////*********NO SE DEBE SELECCIONAR SI EN LA CONFIG DE ASPECTOS*********\\\\\%>
+								<script>
+									document.getElementById("Aspectos").addEventListener('change', (e) =>{
+										const val = e.target.value;
+										if(val == "S") {e.target.value = "N";}				
+										alert("Ya existe un curso evaluando Hábitos y Aspectos. Desactive el curso que contenga esta opción activa para que este curso pueda evaluarse de esta manera.")
+									});
+									
+								</script>								
+						<%}}%>
 						<div class="control-group ">
 							<label for="Orden"> <fmt:message key="aca.Orden" />: </label> <input name="Orden"
 								type="text" id="orden" value="<%=Curso.getOrden().equals("")?"1":Curso.getOrden()%>" class="input-mini"
