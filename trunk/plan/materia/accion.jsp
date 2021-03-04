@@ -158,7 +158,6 @@
 					strResultado = "NoModifico";
 				} 
 			} else {
-				String grado = request.getParameter("Grado");
 				if(Integer.parseInt(grado)<10) grado = "0"+grado;
 				Curso.setCursoId(planId+request.getParameter("CursoId").toUpperCase()+grado);
 				if (Ciclo.existeRegCursoId(conElias)) {
@@ -335,16 +334,18 @@
 								</select>
 							</div>
 							
-						<%	if(existeCursoAspectos && !cursoId.equals(cursos.get("S"))){ //////*********NO SE DEBE SELECCIONAR SI EN LA CONFIG DE ASPECTOS*********\\\\\%>
+							<%if(existeCursoAspectos && !cursoId.equals(cursos.get("S"))){ //////*********NO SE DEBE SELECCIONAR SI EN LA CONFIG DE ASPECTOS*********\\\\\%>
 								<script>
-									document.getElementById("Aspectos").addEventListener('change', (e) =>{
+									document.getElementById("Aspectos").addEventListener('change', (e) => {
 										const val = e.target.value;
-										if(val == "S") {e.target.value = "N";}				
-										alert("Ya existe un curso evaluando Hábitos y Aspectos. Desactive el curso que contenga esta opción activa para que este curso pueda evaluarse de esta manera.")
+										if(val === "S") e.target.value = "N";
+										alert("Ya existe un curso evaluando este aspecto. Desactive el curso que contenga esta opción activa y vuelva a intentarlo.")
 									});
-									
 								</script>								
-						<%}}%>
+						<%
+							}
+						}
+						%>
 						<div class="control-group ">
 							<label for="Orden"> <fmt:message key="aca.Orden" />: </label> <input name="Orden"
 								type="text" id="orden" value="<%=Curso.getOrden().equals("")?"1":Curso.getOrden()%>" class="input-mini"
