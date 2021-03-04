@@ -1,4 +1,4 @@
-	<%@ include file="../../con_elias.jsp"%>
+<%@ include file="../../con_elias.jsp"%>
 <%@ include file="id.jsp"%>
 <%@ include file="../../seguro.jsp"%>
 <%@ include file="../../head.jsp"%>
@@ -10,8 +10,6 @@
 <jsp:useBean id="nivel" scope="page" class="aca.catalogo.CatNivelEscuela"/>
 
 <%@ page import="java.util.HashMap" %>
-
-
 
 <script>
 	function CheckAccents(curso_id){
@@ -90,25 +88,20 @@
 		String cursoId 			= request.getParameter("CursoId").replaceAll("}", "&");
 		String planId			= request.getParameter("PlanId");	
 		String cicloId			= (String) session.getAttribute("cicloId");
-		String grado 			= request.getParameter("Grado");
-		
-		
+		String grado 			= request.getParameter("Grado");		
 		
 		int n_accion 		= Integer.parseInt(request.getParameter("Accion"));
 		String strResultado = "";
 		String salto			= "X";
 		
 		String nivelId 			= aca.plan.Plan.getNivel(conElias,planId);
-		nivel.mapeaRegId(conElias, nivelId, escuelaId);	
-		
-		
+		nivel.mapeaRegId(conElias, nivelId, escuelaId);		
 		
 		Curso.setCursoId(cursoId.toUpperCase());
 		if (Curso.existeReg(conElias)) {
 			Curso.mapeaRegId(conElias, cursoId);
 		}
-		
-		
+
 		// Operaciones a realizar en la pantalla
 		switch (n_accion) {
 
@@ -132,39 +125,36 @@
 		}
 
 		case 2: { // Grabar  
-			
-			
+
 			Curso.setPlanId(planId);
 			Curso.setCursoId(request.getParameter("CursoId").toUpperCase());
-			Curso.setCursoNombre(request.getParameter("CursoNombre")); //
-			Curso.setCursoCorto(request.getParameter("CursoCorto")); //
-			Curso.setGrado(request.getParameter("Grado"));   //
-			Curso.setNotaAc(request.getParameter("NotaAC")); //
-			Curso.setTipocursoId(request.getParameter("Tipocurso")); //
-			Curso.setFalta(request.getParameter("Falta"));		 //	
-			Curso.setAspectos(request.getParameter("Aspectos"));  // HÁBITOS Y ACTITUDES
-			Curso.setConducta(request.getParameter("Conducta")); //
-			Curso.setOrden(request.getParameter("Orden"));  //
-			Curso.setPunto(request.getParameter("Punto"));   //
-			Curso.setHoras(request.getParameter("Horas"));  //
-			Curso.setCreditos(request.getParameter("Creditos")); //
-			Curso.setEstado(request.getParameter("Estado"));  //
-			Curso.setTipoEvaluacion(request.getParameter("TipoEvaluacion"));  //
-			Curso.setCursoBase(request.getParameter("CursoBase"));		//	
-			Curso.setBoleta(request.getParameter("BoletaAparece"));	//
+			Curso.setCursoNombre(request.getParameter("CursoNombre"));
+			Curso.setCursoCorto(request.getParameter("CursoCorto"));
+			Curso.setGrado(request.getParameter("Grado"));
+			Curso.setNotaAc(request.getParameter("NotaAC"));
+			Curso.setTipocursoId(request.getParameter("Tipocurso"));
+			Curso.setFalta(request.getParameter("Falta"));
+			Curso.setAspectos(request.getParameter("Aspectos"));
+			Curso.setConducta(request.getParameter("Conducta"));
+			Curso.setOrden(request.getParameter("Orden"));
+			Curso.setPunto(request.getParameter("Punto"));
+			Curso.setHoras(request.getParameter("Horas"));
+			Curso.setCreditos(request.getParameter("Creditos"));
+			Curso.setEstado(request.getParameter("Estado"));
+			Curso.setTipoEvaluacion(request.getParameter("TipoEvaluacion"));
+			Curso.setCursoBase(request.getParameter("CursoBase"));		
+			Curso.setBoleta(request.getParameter("BoletaAparece"));
 			
 			if(Curso.getCursoBase() == null){
 				Curso.setCursoBase("-");
 			}
-
 
 			if (Curso.existeReg(conElias)) {
 
 				if (Curso.updateReg(conElias)) {
 					strResultado = "Modificado";
 					Curso.mapeaRegId(conElias, planId); // mapeamos el registro que actualizamos
-				}
-				else {
+				} else {
 					strResultado = "NoModifico";
 				} 
 			} else {
@@ -214,7 +204,7 @@
 		}
 		}
 		
-		
+		// Lista de cursos
 		ArrayList<aca.plan.PlanCurso> lisCursos	= PlanCursoLista.getCursosPorGrado(conElias, planId, Curso.getGrado(), "ORDER BY CURSO_NOMBRE"); 
 		HashMap<String, String> cursos = new HashMap<String, String>();
 		
@@ -229,10 +219,7 @@
 				existeCursoAspectos = true;
 			}
 		}
-		
-		
-		
-		// Lista de cursos
+	
 		pageContext.setAttribute("resultado", strResultado);		
 %>		
 
@@ -240,8 +227,6 @@
 		<h2>Datos de la Materia</h2>
 		<% if (strResultado.equals("Eliminado") || strResultado.equals("Modificado") || strResultado.equals("Guardado")){%>
 	   		<div class='alert alert-success'><fmt:message key="aca.${resultado}" /></div>
-	  	<%}else if(strResultado.equals("No Modificado")){%>
-	  		<div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
 	  	<%} else if(!strResultado.equals("")){%>
 			 <div class='alert alert-error'><fmt:message key="aca.${resultado}" /></div>
 		<%}%>	
