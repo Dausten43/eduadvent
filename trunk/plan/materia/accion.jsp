@@ -158,6 +158,7 @@
 					strResultado = "NoModifico";
 				} 
 			} else {
+				String grado = request.getParameter("Grado");
 				if(Integer.parseInt(grado)<10) grado = "0"+grado;
 				Curso.setCursoId(planId+request.getParameter("CursoId").toUpperCase()+grado);
 				if (Ciclo.existeRegCursoId(conElias)) {
