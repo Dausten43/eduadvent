@@ -199,6 +199,7 @@
 							<fieldset>
 								<label for="tipoPago"><fmt:message key="aca.tipoPago" /></label>
 								<select name="tipoPago" id="tipoPago">
+									<option value=""></option>
 									<option value="1">Efectivo</option>
 									<option value="2">Cheque</option>
 									<option value="3">Tarjeta Bancaria</option>
