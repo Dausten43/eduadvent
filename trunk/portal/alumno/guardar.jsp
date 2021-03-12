@@ -14,6 +14,8 @@
 <%@page import="java.io.IOException"%>
 <%@page import="java.io.BufferedReader"%>
 <%@page import="java.io.InputStreamReader"%>
+<%@page import="javax.imageio.ImageIO"%>
+<%@page import="java.awt.image.BufferedImage"%>
 
 
 <jsp:useBean id="archivo" scope="page" class="aca.kardex.KrdxAlumArchivo"/>
@@ -79,11 +81,14 @@
 				
 				if(isImage){
 					try {
-	           			Process process = Runtime.getRuntime().exec("cmd /c magick " + dirInicial +   " -resize 1280x720 " + dirInicial);
-	           			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-	           			String resultOfExecution = null;
-           				while((resultOfExecution = br.readLine()) != null){
-               				System.out.println(resultOfExecution);
+						BufferedImage image = ImageIO.read(dirInicial);
+						if(image.getWidth() > 1280 && image.getHeight() > 720){
+		           			Process process = Runtime.getRuntime().exec("cmd /c magick " + dirInicial + " -resize 1280x720 " + dirInicial);
+		           			BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		           			String resultOfExecution = null;
+	           				while((resultOfExecution = br.readLine()) != null){
+	               				System.out.println(resultOfExecution);
+	           				}
            				}
        				} catch (IOException e) {
        					guardo = false;
