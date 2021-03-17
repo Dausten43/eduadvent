@@ -152,6 +152,8 @@
 			     	<th><fmt:message key="aca.Padre" /></th>
 			     	<th><fmt:message key="aca.Ocupacion" /> <fmt:message key="aca.Padre" /></th> 
 			     	<th>C&eacute;dula Padre</th> 
+			     	<th>CRIP</th> 
+			     	<th>No. Acta</th> 
 				  </tr>		  
 <%
   			for(aca.alumno.AlumPersonal inscrito : lisInscritos){
@@ -206,6 +208,8 @@
 					  <td align="left"><%= Personal.getNombre()+" " +Personal.getApaterno()+" " +Personal.getAmaterno() %></td> 
 					  <td align="left"><%= Personal.getOcupacion()%></td>
 					  <td align="left"><%= Personal.getRfc() != null ? Personal.getRfc() : (inscrito.getTutorCedula()==null || inscrito.getTutorCedula().equals("-") || inscrito.getTutorCedula().equals("null"))? "" : inscrito.getTutorCedula()%></td>
+					  <td align="left"></td>
+					  <td align="left"></td> 
 				</tr> 				
 <% 				
 				Personal.setNombre(" "); Personal.setApaterno(" "); Personal.setAmaterno(" "); Personal.setOcupacion(" ");
