@@ -73,41 +73,29 @@ public class CicloGrupoTareaLista {
 	}
 	
 	public String getInicioFinSemana(String semana){
-        String salida = "";
-        
-        SimpleDateFormat sdfc = new SimpleDateFormat("dd 'de' MMM",new Locale("es_ES"));
-        SimpleDateFormat sdfd = new SimpleDateFormat("yyyy");
-        
         String[] se = semana.split("-");
+        final Integer year = new Integer(se[0].trim());
+        final Integer week = new Integer(se[1].trim());
+
+        Calendar calendarFirstDay = Calendar.getInstance(new Locale("es_ES"));
+        calendarFirstDay.set(Calendar.YEAR, year);
+        calendarFirstDay.set(Calendar.WEEK_OF_YEAR, week);
+        calendarFirstDay.setMinimalDaysInFirstWeek(3);
+        calendarFirstDay.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         
-        Calendar calb = Calendar.getInstance(new Locale("es_ES"));
-        Calendar cala = Calendar.getInstance(new Locale("es_ES"));
-            
-        calb.set(Calendar.YEAR,new Integer(se[0].trim()));
-        calb.set(Calendar.WEEK_OF_YEAR, new Integer(se[1].trim()));
+        Calendar calendarLastDay = Calendar.getInstance(new Locale("es_ES"));
+        calendarLastDay.set(Calendar.YEAR, year);
+        calendarLastDay.set(Calendar.WEEK_OF_YEAR, week);
+        calendarLastDay.setMinimalDaysInFirstWeek(3);
+        calendarLastDay.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         
-        cala.set(Calendar.YEAR,new Integer(se[0].trim()));
-        cala.set(Calendar.WEEK_OF_YEAR, new Integer(se[1].trim()));
+        Date weekStart = calendarFirstDay.getTime();
+        Date weekEnd = calendarLastDay.getTime(); 
         
-        calb.set(Calendar.DAY_OF_WEEK,2);
-        cala.set(Calendar.DAY_OF_WEEK,6);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd 'de' MMM",new Locale("es_ES"));
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
         
-        //calb.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-        System.out.println(calb.getFirstDayOfWeek() + " " + calb.getTime() + " se[0] " + se[0].trim() + " se[1] " + se[1].trim());
-//            while(calb.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY){
-//                calb.add(Calendar.DATE, -1); 
-//            }
-            Date semanaIni = calb.getTime();
-//            
-//            while(cala.get(Calendar.DAY_OF_WEEK)!=Calendar.FRIDAY){
-//                cala.add(Calendar.DATE, 1); 
-//            }
-            
-            Date semanaFin = cala.getTime(); 
-            
-            salida = "Semana del " + sdfc.format(semanaIni) + " al " + sdfc.format(semanaFin) + " " + sdfd.format(semanaFin);
-            
-        return salida;
+		return "Semana del " + dateFormat.format(weekStart) + " al " + dateFormat.format(weekEnd) + " " + yearFormat.format(weekEnd);
     }
 	
 	
@@ -159,7 +147,7 @@ public class CicloGrupoTareaLista {
 			if (st!=null) st.close();
 			if (rsb!=null) rsb.close();
 			if (stb!=null) stb.close();
-		}	
+		}
 		
 		return salida;
 	}
