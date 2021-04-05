@@ -19,7 +19,7 @@
 	String strBgcolor		= "";
 	String nivelTemp        = "0";
 	String grado = "", grupo = "", nombre = "", apaterno = "", amaterno ="", nacimiento = "", genero = "", curp="", pais = "", 
-			estado = "", ciudad = "", colonia = "", direccion = "", telefono = "", religion = "", iglesia = "", tutor = "";
+			estado = "", ciudad = "", colonia = "", direccion = "", telefono = "", clasFin = "", religion = "", iglesia = "", tutor = "";
 	int cont				= 1;
 	int hombres				= 0;
 	int mujeres				= 0;
@@ -92,6 +92,7 @@ for(int i=0; i<lisInscritos.size();i++){
 			colonia 	= "-";
 			direccion	= "-";
 			telefono 	= "-";
+			clasFin 	= "";
 			religion 	= "-";
 			iglesia 	= "-";
 			tutor 		= "-";			
@@ -116,6 +117,7 @@ for(int i=0; i<lisInscritos.size();i++){
 				colonia 	= historia.getColonia();  
 				direccion	= historia.getDireccion();  
 				telefono 	= historia.getTelefono();  
+				clasFin 	= historia.getClasfinId();
 				religion 	= historia.getReligion();  
 				iglesia 	= historia.getIglesia();
 				tutor 		= historia.getTutor(); 
@@ -196,7 +198,7 @@ for(int i=0; i<lisInscritos.size();i++){
 			  <td align="left"><%= colonia%></td>
 			  <td width="150%" align="left"><%= direccion%></td>
 			  <td align="left"><%= telefono%></td>
-			  <td align="left"><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, inscrito.getClasfinId())%></td>
+			  <td align="left"><%= aca.catalogo.CatClasFin.getClasFinNombre(conElias, escuelaId, clasFin)%></td>
 			  <td align="left"><%= aca.catalogo.CatReligion.getReligionNombre(conElias,religion)%></td>
 			  <td align="left"><%= iglesia%></td>
 			  <td align="left"><%= tutor%></td>  
