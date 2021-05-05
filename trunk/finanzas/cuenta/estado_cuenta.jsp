@@ -79,11 +79,6 @@
 	String fechaHoy 		= aca.util.Fecha.getHoy();
 	String fechaInicio 		= request.getParameter("fechaInicio")==null?"01/01/"+aca.util.Fecha.getYearNum():request.getParameter("fechaInicio");
 	String fechaFinal		= request.getParameter("fechaFinal")==null?"31/12/"+aca.util.Fecha.getYearNum():request.getParameter("fechaFinal");
-	String txtPersonalizado ="";
-	String archivo = "textopersonalizado.txt";
-    //System.out.println(archivo);
-	FileReader f = new FileReader(getServletContext().getRealPath("/")+"finanzas/cuenta/"+archivo);
-    BufferedReader b = new BufferedReader(f);
 	escuela.mapeaRegId(conElias, escuelaId.toString());
 		
 	AlumPersonal.mapeaRegId(conElias, codigoId);
@@ -219,7 +214,7 @@ FinCuentaLista fcl = new FinCuentaLista();
 		float total = (float)saldoNum;			
 		for(int i = 0; i < lisMovimientos.size(); i++){
 			aca.fin.FinMovimientos movto = (aca.fin.FinMovimientos) lisMovimientos.get(i);
-			if(mapCuentas.containsKey(movto.getCuentaId()) && mapCuentas.get(movto.getCuentaId()).getCuentaAislada().equals("N")){
+			if(mapCuentas.containsKey(movto.getCuentaId()) && mapCuentas.get(movto.getCuentaId()	).getCuentaAislada().equals("N")){
 			if((movto.getImporte()==null)&&(movto.getNaturaleza()==null)){
 				movto.setImporte("0");
 				movto.setNaturaleza("");					
@@ -254,13 +249,7 @@ FinCuentaLista fcl = new FinCuentaLista();
 	</table>
 	
 	<%
-	String cadena="";
-    while((cadena = b.readLine())!=null) {
-        txtPersonalizado = txtPersonalizado+cadena;
-    }
-    b.close();	
-	
-	if (total> 0 && escuelaId.toString().contains("H") && txtPersonalizado.substring(0,2).equalsIgnoreCase("SI")) { %><table class="table table-condensed table-bordered"><tr><td><%=txtPersonalizado.substring(3) %></td></tr></table><% } %>
+	if (total> 0 && escuelaId.toString().contains("H")) { %><table class="table table-condensed table-bordered"><tr><td>Su cuenta presenta pagos atrasados, favor de pasar a hacer arreglos. Si usted ya realizó los pagos, favor de hacer caso omiso a este mensaje.</td></tr></table><% } %>
 </div>
 <script>
 	jQuery('#fechaInicio').datepicker();
