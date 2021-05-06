@@ -2,7 +2,7 @@
 <%@ include file="id.jsp"%>
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
-<%@ page import="sun.misc.BASE64Encoder"%>
+<%@ page import="java.util.Base64"%>
 <%@ page import="java.security.MessageDigest"%>
 
 <jsp:useBean id="escuela" scope="page" class="aca.catalogo.CatEscuela" />
@@ -59,7 +59,7 @@
 	MessageDigest md5 			= MessageDigest.getInstance("MD5");
 	md5.update(((String)session.getAttribute("user")).getBytes("UTF-8"));
     byte raw[] = md5.digest();    
-    String claveDigest = (new BASE64Encoder()).encode(raw);	
+    String claveDigest = Base64.getEncoder().encodeToString(raw);	
 %>
 <div id="content">
 <h2><fmt:message key="aca.Bienvenido"/> <small><%=aca.vista.UsuariosLista.getNombreCorto(conElias, (String)session.getAttribute("codigoId")) %></small></h2>

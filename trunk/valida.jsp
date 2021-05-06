@@ -2,7 +2,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="aca.menu.*"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="sun.misc.BASE64Encoder"%>
+<%@ page import="java.util.Base64"%>
 <%@ page import="java.security.MessageDigest"%>
 
 <jsp:useBean id="usuario" scope="page" class="aca.usuario.Usuario" />
@@ -37,7 +37,7 @@
 	MessageDigest md5 			= MessageDigest.getInstance("MD5");
 	md5.update(strClave.getBytes("UTF-8"));
     byte raw[] = md5.digest();    
-    String claveDigest = (new BASE64Encoder()).encode(raw);    
+    String claveDigest = Base64.getEncoder().encodeToString(raw);    
 	aca.conecta.Conectar c 		= new aca.conecta.Conectar();
 	Connection conn				= null;
 	aca.util.Fecha f			= new aca.util.Fecha();	
