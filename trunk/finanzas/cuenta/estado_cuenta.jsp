@@ -211,7 +211,8 @@ FinCuentaLista fcl = new FinCuentaLista();
 			out.println("</tr>");
 			
 		//}
-		float total = (float)saldoNum;			
+		float total = (float)saldoNum;
+		double totalAfterFormat = 0;
 		for(int i = 0; i < lisMovimientos.size(); i++){
 			aca.fin.FinMovimientos movto = (aca.fin.FinMovimientos) lisMovimientos.get(i);
 			if(mapCuentas.containsKey(movto.getCuentaId()) && mapCuentas.get(movto.getCuentaId()	).getCuentaAislada().equals("N")){
@@ -225,7 +226,8 @@ FinCuentaLista fcl = new FinCuentaLista();
 			}else{
 				total -= Float.parseFloat(movto.getImporte());
 			}
-			signoSaldo	= total>=0?"Deudor":"Acreedor"; 
+			totalAfterFormat = Double.parseDouble(formato.format(total)); 
+			signoSaldo	= totalAfterFormat > 0 ? "Deudor" : "Acreedor"; 
 	%>
 		<tr class="movimientos">
 			<td><%=movto.getPolizaId() %></td>
@@ -236,7 +238,7 @@ FinCuentaLista fcl = new FinCuentaLista();
 			<td class="text-right"><%=movto.getNaturaleza().equals("D")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=movto.getNaturaleza().equals("C")?formato.format(Float.parseFloat(movto.getImporte())):"" %></td>
 			<td class="text-right"><%=formato.format(total) %></td>
-			<td class="text-right" <%=total>=0?"style='color:red;'":"style='color:green;'"%>><%=signoSaldo%></td>
+			<td class="text-right" <%=totalAfterFormat > 0 ? "style='color:red;'" : "style='color:green;'"%>><%=signoSaldo%></td>
 		</tr>
 	<%
 			}
@@ -249,7 +251,7 @@ FinCuentaLista fcl = new FinCuentaLista();
 	</table>
 	
 	<%
-	if (total> 0 && escuelaId.toString().contains("H")) { %><table class="table table-condensed table-bordered"><tr><td>Su cuenta presenta pagos atrasados, favor de pasar a hacer arreglos. Si usted ya realizó los pagos, favor de hacer caso omiso a este mensaje.</td></tr></table><% } %>
+	if (totalAfterFormat > 0 && escuelaId.toString().contains("H")) { %><table class="table table-condensed table-bordered"><tr><td>Su cuenta presenta pagos atrasados, favor de pasar a hacer arreglos. Si usted ya realizó los pagos, favor de hacer caso omiso a este mensaje.</td></tr></table><% } %>
 </div>
 <script>
 	jQuery('#fechaInicio').datepicker();
