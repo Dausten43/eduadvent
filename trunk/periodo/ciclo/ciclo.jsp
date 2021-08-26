@@ -66,7 +66,7 @@
 		    	<th><fmt:message key="aca.Fin" /></th>
 				<th><fmt:message key="aca.Estado" /></th>
 				<th><fmt:message key="aca.Escala" /></th>
-				<th><fmt:message key="aca.NumEval" /></th>
+				<th>No. Mód.</th>
 				<th><fmt:message key="aca.CicloEscuela" /></th>
 				<th><fmt:message key="aca.Decimal" /></th>
 				<th><fmt:message key="aca.Redondeo" /></th>

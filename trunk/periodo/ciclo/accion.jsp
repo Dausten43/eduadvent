@@ -314,7 +314,7 @@
 		</fieldset>
 		
 		<fieldset>
-			<label for="Modulos"><fmt:message key="aca.NumEvaluaciones" /></label>
+			<label for="Modulos">Num. de módulos en planeación</label>
 			<input name="Modulos" type="text" id="Modulos" size="2" maxlength="2" value="<%=Ciclo.getModulos()%>" class="onlyNumbers input-mini">
 		</fieldset>
 		
