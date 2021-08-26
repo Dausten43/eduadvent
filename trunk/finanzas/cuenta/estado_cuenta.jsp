@@ -226,8 +226,8 @@ FinCuentaLista fcl = new FinCuentaLista();
 			}else{
 				total -= Float.parseFloat(movto.getImporte());
 			}
-			totalAfterFormat = Double.parseDouble(formato.format(total)); 
-			signoSaldo	= totalAfterFormat > 0 ? "Deudor" : "Acreedor"; 
+			totalAfterFormat = Double.parseDouble(formato.format(total).replace(",", ""));
+			signoSaldo	= totalAfterFormat > 0 ? "Deudor" : "Acreedor";
 	%>
 		<tr class="movimientos">
 			<td><%=movto.getPolizaId() %></td>
