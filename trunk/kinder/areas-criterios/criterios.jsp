@@ -34,6 +34,7 @@ lsAreas.addAll(ua.getLsAreas(0L, "", cicloId, 1));
 		<div class="well">
 			<select name="Ciclo" id="Ciclo"
 				onchange="document.frmCiclo.submit();" class="input-xxlarge">
+				<option>Seleccione....</option>
 				<%
 					for (aca.ciclo.Ciclo ciclo : lisCiclo) {
 						int nivel;

@@ -14,6 +14,7 @@ if(request.getParameter("Ciclo")!=null){
 }		
 String cicloId			= (String) session.getAttribute("cicloId");
 ArrayList<aca.ciclo.Ciclo> lisCiclo		= CicloLista.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID DESC");	
+System.out.println("SESION CICLOID " + cicloId);
 %>
 <div id="content">
 <h2>
@@ -24,6 +25,7 @@ Boletines Maternal, Pre-Kinder y Kinder
 		<div class="well">
 			<select name="Ciclo" id="Ciclo"
 				onchange="document.frmCiclo.submit();" class="input-xxlarge">
+				<option>Seleccione..</option>
 				<%
 					for (aca.ciclo.Ciclo ciclo : lisCiclo) {
 						int nivel;

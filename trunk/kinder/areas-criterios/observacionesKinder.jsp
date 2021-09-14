@@ -40,6 +40,7 @@
 			<input type="hidden" name="Accion"> <select name="Ciclo"
 				id="Ciclo" onchange="document.frmCiclo.submit();"
 				class="input-xxlarge">
+				<option>Seleccione....</option>
 				<%
 					for (aca.ciclo.Ciclo ciclo : lisCiclo) {
 						int nivel;

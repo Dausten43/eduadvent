@@ -23,6 +23,7 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo		= CicloLista.getListActivos(conElias, escue
 		<div class="well">
 			<select name="Ciclo" id="Ciclo"
 				onchange="document.frmCiclo.submit();" class="input-xxlarge">
+				<option>Seleccione....</option>
 				<%
 					for (aca.ciclo.Ciclo ciclo : lisCiclo) {
 						int nivel;
