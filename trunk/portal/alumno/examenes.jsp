@@ -82,11 +82,12 @@ document.addEventListener("DOMContentLoaded", function(){
 				cursoId: cursoId
 		};
 		
-        fetch('https://eduadvent.um.edu.mx/exam/test/alumno/api/examen/visible/', {
+        fetch('https://wso2am.um.edu.mx/eduadventexam/1.0/examen/visible/', {
             method: 'POST',
             body: JSON.stringify(data),
             cache: 'no-store',
             headers: {
+            	'apiKey': 'eyJ4NXQiOiJOVGRtWmpNNFpEazNOalkwWXpjNU1tWm1PRGd3TVRFM01XWXdOREU1TVdSbFpEZzROemM0WkE9PSIsImtpZCI6ImdhdGV3YXlfY2VydGlmaWNhdGVfYWxpYXMiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJqb25hdGhhbmdvbXpAY2FyYm9uLnN1cGVyIiwiYXBwbGljYXRpb24iOnsib3duZXIiOiJqb25hdGhhbmdvbXoiLCJ0aWVyUXVvdGFUeXBlIjpudWxsLCJ0aWVyIjoiVW5saW1pdGVkIiwibmFtZSI6IkVkdUFkdmVudCIsImlkIjozMCwidXVpZCI6IjIyNGYwMjgwLWFhOGItNDJkYy1iNGUxLWUyYTFhMzFmMjc1MiJ9LCJpc3MiOiJodHRwczpcL1wvYW0udW0uZWR1Lm14OjQ0M1wvb2F1dGgyXC90b2tlbiIsInRpZXJJbmZvIjp7IlVubGltaXRlZCI6eyJ0aWVyUXVvdGFUeXBlIjoicmVxdWVzdENvdW50Iiwic3RvcE9uUXVvdGFSZWFjaCI6dHJ1ZSwic3Bpa2VBcnJlc3RMaW1pdCI6MCwic3Bpa2VBcnJlc3RVbml0IjpudWxsfX0sImtleXR5cGUiOiJQUk9EVUNUSU9OIiwic3Vic2NyaWJlZEFQSXMiOlt7InN1YnNjcmliZXJUZW5hbnREb21haW4iOiJjYXJib24uc3VwZXIiLCJuYW1lIjoiRWR1YWR2ZW50RXhhbSIsImNvbnRleHQiOiJcL2VkdWFkdmVudGV4YW1cLzEuMCIsInB1Ymxpc2hlciI6ImxhZnVlbnRlLmRhbmllbCIsInZlcnNpb24iOiIxLjAiLCJzdWJzY3JpcHRpb25UaWVyIjoiVW5saW1pdGVkIn1dLCJpYXQiOjE2MzE2MzY5NjUsImp0aSI6ImQxODZiY2ZlLTBlN2MtNDQxMi1iODBjLTNkYmI5NTY4NWQ0NiJ9.EukEeQYTtOLYa3zj18F4CvKOXR9Y1k707OzHYEdaVvDM4RIuzkVsRfqlnkmlY0foSp8s0ctmaAWt1zTQYjbF_vn-7P4jOO4pdtfjQlYZyxYVR42QaL5flizHGaXZmWsJbDdzxAp__oRd1-pmnlweTHHmOTMa4pHWWWLD2aUVF7NGIvVhHIJPiekOb127sM2H_f9iSuwcF7h9pVtk_fGvsCSPr59Ht797lbSCT3dNj2i1tf6dPf9O48lFzArAATAI5ydyZsMmAz07nJ5bimjd7tS6R9Q5wq3qJZ2UBsLyODZQ7kg66UC7ZU3-zyMbnDB8mOFqKO6FJEprEjHzlgVa-Q==',
 	            'Content-Type': 'application/json'
 		    }
         })
