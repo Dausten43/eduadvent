@@ -54,6 +54,7 @@ if(accion.equals("2") && continuar.equals("0")){
 
 }
 if(accion.equals("1")){
+	String periodoId	    = request.getParameter("PeriodoId")==null?aca.ciclo.CicloPeriodo.periodoActual(conElias, ciclo):request.getParameter("PeriodoId");
 	ArrayList<aca.alumno.AlumPersonal> lisPro	= AlumLista.getListPromover(conElias, escuelaId, ciclo, planId, grado, grupo, "ORDER BY NOMBRE");
 	%>
 	<input type="hidden" id="planId" name="planId" value="<%=planId%>">
@@ -68,10 +69,16 @@ if(accion.equals("1")){
 			<th width="2%"><fmt:message key="aca.Edad" /></th>
 		</tr> <%
 		int contador = 0;
-		for (aca.alumno.AlumPersonal alum : lisPro){%>
+		for (aca.alumno.AlumPersonal alum : lisPro){
+			boolean isNotInscrito = !aca.vista.AlumInscrito.estaInscrito(conElias, alum.getCodigoId());
+			%>
 			<%contador++; %>
 			<tr>
-				<td><input type="checkbox" id="alum" name="Alum" value="<%=alum.getCodigoId()%>" /></td>
+				<td>
+					<%if(isNotInscrito){%> 
+						<input type="checkbox" id="alum" name="Alum" value="<%=alum.getCodigoId()%>" />
+					<%} %>
+				</td>
 				<td><%=contador%></td>
 				<td><%=alum.getCodigoId()%></td>
 				<td><%=alum.getNombre()+" "+alum.getApaterno()+" "+alum.getAmaterno()%></td>
