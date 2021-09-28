@@ -679,7 +679,7 @@ public class FinMovimientos {
 					+ " 	(SELECT POLIZA_ID FROM FIN_POLIZA WHERE SUBSTR(POLIZA_ID,1,3) = '"+escuela+"' AND ESTADO IN ("+estadoPoliza+") AND TIPO IN ("+tipoPoliza+") "
 					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
 					+ " AND NATURALEZA = '"+naturaleza+"' and and estado<>'C'";				
-			
+			System.out.println("a " + comando);
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
 				saldo = rs.getDouble("SALDO");
@@ -707,7 +707,7 @@ public class FinMovimientos {
 					+ " WHERE to_date(to_char(fecha,'dd/mm/yyyy'),'dd/mm/yyyy')< to_date('"+fecha+"','dd/mm/yyyy') and cuenta_id='"+cuenta+"' and estado<>'C'"
 							+ " and auxiliar<>'-' "
 							+ "";				
-			
+			System.out.println("b " + comando);
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
 				saldo = rs.getBigDecimal("SALDO");
@@ -737,7 +737,7 @@ public class FinMovimientos {
 					+ "		AND FECHA BETWEEN TO_DATE('"+fechaIni+"','DD/MM/YYYY') AND TO_DATE('"+fechaFin+"','DD/MM/YYYY'))"
 					+ " AND NATURALEZA = '"+naturaleza+"'"
 					+ " AND ESTADO IN("+estadoMov+")";
-			
+			System.out.println("c " + comando);
 			rs = st.executeQuery(comando);					
 			if(rs.next()){
 				saldo = rs.getDouble("SALDO");
