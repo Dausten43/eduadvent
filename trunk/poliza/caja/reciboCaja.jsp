@@ -64,6 +64,14 @@
 		
 
 		String logoEscuela = aca.catalogo.CatEscuela.getLogo(conElias, escuelaId);
+		
+		
+		//peticion de las escuelas del salvador que no apareciera el logo de la escuela solo en la S19
+		if(escuelaId.startsWith("S") && !escuelaId.equals("S19")){
+			logoEscuela= "XX";
+		}
+			
+			
 		String rutaLogo = "../../imagenes/logos/" + logoEscuela;
 		String rutaLogoSEAS = "";
 		
@@ -121,7 +129,7 @@
 					<img src="<%=rutaLogo%>" style="vertical-align:super; max-width:50%; min-width:100px">
 				<%} %>
 			</td>
-			<td style="width:<%out.print(tieneLogo&&esEscuelaDelSalvador?"60%":"70%");%>; text-align: center; vertical-align: text-top;">
+			<td style="width:<%out.print(tieneLogo&&esEscuelaDelSalvador?"55%":"65%");%>; text-align: center; vertical-align: text-top;">
 				<%if(!esEscuelaDelSalvador){ %>
 				<p style="text-align: center; font-family: sans-serif; font-size: 14px; font-weight: bold;">
 					<%=aca.catalogo.CatAsociacion.getNombre(conElias, aca.catalogo.CatEscuela.getAsociacionId(conElias, escuelaId))%>
@@ -156,13 +164,10 @@
 				</div>
 
 			</td>
-			<td style="width: 5%; text-align: center; vertical-align: super;">
+			<td style="width: 10%; text-align: center; vertical-align: super;">
 				<h4>
-					Recibo</span><br> [
-					<%=finRecibo.getReciboId()%>
-					]
-				</h4> <span style="text-align: right; font-size: 14px"><strong>Por:
-						<%=formato.format(Double.parseDouble(finRecibo.getImporte()))%></strong></span><br>
+					Recibo </span><br>[<%=finRecibo.getReciboId()%>]
+				</h4> <span style="text-align: right; font-size: 14px"><strong>Por: <%=formato.format(Double.parseDouble(finRecibo.getImporte()))%></strong></span><br>
 				<span style="font-size: 11px;"><strong>Tipo Pago: </strong><%=finRecibo.getTipoPag(finRecibo.getTipoPag())%></span>
 			</td>
 		<%if(tieneLogo && esEscuelaDelSalvador){ %>
