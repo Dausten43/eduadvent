@@ -42,17 +42,17 @@
 		<fmt:message key="aca.MensajeLimite150kb" />
 	</div>
 
-	<form name="formaEnviar" id="formaEnviar" enctype="multipart/form-data" action="guardar.jsp" method="post">
+	<form name="formaEnviar" id="formaEnviar" enctype="multipart/form-data" action="/edusystems/api/imagenes/user/<%=codigoAlumno%>?next=/escuela/alumno/datos/alumno.jsp" method="post">
 		
 		<div class="well">
 			<div class="fileupload fileupload-new" data-provides="fileupload">
 			  <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;"><img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" /></div>
 			  <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
-			  <span class="btn btn-file"><span class="fileupload-new"><fmt:message key="boton.SeleccionaImagen" /></span><span class="fileupload-exists"><fmt:message key="boton.Cambiar" /></span><input type="file" id="archivo" name="archivo" /></span>
+			  <span class="btn btn-file"><span class="fileupload-new"><fmt:message key="boton.SeleccionaImagen" /></span><span class="fileupload-exists"><fmt:message key="boton.Cambiar" /></span><input type="file" id="archivo" name="photo" /></span>
 			  <a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><fmt:message key="boton.Quitar" /></a>
 			</div>			
 		</div>
-		<textarea name="descripcion" id="descripcion" rows="2" placeholder="Descripcion" ></textarea>
+		<!--<textarea name="descripcion" id="descripcion" rows="2" placeholder="Descripcion" ></textarea>-->
 		<div class="well">
 			<button type="button" id="btnGuardar" class="btn btn-primary btn-large" onclick="guardar();"><i class="icon-ok icon-white"></i> <fmt:message key="boton.Guardar"/></button>
 		</div>
