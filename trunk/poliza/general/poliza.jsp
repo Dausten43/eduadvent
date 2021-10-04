@@ -117,6 +117,7 @@
 			<th style="width:5%;"><fmt:message key="aca.Poliza" /></th>			
 			<th><fmt:message key="aca.Descripcion" /></th>
 			<th><fmt:message key="aca.Fecha" /></th>
+			<th><fmt:message key="aca.CopiaDiario" /></th>
 			<th style="width:2%;"><fmt:message key="boton.Cerrar" /></th>
 			<th><fmt:message key="aca.Estado" /></th>
 		</tr>		
@@ -141,6 +142,7 @@
 				<%	} %>
 				</td>
 				<td><%=poliza.getFecha() %></td>
+				<td><a href="copiadiario.jsp?ejercicioId=<%= ejercicioId %>&polizaId=<%= poliza.getPolizaId() %>">copiar</a></td>
 				<td>
 					<%if(poliza.getEstado().equals("A")){%>
 						<%if(cuadrarPoliza.equals("N") || aca.fin.FinMovimientos.getCPoliza(conElias, ejercicioId, poliza.getPolizaId()).equals(aca.fin.FinMovimientos.getDPoliza(conElias, ejercicioId, poliza.getPolizaId()))){ %>
