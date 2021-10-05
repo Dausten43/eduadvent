@@ -12,27 +12,25 @@
 
 <script type="text/javascript" src="../../js/webcam.js"></script>
 <script>
-    webcam.set_api_url( 'upload.jsp' );
-    webcam.set_quality( 100 ); // JPEG quality (1 - 100)
-    webcam.set_shutter_sound( true ); // play shutter click sound
-   	webcam.set_hook( 'onComplete', 'my_completion_handler' );
+	Webcam.set({
+		jpeg_quality: 100,
+		upload_name: 'photo',
+	});
    	
    	function take_snapshot() {
 		// take snapshot and upload to server
 		//if(confirm("¿ Deseas cambiar la foto del alumno ?")){
 			document.getElementById('resultado').innerHTML = '<div class="alert alert-info"><fmt:message key="aca.Subiendo"/></div>'+
 			'<img height="70" style="margin-top:80px;" src="../../imagenes/cargando2.gif" />';
-			webcam.snap();
+			Webcam.snap(function(data_uri) {
+				Webcam.upload(data_uri, '/edusystems/api/imagenes/user/<%=matricula%>?next=/escuela/alumno/datos/tomarfoto.jsp', function(code, err) {
+					if(code === 200) {				
+						document.getElementById('resultado').innerHTML = '<div class="alert alert-info"><fmt:message key="aca.FotoGrabada"/></div>'+
+							'<img height="340" style="border:1px solid gray;" src=foto.jsp?mat=<%=matricula%>&hola='+escape(new Date())+'>';
+					}
+				})
+			});
 		//}	
-	}
-
-	function my_completion_handler(msg) {
-		// show JPEG image in page
-		document.getElementById('resultado').innerHTML = '<div class="alert alert-info"><fmt:message key="aca.FotoGrabada"/></div>'+
-		'<img height="340" style="border:1px solid gray;" src=foto.jsp?mat=<%=matricula%>&hola='+escape(new Date())+'>';
-		
-		// reset camera for another shot
-		webcam.reset();
 	}
 </script>
 
@@ -52,19 +50,17 @@
 						<fmt:message key="boton.Camara" />
 				</div>
 			
-		       	<div align="center" id="cuadro" style="width:360px; height:480px; overflow:hidden; border:1px solid gray;">
-		    		<div id="webcam" style="position:relative; left: -140px;">
-			 		  <script>
-			      			document.write( webcam.get_html(640, 480) );
-			 		  </script>
+		       	<div id="webcam" align="center" id="cuadro" style="width:360px; height:480px; overflow:hidden; border:1px solid gray;">
 		 			</div>
-				</div>
+			 		  <script>
+			 		 	Webcam.attach( '#webcam' );
+			 		  </script>
 				
 				<br>
 				
 				<div class="well" style="width:322px;text-align:center;">
 		  	  		<a class="btn btn-primary" onClick="take_snapshot()"><i class="icon-camera icon-white"></i> <fmt:message key="boton.TomarFoto"/></a>
-		  	  		<a class="btn btn-primary" onClick="webcam.configure()"><i class="icon-wrench icon-white"></i></a>
+		  	  		<!--<a class="btn btn-primary" onClick="webcam.configure()"><i class="icon-wrench icon-white"></i></a>-->
 				</div>
 				
 			</div>
