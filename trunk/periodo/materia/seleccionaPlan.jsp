@@ -25,6 +25,22 @@
 	
 	ArrayList<aca.ciclo.Ciclo> lisCiclo		= CicloLista.getListActivos(conElias, escuelaId, "ORDER BY CICLO_ID DESC");	
 	
+	boolean currentCicloIsActive = false;
+	for(aca.ciclo.Ciclo ciclo: lisCiclo) {
+		if(currentCicloIsActive) {			
+			break;
+		}
+		else {			
+			if(ciclo.getCicloId().equals(cicloId)) {
+				currentCicloIsActive = true;				
+			}
+		}
+	}
+	if(!currentCicloIsActive && lisCiclo.size() > 0) {
+		cicloId = lisCiclo.get(0).getCicloId();
+		session.setAttribute("cicloId", cicloId);
+	}
+	
 	String strPlanId		= request.getParameter("PlanId");
 	String accion			= request.getParameter("Accion")==null?"":request.getParameter("Accion");
 	
