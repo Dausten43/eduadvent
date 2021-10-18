@@ -7,12 +7,19 @@
 <%@ include file= "menuPortal.jsp" %>
 
 <jsp:useBean id="alumPersonal" scope="page" class="aca.alumno.AlumPersonal"/>
+<jsp:useBean id="alumPlan" scope="page" class="aca.alumno.AlumPlan"/>
+<jsp:useBean id="cicloGrupo" scope="page" class="aca.ciclo.CicloGrupo"/>
 <jsp:useBean id="krdxCursoActLista" scope="page" class="aca.kardex.KrdxCursoActLista"/>
 <%
-	
-	String cicloGrupoId = aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoAlumno, cicloId);
+	String codigoIdAlumno 		= (String) session.getAttribute("codigoId");
+	String cicloIdM 			= (String) session.getAttribute("cicloId");
 
-	ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaMenu, "AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");
+	alumPersonal.mapeaRegId(conElias, codigoIdAlumno);
+	alumPlan.mapeaRegActual(conElias, codigoIdAlumno);
+	
+	cicloGrupo.mapeaRegId(conElias, alumPersonal.getNivelId(), alumPersonal.getGrado(), alumPersonal.getGrupo(), cicloIdM, alumPlan.getPlanId());
+
+	ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaMenu, "AND CODIGO_ID = '"+codigoIdAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupo.getCicloGrupoId()+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");
 	ArrayList<String> cursos = new ArrayList<>();
 	for(aca.kardex.KrdxCursoAct kca: lisKrdx){
 		cursos.add(kca.getCursoId());
@@ -47,10 +54,10 @@
 	</div>
 </div>
 <form action="https://eduadvent.um.edu.mx/exam/test/alumno/examen/" method="POST" name="startExam" target="_blank">
-	<input type="hidden" name="cicloGpoId" id="cicloGpoId" value="<%=cicloGrupoId%>">
+	<input type="hidden" name="cicloGpoId" id="cicloGpoId" value="<%=cicloGrupo.getCicloGrupoId()%>">
 	<input type="hidden" name="cursoId" id="cursoId" value="">
 	<input type="hidden" name="examenId" id="examenId" value="">
-	<input type="hidden" name="codigoPersonal" id="codigoPersonal" value="<%=codigoAlumno%>">
+	<input type="hidden" name="codigoPersonal" id="codigoPersonal" value="<%=codigoIdAlumno%>">
 </form>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
