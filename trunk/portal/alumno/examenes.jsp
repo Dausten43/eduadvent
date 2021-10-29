@@ -80,16 +80,15 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	});
 	
-	cursos.forEach((cursoId) => getExams(cursoId));
+	getExams();
 	
-	function getExams(cursoId) {
+	function getExams() {
 		let data = {
-				codigoId: document.getElementById('codigoPersonal').value,
 				cicloGpoId: document.getElementById('cicloGpoId').value,
-				cursoId: cursoId
+				cursoId: cursos
 		};
 		
-        fetch('https://wso2am.um.edu.mx/eduadventexam/1.0/examen/visible/', {
+        fetch('https://wso2am.um.edu.mx/eduadventexam/1.0/examen/visible_b/', {
             method: 'POST',
             body: JSON.stringify(data),
             cache: 'no-store',
