@@ -906,27 +906,27 @@
 	          	</p>
 	          	<p>
 	          		<label><fmt:message key="aca.Colonia"/></label>
-	          		<input type="text" maxlength="40" value="<%=empPersonal.getColonia() %>" readonly="readonly">
+	          		<input type="text" maxlength="40" value="<%=(empPersonal.getColonia() == null || empPersonal.getColonia().equals("-") || empPersonal.getColonia().equals("null")) ? "" : empPersonal.getColonia()%>" readonly="readonly">
 	          	</p>
 	        </div>
 	        <div class="span3">
 	          	<p>
 	          		<label><fmt:message key="aca.Direccion"/></label>
-	          		<input type="text" maxlength="40" value="<%=empPersonal.getDireccion() %>" readonly="readonly">
+	          		<input type="text" maxlength="40" value="<%=(empPersonal.getDireccion() == null || empPersonal.getDireccion().equals("-") || empPersonal.getDireccion().equals("null")) ? "" : empPersonal.getDireccion() %>" readonly="readonly">
 	          	</p>
 	          	<p>
 	          		<label><fmt:message key="aca.Telefono"/>/<fmt:message key="aca.Celular"/></label>
-	          		<input type="text" maxlength="40" value="<%=empPersonal.getTelefono() %>" readonly="readonly">
+	          		<input type="text" maxlength="40" value="<%=(empPersonal.getTelefono() == null || empPersonal.getTelefono().equals("-") || empPersonal.getTelefono().equals("null")) ? "" : empPersonal.getTelefono() %>" readonly="readonly">
 	          	</p>
 	        </div>
 	        <div class="span3">
 	          	<p>
 	          		<label><fmt:message key="aca.Email"/></label>
-	          		<input type="text" maxlength="40" value="<%=empPersonal.getEmail() %>" readonly="readonly">
+	          		<input type="text" maxlength="40" value="<%=(empPersonal.getEmail() == null || empPersonal.getEmail().equals("-") || empPersonal.getEmail().equals("null")) ? "" : empPersonal.getEmail() %>" readonly="readonly">
 	          	</p>
 	          	<p>
 	          		<label>C&eacute;dula/RFC</label>
-	          		<input type="text" maxlength="40" value="<%=empPersonal.getRfc() %>" readonly="readonly">
+	          		<input type="text" maxlength="40" value="<%=(empPersonal.getRfc() == null || empPersonal.getRfc().equals("-") || empPersonal.getRfc().equals("null")) ? "" : empPersonal.getRfc() %>" readonly="readonly">
 	          	</p>
 			</div>
 		</div>
