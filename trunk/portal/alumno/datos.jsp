@@ -212,6 +212,18 @@ ArrayList<aca.ciclo.Ciclo> lisCiclo	= cicloLista.getListCiclosAlumno(conElias, c
 	  </div>
 	</div>
 	
+	<% if(codigoId.substring(0,1).equals("S") && alumPersonal.getUrlPago() != null && alumPersonal.getUrlPago().contains("http")) { %>
+	<div class="row">
+	  <div class="span6">
+	  	<strong>
+	  		Liga de pago
+	  	</strong>
+	  	<br>
+	  	<a target="_blank" href="<%=alumPersonal.getUrlPago() %>" class="btn btn-success btn-mobile"><%= alumPersonal.getUrlPago() %></a>
+	  </div>
+	</div>
+	<% } %>
+	
 </div>
 	
 </div>

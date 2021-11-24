@@ -49,6 +49,7 @@ public class AlumPersonal {
 	private String tipoSangre;
 	private String tutorCedula;
 	private String barrioId;
+	private String urlPago;
 	
 	
 	
@@ -63,7 +64,7 @@ public class AlumPersonal {
 				+ religion + ", transporte=" + transporte + ", celular=" + celular + ", tutor=" + tutor + ", matricula="
 				+ matricula + ", discapacidad=" + discapacidad + ", enfermedad=" + enfermedad + ", correo=" + correo
 				+ ", iglesia=" + iglesia + ", tipoSangre=" + tipoSangre + ", tutorCedula=" + tutorCedula + ", barrioId="
-				+ barrioId + "]";
+				+ barrioId + ", urlPago=" + urlPago + "]";
 	}
 
 	public AlumPersonal(){
@@ -100,6 +101,7 @@ public class AlumPersonal {
 		tipoSangre      = "";
 		tutorCedula	= "-";
 		barrioId 	= "0";	 
+		urlPago		= "";
 	}
 	
 	// correo del alumno
@@ -559,6 +561,14 @@ public class AlumPersonal {
 		this.barrioId = barrioId;
 	}
 	
+	public String getUrlPago() {
+		return urlPago;
+	}
+
+	public void setUrlPago(String urlPago) {
+		this.urlPago = urlPago;
+	}
+	
 	public void encoding(Connection conn) {
         try {
             PreparedStatement pst = conn.prepareStatement("SET CLIENT_ENCODING='UTF8'");
@@ -584,7 +594,7 @@ public class AlumPersonal {
 				+ " EMAIL, COLONIA, DIRECCION,"
 				+ " TELEFONO, COTEJADO, NIVEL_ID, GRADO, GRUPO, ESTADO,"
 				+ " ACTA, CRIP, RELIGION, TRANSPORTE, CELULAR, TUTOR, MATRICULA,"
-				+ " DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA, TIPO_SANGRE, TUTOR_CEDULA, BARRIO_ID)"
+				+ " DISCAPACIDAD, ENFERMEDAD, CORREO, IGLESIA, TIPO_SANGRE, TUTOR_CEDULA, BARRIO_ID, URL_PAGO)"
 				+ " VALUES(?, ?, UPPER(RTRIM(LTRIM(?))),"
 				+ " UPPER(RTRIM(LTRIM(?))), UPPER(RTRIM(LTRIM(?))), ?, ?,"
 				+ " TO_DATE(?, 'DD/MM/YYYY'), TO_NUMBER(?, '999'),"
@@ -592,7 +602,7 @@ public class AlumPersonal {
 				+ " ?, ?, ?,"
 				+ " ?, ?, TO_NUMBER(?, '99'),"
 				+ " TO_NUMBER(?, '99'), ?, ?, ?, ?, TO_NUMBER(?, '99'),"
-				+ " ?, ?, ?, ?, ?, ?, ?, ?, TO_NUMBER(?,'999'))");
+				+ " ?, ?, ?, ?, ?, ?, ?, ?, TO_NUMBER(?,'999'), ?)");
 			
 			ps.setString(1, codigoId);
 			ps.setString(2, escuelaId);
@@ -629,6 +639,7 @@ public class AlumPersonal {
 			ps.setString(33, tipoSangre);
 			ps.setString(34, tutorCedula);
 			ps.setString(35, barrioId);
+			ps.setString(36, urlPago);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -777,7 +788,8 @@ public class AlumPersonal {
 					" IGLESIA = ?, " +
 					" TIPO_SANGRE = ?, " +
 					" TUTOR_CEDULA = ?, " +
-					" BARRIO_ID = TO_NUMBER(?,'999') " +
+					" BARRIO_ID = TO_NUMBER(?,'999'), " +
+					" URL_PAGO = ? " +
 					" WHERE CODIGO_ID = ? ");			
 			
 			ps.setString(1, escuelaId);
@@ -814,7 +826,8 @@ public class AlumPersonal {
 			ps.setString(32, tipoSangre);
 			ps.setString(33, tutorCedula);
 			ps.setString(34, barrioId);
-			ps.setString(35, codigoId);
+			ps.setString(35, urlPago);
+			ps.setString(36, codigoId);
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -949,6 +962,7 @@ public class AlumPersonal {
 		tipoSangre	= rs.getString("TIPO_SANGRE");
 		tutorCedula = rs.getString("TUTOR_CEDULA");
 		barrioId 	= rs.getString("BARRIO_ID");
+		urlPago 	= rs.getString("URL_PAGO");
 		
 	}
 	
@@ -973,7 +987,7 @@ public class AlumPersonal {
 					" GRADO, GRUPO, ESTADO, COALESCE(ACTA,'-') AS ACTA, COALESCE(CRIP,'-') AS CRIP," +
 					" RELIGION, COALESCE(TRANSPORTE,'-') AS TRANSPORTE, COALESCE(CELULAR,'-') AS CELULAR," +
 					" COALESCE(TUTOR,'-') AS TUTOR, MATRICULA, DISCAPACIDAD, COALESCE(ENFERMEDAD,'-') AS ENFERMEDAD, COALESCE(CORREO,'-') AS CORREO, " +
-					" COALESCE(IGLESIA,'-') AS IGLESIA, TIPO_SANGRE, TUTOR_CEDULA, BARRIO_ID" +
+					" COALESCE(IGLESIA,'-') AS IGLESIA, TIPO_SANGRE, TUTOR_CEDULA, BARRIO_ID, URL_PAGO" +
 					" FROM ALUM_PERSONAL" +
 					" WHERE CODIGO_ID = ?");
 			
