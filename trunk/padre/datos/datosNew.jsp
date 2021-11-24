@@ -91,7 +91,7 @@
 	
 		<form action="datosNew.jsp" name="frmLista" method="post" target="_self">
 			
-			<div class="alert"><fmt:message key="empleados.NombreParecido"/></div>
+			<div class="alert"><fmt:message key="padres.NombreParecido"/></div>
 		
 			<table  class="table table-bordered table-striped">
 				<tr>
