@@ -54,6 +54,7 @@
 		document.frmPersonal.TipoSangre.value		= "O+";
 		document.frmPersonal.Cedula.value			= "-";
 		document.frmPersonal.BarrioId.value			= "0";
+		document.frmPersonal.UrlPago.value			= "";
 		document.frmPersonal.submit();		
 	}
 	
@@ -241,6 +242,7 @@
 			Personal.setEstado(request.getParameter("Status").equals("")?"A":request.getParameter("Status"));
 			Personal.setTutorCedula(request.getParameter("Cedula").equals("")?"-":request.getParameter("Cedula"));
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
+			Personal.setUrlPago(request.getParameter("UrlPago")==null?"":request.getParameter("UrlPago"));
 			conElias.setAutoCommit(false);
 			
 			if (Personal.existeReg(conElias) == false){
@@ -316,6 +318,7 @@
 			Personal.setTutorCedula(request.getParameter("Cedula")!=null && !request.getParameter("Cedula").equals("") ? request.getParameter("Cedula") : "-");
 			
 			Personal.setBarrioId(request.getParameter("BarrioId")==null?"0":request.getParameter("BarrioId"));
+			Personal.setUrlPago(request.getParameter("UrlPago")==null?"":request.getParameter("UrlPago"));
 			Personal.setDiscapacidad("-");
 			
 			System.out.println("DATOS alumno " + Personal.toString());
@@ -599,6 +602,15 @@
 		    			<%}%>
 	              	</select>
 	            </p>
+	            
+	            <% if (escuelaId.contains("S")){ %>
+	            <p>
+	            	<label>
+	            		Liga de pago
+	            	</label>
+	            	<input name="UrlPago" type="text" id="UrlPago" maxlength="50" value="<%=Personal.getUrlPago()==null?"-":Personal.getUrlPago()%>">
+	            </p>
+	            <% } %>
 				
 			</div>
 			
