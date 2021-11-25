@@ -608,7 +608,7 @@
 	            	<label>
 	            		Liga de pago
 	            	</label>
-	            	<input name="UrlPago" type="text" id="UrlPago" maxlength="50" value="<%=Personal.getUrlPago()==null?"-":Personal.getUrlPago()%>">
+	            	<input name="UrlPago" type="text" id="UrlPago" maxlength="50" value="<%=Personal.getUrlPago()==null?"":Personal.getUrlPago()%>" placeholder="https://url.com (incluir https://)">
 	            </p>
 	            <% } %>
 				
