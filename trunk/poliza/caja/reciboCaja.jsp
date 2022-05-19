@@ -159,8 +159,8 @@
 					<%if(esEscuelaDelSalvador){ %>
 					<br>
 					<%}else{out.println("&nbsp;");} %>
-					<strong>Fecha y Hora:</strong>
-					[ <%=fechayHora%> ]
+					<strong>Fecha :</strong>
+					[ <%=finRecibo.getFecha()%> ]
 				</div>
 
 			</td>
