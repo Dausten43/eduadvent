@@ -81,12 +81,12 @@ public class FinTopeNivelEscuela {
 	}
 
 
-	public Date getFechActualizado() {
+	public Date getFechaActualizado() {
 		return fechaActualizado;
 	}
 
 
-	public void setFechActualizado(Date fechaActualizado) {
+	public void setFechaActualizado(Date fechaActualizado) {
 		this.fechaActualizado = fechaActualizado;
 	}
 	

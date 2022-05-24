@@ -5,6 +5,7 @@
 <jsp:useBean id="cicloPrincipal" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="ciclom" scope="page" class="aca.ciclo.Ciclo"/>
 <jsp:useBean id="cicloListam" scope="page" class="aca.ciclo.CicloLista"/>
+<jsp:useBean id="FinLimite" scope="page" class="aca.fin.FinTopeNivelEscuelaUtils"/>
 <style>
 	.navbar{
 		margin-bottom:10px;
@@ -29,15 +30,15 @@ String cicloId 		= session.getAttribute("cicloId").toString();
  ArrayList<aca.ciclo.Ciclo> lisCiclom	= cicloListam.getListCiclosAlumno(conElias, auxiliar, "ORDER BY CICLO_ID");
 
 // //Verifica que el ciclo este en la lista de ciclo
-	boolean encontroM = false;
+	boolean encontro = false;
 	for(aca.ciclo.Ciclo c : lisCiclom){
 		if(cicloId != null && c.equals(cicloId)){
-			encontroM = true; break;
+			encontro = true; break;
 		}
 	}
 	
 	// Elige el mejor ciclo para el alumno. 
-	if( encontroM==false && lisCiclom.size()>0 ){
+	if( encontro==false && lisCiclom.size()>0 ){
 		ciclom 	= (aca.ciclo.Ciclo) lisCiclom.get(lisCiclom.size()-1);
 		cicloId = ciclom.getCicloId();
 			
@@ -62,6 +63,7 @@ if(nivelsistema>-1 && nivelsistema<3){
 double saldoAlumno 		= aca.fin.FinMovimientos.saldoAlumno(conElias, auxiliar, fechaHoy);
 CatParametro.mapeaRegId(conElias, escuela);
 double deudaLimite = Double.parseDouble(CatParametro.getBloqueaPortal());
+BigDecimal limiteNivel = FinLimite.importeTope(conElias,escuelaMenu,nivelsistema);
 //System.out.println("Datos:"+saldoAlumno+":"+deudaLimite);
 FinProrrogas fp = new FinProrrogas();
 boolean pasa = false;
@@ -70,7 +72,16 @@ BigDecimal saldo = BigDecimal.ZERO;
 BigDecimal tope = BigDecimal.ZERO;
 
 saldo = saldo.add(new BigDecimal(saldoAlumno));
-tope = tope.add(new BigDecimal(deudaLimite));
+
+
+if(limiteNivel.compareTo(BigDecimal.ZERO)>0){
+	tope = tope.add(limiteNivel);
+}else{
+	tope = tope.add(new BigDecimal(deudaLimite));	
+}
+	
+System.out.println("TOPE :"+ tope);
+
 
 //System.out.println(auxiliar +" saldo y tope :"+saldoAlumno+":"+deudaLimite);
 if(saldo.compareTo(BigDecimal.ZERO)>=0){

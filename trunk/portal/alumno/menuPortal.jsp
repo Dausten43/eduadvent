@@ -2,6 +2,7 @@
 <%@page import="aca.fin.FinProrrogas"%>
 <jsp:useBean id="CatParametro" scope="page" class="aca.catalogo.CatParametro"/>
 <jsp:useBean id="cicloPrincipal" scope="page" class="aca.ciclo.Ciclo"/>
+<jsp:useBean id="FinLimite" scope="page" class="aca.fin.FinTopeNivelEscuelaUtils"/>
 
 <style>
 	.navbar{
@@ -37,7 +38,9 @@ if(nivelsistema>-1 && nivelsistema<3){
 double saldoAlumnoMenu 		= aca.fin.FinMovimientos.saldoAlumno(conElias, auxiliarMenu, fechaHoyMenu);
 CatParametro.mapeaRegId(conElias, escuelaMenu);
 double deudaLimite = Double.parseDouble(CatParametro.getBloqueaPortal());
-//System.out.println("Datos:"+saldoAlumno+":"+deudaLimite);
+BigDecimal limiteNivel = FinLimite.importeTope(conElias,escuelaMenu,nivelsistema);
+
+System.out.println("LIMITE NIVEL :"+ limiteNivel);
 FinProrrogas fp = new FinProrrogas();
 boolean pasa = false;
 
@@ -45,9 +48,18 @@ BigDecimal saldo = BigDecimal.ZERO;
 BigDecimal tope = BigDecimal.ZERO;
 
 saldo = saldo.add(new BigDecimal(saldoAlumnoMenu));
-tope = tope.add(new BigDecimal(deudaLimite));
 
-System.out.println(auxiliarMenu +" saldo y tope :"+saldoAlumnoMenu+":"+deudaLimite);
+if(limiteNivel.compareTo(BigDecimal.ZERO)>0){
+	tope = tope.add(limiteNivel);
+}else{
+	tope = tope.add(new BigDecimal(deudaLimite));	
+}
+	
+System.out.println("TOPE :"+ tope);
+
+
+
+System.out.println(auxiliarMenu +" saldo y tope :"+saldoAlumnoMenu+":"+ tope);
 if(saldo.compareTo(BigDecimal.ZERO)>=0){
 	System.out.println(auxiliarMenu +" SALDO ES POSITIVO Y TIENE CREDITO");
 	pasa = true;
