@@ -118,16 +118,21 @@
 				: finRecibo.getImporte();
 		centavos = finRecibo.getImporte().indexOf(".") >= 0 ? finRecibo.getImporte()
 				.substring(finRecibo.getImporte().indexOf(".") + 1, finRecibo.getImporte().length()) : "00";
+		
+		
+		String urlNuevoRecibo = "movimientos.jsp?polizaId=" + polizaId;
 %>
 <div id="content">
 	<table class="tabla" style="margin: 0 auto; width: 95%">
 		<tr>
 			<td style="width: 10%; text-align: center;">
+			<a href="<%= urlNuevoRecibo %>">
 				<%if(esEscuelaDelSalvador){ %>
 					<img src="<%=rutaLogoSEAS%>" style="vertical-align:super; max-width:50%; min-width:100px">
 				<%}else{ %>
 					<img src="<%=rutaLogo%>" style="vertical-align:super; max-width:50%; min-width:100px">
 				<%} %>
+				</a>
 			</td>
 			<td style="width:<%out.print(tieneLogo&&esEscuelaDelSalvador?"55%":"65%");%>; text-align: center; vertical-align: text-top;">
 				<%if(!esEscuelaDelSalvador){ %>
