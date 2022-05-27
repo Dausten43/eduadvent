@@ -5,6 +5,7 @@
 <%@ include file= "../../menu.jsp" %>
 <%@page import="aca.fin.FinTopeNivelEscuela"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.math.BigDecimal"%>
 
 <jsp:useBean id="FinLimite" scope="page" class="aca.fin.FinTopeNivelEscuelaUtils"/>
@@ -32,6 +33,24 @@
 	List<FinTopeNivelEscuela> registros = FinLimite.traeRegistroEscuela(conElias,escuela);
 	System.out.println(registros.size());
 	pageContext.setAttribute("resultado", resultado);
+	
+	List<String> listaOpciones = new ArrayList();
+
+	if(escuela.startsWith("S")){
+
+		listaOpciones.add("<option value=\"2\" >Parvularia</option>");
+		listaOpciones.add("<option value=\"3\" >Primer - Segundo Ciclo</option>");
+		listaOpciones.add("<option value=\"4\" >Tercer Ciclo</option>");
+		listaOpciones.add("<option value=\"5\" >Educacion Media</option>");
+	}else{
+		listaOpciones.add("<option value=\"0\" >Maternal</option>");
+		listaOpciones.add("<option value=\"1\" >Pre-Kinder</option>");
+		listaOpciones.add("<option value=\"2\" >Kinder</option>");
+		listaOpciones.add("<option value=\"3\" >Primaria</option>");
+		listaOpciones.add("<option value=\"4\" >Secundaria o Pre-Media</option>");
+		listaOpciones.add("<option value=\"5\" >Bachillerato</option>");
+	}
+	
 %>
 <html>
 	<div id="content">
@@ -58,12 +77,11 @@
 				<label form="nivelAcademicoSistema">Nivel de ciclo:</label>
 				  	<select name="nivelAcademicoSistema" id="nivelAcademicoSistema">
 				  		<option value="-1" >No Definido</option>
-				  		<option value="0" >Maternal</option>
-				  		<option value="1" >Pre-Kinder</option>
-				  		<option value="2" >Kinder</option>
-				  		<option value="3" >Primaria</option>
-				  		<option value="4" >Secundaria o Pre-Media</option>
-				  		<option value="5" >Bachillerato</option>
+				  		<%
+				  			for(String op : listaOpciones){
+				  				out.println(op);
+				  			}
+				  		%>
 				  	</select>
 				  	<input style="text-align : right;" type="text" name="importe" id="importe" value="0.00" placeholder="importe">
 			</fieldset>	
