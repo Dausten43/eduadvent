@@ -63,7 +63,7 @@ if(nivelsistema>-1 && nivelsistema<3){
 double saldoAlumno 		= aca.fin.FinMovimientos.saldoAlumno(conElias, auxiliar, fechaHoy);
 CatParametro.mapeaRegId(conElias, escuela);
 double deudaLimite = Double.parseDouble(CatParametro.getBloqueaPortal());
-BigDecimal limiteNivel = FinLimite.importeTope(conElias,escuelaMenu,nivelsistema);
+BigDecimal limiteNivel = FinLimite.importeTope(conElias,escuela,nivelsistema);
 //System.out.println("Datos:"+saldoAlumno+":"+deudaLimite);
 FinProrrogas fp = new FinProrrogas();
 boolean pasa = false;
