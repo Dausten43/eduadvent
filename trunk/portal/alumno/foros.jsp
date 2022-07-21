@@ -16,9 +16,9 @@
 <link rel="stylesheet" type="text/css" href="../../css/foros/foros.css">
 <%
 	String cicloGrupoId = aca.kardex.KrdxCursoAct.getAlumGrupo(conElias, codigoAlumno, cicloId);
-
 	//LISTA DE LOS NOMRBES DE LOS CURSOS
 	ArrayList<aca.kardex.KrdxCursoAct> lisKrdx = krdxCursoActLista.getListAll(conElias, escuelaMenu, "AND CODIGO_ID = '"+codigoAlumno+"' AND CICLO_GRUPO_ID = '"+cicloGrupoId+"' ORDER BY ORDEN_CURSO_ID(CURSO_ID),CURSO_NOMBRE(CURSO_ID)");
+	System.out.println(lisKrdx.size());
 	ArrayList<String> cursosIds = new ArrayList<>();
 	Map<String, String> cursosNombres = new HashMap<>();
 	for(aca.kardex.KrdxCursoAct kca: lisKrdx){
