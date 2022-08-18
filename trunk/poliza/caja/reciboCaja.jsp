@@ -47,8 +47,8 @@
 </style>
 <%
 	java.text.DecimalFormat formato = new java.text.DecimalFormat("###,##0.00;(###,##0.00)", new java.text.DecimalFormatSymbols(java.util.Locale.US));
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	sdf.setTimeZone(TimeZone.getTimeZone("GMT-6"));
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	//sdf.setTimeZone(TimeZone.getTimeZone("GMT-6"));
 	
 
 		String escuelaId = (String) session.getAttribute("escuela");
@@ -165,7 +165,7 @@
 					<br>
 					<%}else{out.println("&nbsp;");} %>
 					<strong>Fecha :</strong>
-					[ <%=finRecibo.getFecha()%> ]
+					[ <%=finRecibo.getFecha().length()>10 ? finRecibo.getFecha().substring(0,10) : finRecibo.getFecha() %> ]
 				</div>
 
 			</td>
