@@ -44,6 +44,15 @@
 								if((Boolean)session.getAttribute("portalMaestro")){
 							%>
 								  <li><a href="../../portal/maestro/opcion.jsp" >Portal del Maestro</a></li>
+								  <% if (menuUSER.startsWith("H")){ %>
+								  <li class="dropdown-submenu"><a>Utilerías del maestro</a>
+	                  		 	  	<ul class="dropdown-menu second-level">
+	                  		 	  		<li><a tabindex="-1" href="../../kinder/areas-criterios/observacionesKinder.jsp">Observaciones Kinder</a></li>
+	                  		 	  		<li><a tabindex="-1" href="../../maestro/observaciones/observaciones.jsp">Observaciones boletín</a></li>
+	                  		 	  		<li><a tabindex="-1" href="../../disciplina/reporte/repalumno.jsp">Reportes del alumno</a></li>
+	                  		 	  	</ul>
+	                  		 	  </li>
+	                  		 	  <% } %>
 							<%
 								}
 							
@@ -165,7 +174,8 @@
 					    	<a class="btn suplantar"><i class="icon-user"></i></a>
 					    <%}%>
 					    <% 
-					    if(aca.empleado.EmpPersonal.existeReg(conElias, menuUSER) &&  !menuUSER.contains("P") || menuUSER.equals("B01P0002") || admins.contains(String.valueOf(session.getAttribute("admin")))){ %>
+                                            System.out.println("#########################" + menuUSER + " " + session.getAttribute("admin"));
+					    if(aca.empleado.EmpPersonal.existeReg(conElias, menuUSER) &&  (!menuUSER.contains("P") || menuUSER.equals("B01P0002") || admins.contains(String.valueOf(session.getAttribute("admin"))))){ %>
 					    <input type="text" class="span2 search-query" placeholder="Buscar" style="border-radius:0;">
 					    <button class="btn" style="border-radius: 0 14px 14px 0;border-left:0;"><i class="icon-search"></i></button>
 					    <%} %>
