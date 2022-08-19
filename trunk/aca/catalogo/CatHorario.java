@@ -104,7 +104,7 @@ public class CatHorario {
 			ps.setString(1, horarioNombre);
 			ps.setString(2, escuelaId);
 			ps.setString(3, estado);
-			ps.setString(4, horarioId);
+			ps.setLong(4,new Long(horarioId));
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
@@ -126,7 +126,7 @@ public class CatHorario {
 		try{
 			ps = conn.prepareStatement("DELETE FROM CAT_HORARIO" +
 					" WHERE HORARIO_ID =  ? ");
-			ps.setString(1, horarioId);
+			ps.setLong(1, new Long(horarioId));
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
