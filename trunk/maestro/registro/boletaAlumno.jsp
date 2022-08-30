@@ -148,8 +148,7 @@
 			<p style="font-size:15px; font-weight: bold;">
 		</div>					
 	</div>
-	
-	<table class="table table-bordered table-condensed" id="tabla-info">
+	<table class="table table-bordered table-condensed" id ="tabla-info">
 		<tr>
 			<th width="5%">Matrícula</th>
 			<th width="25%">Nombres</th>
@@ -351,40 +350,68 @@
 <%				}
 				evalcerradas = 0;
 			}
-			out.print("</tr>");
+			out.print("</tr><tr>");
 			out.print("<td colspan='2'>Promedio General:</td>");
 			
-			double promCiclo 	= 0;
-			int numProm 		= 0;
+			
 			for(aca.ciclo.CicloPromedio cicloPromedio : lisPromedio){
-				
+				double promCiclo 	= 0;
+				BigDecimal promCicloBD = BigDecimal.ZERO;
+				int numProm 		= 0;
 				for(aca.ciclo.CicloBloque cicloBloque : lisBloque){
 					if (cicloBloque.getPromedioId().equals(cicloPromedio.getPromedioId())){
 						double sumaEval = 0;
+						BigDecimal sumaEvalBD = BigDecimal.ZERO;
 						if (mapEvalSumaTot.containsKey(cicloGrupoId+cicloBloque.getBloqueId())){
 							sumaEval = Double.parseDouble(mapEvalSumaTot.get(cicloGrupoId+cicloBloque.getBloqueId()));
+							sumaEvalBD = new BigDecimal(mapEvalSumaTot.get(cicloGrupoId+cicloBloque.getBloqueId()));
 						}
 						double cuentaEval = 0;
+						BigDecimal cuentaEvalBD = BigDecimal.ZERO;
 						if (mapEvalCuentaTot.containsKey(cicloGrupoId+cicloBloque.getBloqueId())){
 							cuentaEval = Double.parseDouble(mapEvalCuentaTot.get(cicloGrupoId+cicloBloque.getBloqueId()));
+							cuentaEvalBD = new BigDecimal(mapEvalCuentaTot.get(cicloGrupoId+cicloBloque.getBloqueId()));
 						}
+						//System.out.println("sumaeval " + sumaEval + "##"+cicloGrupoId+cicloBloque.getBloqueId());
 						double promEval = 0;
+						BigDecimal promEvalBD = BigDecimal.ZERO;
 						if (cuentaEval>0 && sumaEval>0){
+							System.out.println("sumaeval " + sumaEval);
 							promEval = sumaEval/cuentaEval;
+							promEvalBD = sumaEvalBD.divide(cuentaEvalBD,new Integer(cicloBloque.getDecimales()),RoundingMode.HALF_EVEN);
 							numProm++;
 							promCiclo += promEval;
+							promCicloBD = promCicloBD.add(promEvalBD);
 						}
 						// Inserta columnas de evaluaciones
-						out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promEval)+"</td>");
+						//System.out.println("ciclobloque corto "+ cicloBloque.getCorto());
+						out.print("<td class='text-center' width='2%' title='y'>"+formato2.format(promEval)+"</td>");
+						if(cicloBloque.getCorto().equals("EV")){
+							
+							if (numProm > 0) promCiclo = promCiclo / numProm;
+							if (numProm > 0) promCicloBD = promCicloBD.divide(new BigDecimal(numProm),new Integer(cicloPromedio.getDecimales()),RoundingMode.HALF_EVEN );
+							System.out.println(cicloPromedio.getCorto() + " " + promCiclo);
+							System.out.println(promCicloBD);
+							// Inserta columna del promedio de las evaluaciones
+							out.print("<td class='text-center' width='2%' title='x'>"+formato2.format(promCiclo)+"</td>");
+							out.print("<td class='text-center' width='2%' title='x'></td>");
+						}
 					}
+					
 				}
-				
+
+				/**
 				if (numProm > 0) promCiclo = promCiclo / numProm;
+				if (numProm > 0) promCicloBD = promCicloBD.divide(new BigDecimal(numProm),new Integer(cicloPromedio.getDecimales()),RoundingMode.HALF_UP );
+				System.out.println(cicloPromedio.getCorto() + " " + promCiclo);
+				System.out.println(promCicloBD);
 				// Inserta columna del promedio de las evaluaciones
-				out.print("<td class='text-center' width='2%' title=''>"+formato2.format(promCiclo)+"</td>");
+				out.print("<td class='text-center' width='2%' title='x'>"+formato2.format(promCiclo)+"</td>");
+					**/
+				
 			}
 			// Completa las columnas del renglon de promedio  
-			out.print("<td colspan='20'></td>");
+			out.print("<td ></td></tr>");
 %>			
 		</table>
 	</form>
