@@ -127,6 +127,7 @@
 		<h3 id="myModalLabel">Responder mensaje</h3>
 	</div>
 	<div class="modal-body ">
+	<form id="formRespMsg" method="post" >
 		<label for="asunto">Asunto</label> <input type="text" name="asunto"
 			id="asunto" value="RE " readonly="readonly">
 		<textarea name="Comentario" class="boxsizingBorder" id="Comentario"
@@ -136,6 +137,8 @@
 			type="hidden" id="complemento" value=""> <input type="hidden"
 			id="envia" value="<%=codigoId%>"> <input type="hidden"
 			id="idmsg" value="">
+			<input type="file" name="adjunto" id="adjunto">
+		</form>
 	</div>
 	<div class="modal-footer">
 		<button class="btn" data-dismiss="modal" aria-hidden="true">
@@ -145,6 +148,7 @@
 		<a class="btn btn-primary" href="javascript:enviaMsg()"><i
 			class="icon-envelope icon-white"></i> <fmt:message
 				key="boton.EnviarMensaje" /></a>
+				
 	</div>
 </div>
 <!-- END MODAL -->
@@ -323,10 +327,10 @@
 
 	function enviaMsg() {
 
-		var datadata = 'envia_mensaje=true&envia=' + $('#envia').val()
-				+ '&tipo_destino=P&destino=' + $('#destino').val() + '&asunto='
-				+ $('#asunto').val() + '&mensaje=' + $('#Comentario').val()
-				+ '&mensaje_original=' + $('#idmsg').val()
+		var datadata = 'envia_mensaje=true&envia=' + $('#formRespMsg #envia').val()
+				+ '&tipo_destino=P&destino=' + $('#formRespMsg #destino').val() + '&asunto='
+				+ $('#formRespMsg #asunto').val() + '&mensaje=' + $('#formRespMsg #Comentario').val()
+				+ '&mensaje_original=' + $('#formRespMsg #idmsg').val()
 				+ '&es_respuesta=true';
 		$.ajax({
 			url : '../accionMensajes.jsp',
@@ -334,6 +338,16 @@
 			data : datadata,
 			cache : false,
 			success : function(output) {
+			var idmsg = parseInt(output)
+				
+				if ($('#formRespMsg #adjunto').get(0).files.length === 0) {
+					console.log(output + ' no tiene adjunto ' + idmsg );
+				}else{
+					console.log(output + ' tiene adjunto ' + idmsg );
+					if(idmsg>=0)
+						enviaMsgNFile(idmsg,'formRespMsg');
+				}
+				
 				$('#respuestaBox').modal('toggle');
 				$('#enviadoMsg').modal('show');
 			},
@@ -392,7 +406,7 @@
 				}else{
 					console.log(output + ' tiene adjunto ' + idmsg );
 					if(idmsg>=0)
-						enviaMsgNFile(idmsg);
+						enviaMsgNFile(idmsg, 'formSendMsg');
 				}
 					
 				
@@ -407,9 +421,9 @@
 
 	}
 	
-	function enviaMsgNFile(idmsg) {
-		
-		var formData = new FormData(document.getElementById("formSendMsg"));
+	function enviaMsgNFile(idmsg, formaId) {
+		console.log(formaId);
+		var formData = new FormData(document.getElementById(formaId));
         formData.append("dato", "valor");
         formData.append("idmsg", idmsg);
         //formData.append(f.attr("name"), $(this)[0].files[0]);

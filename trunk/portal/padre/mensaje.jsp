@@ -89,13 +89,16 @@
 		    <h3 id="myModalLabel">Responder mensaje</h3>
 		  </div>
 		  <div class="modal-body ">
+		  <form id="formRespdMsg" method="post" >
 		  		<label for="asunto">Asunto</label>
 		  		<input type="text" name="asunto" id="asunto" value="RE " readonly="readonly">
 		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
+		        <input type="file" name="adjunto" id="adjunto">
 		        <input type="hidden" id="destino" value="">
 		        <input type="hidden" id="complemento" value="">
 		        <input type="hidden" id="envia" value="<%= codigoId %>">
 		        <input type="hidden" id="idmsg" value="">
+		        </form>
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
@@ -111,12 +114,15 @@
 		    <h3 id="myModalLabel">Responder mensaje</h3>
 		  </div>
 		  <div class="modal-body ">
+		  <form id="formSendMsg" method="post" >
 		  		<label for="asunto">Asunto</label>
 		  		<input type="text" name="asunto" id="asunto" value="">
 		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
 		        <input type="hidden" id="destino" value="">
 		        <input type="hidden" id="tipodestino" value="D">
 		        <input type="hidden" id="envia" value="<%= codigoId %>">
+		        <input type="file" name="adjunto" id="adjunto">
+		        </form>
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
@@ -275,6 +281,15 @@
 			data : datadata,
 			cache : false,
 			success : function(output) {
+				var idmsg = parseInt(output)
+				
+				if ($('#formSendMsg #adjunto').get(0).files.length === 0) {
+					console.log(output + ' no tiene adjunto ' + idmsg );
+				}else{
+					console.log(output + ' tiene adjunto ' + idmsg );
+					if(idmsg>=0)
+						enviaMsgNFile(idmsg, 'formSendMsg');
+				}
 				$('#nuevoMsg').modal('toggle');
 				$('#enviadoMsg').modal('show'); 
 			},
@@ -285,6 +300,28 @@
 		});
 	
 }
+	
+function enviaMsgNFile(idmsg, formularioId) {
+		
+		var formData = new FormData(document.getElementById(formularioId));
+        formData.append("dato", "valor");
+        formData.append("idmsg", idmsg);
+        //formData.append(f.attr("name"), $(this)[0].files[0]);
+        $.ajax({
+            url: "../../mensajes/uploadFile.jsp",
+            type: "post",
+            dataType: false,
+            data: formData,
+            cache: false,
+            contentType: false,
+     		processData: false
+        })
+            .done(function(res){
+                $("#mensaje").html("Respuesta: " + res);
+            });
+
+	}
+
 	
 	function enviaMsg(){
 		
@@ -298,6 +335,15 @@
 				data : datadata,
 				cache : false,
 				success : function(output) {
+					var idmsg = parseInt(output)
+					
+					if ($('#formRespdMsg #adjunto').get(0).files.length === 0) {
+						console.log(output + ' no tiene adjunto ' + idmsg );
+					}else{
+						console.log(output + ' tiene adjunto ' + idmsg );
+						if(idmsg>=0)
+							enviaMsgNFile(idmsg, 'formRespdMsg');
+					}
 					$('#respuestaBox').modal('toggle');
 					$('#enviadoMsg').modal('show'); 
 				},

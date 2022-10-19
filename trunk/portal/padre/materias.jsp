@@ -29,6 +29,7 @@
 	String escuelaId 		= (String) session.getAttribute("escuela");
 	String codigoId 		= (String) session.getAttribute("codigoAlumno");
 	cicloId					= request.getParameter("ciclo") !=null ? request.getParameter("ciclo")  : session.getAttribute("cicloId").toString();
+	String padre 			= (String) session.getAttribute("codigoId");
 	
 	MathContext mc = new MathContext(8,RoundingMode.HALF_UP);
 	
@@ -191,6 +192,8 @@ $('.materias').addClass('active');
 	} 
 %>
 	</table>
+
+</form>
 	<!-- MODAL -->
 		<div id="mensajeBox" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-header">
@@ -198,12 +201,15 @@ $('.materias').addClass('active');
 		    <h3 id="myModalLabel"><fmt:message key="boton.EscribirMensaje" /></h3>
 		  </div>
 		  <div class="modal-body ">
+		  <form id="formSendMsg" method="post" >
 		  		<label for="asunto">Asunto</label>
 		  		<input type="text" name="asunto" id="asunto">
 		        <textarea name="Comentario"  class="boxsizingBorder" id="Comentario" style="width:100%;height:80px;margin:0;" placeholder="Escribe tu Mensaje Aqui"></textarea>
+		        <input type="file" name="adjunto" id="adjunto">
 		        <input type="hidden" id="destino" value="">
 		        <input type="hidden" id="complemento" value="">
 		        <input type="hidden" id="envia" value="<%= codigoId %>">
+		        <form id="formSendMsg" method="post" >
 		  </div>
 		  <div class="modal-footer">
 		    <button class="btn" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> <fmt:message key="boton.Cancelar" /></button>
@@ -231,7 +237,6 @@ $('.materias').addClass('active');
   </div>
 
 <!-- end nuevo modal -->
-</form>
 </div>
 <script type="text/javascript">
 function enviaMsg(){
@@ -245,6 +250,16 @@ function enviaMsg(){
 		type : 'post',
 		data : datadata,
 		success : function(output) {
+			var idmsg = parseInt(output)
+			
+			if ($('#formSendMsg #adjunto').get(0).files.length === 0) {
+				console.log(output + ' no tiene adjunto ' + idmsg );
+			}else{
+				console.log(output + ' tiene adjunto ' + idmsg );
+				if(idmsg>=0)
+					enviaMsgNFile(idmsg, 'formSendMsg');
+			}
+			
 			$('#mensajeBox').modal('toggle');
 			$('#enviadoMsg').modal('show'); 
 		},
@@ -253,8 +268,29 @@ function enviaMsg(){
 			alert(xhr.status + " " + thrownError);
 		}
 	});
+}
+
+function enviaMsgNFile(idmsg, formaId) {
+	console.log(formaId);
+	var formData = new FormData(document.getElementById(formaId));
+    formData.append("dato", "valor");
+    formData.append("idmsg", idmsg);
+    //formData.append(f.attr("name"), $(this)[0].files[0]);
+    $.ajax({
+        url: "../../mensajes/uploadFile.jsp",
+        type: "post",
+        dataType: false,
+        data: formData,
+        cache: false,
+        contentType: false,
+ 		processData: false
+    })
+        .done(function(res){
+            $("#mensaje").html("Respuesta: " + res);
+        });
 
 }
+
 <!--
 $(document).on("click", ".open-MensajeBox", function () {
     var destinatario = $(this).data('id');
