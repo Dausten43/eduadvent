@@ -242,6 +242,7 @@ public class FinRecibo {
 		mapTipoPago.put("3", "Tarjeta Bancaria");
 		mapTipoPago.put("4", "Otro");
 		mapTipoPago.put("5", "ACH");
+		mapTipoPago.put("6", "Pase-U");
 		
 		String salida =  mapTipoPago.containsKey(id_tipopago) ? mapTipoPago.get(id_tipopago) : "Ninguno";
 		return salida;
