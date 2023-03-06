@@ -203,6 +203,7 @@
 									<option value="1">Efectivo</option>
 									<option value="2">Cheque</option>
 									<option value="3">Tarjeta Bancaria</option>
+									<option value="6">Pase-U</option>
 									<option value="4">Otro</option>
 									<option value="5">ACH</option>
 								</select>
