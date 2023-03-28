@@ -70,6 +70,7 @@ System.out.println("DATO EN LA SESION USER" + session.getAttribute("user"));
 
     <script src="js/jquery-1.9.1.min.js"></script>
     <script>
+    //hola
     	$(window).ready(function(){
 
     		var form = $('form'),
