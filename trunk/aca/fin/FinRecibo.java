@@ -237,12 +237,17 @@ public class FinRecibo {
 
 	public String getTipoPag(String id_tipopago) {
 		Map<String, String> mapTipoPago= new HashMap<String, String>();
+		mapTipoPago.put("-1", "Ninguno");
+		mapTipoPago.put("0", "Ninguno");
 		mapTipoPago.put("1", "Efectivo");
 		mapTipoPago.put("2", "Cheque");
 		mapTipoPago.put("3", "Tarjeta Bancaria");
+		mapTipoPago.put("6", "Pase-U");
 		mapTipoPago.put("4", "Otro");
 		mapTipoPago.put("5", "ACH");
-		mapTipoPago.put("6", "Pase-U");
+		
+		
+		System.out.println(id_tipopago + "a ver si aqui si se mueve ");
 		
 		String salida =  mapTipoPago.containsKey(id_tipopago) ? mapTipoPago.get(id_tipopago) : "Ninguno";
 		return salida;
