@@ -103,7 +103,7 @@ public class CatEdificio {
 		try{
 			ps = conn.prepareStatement("DELETE FROM CAT_EDIFICIO " +
 					" WHERE EDIFICIO_ID = ? ");
-			ps.setString(1, edificioId);
+			ps.setInt(1, Integer.parseInt(edificioId));
 			
 			if ( ps.executeUpdate()== 1){
 				ok = true;
