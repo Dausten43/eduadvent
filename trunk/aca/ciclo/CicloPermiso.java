@@ -7,6 +7,13 @@ public class CicloPermiso{
 	private String cicloId;
 	private String nivelId;	
 	
+	
+	
+	@Override
+	public String toString() {
+		return "CicloPermiso [cicloId=" + cicloId + ", nivelId=" + nivelId + "]";
+	}
+
 	public CicloPermiso(){
 		cicloId		= "";
 		nivelId		= "";					
