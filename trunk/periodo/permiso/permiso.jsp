@@ -72,7 +72,8 @@
 		}
 	}
 	ArrayList<aca.ciclo.CicloPermiso> lisConPermiso		= PermisoLista.getListConPermiso(conElias,cicloId,"ORDER BY NIVEL_ID");
-	ArrayList<aca.ciclo.CicloPermiso> lisSinPermiso		= PermisoLista.getListSinPermiso(conElias,cicloId,"ORDER BY NIVEL_ID");;
+	ArrayList<aca.ciclo.CicloPermiso> lisSinPermiso		= PermisoLista.getListSinPermiso(conElias,cicloId,"ORDER BY NIVEL_ID");
+	
 	
 %>
 
@@ -141,26 +142,45 @@
 					<%
 				    java.util.TreeMap<String, Integer> nivelAlta = new java.util.TreeMap<String, Integer>();
 					java.util.ArrayList<aca.plan.Plan> pPlanLista = PlanLista.getListPlanPermiso(conElias, cicloId, "ORDER BY NIVEL_ID");
-				    for(aca.plan.Plan plan : pPlanLista){			
+				    for(aca.plan.Plan plan : pPlanLista){
+				    	
 				    	int numCursosAlta=CatGrupoL.getListGruposAlta(conElias, cicloId, plan.getPlanId(), escuelaId, plan.getNivelId(), "ORDER BY NIVEL_ID, GRADO, GRUPO").size();
-				    	nivelAlta.put(plan.getNivelId(), numCursosAlta);
+				    	nivelAlta.put(plan.getNivelId().trim(), numCursosAlta);
+				    	
+				    	System.out.println("nivel alta mapa  "+ numCursosAlta + " " + plan.toString());
 					}
 					for(aca.ciclo.CicloPermiso permiso : lisConPermiso){
+						System.out.println("compara ciclo permiso " + lisConPermiso.toString() + " " + i + " " + nivelAlta.containsKey(permiso.getNivelId().trim()));
 						
 					%>
 			        	<tr>
 			          		<td>
-			          			<%if(nivelAlta.get(permiso.getNivelId()) <= 0){%>
+			          			
+			          			<%
+			          			
+			          			if(nivelAlta.containsKey(permiso.getNivelId().trim()) && nivelAlta.get(permiso.getNivelId().trim()) <= 0){%>
 					    		<input name="Check<%=i%>" type="checkbox" value="S">
 								<input name="Nivel<%=i%>" type="hidden" value="<%=permiso.getNivelId()%>">
 								<%}%>
 					  		</td>
 			          		<td><%=permiso.getNivelId()%></td>
-			          		<td><%=aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, permiso.getNivelId())%></td>
+			          		<td><%
+			          		try{
+			          		out.println(aca.catalogo.CatNivelEscuela.getNivelNombre(conElias, escuelaId, permiso.getNivelId()));
+			          		}catch(Exception e){
+			          			System.out.println("si llega al 168 " + i);			          			
+			          		}
+			          		%></td>
 			        	</tr>
-			        	<%i++; %>
+			        	<% i++; 
+			        	//System.out.println("si llega al 167 " + i);
+			        	%>
 					<%}%>
 					<tr>
+					<%
+												
+			        	//System.out.println("si llega al 172 " + i);
+			        	%>
 					  <td colspan="3">
 					    <input class="btn btn-primary"name="Quitar" type="submit" id="Quitar" value="<fmt:message key="boton.Quitar" />">
 						<input name="TotPermiso" type="hidden" id="TotPermiso" value="<%=i%>">
