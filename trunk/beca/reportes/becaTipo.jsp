@@ -6,6 +6,8 @@
 <%@ include file= "../../head.jsp" %>
 <%@ include file= "../../menu.jsp" %>
 <%@page import="aca.util.Fecha"%>
+<%@page import="java.math.BigDecimal"%>
+<%@page import="java.text.DecimalFormat"%>
 
 <jsp:useBean id="movimientosL" scope="page" class="aca.fin.FinMovimientosLista"/>
 <html>
@@ -25,7 +27,7 @@
 	String fechaIni 		= request.getParameter("FechaIni")==null?fechaHoy:request.getParameter("FechaIni");
 	String fechaFin 		= request.getParameter("FechaFin")==null?fechaHoy:request.getParameter("FechaFin");
 	
-	ArrayList<aca.fin.FinMovimientos> listaBecas		= movimientosL.getMovimientosBecaFecha(conElias, ejercicioId, fechaIni, fechaFin, "ORDER BY FECHA");	
+	ArrayList<aca.fin.FinMovimientos> listaBecas		= movimientosL.getMovimientosBecaFecha(conElias, ejercicioId, fechaIni, fechaFin, " AND descripcion like 'BECA DE COBRO%' ORDER BY FECHA");	
 	
 %>
 <body>
@@ -63,6 +65,8 @@
 		</tr>
 <%	
 	int cont = 1;
+    BigDecimal suma = BigDecimal.ZERO;
+    DecimalFormat dcf = new DecimalFormat("#,##0.00");
 	for(aca.fin.FinMovimientos becas : listaBecas){
 %>
 	<tr>
@@ -79,9 +83,16 @@
 		<td><%=becas.getEstado() %></td>
 		<td style="text-align:right"><%=becas.getImporte() %></td>
 	</tr>
-<%		cont++;
+<%		
+		suma = suma.add(new BigDecimal(becas.getImporte()));
+		cont++;
 	} 
 %>
+	<tr>
+		<td  colspan=11></td>
+		<td style="text-align: right;"><%= dcf.format(suma) %></td>
+	<tr>
+	
 	</table>
 <%
 		
