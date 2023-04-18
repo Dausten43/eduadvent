@@ -12,6 +12,14 @@ public class Plan{
 	private String validaHorario;
 	private String titulo;
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Plan [planId=" + planId + ", planNombre=" + planNombre + ", nivelId=" + nivelId + ", escuelaId="
+				+ escuelaId + ", estado=" + estado + ", validaHorario=" + validaHorario + ", titulo=" + titulo + "]";
+	}
+
 	public Plan(){
 		planId			= "";
 		planNombre		= "";
