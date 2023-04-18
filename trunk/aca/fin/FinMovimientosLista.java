@@ -761,7 +761,7 @@ public HashMap<String,FinSaldoAlumno> getMapSaldosCtaAbono(Connection conn, Stri
 		
 		try{
 			comando = " SELECT EJERCICIO_ID, POLIZA_ID, MOVIMIENTO_ID, CUENTA_ID, AUXILIAR, DESCRIPCION," +
-					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID"+
+					  " IMPORTE, NATURALEZA, REFERENCIA, ESTADO, TO_CHAR(FECHA, 'DD/MM/YYYY') AS FECHA, RECIBO_ID, CICLO_ID, PERIODO_ID, TIPOMOV_ID"+
 					  " FROM FIN_MOVIMIENTOS" +
 					  " WHERE EJERCICIO_ID = '"+ejercicioId+"' AND FECHA <= '"+fechaFinal+"' AND FECHA >= '"+fechaInicio+"' "+orden;
 			rs = st.executeQuery(comando);
