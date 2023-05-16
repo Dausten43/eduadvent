@@ -160,7 +160,7 @@
 					ciclo = aca.ciclo.Ciclo.getCargaActual(conn, strEscuela);
 				}				
 				session.setAttribute("cicloId", ciclo);
-				
+			
 				
 				/* OPCIONES DEL PORTAL */
 				usuario.mapeaRegId(conn, strCodigoId);
@@ -184,6 +184,16 @@
 				}else{
 					session.setAttribute("portalAlumno", false);
 				}
+				
+				/* REQUERIMIENTOS DE BUSCADOR */
+				
+				if(usuario.getAdministrador().equals("S") || usuario.getCotejador().equals("S") || usuario.getContable().equals("S")){
+					session.setAttribute("buscador", true);
+				}else{
+					session.setAttribute("buscador", false);
+				}
+				
+
 				empPersonal.mapeaRegId(conn, strCodigoId);
 				if(empPersonal.existeReg(conn) && strCodigoId.substring(3,4).equals("P")){
 					session.setAttribute("portalPadre", true);

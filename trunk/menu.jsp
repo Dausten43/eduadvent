@@ -165,7 +165,8 @@
            	
            	<!-- ********************** SEARCH INPUT ********************** -->
            	<%
-           	if(menuUSER.contains("E") || menuUSER.equals("B01P0002") || admins.contains(String.valueOf(session.getAttribute("admin")))){ %>
+           	System.out.println("holaaaaa------------" + session.getAttribute("buscador") );
+           	if((boolean) session.getAttribute("buscador") || menuUSER.equals("B01P0002") || admins.contains(String.valueOf(session.getAttribute("admin")))){ %>
            	<form class="navbar-search form-search pull-right" action="" style="margin-right:10px;">
                    	<div class="input-prepend">
 					    
