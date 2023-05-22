@@ -34,7 +34,7 @@
 </script>
 
 <%
-	String maestroId 	= (String)session.getAttribute("codigoEmpleado");
+	String maestroId 	= (String)session.getAttribute("codigoId");
 	boolean permitirCambiarElEstado = false;
 	
 	String mensaje 		= "";
